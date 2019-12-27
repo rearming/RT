@@ -1,0 +1,10 @@
+RTv1
+/cmake-build-debug/
+/cmake-build-release/
+.idea
+.DS_Store
+*.dSYM
+temp
+rtv1
+.vscode
+build
