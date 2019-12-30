@@ -12,7 +12,24 @@ endif()
 # <----RTv1 compile---->
 
 set(sources
-        sources/main.c)
+        sources/main.c
+        sources/init/rt_init.c
+        sources/utils/rt_safe_malloc.c
+        sources/utils/rt_raise_error.c
+        includes/rt_errors.h
+        sources/OpenCL_utils/opencl_init.c
+        sources/OpenCL_utils/opencl_files_parser.c
+        sources/debug/opencl_debug.c
+        sources/utils/rt_exit_clean.c
+        sources/SDL_utils/sdl_init.c
+        sources/render/render.c
+        sources/OpenCL_utils/opencl_render.c
+        sources/OpenCL_utils/opencl_memory_management.c
+        sources/rt_parsing/rt_parse_scene.c
+        sources/rt_parsing/hardcoded_scene.c
+        sources/OpenCL_utils/opencl_utils.c
+        sources/utils/rt_loop.c
+        sources/rt_event_handling/rt_event_handler.c)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INCLUDE(FindPkgConfig)
@@ -52,11 +69,11 @@ link_directories(
         ${graphic_libs_dirs}
 )
 
-add_executable(RTv1
+add_executable(RT
         ${sources}
 )
 
-target_link_libraries(RTv1
+target_link_libraries(RT
         "ftprintf"
         "ft"
         ${graphic_libs_link_names}
