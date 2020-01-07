@@ -1,5 +1,9 @@
 # RT
 
+## Начало работы
+1. Запускаем ```./compile.sh```
+2. Читаем этот README.
+
 ## Работа с Git
 1. Каждая задача разрабатывается в отдельной ветке (назавание ветки == название задачи)
 2. Для работы с задачей делаем git checkout -b "some_task" с мастера
@@ -135,5 +139,54 @@
    
    * **Память грантированно выделится, либо rt_safe_malloc сам кинет ERR_MALLOC и выйдет из программы, то есть проверять возврат на NULL не нужно**
    
+4. Используемые типы:
 
+    Для **всего, что связанно с рендером** мы используем typedef'ы OpenCL, т.е.:
+    ```
+    cl_int      my_int;
+    cl_float    my_float;
+    cl_float3   my_vector;
+    ```
+    И так далее.
+    
+5. Структуры:
+
+   Каждый ```struct```, который мы используем на видеокарте (в кернеле), мы определяем так:
+   ```
+   typedef struct s_some_struct
+   {
+   # ifndef FT_OPENCL___
+   	cl_some_type	    my_host_field_1;
+   	cl_another_type     my_host_field_2;
+   # else
    
+   	builtin_cl_type     my_kernel_filed_1;
+   	builtin_cl_type     my_kernel_filed_2;
+   # endif
+   
+   }
+   ```
+   Где ```builtin_cl_type``` нужно посмотреть в документации
+   (например, ```cl_float3``` на хосте (процессоре) становится ```float3``` на кернеле).
+   
+   Например:
+   ```
+   typedef struct	s_float_struct
+  	{
+  	# ifndef FT_OPENCL___
+  		cl_float3	    my_float3;
+  	# else
+  		float3		    my_float3;
+  	# endif
+  
+  	}
+   ```
+   
+## Настройки для Clion
+1. Включение скрипта для авто-генерации прототипов kernel-функций (из .cl-файлов):
+
+    **CMake Application** -> **Before launch** -> **Run External tool**
+    ![Img alt](https://trello-attachments.s3.amazonaws.com/5e09e87ddad9255a33242a41/1146x748/b8683434b3011a1810691c223425a5e6/clion_external_tool_1.png)
+    
+    **Cо следующими параметрами:**
+    ![Img alt](https://trello-attachments.s3.amazonaws.com/5dcd48f098640f8ffcb3f1fd/5e09e87ddad9255a33242a41/e26978c8751a6e268d07fb48fedf056f/clion_external_tool_2.png)

@@ -1,40 +1,6 @@
 #ifndef RT_STRUCTS_H
 # define RT_STRUCTS_H
 
-/*
-**	Для всего, что связанно с рендерингом, мы используем typedef'ы OpenCL, т.е.
-**	не int, a cl_int и так далее.
-**
-**	Каждую структуру, которую мы будем использовать на видеокарте (в кернеле),
-**	мы определяем так:
-**
-**	typedef struct s_some_struct
-**	{
-**	# ifndef FT_OPENCL___
-**		cl_some_type		my_host_field_1;
-**		cl_another_type		my_host_field_2;
-**	# else
-**
-**		builtin_cl_type		my_kernel_filed_1;
-**		builtin_cl_type		my_kernel_filed_2;
-**	# endif
-**
-**	}
-**	Где builtin_cl_type нужно посмотреть в документации
-**	(например, cl_float3 на хосте (процессоре) становится float3 на кернеле).
-** 	Пример:
-**
-**	typedef struct	s_float_struct
-**	{
-**	# ifndef FT_OPENCL___
-**		cl_float3			my_float3;
-**	# else
-**		float3				my_float3;
-**	# endif
-**
-**	}
-*/
-
 typedef unsigned int	t_bool;
 
 typedef struct			s_rgb
