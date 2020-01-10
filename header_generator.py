@@ -10,8 +10,10 @@ cl_files_text = ""
 
 cl_files_names = []
 
-for path in sys.argv:
-    cl_files_names.append(glob.glob(path + "/" + "*.cl"))
+for i in range(1, len(sys.argv)):
+    cl_files_names.append(glob.glob(sys.argv[i] + "/**/" + "*.cl", recursive=True))
+
+print(cl_files_names)
 
 for names_list in cl_files_names:
     for filename in names_list:
@@ -22,7 +24,8 @@ for names_list in cl_files_names:
         cl_files_text += file.read()
         file.close()
 
-matches = re.findall(r"(([\w]+)[\t ]+([\w]+)\((?:[\s]*(?:(\*?\w+)[\s,)]){2,3})+)", cl_files_text)
+matches = re.findall(
+    r"(([\w]+)[\t ]+([\w]+)\((?:[\s]*(?:(\*?\w+)[\s,)]){2,3})+)", cl_files_text)
 
 result_str = ""
 
