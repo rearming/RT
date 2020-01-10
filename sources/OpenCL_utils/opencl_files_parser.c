@@ -40,11 +40,13 @@ char			*get_opencl_kernel_code_text(size_t *out_size)
 	char		*result_cl_file;
 	char		*cl_file;
 
-	cl_file = concat_opencl_kernel_code(4,
+	cl_file = concat_opencl_kernel_code(6,
 			"./includes/rt_defines.h",
 			"./includes/rt_structs.h",
 			"./sources/OpenCL_kernel_code/prototypes.cl",
-			"./sources/OpenCL_kernel_code/test_kernel.cl");
+			"./sources/OpenCL_kernel_code/rt_main.cl",
+			"./sources/OpenCL_kernel_code/object_intersections/simple_object_intersections.cl",
+			"./sources/OpenCL_kernel_code/pathtrace_algo/pathtrace.cl");
 	ft_sprintf(&result_cl_file, "%s%s", OPENCL_DEFINES_STR, cl_file);
 	*out_size = ft_strlen(result_cl_file);
 	free(cl_file);

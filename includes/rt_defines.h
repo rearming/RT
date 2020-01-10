@@ -11,7 +11,7 @@
 # define VALID_ARGS_NUM 1
 # define EXIT_SUCCESS 0
 
-# define OPENCL_KERNEL_NAME "rt"
+# define OPENCL_KERNEL_NAME "rt_main"
 
 # define RT_DEFAULT_MEM_FLAG CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR
 
