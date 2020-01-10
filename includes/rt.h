@@ -63,9 +63,11 @@ void		rt_sdl_init(void);
 **	OpenCL utils
 */
 
+void cl_set_kernel(t_rt *rt, int mode);
+
 void		rt_opencl_init(void);
 void		rt_opencl_render(t_rt *rt);
-void		rt_opencl_copy_host_mem_to_kernel(int kernel_mem_object_nbr, ...);
+void		rt_opencl_move_host_mem_to_kernel(int kernel_mem_object_nbr, ...);
 char		*get_opencl_kernel_code_text(size_t *out_size);
 void		opencl_clean_memobjs(void);
 void		rt_opencl_setup_image_buffer(void);

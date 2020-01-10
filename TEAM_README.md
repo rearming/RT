@@ -211,7 +211,7 @@
    void		rt_opencl_prepare_memory(t_rt *rt)
    {
    	g_opencl.opencl_memobj_number = 3;
-   	rt_opencl_copy_host_mem_to_kernel(g_opencl.opencl_memobj_number,
+   	rt_opencl_move_host_mem_to_kernel(g_opencl.opencl_memobj_number,
    		(t_opencl_mem_obj){&rt->scene,
    			sizeof(t_scene), RT_DEFAULT_MEM_FLAG},
    		(t_opencl_mem_obj){rt->scene.objects,

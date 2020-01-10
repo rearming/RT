@@ -74,6 +74,12 @@ typedef struct			s_sdl
 	int					pitch;
 }						t_sdl;
 
+typedef struct			s_cl_mem
+{
+	cl_mem				mem;
+	t_bool				copy_mem;
+}						t_cl_mem;
+
 typedef struct			s_opencl
 {
 	cl_context			context;
@@ -84,7 +90,8 @@ typedef struct			s_opencl
 	cl_device_id		device_id;
 	cl_program			program;
 	cl_kernel			kernel;
-	cl_mem				*opencl_mem;
+	cl_event			profile_event;
+	t_cl_mem			*opencl_mem;
 	cl_mem				img_data_mem;
 	int					opencl_memobj_number;
 }						t_opencl;
@@ -156,11 +163,11 @@ typedef struct			s_material
 # ifndef FT_OPENCL___
 
 	t_color				color;
-	cl_int				specularity;
+	cl_int				specular;
 # else
 
 	t_color				color;
-	int					specularity;
+	int					specular;
 # endif
 
 }						t_material;
@@ -171,10 +178,14 @@ typedef struct			s_object
 
 	t_object_type		type;
 	t_material			material;
+	cl_float3			center;
+	cl_float			radius;
 # else
 
 	t_object_type		type;
 	t_material			material;
+	float3				center;
+	float				radius;
 # endif
 
 }						t_object;
@@ -199,6 +210,23 @@ typedef struct			s_scene
 
 }						t_scene;
 
+typedef enum			e_render_algo
+{
+	PATHTRACE = 1,
+	RAYMARCH,
+}						t_render_algo;
+
+typedef struct			s_opencl_params
+{
+# ifndef FT_OPENCL___
+
+	t_render_algo		render_algo;
+# else
+
+	t_render_algo		render_algo;
+# endif
+}						t_opencl_params;
+
 # ifndef FT_OPENCL___
 
 typedef struct			s_opencl_mem_obj
@@ -206,11 +234,13 @@ typedef struct			s_opencl_mem_obj
 	void				*ptr;
 	size_t				size;
 	cl_mem_flags		mem_flags;
+	t_bool				copy_mem;
 }						t_opencl_mem_obj;
 
 typedef struct			s_rt
 {
 	t_scene				scene;
+	t_opencl_params		opencl_params;
 }						t_rt;
 
 #  define CL_BUFF_SIZE 10000

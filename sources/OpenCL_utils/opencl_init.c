@@ -45,7 +45,7 @@ void		rt_opencl_init(void)
 	if (err)
 		rt_raise_error(ERR_OPENCL_CREATE_CONTEXT);
 	g_opencl.queue = clCreateCommandQueue(
-			g_opencl.context, g_opencl.device_id, 0, &err);
+			g_opencl.context, g_opencl.device_id, CL_QUEUE_PROFILING_ENABLE , &err);
 	if (err)
 		rt_raise_error(ERR_OPENCL_CREATE_QUEUE);
 	rt_opencl_compile_kernel();
