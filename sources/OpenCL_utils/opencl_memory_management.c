@@ -10,7 +10,8 @@ void		rt_opencl_move_host_mem_to_kernel(int kernel_mem_object_nbr, ...)
 
 	va_start(ap, kernel_mem_object_nbr);
 	mem_obj_i = 0;
-	g_opencl.opencl_mem = rt_safe_malloc(kernel_mem_object_nbr * sizeof(t_cl_mem));
+	if (mem_copy_done == FALSE) //маллочить память ТОЛЬКО ОДИН РАЗ БЛЯТБ
+		g_opencl.opencl_mem = rt_safe_malloc(kernel_mem_object_nbr * sizeof(t_cl_mem));
 	while (mem_obj_i < kernel_mem_object_nbr)
 	{
 		memobj = va_arg(ap, t_opencl_mem_obj);
@@ -19,14 +20,11 @@ void		rt_opencl_move_host_mem_to_kernel(int kernel_mem_object_nbr, ...)
 			g_opencl.opencl_mem[mem_obj_i].mem = clCreateBuffer(g_opencl.context,
 					memobj.mem_flags, memobj.size, memobj.ptr, &err);
 			g_opencl.opencl_mem[mem_obj_i].copy_mem = memobj.copy_mem;
-			if (err)
-				rt_raise_error(ERR_OPENCL_CREATE_BUFFER);
-			//todo может clSetKernelArg надо делать в любом случае (т.е. за пределами этого if)
+			rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
 		}
 		err = clSetKernelArg(g_opencl.kernel, mem_obj_i, sizeof(cl_mem),
 							 &g_opencl.opencl_mem[mem_obj_i].mem);
-		if (err)
-			rt_raise_error(ERR_OPENCL_SETARG);
+		rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 		mem_obj_i++;
 	}
 	mem_copy_done = TRUE;
@@ -52,16 +50,14 @@ void		cl_set_kernel(t_rt *rt, int mode)
 				sizeof(t_light) * rt->scene.lights_nbr, rt->scene.lights, &err);
 		g_opencl.img_data_mem = clCreateBuffer(g_opencl.context, CL_MEM_READ_WRITE,
 				sizeof(int) * WIN_HEIGHT * WIN_WIDTH, NULL, &err);
-		if (err)
-			rt_raise_error(ERR_OPENCL_CREATE_BUFFER);
+		rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
 	}
-	err += clSetKernelArg(g_opencl.kernel, 0, sizeof(cl_mem), &g_opencl.opencl_mem[0]);
-	err += clSetKernelArg(g_opencl.kernel, 1, sizeof(cl_mem), &g_opencl.opencl_mem[1]);
-	err += clSetKernelArg(g_opencl.kernel, 2, sizeof(cl_mem), &g_opencl.opencl_mem[2]);
-	err += clSetKernelArg(g_opencl.kernel, 3, sizeof(cl_mem), &g_opencl.opencl_mem[3]);
-	err += clSetKernelArg(g_opencl.kernel, 4, sizeof(cl_mem), &g_opencl.img_data_mem);
-	if (err)
-		rt_raise_error(ERR_OPENCL_SETARG);
+	err |= clSetKernelArg(g_opencl.kernel, 0, sizeof(cl_mem), &g_opencl.opencl_mem[0]);
+	err |= clSetKernelArg(g_opencl.kernel, 1, sizeof(cl_mem), &g_opencl.opencl_mem[1]);
+	err |= clSetKernelArg(g_opencl.kernel, 2, sizeof(cl_mem), &g_opencl.opencl_mem[2]);
+	err |= clSetKernelArg(g_opencl.kernel, 3, sizeof(cl_mem), &g_opencl.opencl_mem[3]);
+	err |= clSetKernelArg(g_opencl.kernel, 4, sizeof(cl_mem), &g_opencl.img_data_mem);
+	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 }
 
 void		opencl_clean_memobjs(void)
@@ -71,10 +67,10 @@ void		opencl_clean_memobjs(void)
 	memobj_i = 0;
 	while (memobj_i < g_opencl.opencl_memobj_number)
 	{
-		printf("copy_mem == %s\n", g_opencl.opencl_mem[memobj_i].copy_mem == TRUE ? "TRUE" : "FALSE");
+//		printf("copy_mem == %s", g_opencl.opencl_mem[memobj_i].copy_mem == TRUE ? "TRUE, " : "FALSE\n");
 		if (g_opencl.opencl_mem[memobj_i].copy_mem == TRUE)
 		{
-			printf("Releasing memobj\n");
+//			printf("Releasing memobj\n");
 			if (clReleaseMemObject(g_opencl.opencl_mem[memobj_i].mem))
 				ft_printf_fd(STDERR_FILENO, "clReleaseMemObject on %i object failed!\n", memobj_i);
 		}

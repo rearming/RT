@@ -7,9 +7,9 @@ void		rt_opencl_prepare_memory(t_rt *rt)
 		(t_opencl_mem_obj){&rt->scene,
 			sizeof(t_scene), RT_DEFAULT_MEM_FLAG, TRUE},
 		(t_opencl_mem_obj){rt->scene.objects,
-			sizeof(t_object) * rt->scene.obj_nbr, RT_DEFAULT_MEM_FLAG, TRUE},
+			sizeof(t_object) * rt->scene.obj_nbr, RT_DEFAULT_MEM_FLAG, FALSE},
 		(t_opencl_mem_obj){rt->scene.lights,
-			sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, TRUE},
+			sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, FALSE},
 		(t_opencl_mem_obj){&rt->opencl_params,
 			sizeof(t_opencl_params), RT_DEFAULT_MEM_FLAG, TRUE}
 			);
@@ -22,7 +22,7 @@ void		rt_opencl_prepare_memory(t_rt *rt)
 	clGetEventProfilingInfo(g_opencl.profile_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &start, NULL);
 	clGetEventProfilingInfo(g_opencl.profile_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL);
 	cl_double nd_range_pure_exec_time_ms = (cl_double)(end - start) * (cl_double)(1e-06);
-	printf("kernel exec time: [%f]\n", nd_range_pure_exec_time_ms);
+	ft_printf("kernel exec time: [%f]\n", nd_range_pure_exec_time_ms);
 }
 
 void		rt_opencl_render(t_rt *rt)
@@ -35,12 +35,10 @@ void		rt_opencl_render(t_rt *rt)
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			g_opencl.kernel, 1, NULL, &kernel_num, NULL, 0, NULL, &g_opencl.profile_event);
 	rt_opencl_profile();
-	if (err)
-		rt_raise_error(ERR_OPENCL_RUN_KERNELS);
+	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
 	err = clEnqueueReadBuffer(g_opencl.queue, g_opencl.img_data_mem, CL_TRUE, 0,
 			sizeof(int) * WIN_WIDTH * WIN_HEIGHT,
 			g_img_data, 0, NULL, NULL);
-	if (err)
-		rt_raise_error(ERR_OPENCL_READ_BUFFER);
+	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 	opencl_clean_memobjs();
 }

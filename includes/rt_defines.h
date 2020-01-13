@@ -69,6 +69,12 @@
 # define OPENCL_KERNEL_NUM OPENCL_RELEASE_KERNEL_NUM
 //# define OPENCL_KERNEL_NUM OPENCL_DEBUG_KERNEL_NUM
 
+#ifdef __APPLE__
+# define OPENCL_DEFINES_STR "#define FT_OPENCL___\n #define __APPLE__\n\n"
+#else
+# define OPENCL_DEFINES_STR "#define FT_OPENCL___\n\n"
+#endif
+
 /*
 **	Development
 */

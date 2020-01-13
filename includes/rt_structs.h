@@ -245,14 +245,18 @@ typedef struct			s_rt
 
 #  define CL_BUFF_SIZE 10000
 
-typedef struct			s_cl_gnl
+typedef struct			s_cl_concat_kernel_code
 {
 	char				*temp_str;
 	char				*backup;
 	char				buf[CL_BUFF_SIZE + 1];
 	int					read_res;
 	size_t				sum_len;
-}						t_cl_gnl;
+	va_list				ap;
+	char				*str_file;
+	size_t				file_size;
+	int					fd;
+}						t_cl_concat_kernel_code;
 # endif
 
 #endif
