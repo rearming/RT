@@ -66,11 +66,12 @@ typedef struct			s_point
 
 # ifndef FT_OPENCL___
 
+#define TEXTURE_BUF 15
 typedef struct			s_sdl
 {
 	SDL_Window			*win;
 	SDL_Renderer		*rend;
-	SDL_Texture			*texture;
+	SDL_Texture			**texture_list;
 	int					pitch;
 }						t_sdl;
 
@@ -157,10 +158,14 @@ typedef struct			s_material
 
 	t_color				color;
 	cl_int				specularity;
+	cl_int				texture_number;
+	cl_float3			texture_position;
 # else
 
 	t_color				color;
 	int					specularity;
+	int					texture_number;
+	float3				texture_position;
 # endif
 
 }						t_material;
@@ -171,10 +176,20 @@ typedef struct			s_object
 
 	t_object_type		type;
 	t_material			material;
+	cl_float3			center;
+	cl_float3			normal;
+	cl_float			radius;
+	cl_float			angle;
+	cl_float			len;
 # else
 
 	t_object_type		type;
 	t_material			material;
+	float3				center;
+	float3				normal;
+	float				radius;
+	float				angle;
+	float				len;
 # endif
 
 }						t_object;
