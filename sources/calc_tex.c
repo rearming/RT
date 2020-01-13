@@ -18,7 +18,7 @@
  * For a PLANE, we simply map a point on the plane to a texture point.
  */
 
-#include "rtv1.h"
+#include "rt.h"
 
 static int		check_borders(int a, int max, int type)
 {
@@ -54,7 +54,7 @@ static int		convert_y(float3 normal, float3 point, t_obj *obj, SDL_Surface *text
 	int		y;
 	float3	help;
 
-	if (obj->name == SPHERE)
+	if (obj->type == SPHERE)
 	{
 		v = 0.5 - asinf(normal.y) * M_1_PI;
 		y = (int)(v * (texture->h - 1));
@@ -62,14 +62,14 @@ static int		convert_y(float3 normal, float3 point, t_obj *obj, SDL_Surface *text
 	}
 	else
 	{
-		if (obj->name == CONE)
+		if (obj->type == CONE)
 		{
-			v = vec_magnitude(vec_subtract(obj->pos, point));
-			v *= cosf(atanf(obj->size));
+			v = vec_magnitude(vec_subtract(obj->center, point));
+			v *= cosf(atanf(obj->angle));
 		}
-		help = (obj->name == CONE) ? vec_mult_by_scalar(normal, v) :
-				vec_mult_by_scalar(normal, -obj->size);
-		v = vec_magnitude(vec_subtract(vec_add(help, point), obj->pos));
+		help = (obj->type == CONE) ? vec_mult_by_scalar(normal, v) :
+				vec_mult_by_scalar(normal, -obj->len);
+		v = vec_magnitude(vec_subtract(vec_add(help, point), obj->normal));
 		y = (int)(v * texture->w / texture->h * 100);
 		y = check_borders(y, texture->h - 1, 2);
 	}
@@ -95,15 +95,15 @@ static int2		texture_on_plane(float3 normal, float3 point, float3 pos, SDL_Surfa
 	return (dot);
 }
 
-t_color			texture(float3 normal, SDL_Surface *texture, t_obj *obj, float3 dot_on_object, float3 pos) //add pos of texture to object parametrs
+t_color			texture(float3 normal, SDL_Surface *texture, t_object *obj, float3 dot_on_object)
 {
 	t_color		col;
 	Uint32		color;
 	int2		dot_on_texture;
 
 	SDL_LockSurface(texture);
-	if (obj->name == PLANE)
-		dot_on_texture = t_plane(normal, dot_on_object, pos, texture);
+	if (obj->type == PLANE)
+		dot_on_texture = t_plane(normal, dot_on_object, obj->material.texture_position, texture);
 	else
 	{
 		dot_on_texture.x = convert_x(normal, texture);
