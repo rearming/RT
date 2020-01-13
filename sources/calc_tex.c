@@ -10,90 +10,109 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+ * To display the texture on a volumetric object,
+ * we compare the coordinates on the surface of the object with the coordinates on the texture.
+ * Coordinates of a SPHERE we convert from the spherical c.s. (u, v, z) to the Cartesian (x, y, z);
+ * Coordinates of a CYLINDER or a CONE we convert from the cylindrical S.K. (u, v, z) to  the Cartesian (x, y, z);
+ * For a PLANE, we simply map a point on the plane to a texture point.
+ */
+
 #include "rtv1.h"
 
-static int		x_coord(t_vec normal, SDL_Surface *texture)
+static int		check_borders(int a, int max, int type)
 {
-	double	v;
+	if (a < 0)
+		return (0);
+	if (a > max)
+	{
+		if (type == 1)
+			return (max);
+		else
+			return (a % max);
+	}
+	return (a);
+}
+
+static int		convert_x(float3 normal, SDL_Surface *texture)
+{
+	double	u;
 	int		x;
 
-	v = atan2f(normal.x, normal.z);
-	if (v < 0)
-		v += 2 * M_PI;
-	v *= M_1_PI / 2;
-	x = (int)((texture->w - 1) * v);
-	if (x < 0 || x > texture->w - 1)
-		x = (x < 0) ? 0 : texture->w - 1;
+	u = atan2f(normal.x, normal.z);
+	if (u < 0)
+		u += 2 * M_PI;
+	u *= M_1_PI / 2;
+	x = (int)((texture->w - 1) * u);
+	x = check_borders(x, texture->w - 1, 1);
 	return (x);
 }
 
-static int		y_coord(t_vec normal, t_obj *obj, SDL_Surface *tex, t_vec point)
+static int		convert_y(float3 normal, float3 point, t_obj *obj, SDL_Surface *texture)
 {
-	double	u;
+	double	v;
 	int		y;
-	t_vec	help;
+	float3	help;
 
 	if (obj->name == SPHERE)
 	{
-		u = 0.5 - asinf(normal.y) * M_1_PI;
-		y = (int)(u * (tex->h - 1));
-		if (y < 0 || y > (tex->h - 1))
-			y = (y < 0) ? 0 : tex->h - 1;
+		v = 0.5 - asinf(normal.y) * M_1_PI;
+		y = (int)(v * (texture->h - 1));
+		y = check_borders(y, texture->h - 1, 1);
 	}
 	else
 	{
 		if (obj->name == CONE)
 		{
-			u = length_v(sub_v(obj->pos, point));
-			u *= cosf(atanf(obj->size));
+			v = vec_magnitude(vec_subtract(obj->pos, point));
+			v *= cosf(atanf(obj->size));
 		}
-		help = (obj->name == CONE) ? v_multiply_l(normal, u) :
-				v_multiply_l(normal, -obj->size);
-		u = length_v(sub_v(add_v(help, point), obj->pos));
-		y = (int)(u * tex->w / tex->h * 100);
-		y = (y > (tex->h - 1)) ? y % (tex->h - 1) : y;
+		help = (obj->name == CONE) ? vec_mult_by_scalar(normal, v) :
+				vec_mult_by_scalar(normal, -obj->size);
+		v = vec_magnitude(vec_subtract(vec_add(help, point), obj->pos));
+		y = (int)(v * texture->w / texture->h * 100);
+		y = check_borders(y, texture->h - 1, 2);
 	}
 	return (y);
 }
 
-static t_pos	t_plane(t_vec normal, SDL_Surface *tex, t_vec point, t_vec pos)
+static int2		texture_on_plane(float3 normal, float3 point, float3 pos, SDL_Surface *texture)
 {
-	int		x;
-	int		y;
-	t_vec	buf_u;
-	t_vec	buf_v;
+	int2	dot;
+	float3	buf_u;
+	float3	buf_v;
 
-	buf_u = cross(normal, (t_vec){0.f, 1.f, 0.f});
-	if (fabsf(length_v(buf_u)) < 0.0001f)
+	buf_u = cross(normal, (float3){0.f, 1.f, 0.f});
+	if (fabsf(vec_magnitude(buf_u)) < 0.0001f)
 		buf_u = cross(normal, (t_vec){0.f, 0.f, 1.f});
 	buf_v = cross(normal, buf_u);
-	x = (int)(tex->w * (dot(buf_u, point) + pos.x) / (4 * pos.z)) % tex->w;
-	y = (int)(tex->h * (dot(buf_v, point) + pos.y) / (4 * pos.z)) % tex->h;
-	if (x < 0)
-		x += tex->w;
-	if (y < 0)
-		y += tex->h;
-	return ((t_pos){x, y});
+	dot.x = (int)(texture->w * (dot_product(buf_u, point) + pos.x) / (4 * pos.z)) % tex->w;
+	dot.y = (int)(texture->h * (dot_product(buf_v, point) + pos.y) / (4 * pos.z)) % tex->h;
+	if (dot.x < 0)
+		dot.x += texture->w;
+	if (dot.y < 0)
+		dot.y += texture->h;
+	return (dot);
 }
 
-t_color			texture(t_ray ray_nv, SDL_Surface *tex, t_obj *obj, t_vec point_n, t_vec pos) //add pos of texture to object parametrs
+t_color			texture(float3 normal, SDL_Surface *texture, t_obj *obj, float3 dot_on_object, float3 pos) //add pos of texture to object parametrs
 {
 	t_color		col;
 	Uint32		color;
-	t_pos		point;
+	int2		dot_on_texture;
 
-	SDL_LockSurface(tex);
+	SDL_LockSurface(texture);
 	if (obj->name == PLANE)
-		point = t_plane(ray_nv.origin, tex, point_n, pos);
+		dot_on_texture = t_plane(normal, dot_on_object, pos, texture);
 	else
 	{
-		point.st = x_coord(ray_nv.origin, tex);
-		point.fin = y_coord(ray_nv.origin, obj, tex, point_n);
+		dot_on_texture.x = convert_x(normal, texture);
+		dot_on_texture.y = convert_y(normal, dot_on_object, obj, texture);
 	}
-	color = *((Uint32*)((Uint8*)tex->pixels + ((Uint32)point.fin *
-	(Uint32)tex->pitch) + ((Uint32)point.st * tex->format->BytesPerPixel)));
-	SDL_GetRGB(color, tex->format, (Uint8 *)&col.r, (Uint8 *)&col.g,
+	color = *((Uint32*)((Uint8*)texture->pixels + ((Uint32)dot_on_texture.y *
+	(Uint32)texture->pitch) + ((Uint32)dot_on_texture.x * texture->format->BytesPerPixel)));
+	SDL_GetRGB(color, texture->format, (Uint8 *)&col.r, (Uint8 *)&col.g,
 		(Uint8 *)&col.b);
-	SDL_UnlockSurface(tex);
+	SDL_UnlockSurface(texture);
 	return (col);
 }

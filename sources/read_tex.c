@@ -22,7 +22,7 @@ int		init(t_map *map)
 	i = 0;
 	map->sdl.texture_surface = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * COUNT_TEXT);
 	if (!map->sdl.texture_surface)
-		return (-1);
+		return (print_error("error, no texture");
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 		return (print_error(SDL_GetError()));
 	if (!(map->sdl.window = SDL_CreateWindow("RTv1", SDL_WINDOWPOS_UNDEFINED,
@@ -56,6 +56,6 @@ int		init(t_map *map)
 	if (map->sdl.buff_texture == NULL)
 		return (print_error(SDL_GetError()));
 	if (!(map->buff = ft_memalloc(sizeof(int) * WIDTH * HEIGHT)))
-		return (print_error("RTv1: Cannot allocate memory."));
+		return (print_error("RT: Cannot allocate memory."));
 	return (0);
 }
