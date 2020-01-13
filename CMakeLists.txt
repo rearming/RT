@@ -12,7 +12,6 @@ endif()
 # <----RTv1 compile---->
 
 set(sources
-        sources/main.c
         sources/init/rt_init.c
         sources/utils/rt_safe_malloc.c
         sources/utils/rt_raise_error.c
@@ -70,6 +69,7 @@ link_directories(
 )
 
 add_executable(RT
+        sources/main.c
         ${sources}
 )
 
@@ -83,11 +83,15 @@ target_link_libraries(RT
 # <----TESTING----> #
 
 set(test_sources
-        sources/test/test_main.c)
+        ${sources}
+        sources/test/test_main.c sources/test/test_utils.c)
 
 add_executable(test
         ${test_sources})
 
 target_link_libraries(test
         "ftprintf"
-        "ft")
+        "ft"
+        ${graphic_libs_link_names}
+        "m"
+        )

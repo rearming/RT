@@ -14,6 +14,10 @@ static void		raise_error2(int err_code)
 	else if (err_code == ERR_OPENCL_INV_SOURCE_CODE_FILE)
 		ft_printf_fd(STDERR_FILENO, "error when reading opencl "
 						"source code file\n");
+	else if (err_code == ERR_OPENCL_RUN_KERNELS)
+		ft_printf_fd(STDERR_FILENO, "clEnqueueNDRangeKernel failed\n");
+	else if (err_code == ERR_OPENCL_READ_BUFFER)
+		ft_printf_fd(STDERR_FILENO, "clEnqueueReadBuffer failed\n");
 	else
 		ft_printf_fd(STDERR_FILENO, "UNKNOWN ERROR!\n");
 }

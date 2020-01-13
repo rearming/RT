@@ -5,6 +5,7 @@ void	rt_main(
     __constant t_scene *scene,
     __constant t_object *objects,
     __constant t_light *lights,
+    __constant t_opencl_params *params,
     __global int *img_data);
 
 void				ray_plane_intersect(
