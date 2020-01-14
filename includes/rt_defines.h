@@ -13,7 +13,7 @@
 
 # define OPENCL_KERNEL_NAME "rt_main"
 
-# define RT_DEFAULT_MEM_FLAG CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR
+# define RT_DEFAULT_MEM_FLAG (CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR)
 
 /*
 **	Window params
@@ -80,8 +80,15 @@
 */
 
 
-# define DONT_COPY_MEM_AGAIN -10
-# define CREATE_BUFFER -32
+# define DONT_COPY_MEM_AGAIN (-10)
+# define CREATE_BUFFER (-32)
 # define RT_UNUSED(arg) (void)arg
+
+
+/*
+**	Other ?
+*/
+
+# define M_PI_180 (M_PI / 180)
 
 #endif

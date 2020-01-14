@@ -84,7 +84,10 @@ target_link_libraries(RT
 
 set(test_sources
         ${sources}
-        sources/test/test_main.c sources/test/test_utils.c)
+        sources/test/test_main.c
+        sources/test/test_utils.c
+        sources/test/test_opencl.c
+        sources/test/test_lerp.c)
 
 add_executable(test
         ${test_sources})

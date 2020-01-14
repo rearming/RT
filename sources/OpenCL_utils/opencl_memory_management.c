@@ -76,7 +76,4 @@ void		opencl_clean_memobjs(void)
 		}
 		memobj_i++;
 	}
-	if (clReleaseMemObject(g_opencl.img_data_mem) != CL_SUCCESS)
-		ft_printf_fd(STDERR_FILENO, "clReleaseMemObject on img_data_mem failed!\n");
-	g_opencl.img_data_mem = NULL;
 }

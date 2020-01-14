@@ -16,8 +16,7 @@ void		rt_opencl_compile_kernel(void)
 		print_cl_build_program_debug();
 		rt_raise_error(ERR_OPENCL_BUILD_PROGRAM);
 	}
-	g_opencl.kernel = clCreateKernel(
-			g_opencl.program, OPENCL_KERNEL_NAME, &err);
+	g_opencl.kernel = clCreateKernel(g_opencl.program, OPENCL_KERNEL_NAME, &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_KERNEL, err);
 	free(opencl_kernel_file);
 }

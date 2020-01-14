@@ -2,14 +2,21 @@
 
 inline void		rt_opencl_setup_image_buffer(void)
 {
-	int		err;
+	int				err;
+	static t_bool	image_created = FALSE;
 
-	g_opencl.img_data_mem = clCreateBuffer(g_opencl.context, CL_MEM_READ_WRITE,
-			sizeof(int) * WIN_HEIGHT * WIN_WIDTH, NULL, &err);
-	rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
+	if (image_created == FALSE)
+	{
+		g_opencl.img_data_mem = clCreateBuffer(g_opencl.context,
+				CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,
+				sizeof(int) * WIN_HEIGHT * WIN_WIDTH, g_img_data, &err);
+		ft_bzero(g_img_data, sizeof(int) * WIN_HEIGHT * WIN_WIDTH);
+		rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
+	}
 	err = clSetKernelArg(g_opencl.kernel, g_opencl.opencl_memobj_number,
 						 sizeof(cl_mem), &g_opencl.img_data_mem);
 	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
+	image_created = TRUE;
 }
 
 /*

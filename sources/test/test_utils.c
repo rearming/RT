@@ -23,6 +23,20 @@ int			*test_get_int_arr(int arr_size)
 	return test_arr;
 }
 
+double			*test_get_double_arr(int arr_size)
+{
+	double		*test_arr = rt_safe_malloc(arr_size * sizeof(double));
+
+	for (int i = 0; i < arr_size; ++i)
+	{
+		test_arr[i] = random() % 15000;
+//		test_arr[i] = (int)test_arr[i] % 2 ? test_arr[i] : -test_arr[i];
+	}
+	for (int j = 0; j < arr_size; ++j)
+		printf("%.1f ", test_arr[j]);
+	return test_arr;
+}
+
 void		test_rt_loop(t_rt *rt)
 {
 	SDL_Event		event;
@@ -42,10 +56,10 @@ void		test_rt_loop(t_rt *rt)
 	}
 }
 
-void 	dummy_render_func(t_rt *rt)
+void 	fill_all_g_img_data(t_rt *rt)
 {
 	for (int i = 0; i < WIN_WIDTH * WIN_HEIGHT; ++i)
 	{
-		g_img_data[i] = COL_GREEN;
+		g_img_data[i] = COL_RED;
 	}
 }

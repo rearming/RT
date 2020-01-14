@@ -228,14 +228,30 @@ typedef enum			e_render_algo
 	RAYMARCH,
 }						t_render_algo;
 
+typedef struct			s_pathtrace_params
+{
+# ifndef FT_OPENCL___
+
+	cl_int				current_samples_num;
+	cl_int				max_bounces;
+# else
+
+	int					current_samples_num;
+	int					max_bounces;
+# endif
+
+}						t_pathtrace_params;
+
 typedef struct			s_opencl_params
 {
 # ifndef FT_OPENCL___
 
 	t_render_algo		render_algo;
+	t_pathtrace_params	pathtrace_params;
 # else
 
 	t_render_algo		render_algo;
+	t_pathtrace_params	pathtrace_params;
 # endif
 }						t_opencl_params;
 

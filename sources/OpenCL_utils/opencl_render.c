@@ -15,7 +15,7 @@ void		rt_opencl_prepare_memory(t_rt *rt)
 			);
 }
 
-  void		rt_opencl_profile(void)
+void		rt_opencl_profile(void)
 {
 	clWaitForEvents(1, &g_opencl.profile_event);
 	cl_ulong start = 0, end = 0;
@@ -23,6 +23,14 @@ void		rt_opencl_prepare_memory(t_rt *rt)
 	clGetEventProfilingInfo(g_opencl.profile_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL);
 	cl_double nd_range_pure_exec_time_ms = (cl_double)(end - start) * (cl_double)(1e-06);
 	ft_printf("kernel exec time: [%f]\n", nd_range_pure_exec_time_ms);
+}
+
+void		rt_update_opecnl_params(t_opencl_params *opencl_params)
+{
+	if (opencl_params->render_algo == PATHTRACE)
+		opencl_params->pathtrace_params.current_samples_num++;
+	else
+		opencl_params->pathtrace_params.current_samples_num = 1;
 }
 
 void		rt_opencl_render(t_rt *rt)
