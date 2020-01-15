@@ -27,7 +27,10 @@ __kernel void	rt_main(
 	t_color		new_color;
 	t_color		prev_color = { img_data[g_id] };
 
+//	printf("[%f] [%f]\n", params->randoms.x, params->randoms.y);
+//	printf("%f", rt_rand(params->randoms, g_id));
 	if (params->render_algo == PATHTRACE)
-		new_color = pathtrace(scene, objects, lights, params, ray_dir, (float3)(0), (float3)(0), 0);
+		new_color = pathtrace(scene, objects, lights, params,
+				ray_dir, scene->camera.pos, (float3)(0), 0, params->randoms * g_id);
 	img_data[g_id] = mix_avg_color(prev_color, new_color, params->pathtrace_params.current_samples_num);
 }

@@ -166,12 +166,14 @@ typedef struct			s_material
 
 	t_color				color;
 	cl_int				specular;
+	cl_float			albedo;
 	cl_int				texture_number;
 	cl_float3			texture_position;
 # else
 
 	t_color				color;
 	int					specular;
+	float				albedo;
 	int					texture_number;
 	float3				texture_position;
 # endif
@@ -233,11 +235,11 @@ typedef struct			s_pathtrace_params
 # ifndef FT_OPENCL___
 
 	cl_int				current_samples_num;
-	cl_int				max_bounces;
+	cl_int				max_depth;
 # else
 
 	int					current_samples_num;
-	int					max_bounces;
+	int					max_depth;
 # endif
 
 }						t_pathtrace_params;
@@ -248,10 +250,12 @@ typedef struct			s_opencl_params
 
 	t_render_algo		render_algo;
 	t_pathtrace_params	pathtrace_params;
+	cl_int				randoms;
 # else
 
 	t_render_algo		render_algo;
 	t_pathtrace_params	pathtrace_params;
+	int					randoms;
 # endif
 }						t_opencl_params;
 

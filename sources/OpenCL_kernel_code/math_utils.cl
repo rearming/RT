@@ -1,4 +1,24 @@
 
+float		rand_distribution(uint rand_num)
+{
+	return ((float)rand_num / UINT_MAX);
+}
+
+int 				in_range_inclusive(float number, float min, float max)
+{
+	return number >= min && number <= max ? true : false;
+}
+
+uint		rt_rand(uint seed)
+{
+	seed = (seed ^ 61) ^ (seed >> 16);
+	seed *= 9;
+	seed = seed ^ (seed >> 4);
+	seed *= 0x27d4eb2d;
+	seed = seed ^ (seed >> 15);
+	return seed;
+}
+
 void		rotate_y(float3 *point, float angle)
 {
 	float3		temp;

@@ -31,11 +31,13 @@ void		rt_update_opecnl_params(t_opencl_params *opencl_params)
 		opencl_params->pathtrace_params.current_samples_num++;
 	else
 		opencl_params->pathtrace_params.current_samples_num = 1;
+	opencl_params->randoms = arc4random();
 }
 
 void		rt_opencl_render(t_rt *rt)
 {
-	const size_t	kernel_num = OPENCL_KERNEL_NUM;
+	const size_t	kernel_num = OPENCL_RELEASE_KERNEL_NUM;
+//	const size_t	kernel_num = 50;
 	int				err;
 
 	rt_opencl_prepare_memory(rt);
@@ -49,4 +51,5 @@ void		rt_opencl_render(t_rt *rt)
 			g_img_data, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 	opencl_clean_memobjs();
+	rt_update_opecnl_params(&rt->opencl_params);
 }

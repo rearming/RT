@@ -79,7 +79,6 @@
 **	Development
 */
 
-
 # define DONT_COPY_MEM_AGAIN (-10)
 # define CREATE_BUFFER (-32)
 # define RT_UNUSED(arg) (void)arg
@@ -90,5 +89,10 @@
 */
 
 # define M_PI_180 (M_PI / 180)
+# define NOT_SET (-1)
+
+# ifndef UINT_MAX
+#  define UINT_MAX 4294967295
+# endif
 
 #endif

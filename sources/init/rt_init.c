@@ -4,11 +4,13 @@
 void		rt_init_pathtrace_params(t_pathtrace_params *out_pathtrace_params)
 {
 	out_pathtrace_params->current_samples_num = 0;
+	out_pathtrace_params->max_depth = 4;
 }
 
 void		rt_init_opencl_params(t_opencl_params *out_opencl_params)
 {
 	out_opencl_params->render_algo = PATHTRACE;
+	out_opencl_params->randoms = arc4random();
 	rt_init_pathtrace_params(&out_opencl_params->pathtrace_params);
 }
 

@@ -8,20 +8,21 @@ static	t_object	*rt_get_objects(int *out_obj_nbr)
 	*out_obj_nbr = objects_nbr;
 	objects = rt_safe_malloc(sizeof(t_object) * objects_nbr);
 	objects[0] = (t_object){.type = SPHERE,
-			(t_material){.color = {COL_GREEN}, .specular = 42},
-			.center = (cl_float3){{2, 0, 2}},
-			.radius = 1};
+			(t_material){.color = {COL_RED}, .specular = 42, .albedo = 0.5},
+			.center = (cl_float3){{0, -1, 2}},
+			.radius = 0.5};
 	return (objects);
 }
 
 static t_light		*rt_get_lights(int *out_lights_nbr)
 {
-	const int	lights_nbr = 1;
+	const int	lights_nbr = 2;
 	t_light		*lights;
 
 	*out_lights_nbr = lights_nbr;
 	lights = rt_safe_malloc(sizeof(t_light) * lights_nbr);
-	lights[0] = (t_light){.pos = {{5, 5, 5}}, .color = {COL_WHITE}, .type = POINT};
+	lights[0] = (t_light){.pos = {{0, 0.5, 0}}, .color = {COL_WHITE}, .type = POINT, .intensity = 0.9};
+	lights[1] = (t_light){.color = {COL_WHITE}, .type = AMBIENT, .intensity = 0.3};
 	return (lights);
 }
 
@@ -31,8 +32,8 @@ t_scene		get_hardcoded_scene(void)
 
 	scene.camera = (t_camera)
 	{
-		.pos = (cl_float3){{0, 0, 0}},
-		.rotation = (cl_float3){{0, 90, 0}},
+		.pos = (cl_float3){{0, 0, -3}},
+		.rotation = (cl_float3){{0, 0, 0}},
 		.viewport_distance = 1,
 		.viewport_width = WIN_RATIO < 1 ? D_I_MAZOHIN : 1,
 		.viewport_height = WIN_RATIO > 1 ? D_E_KARMATSKIY : 1
