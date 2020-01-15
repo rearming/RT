@@ -1,0 +1,24 @@
+{
+	"sphere":	{
+		"pos": [0, 0, 0],
+		"size": 0.25,
+		"texture": 1,
+		"texture_pos": [0, 0, 0],
+		"spec": 50
+	},
+	"camera": {
+		"pos": [0, 0, -2]
+	},
+	"light":
+	[
+		{
+		"type": 1,
+		"intensity": 0.25
+		},
+		{
+		"type": 2,
+		"intensity": 0.85,
+		"pos": [0.75, 0, -1]
+		}
+	]
+}

@@ -1,0 +1,46 @@
+{
+	"sphere":	{
+		"pos": [2, 0, 4],
+		"size": 1.75,
+		"texture": 1,
+		"texture_pos": [2, 0, 4],
+		"spec": 50
+	},
+	"plane": {
+		"pos": [0, -1, 0],
+		"normal": [0, 1, 0.3],
+		"color": [250, 250, 250],
+		"spec": 50
+	},
+	"cone": {
+		"pos": [-1, 0, 7],
+		"size": 0.25,
+		"normal": [0, 1, -0.25],
+		"texture": 1,
+		"texture_pos": [2, 0, 4],
+		"spec": 50
+	},
+	"cylinder": {
+		"pos": [-1.5, 1, 1],
+		"normal": [0, 1, 0],
+		"size": 0.5,
+		"texture": 1,
+		"texture_pos": [2, 0, 4],
+		"spec": 100
+	},
+	"camera": {
+		"pos": [0, 0.5, -3]
+	},
+	"light":
+	[
+		{
+			"type": 1,
+			"intensity": 0.65
+		},
+		{
+			"type": 2,
+			"intensity": 0.75,
+			"pos": [2, 1, 2]
+		}
+	]
+}
