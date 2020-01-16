@@ -40,6 +40,7 @@ void		rt_init(t_rt *out_rt, const char *json_scene_file);
 
 t_scene		rt_parse_scene(const char *json_scene_file);
 t_scene		get_hardcoded_scene(); //todo remove after dev
+void		rt_correct_scene(t_scene *scene);
 
 /*
 **	Render
@@ -84,5 +85,14 @@ void		print_cl_build_program_debug(void);
 void		rt_raise_error(int err_code);
 void		*rt_safe_malloc(size_t size);
 t_bool		rt_exit_clean(void);
+
+/*
+**	Math utils
+*/
+
+cl_float3	rt_degree_to_rad(cl_float3 rotation_degrees);
+t_bool		rt_clfloat3_equals(cl_float3 a, cl_float3 b);
+
+cl_float3	get_float3_color(int hex_color);
 
 #endif

@@ -148,14 +148,14 @@ typedef struct			s_light
 	cl_float			intensity;
 	cl_float3			pos;
 	cl_float3			dir;
-	t_color				color;
+	cl_float3			color;
 # else
 
 	t_light_type		type;
 	float				intensity;
 	float3				pos;
 	float3				dir;
-	t_color				color;
+	float3				color;
 # endif
 
 }						t_light;
@@ -164,16 +164,14 @@ typedef struct			s_material
 {
 # ifndef FT_OPENCL___
 
-	t_color				color;
-	cl_int				specular;
-	cl_float			albedo;
+	cl_float3			albedo;
+	cl_float3			specular;
 	cl_int				texture_number;
 	cl_float3			texture_position;
 # else
 
-	t_color				color;
-	int					specular;
-	float				albedo;
+	float3				albedo;
+	float3				specular;
 	int					texture_number;
 	float3				texture_position;
 # endif
@@ -261,6 +259,19 @@ typedef struct			s_opencl_params
 
 # ifndef FT_OPENCL___
 
+#include "stdbool.h"
+
+typedef struct			s_events
+{
+	t_bool				w;
+	t_bool				a;
+	t_bool				s;
+	t_bool				d;
+	t_bool				info;
+	t_bool				space;
+	t_bool				lshift;
+}						t_events;
+
 typedef struct			s_opencl_mem_obj
 {
 	void				*ptr;
@@ -273,6 +284,7 @@ typedef struct			s_rt
 {
 	t_scene				scene;
 	t_opencl_params		opencl_params;
+	t_events			events;
 }						t_rt;
 
 #  define CL_BUFF_SIZE 10000

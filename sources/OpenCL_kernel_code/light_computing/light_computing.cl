@@ -8,7 +8,7 @@ bool				in_shadow(
 {
 	int		found_object = NOT_SET;
 
-	closest_intersection(scene, objects, point, light_dir, 0.01f, ray_max, &found_object, 0);
+//	closest_intersection(scene, objects, point, light_dir, &found_object);
 	return found_object != NOT_SET;
 }
 
@@ -23,18 +23,20 @@ t_color				compute_lighting(
 	float3		light_dir;
 	float		normal_dot_light;
 	t_color		result_light_color;
+	float		total_intensity = 0.0f;
 
-	for (int i = 0; i < scene->lights_nbr; i++)
+	for (int i = 0; i < scene->lights_nbr; ++i)
 	{
-		t_color		light_color = lights[i].color;
+		float3		light_color = lights[i].color;
 		float		intensity = 0.0f;
 		float		ray_max;
 
 		if (lights[i].type == AMBIENT)
 		{
-			intensity += lights[i].intensity;
-			result_light_color.value = mix_avg_color(result_light_color, change_color_intensity(light_color, intensity), i + 1);
-			continue;
+			intensity = lights[i].intensity;
+			total_intensity += intensity;
+//			result_light_color.value = mix_avg_colors(result_light_color, change_color_intensity(light_color, intensity), i + 1);
+			continue; /// тут CONTINUE, если AMBIENT !
 		}
 		else if (lights[i].type == POINT)
 		{
@@ -52,8 +54,9 @@ t_color				compute_lighting(
 		if (normal_dot_light > 0)
 		{
 			intensity = lights[i].intensity * normal_dot_light / (length(normal) * length(light_dir));
+//			result_light_color.value = mix_avg_colors(result_light_color, change_color_intensity(light_color, intensity), i + 1);
+			total_intensity += intensity;
 		}
-		result_light_color.value = mix_avg_color(result_light_color, change_color_intensity(light_color, intensity), i + 1);
 	}
-	return (result_light_color);
+	return result_light_color;
 }

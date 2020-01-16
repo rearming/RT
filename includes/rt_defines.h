@@ -51,6 +51,14 @@
 # define COL_PURPLE 0x7830E0
 # define COL_MAGNETA 0xE2007A
 
+# define COL_LIGHT_RED 0xff4d4d
+# define COL_LIGHT_GREEN 0xb3ff66
+# define COL_LIGHT_BLUE 0x6666ff
+
+# define COL_DARK_RED 0xb30000
+# define COL_DARK_GREEN 0x408000
+# define COL_DARK_BLUE 0x000080
+
 # define COL_BG COL_GREY
 
 /*
@@ -70,9 +78,9 @@
 //# define OPENCL_KERNEL_NUM OPENCL_DEBUG_KERNEL_NUM
 
 #ifdef __APPLE__
-# define OPENCL_DEFINES_STR "#define FT_OPENCL___\n #define __APPLE__\n\n"
+# define OPENCL_DEFINES_STR "#define __APPLE__\n\n"
 #else
-# define OPENCL_DEFINES_STR "#define FT_OPENCL___\n\n"
+# define OPENCL_DEFINES_STR "\n"
 #endif
 
 /*
@@ -94,5 +102,15 @@
 # ifndef UINT_MAX
 #  define UINT_MAX 4294967295
 # endif
+
+/*
+**	Camera moving
+*/
+
+# define MOVE_SPEED (0.2)
+# define SIDE_MOVE_SPEED (0.1)
+# define FLY_SPEED 0.2
+
+# define ROTATION_SPEED 0.05
 
 #endif

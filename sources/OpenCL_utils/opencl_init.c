@@ -1,4 +1,5 @@
 #include "rt.h"
+#include "../debug/rt_debug_utils.h"
 
 void		rt_opencl_compile_kernel(void)
 {

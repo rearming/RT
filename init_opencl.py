@@ -10,10 +10,7 @@ prototypes_file_name = "prototypes.cl"
 
 
 def get_opencl_files_names():
-    names = []
-    for i in range(1, len(sys.argv)):
-        names.append(
-            glob.glob(sys.argv[i] + "/**/" + "*.cl", recursive=True))
+    names = [glob.glob(sys.argv[1] + "/**/" + "*.cl", recursive=True)]
     return names
 
 
@@ -53,10 +50,15 @@ def update_opencl_kernel_files():
     file.close()
 
     corrected_file_names = []
+
+    excluded_files = re.search(r"concat_opencl_kernel_code\(\d{2},((?:[\s\S]+?)(?:prototypes.cl\"))", file_text).group(1)
+    excluded_files = re.findall(r"\"(\./.*)\"", excluded_files)
+
     for name in cl_files_names[0]:
-        if re.match(".*" + prototypes_file_name + ".*", name):
+        corrected_name = re.sub(str(pwd), ".", str(name))
+        if corrected_name in excluded_files:
             continue
-        corrected_file_names.append(re.sub(str(pwd), ".", str(name)))
+        corrected_file_names.append(corrected_name)
 
     tabs_number = len(re.search(r"(\t+)\"\./sources/OpenCL_kernel_code/prototypes.cl\"", file_text).group(1))
 
@@ -64,7 +66,7 @@ def update_opencl_kernel_files():
     for name in corrected_file_names:
         str_to_insert += ",\n" + "\t"[:1]*tabs_number + "\"" + name + "\""
 
-    file_text = re.sub(r"(?<=\./sources/OpenCL_kernel_code/prototypes.cl\")([\s\S]+?)(?=\);)", str_to_insert, file_text)
+    file_text = re.sub(re.search(r"(?:prototypes.cl\")([\s\S]+?)(?=\);)", file_text).group(1), str_to_insert, file_text)
 
     files_number = len(re.findall(r"(\"\./[a-zA-Z/_.]+\")", file_text))
     file_text = re.sub(r"(\d+)(?=,\s*\"\./[a-zA-Z/_.]+\")", str(files_number), file_text)

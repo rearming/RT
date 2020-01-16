@@ -1,9 +1,11 @@
 
-int			mix_avg_color(t_color col_prev, t_color col_new, int samples);
+float3		mix_avg_colors(float3 col_prev, float3 col_new, int samples);
 
-t_color				change_color_intensity(t_color color, float intensity);
+float3		mix_colors(float3 col1, float3 col2, float t);
 
-t_color				change_color_intensity_colors(t_color target_color, t_color light_color);
+float3		get_float3_color(int hex_color);
+
+int			get_int_color(float3 color);
 
 float		rand_distribution(uint rand_num);
 
@@ -24,6 +26,8 @@ void		rotate_point(float3 *point, float3 angle);
 float3			get_img_point(int global_id);
 
 void			correct_img_point(float3 *img_point);
+
+t_ray			get_ray(float3 img_point, __constant t_camera *camera);
 
 void	rt_main(
     __constant t_scene *scene,
@@ -56,15 +60,12 @@ void find_intersection(
 		float *out_intersect1,
 		float *out_intersect2);
 
-float				closest_intersection(
+void				closest_intersection(
 		__constant t_scene *scene,
 		__constant t_object *objects,
-		float3 origin,
-		float3 ray_dir,
-		float ray_min,
-		float ray_max,
-		int *out_closest_obj_index,
-		t_color *out_result_color);
+		t_ray ray,
+		t_rayhit *best_hit,
+		int *out_closest_obj_index);
 
 void				ray_plane_intersect(
 		float3 camera_pos,
@@ -83,6 +84,15 @@ void				ray_sphere_intersect(
 
 float3			compute_normal(float3 point, __constant t_object *intersect_obj);
 
+float3		pathtrace(
+		__constant t_scene *scene,
+		__constant t_object *objects,
+		__constant t_light *lights,
+		__constant t_opencl_params *params,
+		t_ray ray,
+		int depth,
+		uint random_num);
+
 void		create_coordinate_system(float3 normal, float3 *normal_x, float3 *normal_z);
 
 float3		uniform_sample_hemisphere(float rand1, float rand2);
@@ -91,15 +101,4 @@ float3		rand_dir_on_hemisphere(
 		float3 normal,
 		float rand1,
 		float rand2);
-
-t_color		pathtrace(
-		__constant t_scene *scene,
-		__constant t_object *objects,
-		__constant t_light *lights,
-		__constant t_opencl_params *params,
-		float3 ray_dir,
-		float3 origin,
-		float3 normal,
-		int depth,
-		uint random_num);
 

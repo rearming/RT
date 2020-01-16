@@ -15,7 +15,6 @@ set(sources
         sources/init/rt_init.c
         sources/utils/rt_safe_malloc.c
         sources/utils/rt_raise_error.c
-        includes/rt_errors.h
         sources/OpenCL_utils/opencl_init.c
         sources/OpenCL_utils/opencl_files_parser.c
         sources/debug/opencl_debug.c
@@ -28,7 +27,9 @@ set(sources
         sources/rt_parsing/hardcoded_scene.c
         sources/OpenCL_utils/opencl_utils.c
         sources/utils/rt_loop.c
-        sources/rt_event_handling/rt_event_handler.c)
+        sources/rt_event_handling/rt_camera_moves.c
+        sources/rt_event_handling/rt_event_handler.c
+        sources/math_utils/rt_rotation_utils.c sources/math_utils/rt_cl_float3_utils.c sources/debug/rt_debug_info.c sources/debug/rt_debug_utils.h sources/debug/rt_debug_print_utils.c sources/rt_parsing/rt_correct_scene.c sources/utils/rt_color_utils.c)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INCLUDE(FindPkgConfig)
@@ -82,15 +83,12 @@ target_link_libraries(RT
 
 # <----TESTING----> #
 
-set(test_sources
+add_executable(test
         ${sources}
         sources/test/test_main.c
         sources/test/test_utils.c
         sources/test/test_opencl.c
         sources/test/test_lerp.c)
-
-add_executable(test
-        ${test_sources})
 
 target_link_libraries(test
         "ftprintf"

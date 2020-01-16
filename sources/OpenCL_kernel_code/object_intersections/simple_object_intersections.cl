@@ -29,8 +29,11 @@ void				ray_sphere_intersect(
 		return ;
 	float sqrt_discriminant = sqrt(discriminant);
 
-	*out_x1 = (-b + sqrt_discriminant) / (2 * a);
-	*out_x2 = (-b - sqrt_discriminant) / (2 * a);
+	float root1 = (-b + sqrt_discriminant) / (2 * a);
+	float root2 = (-b - sqrt_discriminant) / (2 * a);
+
+	*out_x1 = root1;
+	*out_x2 = root2;
 }
 
 float3			compute_normal(float3 point, __constant t_object *intersect_obj)
