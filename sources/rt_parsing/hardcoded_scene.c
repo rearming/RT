@@ -12,8 +12,8 @@ static	t_object	*rt_get_objects(int *out_obj_nbr)
 			.center = (cl_float3){{0, 0, 0}},
 			.radius = 1};
 	objects[1] = (t_object){.type = PLANE,
-			(t_material){.albedo = get_float3_color(COL_GREY), .specular = (cl_float3){{0, 0, 0}}},
-			.center = (cl_float3) {{0, 0, 0}},
+			(t_material){.albedo = get_float3_color(COL_LIGHT_BLUE), .specular = (cl_float3){{0, 0, 0}}},
+			.center = (cl_float3) {{0, -4, 0}},
 			.normal = (cl_float3){{0, 1, 0}}};
 	return (objects);
 }

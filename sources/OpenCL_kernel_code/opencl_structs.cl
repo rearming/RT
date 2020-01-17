@@ -9,6 +9,6 @@ typedef struct		s_rayhit
 {
 	float3			pos;
 	float			distance;
-	float3			normal;
+	float3			normal
 }					t_rayhit;
 

@@ -2,13 +2,12 @@
 bool				in_shadow(
 		__constant t_scene *scene,
 		__constant t_object *objects,
-		float3 point,
-		float3 light_dir,
-		float ray_max)
+		t_ray *ray)
 {
-	int		found_object = NOT_SET;
+	int			found_object = NOT_SET;
+	t_rayhit	dummy_hit = {(float3)(0), INFINITY, float3(0)};
 
-//	closest_intersection(scene, objects, point, light_dir, &found_object);
+	closest_intersection(scene, objects, ray, &dummy_hit, &found_object);
 	return found_object != NOT_SET;
 }
 
@@ -29,7 +28,6 @@ t_color				compute_lighting(
 	{
 		float3		light_color = lights[i].color;
 		float		intensity = 0.0f;
-		float		ray_max;
 
 		if (lights[i].type == AMBIENT)
 		{
@@ -41,14 +39,12 @@ t_color				compute_lighting(
 		else if (lights[i].type == POINT)
 		{
 			light_dir = lights[i].pos - point;
-			ray_max = 1;
 		}
 		else if (lights[i].type == DIRECTIONAL)
 		{
 			light_dir = lights[i].dir;
-			ray_max = INFINITY;
 		}
-		if (in_shadow(scene, objects, point, light_dir, ray_max))
+		if (in_shadow(scene, objects, &((t_ray){point, light_dir})))
 			continue;
 		normal_dot_light = dot(normal, light_dir);
 		if (normal_dot_light > 0)

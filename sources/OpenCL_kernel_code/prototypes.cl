@@ -41,9 +41,7 @@ float3			canvas_to_viewport(__constant t_camera *camera, float3 canvas_point);
 bool				in_shadow(
 		__constant t_scene *scene,
 		__constant t_object *objects,
-		float3 point,
-		float3 light_dir,
-		float ray_max);
+		t_ray *ray);
 
 t_color				compute_lighting(
 	__constant t_scene *scene,
@@ -53,36 +51,25 @@ t_color				compute_lighting(
 	float3 point,
 	float3 normal);
 
-void find_intersection(
-		float3 origin,
-		float3 ray_dir,
-		__constant t_object *object,
-		float *out_intersect1,
-		float *out_intersect2);
-
 void				closest_intersection(
 		__constant t_scene *scene,
 		__constant t_object *objects,
-		t_ray ray,
-		t_rayhit *best_hit,
+		t_ray *ray,
+		t_rayhit *out_best_hit,
 		int *out_closest_obj_index);
 
-void				ray_plane_intersect(
-		float3 camera_pos,
-		float3 ray_dir,
+t_bool				ray_plane_intersect(
+		t_ray *ray,
 		float3 center,
 		float3 normal,
-		float *out_x1,
-		float *out_x2);
+		t_rayhit *best_hit);
 
-void				ray_sphere_intersect(
-		float3 camera_pos,
-		float3 ray_dir,
+t_bool				ray_sphere_intersect(
+		t_ray *ray,
 		__constant t_object *sphere,
-		float *out_x1,
-		float *out_x2);
+		t_rayhit *out_best_hit);
 
-float3			compute_normal(float3 point, __constant t_object *intersect_obj);
+float3		shade(t_ray *ray, t_rayhit *ray_hit);
 
 float3		pathtrace(
 		__constant t_scene *scene,

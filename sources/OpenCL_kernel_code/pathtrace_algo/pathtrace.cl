@@ -1,4 +1,11 @@
 
+float3		shade(t_ray *ray, t_rayhit *ray_hit)
+{
+	if (ray_hit->distance < INFINITY)
+		return ray_hit->normal * 0.5f + 0.5f;
+	return (float3)(1, 1, 1);
+}
+
 float3		pathtrace(
 		__constant t_scene *scene,
 		__constant t_object *objects,
@@ -10,10 +17,12 @@ float3		pathtrace(
 {
 	float3		result_color = mix_colors(get_float3_color(COL_RED), get_float3_color(COL_GREEN), 0.5);
 
-	t_rayhit	besthit;
-	int			closest_obj_index;
+	t_rayhit	besthit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
+	int			closest_obj_index = NOT_SET;
 
-	closest_intersection(scene, objects, ray, &besthit, &closest_obj_index);
-	result_color = objects[closest_obj_index].material.albedo;
+	closest_intersection(scene, objects, &ray, &besthit, &closest_obj_index);
+	if (closest_obj_index == NOT_SET)
+		return get_float3_color(COL_GREY);
+	result_color = objects[closest_obj_index].material.albedo * shade(&ray, &besthit);
 	return result_color;
 }
