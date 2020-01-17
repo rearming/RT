@@ -29,7 +29,7 @@ float		saturate(float value);
 
 float3		shade(
 		t_ray *out_ray,
-		t_rayhit *ray_hit,
+		t_rayhit *hit,
 		__constant t_material *material
 );
 

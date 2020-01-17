@@ -22,8 +22,8 @@
 # define WIN_TITLE "Dota 5"
 
 # ifdef __APPLE__
-#  define WIN_WIDTH 2550
-#  define WIN_HEIGHT 1300
+#  define WIN_WIDTH 300
+#  define WIN_HEIGHT 300
 # else
 #  define WIN_WIDTH 1920
 #  define WIN_HEIGHT 1080

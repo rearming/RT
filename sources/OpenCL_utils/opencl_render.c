@@ -30,8 +30,6 @@ void		rt_print_opencl_profile_info(void)
 
 t_bool		rt_camera_moved(t_camera *camera)
 {
-	cl_float4	test;
-
 	// потом переделать на инициализацию параметрами из json / чтобы не были по умолчанию нули (надо ли? ведь исправится за один кадр)
 	static	t_camera	previous_camera = (t_camera)
 			{.pos = (cl_float3){{0, 0, 0}}, .rotation = (cl_float3){{0, 0, 0}}};

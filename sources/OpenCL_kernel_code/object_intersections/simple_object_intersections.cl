@@ -34,7 +34,7 @@ t_bool				ray_sphere_intersect(
 
 	float root = (-b - sqrt(discriminant)) / (2 * a);
 
-	if (root < out_best_hit->distance) /// может нужна проверка на root < 0? проверить!
+	if (root < out_best_hit->distance && root > 0)
 	{
 		out_best_hit->distance = root;
 		out_best_hit->pos = ray->origin + root * ray->dir;
