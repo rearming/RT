@@ -19,6 +19,7 @@ t_ray			get_ray(float3 img_point, __constant t_camera *camera)
 	ray.dir = fast_normalize(canvas_to_viewport(camera, img_point));
 	rotate_point(&ray.dir, camera->rotation);
 	ray.origin = camera->pos;
+	ray.energy = (float3)(1.0f, 1.0f, 1.0f);
 	return ray;
 }
 
@@ -36,7 +37,9 @@ __kernel void	rt_main(
 	float3		new_color = (float3)(0);
 	float3		prev_color = get_float3_color(img_data[g_id]);
 
-	if (params->render_algo == PATHTRACE)
+	if (params->render_algo == PATH_TRACE)
 		new_color = pathtrace(scene, objects, lights, params, ray, 0, params->randoms * g_id);
+	else if (params->render_algo == RAY_TRACE)
+		new_color = raytrace(scene, objects, lights, params, ray);
 	img_data[g_id] = get_int_color(mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num));
 }

@@ -46,7 +46,7 @@ t_bool		rt_camera_moved(t_camera *camera)
 
 void		rt_update_rt_params(t_rt *rt)
 {
-	if (rt->opencl_params.render_algo == PATHTRACE)
+	if (rt->opencl_params.render_algo == PATH_TRACE)
 		rt->opencl_params.pathtrace_params.current_samples_num++;
 	else
 		rt->opencl_params.pathtrace_params.current_samples_num = 0;

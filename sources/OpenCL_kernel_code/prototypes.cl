@@ -23,6 +23,25 @@ float3		degree_to_rad(float3 rotation_degrees);
 
 void		rotate_point(float3 *point, float3 angle);
 
+float3		reflect(t_ray *ray, float3 hit_normal);
+
+float		saturate(float value);
+
+float3		shade(
+		t_ray *out_ray,
+		t_rayhit *ray_hit,
+		__constant t_material *material
+);
+
+bool		ray_has_energy(t_ray *ray);
+
+float3		raytrace(
+		__constant t_scene *scene,
+		__constant t_object *objects,
+		__constant t_light *lights,
+		__constant t_opencl_params *params,
+		t_ray ray);
+
 float3			get_img_point(int global_id);
 
 void			correct_img_point(float3 *img_point);
@@ -43,13 +62,11 @@ bool				in_shadow(
 		__constant t_object *objects,
 		t_ray *ray);
 
-t_color				compute_lighting(
+float				compute_light(
 	__constant t_scene *scene,
 	__constant t_light *lights,
 	__constant t_object *objects,
-	float3 ray_dir,
-	float3 point,
-	float3 normal);
+	t_rayhit *hit);
 
 void				closest_intersection(
 		__constant t_scene *scene,
@@ -68,8 +85,6 @@ t_bool				ray_sphere_intersect(
 		t_ray *ray,
 		__constant t_object *sphere,
 		t_rayhit *out_best_hit);
-
-float3		shade(t_ray *ray, t_rayhit *ray_hit);
 
 float3		pathtrace(
 		__constant t_scene *scene,

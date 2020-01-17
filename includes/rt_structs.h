@@ -224,8 +224,9 @@ typedef struct			s_scene
 
 typedef enum			e_render_algo
 {
-	PATHTRACE = 1,
-	RAYMARCH,
+	PATH_TRACE = 1,
+	RAY_TRACE,
+	RAY_MARCH,
 }						t_render_algo;
 
 typedef struct			s_pathtrace_params

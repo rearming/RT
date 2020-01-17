@@ -9,7 +9,7 @@ static	t_object	*rt_get_objects(int *out_obj_nbr)
 	objects = rt_safe_malloc(sizeof(t_object) * objects_nbr);
 	objects[0] = (t_object){.type = SPHERE,
 			(t_material){.albedo = get_float3_color(COL_LIGHT_RED), .specular = (cl_float3){{0, 0, 0}}},
-			.center = (cl_float3){{0, 0, 0}},
+			.center = (cl_float3){{0, 2, 0}},
 			.radius = 1};
 	objects[1] = (t_object){.type = PLANE,
 			(t_material){.albedo = get_float3_color(COL_LIGHT_BLUE), .specular = (cl_float3){{0, 0, 0}}},
@@ -37,8 +37,8 @@ t_scene		get_hardcoded_scene(void)
 
 	scene.camera = (t_camera)
 	{
-		.pos = (cl_float3){{-3.5, 1.2, -2.25}},
-		.rotation = (cl_float3){{-4, 43, 0}},
+		.pos = (cl_float3){{-3.8, 0, -2.25}},
+		.rotation = (cl_float3){{10, 58, 0}},
 		.viewport_distance = 1,
 		.viewport_width = WIN_RATIO < 1 ? D_I_MAZOHIN : 1,
 		.viewport_height = WIN_RATIO > 1 ? D_E_KARMATSKIY : 1

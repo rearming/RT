@@ -11,48 +11,38 @@ bool				in_shadow(
 	return found_object != NOT_SET;
 }
 
-t_color				compute_lighting(
+float				compute_light(
 	__constant t_scene *scene,
 	__constant t_light *lights,
 	__constant t_object *objects,
-	float3 ray_dir,
-	float3 point,
-	float3 normal)
+	t_rayhit *hit)
 {
-	float3		light_dir;
-	float		normal_dot_light;
-	t_color		result_light_color;
-	float		total_intensity = 0.0f;
+	float		intensity = 0.0f;
 
 	for (int i = 0; i < scene->lights_nbr; ++i)
 	{
-		float3		light_color = lights[i].color;
-		float		intensity = 0.0f;
+		float3		light_dir;
 
 		if (lights[i].type == AMBIENT)
 		{
 			intensity = lights[i].intensity;
-			total_intensity += intensity;
-//			result_light_color.value = mix_avg_colors(result_light_color, change_color_intensity(light_color, intensity), i + 1);
-			continue; /// тут CONTINUE, если AMBIENT !
+			continue;
 		}
 		else if (lights[i].type == POINT)
 		{
-			light_dir = lights[i].pos - point;
+			light_dir = lights[i].pos - hit->pos;
 		}
 		else if (lights[i].type == DIRECTIONAL)
 		{
 			light_dir = lights[i].dir;
 		}
-		if (in_shadow(scene, objects, &((t_ray){point, light_dir})))
-			continue;
-		normal_dot_light = dot(normal, light_dir);
+//		if (in_shadow(scene, objects, &((t_ray){hit->pos, light_dir})))
+//			continue;
+		float	normal_dot_light = dot(hit->normal, light_dir);
 		if (normal_dot_light > 0)
 		{
-			intensity = lights[i].intensity * normal_dot_light / (length(normal) * length(light_dir));
-//			result_light_color.value = mix_avg_colors(result_light_color, change_color_intensity(light_color, intensity), i + 1);
-			total_intensity += intensity;
+			intensity += lights[i].intensity * normal_dot_light / (length(hit->normal) * length(light_dir));
 		}
 	}
-	return result_light_color;
+	return intensity;
 }
