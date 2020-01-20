@@ -33,6 +33,7 @@ t_bool				ray_sphere_intersect(
 		return false;
 
 	float root = (-b - sqrt(discriminant)) / (2 * a);
+//	float root2 = (-b + sqrt(discriminant)) / (2 * a); ///todo пофиксить так чтобы не видеть изнутри объектов через них
 
 	if (root < out_best_hit->distance && root > RAY_MIN_EPSILON)
 	{

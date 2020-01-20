@@ -8,12 +8,11 @@ float3		pathtrace(
 		int depth,
 		uint random_num)
 {
-	float3		result_color = mix_colors(get_float3_color(COL_RED), get_float3_color(COL_GREEN), 0.5);
-
-	t_rayhit	besthit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
+	float3		result_color = (float3)(0);
+	t_rayhit	best_hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
 	int			closest_obj_index = NOT_SET;
 
-	closest_intersection(scene, objects, &ray, &besthit, &closest_obj_index);
+	closest_intersection(scene, objects, &ray, &best_hit, &closest_obj_index);
 	if (closest_obj_index == NOT_SET)
 		return get_float3_color(COL_GREY);
 //	result_color = objects[closest_obj_index].material.albedo * shade(&ray, &besthit);

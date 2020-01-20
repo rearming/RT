@@ -23,16 +23,10 @@ float3		degree_to_rad(float3 rotation_degrees);
 
 void		rotate_point(float3 *point, float3 angle);
 
-float3		reflect(t_ray *ray, float3 hit_normal);
-
-float		saturate(float value);
-
 float3		shade(
-		t_ray *out_ray,
+		t_ray *ray,
 		t_rayhit *hit,
 		__constant t_material *material);
-
-bool		ray_has_energy(t_ray *ray);
 
 float3		raytrace(
 		__constant t_scene *scene,
@@ -55,6 +49,12 @@ void	rt_main(
     __global int *img_data);
 
 float3			canvas_to_viewport(__constant t_camera *camera, float3 canvas_point);
+
+float3		reflect(float3 ray_dir, float3 hit_normal);
+
+float		saturate(float value);
+
+bool		ray_has_energy(t_ray *ray);
 
 bool				in_shadow(
 		__constant t_scene *scene,
