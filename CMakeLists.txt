@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.13.4)
 project(RT C)
 
 set(CMAKE_C_STANDARD 11)
@@ -29,7 +29,7 @@ set(sources
         sources/utils/rt_loop.c
         sources/rt_event_handling/rt_camera_moves.c
         sources/rt_event_handling/rt_event_handler.c
-        sources/math_utils/rt_rotation_utils.c sources/math_utils/rt_cl_float3_utils.c sources/debug/rt_debug_info.c sources/debug/rt_debug_utils.h sources/debug/rt_debug_print_utils.c sources/rt_parsing/rt_correct_scene.c sources/utils/rt_color_utils.c)
+        sources/math_utils/rt_rotation_utils.c sources/math_utils/rt_cl_float3_utils.c sources/debug/rt_debug_info.c sources/debug/rt_debug_utils.h sources/debug/rt_debug_print_utils.c sources/rt_parsing/rt_correct_scene.c sources/utils/rt_color_utils.c sources/init/rt_load_textures.c)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INCLUDE(FindPkgConfig)

@@ -1,6 +1,8 @@
 #ifndef RT_H
 # define RT_H
 
+# define STB_IMAGE_IMPLEMENTATION
+
 # include <stdarg.h>
 # include <stdio.h>
 # include <stddef.h>
@@ -59,6 +61,7 @@ void		handle_event(SDL_Event *event, t_rt *rt);
 */
 
 void		rt_sdl_init(void);
+void		rt_textures_init();
 
 /*
 **	OpenCL utils

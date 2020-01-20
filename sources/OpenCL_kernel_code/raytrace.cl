@@ -25,7 +25,7 @@ float3		shade(
 	else
 	{
 		out_ray->energy = 0;
-		return get_float3_color(COL_BG);
+		return get_float3_color(COL_BG); //add here skybox
 	}
 }
 

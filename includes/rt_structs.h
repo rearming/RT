@@ -66,13 +66,13 @@ typedef struct			s_point
 
 # ifndef FT_OPENCL___
 
-#define TEXTURE_BUF 15
+#define TEXTURE_NUM 15
 typedef struct			s_sdl
 {
 	SDL_Window			*win;
 	SDL_Renderer		*rend;
 	SDL_Texture			*texture;
-	SDL_Texture			**texture_list;
+	SDL_Texture			*texture_list;
 	int					pitch;
 }						t_sdl;
 
@@ -258,6 +258,14 @@ typedef struct			s_opencl_params
 # endif
 }						t_opencl_params;
 
+typedef struct			s_texture_info
+{
+	int					width;
+	int					height;
+	int					bpp;
+
+}						t_texture_info;
+
 # ifndef FT_OPENCL___
 
 #include "stdbool.h"
@@ -286,6 +294,7 @@ typedef struct			s_rt
 	t_scene				scene;
 	t_opencl_params		opencl_params;
 	t_events			events;
+
 }						t_rt;
 
 #  define CL_BUFF_SIZE 10000
