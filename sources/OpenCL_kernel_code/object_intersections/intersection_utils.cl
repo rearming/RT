@@ -10,12 +10,12 @@ void				closest_intersection(
 	{
 		switch (objects[i].type)
 		{
-			case (SPHERE): /// проверить шутку с эпсилоном и ray_min (что повторные лучи отражений не попадают в те же объекты)
-				if (ray_sphere_intersect(ray, &objects[i], out_best_hit) && *out_closest_obj_index != i)
+			case (SPHERE):
+				if (ray_sphere_intersect(ray, &objects[i], out_best_hit))
 					*out_closest_obj_index = i;
 				break ;
 			case (PLANE):
-				if (ray_plane_intersect(ray, objects[i].center, objects[i].normal, out_best_hit) && *out_closest_obj_index != i)
+				if (ray_plane_intersect(ray, objects[i].center, objects[i].normal, out_best_hit))
 					*out_closest_obj_index = i;
 				break ;
 		}

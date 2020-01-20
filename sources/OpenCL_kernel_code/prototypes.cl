@@ -30,8 +30,7 @@ float		saturate(float value);
 float3		shade(
 		t_ray *out_ray,
 		t_rayhit *hit,
-		__constant t_material *material
-);
+		__constant t_material *material);
 
 bool		ray_has_energy(t_ray *ray);
 
@@ -60,7 +59,8 @@ float3			canvas_to_viewport(__constant t_camera *camera, float3 canvas_point);
 bool				in_shadow(
 		__constant t_scene *scene,
 		__constant t_object *objects,
-		t_ray *ray);
+		t_ray *ray,
+		t_light_type light_type);
 
 float				compute_light(
 	__constant t_scene *scene,

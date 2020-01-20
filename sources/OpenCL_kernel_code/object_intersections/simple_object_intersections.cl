@@ -7,7 +7,7 @@ t_bool				ray_plane_intersect(
 	const float3	origin_center = ray->origin - center;
 
 	float intersect_dist = (-dot(origin_center, normal)) / dot(ray->dir, normal);
-	if (intersect_dist < best_hit->distance && intersect_dist > 0)
+	if (intersect_dist < best_hit->distance && intersect_dist > RAY_MIN_EPSILON)
 	{
 		best_hit->distance = intersect_dist;
 		best_hit->normal = normal;
@@ -34,7 +34,7 @@ t_bool				ray_sphere_intersect(
 
 	float root = (-b - sqrt(discriminant)) / (2 * a);
 
-	if (root < out_best_hit->distance && root > 0)
+	if (root < out_best_hit->distance && root > RAY_MIN_EPSILON)
 	{
 		out_best_hit->distance = root;
 		out_best_hit->pos = ray->origin + root * ray->dir;
