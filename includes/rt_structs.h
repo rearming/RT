@@ -243,24 +243,36 @@ typedef struct			s_pathtrace_params
 
 }						t_pathtrace_params;
 
+typedef struct			s_raytrace_params
+{
+# ifndef FT_OPENCL___
+
+	cl_int				max_depth;
+# else
+
+	int					max_depth;
+# endif
+
+}						t_raytrace_params;
+
 typedef struct			s_opencl_params
 {
 # ifndef FT_OPENCL___
 
 	t_render_algo		render_algo;
 	t_pathtrace_params	pathtrace_params;
-	cl_int				randoms;
+	t_raytrace_params	raytrace_params;
+	cl_float			seed;
 # else
 
 	t_render_algo		render_algo;
 	t_pathtrace_params	pathtrace_params;
-	int					randoms;
+	t_raytrace_params	raytrace_params;
+	float				seed;
 # endif
 }						t_opencl_params;
 
 # ifndef FT_OPENCL___
-
-#include "stdbool.h"
 
 typedef struct			s_events
 {

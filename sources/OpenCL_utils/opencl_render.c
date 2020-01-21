@@ -1,5 +1,6 @@
 #include "rt.h"
 #include "../debug/rt_debug_utils.h"
+#include "time.h"
 
 void		rt_opencl_prepare_memory(t_rt *rt)
 {
@@ -31,14 +32,23 @@ void		rt_print_opencl_profile_info(void)
 t_bool		rt_camera_moved(t_camera *camera)
 {
 	// потом переделать на инициализацию параметрами из json / чтобы не были по умолчанию нули (надо ли? ведь исправится за один кадр)
-	static	t_camera	previous_camera = (t_camera)
+	static t_camera	previous_camera = (t_camera)
 			{.pos = (cl_float3){{0, 0, 0}}, .rotation = (cl_float3){{0, 0, 0}}};
-	t_bool	is_moved;
+	static time_t		prev_time = NOT_SET;
+	const time_t		current_time = time(NULL);
+	t_bool				is_moved;
 
 	is_moved = !rt_clfloat3_equals(previous_camera.pos, camera->pos) ||
-			!rt_clfloat3_equals(previous_camera.rotation, camera->rotation);
-	if (is_moved)
+			   !rt_clfloat3_equals(previous_camera.rotation, camera->rotation);
+	if (prev_time == NOT_SET)
+		prev_time = current_time;
+	if (current_time != prev_time)
 		previous_camera = *camera;
+	if (is_moved)
+	{
+		previous_camera = *camera;
+		prev_time = current_time;
+	}
 	return (is_moved);
 }
 
@@ -50,13 +60,14 @@ void		rt_update_rt_params(t_rt *rt)
 		rt->opencl_params.pathtrace_params.current_samples_num = 0;
 	if (rt_camera_moved(&rt->scene.camera))
 		rt->opencl_params.pathtrace_params.current_samples_num = 0;
-	rt->opencl_params.randoms = arc4random();
+	rt->opencl_params.seed = drand48();
 }
 
 void		rt_opencl_render(t_rt *rt)
 {
 	const size_t	kernel_num = OPENCL_RELEASE_KERNEL_NUM;
 //	const size_t	kernel_num = 50;
+//	const size_t	kernel_num = 2;
 	int				err;
 
 	rt_opencl_prepare_memory(rt);

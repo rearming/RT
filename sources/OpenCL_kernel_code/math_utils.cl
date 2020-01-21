@@ -19,6 +19,18 @@ uint		rt_rand(uint seed)
 	return seed;
 }
 
+float		rt_fract(float x)
+{
+	return min(x - floor(x), 0x1.fffffep-1f);
+}
+
+float		rt_randf(float *seed, float2 pixel)
+{
+	float result = rt_fract(sin(*seed / 100.0f * dot(pixel, (float2)(12.9898f, 78.233f))) * 43758.5453f);
+	*seed += 1.0f;
+	return result;
+}
+
 void		rotate_y(float3 *point, float angle)
 {
 	float3		temp;

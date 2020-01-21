@@ -7,17 +7,39 @@ static	t_object	*rt_get_objects(int *out_obj_nbr)
 
 	*out_obj_nbr = objects_nbr;
 	objects = rt_safe_malloc(sizeof(t_object) * objects_nbr);
+//	objects[0] = (t_object){.type = SPHERE,
+//			(t_material){.albedo = get_float3_color(COL_GREY), .specular = (cl_float3){{0.5, 0.5, 0.5}}},
+//			.center = (cl_float3){{0, 2, 0}},
+//			.radius = 2.5};
+//	objects[1] = (t_object){.type = SPHERE,
+//			(t_material){.albedo = get_float3_color(COL_LIGHT_GREEN), .specular = (cl_float3){{0.3, 0.3, 0.3}}},
+//			.center = (cl_float3){{4, 1, 0}},
+//			.radius = 1};
+//	objects[2] = (t_object){.type = PLANE,
+//			(t_material){.albedo = (cl_float3){{0.8, 0.8, 0.8}}, .specular = (cl_float3){{0.7, 0.7, 0.7}}},
+//			.center = (cl_float3){{0, -4, 0}},
+//			.normal = (cl_float3){{0, 1, 0}}};
+//	objects[3] = (t_object){.type = PLANE,
+//			(t_material){.albedo = (cl_float3){{0.8, 0.8, 0.8}}, .specular = (cl_float3){{0, 0, 0}}},
+//			.center = (cl_float3) {{0, 0, -5}},
+//			.normal = (cl_float3){{0, 0, 1}}};
+//
+//	objects[4] = (t_object){.type = PLANE,
+//			(t_material){.albedo = (cl_float3){{0.8, 0.8, 0.8}}, .specular = (cl_float3){{0.7, 0.7, 0.7}}},
+//			.center = (cl_float3) {{-6, 0, 0}},
+//			.normal = (cl_float3){{1, 0, 0}}};
+
 	objects[0] = (t_object){.type = SPHERE,
-			(t_material){.albedo = get_float3_color(COL_GREY), .specular = (cl_float3){{0.5, 0.5, 0.5}}},
+			(t_material){.albedo = get_float3_color(COL_RED), .specular = (cl_float3){{0, 0, 0}}},
 			.center = (cl_float3){{0, 2, 0}},
 			.radius = 2.5};
 	objects[1] = (t_object){.type = SPHERE,
-			(t_material){.albedo = get_float3_color(COL_LIGHT_GREEN), .specular = (cl_float3){{0.3, 0.3, 0.3}}},
-			.center = (cl_float3){{4.3, 1, 0}},
+			(t_material){.albedo = get_float3_color(COL_LIGHT_GREEN), .specular = (cl_float3){{0, 0, 0}}},
+			.center = (cl_float3){{4, 1, 0}},
 			.radius = 1};
 	objects[2] = (t_object){.type = PLANE,
 			(t_material){.albedo = (cl_float3){{0.8, 0.8, 0.8}}, .specular = (cl_float3){{0.7, 0.7, 0.7}}},
-			.center = (cl_float3) {{0, -4, 0}},
+			.center = (cl_float3){{0, -4, 0}},
 			.normal = (cl_float3){{0, 1, 0}}};
 	objects[3] = (t_object){.type = PLANE,
 			(t_material){.albedo = (cl_float3){{0.8, 0.8, 0.8}}, .specular = (cl_float3){{0, 0, 0}}},

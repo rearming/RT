@@ -4,14 +4,21 @@
 void		rt_init_pathtrace_params(t_pathtrace_params *out_pathtrace_params)
 {
 	out_pathtrace_params->current_samples_num = 0;
-	out_pathtrace_params->max_depth = 4;
+	out_pathtrace_params->max_depth = 2;
+}
+
+void		rt_init_raytrace_params(t_raytrace_params *out_raytrace_params)
+{
+	out_raytrace_params->max_depth = 2;
 }
 
 void		rt_init_opencl_params(t_opencl_params *out_opencl_params)
 {
-	out_opencl_params->render_algo = RAY_TRACE;
-	out_opencl_params->randoms = arc4random();
+//	out_opencl_params->render_algo = RAY_TRACE;
+	out_opencl_params->render_algo = PATH_TRACE;
+	out_opencl_params->seed = drand48();
 	rt_init_pathtrace_params(&out_opencl_params->pathtrace_params);
+	rt_init_raytrace_params(&out_opencl_params->raytrace_params);
 }
 
 void		rt_init_events(t_events *events)

@@ -11,6 +11,8 @@ void		rt_loop(t_rt *rt)
 		{
 			handle_event(&event, rt);
 		}
+		if (rt->opencl_params.render_algo == PATH_TRACE)
+			rt_render(rt, &rt_opencl_render);
 		if (event.type == SDL_QUIT)
 			break ;
 	}

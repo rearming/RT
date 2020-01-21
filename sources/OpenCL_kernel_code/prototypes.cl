@@ -13,6 +13,10 @@ int 				in_range_inclusive(float number, float min, float max);
 
 uint		rt_rand(uint seed);
 
+float		rt_fract(float x);
+
+float		rt_randf(float *seed, float2 pixel);
+
 void		rotate_y(float3 *point, float angle);
 
 void		rotate_x(float3 *point, float angle);
@@ -86,6 +90,15 @@ t_bool				ray_sphere_intersect(
 		__constant t_object *sphere,
 		t_rayhit *out_best_hit);
 
+float		sdot(float3 a, float3 b, float coeff);
+
+float3		shade_pathtrace(
+		t_ray *ray,
+		t_rayhit *hit,
+		t_material *material,
+		float *seed,
+		float2 pixel);
+
 float3		pathtrace(
 		__constant t_scene *scene,
 		__constant t_object *objects,
@@ -93,14 +106,17 @@ float3		pathtrace(
 		__constant t_opencl_params *params,
 		t_ray ray,
 		int depth,
-		uint random_num);
+		float seed,
+		float2 pixel);
 
 void		create_coordinate_system(float3 normal, float3 *normal_x, float3 *normal_z);
 
 float3		uniform_sample_hemisphere(float rand1, float rand2);
 
+float3		sample_hemisphere(float *seed, float2 pixel);
+
 float3		rand_dir_on_hemisphere(
 		float3 normal,
-		float rand1,
-		float rand2);
+		float *seed,
+		float2 pixel);
 

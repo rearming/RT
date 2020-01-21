@@ -38,7 +38,7 @@ __kernel void	rt_main(
 	float3		prev_color = get_float3_color(img_data[g_id]);
 
 	if (params->render_algo == PATH_TRACE)
-		new_color = pathtrace(scene, objects, lights, params, ray, 0, params->randoms * g_id);
+		new_color = pathtrace(scene, objects, lights, params, ray, 0, params->seed, (float2)(img_point.xy + 1));
 	else if (params->render_algo == RAY_TRACE)
 		new_color = raytrace(scene, objects, lights, params, ray);
 	img_data[g_id] = get_int_color(mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num));
