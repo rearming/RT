@@ -58,6 +58,8 @@ float3		reflect(float3 ray_dir, float3 hit_normal);
 
 float		saturate(float value);
 
+float3		saturate_float3(float3 value);
+
 bool		ray_has_energy(t_ray *ray);
 
 bool				in_shadow(
@@ -95,7 +97,7 @@ float		sdot(float3 a, float3 b, float coeff);
 float3		shade_pathtrace(
 		t_ray *ray,
 		t_rayhit *hit,
-		t_material *material,
+		__constant t_material *material,
 		float *seed,
 		float2 pixel);
 

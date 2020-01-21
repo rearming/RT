@@ -2,7 +2,7 @@
 
 static	t_object	*rt_get_objects(int *out_obj_nbr)
 {
-	const int	objects_nbr = 5;
+	const int	objects_nbr = 3;
 	t_object	*objects;
 
 	*out_obj_nbr = objects_nbr;
@@ -29,8 +29,10 @@ static	t_object	*rt_get_objects(int *out_obj_nbr)
 //			.center = (cl_float3) {{-6, 0, 0}},
 //			.normal = (cl_float3){{1, 0, 0}}};
 
+
+/// PATH TRACE TEST SCENE
 	objects[0] = (t_object){.type = SPHERE,
-			(t_material){.albedo = get_float3_color(COL_RED), .specular = (cl_float3){{0, 0, 0}}},
+			(t_material){.albedo = get_float3_color(COL_RED), .specular = (cl_float3){{0.7, 0.7, 0.7}}},
 			.center = (cl_float3){{0, 2, 0}},
 			.radius = 2.5};
 	objects[1] = (t_object){.type = SPHERE,
@@ -38,18 +40,19 @@ static	t_object	*rt_get_objects(int *out_obj_nbr)
 			.center = (cl_float3){{4, 1, 0}},
 			.radius = 1};
 	objects[2] = (t_object){.type = PLANE,
-			(t_material){.albedo = (cl_float3){{0.8, 0.8, 0.8}}, .specular = (cl_float3){{0.7, 0.7, 0.7}}},
+			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}},
 			.center = (cl_float3){{0, -4, 0}},
 			.normal = (cl_float3){{0, 1, 0}}};
-	objects[3] = (t_object){.type = PLANE,
-			(t_material){.albedo = (cl_float3){{0.8, 0.8, 0.8}}, .specular = (cl_float3){{0, 0, 0}}},
-			.center = (cl_float3) {{0, 0, -5}},
-			.normal = (cl_float3){{0, 0, 1}}};
 
-	objects[4] = (t_object){.type = PLANE,
-			(t_material){.albedo = (cl_float3){{0.8, 0.8, 0.8}}, .specular = (cl_float3){{0.7, 0.7, 0.7}}},
-			.center = (cl_float3) {{-6, 0, 0}},
-			.normal = (cl_float3){{1, 0, 0}}};
+//	objects[3] = (t_object){.type = PLANE,
+//			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}},
+//			.center = (cl_float3) {{0, 0, -5}},
+//			.normal = (cl_float3){{0, 0, 1}}};
+
+//	objects[4] = (t_object){.type = PLANE,
+//			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}},
+//			.center = (cl_float3) {{-6, 0, 0}},
+//			.normal = (cl_float3){{1, 0, 0}}};
 	return (objects);
 }
 

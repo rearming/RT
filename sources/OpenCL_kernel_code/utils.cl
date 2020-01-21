@@ -19,6 +19,11 @@ float		saturate(float value)
 	return clamp(value, 0.0f, 1.0f);
 }
 
+float3		saturate_float3(float3 value)
+{
+	return clamp(value, 0.0f, 1.0f);
+}
+
 bool		ray_has_energy(t_ray *ray)
 {
 	return ray->energy.x > 0 || ray->energy.y > 0 || ray->energy.z > 0;

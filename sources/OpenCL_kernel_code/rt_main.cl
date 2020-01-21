@@ -41,5 +41,18 @@ __kernel void	rt_main(
 		new_color = pathtrace(scene, objects, lights, params, ray, 0, params->seed, (float2)(img_point.xy + 1));
 	else if (params->render_algo == RAY_TRACE)
 		new_color = raytrace(scene, objects, lights, params, ray);
-	img_data[g_id] = get_int_color(mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num));
+	if (params->pathtrace_params.current_samples_num > 1)
+	{
+		if (g_id == 910371)
+		{
+//			printf("prev color.x: [%f], new color.x: [%f]\n", prev_color.x, new_color.x);
+//			printf("new color: [%f %f %f]\n", new_color.x, new_color.y, new_color.z);
+//			printf("0x%X\n", img_data[g_id]);
+		}
+		img_data[g_id] = get_int_color(mix_avg_colors(prev_color, new_color,
+			params->pathtrace_params.current_samples_num));
+	}
+	else
+		img_data[g_id] = get_int_color(mix_avg_colors(prev_color, new_color,
+				params->pathtrace_params.current_samples_num));
 }

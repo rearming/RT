@@ -51,6 +51,8 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 		rt->opencl_params.render_algo = RAY_TRACE;
 	if (event->key.keysym.scancode == SDL_SCANCODE_P)
 		rt->opencl_params.render_algo = PATH_TRACE;
+	if (event->key.keysym.scancode == SDL_SCANCODE_N)
+		rt_render(rt, &rt_opencl_render);
 }
 
 void		handle_event(SDL_Event *event, t_rt *rt)

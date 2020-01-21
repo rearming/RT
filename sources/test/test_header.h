@@ -12,4 +12,6 @@ double		*test_get_double_arr(int arr_size);
 
 void		rt_test_opencl(void);
 
+double		lerp_avg(double *test_arr, int arr_size);
+
 #endif

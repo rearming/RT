@@ -33,14 +33,13 @@ float3		rand_dir_on_hemisphere(
 {
 	float3 normal_x, normal_z;
 
-//	float3 sample = uniform_sample_hemisphere(rand1, rand2);
 	create_coordinate_system(normal, &normal_x, &normal_z);
 	float3 sample = sample_hemisphere(seed, pixel);
 	float3 sample_world_space = (float3) // может быть normal_z и normal_x поменять местами
-			(
-					sample.x * normal_z.x + sample.y * normal.x + sample.z * normal_x.x,
-					sample.x * normal_z.y + sample.y * normal.y + sample.z * normal_x.y,
-					sample.x * normal_z.z + sample.y * normal.z + sample.z * normal_x.z
-			);
+	(
+		sample.x * normal_z.x + sample.y * normal.x + sample.z * normal_x.x,
+		sample.x * normal_z.y + sample.y * normal.y + sample.z * normal_x.y,
+		sample.x * normal_z.z + sample.y * normal.z + sample.z * normal_x.z
+	);
 	return sample_world_space;
 }

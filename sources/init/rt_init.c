@@ -9,7 +9,7 @@ void		rt_init_pathtrace_params(t_pathtrace_params *out_pathtrace_params)
 
 void		rt_init_raytrace_params(t_raytrace_params *out_raytrace_params)
 {
-	out_raytrace_params->max_depth = 2;
+	out_raytrace_params->max_depth = 4;
 }
 
 void		rt_init_opencl_params(t_opencl_params *out_opencl_params)
