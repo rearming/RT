@@ -14,7 +14,7 @@ float3		shade(
 	}
 	else
 	{
-		ray->energy = (float3)(0, 0, 0);
+		ray->energy = 0;
 		return get_float3_color(COL_BG);
 	}
 }
@@ -33,7 +33,6 @@ float3		raytrace(
 	for (int i = 0; i < params->raytrace_params.max_depth; ++i)
 	{
 		best_hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
-		/// Trace() == closest_intersection
 		closest_intersection(scene, objects, &ray, &best_hit, &closest_obj_index);
 		if (closest_obj_index != NOT_SET)
 			result_color += ray.energy

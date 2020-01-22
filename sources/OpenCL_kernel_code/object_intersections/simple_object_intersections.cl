@@ -5,12 +5,14 @@ t_bool				ray_plane_intersect(
 		t_rayhit *best_hit)
 {
 	const float3	origin_center = ray->origin - center;
+	const float		ray_dir_dot_normal = dot(ray->dir, normal);
+	const float		intersect_dist = (-dot(origin_center, normal)) / ray_dir_dot_normal;
 
-	float intersect_dist = (-dot(origin_center, normal)) / dot(ray->dir, normal);
 	if (intersect_dist < best_hit->distance && intersect_dist > RAY_MIN_EPSILON)
 	{
 		best_hit->distance = intersect_dist;
-		best_hit->normal = normal;
+		best_hit->normal = ray_dir_dot_normal > 0 ? normal * -1 : normal;
+		///фикс для того, чтобы plane не просвечивал (нормаль зависит от того, с какой стороны камера)
 		best_hit->pos = ray->origin + intersect_dist * ray->dir;
 		return true;
 	}
@@ -33,7 +35,8 @@ t_bool				ray_sphere_intersect(
 		return false;
 
 	float root = (-b - sqrt(discriminant)) / (2 * a);
-//	float root2 = (-b + sqrt(discriminant)) / (2 * a); ///todo пофиксить так чтобы не видеть изнутри объектов через них
+//	float root2 = (-b + sqrt(discriminant)) / (2 * a);
+	// todo пофиксить так чтобы не видеть изнутри объектов через них
 
 	if (root < out_best_hit->distance && root > RAY_MIN_EPSILON)
 	{

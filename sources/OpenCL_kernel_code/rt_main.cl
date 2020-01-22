@@ -37,22 +37,18 @@ __kernel void	rt_main(
 	float3		new_color = (float3)(0);
 	float3		prev_color = get_float3_color(img_data[g_id]);
 
-	if (params->render_algo == PATH_TRACE)
-		new_color = pathtrace(scene, objects, lights, params, ray, 0, params->seed, (float2)(img_point.xy + 1));
-	else if (params->render_algo == RAY_TRACE)
-		new_color = raytrace(scene, objects, lights, params, ray);
-	if (params->pathtrace_params.current_samples_num > 1)
+//	if (params->render_algo == PATH_TRACE)
+	int		sample_num = 10000;
+	for (int i = 0; i < sample_num; ++i)
 	{
-		if (g_id == 910371)
-		{
-//			printf("prev color.x: [%f], new color.x: [%f]\n", prev_color.x, new_color.x);
-//			printf("new color: [%f %f %f]\n", new_color.x, new_color.y, new_color.z);
-//			printf("0x%X\n", img_data[g_id]);
-		}
-		img_data[g_id] = get_int_color(mix_avg_colors(prev_color, new_color,
-			params->pathtrace_params.current_samples_num));
+		new_color = pathtrace(scene, objects, lights, params, ray, 2, params->seed, (float2)(img_point.xy + 1));
+		prev_color = mix_avg_colors(prev_color, new_color, i);
 	}
-	else
-		img_data[g_id] = get_int_color(mix_avg_colors(prev_color, new_color,
-				params->pathtrace_params.current_samples_num));
+	img_data[g_id] = get_int_color(prev_color);
+//	else if (params->render_algo == RAY_TRACE)
+//		new_color = raytrace(scene, objects, lights, params, ray);
+//	if ((int)img_point.x == 566 && (int)img_point.y == 943)
+//		printf("result color: %f %f %f", mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num));
+//	img_data[g_id] = get_int_color(mix_avg_colors(prev_color, new_color,
+//		params->pathtrace_params.current_samples_num));
 }
