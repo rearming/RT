@@ -6,15 +6,6 @@ void		create_coordinate_system(float3 normal, float3 *normal_x, float3 *normal_z
 	*normal_z = cross(normal, *normal_x);
 }
 
-//float3		uniform_sample_hemisphere(float rand1, float rand2)
-//{
-//	float sin_theta = sqrtf(1 - rand1 * rand1);
-//	float phi = 2 * M_PI * rand2;
-//	float x = sin_theta * cosf(phi);
-//	float z = sin_theta * sinf(phi);
-//	return (float3)(x, rand1, z); // rand1, 1, etc.. какой тут будет Y?
-//}
-
 float3		sample_hemisphere(float *seed, float2 pixel)
 {
 	float	cos_theta = rt_randf(seed, pixel);

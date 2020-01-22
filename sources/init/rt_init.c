@@ -4,7 +4,7 @@
 void		rt_init_pathtrace_params(t_pathtrace_params *out_pathtrace_params)
 {
 	out_pathtrace_params->current_samples_num = 0;
-	out_pathtrace_params->max_depth = 2;
+	out_pathtrace_params->max_depth = 4;
 }
 
 void		rt_init_raytrace_params(t_raytrace_params *out_raytrace_params)

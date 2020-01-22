@@ -2,22 +2,30 @@
 
 static	t_object	*pathtrace_objects(int *out_obj_nbr)
 {
-	const int	objects_nbr = 3;
+	const int	objects_nbr = 5;
 	t_object	*objects;
 
 	*out_obj_nbr = objects_nbr;
 	objects = rt_safe_malloc(sizeof(t_object) * objects_nbr);
 
 	objects[0] = (t_object){.type = SPHERE,
-			(t_material){.albedo = get_float3_color(COL_RED), .specular = (cl_float3){{0.7, 0.7, 0.7}}},
-			.center = (cl_float3){{0, 2, 0}},
+			(t_material){.albedo = get_float3_color(COL_DARK_RED), .specular = (cl_float3){{0.7, 0.7, 0.7}}},
+			.center = (cl_float3){{0, 2.6, 0}},
 			.radius = 2.5};
 	objects[1] = (t_object){.type = SPHERE,
 			(t_material){.albedo = get_float3_color(COL_LIGHT_GREEN), .specular = (cl_float3){{0, 0, 0}}},
 			.center = (cl_float3){{4, 1, 0}},
 			.radius = 1};
-	objects[2] = (t_object){.type = PLANE,
-			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}},
+	objects[2] = (t_object){.type = SPHERE,
+			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(COL_LIGHT_BLUE)},
+			.center = (cl_float3){{5, 1, 3}},
+			.radius = 1};
+	objects[3] = (t_object){.type = SPHERE,
+			(t_material){.albedo = get_float3_color(COL_LIGHT_PURPLE), .specular = (cl_float3){{0.2, 0.2, 0.2}}},
+			.center = (cl_float3){{10, 2.4, 6}},
+			.radius = 2.2};
+	objects[4] = (t_object){.type = PLANE,
+			(t_material){.albedo = get_float3_color(COL_LIGHT_GREY), .specular = (cl_float3){{0.03, 0.03, 0.03}}},
 			.center = (cl_float3){{0, 0, 0}},
 			.normal = (cl_float3){{0, 1, 0}}};
 	return (objects);
@@ -81,8 +89,8 @@ t_scene		get_hardcoded_scene(void)
 
 	scene.camera = (t_camera)
 	{
-		.pos = (cl_float3){{20, 5, 15.7}},
-		.rotation = (cl_float3){{-2, 220, 0}},
+		.pos = (cl_float3){{16.6, 3.6, 2.3}},
+		.rotation = (cl_float3){{-2.7, 265, 0}},
 		.viewport_distance = 1,
 		.viewport_width = WIN_RATIO < 1 ? D_I_MAZOHIN : 1,
 		.viewport_height = WIN_RATIO > 1 ? D_E_KARMATSKIY : 1

@@ -95,6 +95,8 @@ t_bool				ray_sphere_intersect(
 
 float		sdot(float3 a, float3 b, float coeff);
 
+float		color_energy(float3 color);
+
 float3		shade_pathtrace(
 		t_ray *ray,
 		t_rayhit *hit,
@@ -109,12 +111,10 @@ float3		pathtrace(
 		__constant t_opencl_params *params,
 		t_ray ray,
 		int depth,
-		float seed,
+		float *seed,
 		float2 pixel);
 
 void		create_coordinate_system(float3 normal, float3 *normal_x, float3 *normal_z);
-
-float3		uniform_sample_hemisphere(float rand1, float rand2);
 
 float3		sample_hemisphere(float *seed, float2 pixel);
 

@@ -40,9 +40,12 @@ __kernel void	rt_main(
 	float3		new_color = 0;
 	float3		prev_color = img_data_float[g_id];
 
+	float		seed = params->seed;
+
 	if (params->render_algo == PATH_TRACE)
 	{
-		new_color = pathtrace(scene, objects, lights, params, ray, 2, params->seed, (float2)(img_point.xy + 1));
+		new_color = pathtrace(scene, objects, lights, params, ray,
+				params->pathtrace_params.max_depth, &seed, (float2)(img_point.xy + 1));
 		final_color = mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num);
 		img_data_float[g_id] = final_color;
 	}
