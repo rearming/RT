@@ -64,17 +64,17 @@ void		handle_event(SDL_Event *event, t_rt *rt)
 		rt_handle_keypress(event, rt);
 		rt_add_key_event(&rt->events, event->key.keysym.scancode);
 	}
-//	else if (event->type == SDL_MOUSEMOTION && SDL_GetRelativeMouseMode())
-//	{
-//		rt->scene.camera.rotation.x -=
-//				event->motion.yrel * ROTATION_SPEED * WIN_RATIO;
-//		rt->scene.camera.rotation.y += event->motion.xrel * ROTATION_SPEED;
-//	}
+	else if (event->type == SDL_MOUSEMOTION && SDL_GetRelativeMouseMode())
+	{
+		rt->scene.camera.rotation.x -=
+				event->motion.yrel * ROTATION_SPEED * WIN_RATIO;
+		rt->scene.camera.rotation.y += event->motion.xrel * ROTATION_SPEED;
+	}
 	if (any_key_pressed(&rt->events)
 	|| event->type == SDL_MOUSEMOTION
 	|| rt->opencl_params.render_algo == PATH_TRACE)
 	{
-//		rt_camera_move(&rt->scene.camera, &rt->events);
-//		rt_render(rt, &rt_opencl_render);
+		rt_camera_move(&rt->scene.camera, &rt->events);
+		rt_render(rt, &rt_opencl_render);
 	}
 }

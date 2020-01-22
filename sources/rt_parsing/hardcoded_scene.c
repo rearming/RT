@@ -18,7 +18,7 @@ static	t_object	*pathtrace_objects(int *out_obj_nbr)
 			.radius = 1};
 	objects[2] = (t_object){.type = PLANE,
 			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}},
-			.center = (cl_float3){{0, -4, 0}},
+			.center = (cl_float3){{0, 0, 0}},
 			.normal = (cl_float3){{0, 1, 0}}};
 	return (objects);
 }

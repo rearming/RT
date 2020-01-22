@@ -14,6 +14,7 @@
 # define OPENCL_KERNEL_NAME "rt_main"
 
 # define RT_DEFAULT_MEM_FLAG (CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR)
+# define RT_MEM_RW_FLAG (CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR)
 
 /*
 **	Window params

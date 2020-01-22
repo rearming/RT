@@ -35,7 +35,8 @@ set(sources
         sources/debug/rt_debug_utils.h
         sources/debug/rt_debug_print_utils.c
         sources/rt_parsing/rt_correct_scene.c
-        sources/utils/rt_color_utils.c)
+        sources/utils/rt_color_utils.c
+        sources/debug/rt_pathtrace_profile.c)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INCLUDE(FindPkgConfig)

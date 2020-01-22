@@ -50,6 +50,7 @@ void	rt_main(
     __constant t_object *objects,
     __constant t_light *lights,
     __constant t_opencl_params *params,
+    __global float3 *img_data_float,
     __global int *img_data);
 
 float3			canvas_to_viewport(__constant t_camera *camera, float3 canvas_point);

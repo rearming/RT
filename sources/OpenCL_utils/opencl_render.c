@@ -2,9 +2,11 @@
 #include "../debug/rt_debug_utils.h"
 #include "time.h"
 
+// todo отключить передачу g_img_data_float если рейтрейс/etc (не pathtrace)
+// можно сделать в то же время, когда будут разделяться кернелы
 void		rt_opencl_prepare_memory(t_rt *rt)
 {
-	g_opencl.opencl_memobj_number = 4;
+	g_opencl.opencl_memobj_number = 5;
 	rt_opencl_move_host_mem_to_kernel(g_opencl.opencl_memobj_number,
 		(t_opencl_mem_obj){&rt->scene,
 			sizeof(t_scene), RT_DEFAULT_MEM_FLAG, TRUE},
@@ -13,7 +15,9 @@ void		rt_opencl_prepare_memory(t_rt *rt)
 		(t_opencl_mem_obj){rt->scene.lights,
 			sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, FALSE},
 		(t_opencl_mem_obj){&rt->opencl_params,
-			sizeof(t_opencl_params), RT_DEFAULT_MEM_FLAG, TRUE}
+			sizeof(t_opencl_params), RT_DEFAULT_MEM_FLAG, TRUE},
+		(t_opencl_mem_obj){&g_img_data_float,
+			sizeof(cl_float3) * WIN_HEIGHT * WIN_WIDTH, RT_MEM_RW_FLAG, FALSE}
 			);
 }
 
@@ -31,7 +35,6 @@ void		rt_print_opencl_profile_info(void)
 
 t_bool		rt_camera_moved(t_camera *camera)
 {
-	// потом переделать на инициализацию параметрами из json / чтобы не были по умолчанию нули (надо ли? ведь исправится за один кадр)
 	static t_camera	previous_camera = (t_camera)
 			{.pos = (cl_float3){{0, 0, 0}}, .rotation = (cl_float3){{0, 0, 0}}};
 	static time_t		prev_time = NOT_SET;
@@ -80,9 +83,15 @@ void		rt_opencl_render(t_rt *rt)
 	if (rt->events.info)
 		rt_print_opencl_profile_info();
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
-	err = clEnqueueReadBuffer(g_opencl.queue, g_opencl.img_data_mem, CL_TRUE, 0,
+	//todo обернуть в функцию
+	err |= clEnqueueReadBuffer(g_opencl.queue, g_opencl.img_data_mem, CL_TRUE, 0,
 			sizeof(int) * WIN_WIDTH * WIN_HEIGHT,
 			g_img_data, 0, NULL, NULL);
+
+	err |= clEnqueueReadBuffer(g_opencl.queue, g_opencl.opencl_mem[4].mem, CL_TRUE, 0,
+			sizeof(g_img_data_float),
+	g_img_data_float, 0, NULL, NULL);
+
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 	opencl_clean_memobjs();
 }

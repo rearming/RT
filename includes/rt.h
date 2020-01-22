@@ -24,9 +24,10 @@
 **	Global pointers
 */
 
-extern t_opencl	g_opencl;
-extern t_sdl	g_sdl;
-extern int		*g_img_data;
+extern t_opencl		g_opencl;
+extern t_sdl		g_sdl;
+extern int			*g_img_data;
+extern cl_float3	g_img_data_float[WIN_WIDTH * WIN_HEIGHT];
 
 /*
 **	Init
