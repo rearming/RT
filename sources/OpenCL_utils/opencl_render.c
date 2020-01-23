@@ -41,8 +41,8 @@ t_bool		rt_camera_moved(t_camera *camera)
 	const time_t		current_time = time(NULL);
 	t_bool				is_moved;
 
-	is_moved = !rt_clfloat3_equals(previous_camera.pos, camera->pos) ||
-			   !rt_clfloat3_equals(previous_camera.rotation, camera->rotation);
+	is_moved = !rt_float3_equals(previous_camera.pos, camera->pos) ||
+			   !rt_float3_equals(previous_camera.rotation, camera->rotation);
 	if (prev_time == NOT_SET)
 		prev_time = current_time;
 	if (current_time != prev_time)

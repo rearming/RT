@@ -38,7 +38,7 @@ float3		shade_pathtrace(
 	else
 	{
 		ray->energy = 0;
-		return get_float3_color(COL_DARK_GREY);
+		return get_float3_color(COL_BLACK);
 	}
 }
 

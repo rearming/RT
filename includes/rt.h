@@ -92,7 +92,8 @@ t_bool		rt_exit_clean(void);
 */
 
 cl_float3	rt_degree_to_rad(cl_float3 rotation_degrees);
-t_bool		rt_clfloat3_equals(cl_float3 a, cl_float3 b);
+t_bool		rt_float3_equals(cl_float3 a, cl_float3 b);
+cl_float3	mul_float3(cl_float3 vec, float mul);
 
 cl_float3	get_float3_color(int hex_color);
 

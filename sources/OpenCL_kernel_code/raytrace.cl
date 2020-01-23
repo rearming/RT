@@ -48,6 +48,8 @@ float3		raytrace(
 		if (!ray_has_energy(&ray))
 			break;
 	}
+
 	result_color = saturate_float3(result_color);
+//	result_color = result_color / (result_color + (float3)(1.f));
 	return result_color;
 }
