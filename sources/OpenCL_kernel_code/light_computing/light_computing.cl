@@ -2,13 +2,13 @@
 bool				in_shadow(
 		__constant t_scene *scene,
 		__constant t_object *objects,
-		t_ray *ray,
+		t_ray ray,
 		t_light_type light_type)
 {
 	int			found_object = NOT_SET;
-	t_rayhit	out_hit = {(float3)(0), INFINITY, float3(0)};
+	t_rayhit	out_hit = {(float3)(0), INFINITY, (float3)(0)};
 
-	closest_intersection(scene, objects, ray, &out_hit, &found_object);
+	closest_intersection(scene, objects, &ray, &out_hit, &found_object);
 	if (light_type == POINT && out_hit.distance > 1) /// проверяем луч только до источника света
 		return false;
 	return found_object != NOT_SET;
@@ -39,7 +39,7 @@ float				compute_light(
 		{
 			light_dir = lights[i].dir;
 		}
-		if (in_shadow(scene, objects, &((t_ray){hit->pos, light_dir}), lights[i].type))
+		if (in_shadow(scene, objects, (t_ray){hit->pos, light_dir}, lights[i].type))
 			continue;
 		float	normal_dot_light = dot(hit->normal, light_dir);
 		if (normal_dot_light > 0)
