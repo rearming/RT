@@ -35,9 +35,11 @@ float3		raytrace(
 		best_hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
 		closest_intersection(scene, objects, &ray, &best_hit, &closest_obj_index);
 		if (closest_obj_index != NOT_SET)
+		{
 			result_color += ray.energy
 				* compute_light(scene, lights, objects, &best_hit)
 				* shade(&ray, &best_hit, &objects[closest_obj_index].material);
+		}
 		else
 		{
 			ray.energy = 0;

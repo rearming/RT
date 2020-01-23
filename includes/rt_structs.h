@@ -166,12 +166,16 @@ typedef struct			s_material
 
 	cl_float3			albedo;
 	cl_float3			specular;
+	cl_float			smoothness;
+	cl_float3			emission;
 	cl_int				texture_number;
 	cl_float3			texture_position;
 # else
 
 	float3				albedo;
 	float3				specular;
+	float				smoothness;
+	float3				emission;
 	int					texture_number;
 	float3				texture_position;
 # endif

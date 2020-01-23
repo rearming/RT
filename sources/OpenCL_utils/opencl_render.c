@@ -83,15 +83,10 @@ void		rt_opencl_render(t_rt *rt)
 	if (rt->events.info)
 		rt_print_opencl_profile_info();
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
-	//todo обернуть в функцию
+//	//todo обернуть в функцию
 	err |= clEnqueueReadBuffer(g_opencl.queue, g_opencl.img_data_mem, CL_TRUE, 0,
 			sizeof(int) * WIN_WIDTH * WIN_HEIGHT,
 			g_img_data, 0, NULL, NULL);
-
-	err |= clEnqueueReadBuffer(g_opencl.queue, g_opencl.opencl_mem[4].mem, CL_TRUE, 0,
-			sizeof(g_img_data_float),
-	g_img_data_float, 0, NULL, NULL);
-
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 	opencl_clean_memobjs();
 }

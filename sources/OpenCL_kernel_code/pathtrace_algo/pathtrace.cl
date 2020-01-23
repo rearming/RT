@@ -1,13 +1,5 @@
 
-float		sdot(float3 a, float3 b, float coeff)
-{
-	return saturate(dot(a, b) * coeff);
-}
-
-float		color_energy(float3 color)
-{
-	return dot(color, 1.f / 3.f);
-}
+# define LAMBERT_ALPHA 1.f
 
 float3		shade_pathtrace(
 		t_ray *ray,
@@ -18,7 +10,6 @@ float3		shade_pathtrace(
 {
 	if (hit->distance < INFINITY)
 	{
-//		float3 new_albedo = ...
 		float specular_chance = color_energy(material->specular);
 		float diffuse_chance = color_energy(material->albedo);
 		float sum = specular_chance + diffuse_chance;
@@ -31,22 +22,23 @@ float3		shade_pathtrace(
 
 		if (chance < specular_chance)
 		{
-			ray->dir = reflect(ray->dir, hit->normal);
-			ray->energy *= (1.f / specular_chance) * material->specular * dot(hit->normal, ray->dir);
+			const float		phong_alpha = material->smoothness;
+			const float		phong_math_coeff = (phong_alpha + 2) / (phong_alpha + 1);
+			ray->dir = rand_dir_on_hemisphere(reflect(ray->dir, hit->normal), seed, pixel, phong_alpha);
+			ray->energy *= (1.f / specular_chance) * material->specular * sdot(hit->normal, ray->dir, phong_math_coeff);
 		}
 		else
 		{
-			ray->dir = rand_dir_on_hemisphere(hit->normal, seed, pixel);
-			ray->energy *= (1.f / diffuse_chance) * 2 * material->albedo * dot(hit->normal, ray->dir);
+			ray->dir = rand_dir_on_hemisphere(hit->normal, seed, pixel, LAMBERT_ALPHA);
+			ray->energy *= (1.f / diffuse_chance) * material->albedo;
 		}
 		/// (1.f / specular(diffuse)_chance) = PDF!
-		// todo проверить dot() vs sdot()
-		return 0.0f;
+		return material->emission;
 	}
 	else
 	{
 		ray->energy = 0;
-		return get_float3_color(COL_WHITE);
+		return get_float3_color(COL_DARK_GREY);
 	}
 }
 
@@ -61,15 +53,15 @@ float3		pathtrace(
 		float2 pixel)
 {
 	float3		result_color = (float3)(0);
-	t_rayhit	best_hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
+	t_rayhit	hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
 	int			closest_obj_index = NOT_SET;
 
 	for (int i = 0; i < params->pathtrace_params.max_depth; ++i)
 	{
-		best_hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
-		closest_intersection(scene, objects, &ray, &best_hit, &closest_obj_index);
-		result_color += ray.energy *
-				shade_pathtrace(&ray, &best_hit, &objects[closest_obj_index].material, seed, pixel);
+		hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
+		closest_intersection(scene, objects, &ray, &hit, &closest_obj_index);
+		result_color += ray.energy
+				* shade_pathtrace(&ray, &hit, &objects[closest_obj_index].material, seed, pixel);
 		if (!ray_has_energy(&ray))
 			break;
 	}

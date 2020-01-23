@@ -2,14 +2,14 @@
 
 static	t_object	*pathtrace_objects(int *out_obj_nbr)
 {
-	const int	objects_nbr = 5;
+	const int	objects_nbr = 7;
 	t_object	*objects;
 
 	*out_obj_nbr = objects_nbr;
 	objects = rt_safe_malloc(sizeof(t_object) * objects_nbr);
 
 	objects[0] = (t_object){.type = SPHERE,
-			(t_material){.albedo = get_float3_color(COL_DARK_RED), .specular = (cl_float3){{0.7, 0.7, 0.7}}},
+			(t_material){.albedo = get_float3_color(COL_DARK_RED), .specular = (cl_float3){{0.7, 0.7, 0.7}}, .smoothness = 100},
 			.center = (cl_float3){{0, 2.6, 0}},
 			.radius = 2.5};
 	objects[1] = (t_object){.type = SPHERE,
@@ -17,15 +17,23 @@ static	t_object	*pathtrace_objects(int *out_obj_nbr)
 			.center = (cl_float3){{4, 1, 0}},
 			.radius = 1};
 	objects[2] = (t_object){.type = SPHERE,
-			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(COL_LIGHT_BLUE)},
+			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(COL_GOLD), .smoothness = 1000},
 			.center = (cl_float3){{5, 1, 3}},
 			.radius = 1};
 	objects[3] = (t_object){.type = SPHERE,
-			(t_material){.albedo = get_float3_color(COL_LIGHT_PURPLE), .specular = (cl_float3){{0.2, 0.2, 0.2}}},
+			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(COL_LIGHT_PURPLE), .smoothness = 15},
 			.center = (cl_float3){{10, 2.4, 6}},
 			.radius = 2.2};
-	objects[4] = (t_object){.type = PLANE,
-			(t_material){.albedo = get_float3_color(COL_LIGHT_GREY), .specular = (cl_float3){{0.03, 0.03, 0.03}}},
+	objects[4] = (t_object){.type = SPHERE,
+			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(0), .emission = get_float3_color(COL_LIGHT_BLUE)},
+			.center = (cl_float3){{0, 1, 4}},
+			.radius = 0.8};
+	objects[5] = (t_object){.type = SPHERE,
+			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(0), .emission = get_float3_color(COL_LIGHT_GREY)},
+			.center = (cl_float3){{7, 1, 2}},
+			.radius = 0.8};
+	objects[6] = (t_object){.type = PLANE,
+			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = (cl_float3){{0.0, 0.0, 0.0}}, .smoothness = 0},
 			.center = (cl_float3){{0, 0, 0}},
 			.normal = (cl_float3){{0, 1, 0}}};
 	return (objects);
@@ -78,7 +86,8 @@ static t_light		*rt_get_lights(int *out_lights_nbr)
 	*out_lights_nbr = lights_nbr;
 	lights = rt_safe_malloc(sizeof(t_light) * lights_nbr);
 	lights[0] = (t_light){.color = get_float3_color(COL_WHITE), .type = AMBIENT, .intensity = 0.2};
-	lights[1] = (t_light){.pos = {{10, 4, 5}}, .color = get_float3_color(COL_WHITE), .type = POINT, .intensity = 0.7};
+	lights[1] = (t_light){.pos = {{10, 7, 0}}, .color = get_float3_color(COL_WHITE), .type = POINT, .intensity = 0.7};
+//	lights[1] = (t_light){.dir = {{0, -1, 1}}, .color = get_float3_color(COL_WHITE), .type = DIRECTIONAL, .intensity = 0.8};
 //	lights[2] = (t_light){.pos = {{1, 0.5, 2}}, .color = {COL_GREEN}, .type = POINT, .intensity = 0.9};
 	return (lights);
 }

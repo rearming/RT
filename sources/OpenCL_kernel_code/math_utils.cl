@@ -1,7 +1,7 @@
 
-float		rand_distribution(uint rand_num)
+float		sdot(float3 a, float3 b, float coeff)
 {
-	return ((float)rand_num / UINT_MAX);
+	return saturate(dot(a, b) * coeff);
 }
 
 int 				in_range_inclusive(float number, float min, float max)
