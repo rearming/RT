@@ -99,6 +99,14 @@
 
 
 /*
+**	Objects and materials
+*/
+
+# define MAX_SMOOTHNESS 10000
+# define MAX_TRANSMITTANCE 1
+//todo find value
+
+/*
 **	Other ?
 */
 

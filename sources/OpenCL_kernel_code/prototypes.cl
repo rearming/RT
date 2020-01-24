@@ -57,7 +57,9 @@ void	rt_main(
 
 float3			canvas_to_viewport(__constant t_camera *camera, float3 canvas_point);
 
-float3		reflect(float3 ray_dir, float3 hit_normal);
+float3		reflect(float3 ray_dir, float3 normal);
+
+float3		refract(float3 ray_dir, float3 normal, float refract_index);
 
 float		saturate(float value);
 

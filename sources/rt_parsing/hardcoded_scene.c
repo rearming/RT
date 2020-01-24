@@ -44,9 +44,48 @@ static	t_object	*kolyan_scene(int *out_obj_nbr)
 
 }
 
+static	t_object	*refract_scene(int *out_obj_nbr)
+{
+	const int	objects_nbr = 5;
+	t_object	*objects;
+
+	*out_obj_nbr = objects_nbr;
+	objects = rt_safe_malloc(sizeof(t_object) * objects_nbr);
+
+	objects[0] = (t_object){.type = SPHERE,
+			(t_material){.albedo = get_float3_color(COL_DARK_RED), .specular = (cl_float3){{0, 0, 0}}, .smoothness = 100},
+			.center = (cl_float3){{0, 2.6, 0}},
+			.radius = 2.5};
+	objects[1] = (t_object){.type = PLANE,
+			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = (cl_float3){{0.0, 0.0, 0.0}}, .smoothness = 0},
+			.center = (cl_float3){{0, 0, 0}},
+			.normal = (cl_float3){{0, 1, 0}}};
+//	objects[2] = (t_object){.type = SPHERE,
+//			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(COL_WHITE),
+//					.smoothness = MAX_SMOOTHNESS, .refraction = 1, .transmittance = 1},
+//			.center = (cl_float3){{15, 2.2, -6.2}},
+//			.radius = 2};
+	objects[2] = (t_object){.type = PLANE, /// прозрачный плейн
+			(t_material){.albedo = get_float3_color(0), .specular = (cl_float3){{1, 1, 1}},
+					.smoothness = MAX_SMOOTHNESS, .refraction = 1, .transmittance = 0.9},
+			.center = (cl_float3){{5, 0, 0}},
+			.normal = (cl_float3){{1, 0, 0}}};
+	objects[3] = (t_object){.type = PLANE, /// розовый прозрачный плейн
+			(t_material){.albedo = get_float3_color(0), .specular = (cl_float3){{1, 0.5, 1}},
+					.smoothness = MAX_SMOOTHNESS, .refraction = 1, .transmittance = 0.9},
+			.center = (cl_float3){{-100, 0, 0}},
+			.normal = (cl_float3){{1, 0, 0}}};
+	objects[4] = (t_object){.type = SPHERE,
+			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(0),
+					.emission_color = get_float3_color(COL_WHITE), .emission_power = 15},
+			.center = (cl_float3){{700, 300, 700}},
+			.radius = 300};
+	return (objects);
+}
+
 static	t_object	*pathtrace_objects(int *out_obj_nbr)
 {
-	const int	objects_nbr = 9;
+	const int	objects_nbr = 11;
 	t_object	*objects;
 
 	*out_obj_nbr = objects_nbr;
@@ -79,7 +118,7 @@ static	t_object	*pathtrace_objects(int *out_obj_nbr)
 			.center = (cl_float3){{7, 0, 2}},
 			.radius = 0.8};
 	objects[6] = (t_object){.type = SPHERE,
-			(t_material){.albedo = get_float3_color(0), .specular = (cl_float3){{1, 1, 1}}, .smoothness = 50000},
+			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(COL_WHITE), .smoothness = MAX_SMOOTHNESS},
 			.center = (cl_float3){{4, 2, -5}},
 			.radius = 2};
 	objects[7] = (t_object){.type = PLANE,
@@ -91,6 +130,16 @@ static	t_object	*pathtrace_objects(int *out_obj_nbr)
 					.emission_color = get_float3_color(COL_WHITE), .emission_power = 15},
 			.center = (cl_float3){{700, 300, 700}},
 			.radius = 300};
+	objects[9] = (t_object){.type = PLANE,
+			(t_material){.albedo = get_float3_color(0), .specular = (cl_float3){{1, 1, 1}},
+				.smoothness = MAX_SMOOTHNESS, .refraction = 1, .transmittance = 1},
+			.center = (cl_float3){{4, 0, 0}},
+			.normal = (cl_float3){{1, 0, 0}}};
+	objects[10] = (t_object){.type = SPHERE,
+			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(COL_WHITE),
+					.smoothness = MAX_SMOOTHNESS, .refraction = 1.01, .transmittance = 1},
+			.center = (cl_float3){{15, 2.2, -6.2}},
+			.radius = 2};
 //	objects[8] = (t_object){.type = SPHERE,
 //			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(0),
 //					.emission_color = mul_float3(get_float3_color(COL_LIGHT_GREY), -5)},
@@ -134,8 +183,9 @@ static	t_object	*raytrace_objects(int *out_obj_nbr)
 static	t_object	*rt_get_objects(int *out_obj_nbr)
 {
 
+	return (refract_scene(out_obj_nbr));
 //	return (kolyan_scene(out_obj_nbr));
-	return (pathtrace_objects(out_obj_nbr));
+//	return (pathtrace_objects(out_obj_nbr));
 //	return (raytrace_objects(out_obj_nbr));
 }
 

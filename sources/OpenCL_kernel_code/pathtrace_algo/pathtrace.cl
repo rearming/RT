@@ -18,17 +18,46 @@ float3		shade_pathtrace(
 
 		float	chance = rt_randf(seed, pixel);
 
-		ray->origin = hit->pos + hit->normal * RT_EPSILON;
-
 		if (chance < specular_chance)
 		{
 			const float		phong_alpha = material->smoothness;
-			const float		phong_math_coeff = (phong_alpha + 2) / (phong_alpha + 1);
-			ray->dir = rand_dir_on_hemisphere(reflect(ray->dir, hit->normal), seed, pixel, phong_alpha);
-			ray->energy *= (1.f / specular_chance) * material->specular * sdot(hit->normal, ray->dir, phong_math_coeff);
+			if (phong_alpha >= MAX_SMOOTHNESS)
+			{
+				if (chance >= material->transmittance)
+				{
+					ray->origin = hit->pos + hit->normal * RT_EPSILON;
+					ray->dir = reflect(ray->dir, hit->normal);
+					ray->energy *= (1.f / specular_chance) * material->specular * dot(hit->normal, ray->dir);
+				}
+				else
+				{
+//					printf("refract 1\n");
+					ray->origin = hit->pos - hit->normal * RT_EPSILON;
+					ray->dir = refract(ray->dir, hit->normal, material->refraction);
+					ray->energy *= (1.f / specular_chance) * material->specular;
+				}
+			}
+			else
+			{
+				if (chance >= material->transmittance)
+				{
+					ray->origin = hit->pos + hit->normal * RT_EPSILON;
+					const float		phong_math_coeff = (phong_alpha + 2) / (phong_alpha + 1);
+					ray->dir = rand_dir_on_hemisphere(reflect(ray->dir, hit->normal) , seed, pixel, phong_alpha);
+					ray->energy *= (1.f / specular_chance) * material->specular * sdot(hit->normal, ray->dir, phong_math_coeff);
+				}
+				else
+				{
+//					printf("refract 2\n");
+					ray->origin = hit->pos - hit->normal * RT_EPSILON;
+					ray->dir = refract(ray->dir, hit->normal, material->refraction); //todo sphere sampling refraction?
+					ray->energy *= (1.f / specular_chance) * material->specular;
+				}
+			}
 		}
 		else
 		{
+			ray->origin = hit->pos + hit->normal * RT_EPSILON;
 			ray->dir = rand_dir_on_hemisphere(hit->normal, seed, pixel, LAMBERT_ALPHA);
 			ray->energy *= (1.f / diffuse_chance) * material->albedo;
 		}
