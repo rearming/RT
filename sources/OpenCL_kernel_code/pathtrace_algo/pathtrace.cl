@@ -18,44 +18,33 @@ float3		shade_pathtrace(
 			const float		phong_alpha = material->smoothness;
 			if (chance >= material->transmittance)
 			{
+				const float	phong_math_coeff = (phong_alpha + 2) / (phong_alpha + 1);
 				ray->origin = hit->pos + hit->normal * RT_EPSILON;
-				const float		phong_math_coeff = (phong_alpha + 2) / (phong_alpha + 1);
-				ray->dir = rand_dir_on_hemisphere(reflect(ray->dir, hit->normal) , seed, pixel, phong_alpha);
-				ray->energy *= (1.f / specular_chance) * specular_chance * sdot(hit->normal, ray->dir, phong_math_coeff);
-			}
-			else
-			{
-				ray->origin = hit->pos - hit->normal * RT_EPSILON;
-				ray->dir = refract(ray->dir, hit->normal, material->refraction); //todo sphere sampling refraction?
-				ray->energy *= (1.f / specular_chance) * specular_chance;
-			}
-			/*if (phong_alpha >= MAX_SMOOTHNESS)
-			{
-
-			}
-			else
-			{
-				if (chance >= material->transmittance)
+				if (material->smoothness < MAX_SMOOTHNESS)
 				{
-					ray->origin = hit->pos + hit->normal * RT_EPSILON;
-					const float		phong_math_coeff = (phong_alpha + 2) / (phong_alpha + 1);
-					ray->dir = rand_dir_on_hemisphere(reflect(ray->dir, hit->normal) , seed, pixel, phong_alpha);
-					ray->energy *= (1.f / specular_chance) * material->albedo * sdot(hit->normal, ray->dir, phong_math_coeff);
+					ray->dir = rand_dir_on_hemisphere(reflect(ray->dir, hit->normal), seed, pixel, phong_alpha);
+					ray->energy *= material->albedo * sdot(hit->normal, ray->dir, phong_math_coeff);
 				}
 				else
 				{
-//					printf("refract 2\n");
-					ray->origin = hit->pos - hit->normal * RT_EPSILON;
-					ray->dir = refract(ray->dir, hit->normal, material->refraction); //todo sphere sampling refraction?
-					ray->energy *= (1.f / specular_chance) * material->specular;
+					ray->dir = reflect(ray->dir, hit->normal);
+					ray->energy *= material->albedo;
 				}
-			}*/
+			}
+			else
+			{
+				ray->origin = hit->pos;
+				if (material->refraction > 1) /// если полностью прозрачный объект, не меняем направление луча
+					ray->dir = rand_dir_on_hemisphere(refract(ray->dir, hit->normal, material->refraction), seed, pixel, phong_alpha);
+				ray->energy *= material->albedo;
+				//todo sphere sampling refraction?
+			}
 		}
 		else
 		{
 			ray->origin = hit->pos + hit->normal * RT_EPSILON;
 			ray->dir = rand_dir_on_hemisphere(hit->normal, seed, pixel, LAMBERT_ALPHA);
-			ray->energy *= (1.f / (1 - specular_chance)) * material->albedo;
+			ray->energy *= material->albedo;
 		}
 		return material->emission_color * material->emission_power;
 	}

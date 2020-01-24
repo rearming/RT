@@ -6,10 +6,20 @@ float3		shade(
 {
 	if (hit->distance < INFINITY)
 	{
-		ray->origin = hit->pos + hit->normal * RT_EPSILON;
 		///умножение на epsilon нужно для того чтобы на маленьких расстояниях объекты не пропускались
-		ray->dir = reflect(ray->dir, hit->normal);
-		ray->energy *= material->albedo * material->specular;
+
+		if (material->transmittance > 0)
+		{
+			ray->origin = hit->pos;
+			if (material->refraction > 1)
+				ray->dir = refract(ray->dir, hit->normal, material->refraction);
+		}
+		else
+		{
+			ray->origin = hit->pos + hit->normal * RT_EPSILON;
+			ray->dir = reflect(ray->dir, hit->normal);
+			ray->energy *= material->albedo * material->specular;
+		}
 		return material->albedo;
 	}
 	else
@@ -36,9 +46,12 @@ float3		raytrace(
 		closest_intersection(scene, objects, &ray, &best_hit, &closest_obj_index);
 		if (closest_obj_index != NOT_SET)
 		{
+			float light_i = 0;
+			if (objects[closest_obj_index].material.transmittance <= 0)
+				light_i = compute_light(scene, lights, objects, &best_hit);
 			result_color += ray.energy
-				* compute_light(scene, lights, objects, &best_hit)
-				* shade(&ray, &best_hit, &objects[closest_obj_index].material);
+					* light_i
+					* shade(&ray, &best_hit, &objects[closest_obj_index].material);
 		}
 		else
 		{

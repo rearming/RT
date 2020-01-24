@@ -11,7 +11,7 @@ bool				in_shadow(
 	closest_intersection(scene, objects, &ray, &out_hit, &found_object);
 	if (light_type == POINT && out_hit.distance > 1) /// проверяем луч только до источника света
 		return false;
-	return found_object != NOT_SET;
+	return found_object != NOT_SET && objects[found_object].material.transmittance <= 0;
 }
 
 float				compute_light(
