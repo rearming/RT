@@ -165,7 +165,7 @@ typedef struct			s_material
 # ifndef FT_OPENCL___
 
 	cl_float3			albedo;
-	cl_float3			specular;
+	cl_float			specular;
 	cl_float			smoothness;
 	cl_float			transmittance;
 	cl_float			refraction;
@@ -176,7 +176,7 @@ typedef struct			s_material
 # else
 
 	float3				albedo;
-	float3				specular;
+	float				specular;
 	float				smoothness;
 	float				transmittance;
 	float				refraction;

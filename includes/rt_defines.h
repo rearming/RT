@@ -51,7 +51,6 @@
 # define COL_BLACK 0x0
 # define COL_PURPLE 0x7830E0
 # define COL_MAGNETA 0xE2007A
-# define COL_GOLD 0xE5E008
 
 # define COL_LIGHT_RED 0xff4d4d
 # define COL_LIGHT_PURPLE 0x9C6AE4
@@ -65,6 +64,7 @@
 # define COL_DARK_GREEN 0x408000
 # define COL_DARK_BLUE 0x000080
 
+# define COL_GOLD 0xFFDB91
 # define COL_BG COL_GREY
 
 /*

@@ -9,7 +9,7 @@ float3		shade(
 		ray->origin = hit->pos + hit->normal * RT_EPSILON;
 		///умножение на epsilon нужно для того чтобы на маленьких расстояниях объекты не пропускались
 		ray->dir = reflect(ray->dir, hit->normal);
-		ray->energy *= material->specular;
+		ray->energy *= material->albedo * material->specular;
 		return material->albedo;
 	}
 	else

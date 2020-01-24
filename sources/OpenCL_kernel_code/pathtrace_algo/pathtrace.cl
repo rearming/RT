@@ -10,32 +10,28 @@ float3		shade_pathtrace(
 {
 	if (hit->distance < INFINITY)
 	{
-		float specular_chance = color_energy(material->specular);
-		float diffuse_chance = color_energy(material->albedo);
-		float sum = specular_chance + diffuse_chance;
-		specular_chance /= sum;
-		diffuse_chance /= sum;
-
+		float	specular_chance = material->specular;
 		float	chance = rt_randf(seed, pixel);
 
 		if (chance < specular_chance)
 		{
 			const float		phong_alpha = material->smoothness;
-			if (phong_alpha >= MAX_SMOOTHNESS)
+			if (chance >= material->transmittance)
 			{
-				if (chance >= material->transmittance)
-				{
-					ray->origin = hit->pos + hit->normal * RT_EPSILON;
-					ray->dir = reflect(ray->dir, hit->normal);
-					ray->energy *= (1.f / specular_chance) * material->specular * dot(hit->normal, ray->dir);
-				}
-				else
-				{
-//					printf("refract 1\n");
-					ray->origin = hit->pos - hit->normal * RT_EPSILON;
-					ray->dir = refract(ray->dir, hit->normal, material->refraction);
-					ray->energy *= (1.f / specular_chance) * material->specular;
-				}
+				ray->origin = hit->pos + hit->normal * RT_EPSILON;
+				const float		phong_math_coeff = (phong_alpha + 2) / (phong_alpha + 1);
+				ray->dir = rand_dir_on_hemisphere(reflect(ray->dir, hit->normal) , seed, pixel, phong_alpha);
+				ray->energy *= (1.f / specular_chance) * specular_chance * sdot(hit->normal, ray->dir, phong_math_coeff);
+			}
+			else
+			{
+				ray->origin = hit->pos - hit->normal * RT_EPSILON;
+				ray->dir = refract(ray->dir, hit->normal, material->refraction); //todo sphere sampling refraction?
+				ray->energy *= (1.f / specular_chance) * specular_chance;
+			}
+			/*if (phong_alpha >= MAX_SMOOTHNESS)
+			{
+
 			}
 			else
 			{
@@ -44,7 +40,7 @@ float3		shade_pathtrace(
 					ray->origin = hit->pos + hit->normal * RT_EPSILON;
 					const float		phong_math_coeff = (phong_alpha + 2) / (phong_alpha + 1);
 					ray->dir = rand_dir_on_hemisphere(reflect(ray->dir, hit->normal) , seed, pixel, phong_alpha);
-					ray->energy *= (1.f / specular_chance) * material->specular * sdot(hit->normal, ray->dir, phong_math_coeff);
+					ray->energy *= (1.f / specular_chance) * material->albedo * sdot(hit->normal, ray->dir, phong_math_coeff);
 				}
 				else
 				{
@@ -53,15 +49,14 @@ float3		shade_pathtrace(
 					ray->dir = refract(ray->dir, hit->normal, material->refraction); //todo sphere sampling refraction?
 					ray->energy *= (1.f / specular_chance) * material->specular;
 				}
-			}
+			}*/
 		}
 		else
 		{
 			ray->origin = hit->pos + hit->normal * RT_EPSILON;
 			ray->dir = rand_dir_on_hemisphere(hit->normal, seed, pixel, LAMBERT_ALPHA);
-			ray->energy *= (1.f / diffuse_chance) * material->albedo;
+			ray->energy *= (1.f / (1 - specular_chance)) * material->albedo;
 		}
-		/// (1.f / specular(diffuse)_chance) = PDF!
 		return material->emission_color * material->emission_power;
 	}
 	else
