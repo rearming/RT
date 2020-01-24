@@ -33,7 +33,7 @@ float3		shade_pathtrace(
 			ray->energy *= (1.f / diffuse_chance) * material->albedo;
 		}
 		/// (1.f / specular(diffuse)_chance) = PDF!
-		return material->emission;
+		return material->emission_color * material->emission_power;
 	}
 	else
 	{
@@ -60,8 +60,12 @@ float3		pathtrace(
 	{
 		hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
 		closest_intersection(scene, objects, &ray, &hit, &closest_obj_index);
-		result_color += ray.energy
-				* shade_pathtrace(&ray, &hit, &objects[closest_obj_index].material, seed, pixel);
+		result_color += ray.energy;
+		float3 shade_color = shade_pathtrace(&ray, &hit, &objects[closest_obj_index].material, seed, pixel);
+		/// можно раскомментить, чтобы цвета светящихся объектов где emisson_power больше 1 были не белыми
+//		if (i == 0 && round(fast_length(shade_color)) != 0)
+//			shade_color /= objects[closest_obj_index].material.emission_power;
+		result_color *= shade_color;
 		if (!ray_has_energy(&ray))
 			break;
 	}

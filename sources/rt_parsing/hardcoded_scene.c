@@ -37,7 +37,7 @@ static	t_object	*kolyan_scene(int *out_obj_nbr)
 			.radius = 2.5};
 	objects[7] = (t_object){.type = SPHERE,
 			(t_material){.albedo = get_float3_color(0), .specular = (cl_float3){{0.0, 0.0, 0.0}}, .smoothness = 100,
-				.emission = mul_float3(get_float3_color(COL_WHITE), 10)},
+				.emission_color = mul_float3(get_float3_color(COL_WHITE), 10)},
 			.center = (cl_float3){{0, 10, 0}},
 			.radius = 2.5};
 	return (objects);
@@ -70,16 +70,16 @@ static	t_object	*pathtrace_objects(int *out_obj_nbr)
 			.radius = 2.2};
 	objects[4] = (t_object){.type = SPHERE,
 			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(0),
-				.emission = mul_float3(get_float3_color(COL_WHITE), 2)},
+				.emission_color = get_float3_color(COL_WHITE), .emission_power = 5},
 			.center = (cl_float3){{-1, 0.5, 5}},
 			.radius = 1};
 	objects[5] = (t_object){.type = SPHERE,
 			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(0),
-				.emission = mul_float3(get_float3_color(COL_WHITE), 10)},
+				.emission_color = get_float3_color(COL_WHITE), .emission_power = 10},
 			.center = (cl_float3){{7, 0, 2}},
 			.radius = 0.8};
 	objects[6] = (t_object){.type = SPHERE,
-			(t_material){.albedo = get_float3_color(0), .specular = (cl_float3){{0.9, 0.9, 0.9}}, .smoothness = 5000},
+			(t_material){.albedo = get_float3_color(0), .specular = (cl_float3){{1, 1, 1}}, .smoothness = 50000},
 			.center = (cl_float3){{4, 2, -5}},
 			.radius = 2};
 	objects[7] = (t_object){.type = PLANE,
@@ -88,12 +88,12 @@ static	t_object	*pathtrace_objects(int *out_obj_nbr)
 			.normal = (cl_float3){{0, 1, 0}}};
 	objects[8] = (t_object){.type = SPHERE,
 			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(0),
-					.emission = mul_float3(get_float3_color(COL_WHITE), 15)},
+					.emission_color = get_float3_color(COL_WHITE), .emission_power = 15},
 			.center = (cl_float3){{700, 300, 700}},
 			.radius = 300};
 //	objects[8] = (t_object){.type = SPHERE,
 //			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(0),
-//					.emission = mul_float3(get_float3_color(COL_LIGHT_GREY), -5)},
+//					.emission_color = mul_float3(get_float3_color(COL_LIGHT_GREY), -5)},
 //			.center = (cl_float3){{9, 0, 2}},
 //			.radius = 0.8};
 	return (objects);
@@ -134,8 +134,8 @@ static	t_object	*raytrace_objects(int *out_obj_nbr)
 static	t_object	*rt_get_objects(int *out_obj_nbr)
 {
 
-	return (kolyan_scene(out_obj_nbr));
-//	return (pathtrace_objects(out_obj_nbr));
+//	return (kolyan_scene(out_obj_nbr));
+	return (pathtrace_objects(out_obj_nbr));
 //	return (raytrace_objects(out_obj_nbr));
 }
 
