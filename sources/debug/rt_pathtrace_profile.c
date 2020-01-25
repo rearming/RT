@@ -17,6 +17,5 @@ void	rt_pathtrace_profile(t_rt *rt, int max_samples)
 	end = clock();
 	ft_printf("[%i] samples rendered in [%.3f] sec.\n",
 			max_samples, (double)(end - start) / CLOCKS_PER_SEC);
-	sleep(10);
 }
 

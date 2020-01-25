@@ -45,7 +45,7 @@ static	t_object	*kolyan_scene(int *out_obj_nbr)
 
 static	t_object	*pathtrace_objects(int *out_obj_nbr)
 {
-	const int	objects_nbr = 10;
+	const int	objects_nbr = 11;
 	t_object	*objects;
 
 	*out_obj_nbr = objects_nbr;
@@ -105,6 +105,11 @@ static	t_object	*pathtrace_objects(int *out_obj_nbr)
 			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 1,
 					.smoothness = MAX_SMOOTHNESS, .refraction = 1.5, .transmittance = 1},
 			.center = (cl_float3){{15, 2.2, -6.2}},
+			.radius = 2};
+	objects[10] = (t_object){.type = SPHERE,
+			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 1,
+					.smoothness = MAX_SMOOTHNESS - 1, .refraction = 1.5, .transmittance = 1},
+			.center = (cl_float3){{15, 2.6, -1.2}},
 			.radius = 2};
 
 	return (objects);
