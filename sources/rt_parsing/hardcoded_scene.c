@@ -103,7 +103,7 @@ static	t_object	*pathtrace_objects(int *out_obj_nbr)
 
 	objects[9] = (t_object){.type = SPHERE,
 			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 1,
-					.smoothness = MAX_SMOOTHNESS, .refraction = 1.15, .transmittance = 1},
+					.smoothness = MAX_SMOOTHNESS, .refraction = 1.5, .transmittance = 1},
 			.center = (cl_float3){{15, 2.2, -6.2}},
 			.radius = 2};
 
