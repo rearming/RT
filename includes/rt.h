@@ -9,6 +9,7 @@
 # include <stdlib.h>
 # include <math.h>
 # include <SDL.h>
+# include <fcntl.h>
 
 # ifdef __APPLE__
 #  include <OpenCL/opencl.h>
@@ -20,6 +21,7 @@
 # include "rt_structs.h"
 # include "rt_errors.h"
 # include "rt_defines.h"
+#include "jansson.h"
 
 /*
 **	Global pointers
@@ -39,8 +41,9 @@ void		rt_init(t_rt *out_rt, const char *json_scene_file);
 /*
 **	Parsing
 */
-
+void		init_tmp(t_tmp *tmp);
 t_scene		rt_parse_scene(const char *json_scene_file);
+char		*read_file(const char *argv, int buff_size);
 t_scene		get_hardcoded_scene(); //todo remove after dev
 void		rt_correct_scene(t_scene *scene);
 

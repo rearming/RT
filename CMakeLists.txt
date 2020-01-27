@@ -10,6 +10,8 @@ if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
 endif()
 
 # <----RTv1 compile---->
+set(CMAKE_MACOSX_RPATH 1)
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
 set(sources
         sources/init/rt_init.c
@@ -25,6 +27,8 @@ set(sources
         sources/OpenCL_utils/opencl_memory_management.c
         sources/rt_parsing/rt_parse_scene.c
         sources/rt_parsing/hardcoded_scene.c
+        sources/rt_parsing/rt_init_tmp_object.c
+        sources/rt_parsing/rt_read_scene_file.c
         sources/OpenCL_utils/opencl_utils.c
         sources/utils/rt_loop.c
         sources/rt_event_handling/rt_camera_moves.c
@@ -74,9 +78,12 @@ link_directories(
         libft
         libft/ft_printf
         ${graphic_libs_dirs}
+        lib/
 )
 
 add_executable(RT
+        includes/jansson.h
+        includes/jansson_config.h
         sources/main.c
         ${sources}
 )
@@ -86,6 +93,7 @@ target_link_libraries(RT
         "ft"
         ${graphic_libs_link_names}
         "m"
+        "jansson"
         )
 
 # <----TESTING----> #
@@ -95,11 +103,14 @@ add_executable(test
         sources/test/test_main.c
         sources/test/test_utils.c
         sources/test/test_opencl.c
-        sources/test/test_lerp.c)
+        sources/test/test_lerp.c
+        includes/jansson.h
+        includes/jansson_config.h)
 
 target_link_libraries(test
         "ftprintf"
         "ft"
         ${graphic_libs_link_names}
         "m"
+        "jansson"
         )

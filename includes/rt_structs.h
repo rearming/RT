@@ -323,5 +323,23 @@ typedef struct			s_cl_concat_kernel_code
 	int					fd;
 }						t_cl_concat_kernel_code;
 # endif
-
+typedef struct s_tmp
+{
+	int 			structure_type;	// object, camera, light
+	int 			type;			// ambient, sphere, cone
+	cl_float3		pos;			// camera,	light,	object
+	cl_float3		rotation;		// camera
+	float 			intensity;		// 			light
+	cl_float3		dir;			// 			light
+	t_color 		color;			//			light,	object
+	cl_float3		normal;			//					object
+	float			radius;			//					object
+	float			angle;			//					object
+	float 			len;			//					object
+	float 			specularity;	//					object
+	int 			texture_number; //					object
+	cl_float3		texture_position;//					object
+	int 			checker;		//					object
+	struct s_tmp	*next;
+}				t_tmp;
 #endif
