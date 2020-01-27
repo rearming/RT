@@ -8,17 +8,17 @@ void		rt_opencl_prepare_memory(t_rt *rt)
 {
 	g_opencl.opencl_memobj_number = 5;
 	rt_opencl_move_host_mem_to_kernel(g_opencl.opencl_memobj_number,
-		(t_opencl_mem_obj){&rt->scene,
-			sizeof(t_scene), RT_DEFAULT_MEM_FLAG, TRUE},
-		(t_opencl_mem_obj){rt->scene.objects,
-			sizeof(t_object) * rt->scene.obj_nbr, RT_DEFAULT_MEM_FLAG, false},
-		(t_opencl_mem_obj){rt->scene.lights,
-			sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, false},
-		(t_opencl_mem_obj){&rt->opencl_params,
-			sizeof(t_opencl_params), RT_DEFAULT_MEM_FLAG, TRUE},
-		(t_opencl_mem_obj){&g_img_data_float,
-			sizeof(cl_float3) * WIN_HEIGHT * WIN_WIDTH, RT_MEM_RW_FLAG, false}
-			);
+	(t_opencl_mem_obj){&rt->scene,
+				 sizeof(t_scene), RT_DEFAULT_MEM_FLAG, TRUE},
+	(t_opencl_mem_obj){rt->scene.objects,
+				 sizeof(t_object) * rt->scene.obj_nbr, RT_DEFAULT_MEM_FLAG, false},
+	(t_opencl_mem_obj){rt->scene.lights,
+				 sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, false},
+	(t_opencl_mem_obj){&rt->opencl_params,
+				 sizeof(t_opencl_params), RT_DEFAULT_MEM_FLAG, TRUE},
+	(t_opencl_mem_obj){&g_img_data_float,
+			 sizeof(cl_float3) * WIN_HEIGHT * WIN_WIDTH, RT_MEM_RW_FLAG, false}
+	);
 }
 
 void		rt_print_opencl_profile_info(void)
@@ -80,6 +80,7 @@ void		rt_opencl_render(t_rt *rt)
 		rt_print_debug_info(rt);
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			g_opencl.kernel, 1, NULL, &kernel_num, NULL, 0, NULL, &g_opencl.profile_event);
+		printf("обожаю RT\n");
 	if (rt->events.info)
 		rt_print_opencl_profile_info();
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
