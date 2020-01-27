@@ -137,10 +137,63 @@ static	t_object	*raytrace_objects(int *out_obj_nbr)
 	return (objects);
 }
 
+static	t_object	*cornell_box(int *out_obj_nbr)
+{
+	const int	objects_nbr = 9;
+	t_object	*objects;
+
+	*out_obj_nbr = objects_nbr;
+	objects = rt_safe_malloc(sizeof(t_object) * objects_nbr);
+
+	objects[0] = (t_object){.type = PLANE, // bottom
+			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0, .smoothness = 0},
+			.center = (cl_float3){{0, -2.5, 0}},
+			.normal = (cl_float3){{0, 1, 0}}};
+	objects[1] = (t_object){.type = PLANE, // right
+			(t_material){.albedo = get_float3_color(COL_GREEN), .specular = 0, .smoothness = 0},
+			.center = (cl_float3){{2.5, 0, 0}},
+			.normal = (cl_float3){{1, 0, 0}}};
+	objects[2] = (t_object){.type = PLANE, // left
+			(t_material){.albedo = get_float3_color(COL_RED), .specular = 0, .smoothness = 0},
+			.center = (cl_float3){{-2.5, 0, 0}},
+			.normal = (cl_float3){{1, 0, 0}}};
+	objects[3] = (t_object){.type = PLANE, // far
+			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0, .smoothness = 0},
+			.center = (cl_float3){{0, 0, 2.5}},
+			.normal = (cl_float3){{0, 0, 1}}};
+	objects[4] = (t_object){.type = PLANE, // celling
+			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0, .smoothness = 0},
+			.center = (cl_float3){{0, 2.5, 0}},
+			.normal = (cl_float3){{0, 1, 0}}};
+	objects[5] = (t_object){.type = PLANE, // back
+			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0, .smoothness = 0},
+			.center = (cl_float3){{0, 0, -15}},
+			.normal = (cl_float3){{0, 0, 1}}};
+
+	objects[6] = (t_object){.type = SPHERE, // light
+			(t_material){.albedo = get_float3_color(0), .specular = 0, .smoothness = 0,
+				.emission_color = get_float3_color(COL_WHITE), .emission_power = 5},
+			.center = (cl_float3){{0, 2.5, 0}},
+			.radius = 1.f};
+
+	objects[7] = (t_object){.type = SPHERE, // small diffuse sphere
+			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0, .smoothness = 0},
+			.center = (cl_float3){{1, -1.5f, 0}},
+			.radius = 1.f};
+
+	objects[8] = (t_object){.type = SPHERE, // big specular sphere
+			(t_material){.albedo = get_float3_color(COL_DARK_PURPLE), .specular = 0, .smoothness = 10000},
+			.center = (cl_float3){{-1, -0.5f, -1}},
+			.radius = 1.5f};
+
+	return (objects);
+}
+
 static	t_object	*rt_get_objects(int *out_obj_nbr)
 {
 
 //	return (kolyan_scene(out_obj_nbr));
+//	return (cornell_box(out_obj_nbr));
 	return (pathtrace_objects(out_obj_nbr));
 //	return (raytrace_objects(out_obj_nbr));
 }
@@ -165,8 +218,10 @@ t_scene		get_hardcoded_scene(void)
 
 	scene.camera = (t_camera)
 	{
-		.pos = (cl_float3){{20, 6.6, -6.4}},
+		.pos = (cl_float3){{20, 6.6, -6.4}}, //pathtracing scene pos/rotation
 		.rotation = (cl_float3){{-10, -63.3, 0}},
+//		.pos = (cl_float3){{0.2, 1.2, -14.2}}, // cornell box pos/rotation
+//		.rotation = (cl_float3){{0, 0, 0}},
 		.viewport_distance = 1,
 		.viewport_width = WIN_RATIO < 1 ? D_I_MAZOHIN : 1,
 		.viewport_height = WIN_RATIO > 1 ? D_E_KARMATSKIY : 1
