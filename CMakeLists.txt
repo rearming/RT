@@ -29,6 +29,10 @@ set(sources
         sources/rt_parsing/hardcoded_scene.c
         sources/rt_parsing/rt_init_tmp_object.c
         sources/rt_parsing/rt_read_scene_file.c
+        sources/rt_parsing/rt_parse_elements.c
+        sources/rt_parsing/rt_type_of_element.c
+        sources/rt_parsing/rt_check.c
+        sources/rt_parsing/rt_add_elements.c
         sources/OpenCL_utils/opencl_utils.c
         sources/utils/rt_loop.c
         sources/rt_event_handling/rt_camera_moves.c
