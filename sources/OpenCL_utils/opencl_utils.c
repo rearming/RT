@@ -3,9 +3,9 @@
 inline void		rt_opencl_setup_image_buffer(void)
 {
 	int				err;
-	static t_bool	image_created = FALSE;
+	static bool	image_created = false;
 
-	if (image_created == FALSE)
+	if (image_created == false)
 	{
 		g_opencl.img_data_mem = clCreateBuffer(g_opencl.context,
 				CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,

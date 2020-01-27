@@ -6,16 +6,16 @@ void		rt_opencl_move_host_mem_to_kernel(int kernel_mem_object_nbr, ...)
 	t_opencl_mem_obj	memobj;
 	int					mem_obj_i;
 	int					err;
-	static t_bool		mem_copy_done = FALSE;
+	static bool		mem_copy_done = false;
 
 	va_start(ap, kernel_mem_object_nbr);
 	mem_obj_i = 0;
-	if (mem_copy_done == FALSE) //маллочить память ТОЛЬКО ОДИН РАЗ БЛЯТБ
+	if (mem_copy_done == false) //маллочить память ТОЛЬКО ОДИН РАЗ БЛЯТБ
 		g_opencl.opencl_mem = rt_safe_malloc(kernel_mem_object_nbr * sizeof(t_cl_mem));
 	while (mem_obj_i < kernel_mem_object_nbr)
 	{
 		memobj = va_arg(ap, t_opencl_mem_obj);
-		if (memobj.copy_mem == TRUE || mem_copy_done == FALSE)
+		if (memobj.copy_mem == TRUE || mem_copy_done == false)
 		{
 			g_opencl.opencl_mem[mem_obj_i].mem = clCreateBuffer(g_opencl.context,
 					memobj.mem_flags, memobj.size, memobj.ptr, &err);
@@ -67,7 +67,7 @@ void		opencl_clean_memobjs(void)
 	memobj_i = 0;
 	while (memobj_i < g_opencl.opencl_memobj_number)
 	{
-//		printf("copy_mem == %s", g_opencl.opencl_mem[memobj_i].copy_mem == TRUE ? "TRUE, " : "FALSE\n");
+//		printf("copy_mem == %s", g_opencl.opencl_mem[memobj_i].copy_mem == TRUE ? "TRUE, " : "false\n");
 		if (g_opencl.opencl_mem[memobj_i].copy_mem == TRUE)
 		{
 //			printf("Releasing memobj\n");

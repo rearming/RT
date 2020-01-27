@@ -5,9 +5,6 @@
 **	Code constants
 */
 
-# define TRUE 1
-# define FALSE 0
-
 # define VALID_ARGS_NUM 1
 # define EXIT_SUCCESS 0
 

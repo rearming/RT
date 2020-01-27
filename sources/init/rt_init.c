@@ -23,13 +23,13 @@ void		rt_init_opencl_params(t_opencl_params *out_opencl_params)
 
 void		rt_init_events(t_events *events)
 {
-	events->w = FALSE;
-	events->a = FALSE;
-	events->s = FALSE;
-	events->d = FALSE;
-	events->info = FALSE;
-	events->space = FALSE;
-	events->lshift = FALSE;
+	events->w = false;
+	events->a = false;
+	events->s = false;
+	events->d = false;
+	events->info = false;
+	events->space = false;
+	events->lshift = false;
 }
 
 void		rt_init(t_rt *out_rt, const char *json_scene_file)

@@ -90,7 +90,7 @@
    **Clion-> Preferences -> Editor -> Code Style -> C/C++ -> Wrapping and braces -> Braces placement -> Next line**
 
 ## Code agreement
-1. Там, где под ```int``` мы имеем в виду булевы значения, используем ```t_bool``` и ```TRUE```/```FALSE``` дефайны. 
+1. Там, где под ```int``` мы имеем в виду булевы значения, используем ```bool``` и ```true```/```false``` дефайны. 
 
     Допустим, есть функция, которая возвращает 1 в случае ошибки и 0 в случае успешного получаение param:
     
@@ -107,13 +107,13 @@
     ```
     **Правильно:**
     ```c
-    t_bool     get_param(char *filename, t_param **out_param)
+    bool     get_param(char *filename, t_param **out_param)
     {
         ...
    
         if (some_contion)
-            return (FALSE);
-        return (TRUE);
+            return (true);
+        return (false);
     }
     ```
 2. Обработка ошибок:

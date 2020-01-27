@@ -86,13 +86,13 @@ void				closest_intersection(
 		t_rayhit *out_best_hit,
 		int *out_closest_obj_index);
 
-t_bool				ray_plane_intersect(
+bool				ray_plane_intersect(
 		t_ray *ray,
 		float3 center,
 		float3 normal,
 		t_rayhit *best_hit);
 
-t_bool				ray_sphere_intersect(
+bool				ray_sphere_intersect(
 		t_ray *ray,
 		__constant t_object *sphere,
 		t_rayhit *out_best_hit);

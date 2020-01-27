@@ -19,12 +19,12 @@ void	test_opencl_create_buffers(void)
 
 	g_opencl.opencl_mem[0].mem = clCreateBuffer(g_opencl.context, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,
 			sizeof(int) * int_arr_size, test_int_arr, &err);
-	g_opencl.opencl_mem[0].copy_mem = FALSE;
+	g_opencl.opencl_mem[0].copy_mem = false;
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
 
 	g_opencl.opencl_mem[1].mem = clCreateBuffer(g_opencl.context, RT_DEFAULT_MEM_FLAG,
 			sizeof(t_point) * point_arr_size, test_point_arr, &err);
-	g_opencl.opencl_mem[1].copy_mem = FALSE;
+	g_opencl.opencl_mem[1].copy_mem = false;
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
 
 	g_opencl.img_data_mem = clCreateBuffer(g_opencl.context, CL_MEM_READ_WRITE,
@@ -51,7 +51,7 @@ void	test_opencl_setargs(void)
 
 //	g_opencl.opencl_mem[1].mem = clCreateBuffer(g_opencl.context, RT_DEFAULT_MEM_FLAG,
 //			sizeof(t_point) * point_arr_size, test_point_arr, &err);
-//	g_opencl.opencl_mem[1].copy_mem = FALSE;
+//	g_opencl.opencl_mem[1].copy_mem = false;
 //	err != CL_SUCCESS ? rt_raise_error(ERR_OPENCL_CREATE_BUFFER) : 0;
 
 	err = clSetKernelArg(g_opencl.kernel, 0, sizeof(cl_mem), &g_opencl.opencl_mem[0].mem);

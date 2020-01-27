@@ -11,13 +11,13 @@ void		rt_opencl_prepare_memory(t_rt *rt)
 		(t_opencl_mem_obj){&rt->scene,
 			sizeof(t_scene), RT_DEFAULT_MEM_FLAG, TRUE},
 		(t_opencl_mem_obj){rt->scene.objects,
-			sizeof(t_object) * rt->scene.obj_nbr, RT_DEFAULT_MEM_FLAG, FALSE},
+			sizeof(t_object) * rt->scene.obj_nbr, RT_DEFAULT_MEM_FLAG, false},
 		(t_opencl_mem_obj){rt->scene.lights,
-			sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, FALSE},
+			sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, false},
 		(t_opencl_mem_obj){&rt->opencl_params,
 			sizeof(t_opencl_params), RT_DEFAULT_MEM_FLAG, TRUE},
 		(t_opencl_mem_obj){&g_img_data_float,
-			sizeof(cl_float3) * WIN_HEIGHT * WIN_WIDTH, RT_MEM_RW_FLAG, FALSE}
+			sizeof(cl_float3) * WIN_HEIGHT * WIN_WIDTH, RT_MEM_RW_FLAG, false}
 			);
 }
 
@@ -33,13 +33,13 @@ void		rt_print_opencl_profile_info(void)
 	ft_printf("\033[0m");
 }
 
-t_bool		rt_camera_moved(t_camera *camera)
+bool		rt_camera_moved(t_camera *camera)
 {
 	static t_camera	previous_camera = (t_camera)
 			{.pos = (cl_float3){{0, 0, 0}}, .rotation = (cl_float3){{0, 0, 0}}};
 	static time_t		prev_time = NOT_SET;
 	const time_t		current_time = time(NULL);
-	t_bool				is_moved;
+	bool				is_moved;
 
 	is_moved = !rt_float3_equals(previous_camera.pos, camera->pos) ||
 			   !rt_float3_equals(previous_camera.rotation, camera->rotation);
