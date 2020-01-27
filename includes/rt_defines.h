@@ -5,15 +5,13 @@
 **	Code constants
 */
 
-# define TRUE 1
-# define FALSE 0
-
 # define VALID_ARGS_NUM 1
 # define EXIT_SUCCESS 0
 
 # define OPENCL_KERNEL_NAME "rt_main"
 
-# define RT_DEFAULT_MEM_FLAG CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR
+# define RT_DEFAULT_MEM_FLAG (CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR)
+# define RT_MEM_RW_FLAG (CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR)
 
 /*
 **	Window params
@@ -51,6 +49,19 @@
 # define COL_PURPLE 0x7830E0
 # define COL_MAGNETA 0xE2007A
 
+# define COL_LIGHT_RED 0xff4d4d
+# define COL_LIGHT_PURPLE 0x9C6AE4
+# define COL_LIGHT_GREEN 0xb3ff66
+# define COL_LIGHT_BLUE 0x80ddff
+# define COL_LIGHT_GREY 0xB9D5E2
+
+# define COL_DARK_GREY 0x4E4959
+# define COL_DARK_RED 0xb30f0f
+# define COL_DARK_PURPLE 0x4D1E91
+# define COL_DARK_GREEN 0x408000
+# define COL_DARK_BLUE 0x000080
+
+# define COL_GOLD 0xFFDB91
 # define COL_BG COL_GREY
 
 /*
@@ -69,10 +80,48 @@
 # define OPENCL_KERNEL_NUM OPENCL_RELEASE_KERNEL_NUM
 //# define OPENCL_KERNEL_NUM OPENCL_DEBUG_KERNEL_NUM
 
+#ifdef __APPLE__
+# define OPENCL_DEFINES_STR "#define __APPLE__\n\n"
+#else
+# define OPENCL_DEFINES_STR "\n"
+#endif
+
 /*
 **	Development
 */
 
+# define DONT_COPY_MEM_AGAIN (-10)
+# define CREATE_BUFFER (-32)
 # define RT_UNUSED(arg) (void)arg
+
+
+/*
+**	Objects and materials
+*/
+
+# define MAX_SMOOTHNESS 10000
+# define MAX_TRANSMITTANCE 1
+//todo find value
+
+/*
+**	Other ?
+*/
+
+# define M_PI_180 (M_PI / 180)
+# define NOT_SET (-1)
+
+# ifndef UINT_MAX
+#  define UINT_MAX 4294967295
+# endif
+
+/*
+**	Camera moving
+*/
+
+# define MOVE_SPEED (0.2)
+# define SIDE_MOVE_SPEED (0.1)
+# define FLY_SPEED 0.2
+
+# define ROTATION_SPEED 0.05
 
 #endif

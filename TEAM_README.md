@@ -90,7 +90,7 @@
    **Clion-> Preferences -> Editor -> Code Style -> C/C++ -> Wrapping and braces -> Braces placement -> Next line**
 
 ## Code agreement
-1. Там, где под ```int``` мы имеем в виду булевы значения, используем ```t_bool``` и ```TRUE```/```FALSE``` дефайны. 
+1. Там, где под ```int``` мы имеем в виду булевы значения, используем ```bool``` и ```true```/```false``` дефайны. 
 
     Допустим, есть функция, которая возвращает 1 в случае ошибки и 0 в случае успешного получаение param:
     
@@ -107,21 +107,31 @@
     ```
     **Правильно:**
     ```c
-    t_bool     get_param(char *filename, t_param **out_param)
+    bool     get_param(char *filename, t_param **out_param)
     {
         ...
    
         if (some_contion)
-            return (FALSE);
-        return (TRUE);
+            return (true);
+        return (false);
     }
     ```
 2. Обработка ошибок:
-    ```c
-    if (some_error)
-        rt_raise_error(ERR_SOME_ERROR);
-    ```
-   Если кода этой ошибки еще нет, дефайним ее в ```rt_errors.h```.
+   ```c
+   if (some_error)
+       rt_raise_error(ERR_SOME_ERROR);
+   ```
+   или
+   ```c
+   some_error ? rt_raise_error(ERR_SOME_ERROR) : 0;
+   ```
+   Если кода этой ошибки еще нет, дефайним ее в ```rt_errors.h```.\
+   
+   В случае ошибок связанных с OpenCL (теми, что вернули их функции), используем
+   ```c
+   rt_opencl_handle_error(ERR_OPENCL_SOME_ERROR, err);
+   ```
+   Где ```err``` это код ошибки, которую вернул OpenCL.
 
 3. Вместо ```malloc()``` используем ```rt_safe_malloc()```:
 
@@ -206,21 +216,29 @@
    + Формируем из нашей структуры ```t_opencl_mem_obj```, со следующими полями:
         + Структура
         + Размер структуры (если массив, то ```sizeof(my_struct) * arr_len```)
-        + Необходимый флаг для OpenCL (скорее всего подойдет ```RT_DEFAULT_MEM_FLAG```) 
+        + Необходимый флаг для OpenCL (скорее всего подойдет ```RT_DEFAULT_MEM_FLAG```)
+        + Нужно ли каждый раз копировать память, или использовать старую.\
+        (Например, в сцене такие параметры камеры как позиция и поворот каждый раз меняются,
+        поэтому её мы копируем каждый раз,
+        тогда как объекты пока что неизменяемы и каждый раз копировать их не имеет смысла)
    ```c
    void		rt_opencl_prepare_memory(t_rt *rt)
    {
    	g_opencl.opencl_memobj_number = 3;
-   	rt_opencl_copy_host_mem_to_kernel(g_opencl.opencl_memobj_number,
+   	rt_opencl_move_host_mem_to_kernel(g_opencl.opencl_memobj_number,
    		(t_opencl_mem_obj){&rt->scene,
-   			sizeof(t_scene), RT_DEFAULT_MEM_FLAG},
+   			sizeof(t_scene), RT_DEFAULT_MEM_FLAG, TRUE},
    		(t_opencl_mem_obj){rt->scene.objects,
-   			sizeof(t_object) * rt->scene.obj_nbr, RT_DEFAULT_MEM_FLAG},
+   			sizeof(t_object) * rt->scene.obj_nbr, RT_DEFAULT_MEM_FLAG, FALSE},
    		(t_opencl_mem_obj){rt->scene.lights,
-   			sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG}
+   			sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, FALSE}
    			);
    }
    ```
+   
+7. Добавление новых объектов:\
+    Каждый объект на сцене представляется в структуре ```t_object``` и хранятся в массиве ```t_object *objects;```.\
+    Когда для нового объекта нужно добавить какое-либо поле, добавляем его в эту структуру.
    
 ## Настройки для Clion
 1. Включение opencl_init.py скрипта:\

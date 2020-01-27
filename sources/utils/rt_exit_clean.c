@@ -1,6 +1,6 @@
 #include "rt.h"
 
-t_bool		rt_exit_clean(void)
+bool		rt_exit_clean(void)
 {
 	int		err;
 

@@ -3,6 +3,7 @@
 t_opencl	g_opencl;
 t_sdl		g_sdl;
 int			*g_img_data;
+cl_float3	g_img_data_float[WIN_WIDTH * WIN_HEIGHT];
 
 int		main(int argc, char **argv)
 {
