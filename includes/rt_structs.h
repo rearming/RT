@@ -66,13 +66,23 @@ typedef struct			s_point
 
 # ifndef FT_OPENCL___
 
-#define TEXTURE_NUM 15
+typedef struct			s_texture_info
+{
+	int					width;
+	int					height;
+	int 				start;
+	int					bpp;
+
+}						t_texture_info;
+
+#define TEXTURE_NUM 2
 typedef struct			s_sdl
 {
 	SDL_Window			*win;
 	SDL_Renderer		*rend;
 	SDL_Texture			*texture;
-	SDL_Texture			*texture_list;
+	u_char				*texture_list;
+	t_texture_info		*texture_info;
 	int					pitch;
 }						t_sdl;
 
@@ -257,14 +267,6 @@ typedef struct			s_opencl_params
 	int					randoms;
 # endif
 }						t_opencl_params;
-
-typedef struct			s_texture_info
-{
-	int					width;
-	int					height;
-	int					bpp;
-
-}						t_texture_info;
 
 # ifndef FT_OPENCL___
 

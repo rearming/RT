@@ -55,13 +55,14 @@ void		rt_update_rt_params(t_rt *rt)
 
 void		rt_opencl_render(t_rt *rt)
 {
-	const size_t	kernel_num = OPENCL_RELEASE_KERNEL_NUM;
+	//const size_t	kernel_num = OPENCL_RELEASE_KERNEL_NUM;
+	const size_t	kernel_num = OPENCL_DEBUG_KERNEL_NUM;
 //	const size_t	kernel_num = 50;
 	int				err;
 
 	rt_opencl_prepare_memory(rt);
 	rt_opencl_setup_image_buffer();
-	rt_update_rt_params(rt);
+	//rt_update_rt_params(rt);
 	if (rt->events.info)
 		rt_print_debug_info(rt);
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
