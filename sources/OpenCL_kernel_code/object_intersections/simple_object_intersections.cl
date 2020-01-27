@@ -1,4 +1,4 @@
-t_bool				ray_plane_intersect(
+bool				ray_plane_intersect(
 		t_ray *ray,
 		float3 center,
 		float3 normal,
@@ -19,7 +19,7 @@ t_bool				ray_plane_intersect(
 	return false;
 }
 
-t_bool				ray_sphere_intersect(
+bool				ray_sphere_intersect(
 		t_ray *ray,
 		__constant t_object *sphere,
 		t_rayhit *out_best_hit)

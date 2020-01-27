@@ -20,20 +20,20 @@ static inline void		rt_add_key_event(t_events *events, SDL_Scancode scancode)
 static inline void		remove_key_event(t_events *events, SDL_Scancode scancode)
 {
 	if (scancode == SDL_SCANCODE_W)
-		events->w = FALSE;
+		events->w = false;
 	if (scancode == SDL_SCANCODE_S)
-		events->s = FALSE;
+		events->s = false;
 	if (scancode == SDL_SCANCODE_A)
-		events->a = FALSE;
+		events->a = false;
 	if (scancode == SDL_SCANCODE_D)
-		events->d = FALSE;
+		events->d = false;
 	if (scancode == SDL_SCANCODE_SPACE)
-		events->space = FALSE;
+		events->space = false;
 	if (scancode == SDL_SCANCODE_X)
-		events->lshift = FALSE;
+		events->lshift = false;
 }
 
-static inline t_bool	any_key_pressed(t_events *events)
+static inline bool	any_key_pressed(t_events *events)
 {
 	return (events->w || events->a || events->s || events->d
 			|| events->space || events->lshift);

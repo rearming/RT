@@ -1,8 +1,6 @@
 #ifndef RT_STRUCTS_H
 # define RT_STRUCTS_H
 
-typedef unsigned int	t_bool;
-
 typedef struct			s_rgb
 {
 # ifndef FT_OPENCL___
@@ -79,7 +77,7 @@ typedef struct			s_sdl
 typedef struct			s_cl_mem
 {
 	cl_mem				mem;
-	t_bool				copy_mem;
+	bool				copy_mem;
 }						t_cl_mem;
 
 typedef struct			s_opencl
@@ -286,13 +284,13 @@ typedef struct			s_opencl_params
 
 typedef struct			s_events
 {
-	t_bool				w;
-	t_bool				a;
-	t_bool				s;
-	t_bool				d;
-	t_bool				info;
-	t_bool				space;
-	t_bool				lshift;
+	bool				w;
+	bool				a;
+	bool				s;
+	bool				d;
+	bool				info;
+	bool				space;
+	bool				lshift;
 }						t_events;
 
 typedef struct			s_opencl_mem_obj
@@ -300,7 +298,7 @@ typedef struct			s_opencl_mem_obj
 	void				*ptr;
 	size_t				size;
 	cl_mem_flags		mem_flags;
-	t_bool				copy_mem;
+	bool				copy_mem;
 }						t_opencl_mem_obj;
 
 typedef struct			s_rt

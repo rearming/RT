@@ -1,6 +1,6 @@
 #include "rt.h"
 
-t_bool		rt_float3_equals(cl_float3 a, cl_float3 b)
+bool		rt_float3_equals(cl_float3 a, cl_float3 b)
 {
 	return (a.x == b.x && a.y == b.y && a.z == b.z);
 }

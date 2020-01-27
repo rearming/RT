@@ -4,6 +4,7 @@
 # include <stdarg.h>
 # include <stdio.h>
 # include <stddef.h>
+# include <stdbool.h>
 # include <stdint.h>
 # include <stdlib.h>
 # include <math.h>
@@ -85,14 +86,14 @@ void		rt_loop(t_rt *rt);
 void		print_cl_build_program_debug(void);
 void		rt_raise_error(int err_code);
 void		*rt_safe_malloc(size_t size);
-t_bool		rt_exit_clean(void);
+bool		rt_exit_clean(void);
 
 /*
 **	Math utils
 */
 
 cl_float3	rt_degree_to_rad(cl_float3 rotation_degrees);
-t_bool		rt_float3_equals(cl_float3 a, cl_float3 b);
+bool		rt_float3_equals(cl_float3 a, cl_float3 b);
 cl_float3	mul_float3(cl_float3 vec, float mul);
 
 cl_float3	get_float3_color(int hex_color);
