@@ -45,7 +45,7 @@ static	t_object	*kolyan_scene(int *out_obj_nbr)
 
 static	t_object	*pathtrace_objects(int *out_obj_nbr)
 {
-	const int	objects_nbr = 11;
+	const int	objects_nbr = 12;
 	t_object	*objects;
 
 	*out_obj_nbr = objects_nbr;
@@ -69,7 +69,7 @@ static	t_object	*pathtrace_objects(int *out_obj_nbr)
 			.radius = 2.2};
 	objects[4] = (t_object){.type = SPHERE,
 			(t_material){.albedo = get_float3_color(0), .specular = 0,
-				.emission_color = get_float3_color(COL_WHITE), .emission_power = 10},
+				.emission_color = get_float3_color(COL_LIGHT_BLUE), .emission_power = 10},
 			.center = (cl_float3){{-1, 0.5, 5}},
 			.radius = 1};
 	objects[5] = (t_object){.type = SPHERE,
@@ -85,28 +85,18 @@ static	t_object	*pathtrace_objects(int *out_obj_nbr)
 			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0, .smoothness = 0},
 			.center = (cl_float3){{0, 0, 0}},
 			.normal = (cl_float3){{0, 1, 0}}};
-	objects[8] = (t_object){.type = SPHERE,
-			(t_material){.albedo = get_float3_color(0), .specular = 0,
-					.emission_color = get_float3_color(COL_WHITE), .emission_power = 15},
-			.center = (cl_float3){{700, 300, 700}},
-			.radius = 300};
-//	objects[9] = (t_object){.type = PLANE,
-//			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 1,
-//				.smoothness = MAX_SMOOTHNESS + 1, .refraction = 1, .transmittance = 0.8},
-//			.center = (cl_float3){{6, 0, 0}},
-//			.normal = (cl_float3){{1, 0, 0}}};
-//	objects[10] = (t_object){.type = PLANE,
-//			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0.99,
-//					.smoothness = MAX_SMOOTHNESS, .refraction = 1, .transmittance = 0},
-//			.center = (cl_float3){{10, 0, 0}},
-//			.normal = (cl_float3){{-1, 0, 0}}};
-
 	objects[9] = (t_object){.type = SPHERE,
+			(t_material){.albedo = get_float3_color(0), .specular = 0,
+					.emission_color = get_float3_color(COL_WHITE), .emission_power = 10},
+			.center = (cl_float3){{700, 300, 700}},
+			.radius = 100};
+
+	objects[10] = (t_object){.type = SPHERE,
 			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 1,
 					.smoothness = MAX_SMOOTHNESS, .refraction = 1.5, .transmittance = 1},
 			.center = (cl_float3){{15, 2.2, -6.2}},
 			.radius = 2};
-	objects[10] = (t_object){.type = SPHERE,
+	objects[11] = (t_object){.type = SPHERE,
 			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 1,
 					.smoothness = MAX_SMOOTHNESS - 1, .refraction = 1.5, .transmittance = 1},
 			.center = (cl_float3){{15, 2.6, -1.2}},

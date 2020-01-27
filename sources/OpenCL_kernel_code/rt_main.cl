@@ -23,6 +23,14 @@ t_ray			get_ray(float3 img_point, __constant t_camera *camera)
 	return ray;
 }
 
+float3			correct_hdr(float gamma, float exposure, float3 hdr_color)
+{
+	float3	mapped = (float3)(1.0f) - exp(-hdr_color * exposure);
+	mapped = pow(mapped, (float3)(1.0f / gamma));
+
+	return mapped;
+}
+
 __kernel void	rt_main(
     __constant t_scene *scene,
     __constant t_object *objects,
@@ -51,5 +59,6 @@ __kernel void	rt_main(
 	}
 	else if (params->render_algo == RAY_TRACE)
 		final_color = raytrace(scene, objects, lights, params, ray);
-	img_data[g_id] = get_int_color(saturate_float3(final_color));
+	img_data[g_id] = get_int_color(correct_hdr(params->gamma, params->exposure, final_color));
+//	img_data[g_id] = get_int_color(saturate_float3(final_color));
 }

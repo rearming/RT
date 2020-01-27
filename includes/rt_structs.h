@@ -271,12 +271,16 @@ typedef struct			s_opencl_params
 	t_pathtrace_params	pathtrace_params;
 	t_raytrace_params	raytrace_params;
 	cl_float			seed;
+	cl_float			exposure;
+	cl_float			gamma;
 # else
 
 	t_render_algo		render_algo;
 	t_pathtrace_params	pathtrace_params;
 	t_raytrace_params	raytrace_params;
 	float				seed;
+	float				exposure;
+	float				gamma;
 # endif
 }						t_opencl_params;
 
