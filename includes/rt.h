@@ -21,8 +21,8 @@
 # include "rt_structs.h"
 # include "rt_errors.h"
 # include "rt_defines.h"
-#include "jansson.h"
-
+# include "jansson.h"
+# include "rt_parser_defines.h"
 /*
 **	Global pointers
 */
@@ -50,6 +50,7 @@ int			type_of_json_array(const char *param, int type);
 int			type_of_object(const char *param, int type);
 int			type_of_structure_object(const char *param);
 int			type_of_variable(const char *param, int type);
+void		add_array(cl_float3 *elem, json_t *value);
 t_scene		get_hardcoded_scene(); //todo remove after dev
 void		rt_correct_scene(t_scene *scene);
 

@@ -32,8 +32,8 @@ t_scene		rt_parse_scene(const char *json_scene_file)
 	root = json_loads(text, 0, &error);
 	parse_elem(root, tmp);
 	printff(tmp);
-	//json_decref(root);
-	//free(text);
+	json_decref(root);
+	free(text);
 	//scene = get_hardcoded_scene();
 	//rt_correct_scene(&scene);
 	return (scene);
