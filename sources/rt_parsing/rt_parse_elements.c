@@ -12,15 +12,25 @@
 
 #include "rt.h"
 
+static void	err_type(int structure_type)
+{
+	if(structure_type == CAMERA)
+		rt_raise_error(ERR_PARSING_WRONG_CAMERA_PARAMS);
+	else if (structure_type == LIGHT)
+		rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
+	else
+		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+}
+
 static int	parse_variable(t_tmp *tmp, const char *key, json_t *value)
 {
 	int variable_type;
 
 	variable_type = type_of_variable(key, tmp->structure_type);
 	if (variable_type == -1)
-		printf("number error\n");
+		err_type(tmp->structure_type);
 	if ((tmp->checker = ft_check_if_exist(tmp->checker, variable_type)) == -1)
-		printf("variable already exist\n");
+		err_type(tmp->structure_type);
 	if (variable_type == INTENSITY)
 		tmp->intensity = (float)json_real_value(value);
 	else if (variable_type == TYPE)
@@ -41,7 +51,7 @@ static int	parse_variable(t_tmp *tmp, const char *key, json_t *value)
 static int	parse_array_elems(t_tmp *tmp, int array_type, json_t *value)
 {
 	if ((tmp->checker = ft_check_if_exist(tmp->checker, array_type)) == -1)
-		printf("array variable already exist\n");
+		err_type(tmp->structure_type);
 	if (array_type == POS)
 		add_array(&tmp->pos, value);
 	else if (array_type == ROTATION)
@@ -64,7 +74,7 @@ static int	parse_array(t_tmp *tmp, const char *key, json_t *value)
 		tmp->structure_type = type_of_structure_object(key);
 	array_type = type_of_json_array(key, tmp->structure_type);
 	if (array_type == CAMERA)
-		printf("error here\n");
+		rt_raise_error(ERR_PARSING_WRONG_CAMERA_PARAMS);
 	else if (array_type == OBJECT || array_type == LIGHT)
 	{
 		array_size = json_array_size(value);
@@ -94,16 +104,18 @@ static int	parse_object(t_tmp *tmp, const char *key, json_t *value)
 	init_tmp(&tmp2);
 	tmp2.structure_type = type_of_structure_object(key);
 	if (tmp->structure_type == -1)
-		printf("object error1\n");
+		rt_raise_error(ERR_PARSING_WRONG_PARAM);
 	if (tmp2.structure_type != LIGHT)
 	{
 		tmp2.type = type_of_object(key, tmp2.structure_type);
 		if (tmp2.type == -1)
-			printf("object error4\n");
+			rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
 	}
 	if (tmp->checker != 0)
 	{
 		tmp->next = (t_tmp *)malloc(sizeof(t_tmp));
+		if (!tmp->next)
+			rt_raise_error(STDERR_FILENO);
 		init_tmp(tmp->next);
 		tmp = tmp->next;
 	}
@@ -132,9 +144,9 @@ void		parse_elem(json_t *root, t_tmp *tmp)
 		else if (json_is_number(value))
 			check = parse_variable(tmp, key, value);
 		else
-			printf("free object, go to next\n");
+			rt_raise_error(ERR_PARSING_WRONG_PARAM);
 		if (check == -1)
-			printf("error\n");
+			rt_raise_error(ERR_PARSING_WRONG_PARAM);
 		while (tmp->next != NULL)
 			tmp = tmp->next;
 		iter = json_object_iter_next(root, iter);

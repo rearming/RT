@@ -20,13 +20,14 @@ void		printff(t_tmp *tmp)
 
 t_scene		rt_parse_scene(const char *json_scene_file)
 {
-	t_scene		scene;
+//	t_scene		scene;
 	char		*text;
 	t_tmp			*tmp;
 	json_t			*root;
 	json_error_t	error;
 
-	tmp = (t_tmp *)malloc(sizeof(t_tmp));
+	if (!(tmp = (t_tmp *)malloc(sizeof(t_tmp))))
+		rt_raise_error(ERR_MALLOC);
 	text = read_file(json_scene_file, 10);
 	init_tmp(tmp);
 	root = json_loads(text, 0, &error);
@@ -36,5 +37,5 @@ t_scene		rt_parse_scene(const char *json_scene_file)
 	free(text);
 	//scene = get_hardcoded_scene();
 	//rt_correct_scene(&scene);
-	return (scene);
+	//return (scene);
 }

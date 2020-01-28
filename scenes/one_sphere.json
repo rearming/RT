@@ -4,7 +4,7 @@
 		"size": 0.25,
 		"texture": 1,
 		"texture_pos": [0, 0, 0],
-		"spec": 50
+		"specularity": 50
 	},
 	"camera": {
 		"pos": [0, 0, -2]

@@ -1,10 +1,10 @@
 {
 	"cylinder":	{
-		"pos": [0, 0, 0],
+		"pos": [1, 2, 3.0],
 		"normal": [0, 1, 0],
-		"size": 0.5,
+		"len": 0.5,
 		"color": [0, 255, 255],
-		"spec": 100
+		"specularity": 100
 	},
 	"camera": {
 		"pos": [0, 0, -5]

@@ -18,6 +18,14 @@ static void		raise_error2(int err_code)
 		ft_printf_fd(STDERR_FILENO, "clEnqueueNDRangeKernel failed\n");
 	else if (err_code == ERR_OPENCL_READ_BUFFER)
 		ft_printf_fd(STDERR_FILENO, "clEnqueueReadBuffer failed\n");
+	else if (err_code == ERR_PARSING_WRONG_OBJECT_PARAMS)
+		ft_printf_fd(STDERR_FILENO, "Wrong object parameters in file\n");
+	else if (err_code == ERR_PARSING_WRONG_LIGHT_PARAMS)
+		ft_printf_fd(STDERR_FILENO, "Wrong light parameters in file\n");
+	else if (err_code == ERR_PARSING_WRONG_CAMERA_PARAMS)
+		ft_printf_fd(STDERR_FILENO, "Wrong light camera in file\n");
+	else if (err_code == ERR_PARSING_WRONG_PARAM)
+		ft_printf_fd(STDERR_FILENO, "Wrong parameter in file\n");
 	else
 		ft_printf_fd(STDERR_FILENO, "UNKNOWN ERROR!\n");
 }

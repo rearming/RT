@@ -27,5 +27,5 @@ static inline void		correct_specular(t_scene *scene)
 void		rt_correct_scene(t_scene *scene)
 {
 	RT_UNUSED(scene);
-//	correct_lights_intensity(scene);
+	//correct_lights_intensity(scene);
 }
