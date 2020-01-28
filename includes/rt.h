@@ -75,7 +75,7 @@ void		rt_opencl_move_host_mem_to_kernel(int kernel_mem_object_nbr, ...);
 char		*get_opencl_kernel_code_text(size_t *out_size);
 void		opencl_clean_memobjs(void);
 void		rt_opencl_setup_image_buffer(void);
-void		rt_opencl_handle_error(int rt_err_code, int opencl_err_code);
+void		rt_opencl_handle_error(const char *rt_err_str, int opencl_err_code);
 
 /*
 **	Utils
@@ -84,7 +84,7 @@ void		rt_opencl_handle_error(int rt_err_code, int opencl_err_code);
 void		rt_loop(t_rt *rt);
 
 void		print_cl_build_program_debug(void);
-void		rt_raise_error(int err_code);
+void		rt_raise_error(const char *err_str);
 void		*rt_safe_malloc(size_t size);
 bool		rt_exit_clean(void);
 

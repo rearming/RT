@@ -4,17 +4,17 @@
 static inline void		rt_add_key_event(t_events *events, SDL_Scancode scancode)
 {
 	if (scancode == SDL_SCANCODE_W)
-		events->w = TRUE;
+		events->w = true;
 	if (scancode == SDL_SCANCODE_S)
-		events->s = TRUE;
+		events->s = true;
 	if (scancode == SDL_SCANCODE_A)
-		events->a = TRUE;
+		events->a = true;
 	if (scancode == SDL_SCANCODE_D)
-		events->d = TRUE;
+		events->d = true;
 	if (scancode == SDL_SCANCODE_SPACE)
-		events->space = TRUE;
+		events->space = true;
 	if (scancode == SDL_SCANCODE_X)
-		events->lshift = TRUE;
+		events->lshift = true;
 }
 
 static inline void		remove_key_event(t_events *events, SDL_Scancode scancode)

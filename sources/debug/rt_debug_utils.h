@@ -1,14 +1,21 @@
 #ifndef RT_DEBUG_UTILS_H
 # define RT_DEBUG_UTILS_H
 
+#include "rt.h"
+#include "tiny_obj_loader_c.h"
 
 /*
 **	debug
 */
 
-void		print_clfloat3(cl_float3 vec);
+void		rt_print_clfloat3(cl_float3 vec);
+void		rt_print_float3_color(cl_float3 color, const char *definition);
 void		rt_print_debug_info(t_rt *rt);
 void		print_cl_device_info(void);
+void		rt_print_obj(tinyobj_attrib_t *attrib, tinyobj_shape_t *shape, size_t num_shapes);
+void		rt_print_material(const t_material *material);
+
+void		rt_print_parsed_meshes(t_meshes *meshes);
 
 /*
 **	Profiling

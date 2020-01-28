@@ -46,7 +46,7 @@ void	test_opencl_setargs(void)
 
 //	g_opencl.opencl_mem[0].mem = clCreateBuffer(g_opencl.context, RT_DEFAULT_MEM_FLAG,
 //			sizeof(int) * int_arr_size, test_int_arr, &err);
-//	g_opencl.opencl_mem[0].copy_mem = TRUE;
+//	g_opencl.opencl_mem[0].copy_mem = true;
 //	err != CL_SUCCESS ? rt_raise_error(ERR_OPENCL_CREATE_BUFFER) : 0;
 
 //	g_opencl.opencl_mem[1].mem = clCreateBuffer(g_opencl.context, RT_DEFAULT_MEM_FLAG,

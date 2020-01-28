@@ -47,6 +47,8 @@ void			correct_img_point(float3 *img_point);
 
 t_ray			get_ray(float3 img_point, __constant t_camera *camera);
 
+float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
+
 void	rt_main(
     __constant t_scene *scene,
     __constant t_object *objects,

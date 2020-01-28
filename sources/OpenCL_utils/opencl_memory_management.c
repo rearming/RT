@@ -15,7 +15,7 @@ void		rt_opencl_move_host_mem_to_kernel(int kernel_mem_object_nbr, ...)
 	while (mem_obj_i < kernel_mem_object_nbr)
 	{
 		memobj = va_arg(ap, t_opencl_mem_obj);
-		if (memobj.copy_mem == TRUE || mem_copy_done == false)
+		if (memobj.copy_mem == true || mem_copy_done == false)
 		{
 			g_opencl.opencl_mem[mem_obj_i].mem = clCreateBuffer(g_opencl.context,
 					memobj.mem_flags, memobj.size, memobj.ptr, &err);
@@ -27,7 +27,7 @@ void		rt_opencl_move_host_mem_to_kernel(int kernel_mem_object_nbr, ...)
 		rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 		mem_obj_i++;
 	}
-	mem_copy_done = TRUE;
+	mem_copy_done = true;
 	va_end(ap);
 }
 
@@ -67,8 +67,8 @@ void		opencl_clean_memobjs(void)
 	memobj_i = 0;
 	while (memobj_i < g_opencl.opencl_memobj_number)
 	{
-//		printf("copy_mem == %s", g_opencl.opencl_mem[memobj_i].copy_mem == TRUE ? "TRUE, " : "false\n");
-		if (g_opencl.opencl_mem[memobj_i].copy_mem == TRUE)
+//		printf("copy_mem == %s", g_opencl.opencl_mem[memobj_i].copy_mem == true ? "true, " : "false\n");
+		if (g_opencl.opencl_mem[memobj_i].copy_mem == true)
 		{
 //			printf("Releasing memobj\n");
 			if (clReleaseMemObject(g_opencl.opencl_mem[memobj_i].mem))

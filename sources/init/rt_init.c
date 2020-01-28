@@ -1,4 +1,5 @@
 #include "rt.h"
+#include "../rt_parsing/rt_parsing.h"
 
 //todo парсинг (и валидация) параметров рендеринга из json'a ?
 void		rt_init_pathtrace_params(t_pathtrace_params *out_pathtrace_params)
@@ -39,6 +40,7 @@ void		rt_init(t_rt *out_rt, const char *json_scene_file)
 	rt_sdl_init();
 	rt_opencl_init();
 	out_rt->scene = rt_parse_scene(json_scene_file);
+	rt_load_obj_files(&out_rt->scene.meshes);
 	rt_init_opencl_params(&out_rt->opencl_params);
 	rt_init_events(&out_rt->events);
 }

@@ -210,6 +210,52 @@ typedef struct			s_object
 
 }						t_object;
 
+# define RT_DEFAULT_POLYGON_VERTICES 3
+
+typedef struct			s_polygon
+{
+# ifndef FT_OPENCL___
+
+	cl_int				vert_i[RT_DEFAULT_POLYGON_VERTICES];
+	cl_int				vnorm_i;
+	cl_int				vtex_i[RT_DEFAULT_POLYGON_VERTICES];
+	t_material			material;
+# else
+
+	int					vert_i[RT_DEFAULT_POLYGON_VERTICES];
+	int					vnorm_i;
+	int					vtex_i[RT_DEFAULT_POLYGON_VERTICES];
+	t_material			material;
+#endif
+
+}						t_polygon;
+
+typedef struct			s_meshes
+{
+# ifndef FT_OPENCL___
+
+	t_polygon			*polygons;
+	cl_float3			*vertices;
+	cl_float3			*v_normals;
+	cl_float3			*v_textures;
+	cl_uint				num_polygons;
+	cl_uint				num_vertices;
+	cl_uint				num_v_normals;
+	cl_uint				num_v_textures;
+# else
+
+	t_polygon			*polygons;
+	float3				*vertices;
+	float3				*v_normals;
+	float3				*v_textures;
+	uint				num_polygons;
+	uint				num_vertices;
+	uint				num_v_normals;
+	uint				num_v_textures;
+# endif
+
+}						t_meshes;
+
 typedef struct			s_scene
 {
 # ifndef FT_OPENCL___
@@ -219,6 +265,7 @@ typedef struct			s_scene
 	cl_int				lights_nbr;
 	t_object			*objects;
 	t_light				*lights;
+	t_meshes			meshes;
 # else
 
 	t_camera			camera;
@@ -226,6 +273,7 @@ typedef struct			s_scene
 	int					lights_nbr;
 	t_object			*objects;
 	t_light				*lights;
+	t_meshes			meshes;
 # endif
 
 }						t_scene;

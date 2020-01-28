@@ -15,5 +15,6 @@ int		main(int argc, char **argv)
 	rt_init(&rt, NULL);
 	rt_render(&rt, &rt_opencl_render);
 	rt_loop(&rt);
-	return (rt_exit_clean());
+	exit(rt_exit_clean());
+	return (0);
 }

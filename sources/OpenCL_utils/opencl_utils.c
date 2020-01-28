@@ -16,7 +16,7 @@ inline void		rt_opencl_setup_image_buffer(void)
 	err = clSetKernelArg(g_opencl.kernel, g_opencl.opencl_memobj_number,
 						 sizeof(cl_mem), &g_opencl.img_data_mem);
 	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
-	image_created = TRUE;
+	image_created = true;
 }
 
 /*
@@ -99,12 +99,12 @@ static inline int	rt_opencl_correct_err_code(int opencl_err_code)
 		return (opencl_err_code - OFFSET_BETWEEN_ERRORS);
 }
 
-inline void		rt_opencl_handle_error(int rt_err_code, int opencl_err_code)
+inline void		rt_opencl_handle_error(const char *rt_err_str, int opencl_err_code)
 {
 	if (opencl_err_code != CL_SUCCESS)
 	{
 		ft_printf_fd(STDERR_FILENO, "OpenCL err code: [%i], %s\n",
 				opencl_err_code, g_opencl_errors[rt_opencl_correct_err_code(opencl_err_code)]);
-		rt_raise_error(rt_err_code);
+		rt_raise_error(rt_err_str);
 	}
 }
