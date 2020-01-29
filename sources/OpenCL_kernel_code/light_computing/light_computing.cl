@@ -2,22 +2,29 @@
 bool				in_shadow(
 		__constant t_scene *scene,
 		__constant t_object *objects,
-		t_ray ray,
+		__constant t_polygon *polygons,
+		__constant float3 *vertices,
+		__constant float3 *v_normals,
+		t_ray *ray,
 		t_light_type light_type)
 {
 	int			found_object = NOT_SET;
+	int			found_polygon = NOT_SET;
 	t_rayhit	out_hit = {(float3)(0), INFINITY, (float3)(0)};
 
-	closest_intersection(scene, objects, &ray, &out_hit, &found_object);
+	closest_intersection(scene, objects, polygons, vertices, v_normals, ray, &out_hit, &found_polygon, &found_object);
 	if (light_type == POINT && out_hit.distance > 1) /// проверяем луч только до источника света
 		return false;
-	return found_object != NOT_SET && objects[found_object].material.transmittance <= 0;
+	return found_object != NOT_SET && found_polygon != NOT_SET && objects[found_object].material.transmittance <= 0;
 }
 
 float				compute_light(
 	__constant t_scene *scene,
 	__constant t_light *lights,
 	__constant t_object *objects,
+	__constant t_polygon *polygons,
+	__constant float3 *vertices,
+	__constant float3 *v_normals,
 	t_rayhit *hit)
 {
 	float		intensity = 0.0f;
@@ -39,7 +46,11 @@ float				compute_light(
 		{
 			light_dir = lights[i].dir;
 		}
-		if (in_shadow(scene, objects, (t_ray){hit->pos, light_dir}, lights[i].type))
+		t_ray	ray;
+		ray.origin = hit->pos;
+		ray.dir = light_dir;
+		if (in_shadow(scene, objects, polygons, vertices, v_normals,
+				&ray, lights[i].type))
 			continue;
 		float	normal_dot_light = dot(hit->normal, light_dir);
 		if (normal_dot_light > 0)

@@ -69,8 +69,9 @@ void		rt_get_meshes(const tinyobj_attrib_t *attrib, t_meshes *out_meshes)
 
 void		rt_load_obj_files(t_meshes *out_meshes)
 {
-	const char			*filename = "/Users/sleonard/RT/assets/3d_models/cube.obj";
-//	const char			*filename = "/Users/sleonard/RT/assets/3d_models/cube_plane_sphere.obj";
+//	const char			*filename = "/Users/sleonard/RT/assets/3d_models/cube.obj";
+	const char			*filename = "/Users/sleonard/RT/assets/3d_models/cube_plane_sphere.obj";
+//	const char			*filename = "/Users/sleonard/RT/assets/3d_models/monk_statue_triangulated.obj";
 	tinyobj_attrib_t	*attrib;
 	tinyobj_shape_t		*shapes;
 	size_t				num_shapes;
@@ -89,9 +90,9 @@ void		rt_load_obj_files(t_meshes *out_meshes)
 	free((void*)obj_data);
 	if (err != TINYOBJ_SUCCESS)
 		rt_raise_error(ERR_OBJLOADER_PARSE_OBJ);
-	rt_print_obj(attrib, shapes, num_shapes);
+//	rt_print_obj(attrib, shapes, num_shapes);
 	rt_get_meshes(attrib, out_meshes);
-	rt_print_parsed_meshes(out_meshes);
+//	rt_print_parsed_meshes(out_meshes);
 	tinyobj_attrib_free(attrib);
 	tinyobj_shapes_free(shapes, num_shapes);
 	free(attrib);

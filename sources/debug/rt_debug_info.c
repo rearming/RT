@@ -9,7 +9,7 @@ void		rt_print_debug_info(t_rt *rt)
 	if (rt->opencl_params.render_algo == PATH_TRACE)
 	{
 		ft_printf("current samples number: [%i]\n", rt->opencl_params.pathtrace_params.current_samples_num);
-		ft_printf("current seed: [%.4f]\n", rt->opencl_params.seed);
+//		ft_printf("current seed: [%.4f]\n", rt->opencl_params.seed);
 	}
 
 	ft_printf("camera position: ");

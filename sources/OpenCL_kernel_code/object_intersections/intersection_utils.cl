@@ -2,8 +2,12 @@
 void				closest_intersection(
 		__constant t_scene *scene,
 		__constant t_object *objects,
+		__constant t_polygon *polygons,
+		__constant float3 *vertices,
+		__constant float3 *v_normals,
 		t_ray *ray,
 		t_rayhit *out_best_hit,
+		int *out_closest_polygon_index,
 		int *out_closest_obj_index)
 {
 	for (int i = 0; i < scene->obj_nbr; i++)
@@ -24,4 +28,9 @@ void				closest_intersection(
 				break;
 		}
 	}
+	if (!polygons) /// может нужна проверка всех полей?
+		return;
+	if ((*out_closest_polygon_index = ray_mesh_intersect(
+			&scene->meshes, polygons, vertices, v_normals, ray, out_best_hit)) != NOT_SET)
+		*out_closest_obj_index = NOT_SET;
 }

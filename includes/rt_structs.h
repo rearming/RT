@@ -237,24 +237,24 @@ typedef struct			s_meshes
 {
 # ifndef FT_OPENCL___
 
+	cl_int				num_polygons;
+	cl_int				num_vertices;
+	cl_int				num_v_normals;
+	cl_int				num_v_textures;
 	t_polygon			*polygons;
 	cl_float3			*vertices;
 	cl_float3			*v_normals;
 	cl_float3			*v_textures;
-	cl_uint				num_polygons;
-	cl_uint				num_vertices;
-	cl_uint				num_v_normals;
-	cl_uint				num_v_textures;
 # else
 
+	int					num_polygons;
+	int					num_vertices;
+	int					num_v_normals;
+	int					num_v_textures;
 	t_polygon			*polygons;
 	float3				*vertices;
 	float3				*v_normals;
 	float3				*v_textures;
-	uint				num_polygons;
-	uint				num_vertices;
-	uint				num_v_normals;
-	uint				num_v_textures;
 # endif
 
 }						t_meshes;
@@ -266,17 +266,17 @@ typedef struct			s_scene
 	t_camera			camera;
 	cl_int				obj_nbr;
 	cl_int				lights_nbr;
+	t_meshes			meshes;
 	t_object			*objects;
 	t_light				*lights;
-	t_meshes			meshes;
 # else
 
 	t_camera			camera;
 	int					obj_nbr;
 	int					lights_nbr;
+	t_meshes			meshes;
 	t_object			*objects;
 	t_light				*lights;
-	t_meshes			meshes;
 # endif
 
 }						t_scene;

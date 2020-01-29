@@ -53,15 +53,18 @@ __kernel void	rt_main(
 
 	float		seed = params->seed;
 
+//	if (g_id == 23)
+//		printf("num_polygons: [%i]\n", scene->meshes.num_polygons);
 	if (params->render_algo == PATH_TRACE)
 	{
-		new_color = pathtrace(scene, objects, lights, params, ray,
+		new_color = pathtrace(scene, objects, lights, polygons, vertices, v_normals,
+				params, ray,
 				params->pathtrace_params.max_depth, &seed, (float2)(img_point.xy + 1));
 		final_color = mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num);
 		img_data_float[g_id] = final_color;
 	}
 	else if (params->render_algo == RAY_TRACE)
-		final_color = raytrace(scene, objects, lights, params, ray);
+		final_color = raytrace(scene, objects, lights, polygons, vertices, v_normals, params, ray);
 	img_data[g_id] = get_int_color(correct_hdr(params->gamma, params->exposure, final_color));
 //	img_data[g_id] = get_int_color(saturate_float3(final_color));
 }

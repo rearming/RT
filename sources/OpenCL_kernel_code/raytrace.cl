@@ -6,8 +6,6 @@ float3		shade(
 {
 	if (hit->distance < INFINITY)
 	{
-		///умножение на epsilon нужно для того чтобы на маленьких расстояниях объекты не пропускались
-
 		if (material->transmittance > 0)
 		{
 			ray->origin = hit->pos;
@@ -33,25 +31,35 @@ float3		raytrace(
 		__constant t_scene *scene,
 		__constant t_object *objects,
 		__constant t_light *lights,
+		__constant t_polygon *polygons,
+		__constant float3 *vertices,
+		__constant float3 *v_normals,
 		__constant t_opencl_params *params,
 		t_ray ray)
 {
 	float3		result_color = (float3)(0);
 	t_rayhit	best_hit;
 	int			closest_obj_index = NOT_SET;
+	int			closest_polygon_index = NOT_SET;
 
 	for (int i = 0; i < params->raytrace_params.max_depth; ++i)
 	{
 		best_hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
-		closest_intersection(scene, objects, &ray, &best_hit, &closest_obj_index);
+		closest_intersection(scene, objects, polygons, vertices, v_normals, &ray, &best_hit, &closest_polygon_index, &closest_obj_index);
+		float	light_intensity = 0;
 		if (closest_obj_index != NOT_SET)
 		{
-			float light_i = 0;
 			if (objects[closest_obj_index].material.transmittance <= 0)
-				light_i = compute_light(scene, lights, objects, &best_hit);
-			result_color += ray.energy
-					* light_i
+				light_intensity = compute_light(scene, lights, objects, polygons, vertices, v_normals, &best_hit);
+			result_color += ray.energy * light_intensity
 					* shade(&ray, &best_hit, &objects[closest_obj_index].material);
+		}
+		else if (closest_polygon_index != NOT_SET)
+		{
+			if (polygons[closest_polygon_index].material.transmittance <= 0)
+				light_intensity = compute_light(scene, lights, objects, polygons, vertices, v_normals, &best_hit);
+			result_color += ray.energy * light_intensity
+					* shade(&ray, &best_hit, &polygons[closest_polygon_index].material);
 		}
 		else
 		{
@@ -63,6 +71,5 @@ float3		raytrace(
 	}
 
 	result_color = saturate_float3(result_color);
-//	result_color = result_color / (result_color + (float3)(1.f));
 	return result_color;
 }
