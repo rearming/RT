@@ -6,7 +6,7 @@
 // можно сделать в то же время, когда будут разделяться кернелы
 void		rt_opencl_prepare_memory(t_rt *rt)
 {
-	g_opencl.opencl_memobj_number = 5;
+	g_opencl.opencl_memobj_number = 8; //9 пока что без текстурных вершин
 	rt_opencl_move_host_mem_to_kernel(g_opencl.opencl_memobj_number,
 		(t_opencl_mem_obj){&rt->scene,
 			sizeof(t_scene), RT_DEFAULT_MEM_FLAG, true},
@@ -17,7 +17,15 @@ void		rt_opencl_prepare_memory(t_rt *rt)
 		(t_opencl_mem_obj){&rt->opencl_params,
 			sizeof(t_opencl_params), RT_DEFAULT_MEM_FLAG, true},
 		(t_opencl_mem_obj){&g_img_data_float,
-			sizeof(cl_float3) * WIN_HEIGHT * WIN_WIDTH, RT_MEM_RW_FLAG, false}
+			sizeof(cl_float3) * WIN_HEIGHT * WIN_WIDTH, RT_MEM_RW_FLAG, false},
+		(t_opencl_mem_obj){rt->scene.meshes.polygons,
+			sizeof(t_polygon) * rt->scene.meshes.num_polygons, RT_DEFAULT_MEM_FLAG, false},
+		(t_opencl_mem_obj){rt->scene.meshes.vertices,
+			sizeof(cl_float3) * rt->scene.meshes.num_vertices, RT_DEFAULT_MEM_FLAG, false},
+		(t_opencl_mem_obj){rt->scene.meshes.v_normals,
+			sizeof(cl_float3) * rt->scene.meshes.num_v_normals, RT_DEFAULT_MEM_FLAG, false}
+//		(t_opencl_mem_obj){rt->scene.meshes.v_textures,
+//			sizeof(cl_float3) * rt->scene.meshes.num_v_textures, RT_DEFAULT_MEM_FLAG, false}
 			);
 }
 

@@ -37,6 +37,9 @@ __kernel void	rt_main(
     __constant t_light *lights,
     __constant t_opencl_params *params,
     __global float3 *img_data_float,
+    __constant t_polygon *polygons,
+	__constant float3 *vertices,
+	__constant float3 *v_normals,
     __global int *img_data)
 {
 	int			g_id = get_global_id(0);
