@@ -70,8 +70,8 @@ void		rt_get_meshes(const tinyobj_attrib_t *attrib, t_meshes *out_meshes)
 
 void		rt_load_obj_files(t_meshes *out_meshes)
 {
-//	const char			*filename = "/Users/sleonard/RT/assets/3d_models/cube.obj";
-	const char			*filename = "/Users/sleonard/RT/assets/3d_models/cube_plane_sphere.obj";
+	const char			*filename = "/Users/sleonard/RT/assets/3d_models/cube.obj";
+//	const char			*filename = "/Users/sleonard/RT/assets/3d_models/cube_plane_sphere.obj";
 //	const char			*filename = "/Users/sleonard/RT/assets/3d_models/monk_statue_triangulated.obj";
 	tinyobj_attrib_t	*attrib;
 	tinyobj_shape_t		*shapes;
