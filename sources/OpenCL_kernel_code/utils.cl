@@ -1,5 +1,5 @@
 
-float3			canvas_to_viewport(__constant t_camera *camera, float3 canvas_point)
+float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point)
 {
 	return (float3)
 	(

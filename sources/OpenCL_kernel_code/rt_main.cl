@@ -11,7 +11,7 @@ void			correct_img_point(float3 *img_point)
 	img_point->y = -img_point->y;
 }
 
-t_ray			get_ray(float3 img_point, __constant t_camera *camera)
+t_ray			get_ray(float3 img_point, __global const t_camera *camera)
 {
 	t_ray		ray;
 
@@ -32,14 +32,14 @@ float3			correct_hdr(float gamma, float exposure, float3 hdr_color)
 }
 
 __kernel void	rt_main(
-    __constant t_scene *scene,
-    __constant t_object *objects,
-    __constant t_light *lights,
-    __constant t_opencl_params *params,
+    __global const t_scene *scene,
+    __global const t_object *objects,
+    __global const t_light *lights,
+    __global const t_opencl_params *params,
+    __global const t_polygon *polygons,
+	__global const float3 *vertices,
+	__global const float3 *v_normals,
     __global float3 *img_data_float,
-    __constant t_polygon *polygons,
-	__constant float3 *vertices,
-	__constant float3 *v_normals,
     __global int *img_data)
 {
 	int			g_id = get_global_id(0);
@@ -53,8 +53,6 @@ __kernel void	rt_main(
 
 	float		seed = params->seed;
 
-//	if (g_id == 23)
-//		printf("num_polygons: [%i]\n", scene->meshes.num_polygons);
 	if (params->render_algo == PATH_TRACE)
 	{
 		new_color = pathtrace(scene, objects, lights, polygons, vertices, v_normals,
@@ -66,5 +64,4 @@ __kernel void	rt_main(
 	else if (params->render_algo == RAY_TRACE)
 		final_color = raytrace(scene, objects, lights, polygons, vertices, v_normals, params, ray);
 	img_data[g_id] = get_int_color(correct_hdr(params->gamma, params->exposure, final_color));
-//	img_data[g_id] = get_int_color(saturate_float3(final_color));
 }

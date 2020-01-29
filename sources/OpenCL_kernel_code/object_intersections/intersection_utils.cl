@@ -1,10 +1,10 @@
 
 void				closest_intersection(
-		__constant t_scene *scene,
-		__constant t_object *objects,
-		__constant t_polygon *polygons,
-		__constant float3 *vertices,
-		__constant float3 *v_normals,
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
 		t_ray *ray,
 		t_rayhit *out_best_hit,
 		int *out_closest_polygon_index,

@@ -1,8 +1,8 @@
 int		ray_mesh_intersect(
-		__constant t_meshes *mesh_info,
-		__constant t_polygon *polygons,
-		__constant float3 *vertices,
-		__constant float3 *v_normals,
+		__global const t_meshes *mesh_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
 		t_ray *ray,
 		t_rayhit *out_best_hit)
 {

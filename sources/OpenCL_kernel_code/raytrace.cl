@@ -2,7 +2,7 @@
 float3		shade(
 		t_ray *ray,
 		t_rayhit *hit,
-		__constant t_material *material)
+		__global const t_material *material)
 {
 	if (hit->distance < INFINITY)
 	{
@@ -28,13 +28,13 @@ float3		shade(
 }
 
 float3		raytrace(
-		__constant t_scene *scene,
-		__constant t_object *objects,
-		__constant t_light *lights,
-		__constant t_polygon *polygons,
-		__constant float3 *vertices,
-		__constant float3 *v_normals,
-		__constant t_opencl_params *params,
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_light *lights,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		__global const t_opencl_params *params,
 		t_ray ray)
 {
 	float3		result_color = (float3)(0);
@@ -69,7 +69,5 @@ float3		raytrace(
 		if (!ray_has_energy(&ray))
 			break;
 	}
-
-	result_color = saturate_float3(result_color);
 	return result_color;
 }

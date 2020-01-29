@@ -1,10 +1,10 @@
 
 bool				in_shadow(
-		__constant t_scene *scene,
-		__constant t_object *objects,
-		__constant t_polygon *polygons,
-		__constant float3 *vertices,
-		__constant float3 *v_normals,
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
 		t_ray *ray,
 		t_light_type light_type)
 {
@@ -19,12 +19,12 @@ bool				in_shadow(
 }
 
 float				compute_light(
-	__constant t_scene *scene,
-	__constant t_light *lights,
-	__constant t_object *objects,
-	__constant t_polygon *polygons,
-	__constant float3 *vertices,
-	__constant float3 *v_normals,
+	__global const t_scene *scene,
+	__global const t_light *lights,
+	__global const t_object *objects,
+	__global const t_polygon *polygons,
+	__global const float3 *vertices,
+	__global const float3 *v_normals,
 	t_rayhit *hit)
 {
 	float		intensity = 0.0f;

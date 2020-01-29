@@ -211,9 +211,9 @@ static	t_object	*obj_scene(int *out_obj_nbr)
 
 	objects[0] = (t_object){.type = SPHERE, // light
 			(t_material){.albedo = get_float3_color(0), .specular = 0, .smoothness = 0,
-					.emission_color = get_float3_color(COL_WHITE), .emission_power = 10},
-			.center = (cl_float3){{4, 8, 0}},
-			.radius = 2.f};
+					.emission_color = get_float3_color(COL_WHITE), .emission_power = 20},
+			.center = (cl_float3){{20, 23, 0}},
+			.radius = 6.f};
 
 	return (objects);
 }
@@ -248,8 +248,10 @@ t_scene		get_hardcoded_scene(void)
 
 	scene.camera = (t_camera)
 	{
-		.pos = (cl_float3){{20, 6.6, -6.4}}, //pathtracing scene pos/rotation
-		.rotation = (cl_float3){{-10, -63.3, 0}},
+		.pos = (cl_float3){{0, 10, 40}},
+		.rotation = (cl_float3){{0, 180, 0}},
+//		.pos = (cl_float3){{20, 6.6, -6.4}}, //pathtracing scene pos/rotation
+//		.rotation = (cl_float3){{-10, -63.3, 0}},
 //		.pos = (cl_float3){{0.2, 1.2, -14.2}}, // cornell box pos/rotation
 //		.rotation = (cl_float3){{0, 0, 0}},
 		.viewport_distance = 1,

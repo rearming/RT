@@ -1,7 +1,7 @@
 
 bool				ray_triangle_intersect_MT(
 		t_ray *ray,
-		__constant t_object *triangle,
+		__global const t_object *triangle,
 		t_rayhit *best_hit)
 {
 	const float3	v0v1 = triangle->vertices[1] - triangle->vertices[0];

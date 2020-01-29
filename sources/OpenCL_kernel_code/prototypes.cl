@@ -32,38 +32,38 @@ void		rotate_point(float3 *point, float3 angle);
 float3		shade(
 		t_ray *ray,
 		t_rayhit *hit,
-		__constant t_material *material);
+		__global const t_material *material);
 
 float3		raytrace(
-		__constant t_scene *scene,
-		__constant t_object *objects,
-		__constant t_light *lights,
-		__constant t_polygon *polygons,
-		__constant float3 *vertices,
-		__constant float3 *v_normals,
-		__constant t_opencl_params *params,
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_light *lights,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		__global const t_opencl_params *params,
 		t_ray ray);
 
 float3			get_img_point(int global_id);
 
 void			correct_img_point(float3 *img_point);
 
-t_ray			get_ray(float3 img_point, __constant t_camera *camera);
+t_ray			get_ray(float3 img_point, __global const t_camera *camera);
 
 float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
 
 void	rt_main(
-    __constant t_scene *scene,
-    __constant t_object *objects,
-    __constant t_light *lights,
-    __constant t_opencl_params *params,
+    __global const t_scene *scene,
+    __global const t_object *objects,
+    __global const t_light *lights,
+    __global const t_opencl_params *params,
+    __global const t_polygon *polygons,
+	__global const float3 *vertices,
+	__global const float3 *v_normals,
     __global float3 *img_data_float,
-    __constant t_polygon *polygons,
-	__constant float3 *vertices,
-	__constant float3 *v_normals,
     __global int *img_data);
 
-float3			canvas_to_viewport(__constant t_camera *camera, float3 canvas_point);
+float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point);
 
 float3		reflect(float3 ray_dir, float3 normal);
 
@@ -76,45 +76,45 @@ float3		saturate_float3(float3 value);
 bool		ray_has_energy(t_ray *ray);
 
 bool				in_shadow(
-		__constant t_scene *scene,
-		__constant t_object *objects,
-		__constant t_polygon *polygons,
-		__constant float3 *vertices,
-		__constant float3 *v_normals,
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
 		t_ray *ray,
 		t_light_type light_type);
 
 float				compute_light(
-	__constant t_scene *scene,
-	__constant t_light *lights,
-	__constant t_object *objects,
-	__constant t_polygon *polygons,
-	__constant float3 *vertices,
-	__constant float3 *v_normals,
+	__global const t_scene *scene,
+	__global const t_light *lights,
+	__global const t_object *objects,
+	__global const t_polygon *polygons,
+	__global const float3 *vertices,
+	__global const float3 *v_normals,
 	t_rayhit *hit);
 
 void				closest_intersection(
-		__constant t_scene *scene,
-		__constant t_object *objects,
-		__constant t_polygon *polygons,
-		__constant float3 *vertices,
-		__constant float3 *v_normals,
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
 		t_ray *ray,
 		t_rayhit *out_best_hit,
 		int *out_closest_polygon_index,
 		int *out_closest_obj_index);
 
 int		ray_mesh_intersect(
-		__constant t_meshes *mesh_info,
-		__constant t_polygon *polygons,
-		__constant float3 *vertices,
-		__constant float3 *v_normals,
+		__global const t_meshes *mesh_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
 		t_ray *ray,
 		t_rayhit *out_best_hit);
 
 bool				ray_triangle_intersect_MT(
 		t_ray *ray,
-		__constant t_object *triangle,
+		__global const t_object *triangle,
 		t_rayhit *best_hit);
 
 bool				ray_triangle_intersect_MT_polygon(
@@ -132,17 +132,17 @@ bool				ray_plane_intersect(
 
 bool				ray_sphere_intersect(
 		t_ray *ray,
-		__constant t_object *sphere,
+		__global const t_object *sphere,
 		t_rayhit *best_hit);
 
 float3		pathtrace(
-		__constant t_scene *scene,
-		__constant t_object *objects,
-		__constant t_light *lights,
-		__constant t_polygon *polygons,
-		__constant float3 *vertices,
-		__constant float3 *v_normals,
-		__constant t_opencl_params *params,
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_light *lights,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		__global const t_opencl_params *params,
 		t_ray ray,
 		int depth,
 		float *seed,
@@ -161,7 +161,7 @@ float3		rand_dir_on_hemisphere(
 float3		shade_pathtrace(
 		t_ray *ray,
 		t_rayhit *hit,
-		__constant t_material *material,
+		__global const t_material *material,
 		float *seed,
 		float2 pixel);
 

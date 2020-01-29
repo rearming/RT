@@ -36,7 +36,8 @@ t_polygon	rt_get_polygon(const tinyobj_attrib_t *attrib, int polygon_i)
 	polygon.vtex_i[0] = attrib->faces[3 * polygon_i + 0].vt_idx > 0 ? attrib->faces[3 * polygon_i + 0].vt_idx : NOT_SET;
 	polygon.vtex_i[1] = attrib->faces[3 * polygon_i + 1].vt_idx > 0 ? attrib->faces[3 * polygon_i + 1].vt_idx : NOT_SET;
 	polygon.vtex_i[2] = attrib->faces[3 * polygon_i + 2].vt_idx > 0 ? attrib->faces[3 * polygon_i + 2].vt_idx : NOT_SET;
-	polygon.material = (t_material){.albedo = get_float3_color(COL_GREY), .specular = 0}; /// пока что хардкод материала
+	polygon.material = (t_material){.albedo = get_float3_color(COL_GREY), .specular = 0,
+								 .transmittance = 0}; /// пока что хардкод материала
 	return (polygon);
 }
 

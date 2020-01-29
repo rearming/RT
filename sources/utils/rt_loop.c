@@ -13,7 +13,8 @@ void		rt_loop(t_rt *rt)
 		{
 			handle_event(&event, rt);
 		}
-		rt_render(rt, rt_opencl_render);
+		if (rt->opencl_params.render_algo == PATH_TRACE)
+			rt_render(rt, rt_opencl_render);
 		if (flag == true)
 		{
 			rt_pathtrace_profile(rt, 1000);

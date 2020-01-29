@@ -4,7 +4,7 @@
 float3		shade_pathtrace(
 		t_ray *ray,
 		t_rayhit *hit,
-		__constant t_material *material,
+		__global const t_material *material,
 		float *seed,
 		float2 pixel)
 {

@@ -16,14 +16,14 @@ void		rt_opencl_prepare_memory(t_rt *rt)
 			sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, false},
 		(t_opencl_mem_obj){&rt->opencl_params,
 			sizeof(t_opencl_params), RT_DEFAULT_MEM_FLAG, true},
-		(t_opencl_mem_obj){&g_img_data_float,
-			sizeof(cl_float3) * WIN_HEIGHT * WIN_WIDTH, RT_MEM_RW_FLAG, false},
 		(t_opencl_mem_obj){rt->scene.meshes.polygons,
 			sizeof(t_polygon) * rt->scene.meshes.num_polygons, RT_DEFAULT_MEM_FLAG, false},
 		(t_opencl_mem_obj){rt->scene.meshes.vertices,
 			sizeof(cl_float3) * rt->scene.meshes.num_vertices, RT_DEFAULT_MEM_FLAG, false},
 		(t_opencl_mem_obj){rt->scene.meshes.v_normals,
-			sizeof(cl_float3) * rt->scene.meshes.num_v_normals, RT_DEFAULT_MEM_FLAG, false}
+			sizeof(cl_float3) * rt->scene.meshes.num_v_normals, RT_DEFAULT_MEM_FLAG, false},
+		(t_opencl_mem_obj){&g_img_data_float,
+			sizeof(cl_float3) * WIN_HEIGHT * WIN_WIDTH, RT_MEM_RW_FLAG, false}
 //		(t_opencl_mem_obj){rt->scene.meshes.v_textures,
 //			sizeof(cl_float3) * rt->scene.meshes.num_v_textures, RT_DEFAULT_MEM_FLAG, false}
 			);

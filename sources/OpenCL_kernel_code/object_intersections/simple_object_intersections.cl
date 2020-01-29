@@ -23,7 +23,7 @@ bool				ray_plane_intersect(
 
 bool				ray_sphere_intersect(
 		t_ray *ray,
-		__constant t_object *sphere,
+		__global const t_object *sphere,
 		t_rayhit *best_hit)
 {
 	const float3	origin_center = ray->origin - sphere->center;
