@@ -128,6 +128,7 @@ typedef enum			e_object_type
 	PLANE,
 	CYLINDER,
 	CONE,
+	TRIANGLE,
 }						t_object_type;
 
 typedef enum			e_light_type
@@ -197,6 +198,7 @@ typedef struct			s_object
 	cl_float			radius;
 	cl_float			angle;
 	cl_float			len;
+	cl_float3			vertices[3];
 # else
 
 	t_object_type		type;
@@ -206,6 +208,7 @@ typedef struct			s_object
 	float				radius;
 	float				angle;
 	float				len;
+	float3				vertices[3];
 # endif
 
 }						t_object;

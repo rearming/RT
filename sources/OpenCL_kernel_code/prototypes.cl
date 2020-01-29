@@ -88,6 +88,16 @@ void				closest_intersection(
 		t_rayhit *out_best_hit,
 		int *out_closest_obj_index);
 
+bool				ray_triangle_intersect(
+		t_ray *ray,
+		__constant t_object *triangle,
+		t_rayhit *best_hit);
+
+bool				ray_triangle_intersect_MT(
+		t_ray *ray,
+		__constant t_object *triangle,
+		t_rayhit *best_hit);
+
 bool				ray_plane_intersect(
 		t_ray *ray,
 		float3 center,
@@ -97,7 +107,7 @@ bool				ray_plane_intersect(
 bool				ray_sphere_intersect(
 		t_ray *ray,
 		__constant t_object *sphere,
-		t_rayhit *out_best_hit);
+		t_rayhit *best_hit);
 
 float3		shade_pathtrace(
 		t_ray *ray,
