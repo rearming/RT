@@ -215,6 +215,19 @@ typedef struct			s_object
 
 # define RT_DEFAULT_POLYGON_VERTICES 3
 
+typedef struct			s_mesh_info
+{
+# ifndef FT_OPENCL___
+
+	cl_int				mesh_index;
+	t_material			mesh_material;
+# else
+
+	int					mesh_index;
+	t_matet_material	mesh_material;
+# endif
+}						t_mesh_info;
+
 typedef struct			s_polygon
 {
 # ifndef FT_OPENCL___
@@ -222,7 +235,7 @@ typedef struct			s_polygon
 	cl_int				vert_i[RT_DEFAULT_POLYGON_VERTICES];
 	cl_int				vnorm_i;
 	cl_int				vtex_i[RT_DEFAULT_POLYGON_VERTICES];
-	t_material			material;
+	int					mesh_index;
 # else
 
 	int					vert_i[RT_DEFAULT_POLYGON_VERTICES];
@@ -241,6 +254,7 @@ typedef struct			s_meshes
 	cl_int				num_vertices;
 	cl_int				num_v_normals;
 	cl_int				num_v_textures;
+	t_mesh_info			*mesh_info;
 	t_polygon			*polygons;
 	cl_float3			*vertices;
 	cl_float3			*v_normals;
@@ -251,6 +265,7 @@ typedef struct			s_meshes
 	int					num_vertices;
 	int					num_v_normals;
 	int					num_v_textures;
+	t_mesh_info			*mesh_info;
 	t_polygon			*polygons;
 	float3				*vertices;
 	float3				*v_normals;
@@ -363,20 +378,6 @@ typedef struct			s_rt
 	t_events			events;
 }						t_rt;
 
-#  define CL_BUFF_SIZE 10000
-
-typedef struct			s_cl_concat_kernel_code
-{
-	char				*temp_str;
-	char				*backup;
-	char				buf[CL_BUFF_SIZE + 1];
-	int					read_res;
-	size_t				sum_len;
-	va_list				ap;
-	char				*str_file;
-	size_t				file_size;
-	int					fd;
-}						t_cl_concat_kernel_code;
 # endif
 
 #endif

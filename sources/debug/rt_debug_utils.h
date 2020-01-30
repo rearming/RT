@@ -16,6 +16,7 @@ void		rt_print_obj(tinyobj_attrib_t *attrib, tinyobj_shape_t *shape, size_t num_
 void		rt_print_material(const t_material *material);
 
 void		rt_print_parsed_meshes(t_meshes *meshes);
+void		rt_print_mtl_file(tinyobj_material_t *materials, int num_materials);
 
 /*
 **	Profiling

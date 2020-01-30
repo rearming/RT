@@ -3,4 +3,4 @@
 
 void	rt_load_obj_files(t_meshes *out_meshes);
 
-#endif //RT_PARSING_H
+#endif

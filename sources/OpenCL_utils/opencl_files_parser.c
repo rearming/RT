@@ -1,39 +1,11 @@
 #include "rt.h"
 
-char			*concat_opencl_kernel_code(int files_nbr, ...)
-{
-	t_cl_concat_kernel_code		cl_cat;
-	int							i;
-
-	i = 0;
-	cl_cat.sum_len = 0;
-	cl_cat.backup = rt_safe_malloc(1);
-	cl_cat.backup[0] = 0;
-	va_start(cl_cat.ap, files_nbr);
-	while (i < files_nbr)
-	{
-		cl_cat.fd = open(va_arg(cl_cat.ap, char*), O_RDONLY);
-		if (!(cl_cat.str_file = ft_readfile(cl_cat.fd, &cl_cat.file_size)))
-			rt_raise_error(ERR_OPENCL_INV_SOURCE_CODE_FILE);
-		close(cl_cat.fd);
-		cl_cat.sum_len += cl_cat.file_size;
-		cl_cat.temp_str = ft_strljoin(cl_cat.backup,
-				cl_cat.str_file, cl_cat.sum_len);
-		free(cl_cat.str_file);
-		free(cl_cat.backup);
-		cl_cat.backup = cl_cat.temp_str;
-		i++;
-	}
-	va_end(cl_cat.ap);
-	return (cl_cat.backup);
-}
-
 char			*get_opencl_kernel_code_text(size_t *out_size)
 {
 	char		*result_cl_file;
 	char		*cl_file;
 
-	cl_file = concat_opencl_kernel_code(18,
+	cl_file = ft_read_files(18,
 			"./sources/OpenCL_kernel_code/opencl_defines.cl",
 			"./sources/OpenCL_kernel_code/opencl_structs.cl",
 			"./includes/rt_defines.h",

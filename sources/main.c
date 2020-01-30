@@ -13,8 +13,10 @@ int		main(int argc, char **argv)
 	if (argc != VALID_ARGS_NUM)
 		rt_raise_error(ERR_INV_ARGS_NUM);
 	rt_init(&rt, NULL);
+#ifndef DEBUG_LOADING
 	rt_render(&rt, &rt_opencl_render);
 	rt_loop(&rt);
 	exit(rt_exit_clean());
+#endif
 	return (0);
 }

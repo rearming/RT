@@ -28,7 +28,7 @@ void		rt_print_parsed_polygon(t_polygon *polygon)
 			polygon->vtex_i[0] == NOT_SET ? -1 : polygon->vtex_i[0] + 1,
 			polygon->vtex_i[1] == NOT_SET ? -1 : polygon->vtex_i[1] + 1,
 			polygon->vtex_i[2] == NOT_SET ? -1 : polygon->vtex_i[2] + 1);
-	rt_print_material(&polygon->material);
+	ft_printf("mesh index: [%i]\n", polygon->mesh_index);
 }
 
 void		rt_print_parsed_polygons(t_polygon *polygons, size_t num_polygons)

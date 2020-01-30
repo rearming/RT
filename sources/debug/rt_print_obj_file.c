@@ -57,13 +57,42 @@ void	rt_print_obj_shape(tinyobj_shape_t *shape)
 	ft_printf("\n");
 }
 
-//void	rt_print_
-
 void	rt_print_obj(tinyobj_attrib_t *attrib, tinyobj_shape_t *shape, size_t num_shapes)
 {
 	rt_print_obj_attrib(attrib);
 	for (size_t i = 0; i < num_shapes; ++i)
 	{
 		rt_print_obj_shape(&shape[i]);
+	}
+}
+
+void	rt_print_mtl(tinyobj_material_t *material)
+{
+	cl_float3	color;
+	ft_printf("material:\n");
+	ft_printf("name: [%s]\n", material->name);
+	color = (cl_float3){{material->ambient[0], material->ambient[1], material->ambient[2]}};
+	rt_print_float3_color(color, "ambient");
+	color = (cl_float3){{material->diffuse[0], material->diffuse[1], material->diffuse[2]}};
+	rt_print_float3_color(color, "diffuse");
+	color = (cl_float3){{material->specular[0], material->specular[1], material->specular[2]}};
+	rt_print_float3_color(color, "specular");
+	color = (cl_float3){{material->transmittance[0], material->transmittance[1], material->transmittance[2]}};
+	rt_print_float3_color(color, "transmittance");
+	color = (cl_float3){{material->emission[0], material->emission[1], material->emission[2]}};
+	rt_print_float3_color(color, "emission");
+	ft_printf("shininess (Phong exponent): [%.2f]\n", material->shininess);
+	ft_printf("index of refraction: [%.3f]\n", material->ior);
+	ft_printf("dissolve: [%.2f] (transparency: [%.2f]\n", material->dissolve, 1 - material->dissolve);
+	ft_printf("illumination model: [%i]\n", material->illum);
+	ft_printf("pad0(?): [%i]\n", material->pad0);
+	ft_printf("\n");
+}
+
+void	rt_print_mtl_file(tinyobj_material_t *materials, int num_materials)
+{
+	for (int i = 0; i < num_materials; ++i)
+	{
+		rt_print_mtl(&materials[i]);
 	}
 }

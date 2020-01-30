@@ -80,7 +80,7 @@ void	test_opencl_init(void)
 	char		*opencl_kernel_file;
 	size_t		size;
 
-	opencl_kernel_file = concat_opencl_kernel_code(3,
+	opencl_kernel_file = ft_read_files(3,
 			"./includes/rt_defines.h",
 			"./includes/rt_structs.h",
 			"./sources/test/test_kernel.cl");

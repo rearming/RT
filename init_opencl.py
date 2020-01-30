@@ -51,7 +51,7 @@ def update_opencl_kernel_files():
 
     corrected_file_names = []
 
-    excluded_files = re.search(r"concat_opencl_kernel_code\(\d{2},((?:[\s\S]+?)(?:prototypes.cl\"))", file_text).group(1)
+    excluded_files = re.search(r"ft_read_files\(\d{2},((?:[\s\S]+?)(?:prototypes.cl\"))", file_text).group(1)
     excluded_files = re.findall(r"\"(\./.*)\"", excluded_files)
 
     for name in cl_files_names[0]:
