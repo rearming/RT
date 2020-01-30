@@ -52,3 +52,13 @@ void		rt_print_parsed_meshes(t_meshes *meshes)
 	rt_print_parsed_polygons(meshes->polygons, meshes->num_polygons);
 	ft_printf("\n");
 }
+
+void		rt_print_parsed_materials(t_meshes *meshes)
+{
+	for (int i = 0; i < meshes->num_meshes; ++i)
+	{
+		ft_printf("mesh [%i]\n", i);
+		rt_print_material(&meshes->meshes_info[i].material);
+		ft_printf("\n");
+	}
+}

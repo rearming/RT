@@ -33,7 +33,7 @@ bool				ray_triangle_intersect_MT(
 	if (intersect_dist < best_hit->distance && intersect_dist > RAY_MIN_EPSILON)
 	{
 		best_hit->distance = intersect_dist;
-		best_hit->normal = fast_normalize(cross(v0v1, v0v2)); // todo брать это из объекта
+		best_hit->normal = fast_normalize(cross(v0v1, v0v2));
 		best_hit->pos = ray->origin + ray->dir * intersect_dist;
 		return true;
 	}

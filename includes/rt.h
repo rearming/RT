@@ -29,6 +29,7 @@ extern t_opencl		g_opencl;
 extern t_sdl		g_sdl;
 extern int			*g_img_data;
 extern cl_float3	g_img_data_float[WIN_WIDTH * WIN_HEIGHT];
+extern
 
 /*
 **	Init
@@ -87,15 +88,5 @@ void		print_cl_build_program_debug(void);
 void		rt_raise_error(const char *err_str);
 void		*rt_safe_malloc(size_t size);
 bool		rt_exit_clean(void);
-
-/*
-**	Math utils
-*/
-
-cl_float3	rt_degree_to_rad(cl_float3 rotation_degrees);
-bool		rt_float3_equals(cl_float3 a, cl_float3 b);
-cl_float3	mul_float3(cl_float3 vec, float mul);
-
-cl_float3	get_float3_color(int hex_color);
 
 #endif

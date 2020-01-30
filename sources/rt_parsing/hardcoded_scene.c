@@ -1,4 +1,5 @@
 #include "rt.h"
+#include "rt_math_utils.h"
 
 static	t_object	*kolyan_scene(int *out_obj_nbr)
 {
@@ -222,9 +223,9 @@ static	t_object	*rt_get_objects(int *out_obj_nbr)
 {
 
 //	return (kolyan_scene(out_obj_nbr));
-//	return (cornell_box(out_obj_nbr));
+	return (cornell_box(out_obj_nbr));
 //	return (pathtrace_objects(out_obj_nbr));
-	return (obj_scene(out_obj_nbr));
+//	return (obj_scene(out_obj_nbr));
 //	return (raytrace_objects(out_obj_nbr));
 }
 
@@ -248,12 +249,12 @@ t_scene		get_hardcoded_scene(void)
 
 	scene.camera = (t_camera)
 	{
-		.pos = (cl_float3){{0, 10, 40}},
-		.rotation = (cl_float3){{0, 180, 0}},
+//		.pos = (cl_float3){{0, 10, 40}}, //statuya pos/rot
+//		.rotation = (cl_float3){{0, 180, 0}},
 //		.pos = (cl_float3){{20, 6.6, -6.4}}, //pathtracing scene pos/rotation
 //		.rotation = (cl_float3){{-10, -63.3, 0}},
-//		.pos = (cl_float3){{0.2, 1.2, -14.2}}, // cornell box pos/rotation
-//		.rotation = (cl_float3){{0, 0, 0}},
+		.pos = (cl_float3){{0.2, 1.2, -14.2}}, // cornell box pos/rotation
+		.rotation = (cl_float3){{0, 0, 0}},
 		.viewport_distance = 1,
 		.viewport_width = WIN_RATIO < 1 ? D_I_MAZOHIN : 1,
 		.viewport_height = WIN_RATIO > 1 ? D_E_KARMATSKIY : 1

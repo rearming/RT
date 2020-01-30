@@ -18,5 +18,6 @@ int		main(int argc, char **argv)
 	rt_loop(&rt);
 	exit(rt_exit_clean());
 #endif
+	exit(0);
 	return (0);
 }

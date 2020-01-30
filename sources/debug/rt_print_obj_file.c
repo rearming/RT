@@ -54,7 +54,6 @@ void	rt_print_obj_shape(tinyobj_shape_t *shape)
 	ft_printf("name: [%s]\n", shape->name);
 	ft_printf("face_offset: [%u]\n", shape->face_offset);
 	ft_printf("length: [%u]\n", shape->length);
-	ft_printf("\n");
 }
 
 void	rt_print_obj(tinyobj_attrib_t *attrib, tinyobj_shape_t *shape, size_t num_shapes)
@@ -63,6 +62,8 @@ void	rt_print_obj(tinyobj_attrib_t *attrib, tinyobj_shape_t *shape, size_t num_s
 	for (size_t i = 0; i < num_shapes; ++i)
 	{
 		rt_print_obj_shape(&shape[i]);
+		ft_printf("matrial_ids: [%i]\n", attrib->material_ids[i]);
+		ft_printf("\n");
 	}
 }
 
@@ -85,7 +86,6 @@ void	rt_print_mtl(tinyobj_material_t *material)
 	ft_printf("index of refraction: [%.3f]\n", material->ior);
 	ft_printf("dissolve: [%.2f] (transparency: [%.2f]\n", material->dissolve, 1 - material->dissolve);
 	ft_printf("illumination model: [%i]\n", material->illum);
-	ft_printf("pad0(?): [%i]\n", material->pad0);
 	ft_printf("\n");
 }
 

@@ -1,5 +1,6 @@
 #include "rt.h"
 #include "rt_events.h"
+#include "rt_math_utils.h"
 
 static inline void	move_forward(t_camera *camera, cl_float3 rotation_rad)
 {

@@ -36,6 +36,7 @@ __kernel void	rt_main(
     __global const t_object *objects,
     __global const t_light *lights,
     __global const t_opencl_params *params,
+    __global const t_mesh_info *meshes_info,
     __global const t_polygon *polygons,
 	__global const float3 *vertices,
 	__global const float3 *v_normals,
@@ -55,13 +56,13 @@ __kernel void	rt_main(
 
 	if (params->render_algo == PATH_TRACE)
 	{
-		new_color = pathtrace(scene, objects, lights, polygons, vertices, v_normals,
+		new_color = pathtrace(scene, objects, lights, meshes_info, polygons, vertices, v_normals,
 				params, ray,
 				params->pathtrace_params.max_depth, &seed, (float2)(img_point.xy + 1));
 		final_color = mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num);
 		img_data_float[g_id] = final_color;
 	}
 	else if (params->render_algo == RAY_TRACE)
-		final_color = raytrace(scene, objects, lights, polygons, vertices, v_normals, params, ray);
+		final_color = raytrace(scene, objects, lights, meshes_info, polygons, vertices, v_normals, params, ray);
 	img_data[g_id] = get_int_color(correct_hdr(params->gamma, params->exposure, final_color));
 }

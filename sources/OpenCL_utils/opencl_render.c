@@ -1,12 +1,13 @@
 #include "rt.h"
 #include "../debug/rt_debug_utils.h"
+#include "rt_math_utils.h"
 #include "time.h"
 
 // todo отключить передачу g_img_data_float если рейтрейс/etc (не pathtrace)
 // можно сделать в то же время, когда будут разделяться кернелы
 void		rt_opencl_prepare_memory(t_rt *rt)
 {
-	g_opencl.opencl_memobj_number = 8; //9 пока что без текстурных вершин
+	g_opencl.opencl_memobj_number = 9;
 	rt_opencl_move_host_mem_to_kernel(g_opencl.opencl_memobj_number,
 		(t_opencl_mem_obj){&rt->scene,
 			sizeof(t_scene), RT_DEFAULT_MEM_FLAG, true},
@@ -16,6 +17,8 @@ void		rt_opencl_prepare_memory(t_rt *rt)
 			sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, false},
 		(t_opencl_mem_obj){&rt->opencl_params,
 			sizeof(t_opencl_params), RT_DEFAULT_MEM_FLAG, true},
+		(t_opencl_mem_obj){rt->scene.meshes.meshes_info,
+			sizeof(t_mesh_info) * rt->scene.meshes.num_meshes, RT_DEFAULT_MEM_FLAG, false},
 		(t_opencl_mem_obj){rt->scene.meshes.polygons,
 			sizeof(t_polygon) * rt->scene.meshes.num_polygons, RT_DEFAULT_MEM_FLAG, false},
 		(t_opencl_mem_obj){rt->scene.meshes.vertices,

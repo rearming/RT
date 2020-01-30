@@ -159,10 +159,34 @@ typedef struct			s_light
 
 }						t_light;
 
+typedef struct			s_obj_material
+{
+# ifndef FT_OPENCL___
+
+	cl_float3			ambient;
+	cl_float3			diffuse;
+	cl_float3			specular;
+	cl_float3			emission;
+	cl_float			phong_exp;
+	cl_float			transmittance;
+	cl_float			refraction;
+# else
+
+	float3				ambient;
+	float3				diffuse;
+	float3				specular;
+	float3				emission;
+	float				phong_exp;
+	float				transmittance;
+	float				refraction;
+# endif
+}						t_obj_material;
+
 typedef struct			s_material
 {
 # ifndef FT_OPENCL___
 
+	cl_float3			ambient;
 	cl_float3			albedo;
 	cl_float			specular;
 	cl_float			smoothness;
@@ -174,6 +198,7 @@ typedef struct			s_material
 	cl_float3			texture_position;
 # else
 
+	float3				ambient;
 	float3				albedo;
 	float				specular;
 	float				smoothness;
@@ -219,12 +244,10 @@ typedef struct			s_mesh_info
 {
 # ifndef FT_OPENCL___
 
-	cl_int				mesh_index;
-	t_material			mesh_material;
+	t_material			material;
 # else
 
-	int					mesh_index;
-	t_matet_material	mesh_material;
+	t_material			material;
 # endif
 }						t_mesh_info;
 
@@ -235,13 +258,13 @@ typedef struct			s_polygon
 	cl_int				vert_i[RT_DEFAULT_POLYGON_VERTICES];
 	cl_int				vnorm_i;
 	cl_int				vtex_i[RT_DEFAULT_POLYGON_VERTICES];
-	int					mesh_index;
+	cl_int				mesh_index;
 # else
 
 	int					vert_i[RT_DEFAULT_POLYGON_VERTICES];
 	int					vnorm_i;
 	int					vtex_i[RT_DEFAULT_POLYGON_VERTICES];
-	t_material			material;
+	int					mesh_index;
 #endif
 
 }						t_polygon;
@@ -254,7 +277,8 @@ typedef struct			s_meshes
 	cl_int				num_vertices;
 	cl_int				num_v_normals;
 	cl_int				num_v_textures;
-	t_mesh_info			*mesh_info;
+	cl_int				num_meshes;
+	t_mesh_info			*meshes_info;
 	t_polygon			*polygons;
 	cl_float3			*vertices;
 	cl_float3			*v_normals;
@@ -265,7 +289,8 @@ typedef struct			s_meshes
 	int					num_vertices;
 	int					num_v_normals;
 	int					num_v_textures;
-	t_mesh_info			*mesh_info;
+	int					num_meshes;
+	t_mesh_info			*meshes_info;
 	t_polygon			*polygons;
 	float3				*vertices;
 	float3				*v_normals;

@@ -12,12 +12,15 @@ void		rt_print_clfloat3(cl_float3 vec);
 void		rt_print_float3_color(cl_float3 color, const char *definition);
 void		rt_print_debug_info(t_rt *rt);
 void		print_cl_device_info(void);
+
+/*
+**	.obj info printing
+*/
 void		rt_print_obj(tinyobj_attrib_t *attrib, tinyobj_shape_t *shape, size_t num_shapes);
 void		rt_print_material(const t_material *material);
-
 void		rt_print_parsed_meshes(t_meshes *meshes);
 void		rt_print_mtl_file(tinyobj_material_t *materials, int num_materials);
-
+void		rt_print_parsed_materials(t_meshes *meshes);
 /*
 **	Profiling
 */

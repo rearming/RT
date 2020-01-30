@@ -1,7 +1,7 @@
 #ifndef RT_DEFINES_H
 # define RT_DEFINES_H
 
-# define DEBUG_LOADING
+//# define DEBUG_LOADING
 
 /*
 **	Code constants
