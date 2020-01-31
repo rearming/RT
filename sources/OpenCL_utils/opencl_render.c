@@ -3,7 +3,7 @@
 
 void		rt_opencl_prepare_memory(t_rt *rt)
 {
-	g_opencl.opencl_memobj_number = 4;
+	g_opencl.opencl_memobj_number = 6;
 	rt_opencl_move_host_mem_to_kernel(g_opencl.opencl_memobj_number,
 		(t_opencl_mem_obj){&rt->scene,
 			sizeof(t_scene), RT_DEFAULT_MEM_FLAG, TRUE},
@@ -12,7 +12,11 @@ void		rt_opencl_prepare_memory(t_rt *rt)
 		(t_opencl_mem_obj){rt->scene.lights,
 			sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, FALSE},
 		(t_opencl_mem_obj){&rt->opencl_params,
-			sizeof(t_opencl_params), RT_DEFAULT_MEM_FLAG, TRUE}
+			sizeof(t_opencl_params), RT_DEFAULT_MEM_FLAG, TRUE},
+		(t_opencl_mem_obj){g_textures.texture_info,
+			sizeof(t_texture_info) * g_textures.texture_info_size, RT_DEFAULT_MEM_FLAG, FALSE},
+		(t_opencl_mem_obj){g_textures.texture_list,
+			sizeof(cl_float) * g_textures.texture_list_size, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, FALSE}
 			);
 }
 
@@ -55,8 +59,8 @@ void		rt_update_rt_params(t_rt *rt)
 
 void		rt_opencl_render(t_rt *rt)
 {
-	//const size_t	kernel_num = OPENCL_RELEASE_KERNEL_NUM;
-	const size_t	kernel_num = OPENCL_DEBUG_KERNEL_NUM;
+	const size_t	kernel_num = OPENCL_RELEASE_KERNEL_NUM;
+//	const size_t	kernel_num = OPENCL_DEBUG_KERNEL_NUM;
 //	const size_t	kernel_num = 50;
 	int				err;
 

@@ -2,23 +2,28 @@
 
 static	t_object	*rt_get_objects(int *out_obj_nbr)
 {
-	const int	objects_nbr = 3;
+	const int	objects_nbr = 1;
 	t_object	*objects;
 
 	*out_obj_nbr = objects_nbr;
 	objects = rt_safe_malloc(sizeof(t_object) * objects_nbr);
+	/*objects[0] = (t_object){.type = SPHERE,
+			(t_material){.texture_number = 0, .texture_position = (cl_float3){{0, 0, 0}},
+				.specular = (cl_float3){{0.5, 0.5, 0.5}}},
+			.center = (cl_float3){{0, 2, 0}},
+			.radius = 1.5};*/
 	objects[0] = (t_object){.type = SPHERE,
 			(t_material){.albedo = get_float3_color(COL_LIGHT_RED), .specular = (cl_float3){{0.5, 0.5, 0.5}}},
 			.center = (cl_float3){{0, 2, 0}},
 			.radius = 1.5};
-	objects[1] = (t_object){.type = SPHERE,
+	/*objects[1] = (t_object){.type = SPHERE,
 			(t_material){.albedo = get_float3_color(COL_LIGHT_GREEN), .specular = (cl_float3){{0.3, 0.3, 0.3}}},
 			.center = (cl_float3){{4, 1, 0}},
 			.radius = 1};
 	objects[2] = (t_object){.type = PLANE,
 			(t_material){.albedo = (cl_float3){{0.8, 0.8, 0.8}}, .specular = (cl_float3){{0.7, 0.7, 0.7}}},
 			.center = (cl_float3) {{0, -4, 0}},
-			.normal = (cl_float3){{0, 1, 0}}};
+			.normal = (cl_float3){{0, 1, 0}}};*/
 	return (objects);
 }
 

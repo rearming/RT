@@ -2,6 +2,7 @@
 # define RT_H
 
 # define STB_IMAGE_IMPLEMENTATION
+# define STB_IMAGE_RESIZE_IMPLEMENTATION
 
 # include <stdarg.h>
 # include <stdio.h>
@@ -9,6 +10,7 @@
 # include <stdint.h>
 # include <stdlib.h>
 # include <math.h>
+# include <dirent.h>
 # include <SDL.h>
 
 # ifdef __APPLE__
@@ -26,16 +28,17 @@
 **	Global pointers
 */
 
-extern t_opencl	g_opencl;
-extern t_sdl	g_sdl;
-extern int		*g_img_data;
+extern t_opencl	    g_opencl;
+extern t_sdl	    g_sdl;
+extern int		    *g_img_data;
+extern t_textures   g_textures;
 
 /*
 **	Init
 */
 
 void		rt_init(t_rt *out_rt, const char *json_scene_file);
-
+void 		init_basic_textures_parameters(void);
 /*
 **	Parsing
 */

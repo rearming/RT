@@ -26,7 +26,7 @@ def update_opencl_header():
             cl_files_text += file.read()
             file.close()
 
-    matches = re.findall(r"(([\w]+)[\t ]+([\w]+)\((?:[\s]*(?:(\*?\w+)[\s,)]){2,3})+)", cl_files_text)
+    matches = re.findall(r"(([\w]+)[\t ]+([\w]+)\((?:[\s]*(?:(\*?\w+)[\s,)]){2,4})+)", cl_files_text)
 
     result_str = ""
 

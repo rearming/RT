@@ -20,6 +20,8 @@ static void		raise_error2(int err_code)
 		ft_printf_fd(STDERR_FILENO, "clEnqueueReadBuffer failed\n");
 	else if (err_code == ERR_INVALID_TEXRTURE_DIR)
 		ft_printf_fd(STDERR_FILENO, "couldn't open dir with textures\n");
+	else if (err_code == ERR_INVALID_TEXRTURE)
+		ft_printf_fd(STDERR_FILENO, "couldn't open file with textures\n");
 	else
 		ft_printf_fd(STDERR_FILENO, "UNKNOWN ERROR!\n");
 }

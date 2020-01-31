@@ -64,25 +64,40 @@ typedef struct			s_point
 # endif
 }						t_point;
 
-# ifndef FT_OPENCL___
-
 typedef struct			s_texture_info
 {
+# ifndef FT_OPENCL___
+
+	cl_int				width;
+	cl_int				height;
+	cl_int				start;
+	cl_int				bpp;
+# else
+
 	int					width;
 	int					height;
 	int 				start;
 	int					bpp;
-
+# endif
 }						t_texture_info;
 
 #define TEXTURE_NUM 2
+
+# ifndef FT_OPENCL___
+typedef struct			s_textures
+{
+	//cl_uchar			*texture_list;
+	cl_float 			*texture_list;
+	t_texture_info		texture_info[TEXTURE_NUM];
+	size_t				texture_list_size;
+	size_t				texture_info_size;
+}						t_textures;
+
 typedef struct			s_sdl
 {
 	SDL_Window			*win;
 	SDL_Renderer		*rend;
 	SDL_Texture			*texture;
-	u_char				*texture_list;
-	t_texture_info		*texture_info;
 	int					pitch;
 }						t_sdl;
 

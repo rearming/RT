@@ -3,6 +3,7 @@
 t_opencl	g_opencl;
 t_sdl		g_sdl;
 int			*g_img_data;
+t_textures  g_textures;
 
 int		main(int argc, char **argv)
 {

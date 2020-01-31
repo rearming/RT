@@ -7,6 +7,12 @@ float3		get_float3_color(int hex_color);
 
 int			get_int_color(float3 color);
 
+int         get_texture_color(
+		int2 pos,
+		__constant float *texture_list,
+		__constant t_texture_info *texture_info
+);
+
 float		rand_distribution(uint rand_num);
 
 int 				in_range_inclusive(float number, float min, float max);
@@ -30,6 +36,8 @@ float		saturate(float value);
 float3		shade(
 		t_ray *out_ray,
 		t_rayhit *hit,
+		t_texture_info texture_info,
+		__constant float *texture_list,
 		__constant t_material *material);
 
 bool		ray_has_energy(t_ray *ray);
@@ -39,6 +47,8 @@ float3		raytrace(
 		__constant t_object *objects,
 		__constant t_light *lights,
 		__constant t_opencl_params *params,
+		__constant t_texture_info *texture_info,
+		__constant float *texture_list,
 		t_ray ray);
 
 float3			get_img_point(int global_id);
@@ -52,6 +62,8 @@ void	rt_main(
     __constant t_object *objects,
     __constant t_light *lights,
     __constant t_opencl_params *params,
+    __constant t_texture_info *texture_info,
+	__constant float *texture_list,
     __global int *img_data);
 
 float3			canvas_to_viewport(__constant t_camera *camera, float3 canvas_point);
@@ -73,7 +85,7 @@ void				closest_intersection(
 		__constant t_object *objects,
 		t_ray *ray,
 		t_rayhit *out_best_hit,
-		int *out_closest_obj_index);
+		int *out_closes_index);
 
 t_bool				ray_plane_intersect(
 		t_ray *ray,
@@ -103,4 +115,18 @@ float3		rand_dir_on_hemisphere(
 		float3 normal,
 		float rand1,
 		float rand2);
+
+int		check_borders(int a, int max, int type);
+
+int		convert_x(float3 normal,  float *texture);
+
+int		convert_y(float3 normal, float3 point,t_object );
+
+int2		texture_on_plane(float3 normal, float3 point, float3 pos,  float *texture);
+
+t_color			texture(float3 normal, float *texture, t_object *obj, float3 dot_on_object);
+
+int		check_borders(int a, int max, int type);
+
+int		rt_skybox(__constant float *texture, t_texture_info texture_info, float3 normal);
 
