@@ -36,6 +36,6 @@ void		rt_load_obj_files(t_meshes *out_meshes)
 //	rt_print_mtl_file(raw_obj.materials, raw_obj.num_materials);
 	rt_get_meshes(&raw_obj, out_meshes);
 //	rt_print_parsed_meshes(out_meshes);
-	rt_print_parsed_materials(out_meshes);
+//	rt_print_parsed_materials(out_meshes);
 	rt_free_raw_obj(&raw_obj);
 }

@@ -16,12 +16,23 @@ float3		reflect(float3 ray_dir, float3 normal)
 
 float3		refract(float3 ray_dir, float3 normal, float refract_index)
 {
-	const float	normal_dot_ray = dot(normal, ray_dir);
+	float	normal_dot_ray = dot(normal, ray_dir);
+//	if (normal_dot_ray > 0)
+//	{
+//		normal = -normal;
+//		normal_dot_ray = dot(normal, ray_dir);
+//	}
+
 	float k = 1.0 - refract_index * refract_index * (1.0 - normal_dot_ray * normal_dot_ray);
 	if (k < 0.0)
 		return (float3)(0);
 	else
 		return refract_index * ray_dir - (refract_index * normal_dot_ray + sqrt(k)) * normal;
+}
+
+bool		isset(int value)
+{
+	return (value != NOT_SET);
 }
 
 float		saturate(float value)

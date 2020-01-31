@@ -160,7 +160,7 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 			.normal = (cl_float3){{1, 0, 0}}};
 	objects[3] = (t_object){.type = PLANE, // far
 			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 40, .smoothness = 0},
-			.center = (cl_float3){{0, 0, 2.5}},
+			.center = (cl_float3){{0, 0, 8.5}},
 			.normal = (cl_float3){{0, 0, 1}}};
 	objects[4] = (t_object){.type = PLANE, // celling
 			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
@@ -178,13 +178,19 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 			.radius = 1.f};
 
 	objects[7] = (t_object){.type = SPHERE, // small diffuse sphere
-			(t_material){.albedo = get_float3_color(COL_GREY /*COL_WHITE -> вернуть на место*/),
+			(t_material){.albedo = get_float3_color(COL_WHITE),
 				.specular = (cl_float3){{0, 0, 0}}, .phong_exp = 300, .smoothness = 0},
-			.center = (cl_float3){{1, -1.5f, 0}},
+			.center = (cl_float3){{1, -1.5f, 6}},
 			.radius = 1.f};
 
 //	objects[8] = (t_object){.type = SPHERE, // big specular sphere
 //			(t_material){.albedo = get_float3_color(COL_DARK_PURPLE), .specular = {{0.7, 0.7, 0.7}}, .phong_exp = 200, .smoothness = 10000},
+//			.center = (cl_float3){{-1, -0.5f, -1}},
+//			.radius = 1.5f};
+
+//	objects[8] = (t_object){.type = SPHERE, // big sphere with transmittance
+//			(t_material){.albedo = get_float3_color(0), .specular = get_float3_color(COL_DARK_PURPLE),
+//				.smoothness = 10000, .transmittance = 1, .refraction = 1.25},
 //			.center = (cl_float3){{-1, -0.5f, -1}},
 //			.radius = 1.5f};
 

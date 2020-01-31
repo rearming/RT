@@ -46,9 +46,9 @@ float3		shade_pathtrace(
 					/// фикс черного ореола над линзой, надо проверить как будет выглядеть со скайбоксом, если нормально, то убрать if
 					{
 						if (material.smoothness < MAX_SMOOTHNESS)
-							ray->dir = rand_dir_on_hemisphere(refract(ray->dir, hit->normal, material.refraction), seed, pixel, phong_alpha);
+							ray->dir = rand_dir_on_hemisphere(refract_dir, seed, pixel, phong_alpha);
 						else
-							ray->dir = refract(ray->dir, hit->normal, material.refraction);
+							ray->dir = refract_dir;
 					}
 				}
 				ray->energy *= specular_chance * material.albedo;

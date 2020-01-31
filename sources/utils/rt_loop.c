@@ -12,6 +12,7 @@ void		rt_loop(t_rt *rt)
 		while (SDL_PollEvent(&event))
 		{
 			handle_event(&event, rt);
+			SDL_FlushEvent(SDL_MOUSEMOTION);
 		}
 		if (rt->opencl_params.render_algo == PATH_TRACE)
 			rt_render(rt, rt_opencl_render);

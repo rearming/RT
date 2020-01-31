@@ -6,16 +6,17 @@ float3		shade(
 {
 	if (hit->distance < INFINITY)
 	{
-		if (material->transmittance > 0)
+		if (material->transmittance <= 0)
+		{
+			ray->origin = hit->pos + hit->normal * RT_EPSILON;
+			ray->dir = reflect(ray->dir, hit->normal);
+			ray->energy *= material->specular;
+		}
+		else
 		{
 			ray->origin = hit->pos;
 			if (material->refraction > 1)
 				ray->dir = refract(ray->dir, hit->normal, material->refraction);
-		}
-		else
-		{
-			ray->origin = hit->pos + hit->normal * RT_EPSILON;
-			ray->dir = reflect(ray->dir, hit->normal);
 			ray->energy *= material->specular;
 		}
 		return material->albedo;
@@ -53,7 +54,7 @@ float3		raytrace(
 		{
 			hit_material = objects[closest_obj_index].material;
 			if (hit_material.transmittance <= 0)
-				light_intensity = compute_light(scene, lights, objects,
+				light_intensity = compute_light(scene, lights, objects, meshes_info,
 						polygons, vertices, v_normals, &best_hit, &ray, &hit_material);
 			result_color += ray.energy
 					* light_intensity
@@ -63,7 +64,7 @@ float3		raytrace(
 		{
 			t_material	polygon_material = get_polygon_material(meshes_info, polygons, closest_polygon_index);
 			if (polygon_material.transmittance <= 0)
-				light_intensity = compute_light(scene, lights, objects,
+				light_intensity = compute_light(scene, lights, objects, meshes_info,
 						polygons, vertices, v_normals, &best_hit, &ray, &polygon_material);
 			result_color += ray.energy * light_intensity
 					* shade(&ray, &best_hit, &polygon_material);

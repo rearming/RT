@@ -126,6 +126,6 @@
 # define SIDE_MOVE_SPEED (0.1)
 # define FLY_SPEED 0.2
 
-# define ROTATION_SPEED 0.05
+# define ROTATION_SPEED 0.5
 
 #endif

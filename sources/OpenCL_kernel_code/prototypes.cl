@@ -35,6 +35,8 @@ float3		reflect(float3 ray_dir, float3 normal);
 
 float3		refract(float3 ray_dir, float3 normal, float refract_index);
 
+bool		isset(int value);
+
 float		saturate(float value);
 
 float3		saturate_float3(float3 value);
@@ -111,6 +113,7 @@ float3		rand_dir_on_hemisphere(
 bool				in_shadow(
 		__global const t_scene *scene,
 		__global const t_object *objects,
+		__global const t_mesh_info *meshes_info,
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
@@ -123,6 +126,7 @@ float				compute_light(
 	__global const t_scene *scene,
 	__global const t_light *lights,
 	__global const t_object *objects,
+	__global const t_mesh_info *meshes_info,
 	__global const t_polygon *polygons,
 	__global const float3 *vertices,
 	__global const float3 *v_normals,

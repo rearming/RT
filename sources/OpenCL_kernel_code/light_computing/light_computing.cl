@@ -2,6 +2,7 @@
 bool				in_shadow(
 		__global const t_scene *scene,
 		__global const t_object *objects,
+		__global const t_mesh_info *meshes_info,
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
@@ -15,7 +16,10 @@ bool				in_shadow(
 	closest_intersection(scene, objects, polygons, vertices, v_normals, ray, &out_hit, &found_polygon, &found_object);
 	if (light_type == POINT && out_hit.distance > 1) /// проверяем луч только до источника света
 		return false;
-	return (found_object != NOT_SET || found_polygon != NOT_SET) && objects[found_object].material.transmittance <= 0;
+	if (isset(found_object))
+		return (objects[found_object].material.transmittance <= 0);
+	if (isset(found_polygon))
+		return (get_polygon_material(meshes_info, polygons, found_polygon).transmittance <= 0);
 }
 
 float				blinn_phong_shine(float3 ray_dir, float3 light_dir, float3 normal, float phong_exp)
@@ -29,6 +33,7 @@ float				compute_light(
 	__global const t_scene *scene,
 	__global const t_light *lights,
 	__global const t_object *objects,
+	__global const t_mesh_info *meshes_info,
 	__global const t_polygon *polygons,
 	__global const float3 *vertices,
 	__global const float3 *v_normals,
@@ -58,7 +63,7 @@ float				compute_light(
 		t_ray	shadow_ray;
 		shadow_ray.origin = hit->pos;
 		shadow_ray.dir = light_dir;
-		if (in_shadow(scene, objects, polygons, vertices, v_normals,
+		if (in_shadow(scene, objects, meshes_info, polygons, vertices, v_normals,
 				&shadow_ray, lights[i].type))
 			continue;
 		float	normal_dot_light = dot(hit->normal, light_dir);
