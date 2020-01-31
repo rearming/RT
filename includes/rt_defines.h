@@ -66,7 +66,7 @@
 # define COL_DARK_BLUE 0x000080
 
 # define COL_GOLD 0xffd700
-# define COL_BG COL_GREY
+# define COL_BG COL_BLACK
 
 /*
 **	OpenCL host constants

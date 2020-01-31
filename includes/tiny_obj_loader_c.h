@@ -105,7 +105,7 @@ extern void tinyobj_attrib_free(tinyobj_attrib_t *attrib);
 extern void tinyobj_shapes_free(tinyobj_shape_t *shapes, size_t num_shapes);
 extern void tinyobj_materials_free(tinyobj_material_t *materials,
 								   size_t num_materials);
-
+//#define TINYOBJ_LOADER_C_IMPLEMENTATION
 #ifdef TINYOBJ_LOADER_C_IMPLEMENTATION
 #include <stdio.h>
 #include <assert.h>

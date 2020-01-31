@@ -14,8 +14,8 @@ void		rt_print_float3_color(cl_float3 color, const char *definition)
 void		rt_print_material(const t_material *material)
 {
 	ft_printf("material:\n");
-	rt_print_float3_color(material->albedo, "albedo");
-	ft_printf("specular: [%.2f]\n", material->specular);
+	rt_print_float3_color(material->diffuse, "diffuse");
+	rt_print_float3_color(material->specular, "specular");
 	ft_printf("smoothness: [%.2f]\n", material->smoothness);
 	ft_printf("refraction: [%.2f]\n", material->refraction);
 	ft_printf("transmittance: [%.2f]\n", material->transmittance);

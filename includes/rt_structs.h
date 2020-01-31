@@ -5,15 +5,15 @@ typedef struct			s_rgb
 {
 # ifndef FT_OPENCL___
 
-	cl_uchar			r;
-	cl_uchar			g;
 	cl_uchar			b;
+	cl_uchar			g;
+	cl_uchar			r;
 	cl_uchar			a;
 # else
 
-	unsigned char		r;
-	unsigned char		g;
 	unsigned char		b;
+	unsigned char		g;
+	unsigned char		r;
 	unsigned char		a;
 # endif
 
@@ -187,7 +187,7 @@ typedef struct			s_material
 # ifndef FT_OPENCL___
 
 	cl_float3			ambient;
-	cl_float3			albedo;
+	cl_float3			diffuse;
 	cl_float3			specular;
 	cl_float			phong_exp;
 	cl_float			smoothness;
@@ -200,7 +200,7 @@ typedef struct			s_material
 # else
 
 	float3				ambient;
-	float3				albedo;
+	float3				diffuse;
 	float3				specular;
 	float				phong_exp;
 	float				smoothness;

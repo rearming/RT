@@ -74,9 +74,11 @@ t_mesh_info		*rt_get_mesh_info(t_raw_obj *raw_obj)
 {
 	t_mesh_info		*mesh_info;
 	int				i;
+	int				material_ids_id;
 	
 	mesh_info = rt_safe_malloc(raw_obj->num_shapes * sizeof(t_mesh_info));
 	i = 0;
+	material_ids_id = 0;
 	while (i < raw_obj->num_shapes)
 	{
 		if (raw_obj->attrib.material_ids[i] == NOT_SET)
@@ -84,7 +86,9 @@ t_mesh_info		*rt_get_mesh_info(t_raw_obj *raw_obj)
 		else
 			mesh_info[i].material =
 				rt_convert_obj_material(rt_get_obj_material(
-						&raw_obj->materials[raw_obj->attrib.material_ids[i]]));
+						&raw_obj->materials[
+								raw_obj->attrib.material_ids[material_ids_id]]));
+		material_ids_id += (int)raw_obj->shapes[i].length;
 		i++;
 	}
 	return (mesh_info);

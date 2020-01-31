@@ -18,7 +18,7 @@ float3		shade(
 			ray->dir = convex_refract(ray->dir, hit->normal, material->refraction);
 			ray->energy *= material->specular;
 		}
-		return material->emission_power > 0 ? material->emission_color : material->albedo;
+		return material->emission_power > 0 ? material->emission_color : material->diffuse;
 	}
 	else
 	{
@@ -65,7 +65,8 @@ float3		raytrace(
 			if (polygon_material.transmittance <= 0)
 				light_intensity = compute_light(scene, lights, objects, meshes_info,
 						polygons, vertices, v_normals, &best_hit, &ray, &polygon_material);
-			result_color += ray.energy * light_intensity
+			result_color += ray.energy
+					* light_intensity
 					* shade(&ray, &best_hit, &polygon_material);
 		}
 		else
