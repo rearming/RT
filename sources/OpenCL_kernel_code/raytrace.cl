@@ -27,8 +27,9 @@ float3		shade(
 	else
 	{
 		out_ray->energy = 0;
-		//return get_float3_color(rt_skybox(texture_list, texture_info, out_ray->dir));
-		return get_float3_color(COL_BG); //add here skybox
+		float3 normal = skybox_normal(out_ray);				//count_normal
+		return get_float3_color(skybox_color(texture_list, texture_info, normal));
+		//return get_float3_color(COL_BG); //add here skybox
 	}
 }
 
@@ -60,8 +61,10 @@ float3		raytrace(
 				* shade(&ray, &best_hit, texture_info[0], texture_list, &objects[closes_index].material);
 		else
 		{
-			result_color += ray.energy * get_float3_color(COL_BG);
-			//result_color += ray.energy * get_float3_color(rt_skybox(texture_list, texture_info[0], ray.dir)); //add here skybox
+			//result_color += ray.energy * get_float3_color(COL_BG);
+			float3 normal = skybox_normal(ray);	//skybox_normal
+			result_color += ray.energy *
+					get_float3_color(skybox_color(texture_list, texture_info[0], normal)); //add here skybox
 			ray.energy = (float3)(0, 0, 0);
 		}
 		if (!ray_has_energy(&ray))

@@ -128,5 +128,7 @@ t_color			texture(float3 normal, float *texture, t_object *obj, float3 dot_on_ob
 
 int		check_borders(int a, int max, int type);
 
-int		rt_skybox(__constant float *texture, t_texture_info texture_info, float3 normal);
+int		skybox_color(__constant float *texture, t_texture_info texture_info, float3 normal);
+
+float3		skybox_normal(t_ray ray);
 

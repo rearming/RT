@@ -12,7 +12,7 @@ int		check_borders(int a, int max, int type)
 	return (a);
 }
 
-int		rt_skybox(__constant float *texture, t_texture_info texture_info, float3 normal)
+int		skybox_color(__constant float *texture, t_texture_info texture_info, float3 normal)
 {
 	double	u;
 	int		x;
@@ -29,4 +29,15 @@ int		rt_skybox(__constant float *texture, t_texture_info texture_info, float3 no
 	y = (int)(v * (texture_info.height - 1));
 	y = check_borders(y, texture_info.height - 1, 1);
 	return ((int)(texture[x + y * texture_info.width]));
+}
+
+float3		skybox_normal(t_ray ray)
+{
+		float3 point;
+		float3 normal;
+
+		point = ray.origin + ray.dir * 1000;//scale_between(sphere(r=1000)));//find hit object to sphere
+		normal = point - ray.origin; //camera_pos = ray.origin
+		normal = normal * 1.0f / length(normal);
+		return (normal);
 }
