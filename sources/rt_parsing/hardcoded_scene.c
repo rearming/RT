@@ -147,43 +147,44 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 	objects = rt_safe_malloc(sizeof(t_object) * objects_nbr);
 
 	objects[0] = (t_object){.type = PLANE, // bottom
-			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0, .smoothness = 0},
+			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
 			.center = (cl_float3){{0, -2.5, 0}},
 			.normal = (cl_float3){{0, 1, 0}}};
 	objects[1] = (t_object){.type = PLANE, // right
-			(t_material){.albedo = get_float3_color(COL_GREEN), .specular = 0, .smoothness = 0},
+			(t_material){.albedo = get_float3_color(COL_GREEN), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 50, .smoothness = 0},
 			.center = (cl_float3){{2.5, 0, 0}},
 			.normal = (cl_float3){{1, 0, 0}}};
 	objects[2] = (t_object){.type = PLANE, // left
-			(t_material){.albedo = get_float3_color(COL_RED), .specular = 0, .smoothness = 0},
+			(t_material){.albedo = get_float3_color(COL_RED), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
 			.center = (cl_float3){{-2.5, 0, 0}},
 			.normal = (cl_float3){{1, 0, 0}}};
 	objects[3] = (t_object){.type = PLANE, // far
-			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0, .smoothness = 0},
+			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 40, .smoothness = 0},
 			.center = (cl_float3){{0, 0, 2.5}},
 			.normal = (cl_float3){{0, 0, 1}}};
 	objects[4] = (t_object){.type = PLANE, // celling
-			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0, .smoothness = 0},
+			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
 			.center = (cl_float3){{0, 5.5, 0}},
 			.normal = (cl_float3){{0, 1, 0}}};
 	objects[5] = (t_object){.type = PLANE, // back
-			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0, .smoothness = 0},
+			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
 			.center = (cl_float3){{0, 0, -15}},
 			.normal = (cl_float3){{0, 0, 1}}};
 
 	objects[6] = (t_object){.type = SPHERE, // light
-			(t_material){.albedo = get_float3_color(0), .specular = 0, .smoothness = 0,
+			(t_material){.albedo = get_float3_color(0), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 0, .smoothness = 0,
 				.emission_color = get_float3_color(COL_WHITE), .emission_power = 6},
 			.center = (cl_float3){{0, 5.5, 0}},
 			.radius = 1.f};
 
 	objects[7] = (t_object){.type = SPHERE, // small diffuse sphere
-			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0, .smoothness = 0},
+			(t_material){.albedo = get_float3_color(COL_GREY /*COL_WHITE -> вернуть на место*/),
+				.specular = (cl_float3){{0, 0, 0}}, .phong_exp = 300, .smoothness = 0},
 			.center = (cl_float3){{1, -1.5f, 0}},
 			.radius = 1.f};
-//
+
 //	objects[8] = (t_object){.type = SPHERE, // big specular sphere
-//			(t_material){.albedo = get_float3_color(COL_DARK_PURPLE), .specular = 0, .smoothness = 10000},
+//			(t_material){.albedo = get_float3_color(COL_DARK_PURPLE), .specular = {{0.7, 0.7, 0.7}}, .phong_exp = 200, .smoothness = 10000},
 //			.center = (cl_float3){{-1, -0.5f, -1}},
 //			.radius = 1.5f};
 
@@ -236,8 +237,8 @@ static t_light		*rt_get_lights(int *out_lights_nbr)
 
 	*out_lights_nbr = lights_nbr;
 	lights = rt_safe_malloc(sizeof(t_light) * lights_nbr);
-	lights[0] = (t_light){.color = get_float3_color(COL_WHITE), .type = AMBIENT, .intensity = 0.2};
-	lights[1] = (t_light){.pos = {{10, 7, 0}}, .color = get_float3_color(COL_WHITE), .type = POINT, .intensity = 0.7};
+	lights[0] = (t_light){.color = get_float3_color(COL_WHITE), .type = AMBIENT, .intensity = 0.1f};
+	lights[1] = (t_light){.pos = {{0, 0, -5}}, .color = get_float3_color(COL_WHITE), .type = POINT, .intensity = 0.3f};
 //	lights[1] = (t_light){.dir = {{0, -1, 1}}, .color = get_float3_color(COL_WHITE), .type = DIRECTIONAL, .intensity = 0.8};
 //	lights[2] = (t_light){.pos = {{1, 0.5, 2}}, .color = {COL_GREEN}, .type = POINT, .intensity = 0.9};
 	return (lights);

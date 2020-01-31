@@ -27,11 +27,11 @@ float3		pathtrace(
 
 		float3	shade_color;
 		if (closest_obj_index != NOT_SET)
-			shade_color = shade_pathtrace(&ray, &hit, &objects[closest_obj_index].material, seed, pixel);
+			shade_color = shade_pathtrace(&ray, &hit, objects[closest_obj_index].material, seed, pixel);
 		else if (closest_polygon_index != NOT_SET)
 			shade_color = shade_pathtrace(&ray, &hit, get_polygon_material(meshes_info, polygons, closest_polygon_index), seed, pixel);
 		else
-			shade_color = shade_pathtrace(&ray, &hit, 0, seed, pixel);
+			shade_color = shade_pathtrace(&ray, &hit, (t_material){}, seed, pixel);
 
 		/// можно раскомментить, чтобы цвета светящихся объектов где emisson_power больше 1 были не белыми
 //		if (i == 0 && round(fast_length(shade_color)) != 0)

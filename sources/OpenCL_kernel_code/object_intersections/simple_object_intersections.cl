@@ -14,6 +14,7 @@ bool				ray_plane_intersect(
 	{
 		best_hit->distance = intersect_dist;
 		best_hit->normal = ray_dir_dot_normal > 0 ? normal * -1 : normal;
+//		best_hit->normal = normal;
 		///фикс для того, чтобы plane не просвечивал (нормаль зависит от того, с какой стороны камера)
 		best_hit->pos = ray->origin + intersect_dist * ray->dir;
 		return true;

@@ -64,7 +64,7 @@ __kernel void	rt_main(
 float3		shade(
 		t_ray *ray,
 		t_rayhit *hit,
-		__global const t_material *material);
+		t_material *material);
 
 float3		raytrace(
 		__global const t_scene *scene,
@@ -80,7 +80,7 @@ float3		raytrace(
 float3		shade_pathtrace(
 		t_ray *ray,
 		t_rayhit *hit,
-		__global const t_material *material,
+		t_material material,
 		float *seed,
 		float2 pixel);
 
@@ -117,6 +117,8 @@ bool				in_shadow(
 		t_ray *ray,
 		t_light_type light_type);
 
+float				blinn_phong_shine(float3 ray_dir, float3 light_dir, float3 normal, float phong_exp);
+
 float				compute_light(
 	__global const t_scene *scene,
 	__global const t_light *lights,
@@ -124,9 +126,11 @@ float				compute_light(
 	__global const t_polygon *polygons,
 	__global const float3 *vertices,
 	__global const float3 *v_normals,
-	t_rayhit *hit);
+	t_rayhit *hit,
+	t_ray *ray,
+	t_material *hit_material);
 
-__global const t_material	*get_polygon_material(
+t_material	get_polygon_material(
 		__global const t_mesh_info *meshes_info,
 		__global const t_polygon *polygons,
 		int polygon_index);

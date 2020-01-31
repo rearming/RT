@@ -2,7 +2,7 @@
 float3		shade(
 		t_ray *ray,
 		t_rayhit *hit,
-		__global const t_material *material)
+		t_material *material)
 {
 	if (hit->distance < INFINITY)
 	{
@@ -16,7 +16,7 @@ float3		shade(
 		{
 			ray->origin = hit->pos + hit->normal * RT_EPSILON;
 			ray->dir = reflect(ray->dir, hit->normal);
-			ray->energy *= material->albedo * material->specular;
+			ray->energy *= material->specular;
 		}
 		return material->albedo;
 	}
@@ -47,21 +47,26 @@ float3		raytrace(
 	{
 		best_hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
 		closest_intersection(scene, objects, polygons, vertices, v_normals, &ray, &best_hit, &closest_polygon_index, &closest_obj_index);
-		float	light_intensity = 0;
+		float		light_intensity = 0;
+		t_material	hit_material;
 		if (closest_obj_index != NOT_SET)
 		{
-			if (objects[closest_obj_index].material.transmittance <= 0)
-				light_intensity = compute_light(scene, lights, objects, polygons, vertices, v_normals, &best_hit);
-			result_color += ray.energy * light_intensity
-					* shade(&ray, &best_hit, &objects[closest_obj_index].material);
+			hit_material = objects[closest_obj_index].material;
+			if (hit_material.transmittance <= 0)
+				light_intensity = compute_light(scene, lights, objects,
+						polygons, vertices, v_normals, &best_hit, &ray, &hit_material);
+			result_color += ray.energy
+					* light_intensity
+					* shade(&ray, &best_hit, &hit_material);
 		}
 		else if (closest_polygon_index != NOT_SET)
 		{
-			__global const t_material *polygon_material = get_polygon_material(meshes_info, polygons, closest_polygon_index);
-			if (polygon_material->transmittance <= 0)
-				light_intensity = compute_light(scene, lights, objects, polygons, vertices, v_normals, &best_hit);
+			t_material	polygon_material = get_polygon_material(meshes_info, polygons, closest_polygon_index);
+			if (polygon_material.transmittance <= 0)
+				light_intensity = compute_light(scene, lights, objects,
+						polygons, vertices, v_normals, &best_hit, &ray, &polygon_material);
 			result_color += ray.energy * light_intensity
-					* shade(&ray, &best_hit, polygon_material);
+					* shade(&ray, &best_hit, &polygon_material);
 		}
 		else
 		{
