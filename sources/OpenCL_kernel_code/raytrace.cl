@@ -57,10 +57,11 @@ float3		raytrace(
 		}
 		else if (closest_polygon_index != NOT_SET)
 		{
-//			if (&meshes_info[polygons[closest_polygon_index].mesh_index].material.transmittance <= 0) // todo FUCK UP происходит из-за этой сточки (выяснить, что с transmittance от default_material
+			__global const t_material *polygon_material = get_polygon_material(meshes_info, polygons, closest_polygon_index);
+			if (polygon_material->transmittance <= 0)
 				light_intensity = compute_light(scene, lights, objects, polygons, vertices, v_normals, &best_hit);
 			result_color += ray.energy * light_intensity
-					* shade(&ray, &best_hit, &meshes_info[polygons[closest_polygon_index].mesh_index].material);
+					* shade(&ray, &best_hit, polygon_material);
 		}
 		else
 		{

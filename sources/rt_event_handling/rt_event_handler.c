@@ -48,7 +48,10 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 	if (event->key.keysym.scancode == SDL_SCANCODE_M)
 		SDL_SetRelativeMouseMode(!SDL_GetRelativeMouseMode());
 	if (event->key.keysym.scancode == SDL_SCANCODE_R)
+	{
 		rt->opencl_params.render_algo = RAY_TRACE;
+		rt_render(rt, &rt_opencl_render);
+	}
 	if (event->key.keysym.scancode == SDL_SCANCODE_P)
 		rt->opencl_params.render_algo = PATH_TRACE;
 	if (event->key.keysym.scancode == SDL_SCANCODE_N)

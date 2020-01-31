@@ -13,6 +13,11 @@ float3		shade_pathtrace(
 		float	specular_chance = material->specular;
 		float	chance = rt_randf(seed, pixel);
 
+		if (material->emission_power > 0)
+		{
+			ray->energy = 0;
+			return material->emission_color * material->emission_power;
+		}
 		if (chance < specular_chance)
 		{
 			const float		phong_alpha = material->smoothness;
@@ -56,11 +61,11 @@ float3		shade_pathtrace(
 			ray->dir = rand_dir_on_hemisphere(hit->normal, seed, pixel, LAMBERT_ALPHA);
 			ray->energy *= (1 - specular_chance) * material->albedo;
 		}
-		return material->emission_color * material->emission_power;
 	}
 	else
 	{
 		ray->energy = 0;
 		return get_float3_color(COL_BLACK);
 	}
+	return 0;
 }

@@ -29,7 +29,7 @@ float3		pathtrace(
 		if (closest_obj_index != NOT_SET)
 			shade_color = shade_pathtrace(&ray, &hit, &objects[closest_obj_index].material, seed, pixel);
 		else if (closest_polygon_index != NOT_SET)
-			shade_color = shade_pathtrace(&ray, &hit, &meshes_info[polygons[closest_polygon_index].mesh_index].material, seed, pixel);
+			shade_color = shade_pathtrace(&ray, &hit, get_polygon_material(meshes_info, polygons, closest_polygon_index), seed, pixel);
 		else
 			shade_color = shade_pathtrace(&ray, &hit, 0, seed, pixel);
 

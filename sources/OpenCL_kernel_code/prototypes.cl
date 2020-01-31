@@ -29,6 +29,38 @@ float3		degree_to_rad(float3 rotation_degrees);
 
 void		rotate_point(float3 *point, float3 angle);
 
+float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point);
+
+float3		reflect(float3 ray_dir, float3 normal);
+
+float3		refract(float3 ray_dir, float3 normal, float refract_index);
+
+float		saturate(float value);
+
+float3		saturate_float3(float3 value);
+
+bool		ray_has_energy(t_ray *ray);
+
+float3			get_img_point(int global_id);
+
+void			correct_img_point(float3 *img_point);
+
+t_ray			get_ray(float3 img_point, __global const t_camera *camera);
+
+float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
+
+__kernel void	rt_main(
+    __global const t_scene *scene,
+    __global const t_object *objects,
+    __global const t_light *lights,
+    __global const t_opencl_params *params,
+    __global const t_mesh_info *meshes_info,
+    __global const t_polygon *polygons,
+	__global const float3 *vertices,
+	__global const float3 *v_normals,
+    __global float3 *img_data_float,
+    __global int *img_data);
+
 float3		shade(
 		t_ray *ray,
 		t_rayhit *hit,
@@ -45,97 +77,12 @@ float3		raytrace(
 		__global const t_opencl_params *params,
 		t_ray ray);
 
-float3			get_img_point(int global_id);
-
-void			correct_img_point(float3 *img_point);
-
-t_ray			get_ray(float3 img_point, __global const t_camera *camera);
-
-float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
-
-void	rt_main(
-    __global const t_scene *scene,
-    __global const t_object *objects,
-    __global const t_light *lights,
-    __global const t_opencl_params *params,
-    __global const t_mesh_info *meshes_info,
-    __global const t_polygon *polygons,
-	__global const float3 *vertices,
-	__global const float3 *v_normals,
-    __global float3 *img_data_float,
-    __global int *img_data);
-
-float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point);
-
-float3		reflect(float3 ray_dir, float3 normal);
-
-float3		refract(float3 ray_dir, float3 normal, float refract_index);
-
-float		saturate(float value);
-
-float3		saturate_float3(float3 value);
-
-bool		ray_has_energy(t_ray *ray);
-
-bool				in_shadow(
-		__global const t_scene *scene,
-		__global const t_object *objects,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
+float3		shade_pathtrace(
 		t_ray *ray,
-		t_light_type light_type);
-
-float				compute_light(
-	__global const t_scene *scene,
-	__global const t_light *lights,
-	__global const t_object *objects,
-	__global const t_polygon *polygons,
-	__global const float3 *vertices,
-	__global const float3 *v_normals,
-	t_rayhit *hit);
-
-void				closest_intersection(
-		__global const t_scene *scene,
-		__global const t_object *objects,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
-		t_ray *ray,
-		t_rayhit *out_best_hit,
-		int *out_closest_polygon_index,
-		int *out_closest_obj_index);
-
-int		ray_mesh_intersect(
-		__global const t_meshes *mesh_info,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
-		t_ray *ray,
-		t_rayhit *out_best_hit);
-
-bool				ray_triangle_intersect_MT(
-		t_ray *ray,
-		__global const t_object *triangle,
-		t_rayhit *best_hit);
-
-bool				ray_triangle_intersect_MT_polygon(
-		float3 v0, float3 v1, float3 v2,
-		float3 vn,
-		float3 vt0, float3 vt1, float3 vt2,
-		t_ray *ray,
-		t_rayhit *best_hit);
-
-bool				ray_plane_intersect(
-		t_ray *ray,
-		float3 center,
-		float3 normal,
-		t_rayhit *best_hit);
-
-bool				ray_sphere_intersect(
-		t_ray *ray,
-		__global const t_object *sphere,
-		t_rayhit *best_hit);
+		t_rayhit *hit,
+		__global const t_material *material,
+		float *seed,
+		float2 pixel);
 
 float3		pathtrace(
 		__global const t_scene *scene,
@@ -161,10 +108,68 @@ float3		rand_dir_on_hemisphere(
 		float2 pixel,
 		float phong_alpha);
 
-float3		shade_pathtrace(
+bool				in_shadow(
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
 		t_ray *ray,
-		t_rayhit *hit,
-		__global const t_material *material,
-		float *seed,
-		float2 pixel);
+		t_light_type light_type);
+
+float				compute_light(
+	__global const t_scene *scene,
+	__global const t_light *lights,
+	__global const t_object *objects,
+	__global const t_polygon *polygons,
+	__global const float3 *vertices,
+	__global const float3 *v_normals,
+	t_rayhit *hit);
+
+__global const t_material	*get_polygon_material(
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		int polygon_index);
+
+int		ray_mesh_intersect(
+		__global const t_meshes *mesh_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		t_ray *ray,
+		t_rayhit *out_best_hit);
+
+void				closest_intersection(
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		t_ray *ray,
+		t_rayhit *out_best_hit,
+		int *out_closest_polygon_index,
+		int *out_closest_obj_index);
+
+bool				ray_plane_intersect(
+		t_ray *ray,
+		float3 center,
+		float3 normal,
+		t_rayhit *best_hit);
+
+bool				ray_sphere_intersect(
+		t_ray *ray,
+		__global const t_object *sphere,
+		t_rayhit *best_hit);
+
+bool				ray_triangle_intersect_MT(
+		t_ray *ray,
+		__global const t_object *triangle,
+		t_rayhit *best_hit);
+
+bool				ray_triangle_intersect_MT_polygon(
+		float3 v0, float3 v1, float3 v2,
+		float3 vn,
+		float3 vt0, float3 vt1, float3 vt2,
+		t_ray *ray,
+		t_rayhit *best_hit);
 

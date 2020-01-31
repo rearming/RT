@@ -26,9 +26,9 @@ static inline t_raw_obj		rt_get_raw_obj(const char *obj_file_path)
 
 void		rt_load_obj_files(t_meshes *out_meshes)
 {
-	const char			*obj_file_path = "/Users/sleonard/RT/assets/3d_models/cube.obj";
-//	const char			*obj_file_path = "/Users/sleonard/RT/assets/3d_models/cube_plane_sphere.obj";
-//	const char			*obj_file_path = "/Users/sleonard/RT/assets/3d_models/monk_statue_triangulated.obj";
+	const char			*obj_file_path = "./assets/3d_models/cube.obj";
+//	const char			*obj_file_path = "./assets/3d_models/cube_plane_sphere.obj";
+//	const char			*obj_file_path = "./assets/3d_models/monk_statue_triangulated.obj";
 	t_raw_obj			raw_obj;
 
 	raw_obj = rt_get_raw_obj(obj_file_path);

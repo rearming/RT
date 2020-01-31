@@ -140,7 +140,7 @@ static	t_object	*raytrace_objects(int *out_obj_nbr)
 
 static	t_object	*cornell_box(int *out_obj_nbr)
 {
-	const int	objects_nbr = 9;
+	const int	objects_nbr = 8;
 	t_object	*objects;
 
 	*out_obj_nbr = objects_nbr;
@@ -164,7 +164,7 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 			.normal = (cl_float3){{0, 0, 1}}};
 	objects[4] = (t_object){.type = PLANE, // celling
 			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0, .smoothness = 0},
-			.center = (cl_float3){{0, 2.5, 0}},
+			.center = (cl_float3){{0, 5.5, 0}},
 			.normal = (cl_float3){{0, 1, 0}}};
 	objects[5] = (t_object){.type = PLANE, // back
 			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0, .smoothness = 0},
@@ -173,8 +173,8 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 
 	objects[6] = (t_object){.type = SPHERE, // light
 			(t_material){.albedo = get_float3_color(0), .specular = 0, .smoothness = 0,
-				.emission_color = get_float3_color(COL_WHITE), .emission_power = 5},
-			.center = (cl_float3){{0, 2.5, 0}},
+				.emission_color = get_float3_color(COL_WHITE), .emission_power = 6},
+			.center = (cl_float3){{0, 5.5, 0}},
 			.radius = 1.f};
 
 	objects[7] = (t_object){.type = SPHERE, // small diffuse sphere
@@ -187,12 +187,12 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 //			.center = (cl_float3){{-1, -0.5f, -1}},
 //			.radius = 1.5f};
 
-	objects[8] = (t_object){.type = TRIANGLE,
-			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0.9, .smoothness = 5000},
-			.vertices[0] = (cl_float3){{0, -2.5, 0}},
-			.vertices[1] = (cl_float3){{-2.5, 2, 0}},
-			.vertices[2] = (cl_float3){{0, 2, 2.5}},
-			.normal = (cl_float3){{0, 0, 1}}};
+//	objects[8] = (t_object){.type = TRIANGLE,
+//			(t_material){.albedo = get_float3_color(COL_WHITE), .specular = 0.9, .smoothness = 5000},
+//			.vertices[0] = (cl_float3){{0, -2.5, 0}},
+//			.vertices[1] = (cl_float3){{-2.5, 2, 0}},
+//			.vertices[2] = (cl_float3){{0, 2, 2.5}},
+//			.normal = (cl_float3){{0, 0, 1}}};
 
 	return (objects);
 }
