@@ -188,7 +188,7 @@ typedef struct			s_material
 
 	cl_float3			ambient;
 	cl_float3			albedo;
-	cl_float			specular;
+	cl_float3			specular;
 	cl_float			smoothness;
 	cl_float			transmittance;
 	cl_float			refraction;
@@ -200,7 +200,7 @@ typedef struct			s_material
 
 	float3				ambient;
 	float3				albedo;
-	float				specular;
+	float3				specular;
 	float				smoothness;
 	float				transmittance;
 	float				refraction;

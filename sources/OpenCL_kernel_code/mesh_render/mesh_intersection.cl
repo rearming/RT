@@ -8,6 +8,9 @@ int		ray_mesh_intersect(
 {
 	int		closest_polygon_index = NOT_SET;
 
+#ifndef MESH_RENDER
+	return NOT_SET;
+#endif
 	for (int i = 0; i < mesh_info->num_polygons; i++)
 	{
 		if (ray_triangle_intersect_MT_polygon(

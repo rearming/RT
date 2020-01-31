@@ -10,7 +10,7 @@ float3		shade_pathtrace(
 {
 	if (hit->distance < INFINITY)
 	{
-		float	specular_chance = material->specular;
+		float	specular_chance = color_energy(material->specular);
 		float	chance = rt_randf(seed, pixel);
 
 		if (material->emission_power > 0)

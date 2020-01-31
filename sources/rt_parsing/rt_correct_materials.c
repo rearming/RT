@@ -6,7 +6,7 @@ t_material		rt_default_material(void)
 	t_material	material;
 	material.ambient = (cl_float3){{0.2, 0.2, 0.2}};
 	material.albedo = get_float3_color(COL_LIGHT_BLUE);
-	material.specular = 0;
+	material.specular = (cl_float3){{0, 0, 0}};
 	material.emission_color = (cl_float3){{0, 0, 0}};
 	material.emission_power = 0;
 	material.smoothness = 0;
@@ -21,7 +21,7 @@ t_material		rt_convert_obj_material(t_obj_material obj_material)
 
 	material.ambient = obj_material.ambient;
 	material.albedo = obj_material.diffuse;
-	material.specular = float3_color_power(obj_material.specular);
+	material.specular = obj_material.specular;
 	material.emission_color = obj_material.emission;
 	material.emission_power = float3_color_power(material.emission_color) > 0 ? 1 : 0;
 	material.smoothness = obj_material.phong_exp;
