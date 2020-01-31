@@ -33,7 +33,9 @@ float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point
 
 float3		reflect(float3 ray_dir, float3 normal);
 
-float3		refract(float3 ray_dir, float3 normal, float refract_index);
+float3		convex_refract(float3 ray_dir, float3 normal, float refract_index);
+
+float3		concave_refract(float3 ray_dir, float3 normal, float refract_index);
 
 bool		isset(int value);
 

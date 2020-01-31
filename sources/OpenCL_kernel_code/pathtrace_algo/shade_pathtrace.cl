@@ -39,20 +39,12 @@ float3		shade_pathtrace(
 			else
 			{
 				ray->origin = hit->pos;
-				if (material.refraction > 1) /// если полностью прозрачный объект, не меняем направление луча
-				{
-					float3	refract_dir = refract(ray->dir, hit->normal, material.refraction);
-					if (fast_length(refract_dir) > 0)
-					/// фикс черного ореола над линзой, надо проверить как будет выглядеть со скайбоксом, если нормально, то убрать if
-					{
-						if (material.smoothness < MAX_SMOOTHNESS)
-							ray->dir = rand_dir_on_hemisphere(refract_dir, seed, pixel, phong_alpha);
-						else
-							ray->dir = refract_dir;
-					}
-				}
+				float3	refract_dir = convex_refract(ray->dir, hit->normal, material.refraction);
+				if (material.smoothness < MAX_SMOOTHNESS)
+					ray->dir = rand_dir_on_hemisphere(refract_dir, seed, pixel, phong_alpha);
+				else
+					ray->dir = refract_dir;
 				ray->energy *= specular_chance * material.albedo;
-				//todo sphere sampling refraction?
 			}
 		}
 		else

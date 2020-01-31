@@ -14,14 +14,17 @@ float3		reflect(float3 ray_dir, float3 normal)
 	return ray_dir - 2 * dot(normal, ray_dir) * normal;
 }
 
-float3		refract(float3 ray_dir, float3 normal, float refract_index)
+float3		convex_refract(float3 ray_dir, float3 normal, float refract_index)
+{
+	refract_index = 2.0f - refract_index;
+	float normal_dot_ray = dot(normal, ray_dir);
+	float3 refracted = (ray_dir * refract_index - normal * (-normal_dot_ray + refract_index * normal_dot_ray));
+	return refracted;
+}
+
+float3		concave_refract(float3 ray_dir, float3 normal, float refract_index)
 {
 	float	normal_dot_ray = dot(normal, ray_dir);
-//	if (normal_dot_ray > 0)
-//	{
-//		normal = -normal;
-//		normal_dot_ray = dot(normal, ray_dir);
-//	}
 
 	float k = 1.0 - refract_index * refract_index * (1.0 - normal_dot_ray * normal_dot_ray);
 	if (k < 0.0)

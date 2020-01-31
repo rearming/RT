@@ -15,11 +15,10 @@ float3		shade(
 		else
 		{
 			ray->origin = hit->pos;
-			if (material->refraction > 1)
-				ray->dir = refract(ray->dir, hit->normal, material->refraction);
+			ray->dir = convex_refract(ray->dir, hit->normal, material->refraction);
 			ray->energy *= material->specular;
 		}
-		return material->albedo;
+		return material->emission_power > 0 ? material->emission_color : material->albedo;
 	}
 	else
 	{
