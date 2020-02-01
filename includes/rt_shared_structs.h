@@ -1,5 +1,5 @@
-#ifndef RT_STRUCTS_H
-# define RT_STRUCTS_H
+#ifndef RT_SHARED_STRUCTS_H
+# define RT_SHARED_STRUCTS_H
 
 typedef struct			s_rgb
 {
@@ -32,21 +32,6 @@ typedef union			u_color
 	t_rgb			rgb;
 }						t_color;
 
-typedef struct			s_fpoint
-{
-# ifndef FT_OPENCL___
-
-	cl_float			x;
-	cl_float			y;
-	cl_float			z;
-# else
-
-	float				x;
-	float				y;
-	float				z;
-# endif
-}						t_fpoint;
-
 typedef struct			s_point
 {
 # ifndef FT_OPENCL___
@@ -61,42 +46,6 @@ typedef struct			s_point
 	t_color				color;
 # endif
 }						t_point;
-
-# ifndef FT_OPENCL___
-
-#define TEXTURE_BUF 15
-typedef struct			s_sdl
-{
-	SDL_Window			*win;
-	SDL_Renderer		*rend;
-	SDL_Texture			*texture;
-	SDL_Texture			**texture_list;
-	int					pitch;
-}						t_sdl;
-
-typedef struct			s_cl_mem
-{
-	cl_mem				mem;
-	bool				copy_mem;
-}						t_cl_mem;
-
-typedef struct			s_opencl
-{
-	cl_context			context;
-	cl_command_queue	queue;
-	cl_platform_id		platform_id;
-	cl_uint				ret_num_platforms;
-	cl_uint				ret_num_devices;
-	cl_device_id		device_id;
-	cl_program			program;
-	cl_kernel			kernel;
-	cl_event			profile_event;
-	t_cl_mem			*opencl_mem;
-	cl_mem				img_data_mem;
-	int					opencl_memobj_number;
-}						t_opencl;
-
-# endif
 
 typedef struct			s_camera
 {
@@ -158,29 +107,6 @@ typedef struct			s_light
 # endif
 
 }						t_light;
-
-typedef struct			s_obj_material
-{
-# ifndef FT_OPENCL___
-
-	cl_float3			ambient;
-	cl_float3			diffuse;
-	cl_float3			specular;
-	cl_float3			emission;
-	cl_float			phong_exp;
-	cl_float			transmittance;
-	cl_float			refraction;
-# else
-
-	float3				ambient;
-	float3				diffuse;
-	float3				specular;
-	float3				emission;
-	float				phong_exp;
-	float				transmittance;
-	float				refraction;
-# endif
-}						t_obj_material;
 
 typedef struct			s_material
 {
@@ -323,13 +249,6 @@ typedef struct			s_scene
 
 }						t_scene;
 
-typedef enum			e_render_algo
-{
-	PATH_TRACE = 1,
-	RAY_TRACE,
-	RAY_MARCH,
-}						t_render_algo;
-
 typedef struct			s_pathtrace_params
 {
 # ifndef FT_OPENCL___
@@ -356,6 +275,13 @@ typedef struct			s_raytrace_params
 
 }						t_raytrace_params;
 
+typedef enum			e_render_algo
+{
+	PATH_TRACE = 1,
+	RAY_TRACE,
+	RAY_MARCH,
+}						t_render_algo;
+
 typedef struct			s_opencl_params
 {
 # ifndef FT_OPENCL___
@@ -376,35 +302,5 @@ typedef struct			s_opencl_params
 	float				gamma;
 # endif
 }						t_opencl_params;
-
-# ifndef FT_OPENCL___
-
-typedef struct			s_events
-{
-	bool				w;
-	bool				a;
-	bool				s;
-	bool				d;
-	bool				info;
-	bool				space;
-	bool				lshift;
-}						t_events;
-
-typedef struct			s_opencl_mem_obj
-{
-	void				*ptr;
-	size_t				size;
-	cl_mem_flags		mem_flags;
-	bool				copy_mem;
-}						t_opencl_mem_obj;
-
-typedef struct			s_rt
-{
-	t_scene				scene;
-	t_opencl_params		opencl_params;
-	t_events			events;
-}						t_rt;
-
-# endif
 
 #endif

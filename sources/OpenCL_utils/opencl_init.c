@@ -1,7 +1,7 @@
 #include "rt.h"
 #include "../debug/rt_debug_utils.h"
 
-void		rt_opencl_compile_kernel(void)
+void rt_opencl_compile_kernel(unsigned int renderer_params)
 {
 	int			err;
 	char		*opencl_kernel_file;
@@ -12,7 +12,7 @@ void		rt_opencl_compile_kernel(void)
 			(const char **)&opencl_kernel_file, &size, &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_PROGRAM, err);
 	if ((err = clBuildProgram(
-			g_opencl.program, 1, &g_opencl.device_id, NULL, NULL, NULL)))
+			g_opencl.program, 1, &g_opencl.device_id, OPENCL_COMPILE_OPTIONS, NULL, NULL)))
 	{
 		print_cl_build_program_debug();
 		rt_raise_error(ERR_OPENCL_BUILD_PROGRAM);
@@ -29,6 +29,7 @@ void		rt_opencl_init(void)
 {
 	int			err;
 
+	setenv("CUDA_CACHE_DISABLE", "1", 1);
 	err = clGetPlatformIDs(
 			1, &g_opencl.platform_id, &g_opencl.ret_num_platforms);
 	rt_opencl_handle_error(ERR_OPENCL_GET_PLATFORM_ID, err);
@@ -42,7 +43,7 @@ void		rt_opencl_init(void)
 	g_opencl.queue = clCreateCommandQueue(
 			g_opencl.context, g_opencl.device_id, CL_QUEUE_PROFILING_ENABLE , &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_QUEUE, err);
-	rt_opencl_compile_kernel();
+	rt_opencl_compile_kernel(NULL);
 }
 
 #pragma clang diagnostic pop

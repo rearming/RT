@@ -3,8 +3,6 @@
 #include "rt_load_obj_files.h"
 #include "../debug/rt_debug_utils.h"
 
-
-
 static inline t_raw_obj		rt_get_raw_obj(const char *obj_file_path)
 {
 	t_raw_obj	raw_obj;
@@ -32,10 +30,10 @@ void		rt_load_obj_files(t_meshes *out_meshes)
 	t_raw_obj			raw_obj;
 
 	raw_obj = rt_get_raw_obj(obj_file_path);
-//	rt_print_obj(&raw_obj.attrib, raw_obj.shapes, raw_obj.num_shapes);
-	rt_print_mtl_file(raw_obj.materials, raw_obj.num_materials);
 	rt_get_meshes(&raw_obj, out_meshes);
+//	rt_print_obj(&raw_obj.attrib, raw_obj.shapes, raw_obj.num_shapes);
+//	rt_print_mtl_file(raw_obj.materials, raw_obj.num_materials);
 //	rt_print_parsed_meshes(out_meshes);
-	rt_print_parsed_materials(out_meshes);
+//	rt_print_parsed_materials(out_meshes);
 	rt_free_raw_obj(&raw_obj);
 }

@@ -31,6 +31,8 @@ def update_opencl_header():
     result_str = ""
 
     for match in matches:
+        if re.match(r".*__kernel.*", match[0]):
+            continue
         result_str += "\n"
         result_str += match[0]
         if str(match[0][-1]) != ")":
@@ -43,40 +45,25 @@ def update_opencl_header():
     result_file.close()
 
 
-def update_opencl_kernel_files():
-    updated_file_path = "./sources/OpenCL_utils/opencl_files_parser.c"
-    file = open(updated_file_path, "r")
-    file_text = file.read()
-    file.close()
-
-    corrected_file_names = []
-
-    excluded_files = re.search(r"ft_read_files\(\d{2},((?:[\s\S]+?)(?:prototypes.cl\"))", file_text).group(1)
-    excluded_files = re.findall(r"\"(\./.*)\"", excluded_files)
-
-    for name in cl_files_names[0]:
-        corrected_name = re.sub(str(pwd), ".", str(name))
-        if corrected_name in excluded_files:
-            continue
-        corrected_file_names.append(corrected_name)
-
-    tabs_number = len(re.search(r"(\t+)\"\./sources/OpenCL_kernel_code/prototypes.cl\"", file_text).group(1))
-
-    str_to_insert = ""
-    for name in corrected_file_names:
-        str_to_insert += ",\n" + "\t"[:1]*tabs_number + "\"" + name + "\""
-
-    file_text = re.sub(re.search(r"(?:prototypes.cl\")([\s\S]+?)(?=\);)", file_text).group(1), str_to_insert, file_text)
-
-    files_number = len(re.findall(r"(\"\./[a-zA-Z/_.]+\")", file_text))
-    file_text = re.sub(r"(\d+)(?=,\s*\"\./[a-zA-Z/_.]+\")", str(files_number), file_text)
-
-    result_file = open(updated_file_path, 'w')
-    result_file.seek(0)
-    result_file.write(file_text)
+# def update_opencl_include_dirs():
+#     updated_file_path = "./includes/rt_defines.h"
+#     file = open(updated_file_path, "r")
+#     file_text = file.read()
+#     file.close()
+#
+#     all_dirs = [x[0] for x in os.walk(sys.argv[1])]
+#     print(all_dirs)
+#
+#     matches = re.findall(r"(\" -I \.(?:\/\w+)+\"( \\)*\s*)", file_text)
+#     print(matches)
+#     # re.sub()
+#
+#     result_file = open(updated_file_path, 'w')
+#     result_file.seek(0)
+#     result_file.write(file_text)
 
 
 cl_files_names = get_opencl_files_names()
 pwd = os.path.dirname(os.path.realpath(__file__))
 update_opencl_header()
-update_opencl_kernel_files()
+# update_opencl_kernel_files()

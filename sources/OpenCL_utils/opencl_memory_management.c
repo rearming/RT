@@ -11,7 +11,7 @@ void		rt_opencl_move_host_mem_to_kernel(int kernel_mem_object_nbr, ...)
 	va_start(ap, kernel_mem_object_nbr);
 	mem_obj_i = 0;
 	if (mem_copy_done == false) //маллочить память ТОЛЬКО ОДИН РАЗ БЛЯТБ
-		g_opencl.opencl_mem = rt_safe_malloc(kernel_mem_object_nbr * sizeof(t_cl_mem));
+		g_opencl.opencl_mem = rt_safe_malloc(kernel_mem_object_nbr * sizeof(t_cl_buffer));
 	while (mem_obj_i < kernel_mem_object_nbr)
 	{
 		memobj = va_arg(ap, t_opencl_mem_obj);
@@ -29,35 +29,6 @@ void		rt_opencl_move_host_mem_to_kernel(int kernel_mem_object_nbr, ...)
 	}
 	mem_copy_done = true;
 	va_end(ap);
-}
-
-void		cl_set_kernel(t_rt *rt, int mode)
-{
-	int		err;
-
-	err = 0;
-	if (mode == CREATE_BUFFER)
-	{
-		g_opencl.opencl_memobj_number = 4;
-		g_opencl.opencl_mem = rt_safe_malloc(sizeof(cl_mem) * g_opencl.opencl_memobj_number);
-		g_opencl.opencl_mem[0].mem = clCreateBuffer(g_opencl.context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-				sizeof(t_scene), &rt->scene, &err);
-		g_opencl.opencl_mem[1].mem = clCreateBuffer(g_opencl.context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-				sizeof(t_object) * rt->scene.obj_nbr, rt->scene.objects, &err);
-		g_opencl.opencl_mem[2].mem = clCreateBuffer(g_opencl.context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-				sizeof(t_light) * rt->scene.lights_nbr, rt->scene.lights, &err);
-		g_opencl.opencl_mem[3].mem = clCreateBuffer(g_opencl.context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-				sizeof(t_light) * rt->scene.lights_nbr, rt->scene.lights, &err);
-		g_opencl.img_data_mem = clCreateBuffer(g_opencl.context, CL_MEM_READ_WRITE,
-				sizeof(int) * WIN_HEIGHT * WIN_WIDTH, NULL, &err);
-		rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
-	}
-	err |= clSetKernelArg(g_opencl.kernel, 0, sizeof(cl_mem), &g_opencl.opencl_mem[0]);
-	err |= clSetKernelArg(g_opencl.kernel, 1, sizeof(cl_mem), &g_opencl.opencl_mem[1]);
-	err |= clSetKernelArg(g_opencl.kernel, 2, sizeof(cl_mem), &g_opencl.opencl_mem[2]);
-	err |= clSetKernelArg(g_opencl.kernel, 3, sizeof(cl_mem), &g_opencl.opencl_mem[3]);
-	err |= clSetKernelArg(g_opencl.kernel, 4, sizeof(cl_mem), &g_opencl.img_data_mem);
-	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 }
 
 void		opencl_clean_memobjs(void)

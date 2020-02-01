@@ -52,3 +52,35 @@ bool		ray_has_energy(t_ray *ray)
 {
 	return ray->energy.x > 0 || ray->energy.y > 0 || ray->energy.z > 0;
 }
+
+int3		get_img_point(int global_id)
+{
+	return (int3)(global_id % WIN_WIDTH, global_id / WIN_HEIGHT, 0);
+}
+
+void			correct_img_point(float3 *img_point)
+{
+	img_point->x -= WIN_WIDTH / 2;
+	img_point->y -= WIN_HEIGHT / 2;
+	img_point->y = -img_point->y;
+}
+
+t_ray			get_ray(float3 img_point, __global const t_camera *camera)
+{
+	t_ray		ray;
+
+	correct_img_point(&img_point);
+	ray.dir = fast_normalize(canvas_to_viewport(camera, img_point));
+	rotate_point(&ray.dir, camera->rotation);
+	ray.origin = camera->pos;
+	ray.energy = (float3)(1.0f, 1.0f, 1.0f);
+	return ray;
+}
+
+float3			correct_hdr(float gamma, float exposure, float3 hdr_color)
+{
+	float3	mapped = (float3)(1.0f) - exp(-hdr_color * exposure);
+	mapped = pow(mapped, (float3)(1.0f / gamma));
+
+	return mapped;
+}

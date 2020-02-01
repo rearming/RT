@@ -20,6 +20,7 @@ bool				in_shadow(
 		return (objects[found_object].material.transmittance <= 0);
 	if (isset(found_polygon))
 		return (get_polygon_material(meshes_info, polygons, found_polygon).transmittance <= 0);
+	return false;
 }
 
 float				blinn_phong_shine(float3 ray_dir, float3 light_dir, float3 normal, float phong_exp)

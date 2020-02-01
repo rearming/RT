@@ -84,7 +84,7 @@ void	test_opencl_init(void)
 			"./includes/rt_defines.h",
 			"./includes/rt_structs.h",
 			"./sources/test/test_kernel.cl");
-	ft_sprintf(&opencl_kernel_file, "%s%s", OPENCL_DEFINES_STR, opencl_kernel_file);
+	ft_sprintf(&opencl_kernel_file, "%s%s", OPENCL_APPLE_DEFINE, opencl_kernel_file);
 
 	g_opencl.program = clCreateProgramWithSource(g_opencl.context, 1, (const char **)&opencl_kernel_file, &size, &err);
 	if (err)

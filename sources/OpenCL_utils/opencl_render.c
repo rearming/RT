@@ -3,8 +3,6 @@
 #include "rt_math_utils.h"
 #include "time.h"
 
-// todo отключить передачу g_img_data_float если рейтрейс/etc (не pathtrace)
-// можно сделать в то же время, когда будут разделяться кернелы
 void		rt_opencl_prepare_memory(t_rt *rt)
 {
 	g_opencl.opencl_memobj_number = 9;
@@ -25,10 +23,10 @@ void		rt_opencl_prepare_memory(t_rt *rt)
 			sizeof(cl_float3) * rt->scene.meshes.num_vertices, RT_DEFAULT_MEM_FLAG, false},
 		(t_opencl_mem_obj){rt->scene.meshes.v_normals,
 			sizeof(cl_float3) * rt->scene.meshes.num_v_normals, RT_DEFAULT_MEM_FLAG, false},
+//		(t_opencl_mem_obj){rt->scene.meshes.v_textures,
+//			sizeof(cl_float3) * rt->scene.meshes.num_v_textures, RT_DEFAULT_MEM_FLAG, false},
 		(t_opencl_mem_obj){&g_img_data_float,
 			sizeof(cl_float3) * WIN_HEIGHT * WIN_WIDTH, RT_MEM_RW_FLAG, false}
-//		(t_opencl_mem_obj){rt->scene.meshes.v_textures,
-//			sizeof(cl_float3) * rt->scene.meshes.num_v_textures, RT_DEFAULT_MEM_FLAG, false}
 			);
 }
 
@@ -95,7 +93,6 @@ void		rt_opencl_render(t_rt *rt)
 		rt_print_opencl_profile_info();
 	clReleaseEvent(g_opencl.profile_event);
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
-//	//todo обернуть в функцию
 	err |= clEnqueueReadBuffer(g_opencl.queue, g_opencl.img_data_mem, CL_TRUE, 0,
 			sizeof(int) * WIN_WIDTH * WIN_HEIGHT,
 			g_img_data, 0, NULL, NULL);

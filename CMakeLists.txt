@@ -3,6 +3,8 @@ project(RT C)
 
 set(CMAKE_C_STANDARD 11)
 
+#set(ENV{TI_OCL_VERBOSE_ERROR} 1)
+
 add_compile_options(-Wall -Wextra)
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
@@ -39,7 +41,12 @@ set(sources
         sources/debug/rt_pathtrace_profile.c
         sources/rt_parsing/rt_load_obj_files.c
         sources/debug/rt_print_obj_file.c
-        sources/debug/rt_debug_print_parsed_meshes.c sources/rt_parsing/rt_load_obj_utils.c sources/rt_parsing/rt_load_obj_meshes.c sources/rt_parsing/rt_load_obj_materials.c sources/rt_parsing/rt_correct_materials.c sources/math_utils/rt_math_utils.c includes/rt_math_utils.h)
+        sources/debug/rt_debug_print_parsed_meshes.c
+        sources/rt_parsing/rt_load_obj_utils.c
+        sources/rt_parsing/rt_load_obj_meshes.c
+        sources/rt_parsing/rt_load_obj_materials.c
+        sources/rt_parsing/rt_correct_materials.c
+        sources/math_utils/rt_math_utils.c)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INCLUDE(FindPkgConfig)
