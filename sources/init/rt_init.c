@@ -22,6 +22,7 @@ void		rt_init_opencl_params(t_opencl_params *out_opencl_params)
 	out_opencl_params->exposure = 1;
 	rt_init_pathtrace_params(&out_opencl_params->pathtrace_params);
 	rt_init_raytrace_params(&out_opencl_params->raytrace_params);
+	out_opencl_params->renderer_flags = RENDER_DEFAULT;
 }
 
 void		rt_init_events(t_events *events)

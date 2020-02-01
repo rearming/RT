@@ -292,6 +292,7 @@ typedef struct			s_opencl_params
 	cl_float			seed;
 	cl_float			exposure;
 	cl_float			gamma;
+	uint32_t			renderer_flags;
 # else
 
 	t_render_algo		render_algo;
@@ -300,6 +301,7 @@ typedef struct			s_opencl_params
 	float				seed;
 	float				exposure;
 	float				gamma;
+	unsigned int		renderer_flags;
 # endif
 }						t_opencl_params;
 

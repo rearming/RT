@@ -69,16 +69,22 @@ void		rt_sdl_init(void);
 **	OpenCL utils
 */
 
-void cl_set_kernel(t_rt *rt, int mode);
+void		cl_set_kernel(t_rt *rt, int mode);
 
 char		*concat_opencl_kernel_code(int files_nbr, ...);
 void		rt_opencl_init(void);
 void		rt_opencl_render(t_rt *rt);
-void		rt_opencl_move_host_mem_to_kernel(int kernel_mem_object_nbr, ...);
+void		rt_opencl_move_host_mem_to_kernel(cl_kernel kernel, uint32_t renderer_flags, int kernel_mem_object_nbr, ...);
 char		*get_opencl_kernel_code_text(size_t *out_size);
-void		opencl_clean_memobjs(void);
-void		rt_opencl_setup_image_buffer(void);
+void opencl_clean_memobjs(uint32_t renderer_flags);
+void rt_opencl_setup_image_buffer(cl_kernel kernel);
 void		rt_opencl_handle_error(const char *rt_err_str, int opencl_err_code);
+
+
+void rt_opencl_create_kernel(const char *compile_options,
+							 cl_kernel *out_kernel,
+							 cl_program *out_program);
+t_rt_renderer		*rt_get_renderer(uint32_t flags);
 
 /*
 **	Utils
@@ -86,9 +92,10 @@ void		rt_opencl_handle_error(const char *rt_err_str, int opencl_err_code);
 
 void		rt_loop(t_rt *rt);
 
-void		print_cl_build_program_debug(void);
+void print_cl_build_program_debug(cl_program program);
 void		rt_raise_error(const char *err_str);
 void		*rt_safe_malloc(size_t size);
 bool		rt_exit_clean(void);
+bool		rt_camera_moved(t_camera *camera);
 
 #endif

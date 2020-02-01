@@ -10,7 +10,7 @@ bool				ray_triangle_intersect_MT(
 	float3	plane_vec = cross(ray->dir, v0v2);
 	float	determinant = dot(v0v1, plane_vec);
 
-#ifdef BACKFACE_CULLING
+#ifdef RENDER_BACKFACE_CULLING
 	if (determinant < RAY_MIN_EPSILON)
 		return false;
 #else
@@ -52,7 +52,7 @@ bool				ray_triangle_intersect_MT_polygon(
 	float3	plane_vec = cross(ray->dir, v0v2);
 	float	determinant = dot(v0v1, plane_vec);
 
-#ifdef BACKFACE_CULLING
+#ifdef RENDER_BACKFACE_CULLING
 	if (determinant < RAY_MIN_EPSILON)
 		return false;
 #else

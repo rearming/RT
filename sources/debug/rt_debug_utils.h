@@ -26,5 +26,6 @@ void		rt_print_parsed_materials(t_meshes *meshes);
 */
 
 void		rt_pathtrace_profile(t_rt *rt, int max_samples);
+void		rt_print_opencl_profile_info(void);
 
 #endif

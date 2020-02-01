@@ -16,6 +16,7 @@ typedef struct			s_sdl
 typedef struct			s_cl_buffer
 {
 	cl_mem				mem;
+	u_int32_t			renderer_flags;
 	bool				copy_mem;
 }						t_cl_buffer;
 
@@ -33,16 +34,16 @@ typedef struct			s_opencl
 	cl_kernel			kernel;
 	cl_event			profile_event;
 	t_cl_buffer			*opencl_mem;
-	t_rt_renderer		*renderers;
 	cl_mem				img_data_mem;
 	int					opencl_memobj_number;
+	t_list				*renderers;
 }						t_opencl;
 
 typedef struct			s_rt_renderer
 {
-	unsigned int		params;
+	uint32_t			flags;
+	cl_program			program;
 	cl_kernel			kernel;
-	cl_event			event;
 	t_cl_buffer			*buffers;
 	int					buffers_num;
 }						t_rt_renderer;
@@ -74,7 +75,8 @@ typedef struct			s_opencl_mem_obj
 	void				*ptr;
 	size_t				size;
 	cl_mem_flags		mem_flags;
-	bool				copy_mem;
+	bool				copy;
+	uint32_t			renderer_flags;
 }						t_opencl_mem_obj;
 
 typedef struct			s_rt

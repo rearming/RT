@@ -13,12 +13,12 @@
 #include "simple_object_intersections.cl"
 #include "intersection_utils.cl"
 
-# ifdef RAYTRACE
+# ifdef RENDER_RAYTRACE
 #  include "raytrace.cl"
 #  include "light_computing.cl"
 # endif
 
-# ifdef PATHTRACE
+# ifdef RENDER_PATHTRACE
 #  include "pathtrace.cl"
 #  include "shade_pathtrace.cl"
 #  include "pathtrace_utils.cl"
@@ -31,16 +31,21 @@
 
 __kernel void	rt_main(
     __global const t_scene *scene,
+#ifdef RENDER_OBJECTS
     __global const t_object *objects,
     __global const t_light *lights,
     __global const t_opencl_params *params,
-#ifdef MESH_RENDER
+#endif
+#ifdef RENDER_MESH
 	__global const t_mesh_info *meshes_info,
     __global const t_polygon *polygons,
 	__global const float3 *vertices,
 	__global const float3 *v_normals,
+# ifdef RENDER_MESH_VTEXTURES
+	__global const float3 *v_textures,
+# endif
 #endif
-#ifdef PATHTRACE
+#ifdef RENDER_PATHTRACE
     __global float3 *img_data_float,
 #endif
     __global int *img_data)
@@ -54,7 +59,7 @@ __kernel void	rt_main(
 	float3		new_color = 0;
 	float		seed = params->seed;
 
-#ifdef PATHTRACE
+#ifdef RENDER_PATHTRACE
 	float3		prev_color = img_data_float[g_id];
 	new_color = pathtrace(scene, objects, lights, meshes_info, polygons, vertices, v_normals,
 		params, ray, params->pathtrace_params.max_depth, &seed, (float2)(convert_float2(img_point).xy + 1));
@@ -62,7 +67,7 @@ __kernel void	rt_main(
 	img_data_float[g_id] = final_color;
 #endif
 
-#ifdef RAYTRACE
+#ifdef RENDER_RAYTRACE
 //	final_color = raytrace(scene, objects, lights, meshes_info, polygons, vertices, v_normals, params, ray);
 #endif
 	img_data[g_id] = get_int_color(correct_hdr(params->gamma, params->exposure, final_color));
