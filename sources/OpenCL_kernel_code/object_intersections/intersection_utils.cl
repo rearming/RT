@@ -1,36 +1,45 @@
 
 void				closest_intersection(
 		__global const t_scene *scene,
+#ifdef RENDER_OBJECTS
 		__global const t_object *objects,
+#endif
+#ifdef RENDER_MESH
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
+#endif
 		t_ray *ray,
 		t_rayhit *out_best_hit,
 		int *out_closest_polygon_index,
 		int *out_closest_obj_index)
-{
-	for (int i = 0; i < scene->obj_nbr; i++)
 	{
-		switch (objects[i].type)
-		{
-			case (SPHERE):
-				if (ray_sphere_intersect(ray, &objects[i], out_best_hit))
-					*out_closest_obj_index = i;
-				break;
-			case (PLANE):
-				if (ray_plane_intersect(ray, objects[i].center, objects[i].normal, out_best_hit))
-					*out_closest_obj_index = i;
-				break;
-			case (TRIANGLE):
-				if (ray_triangle_intersect_MT(ray, &objects[i], out_best_hit))
-					*out_closest_obj_index = i;
-				break;
-		}
-	}
-	if (!polygons) /// может нужна проверка всех полей?
-		return;
-	if ((*out_closest_polygon_index = ray_mesh_intersect(
-			&scene->meshes, polygons, vertices, v_normals, ray, out_best_hit)) != NOT_SET)
+		*out_closest_polygon_index = NOT_SET;
 		*out_closest_obj_index = NOT_SET;
-}
+#ifdef RENDER_OBJECTS
+		for (int i = 0; i < scene->obj_nbr; i++)
+		{
+			switch (objects[i].type)
+			{
+				case (SPHERE):
+					if (ray_sphere_intersect(ray, &objects[i], out_best_hit))
+						*out_closest_obj_index = i;
+					break;
+				case (PLANE):
+					if (ray_plane_intersect(ray, objects[i].center, objects[i].normal, out_best_hit))
+						*out_closest_obj_index = i;
+					break;
+				case (TRIANGLE):
+					if (ray_triangle_intersect_MT(ray, &objects[i], out_best_hit))
+						*out_closest_obj_index = i;
+					break;
+			}
+		}
+#endif // RENDER_OBJECTS
+
+#ifdef RENDER_MESH
+		if ((*out_closest_polygon_index = ray_mesh_intersect(
+				&scene->meshes, polygons, vertices, v_normals, ray, out_best_hit)) != NOT_SET)
+			*out_closest_obj_index = NOT_SET;
+#endif // RENDER_MESH
+	}

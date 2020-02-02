@@ -9,21 +9,25 @@ float		color_energy(float3 color);
 
 int			get_int_color(float3 color);
 
-float3		shade(
-		t_ray *ray,
-		t_rayhit *hit,
-		t_material *material);
+float		sdot(float3 a, float3 b, float coeff);
 
-float3		raytrace(
-		__global const t_scene *scene,
-		__global const t_object *objects,
-		__global const t_light *lights,
-		__global const t_mesh_info *meshes_info,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
-		__global const t_opencl_params *params,
-		t_ray ray);
+int 				in_range_inclusive(float number, float min, float max);
+
+uint		rt_rand(uint seed);
+
+float		rt_fract(float x);
+
+float		rt_randf(float *seed, float2 pixel);
+
+void		rotate_y(float3 *point, float angle);
+
+void		rotate_x(float3 *point, float angle);
+
+void		rotate_z(float3 *point, float angle);
+
+float3		degree_to_rad(float3 rotation_degrees);
+
+void		rotate_point(float3 *point, float3 angle);
 
 float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point);
 
@@ -49,59 +53,100 @@ t_ray			get_ray(float3 img_point, __global const t_camera *camera);
 
 float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
 
-float		sdot(float3 a, float3 b, float coeff);
-
-int 				in_range_inclusive(float number, float min, float max);
-
-uint		rt_rand(uint seed);
-
-float		rt_fract(float x);
-
-float		rt_randf(float *seed, float2 pixel);
-
-void		rotate_y(float3 *point, float angle);
-
-void		rotate_x(float3 *point, float angle);
-
-void		rotate_z(float3 *point, float angle);
-
-float3		degree_to_rad(float3 rotation_degrees);
-
-void		rotate_point(float3 *point, float3 angle);
-
-bool				ray_triangle_intersect_MT(
+float3		shade(
 		t_ray *ray,
-		__global const t_object *triangle,
-		t_rayhit *best_hit);
+		t_rayhit *hit,
+		t_material *material);
 
-bool				ray_triangle_intersect_MT_polygon(
-		float3 v0, float3 v1, float3 v2,
-		float3 vn,
-		float3 vt0, float3 vt1, float3 vt2,
-		t_ray *ray,
-		t_rayhit *best_hit);
-
-bool				ray_plane_intersect(
-		t_ray *ray,
-		float3 center,
-		float3 normal,
-		t_rayhit *best_hit);
-
-bool				ray_sphere_intersect(
-		t_ray *ray,
-		__global const t_object *sphere,
-		t_rayhit *best_hit);
-
-void				closest_intersection(
+float3		raytrace(
 		__global const t_scene *scene,
+#ifdef RENDER_OBJECTS
 		__global const t_object *objects,
+#endif
+		__global const t_light *lights,
+#ifdef RENDER_MESH
+		__global const t_mesh_info *meshes_info,
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
+# ifdef RENDER_MESH_VTEXTURES
+		__global const float3 *v_textures,
+# endif
+#endif
+		__global const t_opencl_params *params,
+		t_ray ray);
+
+float3		shade_pathtrace(
 		t_ray *ray,
-		t_rayhit *out_best_hit,
-		int *out_closest_polygon_index,
-		int *out_closest_obj_index);
+		t_rayhit *hit,
+		t_material material,
+		float *seed,
+		float2 pixel);
+
+float3		pathtrace(
+		__global const t_scene *scene,
+#ifdef RENDER_OBJECTS
+		__global const t_object *objects,
+#endif // RENDER_OBJECTS
+#ifdef RENDER_MESH
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+# ifdef RENDER_MESH_VTEXTURES
+		__global const float3 *v_textures,
+# endif
+#endif // RENDER_MESH
+		__global const t_opencl_params *params,
+		t_ray ray,
+		int depth,
+		float *seed,
+		float2 pixel);
+
+void		create_coordinate_system(float3 normal, float3 *normal_x, float3 *normal_z);
+
+float3		sample_hemisphere(float *seed, float2 pixel, float phong_alpha);
+
+float3		rand_dir_on_hemisphere(
+		float3 normal,
+		float *seed,
+		float2 pixel,
+		float phong_alpha);
+
+bool				in_shadow(
+		__global const t_scene *scene,
+#ifdef RENDER_OBJECTS
+		__global const t_object *objects,
+#endif
+#ifdef RENDER_MESH
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+#endif
+		t_ray *ray,
+		t_light_type light_type);
+
+float				blinn_phong_shine(float3 ray_dir, float3 light_dir, float3 normal, float phong_exp);
+
+float				compute_light(
+	__global const t_scene *scene,
+	__global const t_light *lights,
+#ifdef RENDER_OBJECTS
+	__global const t_object *objects,
+#endif
+#ifdef RENDER_MESH
+	__global const t_mesh_info *meshes_info,
+	__global const t_polygon *polygons,
+	__global const float3 *vertices,
+	__global const float3 *v_normals,
+# ifdef RENDER_MESH_VTEXTURES
+	__global const float3 *v_textures,
+# endif
+#endif
+	t_rayhit *hit,
+	t_ray *ray,
+	t_material *hit_material);
 
 t_material	get_polygon_material(
 		__global const t_mesh_info *meshes_info,
@@ -116,58 +161,41 @@ int		ray_mesh_intersect(
 		t_ray *ray,
 		t_rayhit *out_best_hit);
 
-void		create_coordinate_system(float3 normal, float3 *normal_x, float3 *normal_z);
+void				closest_intersection(
+		__global const t_scene *scene,
+#ifdef RENDER_OBJECTS
+		__global const t_object *objects,
+#endif
+#ifdef RENDER_MESH
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+#endif
+		t_ray *ray,
+		t_rayhit *out_best_hit,
+		int *out_closest_polygon_index,
+		int *out_closest_obj_index);
 
-float3		sample_hemisphere(float *seed, float2 pixel, float phong_alpha);
-
-float3		rand_dir_on_hemisphere(
+bool				ray_plane_intersect(
+		t_ray *ray,
+		float3 center,
 		float3 normal,
-		float *seed,
-		float2 pixel,
-		float phong_alpha);
+		t_rayhit *best_hit);
 
-float3		pathtrace(
-		__global const t_scene *scene,
-		__global const t_object *objects,
-		__global const t_light *lights,
-		__global const t_mesh_info *meshes_info,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
-		__global const t_opencl_params *params,
-		t_ray ray,
-		int depth,
-		float *seed,
-		float2 pixel);
-
-float3		shade_pathtrace(
+bool				ray_sphere_intersect(
 		t_ray *ray,
-		t_rayhit *hit,
-		t_material material,
-		float *seed,
-		float2 pixel);
+		__global const t_object *sphere,
+		t_rayhit *best_hit);
 
-bool				in_shadow(
-		__global const t_scene *scene,
-		__global const t_object *objects,
-		__global const t_mesh_info *meshes_info,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
+bool				ray_triangle_intersect_MT(
 		t_ray *ray,
-		t_light_type light_type);
+		__global const t_object *triangle,
+		t_rayhit *best_hit);
 
-float				blinn_phong_shine(float3 ray_dir, float3 light_dir, float3 normal, float phong_exp);
-
-float				compute_light(
-	__global const t_scene *scene,
-	__global const t_light *lights,
-	__global const t_object *objects,
-	__global const t_mesh_info *meshes_info,
-	__global const t_polygon *polygons,
-	__global const float3 *vertices,
-	__global const float3 *v_normals,
-	t_rayhit *hit,
-	t_ray *ray,
-	t_material *hit_material);
+bool				ray_triangle_intersect_MT_polygon(
+		float3 v0, float3 v1, float3 v2,
+		float3 vn,
+		float3 vt0, float3 vt1, float3 vt2,
+		t_ray *ray,
+		t_rayhit *best_hit);
 

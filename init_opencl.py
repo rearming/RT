@@ -26,12 +26,13 @@ def update_opencl_header():
             cl_files_text += file.read()
             file.close()
 
-    matches = re.findall(r"(([\w ]+)[\t ]+([\w*]+)\((?:[\s]*((?:\*?\w+)[\s,)]){2,5})+)", cl_files_text)
+    matches = re.findall(r"(([\w ]+)[\t ]+([\w*]+)\((?:[\s]*((?:[*# /]*\w+)[\s,)]))+)", cl_files_text)
 
     result_str = ""
 
     for match in matches:
-        if re.match(r".*__kernel.*", match[0]):
+        if re.match(r".*__kernel.*", match[0])\
+                or re.match(r".*return.*", match[0]):
             continue
         result_str += "\n"
         result_str += match[0]
