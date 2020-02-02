@@ -29,7 +29,7 @@ void		rt_opencl_move_host_mem_to_kernel(cl_kernel kernel, uint32_t renderer_flag
 			g_opencl.opencl_mem[mem_obj_i].renderer_flags = memobj.renderer_flags;
 			rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err); //todo удалить две структуры, просто сделать в том поле cl_mem
 		}
-		err = clSetKernelArg(kernel, mem_obj_i, sizeof(cl_mem),
+		err = clSetKernelArg(kernel, real_passed_memobj_nbr, sizeof(cl_mem),
 							 &g_opencl.opencl_mem[mem_obj_i].mem);
 		rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 		mem_obj_i++;

@@ -88,9 +88,9 @@ float3		raytrace(
 			t_material	polygon_material = get_polygon_material(meshes_info, polygons, closest_polygon_index);
 			if (polygon_material.transmittance <= 0)
 				light_intensity = compute_light(scene, lights,
-#ifdef RENDER_OBJECTS
+# ifdef RENDER_OBJECTS
 						objects,
-#endif
+# endif
 						meshes_info,
 						polygons, vertices, v_normals, &best_hit, &ray, &polygon_material);
 			result_color += ray.energy
