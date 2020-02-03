@@ -1,7 +1,11 @@
 #include "rt.h"
 
 /*
-**	TODO do parsing gfoote
+ * to do:
+**	1. считать количество объектов и количество источников света
+**	2. добавить все возможные параметры объектов и источника света
+ * 	3. уточнить где что проверяется
+ * 	4. добавить в сцену
 */
 
 void		printff(t_tmp *tmp)
@@ -20,8 +24,8 @@ void		printff(t_tmp *tmp)
 
 t_scene		rt_parse_scene(const char *json_scene_file)
 {
-//	t_scene		scene;
-	char		*text;
+	t_scene			scene;
+	char			*text;
 	t_tmp			*tmp;
 	json_t			*root;
 	json_error_t	error;
@@ -31,11 +35,12 @@ t_scene		rt_parse_scene(const char *json_scene_file)
 	text = read_file(json_scene_file, 10);
 	init_tmp(tmp);
 	root = json_loads(text, 0, &error);
-	parse_elem(root, tmp);
+	parse_elements(root, tmp);
+	add_elements(&scene, tmp);
 	printff(tmp);
 	json_decref(root);
 	free(text);
 	//scene = get_hardcoded_scene();
 	//rt_correct_scene(&scene);
-	//return (scene);
+	return (scene);
 }

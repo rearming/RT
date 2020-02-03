@@ -43,6 +43,14 @@ set(sources
         sources/debug/rt_debug_utils.h
         sources/debug/rt_debug_print_utils.c
         sources/rt_parsing/rt_correct_scene.c
+        sources/rt_parsing/rt_init_tmp_object.c
+        sources/rt_parsing/rt_parse_scene.c
+        sources/rt_parsing/rt_parse_elements.c
+        sources/rt_parsing/rt_add_elements.c
+        sources/rt_parsing/rt_add_to_scene.c
+        sources/rt_parsing/rt_check.c
+        sources/rt_parsing/rt_read_scene_file.c
+        sources/rt_parsing/rt_type_of_element.c
         sources/utils/rt_color_utils.c
         sources/debug/rt_pathtrace_profile.c)
 

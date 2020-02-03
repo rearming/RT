@@ -89,7 +89,7 @@ static int	parse_array(t_tmp *tmp, const char *key, json_t *value)
 			}
 			if (array_type == OBJECT)
 				tmp->type = type_of_object(key, array_type);
-			parse_elem(json_array_get(value, i), tmp);
+			parse_elements(json_array_get(value, i), tmp);
 		}
 	}
 	else if (parse_array_elems(tmp, array_type, value) == -1)
@@ -121,10 +121,10 @@ static int	parse_object(t_tmp *tmp, const char *key, json_t *value)
 	}
 	tmp->structure_type = tmp2.structure_type;
 	tmp->type = tmp2.type;
-	parse_elem(value, tmp);
+	parse_elements(value, tmp);
 }
 
-void		parse_elem(json_t *root, t_tmp *tmp)
+void		parse_elements(json_t *root, t_tmp *tmp)
 {
 	void		*iter;
 	const char	*key;

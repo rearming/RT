@@ -44,13 +44,14 @@ void		rt_init(t_rt *out_rt, const char *json_scene_file);
 t_scene		rt_parse_scene(const char *json_scene_file);
 void		init_tmp(t_tmp *tmp);
 int			ft_check_if_exist(int checker, int type);
-void		parse_elem(json_t *root, t_tmp *tmp);
+void		parse_elements(json_t *root, t_tmp *tmp);
 char		*read_file(const char *argv, int buff_size);
 int			type_of_json_array(const char *param, int type);
 int			type_of_object(const char *param, int type);
 int			type_of_structure_object(const char *param);
 int			type_of_variable(const char *param, int type);
 void		add_array(cl_float3 *elem, json_t *value);
+void 		add_elements(t_scene *scene, t_tmp *tmp);
 t_scene		get_hardcoded_scene(); //todo remove after dev
 void		rt_correct_scene(t_scene *scene);
 

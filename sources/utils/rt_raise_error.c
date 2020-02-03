@@ -23,7 +23,7 @@ static void		raise_error2(int err_code)
 	else if (err_code == ERR_PARSING_WRONG_LIGHT_PARAMS)
 		ft_printf_fd(STDERR_FILENO, "Wrong light parameters in file\n");
 	else if (err_code == ERR_PARSING_WRONG_CAMERA_PARAMS)
-		ft_printf_fd(STDERR_FILENO, "Wrong light camera in file\n");
+		ft_printf_fd(STDERR_FILENO, "Wrong camera parameters in file\n");
 	else if (err_code == ERR_PARSING_WRONG_PARAM)
 		ft_printf_fd(STDERR_FILENO, "Wrong parameter in file\n");
 	else
