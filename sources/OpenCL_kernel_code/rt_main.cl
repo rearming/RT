@@ -36,8 +36,9 @@ __kernel void	rt_main(
 
 	int			g_id = get_global_id(0);
 	float3		img_point = get_img_point(g_id);
-	//float3      texture_color;
-
+	float3      texture_color;
+	int i;
+	/**/
 		t_ray		ray = get_ray(img_point, &scene->camera);
 		float3		new_color = (float3)(0);
 		float3		prev_color = get_float3_color(img_data[g_id]);
@@ -47,8 +48,10 @@ __kernel void	rt_main(
 		else if (params->render_algo == RAY_TRACE)
 			new_color = raytrace(scene, objects, lights, params, texture_info, texture_list, ray);
 	 	img_data[g_id] = get_int_color(mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num));
-
-
-	//img_data[g_id] = (int)(texture_list[(int)img_point.x + (int)img_point.y * texture_info[0].width]);
-
+/*
+	i = 0;
+	if (img_point.x < texture_info[i].width && img_point.y < texture_info[i].height)
+		img_data[g_id] = (int)(texture_list[(int)img_point.x + (int)img_point.y * texture_info[i].width + texture_info[i].start]);
+	else
+		img_data[g_id] = 0;*/
 }

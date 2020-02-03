@@ -39,6 +39,7 @@ extern t_textures   g_textures;
 
 void		rt_init(t_rt *out_rt, const char *json_scene_file);
 void 		init_basic_textures_parameters(void);
+void		rt_add_start_position(int i);
 /*
 **	Parsing
 */

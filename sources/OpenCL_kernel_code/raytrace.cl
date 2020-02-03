@@ -27,9 +27,9 @@ float3		shade(
 	else
 	{
 		out_ray->energy = 0;
-		float3 normal = skybox_normal(out_ray);				//count_normal
-		return get_float3_color(skybox_color(texture_list, texture_info, normal));
-		//return get_float3_color(COL_BG); //add here skybox
+		//float3 normal = skybox_normal(out_ray);				//count_normal
+		//return get_float3_color(skybox_color(texture_list, texture_info, normal));
+		return get_float3_color(COL_BG); //add here skybox
 	}
 }
 
@@ -50,6 +50,7 @@ float3		raytrace(
 	float3		result_color = (float3)(0);
 	t_rayhit	best_hit;
 	int			closes_index = NOT_SET;
+	float3		normal = (float3)(0);
 
 	for (int i = 0; i < 2; ++i)
 	{
@@ -61,10 +62,13 @@ float3		raytrace(
 				* shade(&ray, &best_hit, texture_info[0], texture_list, &objects[closes_index].material);
 		else
 		{
-			//result_color += ray.energy * get_float3_color(COL_BG);
-			float3 normal = skybox_normal(ray);	//skybox_normal
-			result_color += ray.energy *
-					get_float3_color(skybox_color(texture_list, texture_info[0], normal)); //add here skybox
+			result_color += ray.energy * get_float3_color(COL_BG);
+
+			printf("here\n");
+			skybox_normal(&ray, &normal);	//skybox_normal
+			//printf("normal = %i, %i, %i\n", normal.x, normal.y, normal.z);
+			//result_color += ray.energy *
+			//		get_float3_color(skybox_color(texture_list, texture_info[0], normal)); //add here skybox
 			ray.energy = (float3)(0, 0, 0);
 		}
 		if (!ray_has_energy(&ray))

@@ -16,7 +16,6 @@ static float	*rt_memcpy(float *help, int size_dst, int type)
 	{
 		while (++i < size_dst)
 			g_textures.texture_list[i] = help[i];
-		free(help);
 	}
 	return (help);
 }
@@ -37,6 +36,7 @@ static void		rt_add(const float *scr, int size_src, int texture_num)
 		g_textures.texture_list = (float *)rt_safe_malloc(sizeof(float)
 				* (size_dst + size_src));
 		help = rt_memcpy(help, size_dst, 0);
+		free(help);
 	}
 	else
 		g_textures.texture_list = (float *)rt_safe_malloc(sizeof(float)
@@ -64,10 +64,11 @@ static void		rt_change_format_and_add(const unsigned char *tmp_texture,
 	while (i < texture_list_size * 3)
 	{
 		tmp_texture_list[j] = (float)(tmp_texture[i] << 16 |
-				tmp_texture[i + 1] << 8 | tmp_texture[i + 1]);
+				tmp_texture[i + 1] << 8 | tmp_texture[i + 2]);
 		i += 3;
 		j++;
 	}
+	free(tmp_texture_list);
 	rt_add(tmp_texture_list, j, texture_num);
 	if (texture_num + 1 == TEXTURE_NUM)
 	{
@@ -77,14 +78,17 @@ static void		rt_change_format_and_add(const unsigned char *tmp_texture,
 	}
 }
 
-static void		rt_add_start_position(int i)
+static unsigned char	*resize_image(unsigned char	*tmp_texture, int texture_num, int new_width, int new_height)
 {
-	if (i < TEXTURE_NUM && i > 0)
-		g_textures.texture_info[i].start = g_textures.texture_info[i - 1].start
-		+ g_textures.texture_info[i - 1].width
-		* g_textures.texture_info[i - 1].height;
-	else
-		g_textures.texture_info[i].start = 0;
+	unsigned char	*resized_texture;
+
+	resized_texture = (unsigned char *)rt_safe_malloc(sizeof(unsigned char) * new_width * new_height * 3);
+	stbir_resize_uint8(tmp_texture,g_textures.texture_info[texture_num].width, g_textures.texture_info[texture_num].height, 0,
+					   resized_texture, new_width, new_height, 0, STBI_rgb);
+	g_textures.texture_info[texture_num].width = new_width;
+	g_textures.texture_info[texture_num].height = new_height;
+	free(tmp_texture);
+	return (resized_texture);
 }
 
 void			rt_textures_init(void)
@@ -108,6 +112,7 @@ void			rt_textures_init(void)
 		tmp_texture = stbi_load(tmp_filename, &g_textures.texture_info[i].width,
 			&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp,
 			STBI_rgb);
+		//tmp_texture = resize_image(tmp_texture, i, WIN_WIDTH, WIN_HEIGHT); //add if we need to resize_image
 		rt_add_start_position(i);
 		rt_change_format_and_add(tmp_texture, i);
 		free(tmp_filename);

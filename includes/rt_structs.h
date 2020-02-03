@@ -81,7 +81,7 @@ typedef struct			s_texture_info
 # endif
 }						t_texture_info;
 
-#define TEXTURE_NUM 2
+#define TEXTURE_NUM 1
 
 # ifndef FT_OPENCL___
 typedef struct			s_textures

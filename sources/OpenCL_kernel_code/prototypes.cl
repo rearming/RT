@@ -130,5 +130,9 @@ int		check_borders(int a, int max, int type);
 
 int		skybox_color(__constant float *texture, t_texture_info texture_info, float3 normal);
 
-float3		skybox_normal(t_ray ray);
+float scale(t_ray *ray, float skybox_radius);
+
+void		skybox_normal(
+		t_ray *ray,
+		float3 *normal);
 

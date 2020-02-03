@@ -1,4 +1,4 @@
-int		check_borders(int a, int max, int type)
+/*int		check_borders(int a, int max, int type)
 {
 	if (a < 0)
 		return (0);
@@ -28,16 +28,35 @@ int		skybox_color(__constant float *texture, t_texture_info texture_info, float3
 	v = 0.5 - asinf(normal.y) * M_1_PI;
 	y = (int)(v * (texture_info.height - 1));
 	y = check_borders(y, texture_info.height - 1, 1);
-	return ((int)(texture[x + y * texture_info.width]));
+	return ((int)(texture[x + y * texture_info.width + texture_info.size]));
+}
+*/
+
+float scale(t_ray *ray, float skybox_radius)
+{
+	float	scale;
+	float	discriminant;
+	float	a;
+
+	a = dot(ray->dir, ray->dir);
+	discriminant = 4.0f * a * skybox_radius * skybox_radius;
+	if (discriminant < 0)
+	{
+		printf("magic\n");
+		rt_raise_error(0);
+	}
+	scale = (sqrtf(discriminant) / (2.0 * a));
+	return (scale);
+
 }
 
-float3		skybox_normal(t_ray ray)
+void		skybox_normal(
+		t_ray *ray,
+		float3 *normal)
 {
-		float3 point;
-		float3 normal;
+	float3 point = (0);
 
-		point = ray.origin + ray.dir * 1000;//scale_between(sphere(r=1000)));//find hit object to sphere
-		normal = point - ray.origin; //camera_pos = ray.origin
-		normal = normal * 1.0f / length(normal);
-		return (normal);
+	printf("here\n");
+	point = ray->origin + ray->dir * scale(ray, 10); //scale_between(sphere(r=10)));//find hit object to sphere
+	*normal = normalize(point - ray->origin); //camera_pos = ray.origin
 }
