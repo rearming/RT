@@ -36,8 +36,8 @@ __kernel void	rt_main(
 
 	int			g_id = get_global_id(0);
 	float3		img_point = get_img_point(g_id);
-	float3      texture_color;
-	int i;
+	//float3      texture_color;
+	//int i;
 	/**/
 		t_ray		ray = get_ray(img_point, &scene->camera);
 		float3		new_color = (float3)(0);

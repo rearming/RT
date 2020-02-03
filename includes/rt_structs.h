@@ -152,9 +152,7 @@ typedef struct			s_camera
 typedef enum			e_object_type
 {
 	SPHERE = 1,
-	PLANE,
-	CYLINDER,
-	CONE,
+	PLANE
 }						t_object_type;
 
 typedef enum			e_light_type

@@ -78,5 +78,6 @@ void		rt_opencl_render(t_rt *rt)
 			sizeof(int) * WIN_WIDTH * WIN_HEIGHT,
 			g_img_data, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
+
 	opencl_clean_memobjs();
 }

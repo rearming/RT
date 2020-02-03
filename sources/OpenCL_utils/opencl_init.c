@@ -9,7 +9,7 @@ void		rt_opencl_compile_kernel(void)
 
 	opencl_kernel_file = get_opencl_kernel_code_text(&size);
 	g_opencl.program = clCreateProgramWithSource(g_opencl.context, 1,
-			(const char **)&opencl_kernel_file, &size, &err);
+												 (const char **)&opencl_kernel_file, &size, &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_PROGRAM, err);
 	if ((err = clBuildProgram(
 			g_opencl.program, 1, &g_opencl.device_id, NULL, NULL, NULL)))

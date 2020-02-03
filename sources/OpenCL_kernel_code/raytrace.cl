@@ -64,9 +64,10 @@ float3		raytrace(
 		{
 			result_color += ray.energy * get_float3_color(COL_BG);
 
-			printf("here\n");
-			skybox_normal(&ray, &normal);	//skybox_normal
-			//printf("normal = %i, %i, %i\n", normal.x, normal.y, normal.z);
+			//printf("here\n");
+			normal = skybox_normal(ray);	//skybox_normal
+			result_color =get_float3_color(skybox_color(texture_list, texture_info[0], normal));
+			//printf("ray = %i %i %i normal = %i, %i, %i\n", ray.origin.x, ray.origin.y, ray.origin.z, normal.x, normal.y, normal.z);
 			//result_color += ray.energy *
 			//		get_float3_color(skybox_color(texture_list, texture_info[0], normal)); //add here skybox
 			ray.energy = (float3)(0, 0, 0);

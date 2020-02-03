@@ -118,21 +118,9 @@ float3		rand_dir_on_hemisphere(
 
 int		check_borders(int a, int max, int type);
 
-int		convert_x(float3 normal,  float *texture);
-
-int		convert_y(float3 normal, float3 point,t_object );
-
-int2		texture_on_plane(float3 normal, float3 point, float3 pos,  float *texture);
-
-t_color			texture(float3 normal, float *texture, t_object *obj, float3 dot_on_object);
-
-int		check_borders(int a, int max, int type);
-
 int		skybox_color(__constant float *texture, t_texture_info texture_info, float3 normal);
 
-float scale(t_ray *ray, float skybox_radius);
+float 		scale(t_ray ray, float skybox_radius);
 
-void		skybox_normal(
-		t_ray *ray,
-		float3 *normal);
+float3		skybox_normal(t_ray ray);
 
