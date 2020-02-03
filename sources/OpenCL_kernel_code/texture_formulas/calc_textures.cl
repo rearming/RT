@@ -12,7 +12,9 @@
 	return (a);
 }
 
-static int		convert_x(float3 normal,  float *texture)
+static int		convert_x(
+ 		float3 normal,
+ 		t_texture_info texture_info)
 {
 	double	u;
 	int		x;
@@ -21,12 +23,16 @@ static int		convert_x(float3 normal,  float *texture)
 	if (u < 0)
 		u += 2 * M_PI;
 	u *= M_1_PI / 2;
-	x = (int)((texture->w - 1) * u);
-	x = check_borders(x, texture->w - 1, 1);
+	x = (int)((texture_info.width - 1) * u);
+	x = check_borders(x, texture_info.width- 1, 1);
 	return (x);
 }
 
-static int		convert_y(float3 normal, float3 point,t_object  *obj, float *texture)
+static int		convert_y(
+ 			float3 normal,
+ 			float3 point,
+ 			t_object  *obj,
+ 			t_texture_info texture_info)
 {
 	double	v;
 	int		y;
@@ -35,41 +41,40 @@ static int		convert_y(float3 normal, float3 point,t_object  *obj, float *texture
 	if (obj->type == SPHERE)
 	{
 		v = 0.5 - asinf(normal.y) * M_1_PI;
-		y = (int)(v * (texture->h - 1));
-		y = check_borders(y, texture->h - 1, 1);
+		y = (int)(v * (texture_info.height - 1));
+		y = check_borders(y, texture_info.height - 1, 1);
 	}
 	else
 	{
 		if (obj->type == CONE)
 		{
-			v = vec_magnitude(vec_subtract(obj->center, point));
+			v = length(obj->center - point));
 			v *= cosf(atanf(obj->angle));
 		}
-		help = (obj->type == CONE) ? vec_mult_by_scalar(normal, v) :
-			   vec_mult_by_scalar(normal, -obj->len);
-		v = vec_magnitude(vec_subtract(vec_add(help, point), obj->normal));
-		y = (int)(v * texture->w / texture->h * 100);
-		y = check_borders(y, texture->h - 1, 2);
+		help = (obj->type == CONE) ? normal * v : normal * -obj->len;
+		v = length(help + point - obj->normal);
+		y = (int)(v * texture_info.width / texture_info.height * 100);
+		y = check_borders(y, texture_info.height - 1, 2);
 	}
 	return (y);
 }
 
-static int2		texture_on_plane(float3 normal, float3 point, float3 pos,  float *texture)
+static int2		texture_on_plane(float3 normal, float3 point, float3 pos,  t_texture_info texture_info)
 {
 	int2	dot;
 	float3	buf_u;
 	float3	buf_v;
 
 	buf_u = cross(normal, (float3){0.f, 1.f, 0.f});
-	if (fabsf(vec_magnitude(buf_u)) < 0.0001f)
+	if (fabsf(lenght(buf_u)) < 0.0001f)
 		buf_u = cross(normal, (t_vec){0.f, 0.f, 1.f});
 	buf_v = cross(normal, buf_u);
-	dot.x = (int)(texture->w * (dot_product(buf_u, point) + pos.x) / (4 * pos.z)) % tex->w;
-	dot.y = (int)(texture->h * (dot_product(buf_v, point) + pos.y) / (4 * pos.z)) % tex->h;
+	dot.x = (int)(texture_info.width * (dot(buf_u, point) + pos.x) / (4 * pos.z)) % texture_info.width;
+	dot.y = (int)(texture_info.height * (dot(buf_v, point) + pos.y) / (4 * pos.z)) % texture_info.height;
 	if (dot.x < 0)
-		dot.x += texture->w;
+		dot.x += texture_info.width;
 	if (dot.y < 0)
-		dot.y += texture->h;
+		dot.y += texture_info.height;
 	return (dot);
 }
 
