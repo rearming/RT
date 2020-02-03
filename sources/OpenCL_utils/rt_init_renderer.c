@@ -1,4 +1,5 @@
 #include "rt.h"
+#include "rt_opencl.h"
 
 const char	*g_opencl_defines[] =
 		{

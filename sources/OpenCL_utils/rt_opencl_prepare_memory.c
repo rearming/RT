@@ -1,4 +1,5 @@
 #include "rt.h"
+#include "rt_opencl.h"
 
 void		rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer)
 {
