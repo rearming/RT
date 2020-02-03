@@ -37,7 +37,7 @@ __kernel void	rt_main(
 #ifdef RENDER_RAYTRACE
     __global const t_light *lights,
 #endif
-    __global const t_opencl_params *params,
+    __global const t_renderer_params *params,
 #ifdef RENDER_MESH
 	__global const t_mesh_info *meshes_info,
     __global const t_polygon *polygons,
@@ -73,7 +73,7 @@ __kernel void	rt_main(
 		params, ray, params->pathtrace_params.max_depth, &seed, (float2)(convert_float2(img_point).xy + 1));
 	final_color = mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num);
 	img_data_float[g_id] = final_color;
-#endif
+#endif // RENDER_PATHTRACE
 
 #ifdef RENDER_RAYTRACE
 	final_color = raytrace(scene,

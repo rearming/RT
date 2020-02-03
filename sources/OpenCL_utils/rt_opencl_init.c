@@ -1,18 +1,19 @@
 #include "rt.h"
-#include "../debug/rt_debug_utils.h"
+#include "rt_opencl.h"
 
 void		rt_opencl_create_kernel(const char *compile_options,
 							 cl_kernel *out_kernel,
 							 cl_program *out_program)
 {
-	size_t		size;
-	static char	*opencl_kernel_code = NULL;
-	int			err;
+	static size_t	size = 0;
+	static char		*opencl_kernel_code = NULL;
+	int				err;
 
 	if (!opencl_kernel_code) //кешировать kernel код
 		opencl_kernel_code = get_opencl_kernel_code_text(&size);
 	*out_program = clCreateProgramWithSource(g_opencl.context, 1,
 			(const char **)&opencl_kernel_code, &size, &err);
+	rt_opencl_handle_error(ERR_OPENCL_CREATE_PROGRAM, err);
 	if ((err = clBuildProgram(
 			*out_program, 1, &g_opencl.device_id, compile_options, NULL, NULL)))
 	{

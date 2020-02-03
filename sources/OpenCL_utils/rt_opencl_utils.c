@@ -1,9 +1,10 @@
 #include "rt.h"
+#include "rt_opencl.h"
 
-inline void rt_opencl_setup_image_buffer(cl_kernel kernel)
+inline void rt_opencl_setup_image_buffer(t_rt_renderer *renderer)
 {
 	int				err;
-	static bool	image_created = false;
+	static bool		image_created = false;
 
 	if (image_created == false)
 	{
@@ -13,7 +14,7 @@ inline void rt_opencl_setup_image_buffer(cl_kernel kernel)
 		ft_bzero(g_img_data, sizeof(int) * WIN_HEIGHT * WIN_WIDTH);
 		rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
 	}
-	err = clSetKernelArg(kernel, g_opencl.opencl_memobj_number,
+	err = clSetKernelArg(renderer->kernel, renderer->buffers_num,
 						 sizeof(cl_mem), &g_opencl.img_data_mem);
 	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 	image_created = true;

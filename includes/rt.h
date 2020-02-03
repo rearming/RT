@@ -38,6 +38,7 @@ extern
 */
 
 void		rt_init(t_rt *out_rt, const char *json_scene_file);
+void		rt_init_renderer_params(t_renderer_params *out_opencl_params);
 
 /*
 **	Parsing
@@ -52,12 +53,19 @@ void		rt_correct_scene(t_scene *scene);
 */
 
 void		rt_render(t_rt *rt, void (*render_func)(t_rt *));
+void		rt_update_renderer_params(t_rt *rt, t_rt_renderer *renderer);
 
 /*
 **	Event handling
 */
 
 void		handle_event(SDL_Event *event, t_rt *rt);
+
+void		rt_unset_render_params(uint32_t *old_params, uint32_t target);
+void		rt_set_render_params(unsigned int *old_params, uint32_t new_param);
+void		rt_set_render_algo(uint32_t *old_params, uint32_t new_algo);
+bool		rt_params_isset(uint32_t params, uint32_t target);
+void		rt_switch_render_param(uint32_t *params, uint32_t target);
 
 /*
 **	SDL utils
@@ -66,33 +74,12 @@ void		handle_event(SDL_Event *event, t_rt *rt);
 void		rt_sdl_init(void);
 
 /*
-**	OpenCL utils
-*/
-
-void		cl_set_kernel(t_rt *rt, int mode);
-
-char		*concat_opencl_kernel_code(int files_nbr, ...);
-void		rt_opencl_init(void);
-void		rt_opencl_render(t_rt *rt);
-void		rt_opencl_move_host_mem_to_kernel(cl_kernel kernel, uint32_t renderer_flags, int kernel_mem_object_nbr, ...);
-char		*get_opencl_kernel_code_text(size_t *out_size);
-void opencl_clean_memobjs(uint32_t renderer_flags);
-void rt_opencl_setup_image_buffer(cl_kernel kernel);
-void		rt_opencl_handle_error(const char *rt_err_str, int opencl_err_code);
-
-
-void rt_opencl_create_kernel(const char *compile_options,
-							 cl_kernel *out_kernel,
-							 cl_program *out_program);
-t_rt_renderer		*rt_get_renderer(uint32_t flags);
-
-/*
 **	Utils
 */
 
 void		rt_loop(t_rt *rt);
 
-void print_cl_build_program_debug(cl_program program);
+void		print_cl_build_program_debug(cl_program program);
 void		rt_raise_error(const char *err_str);
 void		*rt_safe_malloc(size_t size);
 bool		rt_exit_clean(void);

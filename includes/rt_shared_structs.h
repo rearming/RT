@@ -275,34 +275,23 @@ typedef struct			s_raytrace_params
 
 }						t_raytrace_params;
 
-typedef enum			e_render_algo
-{
-	PATH_TRACE = 1,
-	RAY_TRACE,
-	RAY_MARCH,
-}						t_render_algo;
-
-typedef struct			s_opencl_params
+typedef struct			s_renderer_params
 {
 # ifndef FT_OPENCL___
 
-	t_render_algo		render_algo;
 	t_pathtrace_params	pathtrace_params;
 	t_raytrace_params	raytrace_params;
 	cl_float			seed;
 	cl_float			exposure;
 	cl_float			gamma;
-	uint32_t			renderer_flags;
 # else
 
-	t_render_algo		render_algo;
 	t_pathtrace_params	pathtrace_params;
 	t_raytrace_params	raytrace_params;
 	float				seed;
 	float				exposure;
 	float				gamma;
-	unsigned int		renderer_flags;
 # endif
-}						t_opencl_params;
+}						t_renderer_params;
 
 #endif

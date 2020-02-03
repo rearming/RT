@@ -1,6 +1,6 @@
 #include "rt.h"
 #include "rt_math_utils.h"
-#include "../debug/rt_debug_utils.h"
+#include "rt_debug.h"
 
 t_material		rt_default_material(void)
 {

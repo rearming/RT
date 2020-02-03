@@ -1,5 +1,5 @@
-#ifndef RT_DEBUG_UTILS_H
-# define RT_DEBUG_UTILS_H
+#ifndef RT_DEBUG_H
+# define RT_DEBUG_H
 
 #include "rt.h"
 #include "tiny_obj_loader_c.h"
@@ -10,7 +10,7 @@
 
 void		rt_print_clfloat3(cl_float3 vec);
 void		rt_print_float3_color(cl_float3 color, const char *definition);
-void		rt_print_debug_info(t_rt *rt);
+void rt_print_debug_info(t_rt *rt, t_rt_renderer *renderer);
 void		print_cl_device_info(void);
 
 /*

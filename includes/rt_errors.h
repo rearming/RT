@@ -26,6 +26,7 @@
 # define ERR_OPENCL_RUN_KERNELS "clEnqueueNDRangeKernel failed"
 # define ERR_OPENCL_READ_BUFFER "clEnqueueReadBuffer failed"
 # define ERR_OPENCL_INV_SOURCE_CODE_FILE "error when reading opencl source code file"
+# define ERR_OPENCL_LOG "clGetProgramBuildLog failed"
 
 # define ERR_READFILE_OBJ "error when reading .obj file"
 # define ERR_OBJLOADER_PARSE_OBJ "tinyobjloader failed"

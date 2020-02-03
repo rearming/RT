@@ -1,5 +1,6 @@
 #include "rt.h"
-#include "../debug/rt_debug_utils.h"
+#include "rt_debug.h"
+#include "rt_opencl.h"
 
 void		rt_loop(t_rt *rt)
 {
@@ -14,7 +15,7 @@ void		rt_loop(t_rt *rt)
 			handle_event(&event, rt);
 			SDL_FlushEvent(SDL_MOUSEMOTION);
 		}
-		if (rt->opencl_params.render_algo == PATH_TRACE)
+		if (rt_params_isset(rt->renderer_flags, RENDER_PATHTRACE))
 			rt_render(rt, rt_opencl_render);
 		if (flag == true)
 		{

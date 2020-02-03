@@ -7,7 +7,7 @@
 **	Renderers params
 */
 
-# define RENDER_ALWAYS 0b11111111111111
+# define RENDER_ALWAYS 0b1111111111111111
 
 # define RENDER_RAYTRACE (1 << 0)
 # define RENDER_PATHTRACE (1 << 1)

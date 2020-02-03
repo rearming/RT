@@ -9,36 +9,36 @@ static	t_object	*kolyan_scene(int *out_obj_nbr)
 	*out_obj_nbr = objects_nbr;
 	objects = rt_safe_malloc(sizeof(t_object) * objects_nbr);
 	objects[0] = (t_object){.type = PLANE,
-			(t_material){.diffuse = get_float3_color(COL_LIGHT_GREEN), .specular = 0.9, .smoothness = MAX_SMOOTHNESS},
-			.center = (cl_float3){{25, 0, 0}},
-			.normal = (cl_float3){{-0.6, 0, 0}}};
+			(t_material){.diffuse = get_float3_color(COL_LIGHT_GREEN), .specular = {{0.9f, 0.9f, 0.9f}}, .smoothness = MAX_SMOOTHNESS},
+			.center = {{25, 0, 0}},
+			.normal = {{-0.6, 0, 0}}};
 	objects[1] = (t_object){.type = PLANE,
-			(t_material){.diffuse = get_float3_color(COL_LIGHT_GREY), .specular = 0.9, .smoothness = MAX_SMOOTHNESS},
-			.center = (cl_float3){{-25, 0, 0}},
-			.normal = (cl_float3){{0.6, 0, 0}}};
+			(t_material){.diffuse = get_float3_color(COL_LIGHT_GREY), .specular = {{0.9f, 0.9f, 0.9f}}, .smoothness = MAX_SMOOTHNESS},
+			.center = {{-25, 0, 0}},
+			.normal = {{0.6, 0, 0}}};
 	objects[2] = (t_object){.type = PLANE,
-			(t_material){.diffuse = get_float3_color(COL_DARK_PURPLE), .specular = 0.9, .smoothness = MAX_SMOOTHNESS},
-			.center = (cl_float3){{0, 25, 0}},
-			.normal = (cl_float3){{0, -0.6, 0}}};
+			(t_material){.diffuse = get_float3_color(COL_DARK_PURPLE), .specular = {{0.9f, 0.9f, 0.9f}}, .smoothness = MAX_SMOOTHNESS},
+			.center = {{0, 25, 0}},
+			.normal = {{0, -0.6, 0}}};
 	objects[3] = (t_object){.type = PLANE,
-			(t_material){.diffuse = get_float3_color(COL_LIGHT_RED), .specular = 0.9, .smoothness = MAX_SMOOTHNESS},
-			.center = (cl_float3){{0, -25, 0}},
-			.normal = (cl_float3){{0, 0.6, 0}}};
+			(t_material){.diffuse = get_float3_color(COL_LIGHT_RED), .specular = {{0.9f, 0.9f, 0.9f}}, .smoothness = MAX_SMOOTHNESS},
+			.center = {{0, -25, 0}},
+			.normal = {{0, 0.6, 0}}};
 	objects[4] = (t_object){.type = PLANE,
-			(t_material){.diffuse = get_float3_color(COL_LIGHT_BLUE), .specular = 0.9, .smoothness = MAX_SMOOTHNESS},
-			.center = (cl_float3){{0, 0, 25}},
-			.normal = (cl_float3){{0, 0, -0.6}}};
+			(t_material){.diffuse = get_float3_color(COL_LIGHT_BLUE), .specular = {{0.9f, 0.9f, 0.9f}}, .smoothness = MAX_SMOOTHNESS},
+			.center = {{0, 0, 25}},
+			.normal = {{0, 0, -0.6}}};
 	objects[5] = (t_object){.type = PLANE,
-			(t_material){.diffuse = get_float3_color(COL_DARK_GREEN), .specular = 0.9, .smoothness = MAX_SMOOTHNESS},
-			.center = (cl_float3){{0, 0, -25}},
-			.normal = (cl_float3){{0, 0, 1}}};
+			(t_material){.diffuse = get_float3_color(COL_DARK_GREEN), .specular = {{0.9f, 0.9f, 0.9f}}, .smoothness = MAX_SMOOTHNESS},
+			.center = {{0, 0, -25}},
+			.normal = {{0, 0, 1}}};
 	objects[6] = (t_object){.type = SPHERE,
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = 1, .smoothness = 1000},
-			.center = (cl_float3){{0, 0, 0}},
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{1.f, 1.f, 1.f}}, .smoothness = 1000},
+			.center = {{0, 0, 0}},
 			.radius = 2.5};
 	objects[7] = (t_object){.type = SPHERE,
 			(t_material){.emission_color = get_float3_color(COL_WHITE), .emission_power = 200},
-			.center = (cl_float3){{0, 10, 0}},
+			.center = {{0, 10, 0}},
 			.radius = 2.5};
 	return (objects);
 
@@ -54,53 +54,53 @@ static	t_object	*pathtrace_scene(int *out_obj_nbr)
 
 	objects[0] = (t_object){.type = SPHERE,
 			(t_material){.diffuse = get_float3_color(COL_DARK_RED), .specular = {{0.7f, 0.7f, 0.7f}}, .smoothness = 100},
-			.center = (cl_float3){{0, 2.6, 0}},
+			.center = {{0, 2.6, 0}},
 			.radius = 2.5};
 	objects[1] = (t_object){.type = SPHERE,
-			(t_material){.diffuse = get_float3_color(COL_LIGHT_GREEN), .specular = {{0}}},
-			.center = (cl_float3){{4, 1, 0}},
+			(t_material){.diffuse = get_float3_color(COL_LIGHT_GREEN), .specular = {{0.f, 0.f, 0.f}}},
+			.center = {{4, 1, 0}},
 			.radius = 1};
 	objects[2] = (t_object){.type = SPHERE, /// golden sphere
 			(t_material){.diffuse = get_float3_color(COL_GOLD), .specular = {{1.0f, 1.0f, 1.0f}}, .smoothness = 2000.f},
-			.center = (cl_float3){{5, 1, 3}},
+			.center = {{5, 1, 3}},
 			.radius = 1};
 	objects[3] = (t_object){.type = SPHERE,
 			(t_material){.diffuse = get_float3_color(COL_LIGHT_PURPLE), .specular = {{1.0f, 1.0f, 1.0f}}, .smoothness = 20},
-			.center = (cl_float3){{10, 2.4, 6}},
+			.center = {{10, 2.4, 6}},
 			.radius = 2.2};
 	objects[4] = (t_object){.type = SPHERE,
-			(t_material){.diffuse = get_float3_color(0), .specular = {{0}},
+			(t_material){.diffuse = get_float3_color(0), .specular = {{0.f, 0.f, 0.f}},
 				.emission_color = get_float3_color(COL_LIGHT_BLUE), .emission_power = 10},
-			.center = (cl_float3){{-1, 0.5, 5}},
+			.center = {{-1, 0.5, 5}},
 			.radius = 1};
 	objects[5] = (t_object){.type = SPHERE,
-			(t_material){.diffuse = get_float3_color(0), .specular = {{0}},
+			(t_material){.diffuse = get_float3_color(0), .specular = {{0.f, 0.f, 0.f}},
 				.emission_color = get_float3_color(COL_WHITE), .emission_power = 10},
-			.center = (cl_float3){{7, 0, 2}},
+			.center = {{7, 0, 2}},
 			.radius = 0.8};
 	objects[6] = (t_object){.type = SPHERE,
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{1.0f, 1.0f, 1.0f}}, .smoothness = MAX_SMOOTHNESS},
-			.center = (cl_float3){{4, 2, -5}},
+			(t_material){.diffuse = get_float3_color(0), .specular = {{1.0f, 1.0f, 1.0f}}, .smoothness = MAX_SMOOTHNESS},
+			.center = {{4, 2, -5}},
 			.radius = 2};
 	objects[7] = (t_object){.type = PLANE,
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0}}, .smoothness = 0},
-			.center = (cl_float3){{0, 0, 0}},
-			.normal = (cl_float3){{0, 1, 0}}};
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0.f, 0.f, 0.f}}, .smoothness = 0},
+			.center = {{0, 0, 0}},
+			.normal = {{0, 1, 0}}};
 	objects[9] = (t_object){.type = SPHERE,
-			(t_material){.diffuse = get_float3_color(0), .specular = {{0}},
+			(t_material){.diffuse = get_float3_color(0), .specular = {{0.f, 0.f, 0.f}},
 					.emission_color = get_float3_color(COL_WHITE), .emission_power = 10},
-			.center = (cl_float3){{700, 300, 700}},
+			.center = {{700, 300, 700}},
 			.radius = 100};
 
 	objects[10] = (t_object){.type = SPHERE,
 			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{1.f, 1.f, 1.f}},
 					.smoothness = MAX_SMOOTHNESS, .refraction = 1.15, .transmittance = 1},
-			.center = (cl_float3){{15, 2.2, -6.2}},
+			.center = {{15, 2.2, -6.2}},
 			.radius = 2};
 	objects[11] = (t_object){.type = SPHERE,
 			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{1.f, 1.f, 1.f}},
 					.smoothness = MAX_SMOOTHNESS - 1, .refraction = 1.15, .transmittance = 1},
-			.center = (cl_float3){{15, 2.6, -1.2}},
+			.center = {{15, 2.6, -1.2}},
 			.radius = 2};
 
 	return (objects);
@@ -115,59 +115,59 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 	objects = rt_safe_malloc(sizeof(t_object) * objects_nbr);
 
 	objects[0] = (t_object){.type = PLANE, // bottom
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
-			.center = (cl_float3){{0, -2.5, 0}},
-			.normal = (cl_float3){{0, 1, 0}}};
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
+			.center = {{0, -2.5, 0}},
+			.normal = {{0, 1, 0}}};
 	objects[1] = (t_object){.type = PLANE, // right
-			(t_material){.diffuse = get_float3_color(COL_GREEN), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 50, .smoothness = 0},
-			.center = (cl_float3){{2.5, 0, 0}},
-			.normal = (cl_float3){{1, 0, 0}}};
+			(t_material){.diffuse = get_float3_color(COL_GREEN), .specular = {{0, 0, 0}}, .phong_exp = 50, .smoothness = 0},
+			.center = {{2.5, 0, 0}},
+			.normal = {{1, 0, 0}}};
 	objects[2] = (t_object){.type = PLANE, // left
-			(t_material){.diffuse = get_float3_color(COL_RED), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
-			.center = (cl_float3){{-2.5, 0, 0}},
-			.normal = (cl_float3){{1, 0, 0}}};
+			(t_material){.diffuse = get_float3_color(COL_RED), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
+			.center = {{-2.5, 0, 0}},
+			.normal = {{1, 0, 0}}};
 	objects[3] = (t_object){.type = PLANE, // far
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 40, .smoothness = 0},
-			.center = (cl_float3){{0, 0, 2.5}},
-			.normal = (cl_float3){{0, 0, 1}}};
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 40, .smoothness = 0},
+			.center = {{0, 0, 2.5}},
+			.normal = {{0, 0, 1}}};
 	objects[4] = (t_object){.type = PLANE, // celling
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
-			.center = (cl_float3){{0, 2.5, 0}},
-			.normal = (cl_float3){{0, 1, 0}}};
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
+			.center = {{0, 2.5, 0}},
+			.normal = {{0, 1, 0}}};
 	objects[5] = (t_object){.type = PLANE, // back
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
-			.center = (cl_float3){{0, 0, -15}},
-			.normal = (cl_float3){{0, 0, 1}}};
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
+			.center = {{0, 0, -15}},
+			.normal = {{0, 0, 1}}};
 
 	objects[6] = (t_object){.type = SPHERE, // light
-			(t_material){.diffuse = get_float3_color(0), .specular = (cl_float3){{0, 0, 0}}, .phong_exp = 0, .smoothness = 0,
+			(t_material){.diffuse = get_float3_color(0), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0,
 				.emission_color = get_float3_color(COL_WHITE), .emission_power = 6},
-			.center = (cl_float3){{0, 2.5, 0}},
+			.center = {{0, 2.5, 0}},
 			.radius = 1.f};
 
 	objects[7] = (t_object){.type = SPHERE, // small diffuse sphere
 			(t_material){.diffuse = get_float3_color(COL_WHITE),
-				.specular = (cl_float3){{0, 0, 0}}, .phong_exp = 300, .smoothness = 0},
-			.center = (cl_float3){{1, -1.5f, 0}},
+				.specular = {{0, 0, 0}}, .phong_exp = 300, .smoothness = 0},
+			.center = {{1, -1.5f, 0}},
 			.radius = 1.f};
 //
 //	objects[7] = (t_object){.type = SPHERE, // big specular sphere
 //			(t_material){.diffuse = get_float3_color(0), .specular = get_float3_color(COL_GOLD), .phong_exp = 200, .smoothness = 1000},
-//			.center = (cl_float3){{-1, -0.5f, -2.5}},
+//			.center = {{-1, -0.5f, -2.5}},
 //			.radius = 1.5f};
 //
 //	objects[8] = (t_object){.type = SPHERE, // big sphere with transmittance
 //			(t_material){.diffuse = get_float3_color(0), .specular = get_float3_color(COL_DARK_PURPLE),
 //				.smoothness = 10000, .transmittance = 1, .refraction = 1.25},
-//			.center = (cl_float3){{-1, -0.5f, -1}},
+//			.center = {{-1, -0.5f, -1}},
 //			.radius = 1.5f};
 
 //	objects[8] = (t_object){.type = TRIANGLE,
-//			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = 0.9, .smoothness = 5000},
-//			.vertices[0] = (cl_float3){{0, -2.5, 0}},
-//			.vertices[1] = (cl_float3){{-2.5, 2, 0}},
-//			.vertices[2] = (cl_float3){{0, 2, 2.5}},
-//			.normal = (cl_float3){{0, 0, 1}}};
+//			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0.9f, 0.9f, 0.9f}}, .smoothness = 5000},
+//			.vertices[0] = {{0, -2.5, 0}},
+//			.vertices[1] = {{-2.5, 2, 0}},
+//			.vertices[2] = {{0, 2, 2.5}},
+//			.normal = {{0, 0, 1}}};
 
 	return (objects);
 }
@@ -182,13 +182,13 @@ static	t_object	*obj_scene(int *out_obj_nbr)
 
 //	objects[0] = (t_object){.type = PLANE, // bottom
 //			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = 0, .smoothness = 0},
-//			.center = (cl_float3){{0, -2.5, 0}},
-//			.normal = (cl_float3){{0, 1, 0}}};
+//			.center = {{0, -2.5, 0}},
+//			.normal = {{0, 1, 0}}};
 
 	objects[0] = (t_object){.type = SPHERE, // light
-			(t_material){.diffuse = get_float3_color(0), .specular = 0, .smoothness = 0,
+			(t_material){.diffuse = get_float3_color(0), .specular = {{0.f, 0.f, 0.f}}, .smoothness = 0,
 					.emission_color = get_float3_color(COL_WHITE), .emission_power = 20},
-			.center = (cl_float3){{20, 23, 0}},
+			.center = {{20, 23, 0}},
 			.radius = 6.f};
 
 	return (objects);
@@ -226,12 +226,12 @@ t_scene		get_hardcoded_scene(void)
 
 	scene.camera = (t_camera)
 	{
-//		.pos = (cl_float3){{0, 10, 40}}, //statuya pos/rot
-//		.rotation = (cl_float3){{0, 180, 0}},
-//		.pos = (cl_float3){{20, 6.6, -6.4}}, //pathtracing scene pos/rotation
-//		.rotation = (cl_float3){{-10, -63.3, 0}},
-		.pos = (cl_float3){{0.2, 1.2, -14.2}}, // cornell box pos/rotation
-		.rotation = (cl_float3){{0, 0, 0}},
+//		.pos = {{0, 10, 40}}, //statuya pos/rot
+//		.rotation = {{0, 180, 0}},
+//		.pos = {{20, 6.6, -6.4}}, //pathtracing scene pos/rotation
+//		.rotation = {{-10, -63.3, 0}},
+		.pos = {{0.2, 1.2, -14.2}}, // cornell box pos/rotation
+		.rotation = {{0, 0, 0}},
 		.viewport_distance = 1,
 		.viewport_width = WIN_RATIO < 1 ? D_I_MAZOHIN : 1,
 		.viewport_height = WIN_RATIO > 1 ? D_E_KARMATSKIY : 1

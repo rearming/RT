@@ -42,7 +42,7 @@ float3		raytrace(
 		__global const float3 *v_textures,
 # endif
 #endif
-		__global const t_opencl_params *params,
+		__global const t_renderer_params *params,
 		t_ray ray)
 {
 	float3		result_color = (float3)(0);

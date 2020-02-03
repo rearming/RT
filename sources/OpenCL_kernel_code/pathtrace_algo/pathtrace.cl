@@ -13,7 +13,7 @@ float3		pathtrace(
 		__global const float3 *v_textures,
 # endif
 #endif // RENDER_MESH
-		__global const t_opencl_params *params,
+		__global const t_renderer_params *params,
 		t_ray ray,
 		int depth,
 		float *seed,
@@ -41,11 +41,14 @@ float3		pathtrace(
 #ifdef RENDER_OBJECTS
 		if (closest_obj_index != NOT_SET)
 			shade_color = shade_pathtrace(&ray, &hit, objects[closest_obj_index].material, seed, pixel);
+# ifdef RENDER_MESH
 		else
+# endif
 #endif // RENDER_OBJECTS
-
+#ifdef RENDER_MESH
 			if (closest_polygon_index != NOT_SET)
 			shade_color = shade_pathtrace(&ray, &hit, get_polygon_material(meshes_info, polygons, closest_polygon_index), seed, pixel);
+#endif // RENDER_MESH
 		else
 			shade_color = shade_pathtrace(&ray, &hit, (t_material){}, seed, pixel);
 

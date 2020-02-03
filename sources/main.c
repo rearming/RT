@@ -1,4 +1,5 @@
 #include "rt.h"
+#include "rt_opencl.h"
 
 t_opencl	g_opencl;
 t_sdl		g_sdl;

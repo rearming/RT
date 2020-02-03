@@ -1,15 +1,19 @@
 #include "rt.h"
+#include "rt_opencl.h"
 
 void print_cl_build_program_debug(cl_program program)
 {
 	size_t		log_size;
 	char		*log;
+	int			err;
 
-	clGetProgramBuildInfo(program, g_opencl.device_id,
+	err = clGetProgramBuildInfo(program, g_opencl.device_id,
 			CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
+	rt_opencl_handle_error(ERR_OPENCL_LOG, err);
 	log = rt_safe_malloc(log_size);
-	clGetProgramBuildInfo(program, g_opencl.device_id,
+	err = clGetProgramBuildInfo(program, g_opencl.device_id,
 			CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
+	rt_opencl_handle_error(ERR_OPENCL_LOG, err);
 	ft_printf("OpenCL Log:\n%s\n", log);
 	free(log);
 }

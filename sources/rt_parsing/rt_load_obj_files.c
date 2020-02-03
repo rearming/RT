@@ -1,7 +1,7 @@
 #define TINYOBJ_LOADER_C_IMPLEMENTATION
 #include "rt.h"
 #include "rt_load_obj_files.h"
-#include "../debug/rt_debug_utils.h"
+#include "rt_debug.h"
 
 static inline t_raw_obj		rt_get_raw_obj(const char *obj_file_path)
 {

@@ -1,5 +1,5 @@
 #include "rt.h"
-#include "rt_debug_utils.h"
+#include "rt_debug.h"
 
 void		rt_print_parsed_vertices(
 		cl_float3 *vertices,

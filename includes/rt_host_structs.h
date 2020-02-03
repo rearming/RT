@@ -30,22 +30,20 @@ typedef struct			s_opencl
 	cl_uint				ret_num_platforms;
 	cl_uint				ret_num_devices;
 	cl_device_id		device_id;
-	cl_program			program;
-	cl_kernel			kernel;
 	cl_event			profile_event;
-	t_cl_buffer			*opencl_mem;
 	cl_mem				img_data_mem;
-	int					opencl_memobj_number;
 	t_list				*renderers;
 }						t_opencl;
 
 typedef struct			s_rt_renderer
 {
 	uint32_t			flags;
+	t_renderer_params	params;
 	cl_program			program;
 	cl_kernel			kernel;
 	t_cl_buffer			*buffers;
 	int					buffers_num;
+	bool				copy_done;
 }						t_rt_renderer;
 
 typedef struct			s_obj_material
@@ -82,7 +80,7 @@ typedef struct			s_opencl_mem_obj
 typedef struct			s_rt
 {
 	t_scene				scene;
-	t_opencl_params		opencl_params;
+	uint32_t			renderer_flags;
 	t_events			events;
 }						t_rt;
 

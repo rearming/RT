@@ -1,5 +1,5 @@
 #include "rt.h"
-#include "rt_debug_utils.h"
+#include "rt_debug.h"
 
 void		rt_print_clfloat3(cl_float3 vec)
 {

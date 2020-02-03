@@ -1,5 +1,6 @@
 #include "rt.h"
 #include <time.h>
+#include "rt_opencl.h"
 
 void	rt_pathtrace_profile(t_rt *rt, int max_samples)
 {

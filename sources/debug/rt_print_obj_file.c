@@ -1,4 +1,4 @@
-#include "rt_debug_utils.h"
+#include "rt_debug.h"
 #include "rt.h"
 
 void	rt_print_obj_vertex(const float *vertices, unsigned int i, const char *definition)
