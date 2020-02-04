@@ -13,24 +13,24 @@ int		check_borders(int a, int max, int type)
 }
 
 float3		skybox_color(
-		__global t_texture_info *texture_info,
-		__global float *texture_list,
-		float3 *normal)
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+		float3 normal)
 {
+	float3	color;
 	double	u;
 	int		x;
 	double	v;
 	int		y;
 	int		coord;
-	float3	color;
 
-	u = atan2(normal->x, normal->z);
+	u = atan2(normal.x, normal.z);
 	if (u < 0)
 		u += 2 * M_PI_F;
 	u *= M_1_PI_F / 2;
 	x = (int)((texture_info->width - 1) * u);
-	x = check_borders(x, texture_info->width - 1, 0) ;
-	v = 0.5 - asin(normal->y) * M_1_PI_F;
+	x = check_borders(x, texture_info->width - 1, 0);
+	v = 0.5 - asin(normal.y) * M_1_PI_F;
 	y = (int)(v * (texture_info->height - 1));
 	y = check_borders(y, texture_info->height - 1, 0);
 	coord = x + y * texture_info->width + texture_info->start;

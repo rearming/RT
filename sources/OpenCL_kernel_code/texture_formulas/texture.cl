@@ -20,7 +20,7 @@ float3 texture(t_ray *out_ray,
 	int		x;
 	int		y;
 	int		coord;
-	float3 color;
+	float3	color;
 
 	u = atan2(hit->normal.x, hit->normal.z) + object->material.texture_position.x;
 	if (u < 0)

@@ -86,10 +86,10 @@ __kernel void	rt_main(
 # ifdef RENDER_MESH
 		meshes_info, polygons, vertices, v_normals,
 #  ifdef RENDER_MESH_VTEXTURES
-		v_textures
+		v_textures,
 #  endif
 # endif // RENDER_MESH
-		params, ray);
+		params, texture_info, texture_list, ray);
 #endif // RENDER_RAYTRACE
 	img_data[g_id] = get_int_color(correct_hdr(params->gamma, params->exposure, final_color));
 

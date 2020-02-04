@@ -3,7 +3,7 @@
 
 void		rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer)
 {
-	const int		max_memobj_number = 10;
+	const int		max_memobj_number = 12;
 
 	rt_opencl_move_host_mem_to_kernel(renderer, max_memobj_number,
 			(t_opencl_mem_obj){&rt->scene,
@@ -25,6 +25,11 @@ void		rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer)
 			(t_opencl_mem_obj){rt->scene.meshes.v_textures,
 				sizeof(cl_float3) * rt->scene.meshes.num_v_textures, RT_DEFAULT_MEM_FLAG, false, RENDER_MESH_VTEXTURES},
 			(t_opencl_mem_obj){&g_img_data_float,
-				sizeof(cl_float3) * WIN_HEIGHT * WIN_WIDTH, RT_MEM_RW_FLAG, false, RENDER_PATHTRACE}
+				sizeof(cl_float3) * WIN_HEIGHT * WIN_WIDTH, RT_MEM_RW_FLAG, false, RENDER_PATHTRACE},
+			(t_opencl_mem_obj){g_textures.texture_info,
+				sizeof(t_texture_info) * g_textures.texture_info_size, RT_DEFAULT_MEM_FLAG, false, RENDER_ALWAYS},
+			(t_opencl_mem_obj){g_textures.texture_list,
+				sizeof(cl_float) * g_textures.texture_list_size, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, false, RENDER_ALWAYS}
+
 	);
 }

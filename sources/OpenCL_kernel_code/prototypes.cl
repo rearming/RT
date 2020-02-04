@@ -9,6 +9,12 @@ float		color_energy(float3 color);
 
 int			get_int_color(float3 color);
 
+int         get_texture_color(
+		int2 pos,
+		__constant float *texture_list,
+		__constant t_texture_info *texture_info
+);
+
 float		sdot(float3 a, float3 b, float coeff);
 
 int 				in_range_inclusive(float number, float min, float max);
@@ -32,7 +38,10 @@ void		rotate_point(float3 *point, float3 angle);
 float3		shade(
 		t_ray *ray,
 		t_rayhit *hit,
-		t_material *material);
+		t_material *material,
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+		t_object object);
 
 float3		raytrace(
 		__global const t_scene *scene,
@@ -50,6 +59,8 @@ float3		raytrace(
 # endif
 #endif
 		__global const t_renderer_params *params,
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
 		t_ray ray);
 
 float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point);
@@ -198,4 +209,19 @@ float3		shade_pathtrace(
 		t_material material,
 		float *seed,
 		float2 pixel);
+
+int		check_borders(int a, int max, int type);
+
+float3		skybox_color(
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+		float3 normal);
+
+float 		scale(t_ray ray, float skybox_radius);
+
+float3		skybox_normal(t_ray ray);
+
+void 	change_format(int i_color, float3 *f_color);
+
+float3 get_texture(void);
 
