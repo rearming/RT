@@ -19,12 +19,12 @@ void	test_opencl_create_buffers(void)
 
 	g_opencl.opencl_mem[0].mem = clCreateBuffer(g_opencl.context, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,
 			sizeof(int) * int_arr_size, test_int_arr, &err);
-	g_opencl.opencl_mem[0].copy_mem = FALSE;
+	g_opencl.opencl_mem[0].copy_mem = false;
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
 
 	g_opencl.opencl_mem[1].mem = clCreateBuffer(g_opencl.context, RT_DEFAULT_MEM_FLAG,
 			sizeof(t_point) * point_arr_size, test_point_arr, &err);
-	g_opencl.opencl_mem[1].copy_mem = FALSE;
+	g_opencl.opencl_mem[1].copy_mem = false;
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
 
 	g_opencl.img_data_mem = clCreateBuffer(g_opencl.context, CL_MEM_READ_WRITE,
@@ -46,12 +46,12 @@ void	test_opencl_setargs(void)
 
 //	g_opencl.opencl_mem[0].mem = clCreateBuffer(g_opencl.context, RT_DEFAULT_MEM_FLAG,
 //			sizeof(int) * int_arr_size, test_int_arr, &err);
-//	g_opencl.opencl_mem[0].copy_mem = TRUE;
+//	g_opencl.opencl_mem[0].copy = true;
 //	err != CL_SUCCESS ? rt_raise_error(ERR_OPENCL_CREATE_BUFFER) : 0;
 
 //	g_opencl.opencl_mem[1].mem = clCreateBuffer(g_opencl.context, RT_DEFAULT_MEM_FLAG,
 //			sizeof(t_point) * point_arr_size, test_point_arr, &err);
-//	g_opencl.opencl_mem[1].copy_mem = FALSE;
+//	g_opencl.opencl_mem[1].copy = false;
 //	err != CL_SUCCESS ? rt_raise_error(ERR_OPENCL_CREATE_BUFFER) : 0;
 
 	err = clSetKernelArg(g_opencl.kernel, 0, sizeof(cl_mem), &g_opencl.opencl_mem[0].mem);
@@ -80,18 +80,18 @@ void	test_opencl_init(void)
 	char		*opencl_kernel_file;
 	size_t		size;
 
-	opencl_kernel_file = concat_opencl_kernel_code(3,
+	opencl_kernel_file = ft_read_files(3,
 			"./includes/rt_defines.h",
 			"./includes/rt_structs.h",
 			"./sources/test/test_kernel.cl");
-	ft_sprintf(&opencl_kernel_file, "%s%s", OPENCL_DEFINES_STR, opencl_kernel_file);
+	ft_sprintf(&opencl_kernel_file, "%s%s", OPENCL_APPLE_DEFINE, opencl_kernel_file);
 
 	g_opencl.program = clCreateProgramWithSource(g_opencl.context, 1, (const char **)&opencl_kernel_file, &size, &err);
 	if (err)
 		rt_raise_error(ERR_OPENCL_CREATE_PROGRAM);
 	if ((err = clBuildProgram(g_opencl.program, 1, &g_opencl.device_id, NULL, NULL, NULL)))
 	{
-		print_cl_build_program_debug();
+		print_cl_build_program_debug(NULL);
 		rt_raise_error(ERR_OPENCL_BUILD_PROGRAM);
 	}
 	g_opencl.kernel = clCreateKernel(g_opencl.program, "test_kernel", &err);
@@ -131,7 +131,7 @@ void 	test_run_kernels(t_rt *rt)
 		rt_raise_error(ERR_OPENCL_READ_BUFFER);
 	}
 
-	opencl_clean_memobjs();
+	opencl_clean_memobjs(0);
 }
 
 void	rt_test_opencl(void)

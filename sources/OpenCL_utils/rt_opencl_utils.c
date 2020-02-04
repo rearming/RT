@@ -1,11 +1,12 @@
 #include "rt.h"
+#include "rt_opencl.h"
 
-inline void		rt_opencl_setup_image_buffer(void)
+inline void rt_opencl_setup_image_buffer(t_rt_renderer *renderer)
 {
 	int				err;
-	static t_bool	image_created = FALSE;
+	static bool		image_created = false;
 
-	if (image_created == FALSE)
+	if (image_created == false)
 	{
 		g_opencl.img_data_mem = clCreateBuffer(g_opencl.context,
 				CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,
@@ -13,10 +14,10 @@ inline void		rt_opencl_setup_image_buffer(void)
 		ft_bzero(g_img_data, sizeof(int) * WIN_HEIGHT * WIN_WIDTH);
 		rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
 	}
-	err = clSetKernelArg(g_opencl.kernel, g_opencl.opencl_memobj_number,
+	err = clSetKernelArg(renderer->kernel, renderer->buffers_num,
 						 sizeof(cl_mem), &g_opencl.img_data_mem);
 	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
-	image_created = TRUE;
+	image_created = true;
 }
 
 /*
@@ -99,12 +100,12 @@ static inline int	rt_opencl_correct_err_code(int opencl_err_code)
 		return (opencl_err_code - OFFSET_BETWEEN_ERRORS);
 }
 
-inline void		rt_opencl_handle_error(int rt_err_code, int opencl_err_code)
+inline void		rt_opencl_handle_error(const char *rt_err_str, int opencl_err_code)
 {
 	if (opencl_err_code != CL_SUCCESS)
 	{
 		ft_printf_fd(STDERR_FILENO, "OpenCL err code: [%i], %s\n",
 				opencl_err_code, g_opencl_errors[rt_opencl_correct_err_code(opencl_err_code)]);
-		rt_raise_error(rt_err_code);
+		rt_raise_error(rt_err_str);
 	}
 }

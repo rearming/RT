@@ -1,12 +1,10 @@
 #ifndef RT_H
 # define RT_H
 
-# define STB_IMAGE_IMPLEMENTATION
-# define STB_IMAGE_RESIZE_IMPLEMENTATION
-
 # include <stdarg.h>
 # include <stdio.h>
 # include <stddef.h>
+# include <stdbool.h>
 # include <stdint.h>
 # include <stdlib.h>
 # include <math.h>
@@ -20,17 +18,20 @@
 # endif
 
 # include "libft.h"
-# include "rt_structs.h"
+# include "rt_shared_structs.h"
+# include "rt_host_structs.h"
 # include "rt_errors.h"
+# include "rt_opencl_params_defines.h"
 # include "rt_defines.h"
 
 /*
 **	Global pointers
 */
 
-extern t_opencl	    g_opencl;
-extern t_sdl	    g_sdl;
-extern int		    *g_img_data;
+extern t_opencl		g_opencl;
+extern t_sdl		g_sdl;
+extern int			*g_img_data;
+extern cl_float3	g_img_data_float[WIN_WIDTH * WIN_HEIGHT];
 extern t_textures   g_textures;
 
 /*
@@ -38,8 +39,10 @@ extern t_textures   g_textures;
 */
 
 void		rt_init(t_rt *out_rt, const char *json_scene_file);
+void		rt_init_renderer_params(t_renderer_params *out_opencl_params);
 void 		init_basic_textures_parameters(void);
 void		rt_add_start_position(int i);
+
 /*
 **	Parsing
 */
@@ -53,12 +56,19 @@ void		rt_correct_scene(t_scene *scene);
 */
 
 void		rt_render(t_rt *rt, void (*render_func)(t_rt *));
+void		rt_update_renderer_params(t_rt *rt, t_rt_renderer *renderer);
 
 /*
 **	Event handling
 */
 
 void		handle_event(SDL_Event *event, t_rt *rt);
+
+void		rt_unset_render_params(uint32_t *old_params, uint32_t target);
+void		rt_set_render_params(unsigned int *old_params, uint32_t new_param);
+void		rt_set_render_algo(uint32_t *old_params, uint32_t new_algo);
+bool		rt_params_isset(uint32_t params, uint32_t target);
+void		rt_switch_render_param(uint32_t *params, uint32_t target);
 
 /*
 **	SDL utils
@@ -68,38 +78,15 @@ void		rt_sdl_init(void);
 void		rt_textures_init();
 
 /*
-**	OpenCL utils
-*/
-
-void cl_set_kernel(t_rt *rt, int mode);
-
-char		*concat_opencl_kernel_code(int files_nbr, ...);
-void		rt_opencl_init(void);
-void		rt_opencl_render(t_rt *rt);
-void		rt_opencl_move_host_mem_to_kernel(int kernel_mem_object_nbr, ...);
-char		*get_opencl_kernel_code_text(size_t *out_size);
-void		opencl_clean_memobjs(void);
-void		rt_opencl_setup_image_buffer(void);
-void		rt_opencl_handle_error(int rt_err_code, int opencl_err_code);
-
-/*
 **	Utils
 */
 
 void		rt_loop(t_rt *rt);
 
-void		print_cl_build_program_debug(void);
-void		rt_raise_error(int err_code);
+void		print_cl_build_program_debug(cl_program program);
+void		rt_raise_error(const char *err_str);
 void		*rt_safe_malloc(size_t size);
-t_bool		rt_exit_clean(void);
-
-/*
-**	Math utils
-*/
-
-cl_float3	rt_degree_to_rad(cl_float3 rotation_degrees);
-t_bool		rt_clfloat3_equals(cl_float3 a, cl_float3 b);
-
-cl_float3	get_float3_color(int hex_color);
+bool		rt_exit_clean(void);
+bool		rt_camera_moved(t_camera *camera);
 
 #endif

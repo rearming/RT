@@ -21,6 +21,11 @@ float3		get_float3_color(int hex_color)
 		(float)color.rgb.b / 255);
 }
 
+float		color_energy(float3 color)
+{
+	return dot(color, 1.f / 3.f);
+}
+
 int			get_int_color(float3 color)
 {
 	t_color		result;

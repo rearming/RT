@@ -1,21 +1,19 @@
-#ifndef RT_STRUCTS_H
-# define RT_STRUCTS_H
-
-typedef unsigned int	t_bool;
+#ifndef RT_SHARED_STRUCTS_H
+# define RT_SHARED_STRUCTS_H
 
 typedef struct			s_rgb
 {
 # ifndef FT_OPENCL___
 
-	cl_uchar			r;
-	cl_uchar			g;
 	cl_uchar			b;
+	cl_uchar			g;
+	cl_uchar			r;
 	cl_uchar			a;
 # else
 
-	unsigned char		r;
-	unsigned char		g;
 	unsigned char		b;
+	unsigned char		g;
+	unsigned char		r;
 	unsigned char		a;
 # endif
 
@@ -33,21 +31,6 @@ typedef union			u_color
 
 	t_rgb			rgb;
 }						t_color;
-
-typedef struct			s_fpoint
-{
-# ifndef FT_OPENCL___
-
-	cl_float			x;
-	cl_float			y;
-	cl_float			z;
-# else
-
-	float				x;
-	float				y;
-	float				z;
-# endif
-}						t_fpoint;
 
 typedef struct			s_point
 {
@@ -92,37 +75,6 @@ typedef struct			s_textures
 	size_t				texture_list_size;
 	size_t				texture_info_size;
 }						t_textures;
-
-typedef struct			s_sdl
-{
-	SDL_Window			*win;
-	SDL_Renderer		*rend;
-	SDL_Texture			*texture;
-	int					pitch;
-}						t_sdl;
-
-typedef struct			s_cl_mem
-{
-	cl_mem				mem;
-	t_bool				copy_mem;
-}						t_cl_mem;
-
-typedef struct			s_opencl
-{
-	cl_context			context;
-	cl_command_queue	queue;
-	cl_platform_id		platform_id;
-	cl_uint				ret_num_platforms;
-	cl_uint				ret_num_devices;
-	cl_device_id		device_id;
-	cl_program			program;
-	cl_kernel			kernel;
-	cl_event			profile_event;
-	t_cl_mem			*opencl_mem;
-	cl_mem				img_data_mem;
-	int					opencl_memobj_number;
-}						t_opencl;
-
 # endif
 
 typedef struct			s_camera
@@ -152,7 +104,10 @@ typedef struct			s_camera
 typedef enum			e_object_type
 {
 	SPHERE = 1,
-	PLANE
+	PLANE,
+	CYLINDER,
+	CONE,
+	TRIANGLE,
 }						t_object_type;
 
 typedef enum			e_light_type
@@ -187,14 +142,28 @@ typedef struct			s_material
 {
 # ifndef FT_OPENCL___
 
-	cl_float3			albedo;
+	cl_float3			ambient;
+	cl_float3			diffuse;
 	cl_float3			specular;
+	cl_float			phong_exp;
+	cl_float			smoothness;
+	cl_float			transmittance;
+	cl_float			refraction;
+	cl_float3			emission_color;
+	cl_float			emission_power;
 	cl_int				texture_number;
 	cl_float3			texture_position;
 # else
 
-	float3				albedo;
+	float3				ambient;
+	float3				diffuse;
 	float3				specular;
+	float				phong_exp;
+	float				smoothness;
+	float				transmittance;
+	float				refraction;
+	float3				emission_color;
+	float				emission_power;
 	int					texture_number;
 	float3				texture_position;
 # endif
@@ -212,6 +181,7 @@ typedef struct			s_object
 	cl_float			radius;
 	cl_float			angle;
 	cl_float			len;
+	cl_float3			vertices[3];
 # else
 
 	t_object_type		type;
@@ -221,9 +191,71 @@ typedef struct			s_object
 	float				radius;
 	float				angle;
 	float				len;
+	float3				vertices[3];
 # endif
 
 }						t_object;
+
+# define RT_DEFAULT_POLYGON_VERTICES 3
+
+typedef struct			s_mesh_info
+{
+# ifndef FT_OPENCL___
+
+	t_material			material;
+# else
+
+	t_material			material;
+# endif
+}						t_mesh_info;
+
+typedef struct			s_polygon
+{
+# ifndef FT_OPENCL___
+
+	cl_int				vert_i[RT_DEFAULT_POLYGON_VERTICES];
+	cl_int				vnorm_i;
+	cl_int				vtex_i[RT_DEFAULT_POLYGON_VERTICES];
+	cl_int				mesh_index;
+# else
+
+	int					vert_i[RT_DEFAULT_POLYGON_VERTICES];
+	int					vnorm_i;
+	int					vtex_i[RT_DEFAULT_POLYGON_VERTICES];
+	int					mesh_index;
+#endif
+
+}						t_polygon;
+
+typedef struct			s_meshes
+{
+# ifndef FT_OPENCL___
+
+	cl_int				num_polygons;
+	cl_int				num_vertices;
+	cl_int				num_v_normals;
+	cl_int				num_v_textures;
+	cl_int				num_meshes;
+	t_mesh_info			*meshes_info;
+	t_polygon			*polygons;
+	cl_float3			*vertices;
+	cl_float3			*v_normals;
+	cl_float3			*v_textures;
+# else
+
+	int					num_polygons;
+	int					num_vertices;
+	int					num_v_normals;
+	int					num_v_textures;
+	int					num_meshes;
+	t_mesh_info			*meshes_info;
+	t_polygon			*polygons;
+	float3				*vertices;
+	float3				*v_normals;
+	float3				*v_textures;
+# endif
+
+}						t_meshes;
 
 typedef struct			s_scene
 {
@@ -232,6 +264,7 @@ typedef struct			s_scene
 	t_camera			camera;
 	cl_int				obj_nbr;
 	cl_int				lights_nbr;
+	t_meshes			meshes;
 	t_object			*objects;
 	t_light				*lights;
 # else
@@ -239,18 +272,12 @@ typedef struct			s_scene
 	t_camera			camera;
 	int					obj_nbr;
 	int					lights_nbr;
+	t_meshes			meshes;
 	t_object			*objects;
 	t_light				*lights;
 # endif
 
 }						t_scene;
-
-typedef enum			e_render_algo
-{
-	PATH_TRACE = 1,
-	RAY_TRACE,
-	RAY_MARCH,
-}						t_render_algo;
 
 typedef struct			s_pathtrace_params
 {
@@ -266,66 +293,35 @@ typedef struct			s_pathtrace_params
 
 }						t_pathtrace_params;
 
-typedef struct			s_opencl_params
+typedef struct			s_raytrace_params
 {
 # ifndef FT_OPENCL___
 
-	t_render_algo		render_algo;
-	t_pathtrace_params	pathtrace_params;
-	cl_int				randoms;
+	cl_int				max_depth;
 # else
 
-	t_render_algo		render_algo;
-	t_pathtrace_params	pathtrace_params;
-	int					randoms;
+	int					max_depth;
 # endif
-}						t_opencl_params;
 
+}						t_raytrace_params;
+
+typedef struct			s_renderer_params
+{
 # ifndef FT_OPENCL___
 
-#include "stdbool.h"
+	t_pathtrace_params	pathtrace_params;
+	t_raytrace_params	raytrace_params;
+	cl_float			seed;
+	cl_float			exposure;
+	cl_float			gamma;
+# else
 
-typedef struct			s_events
-{
-	t_bool				w;
-	t_bool				a;
-	t_bool				s;
-	t_bool				d;
-	t_bool				info;
-	t_bool				space;
-	t_bool				lshift;
-}						t_events;
-
-typedef struct			s_opencl_mem_obj
-{
-	void				*ptr;
-	size_t				size;
-	cl_mem_flags		mem_flags;
-	t_bool				copy_mem;
-}						t_opencl_mem_obj;
-
-typedef struct			s_rt
-{
-	t_scene				scene;
-	t_opencl_params		opencl_params;
-	t_events			events;
-
-}						t_rt;
-
-#  define CL_BUFF_SIZE 10000
-
-typedef struct			s_cl_concat_kernel_code
-{
-	char				*temp_str;
-	char				*backup;
-	char				buf[CL_BUFF_SIZE + 1];
-	int					read_res;
-	size_t				sum_len;
-	va_list				ap;
-	char				*str_file;
-	size_t				file_size;
-	int					fd;
-}						t_cl_concat_kernel_code;
+	t_pathtrace_params	pathtrace_params;
+	t_raytrace_params	raytrace_params;
+	float				seed;
+	float				exposure;
+	float				gamma;
 # endif
+}						t_renderer_params;
 
 #endif

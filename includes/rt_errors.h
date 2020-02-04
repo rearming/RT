@@ -1,31 +1,35 @@
-#ifndef RT_RT_ERRORS_H
-# define RT_RT_ERRORS_H
+#ifndef RT_ERRORS_H
+# define RT_ERRORS_H
 
-# define ERR_INV_ARGS_NUM 5
-# define ERR_INV_FILE 6
+# define ERR_INV_ARGS_NUM "invalid number of arguments!"
+# define ERR_INV_FILE "invalid file!"
 
-# define ERR_MALLOC 7
+# define ERR_MALLOC "malloc() failed!"
 
-# define ERR_SDL_INIT 8
-# define ERR_SDL_WIN 9
-# define ERR_SDL_RENDER 10
-# define ERR_SDL_TEXTURE_CREATE 11
+# define ERR_SDL_INIT "SDL_Init failed."
+# define ERR_SDL_WIN "SDL_Create_Window failed."
+# define ERR_SDL_RENDER "SDL_Create_Renderer failed."
+# define ERR_SDL_TEXTURE_CREATE "SDL_Create_Texture failed."
 
 # define ERR_USAGE 12
-# define ERR_OPENCL 13
-# define ERR_OPENCL_CLEAN 14
-# define ERR_OPENCL_SETARG 15
-# define ERR_OPENCL_GET_PLATFORM_ID 16
-# define ERR_OPENCL_GET_DEVICE_ID 17
-# define ERR_OPENCL_CREATE_CONTEXT 18
-# define ERR_OPENCL_CREATE_QUEUE 19
-# define ERR_OPENCL_CREATE_PROGRAM 20
-# define ERR_OPENCL_BUILD_PROGRAM 21
-# define ERR_OPENCL_CREATE_KERNEL 22
-# define ERR_OPENCL_CREATE_BUFFER 23
-# define ERR_OPENCL_RUN_KERNELS 24
-# define ERR_OPENCL_READ_BUFFER 25
-# define ERR_OPENCL_INV_SOURCE_CODE_FILE 26
+# define ERR_OPENCL "something went wrong in OpenCL!"
+# define ERR_OPENCL_CLEAN "error when cleaning OpenCL objects"
+# define ERR_OPENCL_SETARG "clSetKernelArg failed"
+# define ERR_OPENCL_GET_PLATFORM_ID "clGetPlatformIDs failed!"
+# define ERR_OPENCL_GET_DEVICE_ID "clGetDeviceIDs failed!"
+# define ERR_OPENCL_CREATE_CONTEXT "clCreateContext failed!"
+# define ERR_OPENCL_CREATE_QUEUE "clCreateCommandQueue failed"
+# define ERR_OPENCL_CREATE_PROGRAM "clCreateProgramWithSource failed"
+# define ERR_OPENCL_BUILD_PROGRAM "clBuildProgram failed"
+# define ERR_OPENCL_CREATE_KERNEL "clCreateKernel failed"
+# define ERR_OPENCL_CREATE_BUFFER "clCreateBuffer failed"
+# define ERR_OPENCL_RUN_KERNELS "clEnqueueNDRangeKernel failed"
+# define ERR_OPENCL_READ_BUFFER "clEnqueueReadBuffer failed"
+# define ERR_OPENCL_INV_SOURCE_CODE_FILE "error when reading opencl source code file"
+# define ERR_OPENCL_LOG "clGetProgramBuildLog failed"
+
+# define ERR_READFILE_OBJ "error when reading .obj file"
+# define ERR_OBJLOADER_PARSE_OBJ "tinyobjloader failed"
 
 # define ERR_INVALID_TEXRTURE_DIR 27
 # define ERR_INVALID_TEXRTURE 28

@@ -1,7 +1,7 @@
 
-float		rand_distribution(uint rand_num)
+float		sdot(float3 a, float3 b, float coeff)
 {
-	return ((float)rand_num / UINT_MAX);
+	return saturate(dot(a, b) * coeff);
 }
 
 int 				in_range_inclusive(float number, float min, float max)
@@ -17,6 +17,18 @@ uint		rt_rand(uint seed)
 	seed *= 0x27d4eb2d;
 	seed = seed ^ (seed >> 15);
 	return seed;
+}
+
+float		rt_fract(float x)
+{
+	return min(x - floor(x), 0x1.fffffep-1f);
+}
+
+float		rt_randf(float *seed, float2 pixel)
+{
+	float result = rt_fract(sin(*seed / 100.0f * dot(pixel, (float2)(12.9898f, 78.233f))) * 43758.5453f);
+	*seed += 1.0f;
+	return result;
 }
 
 void		rotate_y(float3 *point, float angle)
