@@ -112,13 +112,17 @@ void			rt_textures_init(void)
 		tmp_texture = stbi_load(tmp_filename, &g_textures.texture_info[i].width,
 			&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp,
 			STBI_rgb);
-		//tmp_texture = resize_image(tmp_texture, i, WIN_WIDTH, WIN_HEIGHT); //add if we need to resize_image
+		int t = (2 * SCALE_HEIGHT * WIN_HEIGHT * g_textures.texture_info[i].width) / g_textures.texture_info[i].height;
+		tmp_texture = resize_image(tmp_texture, i, t, 2 * SCALE_HEIGHT * WIN_HEIGHT); //add if we need to resize_image
+		//tmp_texture = resize_image(tmp_texture, i, 1000, 1000);
 		rt_add_start_position(i);
 		rt_change_format_and_add(tmp_texture, i);
 		free(tmp_filename);
 		stbi_image_free(tmp_texture);
 		if (g_textures.texture_list == NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
+		printf("%i, %i\n", g_textures.texture_info[i].height, g_textures.texture_info[i].width);
+		printf("START: %i\n", g_textures.texture_info[i].start);
 		i++;
 	}
 	closedir(dir);

@@ -36,9 +36,10 @@ float		saturate(float value);
 float3		shade(
 		t_ray *out_ray,
 		t_rayhit *hit,
-		t_texture_info texture_info,
-		__constant float *texture_list,
-		__constant t_material *material);
+		__constant t_material *material,
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+		__constant t_object *object);
 
 bool		ray_has_energy(t_ray *ray);
 
@@ -47,9 +48,10 @@ float3		raytrace(
 		__constant t_object *objects,
 		__constant t_light *lights,
 		__constant t_opencl_params *params,
-		__constant t_texture_info *texture_info,
-		__constant float *texture_list,
-		t_ray ray);
+		__global t_texture_info *texture_info,
+		__global float *texture_list,
+		t_ray ray,
+		float3 img_point);
 
 float3			get_img_point(int global_id);
 
@@ -62,8 +64,8 @@ void	rt_main(
     __constant t_object *objects,
     __constant t_light *lights,
     __constant t_opencl_params *params,
-    __constant t_texture_info *texture_info,
-	__constant float *texture_list,
+    __global const t_texture_info *texture_info,
+	__global const float *texture_list,
     __global int *img_data);
 
 float3			canvas_to_viewport(__constant t_camera *camera, float3 canvas_point);
@@ -118,9 +120,20 @@ float3		rand_dir_on_hemisphere(
 
 int		check_borders(int a, int max, int type);
 
-int		skybox_color(__constant float *texture, t_texture_info texture_info, float3 normal);
+float3		skybox_color(
+		__global t_texture_info *texture_info,
+		__global float *texture_list,
+		float3 *normal);
 
 float 		scale(t_ray ray, float skybox_radius);
 
 float3		skybox_normal(t_ray ray);
+
+void 	change_format(int i_color, float3 *f_color);
+
+float3 texture(t_ray *out_ray,
+			   t_rayhit *hit,
+			   __global t_texture_info *texture_info,
+			   __global float *texture_list,
+			   __constant t_object *object);
 
