@@ -16,7 +16,7 @@ typedef struct			s_sdl
 typedef struct			s_cl_buffer
 {
 	cl_mem				mem;
-	u_int32_t			renderer_flags;
+	uint32_t			renderer_flags;
 	bool				copy_mem;
 }						t_cl_buffer;
 

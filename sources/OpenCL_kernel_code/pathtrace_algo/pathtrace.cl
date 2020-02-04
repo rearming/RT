@@ -40,14 +40,19 @@ float3		pathtrace(
 		float3	shade_color;
 #ifdef RENDER_OBJECTS
 		if (closest_obj_index != NOT_SET)
-			shade_color = shade_pathtrace(&ray, &hit, objects[closest_obj_index].material, seed, pixel);
+			{
+				t_material object_material = objects[closest_obj_index].material;
+				shade_color = shade_pathtrace(&ray, &hit, object_material, seed, pixel);
+			}
 # ifdef RENDER_MESH
 		else
 # endif
 #endif // RENDER_OBJECTS
 #ifdef RENDER_MESH
 			if (closest_polygon_index != NOT_SET)
-			shade_color = shade_pathtrace(&ray, &hit, get_polygon_material(meshes_info, polygons, closest_polygon_index), seed, pixel);
+			{
+				shade_color = shade_pathtrace(&ray, &hit, get_polygon_material(meshes_info, polygons, closest_polygon_index), seed, pixel);
+			}
 #endif // RENDER_MESH
 		else
 			shade_color = shade_pathtrace(&ray, &hit, (t_material){}, seed, pixel);

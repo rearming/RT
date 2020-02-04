@@ -95,6 +95,10 @@
 # define SIDE_MOVE_SPEED (0.1)
 # define FLY_SPEED 0.2
 
-# define ROTATION_SPEED 0.5
+# ifdef __APPLE__
+#  define ROTATION_SPEED 0.025
+# else
+#  define ROTATION_SPEED 0.5
+# endif
 
 #endif

@@ -44,16 +44,6 @@
 " -I ./sources/OpenCL_kernel_code/mesh_render " \
 " -I ./sources/OpenCL_kernel_code/object_intersections " \
 " -I ./sources/OpenCL_kernel_code/pathtrace_algo "
-
-#  define OPENCL_DEFINES \
-" -D PATHTRACE " \
-" -D RAYTRACE " \
-" -D MESH_RENDER " \
-" -D BACKFACE_CULLING "
-
-#  define OPENCL_COMPILE_OPTIONS \
-OPENCL_INCLUDE_DIRS \
-OPENCL_DEFINES
 # endif
 
 # ifdef __APPLE__

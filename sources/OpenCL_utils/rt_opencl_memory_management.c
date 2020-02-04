@@ -23,14 +23,14 @@ void		rt_opencl_move_host_mem_to_kernel(t_rt_renderer *renderer, int max_memobj_
 		}
 		if (memobj.copy == true || renderer->copy_done == false)
 		{
-			renderer->buffers[mem_obj_i].mem = clCreateBuffer(g_opencl.context,
+			renderer->buffers[renderer->buffers_num].mem = clCreateBuffer(g_opencl.context,
 					memobj.mem_flags, memobj.size, memobj.ptr, &err);
-			renderer->buffers[mem_obj_i].copy_mem = memobj.copy;
-			renderer->buffers[mem_obj_i].renderer_flags = memobj.renderer_flags;
+			renderer->buffers[renderer->buffers_num].copy_mem = memobj.copy;
+			renderer->buffers[renderer->buffers_num].renderer_flags = memobj.renderer_flags;
 			rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
 		}
 		err = clSetKernelArg(renderer->kernel, renderer->buffers_num, sizeof(cl_mem),
-							 &renderer->buffers[mem_obj_i].mem);
+							 &renderer->buffers[renderer->buffers_num].mem);
 		rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 		mem_obj_i++;
 		renderer->buffers_num++;
