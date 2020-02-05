@@ -41,7 +41,7 @@ float3		shade(
 		t_material *material,
 		__global const t_texture_info *texture_info,
 		__global const float *texture_list,
-		t_object object);
+		__global const t_object *object);
 
 float3		raytrace(
 		__global const t_scene *scene,
@@ -210,8 +210,6 @@ float3		shade_pathtrace(
 		float *seed,
 		float2 pixel);
 
-int		check_borders(int a, int max, int type);
-
 float3		skybox_color(
 		__global const t_texture_info *texture_info,
 		__global const float *texture_list,
@@ -223,5 +221,11 @@ float3		skybox_normal(t_ray ray);
 
 void 	change_format(int i_color, float3 *f_color);
 
-float3 get_texture(void);
+float3 texture(t_ray *out_ray,
+			   t_rayhit *hit,
+			   __global const t_texture_info *texture_info,
+			   __global const float *texture_list,
+			   __global const t_object *object);
+
+int		check_borders(int a, int max, int type);
 

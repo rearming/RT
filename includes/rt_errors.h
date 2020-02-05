@@ -31,7 +31,7 @@
 # define ERR_READFILE_OBJ "error when reading .obj file"
 # define ERR_OBJLOADER_PARSE_OBJ "tinyobjloader failed"
 
-# define ERR_INVALID_TEXRTURE_DIR 27
-# define ERR_INVALID_TEXRTURE 28
+# define ERR_INVALID_TEXRTURE_DIR "couldn't open texture ditectory"
+# define ERR_INVALID_TEXRTURE "error when reading texture"
 
 #endif

@@ -13,6 +13,10 @@
 #include "simple_object_intersections.cl"
 #include "intersection_utils.cl"
 
+#include "skybox.cl"
+#include "texture.cl"
+#include "texture_utils.cl"
+
 # ifdef RENDER_RAYTRACE
 #  include "raytrace.cl"
 #  include "light_computing.cl"

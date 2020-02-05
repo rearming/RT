@@ -43,7 +43,8 @@
 " -I ./sources/OpenCL_kernel_code/light_computing " \
 " -I ./sources/OpenCL_kernel_code/mesh_render " \
 " -I ./sources/OpenCL_kernel_code/object_intersections " \
-" -I ./sources/OpenCL_kernel_code/pathtrace_algo "
+" -I ./sources/OpenCL_kernel_code/pathtrace_algo " \
+" -I ./sources/OpenCL_kernel_code/texture_formulas"
 # endif
 
 # ifdef __APPLE__

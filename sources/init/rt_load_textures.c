@@ -74,19 +74,22 @@ static void		rt_change_format_and_add(const unsigned char *tmp_texture,
 	free(tmp_texture_list);
 	rt_add(tmp_texture_list, j, texture_num);
 	if (texture_num + 1 == TEXTURE_NUM)
-	{
-		g_textures.texture_info_size = TEXTURE_NUM;
-		g_textures.texture_list_size =
-				g_textures.texture_info[texture_num].start + j;
-	}
+		init_final_texture_parameters(
+				g_textures.texture_info[texture_num].start + j);
 }
 
-static unsigned char	*resize_image(unsigned char	*tmp_texture, int texture_num, int new_width, int new_height)
+static unsigned char	*resize_image(unsigned char *tmp_texture,
+									  int texture_num, int new_height)
 {
 	unsigned char	*resized_texture;
+	int				new_width;
 
-	resized_texture = (unsigned char *)rt_safe_malloc(sizeof(unsigned char) * new_width * new_height * 3);
-	stbir_resize_uint8(tmp_texture,g_textures.texture_info[texture_num].width, g_textures.texture_info[texture_num].height, 0,
+	new_width = new_height * g_textures.texture_info[texture_num].width
+				/ g_textures.texture_info[texture_num].height;
+	resized_texture = (unsigned char *)rt_safe_malloc(sizeof(unsigned char)
+													  * new_width * new_height * 3);
+	stbir_resize_uint8(tmp_texture, g_textures.texture_info[texture_num].width,
+					   g_textures.texture_info[texture_num].height, 0,
 					   resized_texture, new_width, new_height, 0, STBI_rgb);
 	g_textures.texture_info[texture_num].width = new_width;
 	g_textures.texture_info[texture_num].height = new_height;
@@ -104,28 +107,23 @@ void			rt_textures_init(void)
 
 	if (!(dir = opendir("textures/2sphere/")))
 		return (rt_raise_error(ERR_INVALID_TEXRTURE_DIR));
-	i = 0;
-	init_basic_textures_parameters();
+	i = init_basic_textures_parameters();
 	while ((entry = readdir(dir)) != NULL)
 	{
-		if (entry->d_name[0] == '.')
+		if (entry->d_name[i] == '.')
 			continue;
 		if (!(tmp_filename = ft_strjoin("textures/2sphere/", entry->d_name)))
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		tmp_texture = stbi_load(tmp_filename, &g_textures.texture_info[i].width,
-			&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp,
-			STBI_rgb);
-		int t = (2 * SCALE_HEIGHT * WIN_HEIGHT * g_textures.texture_info[i].width) / g_textures.texture_info[i].height;
-		tmp_texture = resize_image(tmp_texture, i, t, 2 * SCALE_HEIGHT * WIN_HEIGHT); //add if we need to resize_image
-		//tmp_texture = resize_image(tmp_texture, i, 1000, 1000);
+								&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp,
+								STBI_rgb);
+		tmp_texture = resize_image(tmp_texture, i, 2 * WIN_HEIGHT);
 		rt_add_start_position(i);
 		rt_change_format_and_add(tmp_texture, i);
 		free(tmp_filename);
 		stbi_image_free(tmp_texture);
 		if (g_textures.texture_list == NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
-		printf("%i, %i\n", g_textures.texture_info[i].height, g_textures.texture_info[i].width);
-		printf("START: %i\n", g_textures.texture_info[i].start);
 		i++;
 	}
 	closedir(dir);

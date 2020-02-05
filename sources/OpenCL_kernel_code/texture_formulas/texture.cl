@@ -11,9 +11,9 @@ void 	change_format(int i_color, float3 *f_color)
 
 float3 texture(t_ray *out_ray,
 			   t_rayhit *hit,
-			   __global t_texture_info *texture_info,
-			   __global float *texture_list,
-			   __constant t_object *object)
+			   __global const t_texture_info *texture_info,
+			   __global const float *texture_list,
+			   __global const t_object *object)
 {
 	float	u;
 	float	v;
