@@ -25,6 +25,7 @@
 # ifdef RENDER_PATHTRACE
 #  include "pathtrace.cl"
 #  include "shade_pathtrace.cl"
+#  include "texture_shade_pathtrace.cl"
 #  include "pathtrace_utils.cl"
 # endif
 

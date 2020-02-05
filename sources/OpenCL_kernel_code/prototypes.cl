@@ -210,6 +210,13 @@ float3		shade_pathtrace(
 		float *seed,
 		float2 pixel);
 
+float3		texture_shade_pathtrace(
+		t_ray *ray,
+		t_rayhit *hit,
+		t_material material,
+		float *seed,
+		float2 pixel);
+
 float3		skybox_color(
 		__global const t_texture_info *texture_info,
 		__global const float *texture_list,

@@ -1,9 +1,9 @@
 
 void 	change_format(int i_color, float3 *f_color)
 {
-	f_color->z = (i_color >> 16) & 0xFF;
+	f_color->x = (i_color >> 16) & 0xFF;
 	f_color->y = (i_color >> 8) & 0xFF;
-	f_color->x = i_color & 0xFF;
+	f_color->z = i_color & 0xFF;
 	f_color->x *= 0.00392156862f; // 1/255
 	f_color->y *= 0.00392156862f;// 1/255
 	f_color->z *= 0.00392156862f;// 1/255

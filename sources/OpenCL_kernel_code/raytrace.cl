@@ -14,7 +14,7 @@ float3		shade(
 		if (material->transmittance <= 0)
 		{
 			if (material->texture_number >= 0 && material->texture_number < TEXTURE_NUM)
-				diffuse_color = texture(ray, hit, texture_info, texture_list, object);
+				diffuse_color = texture(ray, hit, &texture_info[material->texture_number], texture_list, object);
 			ray->origin = hit->pos + hit->normal * RT_EPSILON;
 			ray->dir = reflect(ray->dir, hit->normal);
 			ray->energy *= material->specular;
@@ -83,10 +83,9 @@ float3		raytrace(
 						polygons, vertices, v_normals,
 # endif // RENDER_MESH
 						&best_hit, &ray, &hit_material);
-			t_object object = objects[closest_obj_index];
 			result_color += ray.energy
 					* light_intensity
-					* shade(&ray, &best_hit, &hit_material, &texture_info[1], texture_list, &objects[closest_obj_index]);
+					* shade(&ray, &best_hit, &hit_material, texture_info, texture_list, &objects[closest_obj_index]);
 		}
 # ifdef RENDER_MESH
 		else //чтобы else был только когда (RENDER_OBJECTS | RENDER_MESH)
@@ -112,7 +111,7 @@ float3		raytrace(
 #endif // RENDER_MESH
 		else
 		{
-			result_color += ray.energy * skybox_color(&texture_info[0], texture_list, skybox_normal(ray));
+			result_color += ray.energy * skybox_color(&texture_info[1], texture_list, skybox_normal(ray));
 			ray.energy = 0;
 		}
 		if (!ray_has_energy(&ray))

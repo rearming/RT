@@ -1,5 +1,8 @@
 
-float3		shade_pathtrace(
+/*t_object *object*/
+/*texture info bla bla*/
+
+float3		texture_shade_pathtrace(
 		t_ray *ray,
 		t_rayhit *hit,
 		t_material material,
@@ -8,12 +11,9 @@ float3		shade_pathtrace(
 {
 	if (hit->distance < INFINITY)
 	{
-		float	specular_chance = color_energy(material.specular);
-		float	diffuse_chance = color_energy(material.diffuse);
-		float	sum = specular_chance + diffuse_chance;
-		specular_chance /= sum;
-		diffuse_chance /= sum;
+		float	specular_chance = material.specular_texture;
 		float	chance = rt_randf(seed, pixel);
+//		float3	color = texture(); change material.emission_color to color
 
 		if (material.emission_power > 0)
 		{
@@ -54,7 +54,7 @@ float3		shade_pathtrace(
 		{
 			ray->origin = hit->pos + hit->normal * RT_EPSILON;
 			ray->dir = rand_dir_on_hemisphere(hit->normal, seed, pixel, LAMBERT_ALPHA);
-			ray->energy *= (1.f / diffuse_chance) * material.diffuse;
+			ray->energy *= (1.f / (1 - specular_chance)) * material.diffuse;
 		}
 	}
 	else

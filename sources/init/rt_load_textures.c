@@ -117,7 +117,8 @@ void			rt_textures_init(void)
 		tmp_texture = stbi_load(tmp_filename, &g_textures.texture_info[i].width,
 								&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp,
 								STBI_rgb);
-		tmp_texture = resize_image(tmp_texture, i, 2 * WIN_HEIGHT);
+		if (g_textures.texture_info[i].height > WIN_HEIGHT * SCALE_HEIGHT * 3) //есть какой-то размер при котором картинка плохо растягивается и плохо сжимается
+			tmp_texture = resize_image(tmp_texture, i, 3 * WIN_HEIGHT);
 		rt_add_start_position(i);
 		rt_change_format_and_add(tmp_texture, i);
 		free(tmp_filename);

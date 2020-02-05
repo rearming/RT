@@ -47,7 +47,7 @@ float3		skybox_normal(t_ray ray)
 	float3 normal;
 	float3 point = (float3)(0.0);
 
-	point = ray.origin + ray.dir * scale(ray, 10); //scale_between(sphere(r=10)));//find hit object to sphere
-	normal = normalize(point - ray.origin); //camera_pos = ray.origin = obj_pos
+	point = ray.origin + ray.dir * scale(ray, 1);
+	normal = normalize(point - ray.origin);
 	return (normal);
 }

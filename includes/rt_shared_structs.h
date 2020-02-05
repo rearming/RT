@@ -64,7 +64,7 @@ typedef struct			s_texture_info
 # endif
 }						t_texture_info;
 
-#define TEXTURE_NUM 2
+#define TEXTURE_NUM 3
 
 # ifndef FT_OPENCL___
 typedef struct			s_textures
@@ -151,6 +151,7 @@ typedef struct			s_material
 	cl_float			refraction;
 	cl_float3			emission_color;
 	cl_float			emission_power;
+	cl_float			specular_texture;
 	cl_int				texture_number;
 	cl_float3			texture_position;
 # else
@@ -164,6 +165,7 @@ typedef struct			s_material
 	float				refraction;
 	float3				emission_color;
 	float				emission_power;
+	float				specular_texture;
 	int					texture_number;
 	float3				texture_position;
 # endif

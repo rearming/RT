@@ -146,7 +146,7 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 			.radius = 1.f};
 
 	objects[7] = (t_object){.type = SPHERE, // small diffuse sphere
-			(t_material){.specular = {{0, 0, 0}}, .phong_exp = 300, .smoothness = 0, .texture_number = 1},
+			(t_material){.specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0, .texture_number = 2},
 			.center = {{1, -1.5f, 0}},
 			.radius = 1.f};
 //
@@ -156,8 +156,7 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 //			.radius = 1.5f};
 //
 	objects[8] = (t_object){.type = SPHERE, // big sphere with transmittance
-			(t_material){.specular = get_float3_color(COL_WHITE),
-				.phong_exp = 0, .smoothness = 10000, .texture_number = 1, .texture_position = {{2.5, 0.0, 0.0}} },
+			(t_material){.phong_exp = 0, .smoothness = 0, .texture_number = 0, .texture_position = {{0, 0.0, 0.0}} },
 			.center = {{-1, -0.5f, -1}},
 			.radius = 1.5f};
 
