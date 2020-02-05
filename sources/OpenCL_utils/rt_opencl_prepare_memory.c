@@ -27,9 +27,9 @@ void		rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer)
 			(t_opencl_mem_obj){&g_img_data_float,
 				sizeof(cl_float3) * WIN_HEIGHT * WIN_WIDTH, RT_MEM_RW_FLAG, false, RENDER_PATHTRACE},
 			(t_opencl_mem_obj){g_textures.texture_info,
-				sizeof(t_texture_info) * g_textures.texture_info_size, RT_DEFAULT_MEM_FLAG, false, RENDER_ALWAYS},
+				sizeof(t_texture_info) * g_textures.texture_info_size, RT_DEFAULT_MEM_FLAG, false, RENDER_TEXTURES},
 			(t_opencl_mem_obj){g_textures.texture_list,
-				sizeof(cl_float) * g_textures.texture_list_size, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, false, RENDER_ALWAYS}
+				sizeof(cl_float) * g_textures.texture_list_size, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, false, RENDER_TEXTURES}
 
 	);
 }

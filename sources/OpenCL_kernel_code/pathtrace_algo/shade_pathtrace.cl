@@ -60,7 +60,7 @@ float3		shade_pathtrace(
 	else
 	{
 		ray->energy = 0;
-		return get_float3_color(COL_BLACK); //add skubox
+		return get_float3_color(COL_BLACK);
 	}
 	return 0;
 }

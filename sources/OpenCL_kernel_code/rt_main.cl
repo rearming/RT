@@ -77,7 +77,7 @@ __kernel void	rt_main(
 # ifdef RENDER_MESH
 		meshes_info, polygons, vertices, v_normals,
 # endif // RENDER_MESH
-		params, ray, params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1));
+		params, texture_info, texture_list, ray, params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1));
 	final_color = mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num);
 	img_data_float[g_id] = final_color;
 #endif // RENDER_PATHTRACE

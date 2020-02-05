@@ -3,6 +3,9 @@
 /*texture info bla bla*/
 
 float3		texture_shade_pathtrace(
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+		__global const t_object *object,
 		t_ray *ray,
 		t_rayhit *hit,
 		t_material material,
@@ -13,12 +16,12 @@ float3		texture_shade_pathtrace(
 	{
 		float	specular_chance = material.specular_texture;
 		float	chance = rt_randf(seed, pixel);
-//		float3	color = texture(); change material.emission_color to color
+		float3	color = texture(ray, hit, texture_info, texture_list, object); //change material.emission_color to color
 
 		if (material.emission_power > 0)
 		{
 			ray->energy = 0;
-			return material.emission_color * material.emission_power;
+			return color * material.emission_power;
 		}
 		if (chance < specular_chance)
 		{
@@ -60,7 +63,7 @@ float3		texture_shade_pathtrace(
 	else
 	{
 		ray->energy = 0;
-		return get_float3_color(COL_BLACK); //add skubox
+		return get_float3_color(COL_WHITE);
 	}
 	return 0;
 }

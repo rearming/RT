@@ -188,10 +188,13 @@ float3		pathtrace(
 # endif
 #endif // RENDER_MESH
 		__global const t_renderer_params *params,
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
 		t_ray ray,
 		int depth,
 		float *seed,
-		float2 pixel);
+		float2 pixel
+);
 
 void		create_coordinate_system(float3 normal, float3 *normal_x, float3 *normal_z);
 
@@ -211,6 +214,9 @@ float3		shade_pathtrace(
 		float2 pixel);
 
 float3		texture_shade_pathtrace(
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+		__global const t_object *object,
 		t_ray *ray,
 		t_rayhit *hit,
 		t_material material,

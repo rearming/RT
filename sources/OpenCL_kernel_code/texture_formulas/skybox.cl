@@ -34,7 +34,6 @@ float 		scale(t_ray ray, float skybox_radius)
 	discriminant = 4.0 * a * skybox_radius * skybox_radius;
 	if (discriminant < 0.0)
 	{
-		printf("here\n");
 		return (-1.0);
 	}
 	scale = sqrt(discriminant) / (2.0 * a);

@@ -10,6 +10,7 @@ const char	*g_opencl_defines[] =
 				" -D RENDER_BACKFACE_CULLING ",
 				" -D RENDER_OBJECTS ",
 				" -D RENDER_MESH_VTEXTURES ",
+				" -D RENDER_TEXTURES ",
 				NULL
 		};
 

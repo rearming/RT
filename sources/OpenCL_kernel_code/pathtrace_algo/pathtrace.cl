@@ -14,10 +14,13 @@ float3		pathtrace(
 # endif
 #endif // RENDER_MESH
 		__global const t_renderer_params *params,
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
 		t_ray ray,
 		int depth,
 		float *seed,
-		float2 pixel)
+		float2 pixel
+		)
 {
 	float3		result_color = (float3)(0);
 	t_rayhit	hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
@@ -42,7 +45,13 @@ float3		pathtrace(
 		if (closest_obj_index != NOT_SET)
 			{
 				t_material object_material = objects[closest_obj_index].material;
-				shade_color = shade_pathtrace(&ray, &hit, object_material, seed, pixel);
+#ifdef RENDER_TEXTURES
+				if (object_material.texture_number >= 0 && object_material.texture_number < TEXTURE_NUM) // если есть текстура то с текстурой, если без то без
+					shade_color = texture_shade_pathtrace(&texture_info[object_material.texture_number], texture_list, &objects[closest_obj_index],
+							&ray, &hit, object_material, seed, pixel);
+				else
+#endif
+					shade_color = shade_pathtrace(&ray, &hit, object_material, seed, pixel);
 			}
 # ifdef RENDER_MESH
 		else
@@ -55,8 +64,10 @@ float3		pathtrace(
 			}
 #endif // RENDER_MESH
 		else
-			shade_color = shade_pathtrace(&ray, &hit, (t_material){}, seed, pixel);
-
+		{
+			ray.energy = 0;
+			shade_color = skybox_color(&texture_info[1], texture_list, skybox_normal(ray));
+		}
 		/// можно раскомментить, чтобы цвета светящихся объектов где emisson_power больше 1 были не белыми
 //		if (i == 0 && round(fast_length(shade_color)) != 0)
 //			shade_color /= objects[closest_obj_index].material.emission_power;
