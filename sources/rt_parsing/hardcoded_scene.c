@@ -191,10 +191,14 @@ static	t_object	*obj_scene(int *out_obj_nbr)
 					.emission_color = get_float3_color(COL_WHITE), .emission_power = 20},
 			.center = {{20, 23, 0}},
 			.radius = 6.f};
-
 	return (objects);
 }
 
+#ifdef __APPLE__
+# define scene_random arc4random
+#else
+# define scene_random rand
+#endif
 
 static	t_object	*many_spheres_test(int *out_obj_nbr)
 {
@@ -210,33 +214,31 @@ static	t_object	*many_spheres_test(int *out_obj_nbr)
 			.normal = {{0, 1, 0}}};
 
 	float	sqrt_obj_nbr = sqrtf((float)objects_nbr);
-	cl_float2	sphere_pos = (cl_float2){{sqrt_obj_nbr, sqrt_obj_nbr}};
+	cl_float2	sphere_pos = (cl_float2){{-sqrt_obj_nbr, -sqrt_obj_nbr}};
 
 	for (int i = 1; i < *out_obj_nbr; ++i)
 	{
-		bool		metal = arc4random() % 2 == 0 ? true : false;
+		bool		metal = scene_random() % 2 == 0 ? true : false;
 		cl_float3	color = (cl_float3){{drand48(), drand48(), drand48()}};
 		cl_float3	diffuse = metal ? (cl_float3){{0, 0, 0}} : color;
 		cl_float3	specular = metal ? color : (cl_float3){{0.0, 0.0, 0.0}};
-		cl_float	smoothness = arc4random() % 30000;
-		bool		is_light = arc4random_uniform(6) % 6 == 0 ? true : false;
+		cl_float	smoothness = scene_random() % 30000;
+		bool		is_light = scene_random() % 6 == 0 ? true : false;
 
 		cl_float	radius = ft_clampf((float)drand48() * 3.f, 1, 3);
 		cl_float3	center = (cl_float3){{sphere_pos.x, radius, sphere_pos.y}};
 		objects[i] = (t_object){.type = SPHERE, .material = {
 				.diffuse = diffuse, .specular = specular, .smoothness = smoothness,
-				.emission_color = is_light ? color : (cl_float3){{0, 0, 0}}, .emission_power = is_light ? arc4random() % 20 : 0},
+				.emission_color = is_light ? color : (cl_float3){{0, 0, 0}}, .emission_power = is_light ? scene_random() % 20 : 0},
 						  .center = center, .radius = radius};
 		sphere_pos.x += radius + drand48();
 		if (i % (int)sqrt_obj_nbr == 0)
-			sphere_pos.x = sqrt_obj_nbr;
+			sphere_pos.x = -sqrt_obj_nbr;
 		sphere_pos.x += radius + drand48() * 2;
 		sphere_pos.y += radius + drand48() * 2;
 	}
-	for (int j = 1; j < *out_obj_nbr; ++j)
-	{
-		rt_print_sphere(&objects[j]);
-	}
+//	for (int j = 1; j < *out_obj_nbr; ++j)
+//		rt_print_sphere(&objects[j]);
 	return (objects);
 }
 
@@ -244,8 +246,8 @@ static	t_object	*rt_get_objects(int *out_obj_nbr)
 {
 
 //	return (kolyan_scene(out_obj_nbr));
-//	return (cornell_box(out_obj_nbr));
-	return (many_spheres_test(out_obj_nbr));
+	return (cornell_box(out_obj_nbr));
+//	return (many_spheres_test(out_obj_nbr));
 //	return (pathtrace_scene(out_obj_nbr));
 //	return (obj_scene(out_obj_nbr));
 }

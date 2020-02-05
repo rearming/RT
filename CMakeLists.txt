@@ -53,7 +53,10 @@ set(sources
         sources/rt_event_handling/rt_settings_info.c
         sources/rt_event_handling/rt_key_event_handing.c
         sources/rt_event_handling/rt_mouse_event_handling.c
-        sources/init/rt_init_render_params.c sources/OpenCL_utils/rt_opencl_prepare_memory.c includes/rt_opencl.h sources/render/rt_update_params.c)
+        sources/init/rt_init_render_params.c
+        sources/OpenCL_utils/rt_opencl_prepare_memory.c
+        sources/render/rt_update_params.c
+        sources/debug/rt_print_object.c)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INCLUDE(FindPkgConfig)
