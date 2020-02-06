@@ -246,7 +246,7 @@ t_scene		get_hardcoded_scene(void)
 	};
 	scene.objects = rt_get_objects(&scene.obj_nbr);
 	scene.lights = rt_get_lights(&scene.lights_nbr);
-	g_textures.texture_info_size = 3;
+	g_textures.texture_info_size = 7;
 	add_textures();
 	return (scene);
 }

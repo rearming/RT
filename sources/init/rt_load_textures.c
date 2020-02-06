@@ -109,9 +109,9 @@ void			rt_textures_init(void)
 
 	iter = g_textures.textures_name;
 	i = init_basic_textures_parameters();
-	tmp_filename = NULL;
 	while (iter)
 	{
+		tmp_filename = NULL;
 		if (ft_strchr((char *)iter->content, 47) != NULL)
 			tmp_filename = (char *)iter->content;
 		else
@@ -119,7 +119,7 @@ void			rt_textures_init(void)
 			if (!(dir = opendir(textures_folder)))
 				return (rt_raise_error(ERR_INVALID_TEXRTURE_DIR));
 			while ((entry = readdir(dir)) != NULL) {
-				if (ft_strequ(entry->d_name, g_textures.textures_name->content))
+				if (ft_strequ(entry->d_name, (char *)iter->content))
 				{
 					tmp_filename = ft_strjoin(textures_folder, entry->d_name);
 					break;
@@ -127,8 +127,8 @@ void			rt_textures_init(void)
 			}
 			closedir(dir);
 		}
-			if (tmp_filename == NULL)
-				return (rt_raise_error(ERR_INVALID_TEXRTURE));
+		if (tmp_filename == NULL)
+			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		tmp_texture = stbi_load(tmp_filename, &g_textures.texture_info[i].width,
 								&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp,
 								STBI_rgb);
