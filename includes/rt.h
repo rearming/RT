@@ -23,7 +23,7 @@
 # include "rt_errors.h"
 # include "rt_opencl_params_defines.h"
 # include "rt_defines.h"
-
+#include "textures.h"
 /*
 **	Global pointers
 */
@@ -41,7 +41,6 @@ extern t_textures   g_textures;
 void		rt_init(t_rt *out_rt, const char *json_scene_file);
 void		rt_init_renderer_params(t_renderer_params *out_opencl_params);
 int			init_basic_textures_parameters(void);
-void		init_final_texture_parameters(size_t list_size);
 void		rt_add_start_position(int i);
 
 /*

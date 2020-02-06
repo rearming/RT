@@ -23,7 +23,8 @@ static float	*rt_memcpy(float *help, int size_dst, int type)
 	return (help);
 }
 
-static void		rt_add(const float *scr, int size_src, int texture_num)
+static void		rt_add_texture_and_info(const float *scr,
+		int size_src, int texture_num)
 {
 	float	*help;
 	int		i;
@@ -50,7 +51,7 @@ static void		rt_add(const float *scr, int size_src, int texture_num)
 		g_textures.texture_list[i++] = scr[j++];
 }
 
-static void		rt_change_format_and_add(const unsigned char *tmp_texture,
+static void			rt_change_format_and_add(const unsigned char *tmp_texture,
 		int texture_num)
 {
 	int		i;
@@ -72,14 +73,14 @@ static void		rt_change_format_and_add(const unsigned char *tmp_texture,
 		j++;
 	}
 	free(tmp_texture_list);
-	rt_add(tmp_texture_list, j, texture_num);
-	if (texture_num + 1 == TEXTURE_NUM)
-		init_final_texture_parameters(
-				g_textures.texture_info[texture_num].start + j);
+	rt_add_texture_and_info(tmp_texture_list, j, texture_num);
+	if (texture_num + 1 == (int)g_textures.texture_info_size)
+		g_textures.texture_list_size =
+				g_textures.texture_info[texture_num].start + j;
 }
 
 static unsigned char	*resize_image(unsigned char *tmp_texture,
-									  int texture_num, int new_height)
+						  int texture_num, int new_height)
 {
 	unsigned char	*resized_texture;
 	int				new_width;
@@ -104,16 +105,30 @@ void			rt_textures_init(void)
 	struct dirent	*entry;
 	char			*tmp_filename;
 	unsigned char	*tmp_texture;
+	t_list	*iter;
 
-	if (!(dir = opendir("textures/2sphere/")))
-		return (rt_raise_error(ERR_INVALID_TEXRTURE_DIR));
+	iter = g_textures.textures_name;
 	i = init_basic_textures_parameters();
-	while ((entry = readdir(dir)) != NULL)
+	tmp_filename = NULL;
+	while (iter)
 	{
-		if (entry->d_name[i] == '.')
-			continue;
-		if (!(tmp_filename = ft_strjoin("textures/2sphere/", entry->d_name)))
-			return (rt_raise_error(ERR_INVALID_TEXRTURE));
+		if (ft_strchr((char *)iter->content, 47) != NULL)
+			tmp_filename = (char *)iter->content;
+		else
+		{
+			if (!(dir = opendir(textures_folder)))
+				return (rt_raise_error(ERR_INVALID_TEXRTURE_DIR));
+			while ((entry = readdir(dir)) != NULL) {
+				if (ft_strequ(entry->d_name, g_textures.textures_name->content))
+				{
+					tmp_filename = ft_strjoin(textures_folder, entry->d_name);
+					break;
+				}
+			}
+			closedir(dir);
+		}
+			if (tmp_filename == NULL)
+				return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		tmp_texture = stbi_load(tmp_filename, &g_textures.texture_info[i].width,
 								&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp,
 								STBI_rgb);
@@ -126,6 +141,6 @@ void			rt_textures_init(void)
 		if (g_textures.texture_list == NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		i++;
+		iter = iter->next;
 	}
-	closedir(dir);
 }

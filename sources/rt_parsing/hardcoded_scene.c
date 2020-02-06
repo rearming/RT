@@ -218,6 +218,16 @@ static t_light		*rt_get_lights(int *out_lights_nbr)
 	return (lights);
 }
 
+static void 	add_textures(void)
+{
+	char *tex1 = "skybox_street.jpg";
+	char *tex2 = "/Users/gfoote/Project42/RT/textures/sphere_eye.jpg";
+	char *tex3 = "sphere_sun.jpg";
+	ft_lstaddback(&g_textures.textures_name, (void *)tex1, ft_strlen(tex1));
+	ft_lstaddback(&g_textures.textures_name, (void *)tex2, ft_strlen(tex2));
+	ft_lstaddback(&g_textures.textures_name, (void *)tex3, ft_strlen(tex3));
+}
+
 t_scene		get_hardcoded_scene(void)
 {
 	t_scene		scene;
@@ -236,5 +246,7 @@ t_scene		get_hardcoded_scene(void)
 	};
 	scene.objects = rt_get_objects(&scene.obj_nbr);
 	scene.lights = rt_get_lights(&scene.lights_nbr);
+	g_textures.texture_info_size = 3;
+	add_textures();
 	return (scene);
 }
