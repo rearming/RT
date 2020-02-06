@@ -9,11 +9,10 @@ float3		shade(
 {
 	float3	diffuse_color = material->diffuse;
 
-	if (material->texture_number >= 0 && material->texture_number < TEXTURE_NUM)
-		diffuse_color = texture(ray, hit, &texture_info[material->texture_number], texture_list, object);
 	if (material->transmittance <= 0) // if not transmit
 	{
-
+		if (material->texture_number >= 0 && material->texture_number < TEXTURE_NUM)
+			diffuse_color = texture(ray, hit, &texture_info[2], texture_list, object);
 		ray->origin = hit->pos + hit->normal * RT_EPSILON;
 		ray->dir = reflect(ray->dir, hit->normal);
 		ray->energy *= material->specular; // if material is diffuse -> material->specular == 0 -> energy = 0;
@@ -24,7 +23,7 @@ float3		shade(
 		ray->dir = convex_refract(ray->dir, hit->normal, material->refraction);
 		ray->energy *= material->specular;
 	}
-	return material->emission_power > 0 ? material->emission_color : material->diffuse;
+	return material->emission_power > 0 ? material->emission_color : diffuse_color;
 }
 
 float3		raytrace(
