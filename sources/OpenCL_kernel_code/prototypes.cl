@@ -36,19 +36,13 @@ float3		shade(
 
 float3		raytrace(
 		__global const t_scene *scene,
-#ifdef RENDER_OBJECTS
 		__global const t_object *objects,
-#endif
 		__global const t_light *lights,
-#ifdef RENDER_MESH
 		__global const t_mesh_info *meshes_info,
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
-# ifdef RENDER_MESH_VTEXTURES
 		__global const float3 *v_textures,
-# endif
-#endif
 		__global const t_renderer_params *params,
 		t_ray ray);
 
@@ -78,15 +72,11 @@ float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
 
 bool				in_shadow(
 		__global const t_scene *scene,
-#ifdef RENDER_OBJECTS
 		__global const t_object *objects,
-#endif
-#ifdef RENDER_MESH
 		__global const t_mesh_info *meshes_info,
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
-#endif
 		t_ray *ray,
 		t_light_type light_type);
 
@@ -95,18 +85,12 @@ float				blinn_phong_shine(float3 ray_dir, float3 light_dir, float3 normal, floa
 float				compute_light(
 	__global const t_scene *scene,
 	__global const t_light *lights,
-#ifdef RENDER_OBJECTS
 	__global const t_object *objects,
-#endif
-#ifdef RENDER_MESH
 	__global const t_mesh_info *meshes_info,
 	__global const t_polygon *polygons,
 	__global const float3 *vertices,
 	__global const float3 *v_normals,
-# ifdef RENDER_MESH_VTEXTURES
 	__global const float3 *v_textures,
-# endif
-#endif
 	t_rayhit *hit,
 	t_ray *ray,
 	t_material *hit_material);
@@ -126,14 +110,10 @@ t_material	get_polygon_material(
 
 void				closest_intersection(
 		__global const t_scene *scene,
-#ifdef RENDER_OBJECTS
 		__global const t_object *objects,
-#endif
-#ifdef RENDER_MESH
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
-#endif
 		t_ray *ray,
 		t_rayhit *out_best_hit,
 		int *out_closest_polygon_index,
@@ -164,18 +144,12 @@ bool				ray_sphere_intersect(
 
 float3		pathtrace(
 		__global const t_scene *scene,
-#ifdef RENDER_OBJECTS
 		__global const t_object *objects,
-#endif // RENDER_OBJECTS
-#ifdef RENDER_MESH
 		__global const t_mesh_info *meshes_info,
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
-# ifdef RENDER_MESH_VTEXTURES
 		__global const float3 *v_textures,
-# endif
-#endif // RENDER_MESH
 		__global const t_renderer_params *params,
 		t_ray ray,
 		int depth,

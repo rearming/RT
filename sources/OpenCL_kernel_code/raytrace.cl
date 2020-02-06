@@ -29,19 +29,13 @@ float3		shade(
 
 float3		raytrace(
 		__global const t_scene *scene,
-#ifdef RENDER_OBJECTS
 		__global const t_object *objects,
-#endif
 		__global const t_light *lights,
-#ifdef RENDER_MESH
 		__global const t_mesh_info *meshes_info,
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
-# ifdef RENDER_MESH_VTEXTURES
 		__global const float3 *v_textures,
-# endif
-#endif
 		__global const t_renderer_params *params,
 		t_ray ray)
 {
@@ -53,14 +47,7 @@ float3		raytrace(
 	for (int i = 0; i < params->raytrace_params.max_depth; ++i)
 	{
 		best_hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
-		closest_intersection(scene,
-#ifdef RENDER_OBJECTS
-				objects,
-#endif // RENDER_OBJECTS
-#ifdef RENDER_MESH
-		polygons, vertices, v_normals,
-#endif
-		&ray, &best_hit, &closest_polygon_index, &closest_obj_index);
+		closest_intersection(scene, objects, polygons, vertices, v_normals, &ray, &best_hit, &closest_polygon_index, &closest_obj_index);
 		float		light_intensity = 0;
 		t_material	hit_material;
 #ifdef RENDER_OBJECTS
@@ -68,12 +55,7 @@ float3		raytrace(
 		{
 			hit_material = objects[closest_obj_index].material;
 			if (hit_material.transmittance <= 0)
-				light_intensity = compute_light(scene, lights, objects,
-# ifdef RENDER_MESH
-						meshes_info,
-						polygons, vertices, v_normals,
-# endif // RENDER_MESH
-						&best_hit, &ray, &hit_material);
+				light_intensity = compute_light(scene, lights, objects, meshes_info, polygons, vertices, v_normals, v_textures, &best_hit, &ray, &hit_material);
 			result_color += ray.energy
 					* light_intensity
 					* shade(&ray, &best_hit, &hit_material);
@@ -87,12 +69,7 @@ float3		raytrace(
 		{
 			t_material	polygon_material = get_polygon_material(meshes_info, polygons, closest_polygon_index);
 			if (polygon_material.transmittance <= 0)
-				light_intensity = compute_light(scene, lights,
-# ifdef RENDER_OBJECTS
-						objects,
-# endif
-						meshes_info,
-						polygons, vertices, v_normals, &best_hit, &ray, &polygon_material);
+				light_intensity = compute_light(scene, lights, objects, meshes_info, polygons, vertices, v_normals, v_textures, &best_hit, &ray, &polygon_material);
 			result_color += ray.energy
 					* light_intensity
 					* shade(&ray, &best_hit, &polygon_material);

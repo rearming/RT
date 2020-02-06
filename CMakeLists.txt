@@ -34,7 +34,6 @@ set(sources
         sources/math_utils/rt_rotation_utils.c
         sources/math_utils/rt_cl_float3_utils.c
         sources/debug/rt_debug_info.c
-        includes/rt_debug.h
         sources/debug/rt_debug_print_utils.c
         sources/rt_parsing/rt_correct_scene.c
         sources/utils/rt_color_utils.c

@@ -1,18 +1,12 @@
 
 float3		pathtrace(
 		__global const t_scene *scene,
-#ifdef RENDER_OBJECTS
 		__global const t_object *objects,
-#endif // RENDER_OBJECTS
-#ifdef RENDER_MESH
 		__global const t_mesh_info *meshes_info,
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
-# ifdef RENDER_MESH_VTEXTURES
 		__global const float3 *v_textures,
-# endif
-#endif // RENDER_MESH
 		__global const t_renderer_params *params,
 		t_ray ray,
 		int depth,
@@ -27,14 +21,7 @@ float3		pathtrace(
 	for (int i = 0; i < params->pathtrace_params.max_depth; ++i)
 	{
 		hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
-		closest_intersection(scene,
-#ifdef RENDER_OBJECTS
-				objects,
-#endif // RENDER_OBJECTS
-#ifdef RENDER_MESH
-				polygons, vertices, v_normals,
-#endif // RENDER_MESH
-				&ray, &hit, &closest_polygon_index, &closest_obj_index);
+		closest_intersection(scene, objects, polygons, vertices, v_normals, &ray, &hit, &closest_polygon_index, &closest_obj_index);
 		result_color += ray.energy;
 
 		float3	shade_color;
