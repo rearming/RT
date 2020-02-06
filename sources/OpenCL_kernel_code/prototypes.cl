@@ -177,6 +177,24 @@ float3		rand_dir_on_hemisphere(
 		float2 pixel,
 		float phong_alpha);
 
+void		calc_refraction_pathtrace(
+		t_ray *ray,
+		t_rayhit *hit,
+		t_material *material,
+		float3 color,
+		float *seed,
+		float2 pixel,
+		float chance);
+
+void		calc_reflection_pathtrace(
+		t_ray *ray,
+		t_rayhit *hit,
+		t_material *material,
+		float3 color,
+		float *seed,
+		float2 pixel,
+		float chance);
+
 float3		shade_pathtrace(
 		t_ray *ray,
 		t_rayhit *hit,

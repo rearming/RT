@@ -152,11 +152,11 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 			.center = {{1, -1.5f, 0}},
 			.radius = 1.f};
 
-	objects[8] = (t_object){.type = SPHERE, // big specular sphere
-			(t_material){.diffuse = get_float3_color(0), .specular = get_float3_color(COL_GOLD),
+	objects[8] = (t_object){.type = SPHERE, // specular sphere
+			(t_material){.diffuse = get_float3_color(0), .specular = get_float3_color(COL_LIGHT_GREEN), .transmittance = 0.5,
 				.phong_exp = 200, .smoothness = 1000},
 			.center = {{-1, -0.5f, -2.5}},
-			.radius = 1.5f};
+			.radius = 1.f};
 //
 //	objects[8] = (t_object){.type = SPHERE, // big sphere with transmittance
 //			(t_material){.diffuse = get_float3_color(0), .specular = get_float3_color(COL_DARK_PURPLE),
