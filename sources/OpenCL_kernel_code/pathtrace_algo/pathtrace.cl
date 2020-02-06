@@ -28,12 +28,15 @@ float3		pathtrace(
 		t_material	hit_material;
 		if (get_hit_material(&hit_material, objects, meshes_info, polygons, vertices, v_normals, v_textures, closest_obj_index, closest_polygon_index))
 		{
-			result_color += ray.energy * shade_pathtrace(&ray, &hit, hit_material, seed, pixel);
+			if (hit_material.texture_number >= 0)
+				result_color += ray.energy * texture_shade_pathtrace(&texture_info[hit_material.texture_number], texture_list, &objects[closest_obj_index], &ray, &hit, hit_material, seed, pixel);
+			else
+				result_color += ray.energy * shade_pathtrace(&ray, &hit, hit_material, seed, pixel);
 		}
 		else
 		{
+			result_color += ray.energy * skybox_color(&texture_info[1], texture_list, skybox_normal(ray));
 			ray.energy = 0;
-			result_color *= skybox_color(&texture_info[1], texture_list, skybox_normal(ray));
 		}
 		if (!ray_has_energy(&ray))
 			break;
