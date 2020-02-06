@@ -178,8 +178,7 @@ float3		pathtrace(
 		t_ray ray,
 		int depth,
 		float *seed,
-		float2 pixel
-);
+		float2 pixel);
 
 void		create_coordinate_system(float3 normal, float3 *normal_x, float3 *normal_z);
 

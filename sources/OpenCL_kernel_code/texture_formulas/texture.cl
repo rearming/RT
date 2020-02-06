@@ -22,6 +22,7 @@ float3 texture(t_ray *out_ray,
 	int		coord;
 	float3	color;
 
+
 	u = atan2(hit->normal.x, hit->normal.z) + object->material.texture_position.x;
 	if (u < 0)
 		u += 2 * M_PI_F;

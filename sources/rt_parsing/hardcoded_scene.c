@@ -146,21 +146,16 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 			.center = {{0, 2.5, 0}},
 			.radius = 1.f};
 
-	objects[7] = (t_object){.type = SPHERE, // small diffuse sphere
-			(t_material){.specular = {{1, 1, 1}}, .phong_exp = 0, .smoothness = 10000, .texture_number = 2, .specular_texture = 0 },
+	objects[7] = (t_object){.type = SPHERE,
+			(t_material){.diffuse = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 10000, .texture_number = 0, .specular_texture = 0 },
 			.center = {{1, -1.5f, 0}},
 			.radius = 1.f};
 
 	objects[8] = (t_object){.type = SPHERE, // specular sphere
-			(t_material){.diffuse = get_float3_color(0), .specular = get_float3_color(COL_LIGHT_GREEN), .transmittance = 0.5,
+			(t_material){.diffuse = get_float3_color(0), .specular = get_float3_color(COL_LIGHT_GREEN), .transmittance = 0.5, .refraction = 0,
 				.phong_exp = 200, .smoothness = 1000},
 			.center = {{-1, -0.5f, -2.5}},
 			.radius = 1.f};
-//
-	objects[8] = (t_object){.type = SPHERE, // big sphere with transmittance
-			(t_material){.diffuse = get_float3_color(COL_DARK_GREEN), .phong_exp = 0, .smoothness = 100, .texture_number = 0, .texture_position = {{0, 0.0, 0.0}}, .specular_texture = 1.0 },
-			.center = {{-1, -0.5f, -1}},
-			.radius = 1.5f};
 
 //	objects[8] = (t_object){.type = TRIANGLE,
 //			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0.9f, 0.9f, 0.9f}}, .smoothness = 5000},
