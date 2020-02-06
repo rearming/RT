@@ -42,7 +42,10 @@ float3		pathtrace(
 			}
 #endif // RENDER_MESH
 		else
-			shade_color = shade_pathtrace(&ray, &hit, (t_material){}, seed, pixel);
+		{
+			ray.energy = 0;
+			shade_color = get_float3_color(COL_BLACK);
+		}
 
 		/// можно раскомментить, чтобы цвета светящихся объектов где emisson_power больше 1 были не белыми
 //		if (i == 0 && round(fast_length(shade_color)) != 0)

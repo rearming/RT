@@ -49,6 +49,8 @@ float				compute_light(
 {
 	float		intensity = 0.0f;
 
+	if (hit_material->transmittance > 0)
+		return 0.0f;
 	for (int i = 0; i < scene->lights_nbr; ++i)
 	{
 		float3		light_dir;

@@ -4,27 +4,43 @@ float3		shade(
 		t_rayhit *hit,
 		t_material *material)
 {
-	if (hit->distance < INFINITY)
+	if (material->transmittance <= 0) // if not transmit
 	{
-		if (material->transmittance <= 0)
-		{
-			ray->origin = hit->pos + hit->normal * RT_EPSILON;
-			ray->dir = reflect(ray->dir, hit->normal);
-			ray->energy *= material->specular;
-		}
-		else
-		{
-			ray->origin = hit->pos;
-			ray->dir = convex_refract(ray->dir, hit->normal, material->refraction);
-			ray->energy *= material->specular;
-		}
-		return material->emission_power > 0 ? material->emission_color : material->diffuse;
+		ray->origin = hit->pos + hit->normal * RT_EPSILON;
+		ray->dir = reflect(ray->dir, hit->normal);
+		ray->energy *= material->specular; // if material is diffuse -> material->specular == 0 -> energy = 0;
 	}
 	else
 	{
-		ray->energy = 0;
-		return get_float3_color(COL_BG);
+		ray->origin = hit->pos;
+		ray->dir = convex_refract(ray->dir, hit->normal, material->refraction);
+		ray->energy *= material->specular;
 	}
+	return material->emission_power > 0 ? material->emission_color : material->diffuse;
+}
+
+bool		get_hit_material(
+		t_material *out_material,
+		__global const t_object *objects,
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		__global const float3 *v_textures,
+		int closest_obj_index,
+		int closest_polygon_index)
+{
+	if (isset(closest_obj_index))
+	{
+		*out_material = objects[closest_obj_index].material;
+		return true;
+	}
+	else if (isset(closest_polygon_index))
+	{
+		*out_material = get_polygon_material(meshes_info, polygons, closest_polygon_index);
+		return true;
+	}
+	return false;
 }
 
 float3		raytrace(
@@ -48,33 +64,14 @@ float3		raytrace(
 	{
 		best_hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
 		closest_intersection(scene, objects, polygons, vertices, v_normals, &ray, &best_hit, &closest_polygon_index, &closest_obj_index);
-		float		light_intensity = 0;
+
 		t_material	hit_material;
-#ifdef RENDER_OBJECTS
-		if (closest_obj_index != NOT_SET)
+		if (get_hit_material(&hit_material, objects, meshes_info, polygons, vertices, v_normals, v_textures, closest_obj_index, closest_polygon_index))
 		{
-			hit_material = objects[closest_obj_index].material;
-			if (hit_material.transmittance <= 0)
-				light_intensity = compute_light(scene, lights, objects, meshes_info, polygons, vertices, v_normals, v_textures, &best_hit, &ray, &hit_material);
 			result_color += ray.energy
-					* light_intensity
-					* shade(&ray, &best_hit, &hit_material);
+				* compute_light(scene, lights, objects, meshes_info, polygons, vertices, v_normals, v_textures, &best_hit, &ray, &hit_material)
+				* shade(&ray, &best_hit, &hit_material);
 		}
-# ifdef RENDER_MESH
-		else //чтобы else был только когда (RENDER_OBJECTS | RENDER_MESH)
-# endif
-#endif // RENDER_OBJECTS
-#ifdef RENDER_MESH
-			if (closest_polygon_index != NOT_SET)
-		{
-			t_material	polygon_material = get_polygon_material(meshes_info, polygons, closest_polygon_index);
-			if (polygon_material.transmittance <= 0)
-				light_intensity = compute_light(scene, lights, objects, meshes_info, polygons, vertices, v_normals, v_textures, &best_hit, &ray, &polygon_material);
-			result_color += ray.energy
-					* light_intensity
-					* shade(&ray, &best_hit, &polygon_material);
-		}
-#endif // RENDER_MESH
 		else
 		{
 			ray.energy = 0;

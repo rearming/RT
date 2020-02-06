@@ -69,7 +69,7 @@ __kernel void	rt_main(
  	__global const t_polygon	*polygons = 0;
  	__global const float3		*vertices = 0;
  	__global const float3 		*v_normals = 0;
-#wwwwwwendif
+#endif
 #ifndef RENDER_MESH_VTEXTURES
  	__global const float3		*v_textures = 0;
 #endif
