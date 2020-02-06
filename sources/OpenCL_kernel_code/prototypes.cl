@@ -34,17 +34,6 @@ float3		shade(
 		t_rayhit *hit,
 		t_material *material);
 
-bool		get_hit_material(
-		t_material *out_material,
-		__global const t_object *objects,
-		__global const t_mesh_info *meshes_info,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
-		__global const float3 *v_textures,
-		int closest_obj_index,
-		int closest_polygon_index);
-
 float3		raytrace(
 		__global const t_scene *scene,
 		__global const t_object *objects,
@@ -56,6 +45,17 @@ float3		raytrace(
 		__global const float3 *v_textures,
 		__global const t_renderer_params *params,
 		t_ray ray);
+
+bool		get_hit_material(
+		t_material *out_material,
+		__global const t_object *objects,
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		__global const float3 *v_textures,
+		int closest_obj_index,
+		int closest_polygon_index);
 
 float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point);
 

@@ -8,6 +8,7 @@
 #include "color_utils.cl"
 
 #include "utils.cl"
+#include "render_utils.cl"
 #include "math_utils.cl"
 #include "ray_trianlge_intersection.cl"
 #include "simple_object_intersections.cl"
