@@ -98,4 +98,11 @@ cl_float3	mul_float3(cl_float3 vec, float mul);
 
 cl_float3	get_float3_color(int hex_color);
 
+
+/*
+** Nuklear_cross
+*/
+
+t_nk_main 		nuklear_cross_init();
+
 #endif

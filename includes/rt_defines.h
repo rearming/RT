@@ -124,4 +124,11 @@
 
 # define ROTATION_SPEED 0.05
 
+/*
+** Nuklear cross
+*/
+# define RT_GUI_NAME "Dota 5 Tools"
+# define RT_NK_WIDTH 640
+# define RT_NK_HEIGHT 480
+
 #endif

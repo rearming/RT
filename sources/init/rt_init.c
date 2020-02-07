@@ -14,8 +14,8 @@ void		rt_init_raytrace_params(t_raytrace_params *out_raytrace_params)
 
 void		rt_init_opencl_params(t_opencl_params *out_opencl_params)
 {
-//	out_opencl_params->render_algo = RAY_TRACE;
-	out_opencl_params->render_algo = PATH_TRACE;
+	out_opencl_params->render_algo = RAY_TRACE;
+//	out_opencl_params->render_algo = PATH_TRACE;
 	out_opencl_params->seed = drand48();
 	out_opencl_params->gamma = 2.2f;
 	out_opencl_params->exposure = 1;

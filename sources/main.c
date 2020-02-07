@@ -1,4 +1,6 @@
+#define NKC_IMPLEMENTATION
 #include "rt.h"
+#include "nuklear_cross.h"
 
 t_opencl	g_opencl;
 t_sdl		g_sdl;
@@ -14,6 +16,11 @@ int		main(int argc, char **argv)
 		rt_raise_error(ERR_INV_ARGS_NUM);
 	rt_init(&rt, NULL);
 	rt_render(&rt, &rt_opencl_render);
+//	nuklear_cross_init();
 	rt_loop(&rt);
 	return (rt_exit_clean());
 }
+
+
+
+

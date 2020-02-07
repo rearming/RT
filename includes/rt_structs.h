@@ -328,4 +328,28 @@ typedef struct			s_cl_concat_kernel_code
 }						t_cl_concat_kernel_code;
 # endif
 
+/*
+** Nuklear cross structures
+*/
+
+enum					radioOptions
+{
+						EASY,
+						HARD
+};
+
+struct					my_nkc_app
+{
+	struct nkc*			nkcHandle;
+
+	float				value;
+	enum radioOptions	op;
+};
+
+typedef struct			s_nk_main
+{
+	struct my_nkc_app	myapp;
+	void*				loop_func;
+}						t_nk_main;
+
 #endif

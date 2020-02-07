@@ -64,28 +64,39 @@ message("graphic_libs_include_dirs: " ${graphic_libs_include_dirs})
 message("graphic_libs_dirs: " ${graphic_libs_dirs})
 message("graphic_libs_link_names: " ${graphic_libs_link_names})
 
+find_library(OPENGL OpenGL)
+
+set(nuklear_includes
+        nuklear_cross
+        nuklear_cross/nkc_frontend/
+        nuklear_cross/nkc_frontend/helpers
+        nuklear_cross/nuklear_drivers)
+
 include_directories(
         libft/includes
         includes
         ${graphic_libs_include_dirs}
-        )
+        ${nuklear_includes}
+)
 
 link_directories(
         libft
         libft/ft_printf
         ${graphic_libs_dirs}
+        nuklear_cross
 )
 
 add_executable(RT
         sources/main.c
         ${sources}
-)
+        sources/init/nuklear_init.c)
 
 target_link_libraries(RT
         "ftprintf"
         "ft"
         ${graphic_libs_link_names}
         "m"
+        ${OPENGL}
         )
 
 # <----TESTING----> #
