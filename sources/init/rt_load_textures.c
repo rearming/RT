@@ -88,7 +88,7 @@ static unsigned char	*resize_image(unsigned char *tmp_texture,
 	new_width = new_height * g_textures.texture_info[texture_num].width
 				/ g_textures.texture_info[texture_num].height;
 	resized_texture = (unsigned char *)rt_safe_malloc(sizeof(unsigned char)
-													  * new_width * new_height * 3);
+			 * new_width * new_height * 3);
 	stbir_resize_uint8(tmp_texture, g_textures.texture_info[texture_num].width,
 					   g_textures.texture_info[texture_num].height, 0,
 					   resized_texture, new_width, new_height, 0, STBI_rgb);
@@ -100,38 +100,25 @@ static unsigned char	*resize_image(unsigned char *tmp_texture,
 
 void			rt_textures_init(void)
 {
-	int				i;
-	DIR				*dir;
-	struct dirent	*entry;
-	char			*tmp_filename;
+	int		i;
+	char		*tmp_filename;
 	unsigned char	*tmp_texture;
-	t_list	*iter;
+	t_list		*iter;
 
 	iter = g_textures.textures_name;
 	i = init_basic_textures_parameters();
 	while (iter)
 	{
 		tmp_filename = NULL;
-		if (ft_strchr((char *)iter->content, 47) != NULL)
+		if (ft_strchr((char *)iter->content, 46) != NULL)
 			tmp_filename = (char *)iter->content;
 		else
-		{
-			if (!(dir = opendir(textures_folder)))
-				return (rt_raise_error(ERR_INVALID_TEXRTURE_DIR));
-			while ((entry = readdir(dir)) != NULL) {
-				if (ft_strequ(entry->d_name, (char *)iter->content))
-				{
-					tmp_filename = ft_strjoin(textures_folder, entry->d_name);
-					break;
-				}
-			}
-			closedir(dir);
-		}
+			tmp_filename = ft_strjoin(textures_folder, entry->d_name);
 		if (tmp_filename == NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		tmp_texture = stbi_load(tmp_filename, &g_textures.texture_info[i].width,
-								&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp,
-								STBI_rgb);
+			&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp,
+			STBI_rgb);
 		if (g_textures.texture_info[i].height > WIN_HEIGHT * SCALE_HEIGHT * 3) //есть какой-то размер при котором картинка плохо растягивается и плохо сжимается
 			tmp_texture = resize_image(tmp_texture, i, 3 * WIN_HEIGHT);
 		rt_add_start_position(i);
