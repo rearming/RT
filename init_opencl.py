@@ -6,11 +6,13 @@ import re
 import os
 
 
+meshes_dir_path = "./assets/3d_models/"
+kernel_sources_path = "./sources/OpenCL_kernel_code/"
 prototypes_file_name = "prototypes.cl"
 
 
 def get_opencl_files_names():
-    names = [glob.glob(sys.argv[1] + "/**/" + "*.cl", recursive=True)]
+    names = [glob.glob(kernel_sources_path + "**/" + "*.cl", recursive=True)]
     return names
 
 
@@ -40,31 +42,31 @@ def update_opencl_header():
             result_str += ")"
         result_str += ";\n"
 
-    result_file = open(sys.argv[1] + "/" + prototypes_file_name, 'w')
+    result_file = open(kernel_sources_path + "/" + prototypes_file_name, 'w')
     result_file.seek(0)
     result_file.write(result_str + "\n")
     result_file.close()
 
 
-# def update_opencl_include_dirs():
-#     updated_file_path = "./includes/rt_defines.h"
-#     file = open(updated_file_path, "r")
-#     file_text = file.read()
-#     file.close()
-#
-#     all_dirs = [x[0] for x in os.walk(sys.argv[1])]
-#     print(all_dirs)
-#
-#     matches = re.findall(r"(\" -I \.(?:\/\w+)+\"( \\)*\s*)", file_text)
-#     print(matches)
-#     # re.sub()
-#
-#     result_file = open(updated_file_path, 'w')
-#     result_file.seek(0)
-#     result_file.write(file_text)
+def correct_mtl_path():
+    obj_files = glob.glob(meshes_dir_path + "*.obj", recursive=True)
+    mtl_file_paths = glob.glob(meshes_dir_path + "*.mtl", recursive=True)
+
+    mtl_file_names = list(map(lambda name: (re.findall(r"(?:[^/]+)\.mtl", name)[0]), mtl_file_paths))
+
+    for obj_file in obj_files:
+        file = open(obj_file, 'r')
+        file_text = file.read()
+        file.close()
+        for i in range(len(mtl_file_names)):
+            file_text = re.sub(r"(?<=mtllib[\s])((?:[^/])+\.mtl)", mtl_file_paths[i], file_text)
+        file = open(obj_file, 'w')
+        file.seek(0)
+        file.write(file_text)
+        file.close()
 
 
 cl_files_names = get_opencl_files_names()
 pwd = os.path.dirname(os.path.realpath(__file__))
 update_opencl_header()
-# update_opencl_kernel_files()
+correct_mtl_path()
