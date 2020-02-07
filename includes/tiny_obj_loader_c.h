@@ -146,12 +146,12 @@ static void skip_space_and_cr(const char **token) {
 }
 
 static int until_space(const char *token) {
-  const char *p = token;
-  while (p[0] != '\0' && p[0] != ' ' && p[0] != '\t' && p[0] != '\r') {
-    p++;
+  const char *pos = token;
+  while (pos[0] != '\0' && pos[0] != ' ' && pos[0] != '\t' && pos[0] != '\r') {
+    pos++;
   }
 
-  return (int)(p - token);
+  return (int)(pos - token);
 }
 
 static size_t length_until_newline(const char *token, size_t n) {
@@ -453,8 +453,8 @@ static void parseFloat3(float *x, float *y, float *z, const char **token) {
 }
 
 static size_t my_strnlen(const char *s, size_t n) {
-    const char *p = memchr(s, 0, n);
-    return p ? (size_t)(p - s) : n;
+    const char *pos = memchr(s, 0, n);
+    return pos ? (size_t)(pos - s) : n;
 }
 
 static char *my_strdup(const char *s, size_t max_length) {
@@ -1013,13 +1013,13 @@ typedef struct {
   CommandType type;
 } Command;
 
-static int parseLine(Command *command, const char *p, size_t p_len,
+static int parseLine(Command *command, const char *pos, size_t p_len,
                      int triangulate) {
   char linebuf[4096];
   const char *token;
   assert(p_len < 4095);
 
-  memcpy(linebuf, p, p_len);
+  memcpy(linebuf, pos, p_len);
   linebuf[p_len] = '\0';
 
   token = linebuf;
@@ -1134,7 +1134,7 @@ static int parseLine(Command *command, const char *p, size_t p_len,
     token += 7;
 
     skip_space(&token);
-    command->material_name = p + (token - linebuf);
+    command->material_name = pos + (token - linebuf);
     command->material_name_len = (unsigned int)length_until_newline(
                                                                     token, (p_len - (size_t)(token - linebuf)) + 1);
     command->type = COMMAND_USEMTL;
@@ -1148,7 +1148,7 @@ static int parseLine(Command *command, const char *p, size_t p_len,
     token += 7;
 
     skip_space(&token);
-    command->mtllib_name = p + (token - linebuf);
+    command->mtllib_name = pos + (token - linebuf);
     command->mtllib_name_len = (unsigned int)length_until_newline(
                                                                   token, p_len - (size_t)(token - linebuf)) +
       1;
@@ -1162,7 +1162,7 @@ static int parseLine(Command *command, const char *p, size_t p_len,
     /* @todo { multiple group name. } */
     token += 2;
 
-    command->group_name = p + (token - linebuf);
+    command->group_name = pos + (token - linebuf);
     command->group_name_len = (unsigned int)length_until_newline(
                                                                  token, p_len - (size_t)(token - linebuf)) +
       1;
@@ -1176,7 +1176,7 @@ static int parseLine(Command *command, const char *p, size_t p_len,
     /* @todo { multiple object name? } */
     token += 2;
 
-    command->object_name = p + (token - linebuf);
+    command->object_name = pos + (token - linebuf);
     command->object_name_len = (unsigned int)length_until_newline(
                                                                   token, p_len - (size_t)(token - linebuf)) +
       1;
@@ -1193,11 +1193,11 @@ typedef struct {
   size_t len;
 } LineInfo;
 
-static int is_line_ending(const char *p, size_t i, size_t end_i) {
-  if (p[i] == '\0') return 1;
-  if (p[i] == '\n') return 1; /* this includes \r\n */
-  if (p[i] == '\r') {
-    if (((i + 1) < end_i) && (p[i + 1] != '\n')) { /* detect only \r case */
+static int is_line_ending(const char *pos, size_t i, size_t end_i) {
+  if (pos[i] == '\0') return 1;
+  if (pos[i] == '\n') return 1; /* this includes \r\n */
+  if (pos[i] == '\r') {
+    if (((i + 1) < end_i) && (pos[i + 1] != '\n')) { /* detect only \r case */
       return 1;
     }
   }

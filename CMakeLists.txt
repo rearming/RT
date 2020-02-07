@@ -109,12 +109,22 @@ target_link_libraries(RT
 
 # <----TESTING----> #
 
+
+set(kd_tree_test
+        sources/test/kd_tree_test/test_kd_tree_utils.c
+        sources/test/kd_tree_test/test_kd_2d_tree_build.c sources/test/kd_tree_test/test_kd_tree_main.c)
+
 add_executable(test
         ${sources}
+        ${kd_tree_test}
         sources/test/test_main.c
-        sources/test/test_utils.c
-        sources/test/test_opencl.c
-        sources/test/test_lerp.c)
+#        sources/test/test_utils.c
+#        sources/test/test_opencl.c
+#        sources/test/test_lerp.c
+        )
+
+target_include_directories(test PRIVATE
+        sources/test)
 
 target_link_libraries(test
         "ftprintf"

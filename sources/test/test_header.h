@@ -14,4 +14,6 @@ void		rt_test_opencl(void);
 
 double		lerp_avg(double *test_arr, int arr_size);
 
+void 		test_kd_tree_main(void);
+
 #endif
