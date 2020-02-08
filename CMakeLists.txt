@@ -112,7 +112,7 @@ target_link_libraries(RT
 
 set(kd_tree_test
         sources/test/kd_tree_test/test_kd_tree_utils.c
-        sources/test/kd_tree_test/test_kd_2d_tree_build.c sources/test/kd_tree_test/test_kd_tree_main.c)
+        sources/test/kd_tree_test/kd_2d_tree_build.c sources/test/kd_tree_test/test_kd_tree_main.c sources/test/kd_tree_test/kd_2d_tree_bulild_utils.c sources/test/kd_tree_test/test_kd_2d_tree.c sources/test/test_asserts.c)
 
 add_executable(test
         ${sources}
