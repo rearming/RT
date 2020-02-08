@@ -25,8 +25,10 @@ void		kd_fill_positions(void)
 	{
 		for (int x = 0; x < WIDTH; ++x)
 		{
-			if (g_test_kd_scene[y][x].index != -1)
+			if (g_test_kd_scene[y][x].index != NOT_SET)
+			{
 				g_test_kd_scene[y][x].index = ++index;
+			}
 			g_test_kd_scene[y][x].pos = (cl_float2){.x = x, .y = y};
 			get_kd_obj_bounds(&g_test_kd_scene[y][x]);
 //			printf("x: [%i] y: [%i]\n", g_test_kd_scene[y][x].pos.x, g_test_kd_scene[y][x].pos.y);

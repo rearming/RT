@@ -4,11 +4,19 @@
 # define WIDTH 7
 # define HEIGHT 6
 
+# define MIN_OBJ_IN_LEAF 0
+# define BUCKETS 10
+# define EMPTY_COST 1
+// все эти параметры нуждаются в корректировке
+// на основе тестов производительности
+
+# define MAX_HEIGHT 3
+
+# define AXIS 2
 # define X_AXIS 0
 # define Y_AXIS 1
-# define Z_AXIS 2
 
-# define MAX_HEIGHT 2
+# define Z_AXIS 2
 
 # ifdef __APPLE__
 #  include <OpenCL/opencl.h>
@@ -74,7 +82,8 @@ void		kd_print_scene(void);
 void		kd_print_node(t_kd_tree *node);
 void		print_kd_tree(t_kd_tree *root, int level);
 
-void		build_kd_tree(t_kd_tree **tree, t_bounds bounds, int level);
+void		build_kd_tree(t_kd_tree **tree, t_bounds bounds, t_kd_obj *objects, int level);
 int			kd_get_split_axis(t_bounds bounds);
+float		get_surface_area(t_bounds bounds);
 
 #endif
