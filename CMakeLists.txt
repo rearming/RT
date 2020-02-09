@@ -32,7 +32,6 @@ set(sources
         sources/math_utils/rt_rotation_utils.c
         sources/math_utils/rt_cl_float3_utils.c
         sources/debug/rt_debug_info.c
-        includes/rt_debug.h
         sources/debug/rt_debug_print_utils.c
         sources/rt_parsing/rt_correct_scene.c
         sources/utils/rt_color_utils.c
@@ -54,9 +53,9 @@ set(sources
         sources/init/rt_init_render_params.c
         sources/OpenCL_utils/rt_opencl_prepare_memory.c
         sources/render/rt_update_params.c
+        sources/debug/rt_print_object.c
         sources/init/rt_load_textures.c
-        sources/init/rt_load_textures_utils.c
-        )
+        sources/init/rt_load_textures_utils.c)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INCLUDE(FindPkgConfig)

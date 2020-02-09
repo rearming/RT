@@ -8,6 +8,7 @@
 #include "color_utils.cl"
 
 #include "utils.cl"
+#include "render_utils.cl"
 #include "math_utils.cl"
 #include "ray_trianlge_intersection.cl"
 #include "simple_object_intersections.cl"
@@ -55,8 +56,10 @@ __kernel void	rt_main(
 #ifdef RENDER_PATHTRACE
     __global float3 *img_data_float,
 #endif
+#ifdef RENDER_TEXTURES
     __global const t_texture_info *texture_info,
 	__global const float *texture_list,
+#endif
     __global int *img_data)
 {
 	int			g_id = get_global_id(0);
@@ -68,34 +71,36 @@ __kernel void	rt_main(
 	float3		new_color = 0;
 	float		seed = params->seed;
 
+#ifndef RENDER_RAYTRACE
+	__global const t_light		*lights = 0;
+#endif
+#ifndef RENDER_OBJECTS
+	__global const t_object		*objects = 0;
+#endif
+#ifndef RENDER_MESH
+ 	__global const t_mesh_info	*meshes_info = 0;
+ 	__global const t_polygon	*polygons = 0;
+ 	__global const float3		*vertices = 0;
+ 	__global const float3 		*v_normals = 0;
+#endif
+#ifndef RENDER_MESH_VTEXTURES
+ 	__global const float3		*v_textures = 0;
+#endif
+#ifndef RENDER_TEXTURES
+ 	__global const t_texture_info *texture_info;
+	__global const float *texture_list;
+#endif
+
 #ifdef RENDER_PATHTRACE
 	float3		prev_color = img_data_float[g_id];
-	new_color = pathtrace(scene,
-# ifdef RENDER_OBJECTS
-			objects,
-# endif // RENDER_OBJECTS
-# ifdef RENDER_MESH
-		meshes_info, polygons, vertices, v_normals,
-# endif // RENDER_MESH
+	new_color = pathtrace(scene, objects, meshes_info, polygons, vertices, v_normals, v_textures,
 		params, texture_info, texture_list, ray, params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1));
 	final_color = mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num);
 	img_data_float[g_id] = final_color;
 #endif // RENDER_PATHTRACE
 
 #ifdef RENDER_RAYTRACE
-	final_color = raytrace(scene,
-# ifdef RENDER_OBJECTS
-		objects,
-# endif
-		lights,
-# ifdef RENDER_MESH
-		meshes_info, polygons, vertices, v_normals,
-#  ifdef RENDER_MESH_VTEXTURES
-		v_textures,
-#  endif
-# endif // RENDER_MESH
-		params, texture_info, texture_list, ray);
+	final_color = raytrace(scene, objects, lights, meshes_info, polygons, vertices, v_normals, v_textures, params, texture_info, texture_list, ray);
 #endif // RENDER_RAYTRACE
 	img_data[g_id] = get_int_color(correct_hdr(params->gamma, params->exposure, final_color));
-
 }

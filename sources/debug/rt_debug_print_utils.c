@@ -17,6 +17,7 @@ void		rt_print_material(const t_material *material)
 	rt_print_float3_color(material->diffuse, "diffuse");
 	rt_print_float3_color(material->specular, "specular");
 	ft_printf("smoothness: [%.2f]\n", material->smoothness);
+	ft_printf("phong exponent: [%.2f]\n", material->phong_exp);
 	ft_printf("refraction: [%.2f]\n", material->refraction);
 	ft_printf("transmittance: [%.2f]\n", material->transmittance);
 	if (material->emission_power > 0)

@@ -1,14 +1,10 @@
 
 void				closest_intersection(
 		__global const t_scene *scene,
-#ifdef RENDER_OBJECTS
 		__global const t_object *objects,
-#endif
-#ifdef RENDER_MESH
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
-#endif
 		t_ray *ray,
 		t_rayhit *out_best_hit,
 		int *out_closest_polygon_index,
