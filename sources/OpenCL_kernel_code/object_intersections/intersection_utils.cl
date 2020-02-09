@@ -25,6 +25,10 @@ void				closest_intersection(
 					if (ray_plane_intersect(ray, objects[i].center, objects[i].normal, out_best_hit))
 						*out_closest_obj_index = i;
 					break;
+				case (CONE):
+					if (ray_cone_intersect(ray, objects[i].center, objects[i].normal, out_best_hit))
+						*out_closest_obj_index = i;
+					break;
 				case (TRIANGLE):
 					if (ray_triangle_intersect_MT(ray, &objects[i], out_best_hit))
 						*out_closest_obj_index = i;

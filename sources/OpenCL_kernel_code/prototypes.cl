@@ -162,7 +162,7 @@ bool				ray_plane_intersect(
 bool				ray_sphere_intersect(
 		t_ray *ray,
 		__global const t_object *sphere,
-		t_rayhit *best_hit);
+t_rayhit *best_hit);
 
 float3		pathtrace(
 		__global const t_scene *scene,
