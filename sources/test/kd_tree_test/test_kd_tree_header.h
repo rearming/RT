@@ -1,16 +1,19 @@
 #ifndef TEST_KD_TREE_HEADER_H
 # define TEST_KD_TREE_HEADER_H
 
-# define WIDTH 7
-# define HEIGHT 6
+# define KD_SCENE_WIDTH 7
+# define KD_SCENE_HEIGHT 6
+# define KD_SCENE_SIZE (KD_SCENE_WIDTH * KD_SCENE_WIDTH)
+
+# define MAX_OBJ_IN_LEAF 3
 
 # define MIN_OBJ_IN_LEAF 0
-# define BUCKETS 10
+# define BUCKETS 32
 # define EMPTY_COST 1
 // все эти параметры нуждаются в корректировке
 // на основе тестов производительности
 
-# define MAX_HEIGHT 3
+extern int g_max_height;
 
 # define AXIS 2
 # define X_AXIS 0
@@ -70,20 +73,29 @@ typedef struct	s_kd_tree
 	t_kd_tree	*right;
 	t_kd_tree	*left;
 	t_bounds	bounds;
+	float		sah;
+	int			indices[MAX_OBJ_IN_LEAF];
 	int			obj_num;
 }				t_kd_tree;
 
-extern t_kd_obj		g_test_kd_scene[HEIGHT][WIDTH];
+extern t_kd_obj		g_test_kd_scene[KD_SCENE_HEIGHT][KD_SCENE_WIDTH];
 
 void		print_cl_float2(cl_float2 vec);
 
 void		kd_fill_positions(void);
 void		kd_print_scene(void);
 void		kd_print_node(t_kd_tree *node);
-void		print_kd_tree(t_kd_tree *root, int level);
+void		print_kd_tree(t_kd_tree *root);
 
 void		build_kd_tree(t_kd_tree **tree, t_bounds bounds, t_kd_obj *objects, int level);
 int			kd_get_split_axis(t_bounds bounds);
 float		get_surface_area(t_bounds bounds);
+
+int			kd_count_obj_in_bounds(t_kd_obj *objs, t_bounds box_bounds, int out_indices[MAX_OBJ_IN_LEAF]);
+void		new_build_kd_tree(t_kd_tree *tree, t_kd_obj *objects, int level);
+void 		start_build_kd_tree(t_kd_tree *root, t_kd_obj *objects);
+
+void		kd_print_bounds(t_bounds bounds);
+void		graphic_print_kd_tree(t_kd_tree *tree, t_kd_obj *objects);
 
 #endif

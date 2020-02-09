@@ -56,7 +56,7 @@ void		rt_correct_scene(t_scene *scene);
 **	Render
 */
 
-void		rt_render(t_rt *rt, void (*render_func)(t_rt *));
+void		rt_render(void *rt_ptr, void (*render_func)(void *));
 void		rt_update_renderer_params(t_rt *rt, t_rt_renderer *renderer);
 
 /*
