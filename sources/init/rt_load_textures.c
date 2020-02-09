@@ -109,11 +109,8 @@ void			rt_textures_init(void)
 	i = init_basic_textures_parameters();
 	while (iter)
 	{
-		tmp_filename = NULL;
-		if (ft_strchr((char *)iter->content, 46) != NULL)
-			tmp_filename = (char *)iter->content;
-		else
-			tmp_filename = ft_strjoin(textures_folder, entry->d_name);
+		tmp_filename = (ft_strchr((char *)iter->content, 46) != NULL) ?
+		(char *)iter->content : ft_strjoin(textures_folder, entry->d_name);
 		if (tmp_filename == NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		tmp_texture = stbi_load(tmp_filename, &g_textures.texture_info[i].width,
@@ -122,12 +119,11 @@ void			rt_textures_init(void)
 		if (g_textures.texture_info[i].height > WIN_HEIGHT * SCALE_HEIGHT * 3) //есть какой-то размер при котором картинка плохо растягивается и плохо сжимается
 			tmp_texture = resize_image(tmp_texture, i, 3 * WIN_HEIGHT);
 		rt_add_start_position(i);
-		rt_change_format_and_add(tmp_texture, i);
+		rt_change_format_and_add(tmp_texture, i++);
 		free(tmp_filename);
 		stbi_image_free(tmp_texture);
 		if (g_textures.texture_list == NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
-		i++;
 		iter = iter->next;
 	}
 }
