@@ -12,7 +12,7 @@ int		main(int argc, char **argv)
 {
 	RT_UNUSED(argc);
 	RT_UNUSED(argv);
+	rt_sdl_init();
 	test_kd_tree_main();
-//	test_run_kd_2d_tree();
 	return 0;
 }

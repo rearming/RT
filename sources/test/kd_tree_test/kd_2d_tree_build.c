@@ -123,39 +123,13 @@ float kd_split_buckets_sah(t_bounds bounds, t_kd_obj *objects, t_bounds *out_lef
 			float		sah = calc_sah(objects, left_bounds, right_bounds);
 			if (sah < best_sah)
 			{
-				ft_printf("better sah: [%.2f]\n", sah);
 				best_sah = sah;
 				*out_left_bounds = left_bounds;
 				*out_right_bounds = right_bounds;
 			}
 		}
 	}
-	ft_printf("\n");
 	return best_sah;
-}
-
-void		build_kd_tree(t_kd_tree **tree, t_bounds bounds, t_kd_obj *objects, int level)
-{
-	int 	obj_indices[MAX_OBJ_IN_LEAF];
-	int		obj_num = kd_count_obj_in_bounds(objects, bounds, obj_indices);
-
-	if (!tree || level >= g_max_height || obj_num <= MIN_OBJ_IN_LEAF)
- 		return;
-
-	t_bounds	left_bounds;
-	t_bounds	right_bounds;
-
-	(*tree) = rt_safe_malloc(sizeof(t_kd_tree));
-	ft_memcpy((*tree)->indices, obj_indices, sizeof(int) * MAX_OBJ_IN_LEAF);
-	(*tree)->bounds = bounds;
-	(*tree)->obj_num = obj_num;
-	(*tree)->left = NULL;
-	(*tree)->right = NULL;
-
-	kd_split_buckets_sah(bounds, objects, &left_bounds, &right_bounds);
-
-	build_kd_tree(&(*tree)->left, left_bounds, objects, level + 1);
-	build_kd_tree(&(*tree)->right, right_bounds, objects, level + 1);
 }
 
 int			kd_find_matches(const int left_indices[MAX_OBJ_IN_LEAF], const int right_indices[MAX_OBJ_IN_LEAF])
@@ -174,7 +148,7 @@ int			kd_find_matches(const int left_indices[MAX_OBJ_IN_LEAF], const int right_i
 	return matches;
 }
 
-void		new_build_kd_tree(t_kd_tree *tree, t_kd_obj *objects, int level)
+void		build_kd_tree(t_kd_tree *tree, t_kd_obj *objects, int level)
 {
 	if (!tree)
 		return;
@@ -188,7 +162,7 @@ void		new_build_kd_tree(t_kd_tree *tree, t_kd_obj *objects, int level)
 	t_bounds right_bounds;
 
 	float sah = kd_split_buckets_sah(tree->bounds, objects, &left_bounds, &right_bounds);
-	if (sah > tree->sah)
+	if (sah / tree->sah > 0.8f)
 		return;
 
 	int left_obj_indices[MAX_OBJ_IN_LEAF];
@@ -201,29 +175,21 @@ void		new_build_kd_tree(t_kd_tree *tree, t_kd_obj *objects, int level)
 
 	int	matches = kd_find_matches(left_obj_indices, right_obj_indices);
 
-	if (((float) matches / (float) left_obj_num > 0.5f
-	|| (float) matches / (float) right_obj_num > 0.5f))
-		return;
+	if (((float) matches / (float) left_obj_num > 0.8f
+	|| (float) matches / (float) right_obj_num > 0.8f))
+		return; //todo проверить, нужно ли (если да - какой оптимальный коеффициент)
 
-//	if (left_obj_num == 0 || (left_obj_num > 0 && get_surface_area(objects[left_obj_indices[0]].bounds) * 1.1f < get_surface_area(left_bounds)))
-	if (get_surface_area(tree->bounds) > get_surface_area(left_bounds) * 1.1f)
-	{
-		tree->left = rt_safe_malloc(sizeof(t_kd_tree));
-		tree->left->obj_num = left_obj_num;
-		tree->left->bounds = left_bounds;
-		tree->left->sah = sah;
-		ft_memcpy(tree->left->indices, left_obj_indices, sizeof(int) * MAX_OBJ_IN_LEAF);
-		new_build_kd_tree(tree->left, objects, level + 1);
-	}
+	tree->left = rt_safe_malloc(sizeof(t_kd_tree));
+	tree->left->obj_num = left_obj_num;
+	tree->left->bounds = left_bounds;
+	tree->left->sah = sah;
+	ft_memcpy(tree->left->indices, left_obj_indices, sizeof(int) * MAX_OBJ_IN_LEAF);
+	build_kd_tree(tree->left, objects, level + 1);
 
-//	if (right_obj_num == 0 || (right_obj_num > 0 && get_surface_area(objects[right_obj_indices[0]].bounds) * 1.1f < get_surface_area(right_bounds)))
-	if (get_surface_area(tree->bounds) > get_surface_area(right_bounds) * 1.1f)
-	{
-		tree->right = rt_safe_malloc(sizeof(t_kd_tree));
-		tree->right->obj_num = right_obj_num;
-		tree->right->bounds = right_bounds;
-		tree->right->sah = sah;
-		ft_memcpy(tree->right->indices, right_obj_indices, sizeof(int) * MAX_OBJ_IN_LEAF);
-		new_build_kd_tree(tree->right, objects, level + 1);
-	}
+	tree->right = rt_safe_malloc(sizeof(t_kd_tree));
+	tree->right->obj_num = right_obj_num;
+	tree->right->bounds = right_bounds;
+	tree->right->sah = sah;
+	ft_memcpy(tree->right->indices, right_obj_indices, sizeof(int) * MAX_OBJ_IN_LEAF);
+	build_kd_tree(tree->right, objects, level + 1);
 }

@@ -1,12 +1,42 @@
 #include "test_header.h"
 #include "test_kd_tree_header.h"
 
+t_bounds		get_start_bounds(t_kd_obj *objects)
+{
+	t_bounds	bounds;
+
+	ft_bzero(&bounds, sizeof(bounds));
+	for (int i = 0; i < KD_SCENE_SIZE; ++i)
+	{
+		bounds.b[0].x = fminf(bounds.b[0].x, objects[0].bounds.b[0].x);
+		bounds.b[0].y = fminf(bounds.b[0].y, objects[0].bounds.b[0].y);
+
+		bounds.b[1].x = fmaxf(bounds.b[1].x, objects[i].bounds.b[1].x);
+		bounds.b[1].y = fminf(bounds.b[1].y, objects[0].bounds.b[1].y);
+
+		bounds.b[2].x = fminf(bounds.b[2].x, objects[i].bounds.b[2].x);
+		bounds.b[2].y = fmaxf(bounds.b[2].y, objects[i].bounds.b[2].y);
+
+		bounds.b[3].x = fmaxf(bounds.b[3].x, objects[i].bounds.b[3].x);
+		bounds.b[3].y = fmaxf(bounds.b[3].y, objects[i].bounds.b[3].y);
+	}
+	bounds.b[0].x -= 0.5f;
+	bounds.b[0].y -= 0.5f;
+	bounds.b[1].x += 0.5f;
+	bounds.b[1].y -= 0.5f;
+	bounds.b[2].x -= 0.5f;
+	bounds.b[2].y += 0.5f;
+	bounds.b[3].x += 0.5f;
+	bounds.b[3].y += 0.5f;
+	return bounds;
+}
+
 t_kd_obj		g_test_kd_scene[KD_SCENE_HEIGHT][KD_SCENE_WIDTH] = {
 		{{.index = -1}, {.index = -1}, {.index = -1}, {.index = -1}, {.index = -1}, {.index = -1}, {.index = -1}},
 		{{.index = -1}, {.index = -1}, {.index = 0}, {.index = -1}, {.index = -1}, {.index = 0}, {.index = -1}},
+		{{.index = 0}, {.index = -1}, {.index = -1}, {.index = 0}, {.index = -1}, {.index = -1}, {.index = -1}},
 		{{.index = -1}, {.index = -1}, {.index = -1}, {.index = -1}, {.index = -1}, {.index = -1}, {.index = -1}},
-		{{.index = -1}, {.index = -1}, {.index = -1}, {.index = -1}, {.index = -1}, {.index = -1}, {.index = -1}},
-		{{.index = -1}, {.index = 0}, {.index = -1}, {.index = 0}, {.index = -1}, {.index = 0}, {.index = -1}},
+		{{.index = -1}, {.index = 0}, {.index = -1}, {.index = -1}, {.index = -1}, {.index = 0}, {.index = -1}},
 		{{.index = -1}, {.index = -1}, {.index = -1}, {.index = 0}, {.index = -1}, {.index = -1}, {.index = -1}},
 };
 
@@ -23,67 +53,35 @@ t_kd_obj		*get_1d_objects_arr(void)
 	return objects;
 }
 
-void 			start_build_kd_tree(t_kd_tree *root, t_kd_obj *objects)
+void		start_build_kd_tree(t_kd_obj *objects)
 {
-//	t_bounds	root_bounds;
-//	root = NULL;
-//	root_bounds.b[0] = (cl_float2){.x = 0, .y = 0};
-//	root_bounds.b[1] = (cl_float2){.x = KD_SCENE_WIDTH, .y = 0};
-//	root_bounds.b[2] = (cl_float2){.x = 0, .y = KD_SCENE_HEIGHT};
-//	root_bounds.b[3] = (cl_float2){.x = KD_SCENE_WIDTH, .y = KD_SCENE_HEIGHT};
-//
-//	build_kd_tree(&root, root_bounds, objects, 0);
-
-	new_build_kd_tree(root, objects, 0);
-
-	ft_printf("\n<------------------------------->\n");
-	ft_printf("max height: [%i]\n", g_max_height);
-	print_kd_tree(root);
-
-	graphic_print_kd_tree(root, objects);
-}
-
-t_bounds		get_start_bounds(t_kd_obj *objects)
-{
-	t_bounds	bounds;
-
-	bounds = (t_bounds){};
-	for (int i = 0; i < KD_SCENE_SIZE; ++i)
-	{
-		bounds.b[0].x = fminf(bounds.b[0].x, objects[0].bounds.b[0].x);
-		bounds.b[0].y = fminf(bounds.b[0].y, objects[0].bounds.b[0].y);
-
-		bounds.b[1].x = fmaxf(bounds.b[1].x, objects[i].bounds.b[1].x);
-		bounds.b[1].y = fminf(bounds.b[1].y, objects[0].bounds.b[1].y);
-
-		bounds.b[2].x = fminf(bounds.b[2].x, objects[i].bounds.b[2].x);
-		bounds.b[2].y = fmaxf(bounds.b[2].y, objects[i].bounds.b[2].y);
-
-		bounds.b[3].x = fmaxf(bounds.b[3].x, objects[i].bounds.b[3].x);
-		bounds.b[3].y = fmaxf(bounds.b[3].y, objects[i].bounds.b[3].y);
-	}
-	return bounds;
-}
-
-void 			test_kd_tree_main(void)
-{
-	kd_fill_positions();
-	t_kd_tree	*root = NULL;
-	t_kd_obj	*objects = get_1d_objects_arr();
+	t_kd_tree	*root;
 
 	root = rt_safe_malloc(sizeof(t_kd_tree));
-
-//	root->bounds.b[0] = (cl_float2){.x = 0, .y = 0};
-//	root->bounds.b[1] = (cl_float2){.x = KD_SCENE_WIDTH, .y = 0};
-//	root->bounds.b[2] = (cl_float2){.x = 0, .y = KD_SCENE_HEIGHT};
-//	root->bounds.b[3] = (cl_float2){.x = KD_SCENE_WIDTH, .y = KD_SCENE_HEIGHT};
-
 	root->bounds = get_start_bounds(objects);
-	kd_print_bounds(root->bounds);
 	root->left = NULL;
 	root->right = NULL;
 	root->sah = INFINITY;
 	root->obj_num = kd_count_obj_in_bounds(objects, root->bounds, root->indices);
 
-	start_build_kd_tree(root, objects);
+	build_kd_tree(root, objects, 0);
+
+	graphic_print_kd_tree(root, objects);
+
+	free_btree((t_avl_tree*)root, NULL);
+//	kd_print_bounds(root->bounds);
+//	ft_printf("\n<------------------------------->\n");
+//	ft_printf("max height: [%i]\n", g_max_height);
+//	print_kd_tree(root);
+}
+
+void 			test_kd_tree_main(void)
+{
+	kd_fill_positions();
+
+	t_kd_obj	*objects = get_1d_objects_arr();
+
+	start_build_kd_tree(objects);
+	kd_draw_loop(objects);
+	free(objects);
 }

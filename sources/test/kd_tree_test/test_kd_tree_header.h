@@ -70,8 +70,8 @@ typedef struct	s_kd_tree t_kd_tree;
 
 typedef struct	s_kd_tree
 {
-	t_kd_tree	*right;
 	t_kd_tree	*left;
+	t_kd_tree	*right;
 	t_bounds	bounds;
 	float		sah;
 	int			indices[MAX_OBJ_IN_LEAF];
@@ -87,15 +87,16 @@ void		kd_print_scene(void);
 void		kd_print_node(t_kd_tree *node);
 void		print_kd_tree(t_kd_tree *root);
 
-void		build_kd_tree(t_kd_tree **tree, t_bounds bounds, t_kd_obj *objects, int level);
 int			kd_get_split_axis(t_bounds bounds);
 float		get_surface_area(t_bounds bounds);
 
 int			kd_count_obj_in_bounds(t_kd_obj *objs, t_bounds box_bounds, int out_indices[MAX_OBJ_IN_LEAF]);
-void		new_build_kd_tree(t_kd_tree *tree, t_kd_obj *objects, int level);
-void 		start_build_kd_tree(t_kd_tree *root, t_kd_obj *objects);
+void		build_kd_tree(t_kd_tree *tree, t_kd_obj *objects, int level);
+void		start_build_kd_tree(t_kd_obj *objects);
 
 void		kd_print_bounds(t_bounds bounds);
 void		graphic_print_kd_tree(t_kd_tree *tree, t_kd_obj *objects);
+
+void kd_draw_loop(t_kd_obj *objects);
 
 #endif

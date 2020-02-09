@@ -52,7 +52,7 @@ void			kd_render_obj_bounds(t_kd_obj *objects)
 	}
 }
 
-void		kd_draw_loop(t_kd_tree *tree, t_kd_obj *objects)
+void kd_draw_loop(t_kd_obj *objects)
 {
 	SDL_Event		event;
 
@@ -61,34 +61,42 @@ void		kd_draw_loop(t_kd_tree *tree, t_kd_obj *objects)
 	{
 		while (SDL_PollEvent(&event))
 		{
-			if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-				exit(0);
-			else if (event.key.keysym.scancode == SDL_SCANCODE_KP_PLUS)
+			if (event.type == SDL_KEYDOWN)
 			{
-				g_max_height++;
-				start_build_kd_tree(tree, objects);
+				if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+				{
+					SDL_DestroyRenderer(g_sdl.rend);
+					SDL_DestroyWindow(g_sdl.win);
+					SDL_Quit();
+					exit(0);
+				}
+				else if (event.key.keysym.scancode == SDL_SCANCODE_KP_PLUS)
+				{
+					g_max_height++;
+					start_build_kd_tree(objects);
+				}
+				else if (event.key.keysym.scancode == SDL_SCANCODE_KP_MINUS)
+				{
+					g_max_height--;
+					start_build_kd_tree(objects);
+				}
+				else if (event.key.keysym.scancode == SDL_SCANCODE_R)
+				{
+					g_max_height = 0;
+					test_kd_tree_main();
+					return;
+				}
 			}
-			else if (event.key.keysym.scancode == SDL_SCANCODE_KP_MINUS)
-			{
-				g_max_height--;
-				start_build_kd_tree(tree, objects);
-			}
-			else if (event.key.keysym.scancode == SDL_SCANCODE_R)
-			{
-				g_max_height = 0;
-				test_kd_tree_main();
-			}
-			SDL_FlushEvents(0, 100000);
+			SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
+
 		}
 		if (event.type == SDL_QUIT)
 			break ;
 	}
 }
 
-void graphic_print_kd_tree(t_kd_tree *tree, t_kd_obj *objects)
+void		graphic_print_kd_tree(t_kd_tree *tree, t_kd_obj *objects)
 {
-	rt_sdl_init();
-	rt_render(NULL, &kd_render_bounds);
 	SDL_SetRenderDrawColor(g_sdl.rend, 0, 0, 0, 255);
 	SDL_RenderClear(g_sdl.rend);
 
@@ -98,5 +106,4 @@ void graphic_print_kd_tree(t_kd_tree *tree, t_kd_obj *objects)
 	kd_render_obj_bounds(objects);
 
 	SDL_RenderPresent(g_sdl.rend);
-	kd_draw_loop(tree, objects);
 }
