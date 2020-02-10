@@ -268,14 +268,37 @@ static t_light		*rt_get_lights(int *out_lights_nbr)
 	return (lights);
 }
 
+
+/*static void 	add_textures(void)
+{
+
+	char *tex1 = "plane_bricks.bmp";
+	char *tex2 = "/Users/gfoote/Project42/RT/textures2/sphere_eye.jpg";
+	char *tex3 = "sphere_sun.jpg";
+	ft_lstaddback(g_textures.textures_name, (void *)tex1, ft_strlen(tex1));
+	ft_lstaddback(g_textures.textures_name, (void *)tex2, ft_strlen(tex2));
+	ft_lstaddback(g_textures.textures_name, (void *)tex3, ft_strlen(tex3));
+}*/
+
 static void 	add_textures(void)
 {
-	char *tex1 = "skybox_street.jpg";
-	char *tex2 = "/Users/gfoote/Project42/RT/textures/sphere_eye.jpg";
+	int i;
+
+	i = 0;
+	char *tex1 = "plane_bricks.bmp";
+	char *tex2 = "/Users/gfoote/Project42/RT/textures2/sphere_eye.jpg";
 	char *tex3 = "sphere_sun.jpg";
-	ft_lstaddback(&g_textures.textures_name, (void *)tex1, ft_strlen(tex1));
-	ft_lstaddback(&g_textures.textures_name, (void *)tex2, ft_strlen(tex2));
-	ft_lstaddback(&g_textures.textures_name, (void *)tex3, ft_strlen(tex3));
+	g_textures.textures_name = (char **)rt_safe_malloc(sizeof(char *) * g_textures.texture_info_size);
+	while (i < (int)g_textures.texture_info_size)
+	{
+		if (i == 0)
+			g_textures.textures_name[i] = ft_strdup(tex1);
+		if (i == 1)
+			g_textures.textures_name[i] = ft_strdup(tex2);
+		if (i == 2)
+			g_textures.textures_name[i] = ft_strdup(tex3);
+		i++;
+	}
 }
 
 t_scene		get_hardcoded_scene(void)

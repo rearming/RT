@@ -72,7 +72,7 @@ typedef struct			s_textures
 	t_texture_info		*texture_info; //вот здесь используется количество текстур
 	size_t				texture_list_size;
 	size_t				texture_info_size; // вот это заполнять
-	t_list 				*textures_name;
+	char 				**textures_name;
 }						t_textures;
 # endif
 

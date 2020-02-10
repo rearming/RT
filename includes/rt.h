@@ -23,7 +23,6 @@
 # include "rt_errors.h"
 # include "rt_opencl_params_defines.h"
 # include "rt_defines.h"
-#include "textures.h"
 /*
 **	Global pointers
 */

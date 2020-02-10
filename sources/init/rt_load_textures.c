@@ -80,7 +80,7 @@ static void			rt_change_format_and_add(const unsigned char *tmp_texture,
 }
 
 static unsigned char	*resize_image(unsigned char *tmp_texture,
-						  int texture_num, int new_height)
+		int texture_num, int new_height)
 {
 	unsigned char	*resized_texture;
 	int				new_width;
@@ -88,10 +88,10 @@ static unsigned char	*resize_image(unsigned char *tmp_texture,
 	new_width = new_height * g_textures.texture_info[texture_num].width
 				/ g_textures.texture_info[texture_num].height;
 	resized_texture = (unsigned char *)rt_safe_malloc(sizeof(unsigned char)
-			 * new_width * new_height * 3);
+			* new_width * new_height * 3);
 	stbir_resize_uint8(tmp_texture, g_textures.texture_info[texture_num].width,
-					   g_textures.texture_info[texture_num].height, 0,
-					   resized_texture, new_width, new_height, 0, STBI_rgb);
+		g_textures.texture_info[texture_num].height, 0,
+		resized_texture, new_width, new_height, 0, STBI_rgb);
 	g_textures.texture_info[texture_num].width = new_width;
 	g_textures.texture_info[texture_num].height = new_height;
 	free(tmp_texture);
@@ -103,29 +103,27 @@ void			rt_textures_init(void)
 	int				i;
 	char			*tmp_filename;
 	unsigned char	*tmp_texture;
-	t_list			*iter;
 
-	iter = g_textures.textures_name;
 	i = init_basic_textures_parameters();
-	while (iter)
+	while (i < (int)g_textures.texture_info_size)
 	{
-		tmp_filename = (ft_strchr((char *)iter->content, 47) != NULL) ?
-		(char *)iter->content : ft_strjoin(textures_folder, (char *)iter->content);
-		if (tmp_filename == NULL)
+		tmp_filename = (ft_strchr(g_textures.textures_name[i], 47) != NULL) ?
+			ft_strdup(g_textures.textures_name[i]) :
+			ft_strjoin(textures_folder, g_textures.textures_name[i]);
+		if (!tmp_filename)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		tmp_texture = stbi_load(tmp_filename, &g_textures.texture_info[i].width,
 			&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp,
-			STBI_rgb);
-		if (tmp_texture == NULL)
-			return (rt_raise_error(ERR_INVALID_TEXRTURE));
-		if (g_textures.texture_info[i].height > WIN_HEIGHT * SCALE_HEIGHT * 3) //есть какой-то размер при котором картинка плохо растягивается и плохо сжимается
+				STBI_rgb);
+		if (g_textures.texture_info[i].height > WIN_HEIGHT * SCALE_HEIGHT * 3)
 			tmp_texture = resize_image(tmp_texture, i, 3 * WIN_HEIGHT);
 		rt_add_start_position(i);
-		rt_change_format_and_add(tmp_texture, i++);
+		rt_change_format_and_add(tmp_texture, i);
+		//printf("%s width: [%i], height: [%i]\n", tmp_filename, g_textures.texture_info[i].width, g_textures.texture_info[i].height );
 		free(tmp_filename);
 		stbi_image_free(tmp_texture);
 		if (g_textures.texture_list == NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
-		iter = iter->next;
+		i++;
 	}
 }
