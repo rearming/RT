@@ -10,8 +10,10 @@
 #define CYLINDER 3
 #define PLANE 4
 
-#define AMBIENT 1
-#define POINT 2
+#define AMBIENT 1 		// intensity, color
+#define POINT 2			// intensity, color, pos
+#define DIRECTIONAL 3 	// intensity, color, 	, dir
+#define PARALLEL 4		// intensity, color, pos, dir
 
 //check camera
 #define POS 2
@@ -24,11 +26,23 @@
 #define COLOR 10000
 
 //check objects
+
+//position attributes
 #define NORMAL 20
-#define SPECULARITY 200
-#define RADIUS 2000
-#define LEN 3000
-#define ANGLE 1000000
+#define RADIUS 200
+#define LEN 300
+#define ANGLE 100000
+
+//material
+#define SPECULARITY 2000
+#define AMBIENCE
+#define DIFFUSE
+#define PHONG_EXP
+#define SMOTHNESS
+#define TRANSMITTANCE
+#define REFRACTION
+#define EMISSION_COLOR
+#define SPECULAR_TEXTURE
 #define TEXTURE 20000
 #define TEXTURE_POS 200000
 

@@ -36,8 +36,8 @@
 
 # define ERR_INVALID_TEXTURE_DIR 27
 
-# define ERR_PARSING_WRONG_OBJECT_PARAMS 28
-# define ERR_PARSING_WRONG_LIGHT_PARAMS 29
-# define ERR_PARSING_WRONG_CAMERA_PARAMS 30
-# define ERR_PARSING_WRONG_PARAM 31
+# define ERR_PARSING_WRONG_OBJECT_PARAMS "rt_parse error: wrong object params"
+# define ERR_PARSING_WRONG_LIGHT_PARAMS "rt_parse error: wrong light params"
+# define ERR_PARSING_WRONG_CAMERA_PARAMS "rt_parse error: wrong camera params"
+# define ERR_PARSING_WRONG_PARAM "rt_parse error: wrong params"
 #endif

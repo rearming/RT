@@ -22,7 +22,7 @@ static void	err_type(int structure_type)
 		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
 }
 
-static int	parse_variable(t_tmp *tmp, const char *key, json_t *value)
+int	parse_variable(t_tmp *tmp, const char *key, json_t *value)
 {
 	int variable_type;
 
@@ -48,7 +48,7 @@ static int	parse_variable(t_tmp *tmp, const char *key, json_t *value)
 	return (0);
 }
 
-static int	parse_array_elems(t_tmp *tmp, int array_type, json_t *value)
+int	parse_array_elems(t_tmp *tmp, int array_type, json_t *value)
 {
 	if ((tmp->checker = ft_check_if_exist(tmp->checker, array_type)) == -1)
 		err_type(tmp->structure_type);
@@ -63,7 +63,7 @@ static int	parse_array_elems(t_tmp *tmp, int array_type, json_t *value)
 	return (0);
 }
 
-static int	parse_array(t_tmp *tmp, const char *key, json_t *value)
+int	parse_array(t_tmp *tmp, const char *key, json_t *value)
 {
 	int	array_type;
 	int array_size;
@@ -89,7 +89,7 @@ static int	parse_array(t_tmp *tmp, const char *key, json_t *value)
 			}
 			if (array_type == OBJECT)
 				tmp->type = type_of_object(key, array_type);
-			parse_elements(json_array_get(value, i), tmp);
+			parse_json_file(json_array_get(value, i), tmp);
 		}
 	}
 	else if (parse_array_elems(tmp, array_type, value) == -1)
@@ -97,7 +97,7 @@ static int	parse_array(t_tmp *tmp, const char *key, json_t *value)
 	return (0);
 }
 
-static int	parse_object(t_tmp *tmp, const char *key, json_t *value)
+int	parse_object(t_tmp *tmp, const char *key, json_t *value)
 {
 	t_tmp tmp2;
 
@@ -113,42 +113,13 @@ static int	parse_object(t_tmp *tmp, const char *key, json_t *value)
 	}
 	if (tmp->checker != 0)
 	{
-		tmp->next = (t_tmp *)malloc(sizeof(t_tmp));
-		if (!tmp->next)
-			rt_raise_error(STDERR_FILENO);
+		tmp->next = (t_tmp *)rt_safe_malloc(sizeof(t_tmp));
 		init_tmp(tmp->next);
 		tmp = tmp->next;
 	}
 	tmp->structure_type = tmp2.structure_type;
 	tmp->type = tmp2.type;
-	parse_elements(value, tmp);
+	parse_json_file(value, tmp);
 }
 
-void		parse_elements(json_t *root, t_tmp *tmp)
-{
-	void		*iter;
-	const char	*key;
-	json_t		*value;
-	int			check;
 
-	iter = json_object_iter(root);
-	check = 0;
-	while (iter)
-	{
-		key = json_object_iter_key(iter);
-		value = json_object_iter_value(iter);
-		if (json_is_object(value))
-			check = parse_object(tmp, key, value);
-		else if (json_is_array(value))
-			check = parse_array(tmp, key, value);
-		else if (json_is_number(value))
-			check = parse_variable(tmp, key, value);
-		else
-			rt_raise_error(ERR_PARSING_WRONG_PARAM);
-		if (check == -1)
-			rt_raise_error(ERR_PARSING_WRONG_PARAM);
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		iter = json_object_iter_next(root, iter);
-	}
-}
