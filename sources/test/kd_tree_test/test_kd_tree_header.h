@@ -97,6 +97,6 @@ void		start_build_kd_tree(t_kd_obj *objects);
 void		kd_print_bounds(t_bounds bounds);
 void		graphic_print_kd_tree(t_kd_tree *tree, t_kd_obj *objects);
 
-void kd_draw_loop(t_kd_obj *objects);
+void		kd_draw_loop(t_kd_obj *objects);
 
 #endif

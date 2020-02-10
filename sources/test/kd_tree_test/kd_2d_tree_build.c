@@ -90,8 +90,8 @@ float		get_surface_area(t_bounds bounds)
 
 float		calc_sah(t_kd_obj *objects, t_bounds left_bounds, t_bounds right_bounds)
 {
-	return EMPTY_COST + (float) kd_count_obj_in_bounds(objects, left_bounds,NULL) * 2 * get_surface_area(left_bounds)
-	+ (float) kd_count_obj_in_bounds(objects, right_bounds, NULL) * 2 * get_surface_area(right_bounds);
+	return EMPTY_COST + (float) kd_count_obj_in_bounds(objects, left_bounds,NULL) * get_surface_area(left_bounds)
+	+ (float) kd_count_obj_in_bounds(objects, right_bounds, NULL) * get_surface_area(right_bounds);
 }
 
 float kd_split_buckets_sah(t_bounds bounds, t_kd_obj *objects, t_bounds *out_left_bounds, t_bounds *out_right_bounds)

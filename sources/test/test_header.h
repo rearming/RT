@@ -18,6 +18,7 @@ double		lerp_avg(double *test_arr, int arr_size);
 
 void 		test_kd_tree_main(void);
 void 		test_run_kd_2d_tree(void);
+void		test_get_aabb_polygons(void);
 
 bool		assert_float_equals(float expected, float actual);
 bool		assert_int_equals(int expected, int actual);

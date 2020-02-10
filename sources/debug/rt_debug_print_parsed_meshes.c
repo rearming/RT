@@ -12,7 +12,7 @@ void		rt_print_parsed_vertices(
 	for (size_t i = 0; i < num_vertices; ++i)
 	{
 		ft_printf("[%i] ", i + 1);
-		rt_print_clfloat3(vertices[i]);
+		rt_print_clfloat3(vertices[i], "");
 	}
 	ft_printf("\n");
 }

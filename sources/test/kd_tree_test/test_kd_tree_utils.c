@@ -9,10 +9,16 @@
  * 			2 3
 */
 
+#ifdef __APPLE__
+# define scene_random arc4random
+#else
+# define scene_random rand
+#endif
+
 static inline void get_kd_obj_bounds(t_kd_obj *kd_obj)
 {
 	srand(time(NULL));
-	float		size = (float)arc4random() / INT32_MAX;
+	float		size = (float)drand48() * 2;
 	kd_obj->bounds.b[0] = kd_obj->pos;
 	kd_obj->bounds.b[1] = (cl_float2){.x = kd_obj->pos.x + size, .y = kd_obj->pos.y};
 	kd_obj->bounds.b[2] = (cl_float2){.x = kd_obj->pos.x, .y = kd_obj->pos.y + size};

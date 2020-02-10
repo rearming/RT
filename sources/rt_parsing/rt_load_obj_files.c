@@ -25,7 +25,8 @@ void		rt_load_obj_files(t_meshes *out_meshes)
 {
 //	const char			*obj_file_path = "./assets/3d_models/cube.obj";
 //	const char			*obj_file_path = "./assets/3d_models/sauron_tower.obj";
-	const char			*obj_file_path = "./assets/3d_models/cube_isosphere_materials.obj";
+	const char			*obj_file_path = "./assets/3d_models/one_triangle.obj";
+//	const char			*obj_file_path = "./assets/3d_models/cube_isosphere_materials.obj";
 //	const char			*obj_file_path = "./assets/3d_models/cube_plane_sphere.obj";
 //	const char			*obj_file_path = "./assets/3d_models/monk_statue_triangulated.obj";
 	t_raw_obj			raw_obj;

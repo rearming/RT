@@ -12,7 +12,8 @@ int		main(int argc, char **argv)
 {
 	RT_UNUSED(argc);
 	RT_UNUSED(argv);
-	rt_sdl_init();
-	test_kd_tree_main();
+//	rt_sdl_init();
+//	test_kd_tree_main();
+	test_get_aabb_polygons();
 	return 0;
 }

@@ -5,7 +5,8 @@ t_bounds		get_start_bounds(t_kd_obj *objects)
 {
 	t_bounds	bounds;
 
-	ft_bzero(&bounds, sizeof(bounds));
+//	ft_bzero(&bounds, sizeof(bounds));
+	bounds = (t_bounds){.n.bound0 = {{0, 0}}, .n.bound1 = {{0, 0}}, .n.bound2 = {{0, 0}}, .n.bound3 = {{0, 0}}};
 	for (int i = 0; i < KD_SCENE_SIZE; ++i)
 	{
 		bounds.b[0].x = fminf(bounds.b[0].x, objects[0].bounds.b[0].x);
@@ -66,10 +67,11 @@ void		start_build_kd_tree(t_kd_obj *objects)
 
 	build_kd_tree(root, objects, 0);
 
+
 	graphic_print_kd_tree(root, objects);
 
 	free_btree((t_avl_tree*)root, NULL);
-//	kd_print_bounds(root->bounds);
+	kd_print_bounds(root->bounds);
 //	ft_printf("\n<------------------------------->\n");
 //	ft_printf("max height: [%i]\n", g_max_height);
 //	print_kd_tree(root);

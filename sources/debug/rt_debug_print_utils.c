@@ -1,9 +1,9 @@
 #include "rt.h"
 #include "rt_debug.h"
 
-void		rt_print_clfloat3(cl_float3 vec)
+void		rt_print_clfloat3(cl_float3 vec, const char *definition)
 {
-	ft_printf("x: [%.2f], y: [%.2f], z: [%.2f]\n", vec.x, vec.y, vec.z);
+	ft_printf("%s: x: [%.2f], y: [%.2f], z: [%.2f]\n", definition, vec.x, vec.y, vec.z);
 }
 
 void		rt_print_float3_color(cl_float3 color, const char *definition)

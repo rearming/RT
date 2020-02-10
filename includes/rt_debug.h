@@ -8,7 +8,7 @@
 **	debug
 */
 
-void		rt_print_clfloat3(cl_float3 vec);
+void		rt_print_clfloat3(cl_float3 vec, const char *definition);
 void		rt_print_float3_color(cl_float3 color, const char *definition);
 void		rt_print_debug_info(t_rt *rt, t_rt_renderer *renderer);
 void		print_cl_device_info(void);
@@ -35,5 +35,6 @@ void		rt_print_opencl_profile_info(void);
 
 void		rt_print_parsed_materials(t_meshes *meshes);
 void		rt_print_sphere(t_object *sphere);
+void		rt_print_parsed_polygon(t_polygon *polygon);
 
 #endif
