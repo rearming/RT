@@ -100,19 +100,31 @@ static unsigned char	*resize_image(unsigned char *tmp_texture,
 void			rt_textures_init(void)
 {
 	int				i;
+<<<<<<< Updated upstream
 	DIR				*dir;
 	struct dirent	*entry;
 	char			*tmp_filename;
 	unsigned char	*tmp_texture;
+=======
+	char			*tmp_filename;
+	unsigned char	*tmp_texture;
+	t_list			*iter;
+>>>>>>> Stashed changes
 
 	if (!(dir = opendir("textures/2sphere/")))
 		return (rt_raise_error(ERR_INVALID_TEXRTURE_DIR));
 	i = init_basic_textures_parameters();
 	while ((entry = readdir(dir)) != NULL)
 	{
+<<<<<<< Updated upstream
 		if (entry->d_name[i] == '.')
 			continue;
 		if (!(tmp_filename = ft_strjoin("textures/2sphere/", entry->d_name)))
+=======
+		tmp_filename = (ft_strchr((char *)iter->content, 47) != NULL) ?
+		(char *)iter->content : ft_strjoin(textures_folder, (char *)iter->content);
+		if (tmp_filename == NULL)
+>>>>>>> Stashed changes
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		tmp_texture = stbi_load(tmp_filename, &g_textures.texture_info[i].width,
 								&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp,
