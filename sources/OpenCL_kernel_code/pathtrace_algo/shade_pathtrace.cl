@@ -9,7 +9,6 @@ void		calc_refraction_pathtrace(
 		float chance)
 {
 	const float		phong_alpha = material->smoothness;
-	const float		phong_math_coeff = (phong_alpha + 2) / (phong_alpha + 1);
 	const float3	refract_dir = convex_refract(ray->dir, hit->normal, material->refraction);
 
 	ray->origin = hit->pos;
@@ -59,17 +58,17 @@ float3		shade_pathtrace(
 	specular_chance /= sum;
 	diffuse_chance /= sum;
 
-	float	chance = rt_randf(seed, pixel);
+	const float		surface_chance = rt_randf(seed, pixel);
+	const float		transmit_chance = rt_randf(seed, pixel);
 
 	if (material.emission_power > 0)
 	{
 		ray->energy = 0;
 		return material.emission_color * material.emission_power;
 	}
-	if (chance < specular_chance)
+	if (surface_chance < specular_chance)
 	{
-		chance = rt_randf(seed, pixel);
-		if (chance < material.transmittance) // if transparent
+		if (transmit_chance < material.transmittance) // if transparent
 		{
 			calc_refraction_pathtrace(ray, hit, &material, material.specular, seed, pixel, specular_chance);
 		}
@@ -80,8 +79,7 @@ float3		shade_pathtrace(
 	}
 	else //diffuse surface
 	{
-		chance = rt_randf(seed, pixel);
-		if (chance < material.transmittance) // if transparent
+		if (transmit_chance < material.transmittance) // if transparent
 		{
 			calc_refraction_pathtrace(ray, hit, &material, material.diffuse, seed, pixel, diffuse_chance);
 		}

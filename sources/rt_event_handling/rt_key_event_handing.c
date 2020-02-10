@@ -46,6 +46,10 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 		rt_set_render_algo(&rt->renderer_flags, RENDER_PATHTRACE);
 	if (event->key.keysym.scancode == SDL_SCANCODE_M)
 		rt_switch_render_param(&rt->renderer_flags, RENDER_MESH);
+	if (event->key.keysym.scancode == SDL_SCANCODE_O)
+		rt_switch_render_param(&rt->renderer_flags, RENDER_OBJECTS);
+	if (event->key.keysym.scancode == SDL_SCANCODE_T)
+		rt_switch_render_param(&rt->renderer_flags, RENDER_TEXTURES);
 }
 
 bool				rt_handle_key_event(SDL_Event *event, t_rt *rt)

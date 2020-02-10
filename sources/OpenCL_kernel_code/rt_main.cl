@@ -56,8 +56,10 @@ __kernel void	rt_main(
 #ifdef RENDER_PATHTRACE
     __global float3 *img_data_float,
 #endif
+#ifdef RENDER_TEXTURES
     __global const t_texture_info *texture_info,
 	__global const float *texture_list,
+#endif
     __global int *img_data)
 {
 	int			g_id = get_global_id(0);
@@ -70,7 +72,10 @@ __kernel void	rt_main(
 	float		seed = params->seed;
 
 #ifndef RENDER_RAYTRACE
-	t_light		*lights = 0;
+	__global const t_light		*lights = 0;
+#endif
+#ifndef RENDER_OBJECTS
+	__global const t_object		*objects = 0;
 #endif
 #ifndef RENDER_MESH
  	__global const t_mesh_info	*meshes_info = 0;
@@ -80,6 +85,10 @@ __kernel void	rt_main(
 #endif
 #ifndef RENDER_MESH_VTEXTURES
  	__global const float3		*v_textures = 0;
+#endif
+#ifndef RENDER_TEXTURES
+ 	__global const t_texture_info *texture_info;
+	__global const float *texture_list;
 #endif
 
 #ifdef RENDER_PATHTRACE

@@ -115,49 +115,49 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 	*out_obj_nbr = objects_nbr;
 	objects = rt_safe_malloc(sizeof(t_object) * objects_nbr);
 
-	objects[0] = (t_object){.type = NOT_SET, // bottom
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
+	objects[0] = (t_object){.type = PLANE, // bottom
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0, .texture_number = NOT_SET},
 			.center = {{0, -2.5, 0}},
 			.normal = {{0, 1, 0}}};
-	objects[1] = (t_object){.type = NOT_SET, // right
-			(t_material){.diffuse = get_float3_color(COL_GREEN), .specular = {{0, 0, 0}}, .phong_exp = 50, .smoothness = 0},
+	objects[1] = (t_object){.type = PLANE, // right
+			(t_material){.diffuse = get_float3_color(COL_GREEN), .specular = {{0, 0, 0}}, .phong_exp = 50, .smoothness = 0, .texture_number = NOT_SET},
 			.center = {{2.5, 0, 0}},
 			.normal = {{1, 0, 0}}};
-	objects[2] = (t_object){.type = NOT_SET, // left
-			(t_material){.diffuse = get_float3_color(COL_RED), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
+	objects[2] = (t_object){.type = PLANE, // left
+			(t_material){.diffuse = get_float3_color(COL_RED), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0, .texture_number = NOT_SET},
 			.center = {{-2.5, 0, 0}},
 			.normal = {{1, 0, 0}}};
-	objects[3] = (t_object){.type = NOT_SET, // far
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 40, .smoothness = 0},
+	objects[3] = (t_object){.type = PLANE, // far
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 40, .smoothness = 0, .texture_number = NOT_SET},
 			.center = {{0, 0, 2.5}},
 			.normal = {{0, 0, 1}}};
-	objects[4] = (t_object){.type = NOT_SET, // celling
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
+	objects[4] = (t_object){.type = PLANE, // celling
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0, .texture_number = NOT_SET},
 			.center = {{0, 2.5, 0}},
 			.normal = {{0, 1, 0}}};
-	objects[5] = (t_object){.type = NOT_SET, // back
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0},
+	objects[5] = (t_object){.type = PLANE, // back
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0, .texture_number = NOT_SET},
 			.center = {{0, 0, -15}},
 			.normal = {{0, 0, 1}}};
 
 	objects[6] = (t_object){.type = SPHERE, // light
 			(t_material){.diffuse = get_float3_color(0), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0,
-				.emission_color = get_float3_color(COL_WHITE), .emission_power = 6, .texture_number = NOT_SET},
+				.emission_color = get_float3_color(COL_WHITE), .emission_power = 1, .texture_number = 3},
 			.center = {{0, 2.5, 0}},
-			.radius = 1.f};
+			.radius = 1.5f};
 
 /*	objects[7] = (t_object){.type = SPHERE, // specular sphere
 			(t_material){.specular = {{1, 1, 1}}, .phong_exp = 0, .smoothness = 10000},
 			.center = {{1, -1.5f, 0}},
 			.radius = 1.f};*/
 
-objects[7] = (t_object){.type = SPHERE, // texture sphere
-			(t_material){.diffuse = get_float3_color(0), .phong_exp = 0, .smoothness = 10000, .texture_number = 0, .specular_texture = 0},
+	objects[7] = (t_object){.type = SPHERE, // texture sphere
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
 			.center = {{1, -1.5f, 0}},
-			.radius = 1.f};
+			.radius = 2.f};
 
 	objects[8] = (t_object){.type = SPHERE, // specular sphere
-			(t_material){.specular = get_float3_color(COL_LIGHT_GREEN), .transmittance = 0.5, .refraction = 0,
+			(t_material){.specular = get_float3_color(COL_LIGHT_GREEN), .transmittance = 0, .refraction = 0,
 				.phong_exp = 200, .smoothness = 1000, .texture_number = NOT_SET},
 			.center = {{-1, -0.5f, -2.5}},
 			.radius = 1.f};
@@ -241,7 +241,7 @@ static	t_object	*many_spheres_test(int *out_obj_nbr)
 	return (objects);
 }
 
-static	t_object	*rt_get_objects(int *out_obj_nbr)
+static t_object		*rt_get_objects(int *out_obj_nbr)
 {
 
 //	return (kolyan_scene(out_obj_nbr));
@@ -258,12 +258,12 @@ static t_light		*rt_get_lights(int *out_lights_nbr)
 
 	*out_lights_nbr = lights_nbr;
 	lights = rt_safe_malloc(sizeof(t_light) * lights_nbr);
-	lights[0] = (t_light){.color = get_float3_color(COL_WHITE), .type = AMBIENT, .intensity = 0.1f};
+	lights[0] = (t_light){.color = get_float3_color(COL_WHITE), .type = AMBIENT, .intensity = 0.2f};
 //	lights[1] = (t_light){.pos = {{0, 10, -5}}, ///для pathtrace scene
 //		.color = get_float3_color(COL_WHITE), .type = POINT, .intensity = 0.5f};
 	lights[1] = (t_light){.pos = {{0, 0, -5}}, /// для cornell box
 					   .color = get_float3_color(COL_WHITE), .type = POINT, .intensity = 0.5f};
-//	lights[1] = (t_light){.dir = {{0, -1, 1}}, .color = get_float3_color(COL_WHITE), .type = DIRECTIONAL, .intensity = 0.8};
+//	lights[1] = (t_light){.dir = {{0, -1, 10}}, .color = get_float3_color(COL_WHITE), .type = DIRECTIONAL, .intensity = 0.5};
 //	lights[2] = (t_light){.pos = {{1, 0.5, 2}}, .color = {COL_GREEN}, .type = POINT, .intensity = 0.9};
 	return (lights);
 }
@@ -274,12 +274,12 @@ t_scene		get_hardcoded_scene(void)
 
 	scene.camera = (t_camera)
 	{
-//		.pos = {{0, 10, 40}}, //statuya pos/rot
+//		.pos = {{0, 20, 40}}, //statuya pos/rot
 //		.rotation = {{0, 180, 0}},
 //		.pos = {{20, 6.6, -6.4}}, //pathtracing scene pos/rotation
 //		.rotation = {{-10, -63.3, 0}},
 		.pos = {{0.2, 1.2, -14.2}}, // cornell box pos/rotation
-		.rotation = {{0, 0, 0}},
+		.rotation = {{0, 0, 0}},/**/
 		.viewport_distance = 1,
 		.viewport_width = WIN_RATIO < 1 ? D_I_MAZOHIN : 1,
 		.viewport_height = WIN_RATIO > 1 ? D_E_KARMATSKIY : 1
