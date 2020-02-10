@@ -6,11 +6,13 @@ import re
 import os
 
 
+meshes_dir_path = "./assets/3d_models/"
+kernel_sources_path = "./sources/OpenCL_kernel_code/"
 prototypes_file_name = "prototypes.cl"
 
 
 def get_opencl_files_names():
-    names = [glob.glob(sys.argv[1] + "/**/" + "*.cl", recursive=True)]
+    names = [glob.glob(kernel_sources_path + "**/" + "*.cl", recursive=True)]
     return names
 
 
@@ -26,57 +28,45 @@ def update_opencl_header():
             cl_files_text += file.read()
             file.close()
 
-    matches = re.findall(r"(([\w]+)[\t ]+([\w]+)\((?:[\s]*(?:(\*?\w+)[\s,)]){2,3})+)", cl_files_text)
+    matches = re.findall(r"(([\w ]+)[\t ]+([\w*]+)\((?:[\s]*((?:[*# /]*\w+)[\s,)]))+)", cl_files_text)
 
     result_str = ""
 
     for match in matches:
+        if re.match(r".*__kernel.*", match[0])\
+                or re.match(r".*return.*", match[0]):
+            continue
         result_str += "\n"
         result_str += match[0]
         if str(match[0][-1]) != ")":
             result_str += ")"
         result_str += ";\n"
 
-    result_file = open(sys.argv[1] + "/" + prototypes_file_name, 'w')
+    result_file = open(kernel_sources_path + "/" + prototypes_file_name, 'w')
     result_file.seek(0)
     result_file.write(result_str + "\n")
     result_file.close()
 
 
-def update_opencl_kernel_files():
-    updated_file_path = "./sources/OpenCL_utils/opencl_files_parser.c"
-    file = open(updated_file_path, "r")
-    file_text = file.read()
-    file.close()
+def correct_mtl_path():
+    obj_files = glob.glob(meshes_dir_path + "*.obj", recursive=True)
+    mtl_file_paths = glob.glob(meshes_dir_path + "*.mtl", recursive=True)
 
-    corrected_file_names = []
+    mtl_file_names = list(map(lambda name: (re.findall(r"(?:[^/]+)\.mtl", name)[0]), mtl_file_paths))
 
-    excluded_files = re.search(r"concat_opencl_kernel_code\(\d{2},((?:[\s\S]+?)(?:prototypes.cl\"))", file_text).group(1)
-    excluded_files = re.findall(r"\"(\./.*)\"", excluded_files)
-
-    for name in cl_files_names[0]:
-        corrected_name = re.sub(str(pwd), ".", str(name))
-        if corrected_name in excluded_files:
-            continue
-        corrected_file_names.append(corrected_name)
-
-    tabs_number = len(re.search(r"(\t+)\"\./sources/OpenCL_kernel_code/prototypes.cl\"", file_text).group(1))
-
-    str_to_insert = ""
-    for name in corrected_file_names:
-        str_to_insert += ",\n" + "\t"[:1]*tabs_number + "\"" + name + "\""
-
-    file_text = re.sub(re.search(r"(?:prototypes.cl\")([\s\S]+?)(?=\);)", file_text).group(1), str_to_insert, file_text)
-
-    files_number = len(re.findall(r"(\"\./[a-zA-Z/_.]+\")", file_text))
-    file_text = re.sub(r"(\d+)(?=,\s*\"\./[a-zA-Z/_.]+\")", str(files_number), file_text)
-
-    result_file = open(updated_file_path, 'w')
-    result_file.seek(0)
-    result_file.write(file_text)
+    for obj_file in obj_files:
+        file = open(obj_file, 'r')
+        file_text = file.read()
+        file.close()
+        for i in range(len(mtl_file_names)):
+            file_text = re.sub(r"(?<=mtllib[\s])((?:[^/])+\.mtl)", mtl_file_paths[i], file_text)
+        file = open(obj_file, 'w')
+        file.seek(0)
+        file.write(file_text)
+        file.close()
 
 
 cl_files_names = get_opencl_files_names()
 pwd = os.path.dirname(os.path.realpath(__file__))
 update_opencl_header()
-update_opencl_kernel_files()
+correct_mtl_path()

@@ -17,30 +17,29 @@ set(sources
         sources/init/rt_init.c
         sources/utils/rt_safe_malloc.c
         sources/utils/rt_raise_error.c
-        sources/OpenCL_utils/opencl_init.c
-        sources/OpenCL_utils/opencl_files_parser.c
+        sources/OpenCL_utils/rt_opencl_init.c
+        sources/OpenCL_utils/rt_opencl_files_parser.c
         sources/debug/opencl_debug.c
         sources/utils/rt_exit_clean.c
         sources/SDL_utils/sdl_init.c
         sources/render/render.c
-        sources/OpenCL_utils/opencl_render.c
-        sources/OpenCL_utils/opencl_memory_management.c
+        sources/OpenCL_utils/rt_opencl_render.c
+        sources/OpenCL_utils/rt_opencl_memory_management.c
         sources/rt_parsing/rt_parse_scene.c
         sources/rt_parsing/hardcoded_scene.c
+        sources/OpenCL_utils/rt_opencl_utils.c
         sources/rt_parsing/rt_init_tmp_object.c
         sources/rt_parsing/rt_read_scene_file.c
         sources/rt_parsing/rt_parse_elements.c
         sources/rt_parsing/rt_type_of_element.c
         sources/rt_parsing/rt_check.c
         sources/rt_parsing/rt_add_elements.c
-        sources/OpenCL_utils/opencl_utils.c
         sources/utils/rt_loop.c
         sources/rt_event_handling/rt_camera_moves.c
-        sources/rt_event_handling/rt_event_handler.c
+        sources/rt_event_handling/rt_event_handling.c
         sources/math_utils/rt_rotation_utils.c
         sources/math_utils/rt_cl_float3_utils.c
         sources/debug/rt_debug_info.c
-        sources/debug/rt_debug_utils.h
         sources/debug/rt_debug_print_utils.c
         sources/rt_parsing/rt_correct_scene.c
         sources/rt_parsing/rt_init_tmp_object.c
@@ -52,7 +51,27 @@ set(sources
         sources/rt_parsing/rt_read_scene_file.c
         sources/rt_parsing/rt_type_of_element.c
         sources/utils/rt_color_utils.c
-        sources/debug/rt_pathtrace_profile.c)
+        sources/debug/rt_profiling.c
+        sources/rt_parsing/rt_load_obj_files.c
+        sources/debug/rt_print_obj_file.c
+        sources/debug/rt_debug_print_parsed_meshes.c
+        sources/rt_parsing/rt_load_obj_utils.c
+        sources/rt_parsing/rt_load_obj_meshes.c
+        sources/rt_parsing/rt_load_obj_materials.c
+        sources/rt_parsing/rt_correct_materials.c
+        sources/math_utils/rt_math_utils.c
+        sources/rt_event_handling/rt_event_utils.c
+        sources/OpenCL_utils/rt_init_renderer.c
+        sources/rt_event_handling/rt_settings_change.c
+        sources/rt_event_handling/rt_settings_info.c
+        sources/rt_event_handling/rt_key_event_handing.c
+        sources/rt_event_handling/rt_mouse_event_handling.c
+        sources/init/rt_init_render_params.c
+        sources/OpenCL_utils/rt_opencl_prepare_memory.c
+        sources/render/rt_update_params.c
+        sources/debug/rt_print_object.c
+        sources/init/rt_load_textures.c
+        sources/init/rt_load_textures_utils.c)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INCLUDE(FindPkgConfig)

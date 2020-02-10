@@ -1,75 +1,15 @@
 
-# define LAMBERT_ALPHA 1.f
-
-float3		shade_pathtrace(
-		t_ray *ray,
-		t_rayhit *hit,
-		__constant t_material *material,
-		float *seed,
-		float2 pixel)
-{
-	if (hit->distance < INFINITY)
-	{
-		float	specular_chance = material->specular;
-		float	chance = rt_randf(seed, pixel);
-
-		if (chance < specular_chance)
-		{
-			const float		phong_alpha = material->smoothness;
-			if (chance >= material->transmittance)
-			{
-				const float	phong_math_coeff = (phong_alpha + 2) / (phong_alpha + 1);
-				ray->origin = hit->pos + hit->normal * RT_EPSILON;
-				if (material->smoothness < MAX_SMOOTHNESS)
-				{
-					ray->dir = rand_dir_on_hemisphere(reflect(ray->dir, hit->normal), seed, pixel, phong_alpha);
-					ray->energy *= specular_chance * material->albedo * sdot(hit->normal, ray->dir, phong_math_coeff);
-				}
-				else
-				{
-					ray->dir = reflect(ray->dir, hit->normal);
-					ray->energy *= specular_chance * material->albedo;
-				}
-			}
-			else
-			{
-				ray->origin = hit->pos;
-				if (material->refraction > 1) /// если полностью прозрачный объект, не меняем направление луча
-				{
-					float3	refract_dir = refract(ray->dir, hit->normal, material->refraction);
-					if (fast_length(refract_dir) > 0)
-					/// фикс черного ореола над линзой, надо проверить как будет выглядеть со скайбоксом, если нормально, то убрать if
-					{
-						if (material->smoothness < MAX_SMOOTHNESS)
-							ray->dir = rand_dir_on_hemisphere(refract(ray->dir, hit->normal, material->refraction), seed, pixel, phong_alpha);
-						else
-							ray->dir = refract(ray->dir, hit->normal, material->refraction);
-					}
-				}
-				ray->energy *= specular_chance * material->albedo;
-				//todo sphere sampling refraction?
-			}
-		}
-		else
-		{
-			ray->origin = hit->pos + hit->normal * RT_EPSILON;
-			ray->dir = rand_dir_on_hemisphere(hit->normal, seed, pixel, LAMBERT_ALPHA);
-			ray->energy *= (1 - specular_chance) * material->albedo;
-		}
-		return material->emission_color * material->emission_power;
-	}
-	else
-	{
-		ray->energy = 0;
-		return get_float3_color(COL_BLACK);
-	}
-}
-
 float3		pathtrace(
-		__constant t_scene *scene,
-		__constant t_object *objects,
-		__constant t_light *lights,
-		__constant t_opencl_params *params,
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		__global const float3 *v_textures,
+		__global const t_renderer_params *params,
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
 		t_ray ray,
 		int depth,
 		float *seed,
@@ -77,18 +17,31 @@ float3		pathtrace(
 {
 	float3		result_color = (float3)(0);
 	t_rayhit	hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
-	int			closest_obj_index = NOT_SET;
+	int			closest_obj_index;
+	int			closest_polygon_index;
 
 	for (int i = 0; i < params->pathtrace_params.max_depth; ++i)
 	{
 		hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
-		closest_intersection(scene, objects, &ray, &hit, &closest_obj_index);
-		result_color += ray.energy;
-		float3 shade_color = shade_pathtrace(&ray, &hit, &objects[closest_obj_index].material, seed, pixel);
-		/// можно раскомментить, чтобы цвета светящихся объектов где emisson_power больше 1 были не белыми
-//		if (i == 0 && round(fast_length(shade_color)) != 0)
-//			shade_color /= objects[closest_obj_index].material.emission_power;
-		result_color *= shade_color;
+		closest_intersection(scene, objects, polygons, vertices, v_normals, &ray, &hit, &closest_polygon_index, &closest_obj_index);
+
+		t_material	hit_material;
+		if (get_hit_material(&hit_material, objects, meshes_info, polygons, vertices, v_normals, v_textures, closest_obj_index, closest_polygon_index))
+		{
+#ifdef RENDER_TEXTURES
+			if (hit_material.texture_number >= 0)
+				result_color += ray.energy * texture_shade_pathtrace(&texture_info[hit_material.texture_number],
+						texture_list, &objects[closest_obj_index], &ray, &hit, hit_material, seed, pixel);
+			else
+#endif
+				result_color += ray.energy * shade_pathtrace(&ray, &hit, hit_material, seed, pixel);
+		}
+		else
+		{
+			result_color += ray.energy * skybox_color(&texture_info[1], texture_list, skybox_normal(ray));
+			//todo вместо texture_info[1] texture_info[SKYBOX_TEXTURE] (допустим, скайбокс всегда маппим на нулевую текстуру) [gfoote]
+			ray.energy = 0;
+		}
 		if (!ray_has_energy(&ray))
 			break;
 	}

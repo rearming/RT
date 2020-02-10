@@ -36,3 +36,19 @@ int			get_int_color(float3 color)
 	result.rgb.b = color.z * 255;
 	return (result.value);
 }
+/*
+int         get_texture_color(
+		int2 pos,
+		__constant float *texture_list,
+		__constant t_texture_info *texture_info
+		)
+{
+//	if (pos.x < texture_info->width && pos.y < texture_info->height)
+//	{
+//	return
+//		texture_list[(pos.x + pos.y * texture_info->width) + 0] |
+//		texture_list[(pos.x + pos.y * texture_info->width) + 1] |
+//		texture_list[(pos.x + pos.y * texture_info->width) + 2];
+//
+//	}
+}*/

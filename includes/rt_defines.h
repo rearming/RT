@@ -1,6 +1,8 @@
 #ifndef RT_DEFINES_H
 # define RT_DEFINES_H
 
+//# define DEBUG_LOADING 1
+
 /*
 **	Code constants
 */
@@ -8,10 +10,7 @@
 # define VALID_ARGS_NUM 2
 # define EXIT_SUCCESS 0
 
-# define OPENCL_KERNEL_NAME "rt_main"
-
-# define RT_DEFAULT_MEM_FLAG (CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR)
-# define RT_MEM_RW_FLAG (CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR)
+# define RT_OBJLOADER_NOFLAGS 0
 
 /*
 **	Window params
@@ -61,47 +60,21 @@
 # define COL_DARK_GREEN 0x408000
 # define COL_DARK_BLUE 0x000080
 
-# define COL_GOLD 0xFFDB91
-# define COL_BG COL_GREY
-
-/*
-**	OpenCL host constants
-**
-**  -> Раскомментив строчку OPENCL_DEBUG_KERNEL_NUM можно запустить мало кернелов,
-** 	например, для проверки правильной передачи данных на видеокарту или того,
-** 	как работают какие-либо функции.
-**
-**  [при OPENCL_RELEASE_KERNEL_NUM, т.е. на ~3-ех миллионах кернелов,
-** 	случайный printf в кернеле приводит к намертво зависшему компу]
-*/
-
-# define OPENCL_RELEASE_KERNEL_NUM WIN_WIDTH * WIN_HEIGHT
-# define OPENCL_DEBUG_KERNEL_NUM 1
-# define OPENCL_KERNEL_NUM OPENCL_RELEASE_KERNEL_NUM
-//# define OPENCL_KERNEL_NUM OPENCL_DEBUG_KERNEL_NUM
-
-#ifdef __APPLE__
-# define OPENCL_DEFINES_STR "#define __APPLE__\n\n"
-#else
-# define OPENCL_DEFINES_STR "\n"
-#endif
+# define COL_GOLD 0xffd700
+# define COL_BG COL_BLACK
 
 /*
 **	Development
 */
 
-# define DONT_COPY_MEM_AGAIN (-10)
-# define CREATE_BUFFER (-32)
 # define RT_UNUSED(arg) (void)arg
-
 
 /*
 **	Objects and materials
 */
 
-# define MAX_SMOOTHNESS 10000
+# define MAX_SMOOTHNESS 10000 //todo сделать в диапазоне [0, 1000]
 # define MAX_TRANSMITTANCE 1
-//todo find value
 
 /*
 **	Other ?
@@ -122,6 +95,10 @@
 # define SIDE_MOVE_SPEED (0.1)
 # define FLY_SPEED 0.2
 
-# define ROTATION_SPEED 0.05
+# ifdef __APPLE__
+#  define ROTATION_SPEED 0.025
+# else
+#  define ROTATION_SPEED 0.5
+# endif
 
 #endif

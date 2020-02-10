@@ -1,20 +1,19 @@
 #include "rt.h"
-#include "rt_events.h"
 
 static inline void		rt_add_key_event(t_events *events, SDL_Scancode scancode)
 {
 	if (scancode == SDL_SCANCODE_W)
-		events->w = TRUE;
+		events->w = true;
 	if (scancode == SDL_SCANCODE_S)
-		events->s = TRUE;
+		events->s = true;
 	if (scancode == SDL_SCANCODE_A)
-		events->a = TRUE;
+		events->a = true;
 	if (scancode == SDL_SCANCODE_D)
-		events->d = TRUE;
+		events->d = true;
 	if (scancode == SDL_SCANCODE_SPACE)
-		events->space = TRUE;
+		events->space = true;
 	if (scancode == SDL_SCANCODE_X)
-		events->lshift = TRUE;
+		events->lshift = true;
 }
 
 static inline void		remove_key_event(t_events *events, SDL_Scancode scancode)
@@ -33,48 +32,41 @@ static inline void		remove_key_event(t_events *events, SDL_Scancode scancode)
 		events->lshift = false;
 }
 
-static inline bool	any_key_pressed(t_events *events)
-{
-	return (events->w || events->a || events->s || events->d
-			|| events->space || events->lshift);
-}
-
 static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 {
 	if (event->key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 		exit(rt_exit_clean());
 	if (event->key.keysym.scancode == SDL_SCANCODE_I)
 		rt->events.info = !rt->events.info;
-	if (event->key.keysym.scancode == SDL_SCANCODE_M)
+	if (event->key.keysym.scancode == SDL_SCANCODE_N)
 		SDL_SetRelativeMouseMode(!SDL_GetRelativeMouseMode());
 	if (event->key.keysym.scancode == SDL_SCANCODE_R)
-		rt->opencl_params.render_algo = RAY_TRACE;
+		rt_set_render_algo(&rt->renderer_flags, RENDER_RAYTRACE);
 	if (event->key.keysym.scancode == SDL_SCANCODE_P)
-		rt->opencl_params.render_algo = PATH_TRACE;
-	if (event->key.keysym.scancode == SDL_SCANCODE_N)
-		rt_render(rt, &rt_opencl_render);
+		rt_set_render_algo(&rt->renderer_flags, RENDER_PATHTRACE);
+	if (event->key.keysym.scancode == SDL_SCANCODE_M)
+		rt_switch_render_param(&rt->renderer_flags, RENDER_MESH);
+	if (event->key.keysym.scancode == SDL_SCANCODE_O)
+		rt_switch_render_param(&rt->renderer_flags, RENDER_OBJECTS);
+	if (event->key.keysym.scancode == SDL_SCANCODE_T)
+		rt_switch_render_param(&rt->renderer_flags, RENDER_TEXTURES);
 }
 
-void		handle_event(SDL_Event *event, t_rt *rt)
+bool				rt_handle_key_event(SDL_Event *event, t_rt *rt)
 {
+	bool	event_handled;
+
+	event_handled = false;
 	if (event->type == SDL_KEYUP)
+	{
 		remove_key_event(&rt->events, event->key.keysym.scancode);
+		event_handled = true;
+	}
 	else if (event->type == SDL_KEYDOWN)
 	{
 		rt_handle_keypress(event, rt);
 		rt_add_key_event(&rt->events, event->key.keysym.scancode);
+		event_handled = true;
 	}
-	else if (event->type == SDL_MOUSEMOTION && SDL_GetRelativeMouseMode())
-	{
-		rt->scene.camera.rotation.x -=
-				event->motion.yrel * ROTATION_SPEED * WIN_RATIO;
-		rt->scene.camera.rotation.y += event->motion.xrel * ROTATION_SPEED;
-	}
-	if (any_key_pressed(&rt->events)
-	|| event->type == SDL_MOUSEMOTION
-	|| rt->opencl_params.render_algo == PATH_TRACE)
-	{
-		rt_camera_move(&rt->scene.camera, &rt->events);
-		rt_render(rt, &rt_opencl_render);
-	}
+	return (event_handled);
 }
