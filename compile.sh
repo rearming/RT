@@ -14,6 +14,9 @@ cd libft || echo "can't find libft directory!"
 make
 cd ..
 
+cd nuklear_cross
+./pacanskiy_skript.sh
+cd ..
 #cdmkdir build
 #cd build || echo "can't make build directory!"
 #cmake -D CMAKE_C_COMPILER="$CLANG" -DCMAKE_BUILD_TYPE=Release ..
