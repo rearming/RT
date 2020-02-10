@@ -29,6 +29,10 @@ void				closest_intersection(
 					if (ray_triangle_intersect_MT(ray, &objects[i], out_best_hit))
 						*out_closest_obj_index = i;
 					break;
+				case (AABB):
+					if (ray_aabb_intersection(ray, &objects[i], out_best_hit))
+						*out_closest_obj_index = i;
+					break;
 			}
 		}
 #endif // RENDER_OBJECTS

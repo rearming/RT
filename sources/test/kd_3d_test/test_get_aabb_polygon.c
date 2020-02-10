@@ -3,22 +3,23 @@
 #include "rt_parsing.h"
 #include "rt_kd_tree.h"
 
-void	print_all_aabbs(t_aabb *aabbs, int num_aabb)
-{
-	for (int i = 0; i < num_aabb; ++i)
-	{
-		rt_print_clfloat3(aabbs->bounds.min, "min");
-		rt_print_clfloat3(aabbs->bounds.max, "max");
-	}
-}
+
 
 void	test_get_aabb_polygons(void)
 {
 	t_meshes		meshes;
-	t_aabb			*aabbs;
+	t_aabb			*obj_aabbs;
+	t_kd_tree		*kd_tree;
 
 	rt_load_obj_files(&meshes);
-	aabbs = rt_get_all_aabbs(&meshes);
-	rt_print_parsed_polygon(&meshes.polygons[0]);
-	print_all_aabbs(aabbs, meshes.num_polygons);
+	obj_aabbs = rt_get_all_aabbs(&meshes);
+	kd_tree = build_kd_tree(obj_aabbs, meshes.num_polygons);
+	ft_printf("k-d tree building done!\n");
+	print_kd_tree(kd_tree);
+
+	free_btree((t_avl_tree*)kd_tree, NULL);
+//	rt_print_parsed_polygon(&meshes.polygons[0]);
+//	print_all_aabbs(obj_aabbs, meshes.num_polygons);
+//	root_aabb = get_root_aabb(obj_aabbs, meshes.num_polygons);
+//	print_aabb(root_aabb);
 }

@@ -43,7 +43,7 @@ typedef struct	s_bounds_n
 
 typedef union	u_bounds
 {
-	cl_float2	b[BOUNDS_NUM];
+	cl_float2	arr[BOUNDS_NUM];
 	t_bounds_n	n;
 }				t_bounds;
 
@@ -82,19 +82,19 @@ extern t_kd_obj		g_test_kd_scene[KD_SCENE_HEIGHT][KD_SCENE_WIDTH];
 
 void		print_cl_float2(cl_float2 vec);
 
-void		kd_fill_positions(void);
-void		kd_print_scene(void);
-void		kd_print_node(t_kd_tree *node);
-void		print_kd_tree(t_kd_tree *root);
+void		kd_2d_fill_positions(void);
+void		kd_2d_print_scene(void);
+void		kd_2d_print_node(t_kd_tree *node);
+void		print_2d_kd_tree(t_kd_tree *root);
 
 int			kd_get_split_axis(t_bounds bounds);
-float		get_surface_area(t_bounds bounds);
+float		get_2d_surface_area(t_bounds bounds);
 
-int			kd_count_obj_in_bounds(t_kd_obj *objs, t_bounds box_bounds, int out_indices[MAX_OBJ_IN_LEAF]);
-void		build_kd_tree(t_kd_tree *tree, t_kd_obj *objects, int level);
+int			kd_2d_count_obj_in_bounds(t_kd_obj *objs, t_bounds box_bounds, int *out_indices);
+void		build_2d_kd_tree(t_kd_tree *tree, t_kd_obj *objects, int level);
 void		start_build_kd_tree(t_kd_obj *objects);
 
-void		kd_print_bounds(t_bounds bounds);
+void		kd_2d_print_bounds(t_bounds bounds);
 void		graphic_print_kd_tree(t_kd_tree *tree, t_kd_obj *objects);
 
 void		kd_draw_loop(t_kd_obj *objects);

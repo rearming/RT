@@ -126,6 +126,8 @@ void				closest_intersection(
 		int *out_closest_polygon_index,
 		int *out_closest_obj_index);
 
+bool		ray_aabb_intersection(t_ray *ray, __global const t_object *object, t_rayhit *best_hit);
+
 int		ray_mesh_intersect(
 		__global const t_meshes *mesh_info,
 		__global const t_polygon *polygons,

@@ -95,7 +95,7 @@ static	t_object	*pathtrace_scene(int *out_obj_nbr)
 
 	objects[10] = (t_object){.type = SPHERE,
 			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{1.f, 1.f, 1.f}},
-					.smoothness = MAX_SMOOTHNESS, .refraction = 1.15, .transmittance = 1},
+					.smoothness = MAX_SMOOTHNESS, .refraction = 1, .transmittance = 1},
 			.center = {{15, 2.2, -6.2}},
 			.radius = 2};
 	objects[11] = (t_object){.type = SPHERE,
@@ -151,10 +151,14 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 			.center = {{1, -1.5f, 0}},
 			.radius = 1.f};*/
 
-	objects[7] = (t_object){.type = SPHERE, // texture sphere
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
-			.center = {{1, -1.5f, 0}},
-			.radius = 2.f};
+//	objects[7] = (t_object){.type = SPHERE, // texture sphere
+//			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
+//			.center = {{1, -1.5f, 0}},
+//			.radius = 2.f};
+
+	objects[7] = (t_object){.type = AABB,
+			(t_material){.diffuse = get_float3_color(COL_LIGHT_BLUE), .specular = get_float3_color(0), .phong_exp = 0, .texture_number = NOT_SET},
+			.vmin = {{-0.39, -0.42, -0.21}}, .vmax = {{0.79, 1, 1}}};
 
 	objects[8] = (t_object){.type = SPHERE, // specular sphere
 			(t_material){.specular = get_float3_color(COL_LIGHT_GREEN), .transmittance = 0, .refraction = 0,

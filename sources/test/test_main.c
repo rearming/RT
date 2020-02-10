@@ -6,7 +6,7 @@ int			*g_img_data;
 t_textures  g_textures;
 cl_float3	g_img_data_float[WIN_WIDTH * WIN_HEIGHT];
 
-int g_max_height = 0;
+int g_max_height = 1;
 
 int		main(int argc, char **argv)
 {

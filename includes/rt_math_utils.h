@@ -17,6 +17,9 @@ bool		rt_float3_equals(cl_float3 a, cl_float3 b);
 cl_float3	mul_float3(cl_float3 vec, float mul);
 cl_float3	saturate_float3(cl_float3 value);
 
+cl_float3	fmin_float3(cl_float3 a, cl_float3 b);
+cl_float3	fmax_float3(cl_float3 a, cl_float3 b);
+
 /*
 **	float3 colors
 */
