@@ -11,7 +11,7 @@ int	init_basic_textures_parameters(void)
 
 void	rt_add_start_position(int i)
 {
-	if (i < TEXTURE_NUM && i > 0)
+	if (i < g_textures.texture_info_size && i > 0)
 		g_textures.texture_info[i].start = g_textures.texture_info[i - 1].start
 		+ g_textures.texture_info[i - 1].width
 		* g_textures.texture_info[i - 1].height;

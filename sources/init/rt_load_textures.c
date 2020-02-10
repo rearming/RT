@@ -100,10 +100,10 @@ static unsigned char	*resize_image(unsigned char *tmp_texture,
 
 void			rt_textures_init(void)
 {
-	int		i;
-	char		*tmp_filename;
+	int				i;
+	char			*tmp_filename;
 	unsigned char	*tmp_texture;
-	t_list		*iter;
+	t_list			*iter;
 
 	iter = g_textures.textures_name;
 	i = init_basic_textures_parameters();
@@ -116,6 +116,8 @@ void			rt_textures_init(void)
 		tmp_texture = stbi_load(tmp_filename, &g_textures.texture_info[i].width,
 			&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp,
 			STBI_rgb);
+		if (tmp_texture == NULL)
+			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		if (g_textures.texture_info[i].height > WIN_HEIGHT * SCALE_HEIGHT * 3) //есть какой-то размер при котором картинка плохо растягивается и плохо сжимается
 			tmp_texture = resize_image(tmp_texture, i, 3 * WIN_HEIGHT);
 		rt_add_start_position(i);
