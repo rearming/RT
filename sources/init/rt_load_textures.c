@@ -109,8 +109,8 @@ void			rt_textures_init(void)
 	i = init_basic_textures_parameters();
 	while (iter)
 	{
-		tmp_filename = (ft_strchr((char *)iter->content, 46) != NULL) ?
-		(char *)iter->content : ft_strjoin(textures_folder, entry->d_name);
+		tmp_filename = (ft_strchr((char *)iter->content, 47) != NULL) ?
+		(char *)iter->content : ft_strjoin(textures_folder, (char *)iter->content);
 		if (tmp_filename == NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		tmp_texture = stbi_load(tmp_filename, &g_textures.texture_info[i].width,
