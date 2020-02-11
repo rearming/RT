@@ -1,157 +1,137 @@
-#include "test_header.h"
-#include "test_kd_tree_header.h"
+#include "rt.h"
+#include "kd_2d_tree_header.h"
 
-bool		kd_2d_is_obj_in_bounds(t_bounds obj_bounds, t_bounds box_bounds)
+void		rt_kd_2d_unset_indices(int *indices)
 {
-	for (int bound = 0; bound < BOUNDS_NUM; ++bound)
-	{
-		if (obj_bounds.arr[bound].x > box_bounds.arr[0].x && obj_bounds.arr[bound].x < box_bounds.arr[1].x
-			&& obj_bounds.arr[bound].y > box_bounds.arr[0].y && obj_bounds.arr[bound].y < box_bounds.arr[2].y)
-			return true;
-	}
-	return false;
+	if (!indices)
+		return;
+	indices[0] = NOT_SET;
+	indices[1] = NOT_SET;
+	indices[2] = NOT_SET;
 }
 
-int		kd_2d_count_obj_in_bounds(t_kd_obj *objs, t_bounds box_bounds, int *out_indices)
-{
-	int		obj_in_bounds;
-
-	obj_in_bounds = 0;
-	if (out_indices)
-		for (int j = 0; j < MAX_OBJ_IN_LEAF; ++j)
-			out_indices[j] = NOT_SET;
-	for (int i = 0; i < KD_SCENE_HEIGHT * KD_SCENE_WIDTH; ++i)
-	{
-		if (objs[i].index != NOT_SET &&
-				kd_2d_is_obj_in_bounds(objs[i].bounds, box_bounds))
-		{
-			if (obj_in_bounds < MAX_OBJ_IN_LEAF && out_indices)
-				out_indices[obj_in_bounds] = objs[i].index;
-			obj_in_bounds++;
-		}
-	}
-	return obj_in_bounds;
-}
-
-t_split		kd_2d_split(t_bounds bounds, int axis, int parts)
+t_split		kd_2d_split(t_aabb root_aabb, int axis, int split_num)
 {
 	t_split		split;
 
-	if (axis == X_AXIS)
-	{
-		split.n.split0 = (cl_float2){.x = (bounds.n.bound0.x + bounds.n.bound1.x) / (float)parts, .y = bounds.n.bound0.y};
-		split.n.split1 = (cl_float2){.x = (bounds.n.bound0.x + bounds.n.bound1.x) / (float)parts, .y = bounds.n.bound2.y};
-	}
-	else // Y_AXIS
-	{
-		split.n.split0 = (cl_float2){.x = bounds.n.bound0.x, .y = (bounds.n.bound0.y + bounds.n.bound2.y) / (float)parts};
-		split.n.split1 = (cl_float2){.x = bounds.n.bound1.x, .y = (bounds.n.bound0.y + bounds.n.bound2.y) / (float)parts};;
-	}
-	return split;
+	split.s.min = root_aabb.bounds.min;
+	split.s.min.s[axis] = ((root_aabb.bounds.min.s[axis] + root_aabb.bounds.min.s[axis]) / BUCKETS) * (float)split_num;
+	split.s.max = root_aabb.bounds.max;
+	split.s.max.s[axis] = split.s.min.s[axis]; // координата разделения та же, бокс выровнен по осям
+	return (split);
 }
 
-t_bounds	kd_2d_get_bounds(t_bounds prev_bounds, t_split split, int side, int axis)
+bool		kd_2d_is_obj_in_aabb(t_aabb root_aabb, t_aabb obj_aabb)
 {
-	t_bounds	bounds;
+	if ((obj_aabb.bounds.min.x < root_aabb.bounds.max.x
+		 && obj_aabb.bounds.min.y < root_aabb.bounds.max.y)
+		|| (obj_aabb.bounds.max.x > root_aabb.bounds.min.x
+			&& obj_aabb.bounds.max.y > root_aabb.bounds.min.y))
+		return true;
+	return false;
+}
 
-	bounds = prev_bounds;
-	if (side == KD_LEFT)
+int			kd_2d_count_obj_in_aabb(t_aabb aabb, t_aabb *obj_aabbs, int num_aabbs, int *out_indices)
+{
+	int		obj_in_bounds;
+	int		i;
+
+	obj_in_bounds = 0;
+	i = 0;
+	rt_kd_2d_unset_indices(out_indices);
+	while (i < num_aabbs)
 	{
-		if (axis == X_AXIS)
+		if (kd_2d_is_obj_in_aabb(aabb, obj_aabbs[i]))
 		{
-			bounds.n.bound1 = split.n.split0;
-			bounds.n.bound3 = split.n.split1;
+			if (obj_in_bounds < MAX_OBJ_IN_LEAF && out_indices)
+				out_indices[obj_in_bounds] = i; // тут i == индексу полигона
+			obj_in_bounds++;
 		}
-		else
-		{
-			bounds.n.bound2 = split.n.split0;
-			bounds.n.bound3 = split.n.split1;
-		}
+		i++;
 	}
-	else // side == KD_RIGHT
+	if (obj_in_bounds >= MAX_OBJ_IN_LEAF && out_indices)
+		rt_kd_2d_unset_indices(out_indices);
+	return obj_in_bounds;
+}
+
+float		kd_2d_get_aabb_area(t_aabb aabb)
+{
+	return (fabsf(aabb.bounds.min.x - aabb.bounds.max.x)
+			* fabsf(aabb.bounds.min.y - aabb.bounds.max.y));
+}
+
+float		calc_2d_sah(t_aabb *obj_aabbs, int num_aabbs, t_aabb left_bounds, t_aabb right_bounds)
+{
+	return EMPTY_COST // kd_2d_count_obj_in_aabb можно закешировать раньше (и не считать два раза)
+		   + (float) kd_2d_count_obj_in_aabb(left_bounds, obj_aabbs, num_aabbs,
+			NULL) *
+			 kd_2d_get_aabb_area(left_bounds)
+		   + (float) kd_2d_count_obj_in_aabb(right_bounds, obj_aabbs, num_aabbs,
+			NULL) *
+			 kd_2d_get_aabb_area(right_bounds);
+}
+
+float		kd_2d_split_buckets_sah(t_aabb root_aabb, t_aabb *obj_aabbs, int num_aabbs, t_aabb *out_left_aabb, t_aabb *out_right_aabb)
+{
+	float	best_sah;
+	int		axis;
+	int		split_num;
+
+	axis = 0;
+	best_sah = INFINITY;
+	while (axis < AXIS_NUM)
 	{
-		if (axis == X_AXIS)
+		split_num = 1;
+		while (split_num < BUCKETS)
 		{
-			bounds.n.bound0 = split.n.split0;
-			bounds.n.bound2 = split.n.split1;
-		}
-		else
-		{
-			bounds.n.bound0 = split.n.split0;
-			bounds.n.bound1 = split.n.split1;
-		}
-	}
-	return bounds;
-}
+			t_split split = kd_2d_split(root_aabb, axis, split_num);
+			t_aabb	left_aabb = root_aabb;
+			t_aabb	right_aabb = root_aabb;
 
-float		get_2d_surface_area(t_bounds bounds)
-{
-	return (fabsf(bounds.arr[0].x - bounds.arr[1].x) * fabsf(bounds.arr[0].y - bounds.arr[2].y));
-}
+			left_aabb.bounds.max = split.s.max;
+			right_aabb.bounds.min = split.s.min;
 
-float		calc_2d_sah(t_kd_obj *objects, t_bounds left_bounds, t_bounds right_bounds)
-{
-	return EMPTY_COST + (float) kd_2d_count_obj_in_bounds(objects, left_bounds,
-			NULL) * get_2d_surface_area(left_bounds)
-	+ (float) kd_2d_count_obj_in_bounds(objects, right_bounds, NULL) *
-									  get_2d_surface_area(right_bounds);
-}
-
-float		kd_2d_split_buckets_sah(t_bounds bounds, t_kd_obj *objects, t_bounds *out_left_bounds, t_bounds *out_right_bounds)
-{
-	float		best_sah = INFINITY;
-
-	for (int i = 0; i < AXIS; ++i)
-	{
-		t_split		one_bucket = kd_2d_split(bounds, i, BUCKETS);
-		for (int j = 1; j < BUCKETS; ++j)
-		{
-			t_bounds	left_bounds;
-			t_bounds	right_bounds;
-
-			t_split		split;
-			if (i == X_AXIS)
-			{
-				split.s[0] = (cl_float2){.x = one_bucket.s[0].x * (float)j, .y = one_bucket.s[0].y};
-				split.s[1] = (cl_float2){.x = one_bucket.s[1].x * (float)j, .y = one_bucket.s[1].y};
-			}
-			else // if (i == Y_AXIS)
-			{
-				split.s[0] = (cl_float2){.x = one_bucket.s[0].x, .y = one_bucket.s[0].y * (float)j};
-				split.s[1] = (cl_float2){.x = one_bucket.s[1].x, .y = one_bucket.s[1].y * (float)j};
-			}
-			left_bounds = kd_2d_get_bounds(bounds, split, KD_LEFT, i);
-			right_bounds = kd_2d_get_bounds(bounds, split, KD_RIGHT, i);
-
-			float		sah = calc_2d_sah(objects, left_bounds, right_bounds);
+			float	sah = calc_2d_sah(obj_aabbs, num_aabbs, left_aabb,
+					right_aabb);
 			if (sah < best_sah)
 			{
 				best_sah = sah;
-				*out_left_bounds = left_bounds;
-				*out_right_bounds = right_bounds;
+				*out_left_aabb = left_aabb;
+				*out_right_aabb = right_aabb;
 			}
+			split_num++;
 		}
+		axis++;
 	}
 	return best_sah;
 }
 
 int			kd_2d_find_matches(const int *left_indices, const int *right_indices)
 {
-	int		matches = 0;
+	int		matches;
+	int		i;
+	int		j;
 
-	for (int i = 0; i < MAX_OBJ_IN_LEAF; ++i)
+	i = 0;
+	matches = 0;
+	while (i < MAX_OBJ_IN_LEAF)
 	{
-		for (int j = 0; j < MAX_OBJ_IN_LEAF; ++j)
+		j = 0;
+		while (j < MAX_OBJ_IN_LEAF)
 		{
 			if (left_indices[i] != NOT_SET && right_indices[i] != NOT_SET
-			&& left_indices[i] == right_indices[j])
+				&& left_indices[i] == right_indices[j])
 				matches++;
+			j++;
 		}
+		i++;
 	}
-	return matches;
+	return (matches);
 }
 
-void		build_2d_kd_tree(t_kd_tree *tree, t_kd_obj *objects, int level)
+
+
+void		build_2d_kd_tree_recursive(t_kd_tree *tree, t_aabb *obj_aabbs, int num_aabbs, int level)
 {
 	tree->left = NULL;
 	tree->right = NULL;
@@ -159,39 +139,53 @@ void		build_2d_kd_tree(t_kd_tree *tree, t_kd_obj *objects, int level)
 	if (level >= g_max_height || tree->obj_num <= MIN_OBJ_IN_LEAF)
 		return;
 
-	t_bounds left_bounds;
-	t_bounds right_bounds;
+	t_aabb	left_aabb;
+	t_aabb	right_aabb;
 
-	float sah = kd_2d_split_buckets_sah(tree->bounds, objects, &left_bounds,
-			&right_bounds);
+	float	sah = kd_2d_split_buckets_sah(tree->aabb, obj_aabbs, num_aabbs,
+			&left_aabb, &right_aabb);
 	if (sah / tree->sah > 0.8f)
 		return;
 
-	int left_obj_indices[MAX_OBJ_IN_LEAF];
-	int right_obj_indices[MAX_OBJ_IN_LEAF];
+	int		left_obj_indices[MAX_OBJ_IN_LEAF];
+	int		right_obj_indices[MAX_OBJ_IN_LEAF];
 
-	int left_obj_num = kd_2d_count_obj_in_bounds(objects, left_bounds,
-			left_obj_indices);
-	int right_obj_num = kd_2d_count_obj_in_bounds(objects, right_bounds,
-			right_obj_indices);
+	int		left_obj_num = kd_2d_count_obj_in_aabb(tree->aabb, obj_aabbs,
+			num_aabbs, left_obj_indices);
+	int		right_obj_num = kd_2d_count_obj_in_aabb(tree->aabb, obj_aabbs,
+			num_aabbs, right_obj_indices);
 
-	int	matches = kd_2d_find_matches(left_obj_indices, right_obj_indices);
+	int		matches = kd_2d_find_matches(left_obj_indices, right_obj_indices);
 
 	if (((float) matches / (float) left_obj_num > 0.5f
-	|| (float) matches / (float) right_obj_num > 0.5f))
-		return; //todo проверить какой оптимальный коеффициент
+		 || (float) matches / (float) right_obj_num > 0.5f))
+		return;
 
 	tree->left = rt_safe_malloc(sizeof(t_kd_tree));
 	tree->left->obj_num = left_obj_num;
-	tree->left->bounds = left_bounds;
+	tree->left->aabb = left_aabb;
 	tree->left->sah = sah;
 	ft_memcpy(tree->left->indices, left_obj_indices, sizeof(int) * MAX_OBJ_IN_LEAF);
-	build_2d_kd_tree(tree->left, objects, level + 1);
+	build_2d_kd_tree_recursive(tree->left, obj_aabbs, num_aabbs, level + 1);
 
 	tree->right = rt_safe_malloc(sizeof(t_kd_tree));
 	tree->right->obj_num = right_obj_num;
-	tree->right->bounds = right_bounds;
+	tree->right->aabb = right_aabb;
 	tree->right->sah = sah;
 	ft_memcpy(tree->right->indices, right_obj_indices, sizeof(int) * MAX_OBJ_IN_LEAF);
-	build_2d_kd_tree(tree->right, objects, level + 1);
+	build_2d_kd_tree_recursive(tree->right, obj_aabbs, num_aabbs, level + 1);
+}
+
+t_kd_tree	*build_2d_kd_tree(t_aabb *obj_aabbs, int num_aabbs)
+{
+	t_kd_tree	*root;
+
+	root = rt_safe_malloc(sizeof(t_kd_tree));
+	root->aabb = get_2d_root_aabb(obj_aabbs, num_aabbs);
+	root->sah = INFINITY;
+	rt_kd_2d_unset_indices(root->indices);
+	root->obj_num = kd_2d_count_obj_in_aabb(root->aabb, obj_aabbs, num_aabbs,
+			root->indices);
+	build_2d_kd_tree_recursive(root, obj_aabbs, num_aabbs, 0);
+	return (root);
 }

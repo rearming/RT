@@ -1,7 +1,7 @@
 #include "rt.h"
 #include "rt_kd_tree.h"
 
-void		rt_kd_unset_indices(int indices[MAX_OBJ_IN_LEAF])
+void		rt_kd_unset_indices(int *indices)
 {
 	if (!indices)
 		return;
@@ -65,7 +65,7 @@ float		kd_get_aabb_area(t_aabb aabb)
 
 float		calc_sah(t_aabb *obj_aabbs, int num_aabbs, t_aabb left_bounds, t_aabb right_bounds)
 {
-	return EMPTY_COST // kd_count_obj_in_aabb можно закешировать раньше (и не считать два раза)
+	return EMPTY_COST // kd_2d_count_obj_in_aabb можно закешировать раньше (и не считать два раза)
 	+ (float) kd_count_obj_in_aabb(left_bounds, obj_aabbs, num_aabbs, NULL) * kd_get_aabb_area(left_bounds)
 	+ (float) kd_count_obj_in_aabb(right_bounds, obj_aabbs, num_aabbs, NULL) * kd_get_aabb_area(right_bounds);
 }
@@ -104,7 +104,7 @@ float		kd_split_buckets_sah(t_aabb root_aabb, t_aabb *obj_aabbs, int num_aabbs, 
 	return best_sah;
 }
 
-int			kd_find_matches(const int left_indices[MAX_OBJ_IN_LEAF], const int right_indices[MAX_OBJ_IN_LEAF])
+int			kd_find_matches(const int *left_indices, const int *right_indices)
 {
 	int		matches;
 	int		i;

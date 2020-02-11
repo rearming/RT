@@ -3,8 +3,6 @@
 #include "rt_parsing.h"
 #include "rt_kd_tree.h"
 
-
-
 void	test_get_aabb_polygons(void)
 {
 	t_meshes		meshes;
