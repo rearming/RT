@@ -1,6 +1,6 @@
 bool		ray_aabb_intersection(t_ray *ray, __global const t_object *object, t_rayhit *best_hit)
 {
-	register float t[10];
+	float t[10];
 
 	t[1] = (object->vmin.x - ray->origin.x) / ray->dir.x;
 	t[2] = (object->vmax.x - ray->origin.x) / ray->dir.x;

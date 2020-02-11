@@ -24,6 +24,8 @@
 # include "rt_opencl_params_defines.h"
 # include "rt_defines.h"
 
+//#define DEBUG_PRINT_MESHES 1
+
 /*
 **	Global pointers
 */

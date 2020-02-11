@@ -109,7 +109,7 @@ static	t_object	*pathtrace_scene(int *out_obj_nbr)
 
 static	t_object	*cornell_box(int *out_obj_nbr)
 {
-	const int	objects_nbr = 9;
+	const int	objects_nbr = 8;
 	t_object	*objects;
 
 	*out_obj_nbr = objects_nbr;
@@ -156,11 +156,11 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 //			.center = {{1, -1.5f, 0}},
 //			.radius = 2.f};
 
-	objects[7] = (t_object){.type = AABB,
-			(t_material){.diffuse = get_float3_color(COL_LIGHT_BLUE), .specular = get_float3_color(0), .phong_exp = 0, .texture_number = NOT_SET},
-			.vmin = {{-0.39, -0.42, -0.21}}, .vmax = {{0.79, 1, 1}}};
+//	objects[7] = (t_object){.type = AABB,
+//			(t_material){.diffuse = get_float3_color(COL_LIGHT_BLUE), .specular = get_float3_color(0), .phong_exp = 0, .texture_number = NOT_SET},
+//			.vmin = {{-0.39, -0.42, -0.21}}, .vmax = {{0.79, 1, 1}}};
 
-	objects[8] = (t_object){.type = SPHERE, // specular sphere
+	objects[7] = (t_object){.type = SPHERE, // specular sphere
 			(t_material){.specular = get_float3_color(COL_LIGHT_GREEN), .transmittance = 0, .refraction = 0,
 				.phong_exp = 200, .smoothness = 1000, .texture_number = NOT_SET},
 			.center = {{-1, -0.5f, -2.5}},

@@ -40,6 +40,7 @@ int			kd_count_obj_in_aabb(t_aabb aabb, t_aabb *obj_aabbs, int num_aabbs, int ou
 
 	obj_in_bounds = 0;
 	i = 0;
+	rt_kd_unset_indices(out_indices);
 	while (i < num_aabbs)
 	{
 		if (kd_is_obj_in_aabb(aabb, obj_aabbs[i]))

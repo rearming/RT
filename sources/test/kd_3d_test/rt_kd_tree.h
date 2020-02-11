@@ -54,6 +54,13 @@ t_aabb		*rt_get_all_aabbs(t_meshes *meshes);
 t_aabb		get_root_aabb(t_aabb *aabbs, int num_aabbs);
 t_kd_tree	*build_kd_tree(t_aabb *obj_aabbs, int num_aabbs);
 
+/*
+** Debug
+*/
+
 void		print_kd_tree(t_kd_tree *tree);
+void		print_kd_node(t_kd_tree *node);
+void		print_aabb(t_aabb aabb);
+void		print_all_aabbs(t_aabb *aabbs, int num_aabb);
 
 #endif

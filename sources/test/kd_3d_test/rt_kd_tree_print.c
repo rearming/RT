@@ -21,6 +21,7 @@ void	print_kd_node(t_kd_tree *node)
 	ft_printf("aabb:\n");
 	print_aabb(node->aabb);
 	ft_printf("sah: [%.3f]\n", node->sah);
+	ft_printf("obj num: [%i]\n", node->obj_num);
 	if (node->indices[0] != NOT_SET)
 	{
 		ft_printf("obj indices:\n");
