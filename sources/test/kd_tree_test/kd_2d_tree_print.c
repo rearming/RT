@@ -28,7 +28,7 @@ void	print_all_2d_aabbs(t_aabb *aabbs, int num_aabb)
 void	kd_2d_print_node(t_kd_tree *node)
 {
 	ft_printf("obj num: [%i]\n", node->obj_num);
-	ft_printf("sah: [%i]\n", node->sah);
+	ft_printf("sah: [%.3f]\n", node->sah);
 	print_2d_aabb(node->aabb);
 	if (node->indices[0] != NOT_SET)
 	{

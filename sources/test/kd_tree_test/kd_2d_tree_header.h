@@ -8,7 +8,7 @@
 # define MAX_OBJ_IN_LEAF 3
 
 # define MIN_OBJ_IN_LEAF 0
-# define BUCKETS 32
+# define BUCKETS 10
 # define EMPTY_COST 1
 // все эти параметры нуждаются в корректировке
 // на основе тестов производительности

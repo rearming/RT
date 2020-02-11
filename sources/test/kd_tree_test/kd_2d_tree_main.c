@@ -39,7 +39,7 @@ void		start_build_kd_2d_tree(t_aabb *obj_aabbs, int num_aabbs)
 	graphic_print_kd_tree(root, obj_aabbs, num_aabbs);
 
 //	kd_2d_print_bounds(root->bounds);
-//	ft_printf("\n<------------------------------->\n");
+	ft_printf("\n<------------------------------->\n");
 //	ft_printf("max height: [%i]\n", g_max_height);
 	print_2d_kd_tree(root);
 
@@ -51,7 +51,7 @@ void 			test_kd_2d_tree_main(void)
 	int		num_aabbs;
 	t_aabb 	*obj_aabbs = kd_2d_get_test_objects(&num_aabbs);
 
-	g_max_height = 1;
+	g_max_height = 0;
 	start_build_kd_2d_tree(obj_aabbs, num_aabbs);
 	kd_draw_loop(obj_aabbs, num_aabbs);
 	free(obj_aabbs);

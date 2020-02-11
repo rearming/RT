@@ -19,9 +19,9 @@ void			kd_render_bounds(void *tree_ptr)
 	screen_aabb.bounds.max.y = WIN_HEIGHT / 2 - SCALE * tree->aabb.bounds.max.y;
 
 	aabb_rect.x = screen_aabb.bounds.min.x;
-	aabb_rect.y = screen_aabb.bounds.min.y;
+	aabb_rect.y = screen_aabb.bounds.max.y;
 	aabb_rect.w = (int)screen_aabb.bounds.max.x - (int)screen_aabb.bounds.min.x;
-	aabb_rect.h = (int)screen_aabb.bounds.max.y - (int)screen_aabb.bounds.min.y;
+	aabb_rect.h = (int)screen_aabb.bounds.min.y - (int)screen_aabb.bounds.max.y;
 
 //	if (tree->left == NULL || tree->right == NULL)
 //		SDL_SetRenderDrawColor(g_sdl.rend, 200, 0, 0, 255);
@@ -30,30 +30,41 @@ void			kd_render_bounds(void *tree_ptr)
 
 	SDL_RenderDrawRect(g_sdl.rend, &aabb_rect);
 
-	ft_printf("x: [%i], y: [%i], w: [%i], h: [%i]\n",
-			aabb_rect.x, aabb_rect.y, aabb_rect.w, aabb_rect.h);
+//	print_2d_aabb(tree->aabb);
+//	print_2d_aabb(screen_aabb);
+//	ft_printf("x: [%i], y: [%i], w: [%i], h: [%i]\n",
+//			aabb_rect.x, aabb_rect.y, aabb_rect.w, aabb_rect.h);
 
 	kd_render_bounds(tree->left);
 	kd_render_bounds(tree->right);
 }
 
-void			kd_render_obj_bounds(t_aabb *obj_bounds, int num_aabbs)
+void			kd_render_obj_bounds(t_aabb *obj_aabbs, int num_aabbs)
 {
 	SDL_SetRenderDrawColor(g_sdl.rend, 57, 207, 205, 255);
 
 	for (int i = 0; i < num_aabbs; ++i)
 	{
-		SDL_Rect	obj_rect;
-		t_bounds	bounds;
+		SDL_Rect		aabb_rect;
+		t_aabb			screen_aabb;
 
-//		bounds = objects[i].bounds;
-//
-//		obj_rect.x = (int)bounds.arr[0].x * SCALE;
-//		obj_rect.y = (int)bounds.arr[0].y * SCALE;
-//		obj_rect.w = (int)(fabsf(bounds.arr[0].x - bounds.arr[1].x) * SCALE);
-//		obj_rect.h = (int)(fabsf(bounds.arr[0].y - bounds.arr[2].y) * SCALE);
+		screen_aabb.bounds.min.x = SCALE * obj_aabbs[i].bounds.min.x + WIN_WIDTH / 2;
+		screen_aabb.bounds.min.y = WIN_HEIGHT / 2 - SCALE * obj_aabbs[i].bounds.min.y;
 
-		SDL_RenderFillRect(g_sdl.rend, &obj_rect);
+		screen_aabb.bounds.max.x = SCALE * obj_aabbs[i].bounds.max.x + WIN_WIDTH / 2;
+		screen_aabb.bounds.max.y = WIN_HEIGHT / 2 - SCALE * obj_aabbs[i].bounds.max.y;
+
+		aabb_rect.x = screen_aabb.bounds.min.x;
+		aabb_rect.y = screen_aabb.bounds.max.y;
+		aabb_rect.w = (int)screen_aabb.bounds.max.x - (int)screen_aabb.bounds.min.x;
+		aabb_rect.h = (int)screen_aabb.bounds.min.y - (int)screen_aabb.bounds.max.y;
+
+//		print_2d_aabb(obj_aabbs[i]);
+//		print_2d_aabb(screen_aabb);
+//		ft_printf("x: [%i], y: [%i], w: [%i], h: [%i]\n",
+//				aabb_rect.x, aabb_rect.y, aabb_rect.w, aabb_rect.h);
+
+		SDL_RenderFillRect(g_sdl.rend, &aabb_rect);
 	}
 }
 
@@ -108,7 +119,7 @@ void		graphic_print_kd_tree(t_kd_tree *tree, t_aabb *obj_aabbs, int num_aabbs)
 	SDL_SetRenderDrawColor(g_sdl.rend, 0, 255, 0, 255);
 	kd_render_bounds(tree);
 	SDL_SetRenderDrawColor(g_sdl.rend, 150, 0, 0, 255);
-//	kd_render_obj_bounds(obj_aabbs, num_aabbs);
+	kd_render_obj_bounds(obj_aabbs, num_aabbs);
 
 	SDL_RenderPresent(g_sdl.rend);
 }
