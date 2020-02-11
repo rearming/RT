@@ -115,7 +115,12 @@ set(kd_tree_test
         sources/test/kd_tree_test/kd_2d_tree_build.c
         sources/test/kd_tree_test/kd_2d_tree_main.c
         sources/test/test_asserts.c
-        sources/test/kd_tree_test/kd_2d_graphic.c sources/test/kd_3d_test/rt_kd_get_aabb.c sources/test/kd_3d_test/test_get_aabb_polygon.c sources/test/kd_3d_test/rt_kd_tree_build.c sources/test/kd_3d_test/rt_kd_tree_print.c)
+        sources/test/kd_tree_test/kd_2d_graphic.c
+        sources/test/kd_3d_test/rt_kd_get_aabb.c
+        sources/test/kd_3d_test/test_build_kd_tree.c
+        sources/test/kd_3d_test/rt_kd_tree_build.c
+        sources/test/kd_3d_test/rt_kd_tree_print.c
+        sources/test/kolyan_aabb_test_parser.c)
 
 add_executable(test
         ${sources}
