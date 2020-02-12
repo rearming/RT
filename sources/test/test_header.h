@@ -2,6 +2,7 @@
 # define TEST_HEADER_H
 
 #include "rt.h"
+#include <time.h>
 
 //#define VERBOSE 1
 

@@ -41,8 +41,6 @@ void			kd_render_bounds(void *tree_ptr)
 
 void			kd_render_obj_bounds(t_aabb *obj_aabbs, int num_aabbs)
 {
-	SDL_SetRenderDrawColor(g_sdl.rend, 57, 207, 205, 255);
-
 	for (int i = 0; i < num_aabbs; ++i)
 	{
 		SDL_Rect		aabb_rect;
@@ -64,7 +62,10 @@ void			kd_render_obj_bounds(t_aabb *obj_aabbs, int num_aabbs)
 //		ft_printf("x: [%i], y: [%i], w: [%i], h: [%i]\n",
 //				aabb_rect.x, aabb_rect.y, aabb_rect.w, aabb_rect.h);
 
+		SDL_SetRenderDrawColor(g_sdl.rend, 57, 207, 205, 255);
 		SDL_RenderFillRect(g_sdl.rend, &aabb_rect);
+		SDL_SetRenderDrawColor(g_sdl.rend, 255, 0, 0, 255);
+		SDL_RenderDrawRect(g_sdl.rend, &aabb_rect);
 	}
 }
 
@@ -89,10 +90,12 @@ void		kd_draw_loop(t_aabb *obj_aabbs, int num_aabbs)
 				else if (event.key.keysym.scancode == SDL_SCANCODE_KP_PLUS)
 				{
 					g_max_height++;
+					g_empty_cost += 0.1f;
 					start_build_kd_2d_tree(obj_aabbs, num_aabbs);
 				}
 				else if (event.key.keysym.scancode == SDL_SCANCODE_KP_MINUS)
 				{
+					g_empty_cost -= 0.1f;
 					g_max_height--;
 					start_build_kd_2d_tree(obj_aabbs, num_aabbs);
 				}
@@ -116,10 +119,9 @@ void		graphic_print_kd_tree(t_kd_tree *tree, t_aabb *obj_aabbs, int num_aabbs)
 	SDL_SetRenderDrawColor(g_sdl.rend, 0, 0, 0, 255);
 	SDL_RenderClear(g_sdl.rend);
 
+	kd_render_obj_bounds(obj_aabbs, num_aabbs);
 	SDL_SetRenderDrawColor(g_sdl.rend, 0, 255, 0, 255);
 	kd_render_bounds(tree);
-	SDL_SetRenderDrawColor(g_sdl.rend, 150, 0, 0, 255);
-	kd_render_obj_bounds(obj_aabbs, num_aabbs);
 
 	SDL_RenderPresent(g_sdl.rend);
 }

@@ -9,10 +9,10 @@ int			kd_2d_find_matches(const int *left_indices, const int *right_indices)
 
 	i = 0;
 	matches = 0;
-	while (i < MAX_OBJ_IN_LEAF)
+	while (i < KD_MAX_OBJ_IN_LEAF)
 	{
 		j = 0;
-		while (j < MAX_OBJ_IN_LEAF)
+		while (j < KD_MAX_OBJ_IN_LEAF)
 		{
 			if (left_indices[i] != NOT_SET && right_indices[i] != NOT_SET
 				&& left_indices[i] == right_indices[j])
@@ -71,13 +71,13 @@ int			kd_2d_count_obj_in_aabb(t_aabb aabb, t_aabb *obj_aabbs, int num_aabbs, int
 	{
 		if (kd_2d_is_obj_in_aabb(aabb, obj_aabbs[i]))
 		{
-			if (obj_in_bounds < MAX_OBJ_IN_LEAF && out_indices)
+			if (obj_in_bounds < KD_MAX_OBJ_IN_LEAF && out_indices)
 				out_indices[obj_in_bounds] = i; // тут i == индексу полигона
 			obj_in_bounds++;
 		}
 		i++;
 	}
-	if (obj_in_bounds >= MAX_OBJ_IN_LEAF && out_indices)
+	if (obj_in_bounds >= KD_MAX_OBJ_IN_LEAF && out_indices)
 		rt_kd_2d_unset_indices(out_indices);
 	return obj_in_bounds;
 }
@@ -90,8 +90,8 @@ float		kd_2d_get_aabb_area(t_aabb aabb)
 
 float		calc_2d_sah(t_aabb *obj_aabbs, int num_aabbs, t_aabb left_bounds, t_aabb right_bounds)
 {
-//	int		left_obj_indices[MAX_OBJ_IN_LEAF];
-//	int		right_obj_indices[MAX_OBJ_IN_LEAF];
+//	int		left_obj_indices[KD_MAX_OBJ_IN_LEAF];
+//	int		right_obj_indices[KD_MAX_OBJ_IN_LEAF];
 //
 //	int		left_obj_num = kd_2d_count_obj_in_aabb(tree->aabb, obj_aabbs,
 //			num_aabbs, left_obj_indices);
@@ -103,7 +103,7 @@ float		calc_2d_sah(t_aabb *obj_aabbs, int num_aabbs, t_aabb left_bounds, t_aabb 
 //	if (((float) matches / (float) left_obj_num > 0.5f
 //		 || (float) matches / (float) right_obj_num > 0.5f))
 //		return;
-	return EMPTY_COST // kd_2d_count_obj_in_aabb можно закешировать раньше (и не считать два раза)
+	return g_empty_cost // kd_2d_count_obj_in_aabb можно закешировать раньше (и не считать два раза)
 		   + (float) kd_2d_count_obj_in_aabb(left_bounds, obj_aabbs, num_aabbs,
 			NULL) *
 			 kd_2d_get_aabb_area(left_bounds)
@@ -152,43 +152,34 @@ void		build_2d_kd_tree_recursive(t_kd_tree *tree, t_aabb *obj_aabbs, int num_aab
 	tree->left = NULL;
 	tree->right = NULL;
 
-	if (level >= g_max_height || tree->obj_num <= MIN_OBJ_IN_LEAF)
-		return;
-
 	t_aabb	left_aabb;
 	t_aabb	right_aabb;
 
 	float	sah = kd_2d_split_buckets_sah(tree->aabb, obj_aabbs, num_aabbs,
 			&left_aabb, &right_aabb);
-	if (sah / tree->sah > 0.8f)
+	if (sah > kd_2d_get_aabb_area(tree->aabb) * (float)tree->obj_num)
 		return;
 
-	int		left_obj_indices[MAX_OBJ_IN_LEAF];
-	int		right_obj_indices[MAX_OBJ_IN_LEAF];
+	int		left_obj_indices[KD_MAX_OBJ_IN_LEAF];
+	int		right_obj_indices[KD_MAX_OBJ_IN_LEAF];
 
 	int		left_obj_num = kd_2d_count_obj_in_aabb(left_aabb, obj_aabbs,
 			num_aabbs, left_obj_indices);
 	int		right_obj_num = kd_2d_count_obj_in_aabb(right_aabb, obj_aabbs,
 			num_aabbs, right_obj_indices);
 
-//	int		matches = kd_2d_find_matches(left_obj_indices, right_obj_indices);
-//
-//	if (((float) matches / (float) left_obj_num > 0.5f
-//		 || (float) matches / (float) right_obj_num > 0.5f))
-//		return;
-
 	tree->left = rt_safe_malloc(sizeof(t_kd_tree));
 	tree->left->obj_num = left_obj_num;
 	tree->left->aabb = left_aabb;
 	tree->left->sah = sah;
-	ft_memcpy(tree->left->indices, left_obj_indices, sizeof(int) * MAX_OBJ_IN_LEAF);
+	ft_memcpy(tree->left->indices, left_obj_indices, sizeof(int) * KD_MAX_OBJ_IN_LEAF);
 	build_2d_kd_tree_recursive(tree->left, obj_aabbs, num_aabbs, level + 1);
 
 	tree->right = rt_safe_malloc(sizeof(t_kd_tree));
 	tree->right->obj_num = right_obj_num;
 	tree->right->aabb = right_aabb;
 	tree->right->sah = sah;
-	ft_memcpy(tree->right->indices, right_obj_indices, sizeof(int) * MAX_OBJ_IN_LEAF);
+	ft_memcpy(tree->right->indices, right_obj_indices, sizeof(int) * KD_MAX_OBJ_IN_LEAF);
 	build_2d_kd_tree_recursive(tree->right, obj_aabbs, num_aabbs, level + 1);
 }
 

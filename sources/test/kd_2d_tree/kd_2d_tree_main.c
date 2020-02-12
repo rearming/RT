@@ -4,13 +4,19 @@
 
 t_aabb		*kd_2d_get_test_objects(int *out_aabbs_num)
 {
-	int			aabbs_num = 2;
+	int			aabbs_num = 8;
 	t_aabb		*aabbs;
 
 	aabbs = rt_safe_malloc(sizeof(t_aabb) * aabbs_num);
 	*out_aabbs_num = aabbs_num;
-	aabbs[0] = (t_aabb){.bounds = {.min = (cl_float2){{1, 1}}, .max = (cl_float2){{2, 2}}}};
-	aabbs[1] = (t_aabb){.bounds = {.min = (cl_float2){{-3, -1}}, .max = (cl_float2){{-2, 1}}}};
+	aabbs[0] = (t_aabb){.bounds = {.min = (cl_float2){{1, 1}}, .max = (cl_float2){{2, 3}}}};
+	aabbs[1] = (t_aabb){.bounds = {.min = (cl_float2){{3, 2}}, .max = (cl_float2){{5, 4}}}};
+	aabbs[2] = (t_aabb){.bounds = {.min = (cl_float2){{-2, -4}}, .max = (cl_float2){{-1, -3}}}};
+	aabbs[3] = (t_aabb){.bounds = {.min = (cl_float2){{-4, -4}}, .max = (cl_float2){{0, -3}}}};
+	aabbs[4] = (t_aabb){.bounds = {.min = (cl_float2){{-2, -3.5}}, .max = (cl_float2){{-1, -2}}}};
+	aabbs[5] = (t_aabb){.bounds = {.min = (cl_float2){{3, -2}}, .max = (cl_float2){{4, -1}}}};
+	aabbs[6] = (t_aabb){.bounds = {.min = (cl_float2){{4, -3}}, .max = (cl_float2){{5, -2}}}};
+	aabbs[7] = (t_aabb){.bounds = {.min = (cl_float2){{4, -1.5}}, .max = (cl_float2){{5, -0.5}}}};
 	return (aabbs);
 }
 
@@ -41,7 +47,8 @@ void		start_build_kd_2d_tree(t_aabb *obj_aabbs, int num_aabbs)
 //	kd_2d_print_bounds(root->bounds);
 	ft_printf("\n<------------------------------->\n");
 //	ft_printf("max height: [%i]\n", g_max_height);
-	print_2d_kd_tree(root);
+//	print_2d_kd_tree(root);
+	printf("g_empty_cost: [%.2f]\n", g_empty_cost);
 
 	free_btree((t_avl_tree*)root, NULL);
 }
@@ -52,6 +59,7 @@ void 			test_kd_2d_tree_main(void)
 	t_aabb 	*obj_aabbs = kd_2d_get_test_objects(&num_aabbs);
 
 	g_max_height = 0;
+	g_empty_cost = 0.1f;
 	start_build_kd_2d_tree(obj_aabbs, num_aabbs);
 	kd_draw_loop(obj_aabbs, num_aabbs);
 	free(obj_aabbs);

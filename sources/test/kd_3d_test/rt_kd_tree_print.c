@@ -21,13 +21,16 @@ void	print_kd_node(t_kd_tree *node)
 	printf("aabb:\n");
 	print_aabb(node->aabb);
 	printf("sah: [%.3f]\n", node->sah);
-	printf("obj num: [%i]\n", node->obj_num);
-	if (node->indices[0] != NOT_SET)
+	printf("obj num: [%i]\n", node->objects.num);
+
+#ifdef PRINT_INDICES
+	if (node->objects.num > 0)
 	{
 		printf("obj indices:\n");
-		for (int i = 0; i < MAX_OBJ_IN_LEAF; ++i)
-			printf("[%i] ", node->indices[i]);
+		for (int i = 0; i < node->objects.num; ++i)
+			printf("[%i] ", node->objects.indices[i]);
 	}
+#endif
 	printf("\n\n");
 }
 

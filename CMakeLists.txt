@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD 11)
 add_compile_options(-Wall -Wextra)
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
-    add_compile_options(-Werror -O2)
+    add_compile_options(-O3)
 endif()
 
 # <----RTv1 compile---->
@@ -111,16 +111,16 @@ target_link_libraries(RT
 
 
 set(kd_tree_test
-        sources/test/kd_tree_test/kd_2d_tree_print.c
-        sources/test/kd_tree_test/kd_2d_tree_build.c
-        sources/test/kd_tree_test/kd_2d_tree_main.c
+        sources/test/kd_2d_tree/kd_2d_tree_print.c
+        sources/test/kd_2d_tree/kd_2d_tree_build.c
+        sources/test/kd_2d_tree/kd_2d_tree_main.c
         sources/test/test_asserts.c
-        sources/test/kd_tree_test/kd_2d_graphic.c
+        sources/test/kd_2d_tree/kd_2d_graphic.c
         sources/test/kd_3d_test/rt_kd_get_aabb.c
         sources/test/kd_3d_test/test_build_kd_tree.c
         sources/test/kd_3d_test/rt_kd_tree_build.c
         sources/test/kd_3d_test/rt_kd_tree_print.c
-        sources/test/kolyan_aabb_test_parser.c)
+        sources/test/kolyan_aabb_test_parser.c sources/test/kd_3d_test/kd_tree_export.c)
 
 add_executable(test
         ${sources}

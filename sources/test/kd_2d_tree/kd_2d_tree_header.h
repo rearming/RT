@@ -5,15 +5,16 @@
 # define KD_SCENE_HEIGHT 6
 # define KD_SCENE_SIZE (KD_SCENE_WIDTH * KD_SCENE_WIDTH)
 
-# define MAX_OBJ_IN_LEAF 3
+# define KD_MAX_OBJ_IN_LEAF 3
 
 # define MIN_OBJ_IN_LEAF 0
-# define BUCKETS 10
+# define BUCKETS 32
 # define EMPTY_COST 1
 // все эти параметры нуждаются в корректировке
 // на основе тестов производительности
 
 extern int g_max_height;
+extern float g_empty_cost;
 
 # define AXIS_NUM 2
 # define X_AXIS 0
@@ -64,7 +65,7 @@ typedef struct	s_kd_tree
 	t_kd_tree	*right;
 	t_aabb		aabb;
 	float		sah;
-	int			indices[MAX_OBJ_IN_LEAF];
+	int			indices[KD_MAX_OBJ_IN_LEAF];
 	int			obj_num;
 }				t_kd_tree;
 

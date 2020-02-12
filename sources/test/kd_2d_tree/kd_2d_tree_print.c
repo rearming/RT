@@ -33,7 +33,7 @@ void	kd_2d_print_node(t_kd_tree *node)
 	if (node->indices[0] != NOT_SET)
 	{
 		ft_printf("obj indices:\n");
-		for (int j = 0; j < MAX_OBJ_IN_LEAF; ++j)
+		for (int j = 0; j < KD_MAX_OBJ_IN_LEAF; ++j)
 			ft_printf("[%i] ", node->indices[j]);
 	}
 	ft_printf("\n\n");
