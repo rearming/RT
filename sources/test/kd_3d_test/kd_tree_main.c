@@ -8,7 +8,8 @@ void	free_kd_tree(t_kd_tree *tree)
 		return;
 	free_kd_tree(tree->left);
 	free_kd_tree(tree->right);
-	free(tree->objects.indices);
+	if (tree->objects.num != NOT_SET)
+		free(tree->objects.indices);
 	free(tree);
 }
 
@@ -20,6 +21,20 @@ cl_float3	g_img_data_float[WIN_WIDTH * WIN_HEIGHT];
 
 int			g_max_height;
 float		g_empty_cost;
+
+int		get_max_kd_tree_depth(t_kd_tree *tree)
+{
+	if (!tree)
+		return 0;
+	return ft_max(get_max_kd_tree_depth(tree->left), get_max_kd_tree_depth(tree->right)) + 1;
+}
+
+int		get_kd_tree_nodes_num(t_kd_tree *tree)
+{
+	if (!tree)
+		return 0;
+	return get_kd_tree_nodes_num(tree->left) + get_kd_tree_nodes_num(tree->right) + 1;
+}
 
 int		main(void)
 {
@@ -46,6 +61,11 @@ int		main(void)
 	printf("k-d tree built in [%f] sec.\n", (double)(end - start) / CLOCKS_PER_SEC);
 
 //	print_kd_tree(kd_tree);
+
+//	printf("left tree depth: [%i]\n", get_max_kd_tree_depth(kd_tree->left));
+//	printf("right tree depth: [%i]\n", get_max_kd_tree_depth(kd_tree->right));
+//	printf("left tree nodes num: [%i]\n", get_kd_tree_nodes_num(kd_tree->left));
+//	printf("right tree nodes num: [%i]\n", get_kd_tree_nodes_num(kd_tree->right));
 
 	export_aabbs(kd_tree);
 

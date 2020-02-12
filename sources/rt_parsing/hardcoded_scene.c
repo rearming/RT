@@ -142,7 +142,7 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 
 	objects[6] = (t_object){.type = SPHERE, // light
 			(t_material){.diffuse = get_float3_color(0), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0,
-				.emission_color = get_float3_color(COL_WHITE), .emission_power = 1, .texture_number = 3},
+				.emission_color = get_float3_color(COL_WHITE), .emission_power = 1, .texture_number = NOT_SET},
 			.center = {{0, 2.5, 0}},
 			.radius = 1.5f};
 
@@ -152,7 +152,7 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 			.radius = 1.f};*/
 
 	objects[7] = (t_object){.type = SPHERE, // texture sphere
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = 1},
 			.center = {{1, -1.5f, 0}},
 			.radius = 2.f};
 
@@ -314,8 +314,8 @@ static void 	add_textures(void)
 	i = 0;
 	char *textures[] = {
 			"sphere_earth.jpg",
-			"sphere_sun.jpg",
-			"skybox_milkyway.png"};
+			"sphere_sun.jpg"};
+
 	g_textures.texture_info_size = sizeof(textures) / sizeof(char*);
 	g_textures.textures_names = NULL;
 	while (i < (int)g_textures.texture_info_size)
@@ -325,7 +325,7 @@ static void 	add_textures(void)
 	}
 }
 
-void print_textures(void)
+void			print_textures(void)
 {
 	t_texture_name *tmp;
 	tmp = g_textures.textures_names;
@@ -342,12 +342,12 @@ t_scene		get_hardcoded_scene(void)
 
 	scene.camera = (t_camera)
 	{
-//		.pos = {{0, 20, 40}}, //statuya pos/rot
+//		.pos = {{0, 5, 30}}, //statuya pos/rot
 //		.rotation = {{0, 180, 0}},
 //		.pos = {{20, 6.6, -6.4}}, //pathtracing scene pos/rotation
 //		.rotation = {{-10, -63.3, 0}},
 		.pos = {{0.2, 1.2, -14.2}}, // cornell box pos/rotation
-		.rotation = {{0, 0, 0}},/**/
+		.rotation = {{0, 0, 0}},
 		.viewport_distance = 1,
 		.viewport_width = WIN_RATIO < 1 ? D_I_MAZOHIN : 1,
 		.viewport_height = WIN_RATIO > 1 ? D_E_KARMATSKIY : 1

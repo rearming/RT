@@ -8,7 +8,7 @@ t_split		kd_split(t_aabb root_aabb, int axis, int split_num)
 	split.s.min = root_aabb.bounds.min;
 	split.s.min.s[axis] = root_aabb.bounds.min.s[axis] + ((root_aabb.bounds.max.s[axis] - root_aabb.bounds.min.s[axis]) / BUCKETS) * (float)split_num;
 	split.s.max = root_aabb.bounds.max;
-	split.s.max.s[axis] = split.s.min.s[axis]; // координата разделения та же, бокс выровнен по осям
+	split.s.max.s[axis] = split.s.min.s[axis];
 	return (split);
 }
 
@@ -43,7 +43,7 @@ t_aabb_objects		kd_get_objects_in_aabb(t_aabb aabb, t_aabb *all_aabbs, t_aabb_ob
 	{
 		if (kd_is_obj_in_aabb(aabb, all_aabbs[prev_objects->indices[i]]))
 		{
-			aabb_objects.indices[aabb_objects.num] = prev_objects->indices[i]; // тут i == индексу полигона
+			aabb_objects.indices[aabb_objects.num] = prev_objects->indices[i];
 			aabb_objects.num++;
 		}
 		i++;
@@ -122,20 +122,24 @@ void		build_kd_tree_recursive(t_kd_tree *tree, t_aabb *all_aabbs, int level)
 	t_aabb_objects	left_objects;
 	t_aabb_objects	right_objects;
 
-	float	sah = kd_split_buckets_sah(tree->aabb, &tree->objects, all_aabbs, &left_aabb, &right_aabb, &left_objects, &right_objects);
-	if (sah > kd_get_aabb_area(tree->aabb) * (float)tree->objects.num)
+	float	sah = kd_split_buckets_sah(tree->aabb, &tree->objects,
+			all_aabbs, &left_aabb, &right_aabb, &left_objects, &right_objects);
+	if (sah > tree->sah)
 		return;
+
+	tree->objects.num = NOT_SET;
+	free(tree->objects.indices);
 
 	tree->left = rt_safe_malloc(sizeof(t_kd_tree));
 	tree->left->objects = left_objects;
 	tree->left->aabb = left_aabb;
-	tree->left->sah = sah;
+	tree->left->sah = kd_get_aabb_area(left_aabb) * (float)left_objects.num;
 	build_kd_tree_recursive(tree->left, all_aabbs, level + 1);
 
 	tree->right = rt_safe_malloc(sizeof(t_kd_tree));
 	tree->right->objects = right_objects;
 	tree->right->aabb = right_aabb;
-	tree->right->sah = sah;
+	tree->right->sah = kd_get_aabb_area(right_aabb) * (float) right_objects.num;
 	build_kd_tree_recursive(tree->right, all_aabbs, level + 1);
 }
 
