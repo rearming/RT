@@ -108,17 +108,17 @@ void			rt_textures_init(void)
 	while (i < (int)g_textures.texture_info_size) {
 		tmp_filename = (ft_strchr(g_textures.textures_names->name, 47) != NULL) ?
 					   ft_strdup(g_textures.textures_names->name) :
-					   ft_strjoin(textures_folder, g_textures.textures_names->name);
+					   ft_strjoin(TEXTURES_FOLDER, g_textures.textures_names->name);
 		if (!tmp_filename)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		tmp_texture = stbi_load(tmp_filename, &g_textures.texture_info[i].width,
 								&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp,
 								STBI_rgb);
+		printf("%s width: [%i], height: [%i]\n", tmp_filename, g_textures.texture_info[i].width, g_textures.texture_info[i].height );
 		if (g_textures.texture_info[i].height > WIN_HEIGHT * SCALE_HEIGHT * 3)
 			tmp_texture = resize_image(tmp_texture, i, 3 * WIN_HEIGHT);
 		rt_add_start_position(i);
 		rt_change_format_and_add(tmp_texture, i);
-		//printf("%s width: [%i], height: [%i]\n", tmp_filename, g_textures.texture_info[i].width, g_textures.texture_info[i].height );
 		free(tmp_filename);
 		free(tmp_texture);
 		if (g_textures.texture_list == NULL)

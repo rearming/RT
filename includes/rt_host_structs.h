@@ -3,9 +3,6 @@
 
 # ifndef FT_OPENCL___
 
-#define textures_folder "/Users/gfoote/Project42/RT/textures2/"
-#define TEXTURE_BUF 15
-
 typedef struct			s_sdl
 {
 	SDL_Window			*win;

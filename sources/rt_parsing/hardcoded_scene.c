@@ -307,7 +307,7 @@ static t_light		*rt_get_lights(int *out_lights_nbr)
 {
 
 	char *tex1 = "plane_bricks.bmp";
-	char *tex2 = "/Users/gfoote/Project42/RT/textures2/sphere_eye.jpg";
+	char *tex2 = "/Users/gfoote/Project42/RT/textures/sphere_eye.jpg";
 	char *tex3 = "sphere_sun.jpg";
 	ft_lstaddback(g_textures.textures_name, (void *)tex1, ft_strlen(tex1));
 	ft_lstaddback(g_textures.textures_name, (void *)tex2, ft_strlen(tex2));
@@ -319,18 +319,15 @@ static void 	add_textures(void)
 	int i;
 
 	i = 0;
-	char *tex1 = "sphere_earth.jpg";
-	char *tex2 = "/Users/gfoote/Project42/RT/textures2/sphere_sun.jpg";
-	char *tex3 = "skybox_milkyway.png";
-	g_textures.textures_names = (t_texture_name *)rt_safe_malloc(sizeof(t_texture_name) * g_textures.texture_info_size);
+	char *textures[] = {
+			"sphere_earth.jpg",
+			"sphere_sun.jpg",
+			"skybox_milkyway.png"};
+	g_textures.texture_info_size = sizeof(textures) / sizeof(char*);
+	g_textures.textures_names = NULL;
 	while (i < (int)g_textures.texture_info_size)
 	{
-		if (i == 0)
-			g_textures.textures_names = ft_new_texture_name(tex1);
-		if (i == 1)
-			ft_add_texture_name_back(&g_textures.textures_names, tex2);
-		if (i == 2)
-			ft_add_texture_name_back(&g_textures.textures_names, tex3);
+		ft_add_texture_name_back(&g_textures.textures_names, textures[i]);
 		i++;
 	}
 }
@@ -364,8 +361,7 @@ t_scene		get_hardcoded_scene(void)
 	};
 	scene.objects = rt_get_objects(&scene.obj_nbr);
 	scene.lights = rt_get_lights(&scene.lights_nbr);
-	g_textures.texture_info_size = 3;
 	add_textures();
-	print_textures();
+	//print_textures();
 	return (scene);
 }
