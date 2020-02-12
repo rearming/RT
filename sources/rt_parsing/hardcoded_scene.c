@@ -241,14 +241,48 @@ static	t_object	*many_spheres_test(int *out_obj_nbr)
 	return (objects);
 }
 
+static	t_object	*texture_scene(int *out_obj_nbr)
+{
+	const int	objects_nbr = 5;
+	t_object	*objects;
+
+	*out_obj_nbr = objects_nbr;
+	objects = rt_safe_malloc(sizeof(t_object) * objects_nbr);
+
+
+	objects[0] = (t_object){.type = NOT_SET, // far
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 40, .smoothness = 0, .texture_number = NOT_SET},
+			.center = {{0, 0, 2.5}},
+			.normal = {{0, 0, 1}}};
+	objects[1] = (t_object){.type = NOT_SET, // back
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0, .texture_number = NOT_SET},
+			.center = {{0, 0, -15}},
+			.normal = {{0, 0, 1}}};
+	objects[2] = (t_object){.type = SPHERE, // light
+			(t_material){.diffuse = get_float3_color(0), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0,
+					.emission_color = get_float3_color(COL_WHITE), .emission_power = 1, .texture_number = NOT_SET},
+			.center = {{0, 2.5, 0}},
+			.radius = 1.5f};
+	objects[3] = (t_object){.type = SPHERE, // texture sphere
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = 1},
+			.center = {{1, -1.5f, 0}},
+			.radius = 2.f};
+	objects[4] = (t_object){.type = SPHERE, // texture sphere
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 1000, .texture_number = 2},
+			.center = {{-1, -0.5f, -2.5}},
+			.radius = 1.f};
+	return (objects);
+}
+
 static t_object		*rt_get_objects(int *out_obj_nbr)
 {
 
 //	return (kolyan_scene(out_obj_nbr));
-	return (cornell_box(out_obj_nbr));
+//	return (cornell_box(out_obj_nbr));
 //	return (many_spheres_test(out_obj_nbr));
 //	return (pathtrace_scene(out_obj_nbr));
 //	return (obj_scene(out_obj_nbr));
+	return (texture_scene(out_obj_nbr));
 }
 
 static t_light		*rt_get_lights(int *out_lights_nbr)
