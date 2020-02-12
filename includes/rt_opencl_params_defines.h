@@ -40,12 +40,12 @@
 # ifndef FT_OPENCL___
 #  define OPENCL_INCLUDE_DIRS \
 " -I ./includes " \
-" -I ./sources/OpenCL_kernel_code " \
-" -I ./sources/OpenCL_kernel_code/light_computing " \
-" -I ./sources/OpenCL_kernel_code/mesh_render " \
-" -I ./sources/OpenCL_kernel_code/object_intersections " \
-" -I ./sources/OpenCL_kernel_code/pathtrace_algo " \
-" -I ./sources/OpenCL_kernel_code/texture_formulas"
+" -I ./sources/kernel " \
+" -I ./sources/kernel/light_computing " \
+" -I ./sources/kernel/mesh_render " \
+" -I ./sources/kernel/object_intersections " \
+" -I ./sources/kernel/pathtrace_algo " \
+" -I ./sources/kernel/texture_formulas"
 # endif
 
 # ifdef __APPLE__

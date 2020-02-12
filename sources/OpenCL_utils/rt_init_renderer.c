@@ -49,7 +49,7 @@ t_rt_renderer		*rt_create_renderer(uint32_t flags)
 	rt_init_renderer_params(&new_renderer->params);
 	ft_sprintf(&temp_str, "%s %s", OPENCL_INCLUDE_DIRS, opencl_defines);
 	compile_options = ft_del_whitespaces(temp_str);
-	ft_printf("compile options: %s\n", compile_options);
+	ft_printf("compile options: %s\n", opencl_defines);
 	rt_opencl_create_kernel(compile_options, &new_renderer->kernel, &new_renderer->program);
 	free((char*)opencl_defines);
 	free(compile_options);

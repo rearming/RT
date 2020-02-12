@@ -247,12 +247,15 @@ static	t_object	*many_spheres_test(int *out_obj_nbr)
 
 static t_object		*rt_get_objects(int *out_obj_nbr)
 {
-
-//	return (kolyan_scene(out_obj_nbr));
 	return (cornell_box(out_obj_nbr));
+//	return (kolyan_scene(out_obj_nbr));
 //	return (many_spheres_test(out_obj_nbr));
 //	return (pathtrace_scene(out_obj_nbr));
 //	return (obj_scene(out_obj_nbr));
+	RT_UNUSED(kolyan_scene(out_obj_nbr));
+	RT_UNUSED(many_spheres_test(out_obj_nbr));
+	RT_UNUSED(pathtrace_scene(out_obj_nbr));
+	RT_UNUSED(obj_scene(out_obj_nbr));
 }
 
 static t_light		*rt_get_lights(int *out_lights_nbr)

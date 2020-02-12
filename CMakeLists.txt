@@ -11,51 +11,94 @@ endif()
 
 # <----RTv1 compile---->
 
-set(sources
-        sources/init/rt_init.c
-        sources/utils/rt_safe_malloc.c
-        sources/utils/rt_raise_error.c
-        sources/OpenCL_utils/rt_opencl_init.c
-        sources/OpenCL_utils/rt_opencl_files_parser.c
+set(debug_sources
         sources/debug/opencl_debug.c
-        sources/utils/rt_exit_clean.c
-        sources/SDL_utils/sdl_init.c
-        sources/render/render.c
-        sources/OpenCL_utils/rt_opencl_render.c
-        sources/OpenCL_utils/rt_opencl_memory_management.c
-        sources/rt_parsing/rt_parse_scene.c
-        sources/rt_parsing/hardcoded_scene.c
-        sources/OpenCL_utils/rt_opencl_utils.c
-        sources/utils/rt_loop.c
-        sources/rt_event_handling/rt_camera_moves.c
-        sources/rt_event_handling/rt_event_handling.c
-        sources/math_utils/rt_rotation_utils.c
-        sources/math_utils/rt_cl_float3_utils.c
         sources/debug/rt_debug_info.c
         sources/debug/rt_debug_print_utils.c
-        sources/rt_parsing/rt_correct_scene.c
-        sources/utils/rt_color_utils.c
         sources/debug/rt_profiling.c
-        sources/rt_parsing/rt_load_obj_files.c
         sources/debug/rt_print_obj_file.c
         sources/debug/rt_debug_print_parsed_meshes.c
-        sources/rt_parsing/rt_load_obj_utils.c
-        sources/rt_parsing/rt_load_obj_meshes.c
-        sources/rt_parsing/rt_load_obj_materials.c
-        sources/rt_parsing/rt_correct_materials.c
+        sources/debug/rt_print_object.c
+        )
+
+set(math_utils_sources
         sources/math_utils/rt_math_utils.c
-        sources/rt_event_handling/rt_event_utils.c
+        sources/math_utils/rt_rotation_utils.c
+        sources/math_utils/rt_cl_float3_utils.c)
+
+set(OpenCL_utils_sources
+        sources/OpenCL_utils/rt_opencl_init.c
+        sources/OpenCL_utils/rt_opencl_files_parser.c
+        sources/OpenCL_utils/rt_opencl_render.c
+        sources/OpenCL_utils/rt_opencl_memory_management.c
+        sources/OpenCL_utils/rt_opencl_utils.c
+        sources/OpenCL_utils/rt_opencl_prepare_memory.c
         sources/OpenCL_utils/rt_init_renderer.c
+        )
+
+set(parsing_sources
+        sources/rt_parsing/rt_parse_scene.c
+        sources/rt_parsing/hardcoded_scene.c
+        sources/rt_parsing/rt_correct_scene.c
+        )
+
+set(event_handling_sources
+        sources/rt_event_handling/rt_event_utils.c
         sources/rt_event_handling/rt_settings_change.c
         sources/rt_event_handling/rt_settings_info.c
         sources/rt_event_handling/rt_key_event_handing.c
         sources/rt_event_handling/rt_mouse_event_handling.c
+        sources/rt_event_handling/rt_camera_moves.c
+        sources/rt_event_handling/rt_event_handling.c
+        )
+
+set(utils_sources
+        sources/utils/rt_safe_malloc.c
+        sources/utils/rt_raise_error.c
+        sources/utils/rt_exit_clean.c
+        sources/utils/rt_color_utils.c
+        )
+
+set(SDL_utils_sources
+        sources/SDL_utils/sdl_init.c
+        )
+
+set(obj_loading_sources
+        sources/obj_loading/rt_load_obj_files.c
+        sources/obj_loading/rt_load_obj_utils.c
+        sources/obj_loading/rt_load_obj_meshes.c
+        sources/obj_loading/rt_load_obj_materials.c
+        sources/obj_loading/rt_correct_materials.c
+        )
+
+set(init_sources
+        sources/init/rt_init.c
         sources/init/rt_init_render_params.c
-        sources/OpenCL_utils/rt_opencl_prepare_memory.c
-        sources/render/rt_update_params.c
-        sources/debug/rt_print_object.c
         sources/init/rt_load_textures.c
-        sources/init/rt_load_textures_utils.c)
+        sources/init/rt_load_textures_utils.c
+        )
+
+set(render_sources
+        sources/render/rt_loop.c
+        sources/render/render.c
+        sources/render/rt_update_params.c
+        )
+
+set(kd_tree_sources
+        sources/kd_tree/rt_kd_get_aabb.c
+        sources/kd_tree/rt_kd_tree_build.c)
+
+set(sources
+        ${debug_sources}
+        ${math_utils_sources}
+        ${OpenCL_utils_sources}
+        ${parsing_sources}
+        ${event_handling_sources}
+        ${utils_sources}
+        ${SDL_utils_sources}
+        ${obj_loading_sources}
+        ${init_sources}
+        ${render_sources})
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INCLUDE(FindPkgConfig)
@@ -109,32 +152,65 @@ target_link_libraries(RT
 
 # <----TESTING----> #
 
+# <---- kd_tree_test ----> #
 
-set(kd_tree_test
-        sources/test/kd_2d_tree/kd_2d_tree_print.c
-        sources/test/kd_2d_tree/kd_2d_tree_build.c
-        sources/test/kd_2d_tree/kd_2d_tree_main.c
-        sources/test/test_asserts.c
-        sources/test/kd_2d_tree/kd_2d_graphic.c
-        sources/test/kd_3d_test/rt_kd_get_aabb.c
-        sources/test/kd_3d_test/test_build_kd_tree.c
-        sources/test/kd_3d_test/rt_kd_tree_build.c
-        sources/test/kd_3d_test/rt_kd_tree_print.c
-        sources/test/kolyan_aabb_test_parser.c sources/test/kd_3d_test/kd_tree_export.c)
-
-add_executable(test
-        ${sources}
-        ${kd_tree_test}
-        sources/test/test_main.c
-#        sources/test/test_utils.c
-#        sources/test/test_opencl.c
-#        sources/test/test_lerp.c
+add_executable(kd_tree_test
+        ${SDL_utils_sources}
+        ${math_utils_sources}
+        ${utils_sources}
+        ${kd_tree_sources}
+        ${obj_loading_sources}
+        sources/debug/rt_debug_print_parsed_meshes.c
+        sources/debug/rt_debug_print_utils.c
+        sources/debug/rt_kd_tree_print.c
+        sources/test/kd_3d_test/kd_tree_main.c
+        sources/test/kd_3d_test/kd_tree_export.c
         )
 
-target_include_directories(test PRIVATE
+target_include_directories(kd_tree_test PRIVATE
         sources/test)
 
-target_link_libraries(test
+target_link_libraries(kd_tree_test
+        "ftprintf"
+        "ft"
+        ${graphic_libs_link_names}
+        "m"
+        )
+
+# <---- kd_tree_2d_test ----> #
+
+add_executable(kd_tree_2d_test
+        ${SDL_utils_sources}
+        ${math_utils_sources}
+        ${utils_sources}
+        sources/test/kd_2d_tree/kd_2d_tree_build.c
+        sources/test/kd_2d_tree/kd_2d_graphic.c
+        sources/test/kd_2d_tree/kd_2d_tree_print.c
+        sources/test/kd_2d_tree/kd_2d_tree_main.c
+        )
+
+target_include_directories(kd_tree_2d_test PRIVATE
+        sources/test)
+
+target_link_libraries(kd_tree_2d_test
+        "ftprintf"
+        "ft"
+        ${graphic_libs_link_names}
+        "m"
+        )
+
+# <---- generic_test ----> #
+
+add_executable(generic_test
+        ${sources}
+        sources/test/test_asserts.c
+        sources/test/generic_test/generic_test_main.c
+        )
+
+target_include_directories(generic_test PRIVATE
+        sources/test)
+
+target_link_libraries(generic_test
         "ftprintf"
         "ft"
         ${graphic_libs_link_names}

@@ -91,6 +91,6 @@ void		print_2d_kd_tree(t_kd_tree *root);
 */
 
 void		graphic_print_kd_tree(t_kd_tree *tree, t_aabb *obj_aabbs, int num_aabbs);
-void		kd_draw_loop(t_aabb *obj_aabbs, int num_aabbs);
+void		kd_2d_draw_loop(t_aabb *obj_aabbs, int num_aabbs);
 
 #endif

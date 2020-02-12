@@ -22,7 +22,7 @@ typedef struct		s_bounds
 	cl_float3		max;
 }					t_bounds;
 
-typedef union		s_aabb
+typedef union		u_aabb
 {
 	cl_float3		arr[2];
 	t_bounds		bounds;
@@ -60,16 +60,5 @@ typedef struct		s_kd_tree
 t_aabb		*rt_get_all_aabbs(t_meshes *meshes);
 t_aabb		get_root_aabb(t_aabb *aabbs, int num_aabbs);
 t_kd_tree	*build_kd_tree(t_aabb *all_aabbs, int num_aabbs);
-
-/*
-** Debug
-*/
-
-void		print_kd_tree(t_kd_tree *tree);
-void		print_kd_node(t_kd_tree *node);
-void		print_aabb(t_aabb aabb);
-void		print_all_aabbs(t_aabb *aabbs, int num_aabb);
-
-void		export_aabbs(t_kd_tree *tree);
 
 #endif

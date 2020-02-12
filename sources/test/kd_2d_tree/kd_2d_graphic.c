@@ -69,7 +69,7 @@ void			kd_render_obj_bounds(t_aabb *obj_aabbs, int num_aabbs)
 	}
 }
 
-void		kd_draw_loop(t_aabb *obj_aabbs, int num_aabbs)
+void		kd_2d_draw_loop(t_aabb *obj_aabbs, int num_aabbs)
 {
 	SDL_Event		event;
 
@@ -95,15 +95,10 @@ void		kd_draw_loop(t_aabb *obj_aabbs, int num_aabbs)
 				}
 				else if (event.key.keysym.scancode == SDL_SCANCODE_KP_MINUS)
 				{
-					g_empty_cost -= 0.1f;
+					if (g_empty_cost - 0.2f > 0)
+						g_empty_cost -= 0.1f;
 					g_max_height--;
 					start_build_kd_2d_tree(obj_aabbs, num_aabbs);
-				}
-				else if (event.key.keysym.scancode == SDL_SCANCODE_R)
-				{
-					g_max_height = 1;
-					test_kd_2d_tree_main();
-					return;
 				}
 			}
 			SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
