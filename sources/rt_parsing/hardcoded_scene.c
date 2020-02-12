@@ -322,16 +322,27 @@ static void 	add_textures(void)
 	char *tex1 = "plane_bricks.bmp";
 	char *tex2 = "/Users/gfoote/Project42/RT/textures2/sphere_eye.jpg";
 	char *tex3 = "sphere_sun.jpg";
-	g_textures.textures_name = (char **)rt_safe_malloc(sizeof(char *) * g_textures.texture_info_size);
+	g_textures.textures_names = (t_texture_name *)rt_safe_malloc(sizeof(t_texture_name) * g_textures.texture_info_size);
 	while (i < (int)g_textures.texture_info_size)
 	{
 		if (i == 0)
-			g_textures.textures_name[i] = ft_strdup(tex1);
+			g_textures.textures_names = ft_new_texture_name(tex1);
 		if (i == 1)
-			g_textures.textures_name[i] = ft_strdup(tex2);
+			ft_add_texture_name_back(&g_textures.textures_names, tex2);
 		if (i == 2)
-			g_textures.textures_name[i] = ft_strdup(tex3);
+			ft_add_texture_name_back(&g_textures.textures_names, tex3);
 		i++;
+	}
+}
+
+void print_textures()
+{
+	t_texture_name *tmp;
+	tmp = g_textures.textures_names;
+	while (tmp)
+	{
+		printf("%s\n", tmp->name);
+		tmp = tmp->next;
 	}
 }
 
@@ -355,5 +366,6 @@ t_scene		get_hardcoded_scene(void)
 	scene.lights = rt_get_lights(&scene.lights_nbr);
 	g_textures.texture_info_size = 3;
 	add_textures();
+	print_textures();
 	return (scene);
 }

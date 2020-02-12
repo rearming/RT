@@ -55,7 +55,8 @@ set(sources
         sources/render/rt_update_params.c
         sources/debug/rt_print_object.c
         sources/init/rt_load_textures.c
-        sources/init/rt_load_textures_utils.c)
+        sources/init/rt_load_textures_utils.c
+        )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INCLUDE(FindPkgConfig)

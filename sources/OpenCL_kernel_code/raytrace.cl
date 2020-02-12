@@ -12,7 +12,7 @@ float3		shade(
 	if (material->transmittance <= 0) // if not transmit
 	{
 #ifdef RENDER_TEXTURES
-		if (material->texture_number >= 0 && material->texture_number < 3)
+		if (material->texture_number != NOT_SET)
 			diffuse_color = texture(ray, hit, &texture_info[material->texture_number], texture_list, object);
 #endif
 		ray->origin = hit->pos + hit->normal * RT_EPSILON;
@@ -26,7 +26,7 @@ float3		shade(
 		ray->energy *= material->specular;
 	}
 #ifdef RENDER_TEXTURES
-	if (material->texture_number >= 0 && material->texture_number < 3)
+	if (material->texture_number != NOT_SET)
 		return diffuse_color;
 #endif
 	return material->emission_power > 0 ? material->emission_color : diffuse_color;
