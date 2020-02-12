@@ -268,7 +268,7 @@ static	t_object	*texture_scene(int *out_obj_nbr)
 			.center = {{1, -1.5f, 0}},
 			.radius = 2.f};
 	objects[4] = (t_object){.type = SPHERE, // texture sphere
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 1000, .texture_number = 2},
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 1000, .texture_number = 0},
 			.center = {{-1, -0.5f, -2.5}},
 			.radius = 1.f};
 	return (objects);
@@ -319,9 +319,9 @@ static void 	add_textures(void)
 	int i;
 
 	i = 0;
-	char *tex1 = "plane_bricks.bmp";
-	char *tex2 = "/Users/gfoote/Project42/RT/textures2/sphere_eye.jpg";
-	char *tex3 = "sphere_sun.jpg";
+	char *tex1 = "sphere_earth.jpg";
+	char *tex2 = "/Users/gfoote/Project42/RT/textures2/sphere_sun.jpg";
+	char *tex3 = "skybox_milkyway.png";
 	g_textures.textures_names = (t_texture_name *)rt_safe_malloc(sizeof(t_texture_name) * g_textures.texture_info_size);
 	while (i < (int)g_textures.texture_info_size)
 	{
