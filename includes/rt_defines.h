@@ -12,6 +12,8 @@
 
 # define RT_OBJLOADER_NOFLAGS 0
 
+#define TEXTURES_FOLDER "./assets/textures/"
+
 /*
 **	Window params
 */

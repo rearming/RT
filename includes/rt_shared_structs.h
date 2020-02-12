@@ -64,16 +64,21 @@ typedef struct			s_texture_info
 # endif
 }						t_texture_info;
 
-#define TEXTURE_NUM 4
+typedef struct		s_texture_name
+{
+	char 			*name;
+	struct s_texture_name *next;
+}					t_texture_name;
 
 # ifndef FT_OPENCL___
 typedef struct			s_textures
 {
-	//cl_uchar			*texture_list;
 	cl_float 			*texture_list;
-	t_texture_info		texture_info[TEXTURE_NUM];
+	t_texture_info		*texture_info; //вот здесь используется количество текстур
 	size_t				texture_list_size;
-	size_t				texture_info_size;
+	size_t				texture_info_size; // вот это заполнять
+	//char 				**textures_name;
+	t_texture_name		*textures_names;
 }						t_textures;
 # endif
 

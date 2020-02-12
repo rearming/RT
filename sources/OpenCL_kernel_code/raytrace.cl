@@ -12,7 +12,7 @@ float3		shade(
 	if (material->transmittance <= 0) // if not transmit
 	{
 #ifdef RENDER_TEXTURES
-		if (material->texture_number >= 0 && material->texture_number < TEXTURE_NUM)
+		if (material->texture_number != NOT_SET)
 			diffuse_color = texture(ray, hit, &texture_info[material->texture_number], texture_list, object);
 #endif
 		ray->origin = hit->pos + hit->normal * RT_EPSILON;
@@ -26,7 +26,7 @@ float3		shade(
 		ray->energy *= material->specular;
 	}
 #ifdef RENDER_TEXTURES
-	if (material->texture_number >= 0 && material->texture_number < TEXTURE_NUM)
+	if (material->texture_number != NOT_SET)
 		return diffuse_color;
 #endif
 	return material->emission_power > 0 ? material->emission_color : diffuse_color;
@@ -65,7 +65,7 @@ float3		raytrace(
 		}
 		else
 		{
-			result_color += ray.energy * skybox_color(&texture_info[1], texture_list, skybox_normal(ray));
+			result_color += ray.energy * skybox_color(&texture_info[2], texture_list, skybox_normal(ray));
 			//todo вместо texture_info[1] texture_info[SKYBOX_TEXTURE] (допустим, скайбокс всегда маппим на нулевую текстуру) [gfoote]
 			ray.energy = 0;
 		}
