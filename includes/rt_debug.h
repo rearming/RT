@@ -8,7 +8,7 @@
 **	debug
 */
 
-void		rt_print_clfloat3(cl_float3 vec);
+void		rt_print_clfloat3(cl_float3 vec, const char *definition);
 void		rt_print_float3_color(cl_float3 color, const char *definition);
 void		rt_print_debug_info(t_rt *rt, t_rt_renderer *renderer);
 void		print_cl_device_info(void);
@@ -35,5 +35,20 @@ void		rt_print_opencl_profile_info(void);
 
 void		rt_print_parsed_materials(t_meshes *meshes);
 void		rt_print_sphere(t_object *sphere);
+void		rt_print_parsed_polygon(t_polygon *polygon);
+
+/*
+** k-d tree
+*/
+
+typedef struct s_kd_tree	t_kd_tree;
+typedef union u_aabb		t_aabb;
+
+void		print_kd_tree(t_kd_tree *tree);
+void		print_kd_node(t_kd_tree *node);
+void		print_aabb(t_aabb aabb);
+void		print_all_aabbs(t_aabb *aabbs, int num_aabb);
+
+void		export_aabbs(t_kd_tree *tree);
 
 #endif

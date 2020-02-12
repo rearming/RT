@@ -13,7 +13,9 @@ void		rt_loop(t_rt *rt)
 		while (SDL_PollEvent(&event))
 		{
 			handle_event(&event, rt);
-//			SDL_FlushEvent(SDL_MOUSEMOTION);
+#ifndef __APPLE__
+			SDL_FlushEvent(SDL_MOUSEMOTION);
+#endif
 		}
 		if (rt_params_isset(rt->renderer_flags, RENDER_PATHTRACE))
 			rt_render(rt, rt_opencl_render);

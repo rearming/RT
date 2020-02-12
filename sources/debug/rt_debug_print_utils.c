@@ -1,14 +1,14 @@
 #include "rt.h"
 #include "rt_debug.h"
 
-void		rt_print_clfloat3(cl_float3 vec)
+void		rt_print_clfloat3(cl_float3 vec, const char *definition)
 {
-	ft_printf("x: [%.2f], y: [%.2f], z: [%.2f]\n", vec.x, vec.y, vec.z);
+	ft_printf("%s: x: [%.2f], y: [%.2f], z: [%.2f]\n", definition, vec.x, vec.y, vec.z);
 }
 
 void		rt_print_float3_color(cl_float3 color, const char *definition)
 {
-	ft_printf("%s: r: [%.2f], g: [%.2f], b: [%.2f]\n", definition, color.x, color.y, color.z);
+	ft_printf("%s: r: [%.2f], g: [%.2f], arr: [%.2f]\n", definition, color.x, color.y, color.z);
 }
 
 void		rt_print_material(const t_material *material)

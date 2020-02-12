@@ -11,6 +11,7 @@
 #include "render_utils.cl"
 #include "math_utils.cl"
 #include "ray_trianlge_intersection.cl"
+#include "ray_aabb_intersection.cl"
 #include "simple_object_intersections.cl"
 #include "intersection_utils.cl"
 

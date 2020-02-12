@@ -276,13 +276,18 @@ static	t_object	*texture_scene(int *out_obj_nbr)
 
 static t_object		*rt_get_objects(int *out_obj_nbr)
 {
-
+	return (cornell_box(out_obj_nbr));
 //	return (kolyan_scene(out_obj_nbr));
-//	return (cornell_box(out_obj_nbr));
 //	return (many_spheres_test(out_obj_nbr));
 //	return (pathtrace_scene(out_obj_nbr));
 //	return (obj_scene(out_obj_nbr));
-	return (texture_scene(out_obj_nbr));
+//	return (texture_scene(out_obj_nbr));
+	RT_UNUSED(cornell_box(out_obj_nbr));
+	RT_UNUSED(kolyan_scene(out_obj_nbr));
+	RT_UNUSED(many_spheres_test(out_obj_nbr));
+	RT_UNUSED(pathtrace_scene(out_obj_nbr));
+	RT_UNUSED(obj_scene(out_obj_nbr));
+	RT_UNUSED(texture_scene(out_obj_nbr));
 }
 
 static t_light		*rt_get_lights(int *out_lights_nbr)
@@ -302,18 +307,6 @@ static t_light		*rt_get_lights(int *out_lights_nbr)
 	return (lights);
 }
 
-
-/*static void 	add_textures(void)
-{
-
-	char *tex1 = "plane_bricks.bmp";
-	char *tex2 = "/Users/gfoote/Project42/RT/textures/sphere_eye.jpg";
-	char *tex3 = "sphere_sun.jpg";
-	ft_lstaddback(g_textures.textures_name, (void *)tex1, ft_strlen(tex1));
-	ft_lstaddback(g_textures.textures_name, (void *)tex2, ft_strlen(tex2));
-	ft_lstaddback(g_textures.textures_name, (void *)tex3, ft_strlen(tex3));
-}*/
-
 static void 	add_textures(void)
 {
 	int i;
@@ -332,7 +325,7 @@ static void 	add_textures(void)
 	}
 }
 
-void print_textures()
+void print_textures(void)
 {
 	t_texture_name *tmp;
 	tmp = g_textures.textures_names;
