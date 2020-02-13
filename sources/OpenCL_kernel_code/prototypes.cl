@@ -162,7 +162,24 @@ bool				ray_plane_intersect(
 bool				ray_sphere_intersect(
 		t_ray *ray,
 		__global const t_object *sphere,
-t_rayhit *best_hit);
+		t_rayhit *best_hit);
+
+float3	orthogonalization(float3 v1, float3 v2);
+
+bool				ray_cone_intersect(
+		t_ray *ray,
+		__global const t_object *cone,
+		t_rayhit *best_hit);
+
+bool				ray_cylinder_intersect(
+		t_ray *ray,
+		__global const t_object *cylinder,
+		t_rayhit *best_hit);
+
+bool				ray_paraboloid_intersect(
+		t_ray *ray,
+		__global const t_object *paraboloid,
+		t_rayhit *best_hit);
 
 float3		pathtrace(
 		__global const t_scene *scene,
