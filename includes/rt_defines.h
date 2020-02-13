@@ -20,8 +20,8 @@
 # define WIN_TITLE "Dota 5"
 
 # ifdef __APPLE__
-#  define WIN_WIDTH 2550
-#  define WIN_HEIGHT 1300
+#  define WIN_WIDTH 1600
+#  define WIN_HEIGHT 1200
 # else
 #  define WIN_WIDTH 1920
 #  define WIN_HEIGHT 1080
@@ -125,10 +125,12 @@
 # define ROTATION_SPEED 0.05
 
 /*
-** Nuklear cross
+** Sdl gui
 */
 # define RT_GUI_NAME "Dota 5 Tools"
-# define RT_NK_WIDTH 640
+# define RT_GUI_WIDTH 640
 # define RT_NK_HEIGHT 480
+
+# define DISABLE_K 2
 
 #endif

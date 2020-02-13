@@ -9,6 +9,7 @@
 # include <stdlib.h>
 # include <math.h>
 # include <SDL.h>
+# include <SDL_ttf.h>
 
 # ifdef __APPLE__
 #  include <OpenCL/opencl.h>
@@ -100,9 +101,10 @@ cl_float3	get_float3_color(int hex_color);
 
 
 /*
-** Nuklear_cross
+** sdl gui
 */
 
-t_nk_main 		nuklear_cross_init();
+
+
 
 #endif

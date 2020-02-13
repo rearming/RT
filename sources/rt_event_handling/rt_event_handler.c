@@ -55,6 +55,80 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 		rt_render(rt, &rt_opencl_render);
 }
 
+bool		check_button(SDL_Event *event, SDL_Rect button)
+{
+//	printf("%i, %i\n", event->button.x, event->button.y);
+	if (event->button.x > button.x && event->button.y > button.y &&
+			event->button.x < (button.x + button.w) &&
+			event->button.y < (button.y + button.h))
+		return (true);
+	return (false);
+}
+
+void		activate_button(int btn)
+{
+	t_color clr;
+
+	clr = g_sdl.buttons[btn].color;
+	SDL_FillRect(g_sdl.surface, &g_sdl.buttons[btn],
+			SDL_MapRGB(g_sdl.surface->format, clr.rgb.r, clr.rgb.g, clr.rgb.b));
+}
+
+void		disable_button(int btn)
+{
+	t_color clr;
+
+	clr = g_sdl.buttons[btn].color;
+//	clr.rgb.r = (unsigned char)(clr.rgb.r / DISABLE_K);
+//	clr.rgb.g = (unsigned char)(clr.rgb.g / DISABLE_K);
+//	clr.rgb.b = (unsigned char)(clr.rgb.b / DISABLE_K);
+
+	clr = g_sdl.buttons[btn].color;
+	SDL_FillRect(g_sdl.surface, &g_sdl.buttons[btn],
+		SDL_MapRGB(g_sdl.surface->format, clr.rgb.r, clr.rgb.g, clr.rgb.b));
+}
+
+
+
+void		switch_render_algo(short algo, int btn, t_rt *rt)
+{
+	rt->opencl_params.render_algo = algo;
+
+	disable_button(pt_btn);
+	disable_button(rt_btn);
+	disable_button(rm_btn);
+
+	activate_button(btn);
+	SDL_UpdateWindowSurface(g_sdl.win_tool);
+
+}
+
+void		handle_mouse(SDL_Event *event, t_rt *rt)
+{
+	if (event->button.button == SDL_BUTTON_LEFT)
+	{
+		g_sdl.surface = SDL_GetWindowSurface(g_sdl.win_tool);
+
+		if (check_button(event, g_sdl.buttons[pt_btn].button))
+		{
+			rt->opencl_params.render_algo = PATH_TRACE;
+			switch_render_algo(PATH_TRACE, pt_btn, rt);
+
+		}
+		else if (check_button(event, g_sdl.buttons[rt_btn].button))
+		{
+			rt->opencl_params.render_algo = RAY_TRACE;
+			switch_render_algo(PATH_TRACE, rt_btn, rt);
+		}
+		else
+			switch_render_algo(RAY_TRACE, rm_btn, rt);
+
+		SDL_UpdateWindowSurface(g_sdl.win_tool);
+
+
+	}
+}
+
 void		handle_event(SDL_Event *event, t_rt *rt)
 {
 	if (event->type == SDL_KEYUP)
@@ -69,6 +143,10 @@ void		handle_event(SDL_Event *event, t_rt *rt)
 		rt->scene.camera.rotation.x -=
 				event->motion.yrel * ROTATION_SPEED * WIN_RATIO;
 		rt->scene.camera.rotation.y += event->motion.xrel * ROTATION_SPEED;
+	}
+	else if (event->type == SDL_MOUSEBUTTONDOWN)
+	{
+		handle_mouse(event, rt);
 	}
 	if (any_key_pressed(&rt->events)
 	|| event->type == SDL_MOUSEMOTION

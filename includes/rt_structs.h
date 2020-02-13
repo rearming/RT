@@ -65,13 +65,26 @@ typedef struct			s_point
 # ifndef FT_OPENCL___
 
 #define TEXTURE_BUF 15
+
+typedef	struct			s_button
+{
+	SDL_Rect 			button;
+	t_color 			color;
+	SDL_Surface			texture;
+	bool				active;
+}						t_button;
+
+
 typedef struct			s_sdl
 {
 	SDL_Window			*win;
+	SDL_Window			*win_tool;
 	SDL_Renderer		*rend;
+	SDL_Surface			*surface;
 	SDL_Texture			*texture;
 	SDL_Texture			**texture_list;
 	int					pitch;
+	t_button 			buttons[5];
 }						t_sdl;
 
 typedef struct			s_cl_mem
@@ -329,27 +342,15 @@ typedef struct			s_cl_concat_kernel_code
 # endif
 
 /*
-** Nuklear cross structures
+** SDL_gui structs
 */
 
-enum					radioOptions
+typedef enum			e_button
 {
-						EASY,
-						HARD
-};
+						pt_btn,
+						rt_btn,
+						rm_btn
+}						t_button_enum;
 
-struct					my_nkc_app
-{
-	struct nkc*			nkcHandle;
-
-	float				value;
-	enum radioOptions	op;
-};
-
-typedef struct			s_nk_main
-{
-	struct my_nkc_app	myapp;
-	void*				loop_func;
-}						t_nk_main;
 
 #endif

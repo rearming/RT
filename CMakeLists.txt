@@ -42,6 +42,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INCLUDE(FindPkgConfig)
     PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
     PKG_SEARCH_MODULE(OPENCL REQUIRED OpenCL)
+#    PKG_SEARCH_MODULE(GTK+ REQUIRED gtk+)
 
     set(graphic_libs_include_dirs
             ${SDL2_INCLUDE_DIRS})
@@ -52,11 +53,12 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
             ${OPENCL_LIBRARIES})
 else()
     set(graphic_libs_include_dirs
-            SDL2_libs/SDL2.framework/Headers)
+            SDL2_libs/SDL2.framework/Headers
+            SDL2_libs/SDL2_ttf.framework/Headers)
     set(graphic_libs_dirs
             SDL2_libs/)
     set(graphic_libs_link_names
-            "-F ${PROJECT_SOURCE_DIR}/SDL2_libs -framework SDL2"
+            "-F ${PROJECT_SOURCE_DIR}/SDL2_libs -framework SDL2 -framework SDL2_ttf"
             "-framework OpenCL")
 endif()
 
@@ -64,39 +66,28 @@ message("graphic_libs_include_dirs: " ${graphic_libs_include_dirs})
 message("graphic_libs_dirs: " ${graphic_libs_dirs})
 message("graphic_libs_link_names: " ${graphic_libs_link_names})
 
-find_library(OPENGL OpenGL)
-
-set(nuklear_includes
-        nuklear_cross
-        nuklear_cross/nkc_frontend/
-        nuklear_cross/nkc_frontend/helpers
-        nuklear_cross/nuklear_drivers)
-
 include_directories(
         libft/includes
         includes
-        ${graphic_libs_include_dirs}
-        ${nuklear_includes}
-)
+        ${graphic_libs_include_dirs})
 
 link_directories(
         libft
         libft/ft_printf
         ${graphic_libs_dirs}
-        nuklear_cross
 )
 
 add_executable(RT
         sources/main.c
-        ${sources}
-        sources/init/nuklear_init.c)
+        ${sources})
 
 target_link_libraries(RT
         "ftprintf"
         "ft"
         ${graphic_libs_link_names}
         "m"
-        ${OPENGL}
+#        ${OPENGL}
+        ${SDL2_TTF}
         )
 
 # <----TESTING----> #
