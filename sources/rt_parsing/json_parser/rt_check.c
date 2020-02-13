@@ -14,21 +14,10 @@
 
 int		ft_check_if_exist(int checker, int type)
 {
-	if (type == RADIUS || type == SPECULARITY || type == TEXTURE ||
-	type == NORMAL || type == TEXTURE_POS)
+	if (type == ROTATION)
 	{
 		if (checker / (type / 2) % 10 == 0)
-			return (checker + type);
-	}
-	else if (type == LEN || type == ROTATION)
-	{
-		if (checker / (type / 3) % 10 == 0)
-			return (checker + type);
-	}
-	else if (type == POS)
-	{
-		if (checker % 10 == 0)
-			return (checker + type);
+		return (checker + type);
 	}
 	else
 	{

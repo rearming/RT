@@ -91,15 +91,25 @@ typedef struct 			s_tmp
 	cl_float3		rotation;		// camera
 	float 			intensity;		// 			light
 	cl_float3		dir;			// 			light
-	t_color 		color;			//			light,	object
+	cl_float3 		color;			//			light,	object (material)
 	cl_float3		normal;			//					object
 	float			radius;			//					object
 	float			angle;			//					object
 	float 			len;			//					object
-	float 			specularity;	//					object
-	int 			texture_number; //					object
-	cl_float3		texture_position;//					object
-	int 			checker;		//					object
+	cl_float3		ambient;		//					object (material)
+	cl_float3		diffuse;		//					object (material)
+	cl_float3		specular;		//					object (material)
+	float			phong_exp;		//					object (material)
+	float			smoothness;		//					object (material)
+	float			transmittance;	//					object (material)
+	float			refraction;		//					object (material)
+	cl_float3		emission_color;//					object (material)
+	float			emission_power;//					object (material)
+	float			specular_texture;//					object (material)
+	int 			texture_number; //					object (material)
+	cl_float3		texture_position;//					object (material)
+	int 			coord_checker;	//					object
+	int 			material_checker;
 	struct s_tmp	*next;
 }						t_tmp;
 

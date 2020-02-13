@@ -143,7 +143,7 @@ typedef struct			s_light
 
 }						t_light;
 
-typedef struct			s_material
+typedef struct			s_material //есть default material и все задается по default
 {
 # ifndef FT_OPENCL___
 
@@ -151,10 +151,10 @@ typedef struct			s_material
 	cl_float3			diffuse;
 	cl_float3			specular;
 	cl_float			phong_exp;
-	cl_float			smoothness;
+	cl_float			smoothness; // [0.0, 1.0]
 	cl_float			transmittance;
 	cl_float			refraction;
-	cl_float3			emission_color;
+	cl_float3			emission_color; //color может быть задан 3 способами как 3 int, 3 float, и 1 char
 	cl_float			emission_power;
 	cl_float			specular_texture;
 	cl_int				texture_number;
@@ -188,7 +188,7 @@ typedef struct			s_object
 	cl_float			radius;
 	cl_float			angle;
 	cl_float			len;
-	cl_float3			vertices[3];
+	cl_float3			vertices[3]; //it's for .obj
 # else
 
 	t_object_type		type;

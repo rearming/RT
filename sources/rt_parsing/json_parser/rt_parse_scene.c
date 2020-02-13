@@ -17,7 +17,7 @@ void		printff(t_tmp *tmp)
 	while (tmp)
 	{
 		printf(" i = %i structure_type = %i type = %i %i\n",
-			   i, tmp->structure_type, tmp->type, tmp->checker);
+			   i, tmp->structure_type, tmp->type, tmp->coord_checker);
 		i++;
 		tmp = tmp->next;
 	}
@@ -28,23 +28,21 @@ void		parse_json_file(json_t *root, t_tmp *tmp)
 	void		*iter;
 	const char	*key;
 	json_t		*value;
-	int			check;
 
 	iter = json_object_iter(root);
-	check = 0;
 	while (iter)
 	{
 		key = json_object_iter_key(iter);
 		value = json_object_iter_value(iter);
 		if (json_is_object(value))
-			check = parse_object(tmp, key, value);
+			parse_object(tmp, key, value);
 		else if (json_is_array(value))
-			check = parse_array(tmp, key, value);
+			parse_array(tmp, key, value);
 		else if (json_is_number(value))
-			check = parse_variable(tmp, key, value);
+			parse_variable(tmp, key, value);
+		else if (json_is_string(value))
+			parse_texture(tmp, key, value);
 		else
-			rt_raise_error(ERR_PARSING_WRONG_PARAM);
-		if (check == -1)
 			rt_raise_error(ERR_PARSING_WRONG_PARAM);
 		while (tmp->next != NULL)
 			tmp = tmp->next;

@@ -25,15 +25,15 @@ set(sources
         sources/render/render.c
         sources/OpenCL_utils/rt_opencl_render.c
         sources/OpenCL_utils/rt_opencl_memory_management.c
-        sources/rt_parsing/rt_parse_scene.c
+        sources/rt_parsing/json_parser/rt_parse_scene.c
         sources/rt_parsing/hardcoded_scene.c
         sources/OpenCL_utils/rt_opencl_utils.c
-        sources/rt_parsing/rt_init_tmp_object.c
-        sources/rt_parsing/rt_read_scene_file.c
-        sources/rt_parsing/rt_parse_elements.c
-        sources/rt_parsing/rt_type_of_element.c
-        sources/rt_parsing/rt_check.c
-        sources/rt_parsing/rt_add_elements.c
+        sources/rt_parsing/json_parser/rt_init_tmp_object.c
+        sources/rt_parsing/json_parser/rt_read_scene_file.c
+        sources/rt_parsing/json_parser/rt_parse_elements.c
+        sources/rt_parsing/json_parser/rt_type_of_element.c
+        sources/rt_parsing/json_parser/rt_check.c
+        sources/rt_parsing/json_parser/rt_add_elements.c
         sources/utils/rt_loop.c
         sources/rt_event_handling/rt_camera_moves.c
         sources/rt_event_handling/rt_event_handling.c
@@ -42,22 +42,23 @@ set(sources
         sources/debug/rt_debug_info.c
         sources/debug/rt_debug_print_utils.c
         sources/rt_parsing/rt_correct_scene.c
-        sources/rt_parsing/rt_init_tmp_object.c
-        sources/rt_parsing/rt_parse_scene.c
-        sources/rt_parsing/rt_parse_elements.c
-        sources/rt_parsing/rt_add_elements.c
-        sources/rt_parsing/rt_add_to_scene.c
-        sources/rt_parsing/rt_check.c
-        sources/rt_parsing/rt_read_scene_file.c
-        sources/rt_parsing/rt_type_of_element.c
+        sources/rt_parsing/json_parser/rt_init_tmp_object.c
+        sources/rt_parsing/json_parser/rt_parse_scene.c
+        sources/rt_parsing/json_parser/rt_parse_elements.c
+        sources/rt_parsing/json_parser/rt_add_elements.c
+        sources/rt_parsing/json_parser/rt_add_to_scene.c
+        sources/rt_parsing/json_parser/rt_check.c
+        sources/rt_parsing/json_parser/rt_read_scene_file.c
+        sources/rt_parsing/json_parser/rt_type_of_element.c
+        sources/rt_parsing/json_parser/rt_object_type.c.c
         sources/utils/rt_color_utils.c
         sources/debug/rt_profiling.c
-        sources/rt_parsing/rt_load_obj_files.c
+        sources/rt_parsing/obj_parser/rt_load_obj_files.c
         sources/debug/rt_print_obj_file.c
         sources/debug/rt_debug_print_parsed_meshes.c
-        sources/rt_parsing/rt_load_obj_utils.c
-        sources/rt_parsing/rt_load_obj_meshes.c
-        sources/rt_parsing/rt_load_obj_materials.c
+        sources/rt_parsing/obj_parser/rt_load_obj_utils.c
+        sources/rt_parsing/obj_parser/rt_load_obj_meshes.c
+        sources/rt_parsing/obj_parser/rt_load_obj_materials.c
         sources/rt_parsing/rt_correct_materials.c
         sources/math_utils/rt_math_utils.c
         sources/rt_event_handling/rt_event_utils.c

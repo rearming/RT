@@ -22,7 +22,7 @@ static void	err_type(int structure_type)
 		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
 }
 
-int	parse_variable(t_tmp *tmp, const char *key, json_t *value)
+void	parse_variable(t_tmp *tmp, const char *key, json_t *value)
 {
 	int variable_type;
 
@@ -48,78 +48,77 @@ int	parse_variable(t_tmp *tmp, const char *key, json_t *value)
 	return (0);
 }
 
-int	parse_array_elems(t_tmp *tmp, int array_type, json_t *value)
+void	parse_array(t_tmp *tmp, const char *key, json_t *value)
 {
-	if ((tmp->checker = ft_check_if_exist(tmp->checker, array_type)) == -1)
-		err_type(tmp->structure_type);
-	if (array_type == POS)
-		add_array(&tmp->pos, value);
-	else if (array_type == ROTATION)
-		add_array(&tmp->rotation, value);
-	else if (array_type == NORMAL)
-		add_array(&tmp->normal, value);
-	else if (array_type == TEXTURE_POS)
-		add_array(&tmp->texture_position, value);
-	return (0);
-}
-
-int	parse_array(t_tmp *tmp, const char *key, json_t *value)
-{
-	int	array_type;
+	int array_type;
 	int array_size;
+	int type_of_element;
 	int i;
 
 	i = -1;
-	if (tmp->structure_type == 0)
-		tmp->structure_type = type_of_structure_object(key);
-	array_type = type_of_json_array(key, tmp->structure_type);
-	if (array_type == CAMERA)
-		rt_raise_error(ERR_PARSING_WRONG_CAMERA_PARAMS);
-	else if (array_type == OBJECT || array_type == LIGHT)
+	array_type = ft_type_of_array(&type_of_element, key);
+	if (array_type == 1 || array_type == 2)
 	{
+		if (array_type == 1)
+			tmp->coord_checker = ft_check_if_exist(tmp->coord_checker, type_of_element);
+		else
+			tmp->material_checker = ft_check_if_exist(tmp->material_checker, type_of_element);
+		add_elements_in_array(tmp, type_of_element, array_type, value);
+	}
+	else if (array_type == 3 || array_type == 4)
+	{
+		if (array_type == 3)
+		{
+			if (tmp->structure_type == NOT_SET && type_of_element == LIGHT)
+				tmp->structure_type = type_of_element;
+			else if (tmp->type == LIGHT && type_of_element != LIGHT)
+				tmp->type = type_of_element;
+			else
+				rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
+		}
+		else
+		{
+			if (tmp->structure_type == NOT_SET && type_of_element == OBJECT)
+				tmp->structure_type = type_of_element;
+			else if (tmp->type == OBJECT && type_of_element != OBJECT)
+				tmp->type = type_of_element;
+			else
+				rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
+		}
 		array_size = json_array_size(value);
 		while (++i < array_size)
 		{
-			if (tmp->checker != 0)
-			{
-				tmp->next = (t_tmp *)malloc(sizeof(t_tmp));
-				init_tmp(tmp->next);
-				tmp->next->structure_type = array_type;
-				tmp = tmp->next;
-			}
-			if (array_type == OBJECT)
-				tmp->type = type_of_object(key, array_type);
-			parse_json_file(json_array_get(value, i), tmp);
+			tmp->next = (t_tmp *) malloc(sizeof(t_tmp));
+			copy_tmp(tmp->next, *tmp);
+			tmp = tmp->next;
 		}
+		parse_json_file(json_array_get(value, i), tmp);
 	}
-	else if (parse_array_elems(tmp, array_type, value) == -1)
-		return (-1);
-	return (0);
 }
 
-int	parse_object(t_tmp *tmp, const char *key, json_t *value)
+void		parse_object(t_tmp *tmp, const char *key, json_t *value)
 {
-	t_tmp tmp2;
+	int type_of_structure;
 
-	init_tmp(&tmp2);
-	tmp2.structure_type = type_of_structure_object(key);
-	if (tmp->structure_type == -1)
+	type_of_structure = ft_type_of_structure(key);
+	if (type_of_structure != -1)
+	{
+		if (type_of_structure == MATERIAL)
+			tmp->coord_checker = ft_check_if_exist(tmp->coord_checker, MATERIAL);
+		else
+		{
+			if (tmp->structure_type == NOT_SET)
+				tmp->structure_type = type_of_structure;
+			else
+			{
+				tmp->next = (t_tmp *) rt_safe_malloc(sizeof(t_tmp));
+				init_tmp(tmp->next);
+				tmp = tmp->next;
+				tmp->structure_type = type_of_structure;
+			}
+		}
+		parse_json_file(value, tmp);
+	}
+	else
 		rt_raise_error(ERR_PARSING_WRONG_PARAM);
-	if (tmp2.structure_type != LIGHT)
-	{
-		tmp2.type = type_of_object(key, tmp2.structure_type);
-		if (tmp2.type == -1)
-			rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
-	}
-	if (tmp->checker != 0)
-	{
-		tmp->next = (t_tmp *)rt_safe_malloc(sizeof(t_tmp));
-		init_tmp(tmp->next);
-		tmp = tmp->next;
-	}
-	tmp->structure_type = tmp2.structure_type;
-	tmp->type = tmp2.type;
-	parse_json_file(value, tmp);
 }
-
-

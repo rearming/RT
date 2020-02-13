@@ -2,9 +2,15 @@
 	"sphere":	{
 		"pos": [0, 0, 0],
 		"size": 0.25,
-		"texture": 1,
-		"texture_pos": [0, 0, 0],
-		"specularity": 50
+		"material": {
+			"texture": 1,
+			"texture_pos": [
+		0,
+		0,
+		0
+	],
+			"specularity": 50
+		}
 	},
 	"camera": {
 		"pos": [0, 0, -2]

@@ -16,35 +16,38 @@
 #define PARALLEL 4		// intensity, color, pos, dir
 
 //check camera
-#define POS 2
-#define ROTATION 30
+#define POS 1			//obj for obj
+#define ROTATION 20
 
 //check light
-#define TYPE 10
+#define TYPE 10		//obj, lyght
 #define INTENSITY 100
 #define DIRECTION 1000
-#define COLOR 10000
+#define COLOR 100000
 
 //check objects
 
 //position attributes
-#define NORMAL 20
-#define RADIUS 200
-#define LEN 300
-#define ANGLE 100000
+#define NORMAL 100
+#define RADIUS 1000
+#define LEN 2000
+#define ANGLE 10000
+#define MATERIAL 100000
 
 //material
-#define SPECULARITY 2000
-#define AMBIENCE
-#define DIFFUSE
-#define PHONG_EXP
-#define SMOTHNESS
-#define TRANSMITTANCE
-#define REFRACTION
-#define EMISSION_COLOR
-#define SPECULAR_TEXTURE
-#define TEXTURE 20000
-#define TEXTURE_POS 200000
+#define SPECULAR 1						//material_checker
+#define AMBIENCE 10						//material_checker
+#define DIFFUSE 100						//material_checker
+#define PHONG_EXP 1000					//material_checker
+#define SMOTHNESS 10000					//material_checker
+#define TRANSMITTANCE 100000			//material_checker
+#define REFRACTION 1000000				//material_checker
+#define EMISSION_COLOR 10000000			//material_checker
+#define EMISSION_POWER 100000000		//material_checker
+
+#define SPECULAR_TEXTURE  1000000000	//coord_checker
+#define TEXTURE 10000000				//coord_checker
+#define TEXTURE_POS 100000000			//coord_checker
 
 
 #endif
