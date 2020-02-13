@@ -24,7 +24,7 @@ set(debug_sources
 set(math_utils_sources
         sources/math_utils/rt_math_utils.c
         sources/math_utils/rt_rotation_utils.c
-        sources/math_utils/rt_cl_float3_utils.c)
+        sources/math_utils/rt_cl_float3_utils.c sources/math_utils/rt_vector_math.c)
 
 set(OpenCL_utils_sources
         sources/OpenCL_utils/rt_opencl_init.c
@@ -86,7 +86,7 @@ set(render_sources
 
 set(kd_tree_sources
         sources/kd_tree/rt_kd_get_aabb.c
-        sources/kd_tree/rt_kd_tree_build.c)
+        sources/kd_tree/rt_kd_tree_build.c sources/test/kd_3d_test/rt_kd_tree_traversal.c)
 
 set(sources
         ${debug_sources}
@@ -99,6 +99,7 @@ set(sources
         ${obj_loading_sources}
         ${init_sources}
         ${render_sources}
+        ${kd_tree_sources}
         )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -166,7 +167,7 @@ add_executable(kd_tree_test
         sources/debug/rt_kd_tree_print.c
         sources/test/kd_3d_test/kd_tree_main.c
         sources/test/kd_3d_test/kd_tree_export.c
-        )
+        sources/test/kd_3d_test/test_kd_traversal.c)
 
 target_include_directories(kd_tree_test PRIVATE
         sources/test)

@@ -36,6 +36,17 @@ int		get_kd_tree_nodes_num(t_kd_tree *tree)
 	return get_kd_tree_nodes_num(tree->left) + get_kd_tree_nodes_num(tree->right) + 1;
 }
 
+void	kd_check_indices(t_kd_tree *tree, int *indices)
+{
+	if (!tree)
+		return;
+	kd_check_indices(tree->left, indices);
+	kd_check_indices(tree->right, indices);
+
+	for (int i = 0; i < tree->objects.num; ++i)
+		indices[tree->objects.indices[i]] = true;
+}
+
 int		main(void)
 {
 	t_meshes		meshes;
@@ -67,7 +78,9 @@ int		main(void)
 //	printf("left tree nodes num: [%i]\n", get_kd_tree_nodes_num(kd_tree->left));
 //	printf("right tree nodes num: [%i]\n", get_kd_tree_nodes_num(kd_tree->right));
 
-	export_aabbs(kd_tree);
+//	export_aabbs(kd_tree);
+
+	kd_run_traverse_tests(kd_tree);
 
 	free_kd_tree(kd_tree);
 }

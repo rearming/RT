@@ -12,7 +12,7 @@
 # define BUCKETS 32
 # define EMPTY_COST 0.5
 
-# define KD_MAX_HEIGHT 23 // ~log2(10kk)
+# define KD_TREE_MAX_HEIGHT 23 // ~log2(10kk)
 
 #define PRINT_INDICES 1
 
@@ -54,11 +54,32 @@ typedef struct		s_kd_tree
 	t_kd_tree		*right;
 	t_aabb			aabb;
 	float			sah;
+	float			split;
+	int				split_axis;
 	t_aabb_objects	objects;
 }					t_kd_tree;
 
 t_aabb		*rt_get_all_aabbs(t_meshes *meshes);
 t_aabb		get_root_aabb(t_aabb *aabbs, int num_aabbs);
 t_kd_tree	*build_kd_tree(t_aabb *all_aabbs, int num_aabbs);
+
+/*
+**
+*/
+
+typedef struct		s_ray
+{
+	cl_float3		origin;
+	cl_float3		dir;
+}					t_ray;
+
+typedef struct		s_kd_traverse_helper
+{
+	t_kd_tree		*node;
+	float			t_min;
+	float			t_max;
+}					t_kd_traverse_helper;
+
+bool kd_tree_traverse(t_kd_tree *tree, t_ray ray, int *indices);
 
 #endif

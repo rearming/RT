@@ -31,9 +31,9 @@ void		rotate_x(float3 *point, float angle);
 
 void		rotate_z(float3 *point, float angle);
 
-float3		degree_to_rad(float3 rotation_degrees);
-
 void		rotate_point(float3 *point, float3 angle);
+
+float3		degree_to_rad(float3 rotation_degrees);
 
 float3		shade(
 		t_ray *ray,

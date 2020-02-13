@@ -64,7 +64,9 @@ float		kd_split_buckets_sah(t_aabb root_aabb,
 						   t_aabb *out_left_aabb,
 						   t_aabb *out_right_aabb,
 						   t_aabb_objects *out_left_objects,
-						   t_aabb_objects *out_right_objects)
+						   t_aabb_objects *out_right_objects,
+						   float *out_split,
+						   int *out_split_axis)
 {
 	float			best_sah;
 	int				axis;
@@ -100,6 +102,8 @@ float		kd_split_buckets_sah(t_aabb root_aabb,
 				*out_right_aabb = right_aabb;
 				*out_left_objects = left_objects;
 				*out_right_objects = right_objects;
+				*out_split = split.s.min.s[axis]; // split.s.min.s[axis] == split.s.max.s[axis]
+				*out_split_axis = axis;
 			}
 			split_num++;
 		}
@@ -112,8 +116,10 @@ void		build_kd_tree_recursive(t_kd_tree *tree, t_aabb *all_aabbs, int level)
 {
 	tree->left = NULL;
 	tree->right = NULL;
+	tree->split = NOT_SET;
+	tree->split_axis = NOT_SET;
 
-	if (level >= KD_MAX_HEIGHT)
+	if (level >= KD_TREE_MAX_HEIGHT)
 		return;
 
 	t_aabb	left_aabb;
@@ -122,11 +128,17 @@ void		build_kd_tree_recursive(t_kd_tree *tree, t_aabb *all_aabbs, int level)
 	t_aabb_objects	left_objects;
 	t_aabb_objects	right_objects;
 
+	float			split;
+	int				split_axis;
+
 	float	sah = kd_split_buckets_sah(tree->aabb, &tree->objects,
-			all_aabbs, &left_aabb, &right_aabb, &left_objects, &right_objects);
+			all_aabbs, &left_aabb, &right_aabb, &left_objects, &right_objects,
+			&split, &split_axis);
 	if (sah > tree->sah)
 		return;
 
+	tree->split = split;
+	tree->split_axis = split_axis;
 	tree->objects.num = NOT_SET;
 	free(tree->objects.indices);
 
@@ -143,7 +155,7 @@ void		build_kd_tree_recursive(t_kd_tree *tree, t_aabb *all_aabbs, int level)
 	build_kd_tree_recursive(tree->right, all_aabbs, level + 1);
 }
 
-t_aabb_objects	get_root_aabb_objects(t_aabb *all_aabbs, int num_aabbs)
+t_aabb_objects	get_root_aabb_objects(int num_aabbs)
 {
 	t_aabb_objects	aabb_objects;
 	int		i;
@@ -166,7 +178,7 @@ t_kd_tree	*build_kd_tree(t_aabb *all_aabbs, int num_aabbs)
 	root = rt_safe_malloc(sizeof(t_kd_tree));
 	root->aabb = get_root_aabb(all_aabbs, num_aabbs);
 	root->sah = INFINITY;
-	root->objects = get_root_aabb_objects(all_aabbs, num_aabbs);
+	root->objects = get_root_aabb_objects(num_aabbs);
 	build_kd_tree_recursive(root, all_aabbs, 0);
 	return (root);
 }

@@ -3,7 +3,7 @@
 
 void		rt_print_clfloat3(cl_float3 vec, const char *definition)
 {
-	printf("%s: x: [%.2f], y: [%.2f], z: [%.2f]\n", definition, vec.x, vec.y, vec.z);
+	printf("%s: x: [%f], y: [%f], z: [%f]\n", definition, vec.x, vec.y, vec.z);
 }
 
 void		rt_print_float3_color(cl_float3 color, const char *definition)

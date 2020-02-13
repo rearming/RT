@@ -8,16 +8,16 @@ bool		ray_aabb_intersection(t_ray *ray, __global const t_object *object, t_rayhi
 	t[4] = (object->vmax.y - ray->origin.y) / ray->dir.y;
 	t[5] = (object->vmin.z - ray->origin.z) / ray->dir.z;
 	t[6] = (object->vmax.z - ray->origin.z) / ray->dir.z;
-	t[7] = fmax(fmax(fmin(t[1], t[2]), fmin(t[3], t[4])), fmin(t[5], t[6]));
-	t[8] = fmin(fmin(fmax(t[1], t[2]), fmax(t[3], t[4])), fmax(t[5], t[6]));
+	float t_near = fmax(fmax(fmin(t[1], t[2]), fmin(t[3], t[4])), fmin(t[5], t[6]));
+	float t_far = fmin(fmin(fmax(t[1], t[2]), fmax(t[3], t[4])), fmax(t[5], t[6]));
 
-	if (t[8] < 0 || t[7] > t[8])
+	if (t_far < 0 || t_near > t_far)
 		return false;
-	else if (t[7] < best_hit->distance && t[7] > RAY_MIN_EPSILON)
+	else if (t_near < best_hit->distance && t_near > RAY_MIN_EPSILON)
 	{
-		best_hit->distance = t[7];
+		best_hit->distance = t_near;
 		best_hit->normal = -sign(ray->dir); // нормаль вообще неправильная, но как бы насрать
-		best_hit->pos = ray->origin + ray->dir * t[7];
+		best_hit->pos = ray->origin + ray->dir * t_near;
 		return true;
 	}
 	return false;
