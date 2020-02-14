@@ -97,7 +97,7 @@ int		main(void)
 	end = clock();
 	printf("k-d tree built in [%f] sec.\n", (double)(end - start) / CLOCKS_PER_SEC);
 
-//	print_kd_tree(kd_tree);
+	print_kd_tree(kd_tree);
 
 //	printf("left tree depth: [%i]\n", get_max_kd_tree_depth(kd_tree->left));
 //	printf("right tree depth: [%i]\n", get_max_kd_tree_depth(kd_tree->right));
