@@ -6,8 +6,8 @@ int 	g_nodes_num = 0;
 
 void	print_aabb(t_aabb aabb)
 {
-	rt_print_clfloat3(aabb.bounds.min, "min");
-	rt_print_clfloat3(aabb.bounds.max, "max");
+	rt_print_clfloat3(aabb.min, "min");
+	rt_print_clfloat3(aabb.max, "max");
 }
 
 void	print_all_aabbs(t_aabb *aabbs, int num_aabb)
@@ -36,7 +36,7 @@ void	print_kd_node(t_kd_tree *node)
 	printf("\n\n");
 }
 
-void	print_kd_arr_node(t_kd_arr_node *node)
+void	print_kd_arr_node(t_kd_arr_tree *node)
 {
 	printf("aabb:\n");
 	print_aabb(node->aabb);
@@ -68,7 +68,7 @@ void	print_kd_tree_recursive(t_kd_tree *tree, int level)
 	print_kd_tree_recursive(tree->right, level + 1);
 }
 
-void	print_kd_tree_arr(t_kd_arr_node *tree_arr, int index)
+void	print_kd_tree_arr(t_kd_arr_tree *tree_arr, int index)
 {
 	if (index == NOT_SET)
 		return;

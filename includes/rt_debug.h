@@ -42,10 +42,10 @@ void		rt_print_parsed_polygon(t_polygon *polygon);
 */
 
 typedef struct s_kd_tree		t_kd_tree;
-typedef struct s_kd_arr_node	t_kd_arr_node;
-typedef union u_aabb			t_aabb;
+typedef struct s_kd_arr_node	t_kd_arr_tree;
+typedef struct s_aabb			t_aabb;
 
-void		print_kd_tree_arr(t_kd_arr_node *tree_arr, int index);
+void		print_kd_tree_arr(t_kd_arr_tree *tree_arr, int index);
 void		print_kd_tree(t_kd_tree *tree);
 void		print_kd_node(t_kd_tree *node);
 void		print_aabb(t_aabb aabb);

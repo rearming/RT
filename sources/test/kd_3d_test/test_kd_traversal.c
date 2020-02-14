@@ -26,7 +26,7 @@ static t_ray get_ray(int x, int y, cl_float3 origin)
 	return ray;
 }
 
-void		test_kd_traverse(t_kd_arr_node *arr_tree, t_ray ray, int *indices)
+void		test_kd_traverse(t_kd_arr_tree *arr_tree, t_ray ray, int *indices)
 {
 	bool	res_traverse = kd_tree_traverse(arr_tree, ray, indices);
 
@@ -36,7 +36,7 @@ void		test_kd_traverse(t_kd_arr_node *arr_tree, t_ray ray, int *indices)
 //	printf("%s\n\n", res_traverse ? "SUCCESS" : "FAIL");
 }
 
-void		kd_run_traverse_tests(t_kd_arr_node *arr_tree)
+void		kd_run_traverse_tests(t_kd_arr_tree *arr_tree)
 {
 	t_ray	ray;
 	int		*indices = rt_safe_malloc(sizeof(int) * 7000);

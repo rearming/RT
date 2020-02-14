@@ -86,7 +86,12 @@ set(render_sources
 
 set(kd_tree_sources
         sources/kd_tree/rt_kd_get_aabb.c
-        sources/kd_tree/rt_kd_tree_build.c sources/test/kd_3d_test/rt_kd_tree_traversal.c sources/kd_tree/rt_kd_tree_to_array.c sources/kd_tree/rt_kd_tree_utils.c)
+        sources/kd_tree/rt_kd_tree_build.c
+        sources/test/kd_3d_test/rt_kd_tree_traversal.c
+        sources/kd_tree/rt_kd_tree_to_array.c
+        sources/kd_tree/rt_kd_tree_utils.c
+        sources/kd_tree/rt_kd_tree_get.c
+        sources/kd_tree/rt_kd_pack_object_indices.c)
 
 set(sources
         ${debug_sources}
@@ -173,28 +178,6 @@ target_include_directories(kd_tree_test PRIVATE
         sources/test)
 
 target_link_libraries(kd_tree_test
-        "ftprintf"
-        "ft"
-        ${graphic_libs_link_names}
-        "m"
-        )
-
-# <---- kd_tree_2d_test ----> #
-
-add_executable(kd_tree_2d_test
-        ${SDL_utils_sources}
-        ${math_utils_sources}
-        ${utils_sources}
-        sources/test/kd_2d_tree/kd_2d_tree_build.c
-        sources/test/kd_2d_tree/kd_2d_graphic.c
-        sources/test/kd_2d_tree/kd_2d_tree_print.c
-        sources/test/kd_2d_tree/kd_2d_tree_main.c
-        )
-
-target_include_directories(kd_tree_2d_test PRIVATE
-        sources/test)
-
-target_link_libraries(kd_tree_2d_test
         "ftprintf"
         "ft"
         ${graphic_libs_link_names}

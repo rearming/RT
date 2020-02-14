@@ -3,8 +3,6 @@
 #include "rt_parsing.h"
 #include "rt_kd_tree.h"
 
-int g_hui = 0;
-
 void	free_kd_tree(t_kd_tree *tree)
 {
 	if (!tree)
@@ -58,6 +56,27 @@ void	run_check_indices(t_kd_tree *tree)
 	ft_printf("count: [%i]\n", count);
 }
 
+//	indices: [77] nodes: [55]
+//	root left 1 right 2
+//	sah of left subtree: [59.596107]
+//	aabb[0].x: [-1.853551]
+//	aabb.min.x: [-1.853551]
+//	aabb[1].y: [-0.978991]
+//	aabb.max.y: [-0.978991]
+
+
+//	.obj loaded in [0.000346] sec.
+//	aabbs of polygons got in [0.000003] sec.
+//	k-d tree built in [0.001420] sec.
+//	aabb:
+//	min: x: [-1.853551], y: [-0.500000], z: [-2.500000]
+//	max: x: [1.411612], y: [2.500000], z: [-0.978991]
+//	sah: [59.596]
+//	obj num: [-1]
+//	left index: [3]
+//	right index: [4]
+
+
 int		main(void)
 {
 	t_meshes		meshes;
@@ -82,7 +101,7 @@ int		main(void)
 	end = clock();
 	printf("k-d tree built in [%f] sec.\n", (double)(end - start) / CLOCKS_PER_SEC);
 
-	print_kd_tree(kd_tree);
+//	print_kd_tree(kd_tree);
 
 //	printf("left tree depth: [%i]\n", get_max_kd_tree_depth(kd_tree->left));
 //	printf("right tree depth: [%i]\n", get_max_kd_tree_depth(kd_tree->right));
@@ -91,7 +110,7 @@ int		main(void)
 
 //	export_aabbs(kd_tree);
 
-//	t_kd_arr_node	*kd_tree_arr = kd_tree_to_array(kd_tree);
+//	t_kd_arr_tree	*kd_tree_arr = kd_tree_to_array(kd_tree);
 
 //	printf("\nprinting kd-tree array:\n");
 //	print_kd_tree_arr(kd_tree_arr, 0);
@@ -99,8 +118,8 @@ int		main(void)
 //	kd_run_traverse_tests(kd_tree_arr);
 
 //	free(kd_tree_arr);
+	print_kd_node(kd_tree->left);
 	free(all_aabbs);
 	free_kd_tree(kd_tree);
 	rt_free_meshes(&meshes);
-	printf("g_hui: [%i]\n", g_hui);
 }

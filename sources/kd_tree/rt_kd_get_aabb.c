@@ -6,8 +6,8 @@ t_aabb		get_aabb_polygon(cl_float3 vertices[RT_DEFAULT_POLYGON_VERTICES])
 {
 	t_aabb	aabb;
 
-	aabb.bounds.min = fmin_float3(vertices[0], fmin_float3(vertices[1], vertices[2]));
-	aabb.bounds.max = fmax_float3(vertices[0], fmax_float3(vertices[1], vertices[2]));
+	aabb.min = fmin_float3(vertices[0], fmin_float3(vertices[1], vertices[2]));
+	aabb.max = fmax_float3(vertices[0], fmax_float3(vertices[1], vertices[2]));
 	return (aabb);
 }
 
@@ -16,12 +16,12 @@ t_aabb		get_root_aabb(t_aabb *aabbs, int num_aabbs)
 	t_aabb	root_aabb;
 	int		i = 0;
 
-	root_aabb.bounds.min = (cl_float3){{INFINITY, INFINITY, INFINITY}};
-	root_aabb.bounds.max = (cl_float3){{-INFINITY, -INFINITY, -INFINITY}};
+	root_aabb.min = (cl_float3){{INFINITY, INFINITY, INFINITY}};
+	root_aabb.max = (cl_float3){{-INFINITY, -INFINITY, -INFINITY}};
 	while (i < num_aabbs)
 	{
-		root_aabb.bounds.min = fmin_float3(root_aabb.bounds.min, aabbs[i].bounds.min);
-		root_aabb.bounds.max = fmax_float3(root_aabb.bounds.max, aabbs[i].bounds.max);
+		root_aabb.min = fmin_float3(root_aabb.min, aabbs[i].min);
+		root_aabb.max = fmax_float3(root_aabb.max, aabbs[i].max);
 		i++;
 	}
 	return (root_aabb);
