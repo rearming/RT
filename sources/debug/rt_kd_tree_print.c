@@ -18,12 +18,12 @@ void	print_all_aabbs(t_aabb *aabbs, int num_aabb)
 
 void	print_kd_node(t_kd_tree *node)
 {
-	printf("aabb:\n");
-	print_aabb(node->aabb);
-	printf("sah: [%.3f]\n", node->sah);
-	printf("obj num: [%i]\n", node->objects.num);
-	printf("left index: [%i]\n", node->left_index);
-	printf("right index: [%i]\n", node->right_index);
+//	printf("aabb:\n");
+//	print_aabb(node->aabb);
+//	printf("sah: [%.3f]\n", node->sah);
+//	printf("obj num: [%i]\n", node->objects.num);
+//	printf("left index: [%i]\n", node->left_index);
+//	printf("right index: [%i]\n", node->right_index);
 
 #ifdef PRINT_INDICES
 	if (node->objects.num > 0)

@@ -89,6 +89,8 @@
 #  define UINT_MAX 4294967295
 # endif
 
+# define KD_TREE_MAX_HEIGHT 23 // ~log2(10kk)
+
 /*
 **	Camera moving
 */

@@ -50,6 +50,7 @@ void		print_kd_tree(t_kd_tree *tree);
 void		print_kd_node(t_kd_tree *node);
 void		print_aabb(t_aabb aabb);
 void		print_all_aabbs(t_aabb *aabbs, int num_aabb);
+void		print_kd_arr_node(t_kd_arr_tree *node);
 
 void		export_aabbs(t_kd_tree *tree);
 

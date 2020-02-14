@@ -19,6 +19,7 @@ set(debug_sources
         sources/debug/rt_print_obj_file.c
         sources/debug/rt_debug_print_parsed_meshes.c
         sources/debug/rt_print_object.c
+        sources/debug/rt_kd_tree_print.c
         )
 
 set(math_utils_sources

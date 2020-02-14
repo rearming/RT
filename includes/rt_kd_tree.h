@@ -12,8 +12,6 @@
 # define BUCKETS 32
 # define EMPTY_COST 0.5
 
-# define KD_TREE_MAX_HEIGHT 23 // ~log2(10kk)
-
 #define PRINT_INDICES 1
 
 typedef struct		s_split_p
@@ -53,7 +51,7 @@ kd_tree_to_array(t_kd_tree *tree, int *out_nodes_num, int *out_obj_indices_num);
 int				kd_tree_count_nodes(t_kd_tree *tree);
 
 t_kd_info		rt_get_kd_object(t_meshes *meshes);
-void rt_pack_kd_object_indices(t_kd_info *kd_object);
+void rt_pack_kd_object_indices(t_kd_info *kd_info);
 
 /*
 **	test traversal

@@ -45,7 +45,8 @@
 " -I ./sources/kernel/mesh_render " \
 " -I ./sources/kernel/object_intersections " \
 " -I ./sources/kernel/pathtrace_algo " \
-" -I ./sources/kernel/texture_formulas"
+" -I ./sources/kernel/texture_formulas" \
+" -I ./sources/kernel/kd_tree_traversal"
 # endif
 
 # ifdef __APPLE__
