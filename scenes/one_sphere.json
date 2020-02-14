@@ -1,15 +1,16 @@
 {
-	"sphere":	{
-		"pos": [0, 0, 0],
-		"size": 0.25,
+	"object": {
+		"type": "sphere",
+		"pos": [0, 1, 2],
+		"radius": 0.25,
 		"material": {
-			"texture": 1,
 			"texture_pos": [
 		0,
-		0,
-		0
+		1,
+		3
 	],
-			"specularity": 50
+			"emission color": [0, 1, 2],
+			"specularity": [0, 1, 2]
 		}
 	},
 	"camera": {
@@ -18,11 +19,11 @@
 	"light":
 	[
 		{
-		"type": 1,
+		"type": "ambient",
 		"intensity": 0.25
 		},
 		{
-		"type": 2,
+		"type": "point",
 		"intensity": 0.85,
 		"pos": [0.75, 0, -1]
 		}

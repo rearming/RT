@@ -248,8 +248,6 @@ static	t_object	*texture_scene(int *out_obj_nbr)
 
 	*out_obj_nbr = objects_nbr;
 	objects = rt_safe_malloc(sizeof(t_object) * objects_nbr);
-
-
 	objects[0] = (t_object){.type = NOT_SET, // far
 			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0, 0, 0}}, .phong_exp = 40, .smoothness = 0, .texture_number = NOT_SET},
 			.center = {{0, 0, 2.5}},

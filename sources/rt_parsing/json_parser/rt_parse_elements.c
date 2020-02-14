@@ -12,87 +12,46 @@
 
 #include "rt.h"
 
-static void	err_type(int structure_type)
-{
-	if(structure_type == CAMERA)
-		rt_raise_error(ERR_PARSING_WRONG_CAMERA_PARAMS);
-	else if (structure_type == LIGHT)
-		rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
-	else
-		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
-}
-
-void	parse_variable(t_tmp *tmp, const char *key, json_t *value)
-{
-	int variable_type;
-
-	variable_type = type_of_variable(key, tmp->structure_type);
-	if (variable_type == -1)
-		err_type(tmp->structure_type);
-	if ((tmp->checker = ft_check_if_exist(tmp->checker, variable_type)) == -1)
-		err_type(tmp->structure_type);
-	if (variable_type == INTENSITY)
-		tmp->intensity = (float)json_real_value(value);
-	else if (variable_type == TYPE)
-		tmp->type = json_integer_value(value);
-	else if (variable_type == RADIUS)
-		tmp->radius = (float)json_real_value(value);
-	else if (variable_type == SPECULARITY)
-		tmp->specularity = json_integer_value(value);
-	else if (variable_type == LEN)
-		tmp->len = (float)json_real_value(value);
-	else if (variable_type == ANGLE)
-		tmp->angle = (float)json_real_value(value);
-	else if (variable_type == TEXTURE)
-		tmp->texture_number = json_integer_value(value);
-	return (0);
-}
-
 void	parse_array(t_tmp *tmp, const char *key, json_t *value)
 {
 	int array_type;
 	int array_size;
 	int type_of_element;
+	int type_of_structure;
 	int i;
 
 	i = -1;
-	array_type = ft_type_of_array(&type_of_element, key);
+	type_of_element = -1;
+	array_type = ft_type_of_array(&type_of_element, key, tmp->structure_type);
 	if (array_type == 1 || array_type == 2)
 	{
 		if (array_type == 1)
 			tmp->coord_checker = ft_check_if_exist(tmp->coord_checker, type_of_element);
 		else
 			tmp->material_checker = ft_check_if_exist(tmp->material_checker, type_of_element);
-		add_elements_in_array(tmp, type_of_element, array_type, value);
+		add_elements_in_array(tmp, type_of_element, value);
 	}
-	else if (array_type == 3 || array_type == 4)
+	else if (array_type == 3)
 	{
-		if (array_type == 3)
-		{
-			if (tmp->structure_type == NOT_SET && type_of_element == LIGHT)
-				tmp->structure_type = type_of_element;
-			else if (tmp->type == LIGHT && type_of_element != LIGHT)
-				tmp->type = type_of_element;
-			else
-				rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
-		}
+		if (type_of_element != LIGHT && type_of_element != OBJECT)
+			type_of_structure = tmp->structure_type;
 		else
-		{
-			if (tmp->structure_type == NOT_SET && type_of_element == OBJECT)
-				tmp->structure_type = type_of_element;
-			else if (tmp->type == OBJECT && type_of_element != OBJECT)
-				tmp->type = type_of_element;
-			else
-				rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
-		}
+			type_of_structure = type_of_element;
 		array_size = json_array_size(value);
 		while (++i < array_size)
 		{
 			tmp->next = (t_tmp *) malloc(sizeof(t_tmp));
-			copy_tmp(tmp->next, *tmp);
+			//copy_tmp(tmp->next, *tmp);
+			init_tmp(tmp->next);
 			tmp = tmp->next;
+			if (type_of_structure != type_of_element)
+			{
+				tmp->structure_type = type_of_structure;
+				tmp->type = type_of_element;
+			} else
+				tmp->structure_type = type_of_structure;
+			parse_json_file(json_array_get(value, i), tmp);
 		}
-		parse_json_file(json_array_get(value, i), tmp);
 	}
 }
 
@@ -121,4 +80,44 @@ void		parse_object(t_tmp *tmp, const char *key, json_t *value)
 	}
 	else
 		rt_raise_error(ERR_PARSING_WRONG_PARAM);
+}
+
+void 		parse_string(t_tmp *tmp, const char *key, json_t *value)
+{
+	const char *tmp_value;
+
+	tmp_value = json_string_value(value);
+	if (tmp->type == NOT_SET && ft_strequ(key, "type"))
+	{
+		if (tmp->structure_type == LIGHT)
+		{
+			if (ft_strequ(tmp_value, "ambient"))
+				tmp->type = AMBIENT;
+			else if (ft_strequ(tmp_value, "point"))
+				tmp->type = POINT;
+			else
+				rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+		}
+		else if (tmp->structure_type == OBJECT)
+		{
+			if (ft_strequ(tmp_value, "sphere"))
+				tmp->type = SPHERE;
+			else if (ft_strequ(tmp_value, "cone"))
+				tmp->type = CONE;
+			else if (ft_strequ(tmp_value, "cylinder"))
+				tmp->type = CYLINDER;
+			else if (ft_strequ(tmp_value, "plane"))
+				tmp->type = PLANE;
+			else
+				rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+		}
+		else
+			rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+	}
+	/*else if (ft_strequ(key, "texture"))
+	{
+
+	}*/
+	else
+		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
 }

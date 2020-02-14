@@ -23,6 +23,29 @@ void		printff(t_tmp *tmp)
 	}
 }
 
+void 		count_elements(t_scene *scene, t_tmp *tmp)
+{
+	t_tmp	*tmp_iterator;
+	int		check_camera;
+
+	check_camera = 0;
+	tmp_iterator = tmp;
+	scene->lights_nbr = 0;
+	scene->obj_nbr = 0;
+	while(tmp_iterator)
+	{
+		if (tmp_iterator->structure_type == LIGHT)
+			scene->lights_nbr++;
+		else if (tmp_iterator->structure_type == OBJECT)
+			scene->obj_nbr++;
+		if (tmp_iterator->structure_type == CAMERA)
+			check_camera++;
+		tmp_iterator = tmp_iterator->next;
+	}
+	if (check_camera != 1)
+		rt_raise_error("wrong camera");
+}
+
 void		parse_json_file(json_t *root, t_tmp *tmp)
 {
 	void		*iter;
@@ -41,12 +64,13 @@ void		parse_json_file(json_t *root, t_tmp *tmp)
 		else if (json_is_number(value))
 			parse_variable(tmp, key, value);
 		else if (json_is_string(value))
-			parse_texture(tmp, key, value);
+			parse_string(tmp, key, value);
 		else
 			rt_raise_error(ERR_PARSING_WRONG_PARAM);
 		while (tmp->next != NULL)
 			tmp = tmp->next;
 		iter = json_object_iter_next(root, iter);
+		printf("%s\n", key);
 	}
 }
 
@@ -64,6 +88,7 @@ t_scene		rt_parse_scene(const char *json_scene_file)
 	init_tmp(tmp);
 	root = json_loads(text, 0, &error);
 	parse_json_file(root, tmp);
+	count_elements(&scene, tmp);
 	add_elements(&scene, tmp);
 	printff(tmp);
 	json_decref(root);

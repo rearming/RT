@@ -86,7 +86,7 @@ typedef struct			s_rt
 typedef struct 			s_tmp
 {
 	int 			structure_type;	// object, camera, light
-	int 			type;			// ambient, sphere, cone
+	int 			type;			// ambience, sphere, cone
 	cl_float3		pos;			// camera,	light,	object
 	cl_float3		rotation;		// camera
 	float 			intensity;		// 			light
@@ -96,14 +96,13 @@ typedef struct 			s_tmp
 	float			radius;			//					object
 	float			angle;			//					object
 	float 			len;			//					object
-	cl_float3		ambient;		//					object (material)
+	cl_float3		ambience;		//					object (material)
 	cl_float3		diffuse;		//					object (material)
 	cl_float3		specular;		//					object (material)
 	float			phong_exp;		//					object (material)
 	float			smoothness;		//					object (material)
 	float			transmittance;	//					object (material)
 	float			refraction;		//					object (material)
-	cl_float3		emission_color;//					object (material)
 	float			emission_power;//					object (material)
 	float			specular_texture;//					object (material)
 	int 			texture_number; //					object (material)
@@ -115,3 +114,5 @@ typedef struct 			s_tmp
 
 # endif
 #endif
+
+//мб отмечать объект номером от которого копировали, и если копируются детали, то дублировать

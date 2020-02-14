@@ -53,15 +53,14 @@ void		parse_json_file(json_t *root, t_tmp *tmp);
 void		parse_object(t_tmp *tmp, const char *key, json_t *value);
 void		parse_array(t_tmp *tmp, const char *key, json_t *value);
 void		parse_variable(t_tmp *tmp, const char *key, json_t *value);
-void 		parse_texture(t_tmp *tmp, const char *key, json_t *value);
+void 		parse_string(t_tmp *tmp, const char *key, json_t *value);
+//void 		parse_texture(t_tmp *tmp, const char *key, json_t *value);
 void		init_tmp(t_tmp *tmp);
 void		copy_tmp(t_tmp *tmp, t_tmp tmp_source);
 int			ft_check_if_exist(int checker, int type);
-void 		add_elements_in_array(t_tmp	*tmp, int type_of_element,
-		int array_type, json_t *value);
-int			type_of_object(const char *param, int type);
+void 		add_elements_in_array(t_tmp	*tmp, int type_of_element, json_t *value);
 int			ft_type_of_structure(const char *param);
-int 		ft_type_of_array(int *type_of_element, const char *param);
+int 		ft_type_of_array(int *type_of_element, const char *param, int structure_type);
 
 int			parse_array_elems(t_tmp *tmp, int array_type, json_t *value);
 char		*read_file(const char *argv, int buff_size);

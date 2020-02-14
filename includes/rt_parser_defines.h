@@ -35,15 +35,14 @@
 #define MATERIAL 100000
 
 //material
-#define SPECULAR 1						//material_checker
-#define AMBIENCE 10						//material_checker
-#define DIFFUSE 100						//material_checker
-#define PHONG_EXP 1000					//material_checker
-#define SMOTHNESS 10000					//material_checker
-#define TRANSMITTANCE 100000			//material_checker
-#define REFRACTION 1000000				//material_checker
-#define EMISSION_COLOR 10000000			//material_checker
-#define EMISSION_POWER 100000000		//material_checker
+#define SPECULAR 2						//material_checker
+#define AMBIENCE 20						//material_checker
+#define DIFFUSE 200						//material_checker
+#define PHONG_EXP 2000					//material_checker
+#define SMOOTHNESS 20000				//material_checker
+#define TRANSMITTANCE 200000			//material_checker
+#define REFRACTION 2000000				//material_checker
+#define EMISSION_POWER 20000000			//material_checker
 
 #define SPECULAR_TEXTURE  1000000000	//coord_checker
 #define TEXTURE 10000000				//coord_checker

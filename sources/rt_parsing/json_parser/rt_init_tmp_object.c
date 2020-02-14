@@ -13,7 +13,7 @@
 #include "rt.h"
 #include "rt_math_utils.h"
 
-void		init_tmp(t_tmp *tmp) //задать default значение
+void		init_tmp(t_tmp *tmp)
 {
 	tmp->next = NULL;
 	tmp->structure_type = NOT_SET;
@@ -27,18 +27,17 @@ void		init_tmp(t_tmp *tmp) //задать default значение
 	tmp->radius = NOT_SET;
 	tmp->angle = NOT_SET;
 	tmp->len = NOT_SET;
-	tmp->ambient = (cl_float3){{0, 0, 0}}; 		//default
+	tmp->ambience = (cl_float3){{0, 0, 0}};
 	tmp->diffuse = (cl_float3){{0, 0, 0}};
 	tmp->specular = (cl_float3){{0, 0, 0}};
-	tmp->phong_exp = 0; 						//default
-	tmp->smoothness = 0;						//default
-	tmp->transmittance = 0;						//default
-	tmp->refraction = 0;						//default
-	tmp->emission_color = (cl_float3){{0, 0, 0}};
+	tmp->phong_exp = 0;
+	tmp->smoothness = 0;
+	tmp->transmittance = 0;
+	tmp->refraction = 0;
 	tmp->emission_power = 0;
 	tmp->specular_texture = 0;
 	tmp->texture_number = NOT_SET;
-	tmp->texture_position = (cl_float3){{0, 0, 0}}; //default 0
+	tmp->texture_position = (cl_float3){{0, 0, 0}};
 	tmp->coord_checker = 0;
 	tmp->material_checker = 0;
 }
@@ -56,14 +55,13 @@ void		copy_tmp(t_tmp *tmp, t_tmp tmp_source)
 	tmp->radius = tmp_source.radius;
 	tmp->angle = tmp_source.angle;
 	tmp->len = tmp_source.len;
-	tmp->ambient = tmp_source.ambient;
+	tmp->ambience = tmp_source.ambience;
 	tmp->diffuse = tmp_source.diffuse;
 	tmp->specular = tmp_source.specular;
 	tmp->phong_exp = tmp_source.phong_exp;
 	tmp->smoothness = tmp_source.smoothness;
 	tmp->transmittance = tmp_source.transmittance;
 	tmp->refraction = tmp_source.refraction;
-	tmp->emission_color = tmp_source.emission_color;
 	tmp->emission_power = tmp_source.emission_power;
 	tmp->specular_texture = tmp_source.specular_texture;
 	tmp->texture_number = tmp_source.texture_number;

@@ -14,7 +14,9 @@
 
 int		ft_check_if_exist(int checker, int type)
 {
-	if (type == ROTATION)
+	if (type == 2 || type == 20 || type == 200 ||type == 2000
+	|| type == 20000 || type == 200000 || type == 2000000
+	|| type == 20000000)
 	{
 		if (checker / (type / 2) % 10 == 0)
 		return (checker + type);

@@ -161,7 +161,7 @@ typedef struct			s_material //есть default material и все задаетс
 	cl_float3			texture_position;
 # else
 
-	float3				ambient;
+	float3				ambience;
 	float3				diffuse;
 	float3				specular;
 	float				phong_exp;
