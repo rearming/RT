@@ -99,6 +99,6 @@ typedef struct		s_kd_traverse_helper
 	float			t_max;
 }					t_kd_traverse_helper;
 
-bool		kd_tree_arr_traverse(t_kd_arr_node *tree_arr, t_ray ray, int *indices);
+bool		kd_tree_traverse(t_kd_arr_node *tree_arr, t_ray ray, int *indices);
 
 #endif

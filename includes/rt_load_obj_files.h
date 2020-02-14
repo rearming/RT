@@ -23,5 +23,6 @@ t_material			rt_default_material(void);
 
 void				rt_get_meshes(t_raw_obj *raw_obj, t_meshes *out_meshes);
 void				rt_free_raw_obj(t_raw_obj *raw_obj);
+void				rt_free_meshes(t_meshes *meshes);
 
 #endif

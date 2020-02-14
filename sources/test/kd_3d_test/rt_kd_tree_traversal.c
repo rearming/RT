@@ -48,7 +48,7 @@ t_kd_arr_node	*kd_get_node(t_kd_arr_node *arr, t_kd_arr_node *curr_node, int sid
 		return (&arr[curr_node->right_index]);
 }
 
-bool	kd_tree_arr_traverse(t_kd_arr_node *tree_arr, t_ray ray, int *indices)
+bool	kd_tree_traverse(t_kd_arr_node *tree_arr, t_ray ray, int *indices)
 {
 	t_stack	stack;
 	float	t_min;
@@ -62,7 +62,7 @@ bool	kd_tree_arr_traverse(t_kd_arr_node *tree_arr, t_ray ray, int *indices)
 	helper.node = &tree_arr[0];
 	if (!(ray_aabb_intersection(ray, tree_arr[0].aabb, &helper.t_min, &helper.t_max)))
 	{
-//		printf("INTERSECTION WITH ROOT NODE FAILED!\n");
+		printf("INTERSECTION WITH ROOT NODE FAILED!\n");
 		return (false);
 	}
 

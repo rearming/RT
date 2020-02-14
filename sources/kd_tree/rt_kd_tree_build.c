@@ -97,6 +97,11 @@ float		kd_split_buckets_sah(t_aabb root_aabb,
 
 			if (sah < best_sah)
 			{
+				if (best_sah != INFINITY)
+				{
+					free((*out_left_objects).indices);
+					free((*out_right_objects).indices);
+				}
 				best_sah = sah;
 				*out_left_aabb = left_aabb;
 				*out_right_aabb = right_aabb;
@@ -105,6 +110,11 @@ float		kd_split_buckets_sah(t_aabb root_aabb,
 				*out_split = split.s.min.s[axis]; // split.s.min.s[axis] == split.s.max.s[axis]
 				*out_split_axis = axis;
 			}
+			else
+			{
+				free(left_objects.indices);
+				free(right_objects.indices);
+			}
 			split_num++;
 		}
 		axis++;
@@ -112,7 +122,7 @@ float		kd_split_buckets_sah(t_aabb root_aabb,
 	return best_sah;
 }
 
-void build_kd_tree_recursive(t_kd_tree *tree,
+void		build_kd_tree_recursive(t_kd_tree *tree,
 							 t_aabb *all_aabbs,
 							 int level,
 							 int *index)
@@ -140,7 +150,11 @@ void build_kd_tree_recursive(t_kd_tree *tree,
 			all_aabbs, &left_aabb, &right_aabb, &left_objects, &right_objects,
 			&split, &split_axis);
 	if (sah > tree->sah)
+	{
+		free(left_objects.indices);
+		free(right_objects.indices);
 		return;
+	}
 
 	tree->split = split;
 	tree->split_axis = split_axis;
