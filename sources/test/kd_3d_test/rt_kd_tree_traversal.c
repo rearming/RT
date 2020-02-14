@@ -83,22 +83,20 @@ bool	kd_tree_traverse(t_kd_tree *tree, t_ray ray, int *indices)
 				node = second_node;
 			else
 			{
-				helper.node = second_node;
-				helper.t_min = t_split;
-				helper.t_max = t_max;
-				ft_stack_push(&stack, &helper, sizeof(t_kd_traverse_helper));
+				ft_stack_push(&stack, &(t_kd_traverse_helper){second_node, t_split, t_max},
+						sizeof(t_kd_traverse_helper));
 				node = first_node;
 				t_max = t_split;
 			}
 		}
-		if (helper.node->objects.num > 0)
+		if (node->objects.num > 0)
 		{
 //			printf("objects in node:\n");
 //			printf("obj num: [%i]\n", helper.node->objects.num);
 //			printf("node's split: [%f]\n", helper.node->split);
-			for (int i = 0; i < helper.node->objects.num; ++i)
+			for (int i = 0; i < node->objects.num; ++i)
 			{
-				indices[helper.node->objects.indices[i]] = true;
+				indices[node->objects.indices[i]] = true;
 //				ft_printf("[%i] ", helper.node->objects.indices[i]);
 			}
 //			ft_printf("\n\n");

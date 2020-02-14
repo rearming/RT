@@ -47,6 +47,21 @@ void	kd_check_indices(t_kd_tree *tree, int *indices)
 		indices[tree->objects.indices[i]] = true;
 }
 
+void	run_check_indices(t_kd_tree *tree)
+{
+	int 	*indices = malloc(sizeof(int) * 100);
+	for (int i = 0; i < 100; ++i)
+		indices[i] = NOT_SET;
+	kd_check_indices(tree, indices);
+	int count = 0;
+	for (int j = 0; j < 100; ++j)
+	{
+		if (indices[j] == true)
+			count++;
+	}
+	ft_printf("count: [%i]\n", count);
+}
+
 int		main(void)
 {
 	t_meshes		meshes;
@@ -78,7 +93,7 @@ int		main(void)
 //	printf("left tree nodes num: [%i]\n", get_kd_tree_nodes_num(kd_tree->left));
 //	printf("right tree nodes num: [%i]\n", get_kd_tree_nodes_num(kd_tree->right));
 
-//	export_aabbs(kd_tree);
+	export_aabbs(kd_tree);
 
 	kd_run_traverse_tests(kd_tree);
 

@@ -347,7 +347,7 @@ t_scene		get_hardcoded_scene(void)
 
 	scene.camera = (t_camera)
 	{
-		.pos = {{0, 5, 30}}, //statuya pos/rot
+		.pos = {{0, 2, 10}}, //statuya pos/rot
 		.rotation = {{0, 180, 0}},
 //		.pos = {{20, 6.6, -6.4}}, //pathtracing scene pos/rotation
 //		.rotation = {{-10, -63.3, 0}},
