@@ -18,7 +18,7 @@
 # define RENDER_MESH_VTEXTURES (1 << 6)
 # define RENDER_TEXTURES (1 << 7)
 
-# define RENDER_DEFAULT RENDER_RAYTRACE | RENDER_OBJECTS /*| RENDER_TEXTURES*/ | RENDER_MESH | RENDER_BACKFACE_CULLING
+# define RENDER_DEFAULT RENDER_RAYTRACE | RENDER_OBJECTS /*| RENDER_TEXTURES*/ | RENDER_MESH /*| RENDER_BACKFACE_CULLING*/
 
 # define RT_DEFAULT_MEM_FLAG (CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR)
 # define RT_MEM_RW_FLAG (CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR)
@@ -45,7 +45,8 @@
 " -I ./sources/kernel/mesh_render " \
 " -I ./sources/kernel/object_intersections " \
 " -I ./sources/kernel/pathtrace_algo " \
-" -I ./sources/kernel/texture_formulas"
+" -I ./sources/kernel/texture_formulas" \
+" -I ./sources/kernel/kd_tree_traversal"
 # endif
 
 # ifdef __APPLE__
