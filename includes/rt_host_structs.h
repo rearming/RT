@@ -109,6 +109,7 @@ typedef struct 			s_tmp
 	cl_float3		texture_position;//					object (material)
 	int 			coord_checker;	//					object
 	int 			material_checker;
+	char 			checker[26];
 	struct s_tmp	*next;
 }						t_tmp;
 

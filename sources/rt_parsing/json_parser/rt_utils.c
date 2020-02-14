@@ -13,6 +13,23 @@
 #include "rt.h"
 #include "rt_math_utils.h"
 
+int		ft_check_if_exist(int checker, int type)
+{
+	if (type == 2 || type == 20 || type == 200 ||type == 2000
+		|| type == 20000 || type == 200000 || type == 2000000
+		|| type == 20000000)
+	{
+		if (checker / (type / 2) % 10 == 0)
+			return (checker + type);
+	}
+	else
+	{
+		if (checker / type % 10 == 0)
+			return (checker + type);
+	}
+	return (-1);
+}
+
 void		init_tmp(t_tmp *tmp)
 {
 	tmp->next = NULL;
@@ -41,7 +58,7 @@ void		init_tmp(t_tmp *tmp)
 	tmp->coord_checker = 0;
 	tmp->material_checker = 0;
 }
-
+/*
 void		copy_tmp(t_tmp *tmp, t_tmp tmp_source)
 {
 	tmp->structure_type = tmp_source.structure_type;
@@ -68,4 +85,4 @@ void		copy_tmp(t_tmp *tmp, t_tmp tmp_source)
 	tmp->texture_position = tmp_source.texture_position;
 	tmp->coord_checker = tmp_source.coord_checker;
 	tmp->material_checker = tmp_source.material_checker;
-}
+}*/

@@ -74,6 +74,30 @@ void		parse_json_file(json_t *root, t_tmp *tmp)
 	}
 }
 
+char	*read_file(const char *argv, int buff_size)
+{
+	int		ret;
+	char	buf[buff_size];
+	char	*tmp;
+	char	*result;
+	int		fd;
+
+	if (!(fd = open(argv, O_RDONLY)))
+		rt_raise_error(ERR_INV_FILE);
+	if (fd < 0 || !(result = ft_strnew(1)))
+		rt_raise_error(ERR_INV_FILE);
+	while ((ret = read(fd, buf, buff_size)) > 0 && result)
+	{
+		buf[ret] = '\0';
+		tmp = ft_strjoin(result, buf);
+		free(result);
+		if (!tmp)
+			rt_raise_error(ERR_MALLOC);
+		result = tmp;
+	}
+	return (result);
+}
+
 t_scene		rt_parse_scene(const char *json_scene_file)
 {
 	t_scene			scene;
@@ -90,7 +114,7 @@ t_scene		rt_parse_scene(const char *json_scene_file)
 	parse_json_file(root, tmp);
 	count_elements(&scene, tmp);
 	add_elements(&scene, tmp);
-	printff(tmp);
+	//printff(tmp);
 	json_decref(root);
 	free(text);
 	//scene = get_hardcoded_scene();

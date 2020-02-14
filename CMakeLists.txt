@@ -36,16 +36,14 @@ set(sources
         sources/debug/rt_debug_info.c
         sources/debug/rt_debug_print_utils.c
         sources/rt_parsing/rt_correct_scene.c
-        sources/rt_parsing/json_parser/rt_read_scene_file.c
         sources/rt_parsing/json_parser/rt_parse_scene.c
         sources/rt_parsing/json_parser/rt_parse_textures.c
         sources/rt_parsing/json_parser/rt_parse_variable.c
         sources/rt_parsing/json_parser/rt_parse_elements.c
-        sources/rt_parsing/json_parser/rt_init_tmp_object.c
-        sources/rt_parsing/json_parser/rt_check.c
+        sources/rt_parsing/json_parser/rt_utils.c
         sources/rt_parsing/json_parser/rt_type_of_parametr.c
         sources/rt_parsing/json_parser/rt_add_to_scene.c
-        sources/rt_parsing/json_parser/rt_add_elements.c
+        sources/rt_parsing/json_parser/rt_parse_array.c
         sources/utils/rt_color_utils.c
         sources/debug/rt_profiling.c
         sources/rt_parsing/obj_parser/rt_load_obj_files.c

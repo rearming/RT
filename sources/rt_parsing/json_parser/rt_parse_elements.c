@@ -12,49 +12,6 @@
 
 #include "rt.h"
 
-void	parse_array(t_tmp *tmp, const char *key, json_t *value)
-{
-	int array_type;
-	int array_size;
-	int type_of_element;
-	int type_of_structure;
-	int i;
-
-	i = -1;
-	type_of_element = -1;
-	array_type = ft_type_of_array(&type_of_element, key, tmp->structure_type);
-	if (array_type == 1 || array_type == 2)
-	{
-		if (array_type == 1)
-			tmp->coord_checker = ft_check_if_exist(tmp->coord_checker, type_of_element);
-		else
-			tmp->material_checker = ft_check_if_exist(tmp->material_checker, type_of_element);
-		add_elements_in_array(tmp, type_of_element, value);
-	}
-	else if (array_type == 3)
-	{
-		if (type_of_element != LIGHT && type_of_element != OBJECT)
-			type_of_structure = tmp->structure_type;
-		else
-			type_of_structure = type_of_element;
-		array_size = json_array_size(value);
-		while (++i < array_size)
-		{
-			tmp->next = (t_tmp *) malloc(sizeof(t_tmp));
-			//copy_tmp(tmp->next, *tmp);
-			init_tmp(tmp->next);
-			tmp = tmp->next;
-			if (type_of_structure != type_of_element)
-			{
-				tmp->structure_type = type_of_structure;
-				tmp->type = type_of_element;
-			} else
-				tmp->structure_type = type_of_structure;
-			parse_json_file(json_array_get(value, i), tmp);
-		}
-	}
-}
-
 void		parse_object(t_tmp *tmp, const char *key, json_t *value)
 {
 	int type_of_structure;

@@ -1,6 +1,7 @@
 #ifndef RT_PARSER_DEFINES_H
 # define RT_PARSER_DEFINES_H
 
+// может быть сделать чекер строкой и проверять есть ли там уже такая буква:?
 #define CAMERA 1
 #define LIGHT 10
 #define OBJECT 1000
