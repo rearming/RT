@@ -52,6 +52,8 @@ typedef struct		s_kd_tree
 {
 	t_kd_tree		*left;
 	t_kd_tree		*right;
+	int				left_index;
+	int				right_index;
 	t_aabb			aabb;
 	float			sah;
 	float			split;
@@ -59,12 +61,29 @@ typedef struct		s_kd_tree
 	t_aabb_objects	objects;
 }					t_kd_tree;
 
+# define KD_LEFT 1
+# define KD_RIGHT 2
+
+typedef struct		s_kd_arr_node
+{
+	int				left_index;
+	int				right_index;
+	t_aabb			aabb;
+	float			sah;
+	float			split;
+	int				split_axis;
+	t_aabb_objects	objects;
+}					t_kd_arr_node;
+
 t_aabb		*rt_get_all_aabbs(t_meshes *meshes);
 t_aabb		get_root_aabb(t_aabb *aabbs, int num_aabbs);
 t_kd_tree	*build_kd_tree(t_aabb *all_aabbs, int num_aabbs);
 
+void			kd_tree_to_list(t_kd_tree *tree, t_list **out_list, int *out_nodes_num);
+t_kd_arr_node 	*kd_tree_to_array(t_kd_tree *tree);
+int				kd_tree_count_nodes(t_kd_tree *tree);
 /*
-**
+**	test traversal
 */
 
 typedef struct		s_ray
@@ -75,11 +94,11 @@ typedef struct		s_ray
 
 typedef struct		s_kd_traverse_helper
 {
-	t_kd_tree		*node;
+	t_kd_arr_node	*node;
 	float			t_min;
 	float			t_max;
 }					t_kd_traverse_helper;
 
-bool kd_tree_traverse(t_kd_tree *tree, t_ray ray, int *indices);
+bool		kd_tree_arr_traverse(t_kd_arr_node *tree_arr, t_ray ray, int *indices);
 
 #endif

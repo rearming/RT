@@ -112,12 +112,17 @@ float		kd_split_buckets_sah(t_aabb root_aabb,
 	return best_sah;
 }
 
-void		build_kd_tree_recursive(t_kd_tree *tree, t_aabb *all_aabbs, int level)
+void build_kd_tree_recursive(t_kd_tree *tree,
+							 t_aabb *all_aabbs,
+							 int level,
+							 int *index)
 {
 	tree->left = NULL;
 	tree->right = NULL;
 	tree->split = NOT_SET;
 	tree->split_axis = NOT_SET;
+	tree->left_index = NOT_SET;
+	tree->right_index = NOT_SET;
 
 	if (level >= KD_TREE_MAX_HEIGHT)
 		return;
@@ -141,18 +146,20 @@ void		build_kd_tree_recursive(t_kd_tree *tree, t_aabb *all_aabbs, int level)
 	tree->split_axis = split_axis;
 	tree->objects.num = NOT_SET;
 	free(tree->objects.indices);
+	tree->left_index = ++(*index);
+	tree->right_index = ++(*index);
 
 	tree->left = rt_safe_malloc(sizeof(t_kd_tree));
 	tree->left->objects = left_objects;
 	tree->left->aabb = left_aabb;
 	tree->left->sah = kd_get_aabb_area(left_aabb) * (float)left_objects.num;
-	build_kd_tree_recursive(tree->left, all_aabbs, level + 1);
+	build_kd_tree_recursive(tree->left, all_aabbs, level + 1, index);
 
 	tree->right = rt_safe_malloc(sizeof(t_kd_tree));
 	tree->right->objects = right_objects;
 	tree->right->aabb = right_aabb;
 	tree->right->sah = kd_get_aabb_area(right_aabb) * (float) right_objects.num;
-	build_kd_tree_recursive(tree->right, all_aabbs, level + 1);
+	build_kd_tree_recursive(tree->right, all_aabbs, level + 1, index);
 }
 
 t_aabb_objects	get_root_aabb_objects(int num_aabbs)
@@ -174,11 +181,12 @@ t_aabb_objects	get_root_aabb_objects(int num_aabbs)
 t_kd_tree	*build_kd_tree(t_aabb *all_aabbs, int num_aabbs)
 {
 	t_kd_tree	*root;
+	int			index = 0;
 
 	root = rt_safe_malloc(sizeof(t_kd_tree));
 	root->aabb = get_root_aabb(all_aabbs, num_aabbs);
 	root->sah = INFINITY;
 	root->objects = get_root_aabb_objects(num_aabbs);
-	build_kd_tree_recursive(root, all_aabbs, 0);
+	build_kd_tree_recursive(root, all_aabbs, 0, &index);
 	return (root);
 }

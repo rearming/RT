@@ -23,10 +23,10 @@ bool		ray_aabb_intersection(t_ray ray, t_aabb aabb, float *out_near, float *out_
 
 void		kd_swap_nodes(
 		bool need_swap,
-		t_kd_tree *left,
-		t_kd_tree *right,
-		t_kd_tree **out_first,
-		t_kd_tree **out_second)
+		t_kd_arr_node *left,
+		t_kd_arr_node *right,
+		t_kd_arr_node **out_first,
+		t_kd_arr_node **out_second)
 {
 	if (need_swap)
 	{
@@ -40,8 +40,15 @@ void		kd_swap_nodes(
 	}
 }
 
+t_kd_arr_node	*kd_get_node(t_kd_arr_node *arr, t_kd_arr_node *curr_node, int side)
+{
+	if (side == KD_LEFT)
+		return (&arr[curr_node->left_index]);
+	else
+		return (&arr[curr_node->right_index]);
+}
 
-bool	kd_tree_traverse(t_kd_tree *tree, t_ray ray, int *indices)
+bool	kd_tree_arr_traverse(t_kd_arr_node *tree_arr, t_ray ray, int *indices)
 {
 	t_stack	stack;
 	float	t_min;
@@ -50,10 +57,10 @@ bool	kd_tree_traverse(t_kd_tree *tree, t_ray ray, int *indices)
 	ft_stack_init(&stack, KD_TREE_MAX_HEIGHT);
 
 	t_kd_traverse_helper	helper;
-	t_kd_tree				*node;
+	t_kd_arr_node			*node;
 
-	helper.node = tree;
-	if (!(ray_aabb_intersection(ray, tree->aabb, &helper.t_min, &helper.t_max)))
+	helper.node = &tree_arr[0];
+	if (!(ray_aabb_intersection(ray, tree_arr[0].aabb, &helper.t_min, &helper.t_max)))
 	{
 //		printf("INTERSECTION WITH ROOT NODE FAILED!\n");
 		return (false);
@@ -73,9 +80,11 @@ bool	kd_tree_traverse(t_kd_tree *tree, t_ray ray, int *indices)
 			int		axis = node->split_axis;
 			float	t_split = (node->split - ray.origin.s[axis]) / ray.dir.s[axis];
 
-			t_kd_tree	*first_node;
-			t_kd_tree	*second_node;
-			kd_swap_nodes(ray.dir.s[axis] < 0, node->left, node->right, &first_node, &second_node);
+			t_kd_arr_node	*first_node;
+			t_kd_arr_node	*second_node;
+			kd_swap_nodes(ray.dir.s[axis] < 0,
+					kd_get_node(tree_arr, node, KD_LEFT),
+					kd_get_node(tree_arr, node, KD_RIGHT), &first_node, &second_node);
 
 			if (t_split >= t_max || t_split < 0)
 				node = first_node;
@@ -103,5 +112,6 @@ bool	kd_tree_traverse(t_kd_tree *tree, t_ray ray, int *indices)
 //			return (true);
 		}
 	}
+	ft_stack_free(&stack);
 	return false;
 }

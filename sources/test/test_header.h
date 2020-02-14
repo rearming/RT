@@ -25,6 +25,6 @@ void		test_build_kd_tree(void);
 bool		assert_float_equals(float expected, float actual);
 bool		assert_int_equals(int expected, int actual);
 
-void		kd_run_traverse_tests(t_kd_tree *tree);
+void		kd_run_traverse_tests(t_kd_arr_node *arr_tree);
 
 #endif

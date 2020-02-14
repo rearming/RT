@@ -6,7 +6,8 @@ void 	kd_tree_to_list(t_kd_tree *tree, t_list **out_list, int *out_nodes_num)
 	if (!tree)
 		return;
 	(*out_nodes_num)++;
-	ft_lstaddback(out_list, &tree->aabb, sizeof(t_aabb));
+	if (out_list)
+		ft_lstaddback(out_list, &tree->aabb, sizeof(t_aabb));
 	kd_tree_to_list(tree->left, out_list, out_nodes_num);
 	kd_tree_to_list(tree->right, out_list, out_nodes_num);
 }

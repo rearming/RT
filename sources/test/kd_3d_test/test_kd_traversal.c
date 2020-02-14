@@ -26,9 +26,9 @@ static t_ray get_ray(int x, int y, cl_float3 origin)
 	return ray;
 }
 
-void test_kd_traverse(t_kd_tree *tree, t_ray ray, int *indices)
+void		test_kd_traverse(t_kd_arr_node *arr_tree, t_ray ray, int *indices)
 {
-	bool	res_traverse = kd_tree_traverse(tree, ray, indices);
+	bool	res_traverse = kd_tree_arr_traverse(arr_tree, ray, indices);
 
 //	printf("traversed with:\n");
 //	rt_print_clfloat3(ray.origin, "ray.origin");
@@ -36,7 +36,7 @@ void test_kd_traverse(t_kd_tree *tree, t_ray ray, int *indices)
 //	printf("%s\n\n", res_traverse ? "SUCCESS" : "FAIL");
 }
 
-void	kd_run_traverse_tests(t_kd_tree *tree)
+void		kd_run_traverse_tests(t_kd_arr_node *arr_tree)
 {
 	t_ray	ray;
 	int		*indices = rt_safe_malloc(sizeof(int) * 7000);
@@ -49,7 +49,7 @@ void	kd_run_traverse_tests(t_kd_tree *tree)
 		{
 			ray = get_ray(x, y, (cl_float3){{0, 1, 10}});
 //				ray = get_ray(x, y, (cl_float3){{0, k, k * 10}});
-			test_kd_traverse(tree, ray, indices);
+			test_kd_traverse(arr_tree, ray, indices);
 		}
 	}
 	int		indices_found = 0;
@@ -61,26 +61,5 @@ void	kd_run_traverse_tests(t_kd_tree *tree)
 	printf("indices found: [%i]\n", indices_found);
 
 //	printf("indices found: [%i], with y_kek = [%.3f], z_kek = [%.3f]\n", indices_found, k * 1.5, (float)k * 50);
-
-//	for (int k = 1; k < 20; ++k)
-//	{
-//	}
-
-//	ray = (t_ray){.dir = (cl_float3){{0.001, 0.001, 0.7}}, .origin = (cl_float3){{0, 0, -10}}};
-//	test_kd_traverse(tree, ray);
-//
-//	ray = (t_ray){.dir = (cl_float3){{0.7, 0.001, 0.001}}, .origin = (cl_float3){{0, 0, -10}}};
-//	test_kd_traverse(tree, ray);
-//
-//	ray = (t_ray){.dir = (cl_float3){{0.3, 0.2, 0.3}}, .origin = (cl_float3){{0, 0, -10}}};
-//	test_kd_traverse(tree, ray);
-//
-//	ray = (t_ray){.dir = (cl_float3){{0.001, -0.03, 0.5}}, .origin = (cl_float3){{0, 0, -10}}};
-//	test_kd_traverse(tree, ray);
-//
-//	ray = (t_ray){.dir = (cl_float3){{0.0001, 0.15, 0.9}}, .origin = (cl_float3){{0, 0, -10}}};
-//	test_kd_traverse(tree, ray);
-//
-//	ray = (t_ray){.dir = (cl_float3){{0.001, 0.001, 0.7}}, .origin = (cl_float3){{0, 0, -10}}};
-//	test_kd_traverse(tree, ray);
 }
+

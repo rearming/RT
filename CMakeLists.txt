@@ -86,7 +86,7 @@ set(render_sources
 
 set(kd_tree_sources
         sources/kd_tree/rt_kd_get_aabb.c
-        sources/kd_tree/rt_kd_tree_build.c sources/test/kd_3d_test/rt_kd_tree_traversal.c)
+        sources/kd_tree/rt_kd_tree_build.c sources/test/kd_3d_test/rt_kd_tree_traversal.c sources/kd_tree/rt_kd_tree_to_array.c sources/kd_tree/rt_kd_tree_utils.c)
 
 set(sources
         ${debug_sources}
