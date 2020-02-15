@@ -98,14 +98,14 @@ int		kd_tree_traverse(
 		{
 			int		axis = node->split_axis;
 
-			float	t_split = (node->split) - f3_axis(ray->origin, axis) / f3_axis(ray->dir, axis);
+			float	t_split = ((node->split) - f3_axis(ray->origin, axis)) / f3_axis(ray->dir, axis);
 
 			int		first_node_index;
 			int		second_node_index;
 
 			kd_swap_nodes(f3_axis(ray->dir, axis) < 0, node->left_index, node->right_index, &first_node_index, &second_node_index);
 
-			if (t_split >= t_max || t_split < 0)
+			if (t_split >= t_max)
 				node = &tree_arr[first_node_index];
 			else if (t_split <= t_min)
 				node = &tree_arr[second_node_index];
@@ -118,7 +118,6 @@ int		kd_tree_traverse(
 		}
 		for (int i = 0; i < node->objects.num; ++i)
 		{
-//			return 15;
 			int		index = kd_indices[i + node->obj_offset];
 
 			if (ray_triangle_intersect_MT_polygon(

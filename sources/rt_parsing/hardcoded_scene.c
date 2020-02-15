@@ -109,7 +109,7 @@ static	t_object	*pathtrace_scene(int *out_obj_nbr)
 
 static	t_object	*cornell_box(int *out_obj_nbr)
 {
-	const int	objects_nbr = 8;
+	const int	objects_nbr = 7;
 	t_object	*objects;
 
 	*out_obj_nbr = objects_nbr;
@@ -161,11 +161,11 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 //			.vmin = (cl_float3){{0, 0, -2}},
 //			.vmax = (cl_float3){{1, 1, 1}}};
 
-	objects[7] = (t_object){.type = SPHERE, // specular sphere
-			(t_material){.specular = get_float3_color(COL_LIGHT_GREEN), .transmittance = 0, .refraction = 0,
-				.phong_exp = 200, .smoothness = 1000, .texture_number = NOT_SET},
-			.center = {{-1, -0.5f, -2.5}},
-			.radius = 1.f};
+//	objects[7] = (t_object){.type = SPHERE, // specular sphere
+//			(t_material){.specular = get_float3_color(COL_LIGHT_GREEN), .transmittance = 0, .refraction = 0,
+//				.phong_exp = 200, .smoothness = 1000, .texture_number = NOT_SET},
+//			.center = {{-1, -0.5f, -2.5}},
+//			.radius = 1.f};
 
 //	objects[8] = (t_object){.type = TRIANGLE,
 //			(t_material){.diffuse = get_float3_color(COL_WHITE), .specular = {{0.9f, 0.9f, 0.9f}}, .smoothness = 5000},
@@ -281,11 +281,11 @@ static	t_object	*texture_scene(int *out_obj_nbr)
 
 static t_object		*rt_get_objects(int *out_obj_nbr)
 {
-	return (cornell_box(out_obj_nbr));
+//	return (cornell_box(out_obj_nbr));
 //	return (kolyan_scene(out_obj_nbr));
 //	return (many_spheres_test(out_obj_nbr));
 //	return (pathtrace_scene(out_obj_nbr));
-//	return (obj_scene(out_obj_nbr));
+	return (obj_scene(out_obj_nbr));
 //	return (texture_scene(out_obj_nbr));
 	RT_UNUSED(cornell_box(out_obj_nbr));
 	RT_UNUSED(kolyan_scene(out_obj_nbr));
@@ -305,9 +305,9 @@ static t_light		*rt_get_lights(int *out_lights_nbr)
 	lights[0] = (t_light){.color = get_float3_color(COL_WHITE), .type = AMBIENT, .intensity = 0.2f};
 //	lights[1] = (t_light){.pos = {{0, 10, -5}}, ///для pathtrace scene
 //		.color = get_float3_color(COL_WHITE), .type = POINT, .intensity = 0.5f};
-	lights[1] = (t_light){.pos = {{0, 0, -5}}, /// для cornell box
-					   .color = get_float3_color(COL_WHITE), .type = POINT, .intensity = 0.5f};
-//	lights[1] = (t_light){.dir = {{0, -1, 10}}, .color = get_float3_color(COL_WHITE), .type = DIRECTIONAL, .intensity = 0.5};
+//	lights[1] = (t_light){.pos = {{0, 0, -5}}, /// для cornell box
+//					   .color = get_float3_color(COL_WHITE), .type = POINT, .intensity = 0.5f};
+	lights[1] = (t_light){.dir = {{0, -1, 10}}, .color = get_float3_color(COL_WHITE), .type = DIRECTIONAL, .intensity = 0.5};
 //	lights[2] = (t_light){.pos = {{1, 0.5, 2}}, .color = {COL_GREEN}, .type = POINT, .intensity = 0.9};
 	return (lights);
 }
@@ -347,14 +347,14 @@ t_scene		get_hardcoded_scene(void)
 
 	scene.camera = (t_camera)
 	{
-//		.pos = {{0, 2, 10}}, //statuya pos/rot
-//		.rotation = {{0, 180, 0}},
+		.pos = {{0, 2, 200}}, //statuya pos/rot
+		.rotation = {{0, 180, 0}},
 
 //		.pos = {{20, 6.6, -6.4}}, //pathtracing scene pos/rotation
 //		.rotation = {{-10, -63.3, 0}},
 
-		.pos = {{0.2, 1.2, -14.2}}, // cornell box pos/rotation
-		.rotation = {{0, 0, 0}},
+//		.pos = {{0.2, 1.2, -14.2}}, // cornell box pos/rotation
+//		.rotation = {{0, 0, 0}},
 		.viewport_distance = 1,
 		.viewport_width = WIN_RATIO < 1 ? D_I_MAZOHIN : 1,
 		.viewport_height = WIN_RATIO > 1 ? D_E_KARMATSKIY : 1
