@@ -36,7 +36,8 @@ set(sources
         sources/debug/rt_debug_print_utils.c
         sources/rt_parsing/rt_correct_scene.c
         sources/utils/rt_color_utils.c
-        sources/debug/rt_pathtrace_profile.c)
+        sources/debug/rt_pathtrace_profile.c
+        sources/gui/gui_init.c)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INCLUDE(FindPkgConfig)
@@ -79,7 +80,7 @@ link_directories(
 
 add_executable(RT
         sources/main.c
-        ${sources})
+        ${sources} sources/gui/buttons.c sources/gui/gui_utils/color_utils.c sources/gui/button_callback.c)
 
 target_link_libraries(RT
         "ftprintf"

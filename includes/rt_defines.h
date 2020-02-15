@@ -124,13 +124,6 @@
 
 # define ROTATION_SPEED 0.05
 
-/*
-** Sdl gui
-*/
-# define RT_GUI_NAME "Dota 5 Tools"
-# define RT_GUI_WIDTH 640
-# define RT_NK_HEIGHT 480
 
-# define DISABLE_K 2
 
 #endif

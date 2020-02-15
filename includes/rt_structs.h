@@ -1,6 +1,7 @@
 #ifndef RT_STRUCTS_H
 # define RT_STRUCTS_H
 
+
 typedef struct			s_rgb
 {
 # ifndef FT_OPENCL___
@@ -66,15 +67,6 @@ typedef struct			s_point
 
 #define TEXTURE_BUF 15
 
-typedef	struct			s_button
-{
-	SDL_Rect 			button;
-	t_color 			color;
-	SDL_Surface			texture;
-	bool				active;
-}						t_button;
-
-
 typedef struct			s_sdl
 {
 	SDL_Window			*win;
@@ -84,7 +76,6 @@ typedef struct			s_sdl
 	SDL_Texture			*texture;
 	SDL_Texture			**texture_list;
 	int					pitch;
-	t_button 			buttons[5];
 }						t_sdl;
 
 typedef struct			s_cl_mem
@@ -340,17 +331,6 @@ typedef struct			s_cl_concat_kernel_code
 	int					fd;
 }						t_cl_concat_kernel_code;
 # endif
-
-/*
-** SDL_gui structs
-*/
-
-typedef enum			e_button
-{
-						pt_btn,
-						rt_btn,
-						rm_btn
-}						t_button_enum;
 
 
 #endif
