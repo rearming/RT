@@ -18,36 +18,34 @@
 
 //check camera
 #define POS 1			//obj for obj
-#define ROTATION 20
+#define ROTATION 2
 
 //check light
-#define TYPE 10		//obj, lyght
-#define INTENSITY 100
-#define DIRECTION 1000
-#define COLOR 100000
+#define TYPE 0		//obj, lyght
+#define INTENSITY 3
+#define DIRECTION 4
+#define COLOR 5
 
 //check objects
 
 //position attributes
-#define NORMAL 100
-#define RADIUS 1000
-#define LEN 2000
-#define ANGLE 10000
+#define NORMAL 6
+#define RADIUS 7
+#define LEN 9
+#define ANGLE 8
 #define MATERIAL 100000
 
 //material
-#define SPECULAR 2						//material_checker
-#define AMBIENCE 20						//material_checker
-#define DIFFUSE 200						//material_checker
-#define PHONG_EXP 2000					//material_checker
-#define SMOOTHNESS 20000				//material_checker
-#define TRANSMITTANCE 200000			//material_checker
-#define REFRACTION 2000000				//material_checker
-#define EMISSION_POWER 20000000			//material_checker
-
-#define SPECULAR_TEXTURE  1000000000	//coord_checker
-#define TEXTURE 10000000				//coord_checker
-#define TEXTURE_POS 100000000			//coord_checker
-
+#define SPECULAR 12
+#define AMBIENCE 10
+#define DIFFUSE 11
+#define PHONG_EXP 13
+#define SMOOTHNESS 14
+#define TRANSMITTANCE 15
+#define REFRACTION 16
+#define EMISSION_POWER 17
+#define SPECULAR_TEXTURE 18
+#define TEXTURE 19
+#define TEXTURE_POS 20
 
 #endif
