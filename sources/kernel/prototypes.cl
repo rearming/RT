@@ -134,6 +134,9 @@ float3		shade_pathtrace(
 float3		pathtrace(
 		__global const t_scene *scene,
 		__global const t_object *objects,
+		__global const t_kd_info *kd_info,
+		__global const t_kd_arr_tree *kd_tree,
+		__global const int *kd_indices,
 		__global const t_mesh_info *meshes_info,
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
