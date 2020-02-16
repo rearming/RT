@@ -318,8 +318,8 @@ static void 	add_textures(void)
 
 	i = 0;
 	char *textures[] = {
-			"sphere_earth.jpg",
-			"sphere_sun.jpg"};
+			"skybox_cave.jpg",
+			"plane_spruce.jpg"};
 
 	g_textures.texture_info_size = sizeof(textures) / sizeof(char*);
 	g_textures.textures_names = NULL;
