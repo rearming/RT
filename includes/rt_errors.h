@@ -40,4 +40,5 @@
 # define ERR_PARSING_WRONG_LIGHT_PARAMS "rt_parse error: wrong light params"
 # define ERR_PARSING_WRONG_CAMERA_PARAMS "rt_parse error: wrong camera params"
 # define ERR_PARSING_WRONG_PARAM "rt_parse error: wrong params"
+# define ERR_PARSING_PARAMETERS "rt parse error: duplicate parameters"
 #endif

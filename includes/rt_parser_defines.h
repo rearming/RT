@@ -2,9 +2,9 @@
 # define RT_PARSER_DEFINES_H
 
 // может быть сделать чекер строкой и проверять есть ли там уже такая буква:?
-#define CAMERA 1
-#define LIGHT 10
-#define OBJECT 1000
+#define CAMERA 10
+#define LIGHT 20
+#define OBJECT 30
 
 #define SPHERE 1
 #define CONE 2
@@ -17,12 +17,12 @@
 #define PARALLEL 4		// intensity, color, pos, dir
 
 //check camera
-#define POS 1			//obj for obj
-#define ROTATION 2
+#define POS 2			//obj for obj
+#define ROTATION 3
 
 //check light
 #define TYPE 0		//obj, lyght
-#define INTENSITY 3
+#define INTENSITY 1
 #define DIRECTION 4
 #define COLOR 5
 
@@ -33,7 +33,7 @@
 #define RADIUS 7
 #define LEN 9
 #define ANGLE 8
-#define MATERIAL 100000
+#define MATERIAL 21
 
 //material
 #define SPECULAR 12

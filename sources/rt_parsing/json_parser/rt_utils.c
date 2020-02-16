@@ -13,21 +13,12 @@
 #include "rt.h"
 #include "rt_math_utils.h"
 
-int		ft_check_if_exist(int checker, int type)
+int		ft_check_if_exist(bool *checker, int type)
 {
-	if (type == 2 || type == 20 || type == 200 ||type == 2000
-		|| type == 20000 || type == 200000 || type == 2000000
-		|| type == 20000000)
-	{
-		if (checker / (type / 2) % 10 == 0)
-			return (checker + type);
-	}
-	else
-	{
-		if (checker / type % 10 == 0)
-			return (checker + type);
-	}
-	return (-1);
+	if (checker[type] == true)
+		return (true);
+	rt_raise_error(ERR_PARSING_PARAMETERS);
+	return (false);
 }
 
 void		init_tmp(t_tmp *tmp)

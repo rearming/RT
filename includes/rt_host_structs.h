@@ -87,9 +87,9 @@ typedef struct 			s_tmp
 {
 	int 			structure_type;	// object, camera, light
 	int 			type;			// ambience, sphere, cone
+	float 			intensity;		// 			light
 	cl_float3		pos;			// camera,	light,	object
 	cl_float3		rotation;		// camera
-	float 			intensity;		// 			light
 	cl_float3		dir;			// 			light
 	cl_float3 		color;			//			light,	object (material)
 	cl_float3		normal;			//					object
@@ -109,7 +109,7 @@ typedef struct 			s_tmp
 	cl_float3		texture_position;//					object (material)
 	int 			coord_checker;	//					object
 	int 			material_checker;
-	char 			checker[26];
+	char 			checker[22];
 	struct s_tmp	*next;
 }						t_tmp;
 
