@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "rt_math_utils.h"
 
 void		parse_object(t_tmp *tmp, const char *key, json_t *value)
 {
@@ -20,7 +21,12 @@ void		parse_object(t_tmp *tmp, const char *key, json_t *value)
 	if (type_of_structure != -1)
 	{
 		if (type_of_structure == MATERIAL)
-			tmp->coord_checker = ft_check_if_exist(tmp->coord_checker, MATERIAL);
+		{
+			if (tmp->checker[MATERIAL] == true)
+				rt_raise_error(ERR_PARSING_WRONG_PARAM);
+			else
+				tmp->checker[MATERIAL] = true;
+		}
 		else
 		{
 			if (tmp->structure_type == NOT_SET)
@@ -71,6 +77,10 @@ void 		parse_string(t_tmp *tmp, const char *key, json_t *value)
 		else
 			rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
 	}
+	else if (ft_strequ(key, "diffuse"))
+		tmp->diffuse = get_float3_color(ft_atoi(tmp_value));
+	else if (ft_strequ(key, "color"))
+		tmp->color = get_float3_color(ft_atoi(tmp_value));
 	/*else if (ft_strequ(key, "texture"))
 	{
 

@@ -4,11 +4,7 @@
 		"pos": [0, 1, 2],
 		"radius": 0.25,
 		"material": {
-			"texture_pos": [
-		0,
-		1,
-		3
-	],
+			"texture_pos": [0, 1, 3],
 			"emission color": [0, 1, 2],
 			"specularity": [0, 1, 2]
 		}

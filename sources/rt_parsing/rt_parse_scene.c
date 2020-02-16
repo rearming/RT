@@ -43,7 +43,7 @@ void 		count_elements(t_scene *scene, t_tmp *tmp)
 		tmp_iterator = tmp_iterator->next;
 	}
 	if (check_camera != 1)
-		rt_raise_error("wrong camera");
+		rt_raise_error(ERR_PARSING_WRONG_CAMERA_PARAMS);
 }
 
 void		parse_json_file(json_t *root, t_tmp *tmp)
@@ -74,7 +74,7 @@ void		parse_json_file(json_t *root, t_tmp *tmp)
 	}
 }
 
-char	*read_file(const char *argv, int buff_size)
+char		*read_file(const char *argv, int buff_size)
 {
 	int		ret;
 	char	buf[buff_size];

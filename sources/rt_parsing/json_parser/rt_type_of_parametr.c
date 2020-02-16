@@ -8,8 +8,6 @@ static int	ft_check(const char *param, int *type_of_element)
 		*type_of_element = DIFFUSE;
 	else if (ft_strequ(param, "specular"))
 		*type_of_element = SPECULAR;
-	if (*type_of_element != -1)
-		return (2);
 	if (ft_strequ(param, "pos"))
 		*type_of_element = POS;
 	else if (ft_strequ(param, "rotation"))
@@ -25,14 +23,14 @@ static int	ft_check(const char *param, int *type_of_element)
 	return (*type_of_element != -1) ? 1 : -1;
 }
 //подумать про варианты когда материал парсит или спекюлар заданы как массив элементов
-// 1 - coord_checker traditional, 2 - material_checker traditional, 3 - objects
+// 1 - coord_checker traditional, 2 - objects
 //может просто чекать если array type is number || array type is object
 int			ft_type_of_array(int *type_of_element, const char *param, int structure_type)
 {
-	if (ft_strequ(param, "object"))
+	if (ft_strequ(param, "objects"))
 		*type_of_element = OBJECT;
 	if (ft_strequ(param, "light"))
-			*type_of_element = LIGHT;
+		*type_of_element = LIGHT;
 	if (structure_type == LIGHT)
 	{
 		if (ft_strequ(param, "ambient"))
@@ -51,7 +49,7 @@ int			ft_type_of_array(int *type_of_element, const char *param, int structure_ty
 		else if (ft_strequ(param, "plane"))
 			*type_of_element = PLANE;
 	}
-	return (*type_of_element != -1) ? 3 : (ft_check(param, type_of_element));
+	return (*type_of_element != -1) ? 2 : (ft_check(param, type_of_element));
 }
 
 int			ft_type_of_structure(const char *param)

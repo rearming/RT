@@ -2,9 +2,11 @@
 # define RT_PARSER_DEFINES_H
 
 // может быть сделать чекер строкой и проверять есть ли там уже такая буква:?
-#define CAMERA 1
-#define LIGHT 10
-#define OBJECT 1000
+// нормировать все оси, нормали и т.п. и проверить все значения по умолчанию
+
+#define CAMERA 10
+#define LIGHT 20
+#define OBJECT 30
 
 #define SPHERE 1
 #define CONE 2
@@ -17,37 +19,36 @@
 #define PARALLEL 4		// intensity, color, pos, dir
 
 //check camera
-#define POS 1			//obj for obj
-#define ROTATION 20
+#define POS 2			//obj for obj
+#define ROTATION 3
 
 //check light
-#define TYPE 10		//obj, lyght
-#define INTENSITY 100
-#define DIRECTION 1000
-#define COLOR 100000
+#define TYPE 0		//obj, lyght
+#define INTENSITY 1
+#define DIRECTION 4
+#define COLOR 5
 
 //check objects
 
 //position attributes
-#define NORMAL 100
-#define RADIUS 1000
-#define LEN 2000
-#define ANGLE 10000
-#define MATERIAL 100000
+#define CENTER 6
+#define NORMAL 7
+#define RADIUS 8
+#define LEN 10
+#define ANGLE 9
+#define MATERIAL 22
 
 //material
-#define SPECULAR 2						//material_checker
-#define AMBIENCE 20						//material_checker
-#define DIFFUSE 200						//material_checker
-#define PHONG_EXP 2000					//material_checker
-#define SMOOTHNESS 20000				//material_checker
-#define TRANSMITTANCE 200000			//material_checker
-#define REFRACTION 2000000				//material_checker
-#define EMISSION_POWER 20000000			//material_checker
-
-#define SPECULAR_TEXTURE  1000000000	//coord_checker
-#define TEXTURE 10000000				//coord_checker
-#define TEXTURE_POS 100000000			//coord_checker
-
+#define SPECULAR 13
+#define AMBIENCE 11
+#define DIFFUSE 12
+#define PHONG_EXP 14
+#define SMOOTHNESS 15
+#define TRANSMITTANCE 16
+#define REFRACTION 17
+#define EMISSION_POWER 18
+#define SPECULAR_TEXTURE 19
+#define TEXTURE 20
+#define TEXTURE_POS 21
 
 #endif
