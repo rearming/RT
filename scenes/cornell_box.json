@@ -1,0 +1,45 @@
+{
+  "object": [
+    {
+      "type": "plane",
+      "pos": [0, 1, 2],
+      "radius": 0.25,
+      "material": {
+      "diffuse": [0, 0, 0],
+      "specular": [0, 0, 0],
+      "phong_exp": 0,
+      "smoothness": 0
+      },
+      "center": [0, -2.5, 0],
+      "normal": [0, 1, 0]
+    },
+    {
+      "type": "plane",
+      "pos": [0, 1, 2],
+      "radius": 0.25,
+      "material": {
+        "diffuse": [0, 0, 0],
+        "specular": [0, 0, 0],
+        "phong_exp": 50,
+        "smoothness": 0
+      },
+      "center": [2.5, 0, 0],
+      "normal": [1, 0, 0]
+    }
+    ],
+  "camera": {
+    "pos": [0, 0, -2]
+  },
+  "light":
+  [
+    {
+      "type": "ambient",
+      "intensity": 0.25
+    },
+    {
+      "type": "point",
+      "intensity": 0.85,
+      "pos": [0.75, 0, -1]
+    }
+  ]
+}
