@@ -113,6 +113,7 @@ typedef enum			e_object_type
 	CYLINDER,
 	CONE,
 	TRIANGLE,
+	AABB,
 }						t_object_type;
 
 typedef enum			e_light_type
@@ -161,7 +162,7 @@ typedef struct			s_material //есть default material и все задаетс
 	cl_float3			texture_position;
 # else
 
-	float3				ambience;
+	float3				ambient;
 	float3				diffuse;
 	float3				specular;
 	float				phong_exp;
@@ -189,6 +190,8 @@ typedef struct			s_object
 	cl_float			angle;
 	cl_float			len;
 	cl_float3			vertices[3]; //it's for .obj
+	cl_float3			vmin;
+	cl_float3			vmax;
 # else
 
 	t_object_type		type;
@@ -199,6 +202,8 @@ typedef struct			s_object
 	float				angle;
 	float				len;
 	float3				vertices[3];
+	float3				vmin;
+	float3				vmax;
 # endif
 
 }						t_object;

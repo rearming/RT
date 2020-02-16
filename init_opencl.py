@@ -7,7 +7,7 @@ import os
 
 
 meshes_dir_path = "./assets/3d_models/"
-kernel_sources_path = "./sources/OpenCL_kernel_code/"
+kernel_sources_path = "sources/kernel/"
 prototypes_file_name = "prototypes.cl"
 
 

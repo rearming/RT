@@ -12,9 +12,7 @@ void		rt_print_debug_info(t_rt *rt, t_rt_renderer *renderer)
 //		ft_printf("current seed: [%.4f]\n", rt->opencl_params.seed);
 	}
 
-	ft_printf("camera position: ");
-	rt_print_clfloat3(rt->scene.camera.pos);
-	ft_printf("camera rotation: ");
-	rt_print_clfloat3(rt->scene.camera.rotation);
+	rt_print_clfloat3(rt->scene.camera.pos, "camera position");
+	rt_print_clfloat3(rt->scene.camera.rotation, "camera rotation");
 	ft_printf("\033[0m");
 }

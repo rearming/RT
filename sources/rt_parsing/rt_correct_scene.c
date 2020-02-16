@@ -1,5 +1,5 @@
 #include "rt.h"
-/*
+
 static inline void		correct_lights_intensity(t_scene *scene)
 {
 	int		i;
@@ -11,9 +11,8 @@ static inline void		correct_lights_intensity(t_scene *scene)
 		i++;
 	}
 }
-*/
+
 void		rt_correct_scene(t_scene *scene)
 {
-	RT_UNUSED(scene);
-	//correct_lights_intensity(scene);
+	correct_lights_intensity(scene);
 }

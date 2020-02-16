@@ -100,7 +100,7 @@
 # ifdef __APPLE__
 #  define ROTATION_SPEED 0.025
 # else
-#  define ROTATION_SPEED 0.5
+#  define ROTATION_SPEED 0.25
 # endif
 
 #endif
