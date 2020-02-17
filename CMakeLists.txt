@@ -10,8 +10,6 @@ if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
 endif()
 
 # <----RTv1 compile---->
-set(CMAKE_MACOSX_RPATH 1)
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
 set(debug_sources
         sources/debug/opencl_debug.c
@@ -137,11 +135,11 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
             ${OPENCL_LIBRARIES})
 else()
     set(graphic_libs_include_dirs
-            SDL2_libs/SDL2.framework/Headers)
+            lib/SDL2_libs/SDL2.framework/Headers)
     set(graphic_libs_dirs
-            SDL2_libs/)
+            lib/SDL2_libs/)
     set(graphic_libs_link_names
-            "-F ${PROJECT_SOURCE_DIR}/SDL2_libs -framework SDL2"
+            "-F ${PROJECT_SOURCE_DIR}/lib/SDL2_libs -framework SDL2"
             "-framework OpenCL")
 endif()
 
@@ -159,12 +157,10 @@ link_directories(
         libft
         libft/ft_printf
         ${graphic_libs_dirs}
-        lib/
+        lib/jansson/build/lib/
 )
 
 add_executable(RT
-        includes/jansson.h
-        includes/jansson_config.h
         sources/main.c
         ${sources}
 )
