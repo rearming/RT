@@ -20,7 +20,7 @@
 
 # include "libft.h"
 # include "rt_shared_structs.h"
-# include "rt_host_structs.h"
+# include "rt_host_structs.h"git
 # include "rt_errors.h"
 # include "rt_opencl_params_defines.h"
 # include "rt_defines.h"
