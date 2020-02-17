@@ -6,7 +6,7 @@
 /*   By: dgreat <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/15 17:25:14 by dgreat            #+#    #+#             */
-/*   Updated: 2020/02/15 17:25:18 by dgreat           ###   ########.fr       */
+/*   Updated: 2020/02/17 20:09:33 by dgreat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ SDL_Color	get_color_from_hex(unsigned int hex)
 {
 	SDL_Color	color;
 
-	color.r = hex & 0xFF0000;
-	color.g = hex & 0xFF00;
+	color.r = (hex >> 16) & 0xFF;
+	color.g = (hex >> 8) & 0xFF;
 	color.b = hex & 0xFF;
 	return (color);
 }
@@ -43,9 +43,9 @@ SDL_Color	get_rgba_from_hex(unsigned int hex)
 {
 	SDL_Color	color;
 
-	color.r = hex & 0xFF000000;
-	color.g = hex & 0xFF0000;
-	color.b = hex & 0xFF00;
+	color.r = (hex >> 24) & 0xFF;
+	color.g = (hex >> 16) & 0xFF;
+	color.b = (hex >> 8) & 0xFF;
 	color.a = hex & 0xFF;
 	return (color);
 }

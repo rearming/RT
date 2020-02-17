@@ -10,7 +10,6 @@ typedef	struct			s_transform
 {
 	SDL_Rect			rect;
 	SDL_Color			color;
-	SDL_Color			rise_btn;
 	SDL_Surface			texture;
 	char				*text;
 	void				*callback;
@@ -28,7 +27,7 @@ typedef enum			e_button
 typedef struct			s_gui
 {
 						//TODO: optimise this
-	t_transform			*obj[100];
+	t_transform			obj[100];
 	TTF_Font			*font;
 	SDL_Surface			*surface;
 

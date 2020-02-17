@@ -82,6 +82,30 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 //	}
 //}
 
+void		handle_mouse(SDL_Event *event, t_rt *rt, t_gui *gui)
+{
+	printf("checking rectangle %i %i\n", gui->obj[pt_btn].rect.w, gui->obj[pt_btn].rect.h);
+	printf("поймана крыса position x: %i y:%i; intersect%i\n", event->button.x, event->button.x, check_button(event, gui->obj[pt_btn].rect));
+	gui->surface = SDL_GetWindowSurface(g_sdl.win_tool);
+	if (check_button(event, gui->obj[pt_btn].rect))
+	{
+		printf("ебать, работаем\n");
+	}
+}
+
+
+void		handle_mouse_g(SDL_Event *event, t_rt *rt)
+{
+	g_gui.surface = SDL_GetWindowSurface(g_sdl.win_tool);
+	if (check_button(event, g_gui.obj[pt_btn].rect))
+	{
+		printf("ебать, работаем\n");
+//		g_gui.obj[pt_btn].callback(pt_btn, (void *)rt);
+//		g_gui.obj[pt_btn].callback;//todo: разобраться с callback function
+
+	}
+}
+
 void		handle_event(SDL_Event *event, t_rt *rt, t_gui *gui)
 {
 	if (event->type == SDL_KEYUP)
@@ -99,11 +123,39 @@ void		handle_event(SDL_Event *event, t_rt *rt, t_gui *gui)
 	}
 	else if (event->type == SDL_MOUSEBUTTONDOWN)
 	{
-//		handle_mouse(event, rt, gui);
+		handle_mouse(event, rt, gui);
 	}
 	if (any_key_pressed(&rt->events)
 	|| event->type == SDL_MOUSEMOTION
 	|| rt->opencl_params.render_algo == PATH_TRACE)
+	{
+		rt_camera_move(&rt->scene.camera, &rt->events);
+		rt_render(rt, &rt_opencl_render);
+	}
+}
+
+void		handle_event_g(SDL_Event *event, t_rt *rt)
+{
+	if (event->type == SDL_KEYUP)
+		remove_key_event(&rt->events, event->key.keysym.scancode);
+	else if (event->type == SDL_KEYDOWN)
+	{
+		rt_handle_keypress(event, rt);
+		rt_add_key_event(&rt->events, event->key.keysym.scancode);
+	}
+	else if (event->type == SDL_MOUSEMOTION && SDL_GetRelativeMouseMode())
+	{
+		rt->scene.camera.rotation.x -=
+				event->motion.yrel * ROTATION_SPEED * WIN_RATIO;
+		rt->scene.camera.rotation.y += event->motion.xrel * ROTATION_SPEED;
+	}
+	else if (event->type == SDL_MOUSEBUTTONDOWN)
+	{
+		handle_mouse_g(event, rt);
+	}
+	if (any_key_pressed(&rt->events)
+		|| event->type == SDL_MOUSEMOTION
+		|| rt->opencl_params.render_algo == PATH_TRACE)
 	{
 		rt_camera_move(&rt->scene.camera, &rt->events);
 		rt_render(rt, &rt_opencl_render);
