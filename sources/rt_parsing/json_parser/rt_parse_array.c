@@ -55,7 +55,7 @@ static void	add_elements_in_array(t_tmp *tmp, int type_of_element,
 		add_array(&tmp->specular, value);
 }
 
-void	parse_array(t_tmp *tmp, const char *key, json_t *value)
+void		parse_array(t_tmp *tmp, const char *key, json_t *value)
 {
 	int array_type;
 	int array_size;
@@ -68,33 +68,25 @@ void	parse_array(t_tmp *tmp, const char *key, json_t *value)
 	array_type = ft_type_of_array(&type_of_element, key, tmp->structure_type);
 	if (array_type == 1)
 	{
-		if (tmp->checker[type_of_element] == true)
-			rt_raise_error(ERR_PARSING_WRONG_PARAM);
-		else
-			tmp->checker[type_of_element] = true;
+		check_duplicated(tmp->checker, type_of_element);
 		add_elements_in_array(tmp, type_of_element, value);
 	}
 	else if (array_type == 2)
 	{
-		if (type_of_element != LIGHT && type_of_element != OBJECT)
-			type_of_structure = tmp->structure_type;
-		else
-			type_of_structure = type_of_element;
+		type_of_structure = (type_of_element != LIGHT &&
+			type_of_element != OBJECT) ? tmp->structure_type : type_of_element;
 		array_size = json_array_size(value);
 		while (++i < array_size)
 		{
-			tmp->next = (t_tmp *) malloc(sizeof(t_tmp));
+			tmp->next = rt_safe_malloc(sizeof(t_tmp));
 			init_tmp(tmp->next);
 			tmp = tmp->next;
+			tmp->structure_type = type_of_structure;
 			if (type_of_structure != type_of_element)
-			{
-				tmp->structure_type = type_of_structure;
 				tmp->type = type_of_element;
-			} else
-				tmp->structure_type = type_of_structure;
 			parse_json_file(json_array_get(value, i), tmp);
 		}
-	} else
+	}
+	else
 		rt_raise_error(ERR_PARSING_WRONG_PARAM);
-
 }

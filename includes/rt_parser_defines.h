@@ -1,9 +1,6 @@
 #ifndef RT_PARSER_DEFINES_H
 # define RT_PARSER_DEFINES_H
 
-// может быть сделать чекер строкой и проверять есть ли там уже такая буква:?
-// нормировать все оси, нормали и т.п. и проверить все значения по умолчанию
-
 #define CAMERA 10
 #define LIGHT 20
 #define OBJECT 30
@@ -12,6 +9,7 @@
 #define CONE 2
 #define CYLINDER 3
 #define PLANE 4
+#define AABB 5
 
 #define AMBIENT 1 		// intensity, color
 #define POINT 2			// intensity, color, pos
@@ -19,11 +17,11 @@
 #define PARALLEL 4		// intensity, color, pos, dir
 
 //check camera
-#define POS 2			//obj for obj
+#define POS 2
 #define ROTATION 3
 
 //check light
-#define TYPE 0		//obj, lyght
+#define TYPE 0		//obj, light
 #define INTENSITY 1
 #define DIRECTION 4
 #define COLOR 5
@@ -33,22 +31,27 @@
 //position attributes
 #define CENTER 6
 #define NORMAL 7
-#define RADIUS 8
-#define LEN 10
-#define ANGLE 9
-#define MATERIAL 22
+#define AXIS 8
+#define VMIN 9
+#define VMAX 10
+#define RADIUS 11
+#define LEN 12
+#define ANGLE 13
+#define DISTANCE 14
+#define MATERIAL 15
 
 //material
-#define SPECULAR 13
-#define AMBIENCE 11
-#define DIFFUSE 12
-#define PHONG_EXP 14
-#define SMOOTHNESS 15
-#define TRANSMITTANCE 16
-#define REFRACTION 17
-#define EMISSION_POWER 18
-#define SPECULAR_TEXTURE 19
-#define TEXTURE 20
-#define TEXTURE_POS 21
+#define SPECULAR 16
+#define AMBIENCE 17
+#define DIFFUSE 18
+#define PHONG_EXP 19
+#define SMOOTHNESS 20
+#define TRANSMITTANCE 21
+#define REFRACTION 22
+#define EMISSION_COLOR 23
+#define EMISSION_POWER 24
+#define SPECULAR_TEXTURE 25
+#define TEXTURE 26
+#define TEXTURE_POS 27
 
 #endif

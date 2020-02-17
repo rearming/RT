@@ -53,7 +53,8 @@ set(parsing_sources
         sources/rt_parsing/hardcoded_scene.c
         sources/rt_parsing/json_parser/rt_parse_textures.c
         sources/rt_parsing/json_parser/rt_parse_variable.c
-        sources/rt_parsing/json_parser/rt_parse_elements.c
+        sources/rt_parsing/json_parser/rt_parse_object.c
+        sources/rt_parsing/json_parser/rt_parse_string.c
         sources/rt_parsing/json_parser/rt_utils.c
         sources/rt_parsing/json_parser/rt_type_of_parametr.c
         sources/rt_parsing/json_parser/rt_add_to_scene.c

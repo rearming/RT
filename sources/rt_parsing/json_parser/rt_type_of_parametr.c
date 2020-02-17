@@ -1,6 +1,6 @@
 #include "rt.h"
 
-static int	ft_check(const char *param, int *type_of_element)
+static int	ft_check_material(const char *param, int *type_of_element)
 {
 	if (ft_strequ(param, "ambient"))
 		*type_of_element = AMBIENCE;
@@ -8,24 +8,41 @@ static int	ft_check(const char *param, int *type_of_element)
 		*type_of_element = DIFFUSE;
 	else if (ft_strequ(param, "specular"))
 		*type_of_element = SPECULAR;
-	if (ft_strequ(param, "pos"))
-		*type_of_element = POS;
-	else if (ft_strequ(param, "rotation"))
-		*type_of_element = ROTATION;
-	else if (ft_strequ(param, "direction"))
-		*type_of_element = DIRECTION;
-	else if (ft_strequ(param, "color") || ft_strequ(param, "emission color"))
-		*type_of_element = COLOR;
-	else if (ft_strequ(param, "normal"))
-		*type_of_element = NORMAL;
+	else if (ft_strequ(param, "emission color"))
+		*type_of_element = EMISSION_COLOR;
 	else if (ft_strequ(param, "texture position"))
 		*type_of_element = TEXTURE_POS;
 	return (*type_of_element != -1) ? 1 : -1;
 }
-//подумать про варианты когда материал парсит или спекюлар заданы как массив элементов
-// 1 - coord_checker traditional, 2 - objects
-//может просто чекать если array type is number || array type is object
-int			ft_type_of_array(int *type_of_element, const char *param, int structure_type)
+
+static int	ft_check(const char *param, int *type_of_element)
+{
+	if (ft_strequ(param, "rotation"))
+		*type_of_element = ROTATION;
+	else if (ft_strequ(param, "pos"))
+		*type_of_element = POS;
+	else if (ft_strequ(param, "direction"))
+		*type_of_element = DIRECTION;
+	else if (ft_strequ(param, "color"))
+		*type_of_element = COLOR;
+	else if (ft_strequ(param, "normal"))
+		*type_of_element = NORMAL;
+	else if (ft_strequ(param, "axis"))
+		*type_of_element = AXIS;
+	else if (ft_strequ(param, "center"))
+		*type_of_element = CENTER;
+	else if (ft_strequ(param, "vmin"))
+		*type_of_element = VMIN;
+	else if (ft_strequ(param, "vmax"))
+		*type_of_element = VMAX;
+	return (*type_of_element != -1) ? 1 :
+	ft_check_material(param, type_of_element);
+}
+
+// 1 - parameters, 2 - objects
+
+int			ft_type_of_array(int *type_of_element,
+		const char *param, int structure_type)
 {
 	if (ft_strequ(param, "objects"))
 		*type_of_element = OBJECT;
@@ -48,6 +65,8 @@ int			ft_type_of_array(int *type_of_element, const char *param, int structure_ty
 			*type_of_element = CYLINDER;
 		else if (ft_strequ(param, "plane"))
 			*type_of_element = PLANE;
+		else if (ft_strequ(param, "AABB"))
+			*type_of_element = AABB;
 	}
 	return (*type_of_element != -1) ? 2 : (ft_check(param, type_of_element));
 }

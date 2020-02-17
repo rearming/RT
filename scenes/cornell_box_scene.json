@@ -39,7 +39,7 @@
     {
       "type": "plane",
       "material": {
-        "diffuse": "0xFFFFFF"
+      "diffuse": "0xFFFFFF"
       },
       "center": [0, 2.5, 0],
       "normal": [0, 1, 0]
@@ -47,7 +47,7 @@
     {
       "type": "plane",
       "material": {
-        "diffuse": "0xFFFFFF"
+      "diffuse": "0xFFFFFF"
       },
       "center": [0, 0, -15],
       "normal": [0, 0, 1]
@@ -65,7 +65,7 @@
     {
       "type": "AABB",
       "material": {
-        "diffuse": "0x408000"
+      "diffuse": "0x408000"
       },
       "vmin": [0, 0, -2],
       "vmax": [1, 1, 1]
@@ -73,11 +73,11 @@
     {
       "type": "sphere",
       "material": {
-        "specular": "0xb3ff66",
-        "transmittance": 0,
-        "refraction": 0,
-        "phong exp": 200,
-        "smoothness": 1000
+      "specular": "0xb3ff66",
+      "transmittance": 0,
+      "refraction": 0,
+      "phong exp": 200,
+      "smoothness": 1000
       },
       "center": [-1, -0.5, -2.5],
       "radius": 1

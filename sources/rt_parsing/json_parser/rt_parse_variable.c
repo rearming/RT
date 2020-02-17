@@ -1,51 +1,85 @@
 #include "rt.h"
 
-static void	add_param_f(bool *checker, json_t *value, float *vector, int type)
+static void	parse_variable_material2(t_tmp *tmp, const char *key, json_t *value)
 {
-	if (checker[type] == true)
-		rt_raise_error(ERR_PARSING_WRONG_PARAM);
-	else
+	if (ft_strequ(key, "emission power"))
 	{
-		checker[type] = true;
-		*vector = (float)json_real_value(value);
+		check_duplicated(tmp->checker, EMISSION_POWER);
+		tmp->emission_power = (float)json_real_value(value);
 	}
+	else if (ft_strequ(key, "specular texture"))
+	{
+		check_duplicated(tmp->checker, SPECULAR_TEXTURE);
+		tmp->specular_texture = (float)json_real_value(value);
+	}
+	else
+		rt_raise_error(ERR_PARSING_WRONG_PARAM);
 }
 
-static void	add_param_i(bool *checker, json_t *value, int *vector, int type)
+static void	parse_variable_material1(t_tmp *tmp, const char *key, json_t *value)
 {
-	if (checker[type] == true)
-		rt_raise_error(ERR_PARSING_WRONG_PARAM);
-	else
+	if (ft_strequ(key, "phong exp"))
 	{
-		checker[type] = true;
-		*vector = json_integer_value(value);
+		check_duplicated(tmp->checker, PHONG_EXP);
+		tmp->phong_exp = (float)json_real_value(value);
 	}
+	else if (ft_strequ(key, "smoothness"))
+	{
+		check_duplicated(tmp->checker, SMOOTHNESS);
+		tmp->smoothness = (float)json_real_value(value);
+	}
+	else if (ft_strequ(key, "transmittance"))
+	{
+		check_duplicated(tmp->checker, TRANSMITTANCE);
+		tmp->transmittance = (float)json_real_value(value);
+	}
+	else if (ft_strequ(key, "refraction"))
+	{
+		check_duplicated(tmp->checker, REFRACTION);
+		tmp->refraction = (float)json_real_value(value);
+	}
+	else
+		parse_variable_material2(tmp, key, value);
+}
+
+static void	parse_variable_params(t_tmp *tmp, const char *key, json_t *value)
+{
+	if (ft_strequ(key, "distance"))
+	{
+		check_duplicated(tmp->checker, DISTANCE);
+		tmp->distance = (float)json_real_value(value);
+	}
+	else if (ft_strequ(key, "radius"))
+	{
+		check_duplicated(tmp->checker, RADIUS);
+		tmp->radius = (float)json_real_value(value);
+	}
+	else if (ft_strequ(key, "angle"))
+	{
+		check_duplicated(tmp->checker, ANGLE);
+		tmp->angle = (float)json_real_value(value);
+	}
+	else if (ft_strequ(key, "len"))
+	{
+		check_duplicated(tmp->checker, LEN);
+		tmp->len = (float)json_real_value(value);
+	}
+	else
+		parse_variable_material1(tmp, key, value);
 }
 
 void		parse_variable(t_tmp *tmp, const char *key, json_t *value)
 {
 	if (ft_strequ(key, "type"))
-		add_param_i(&tmp->checker, value, &tmp->type, TYPE);
+	{
+		check_duplicated(tmp->checker, TYPE);
+		tmp->type = json_integer_value(value);
+	}
 	else if (ft_strequ(key, "intensity"))
-		add_param_f(&tmp->checker, value, &tmp->intensity, INTENSITY);
-	else if (ft_strequ(key, "radius"))
-		add_param_f(&tmp->checker, value, &tmp->radius, RADIUS);
-	else if (ft_strequ(key, "angle"))
-		add_param_f(&tmp->checker, value, &tmp->angle, ANGLE);
-	else if (ft_strequ(key, "len"))
-		add_param_f(&tmp->checker, value, &tmp->len, LEN);
-	else if (ft_strequ(key, "phong exp"))
-		add_param_f(&tmp->checker, value, &tmp->phong_exp, PHONG_EXP);
-	else if (ft_strequ(key, "smoothness"))
-		add_param_f(&tmp->checker, value, &tmp->smoothness, SMOOTHNESS);
-	else if (ft_strequ(key, "transmittance"))
-		add_param_f(&tmp->checker, value, &tmp->transmittance, TRANSMITTANCE);
-	else if (ft_strequ(key, "refraction"))
-		add_param_f(&tmp->checker, value, &tmp->refraction, REFRACTION);
-	else if (ft_strequ(key, "emission_power"))
-		add_param_f(&tmp->checker, value, &tmp->emission_power, EMISSION_POWER);
-	else if (ft_strequ(key, "specular_texture"))
-		add_param_f(&tmp->checker, value, &tmp->specular_texture, SPECULAR_TEXTURE);
+	{
+		check_duplicated(tmp->checker, INTENSITY);
+		tmp->intensity = (float)json_real_value(value);
+	}
 	else
-		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+		parse_variable_params(tmp, key, value);
 }
