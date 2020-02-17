@@ -66,15 +66,15 @@ void	parse_array(t_tmp *tmp, const char *key, json_t *value)
 	i = -1;
 	type_of_element = -1;
 	array_type = ft_type_of_array(&type_of_element, key, tmp->structure_type);
-	if (array_type == 1 || array_type == 2)
+	if (array_type == 1)
 	{
-		if (array_type == 1)
-			tmp->coord_checker = ft_check_if_exist(tmp->coord_checker, type_of_element);
+		if (tmp->checker[type_of_element] == true)
+			rt_raise_error(ERR_PARSING_WRONG_PARAM);
 		else
-			tmp->material_checker = ft_check_if_exist(tmp->material_checker, type_of_element);
+			tmp->checker[type_of_element] = true;
 		add_elements_in_array(tmp, type_of_element, value);
 	}
-	else if (array_type == 3)
+	else if (array_type == 2)
 	{
 		if (type_of_element != LIGHT && type_of_element != OBJECT)
 			type_of_structure = tmp->structure_type;
@@ -94,5 +94,7 @@ void	parse_array(t_tmp *tmp, const char *key, json_t *value)
 				tmp->structure_type = type_of_structure;
 			parse_json_file(json_array_get(value, i), tmp);
 		}
-	}
+	} else
+		rt_raise_error(ERR_PARSING_WRONG_PARAM);
+
 }

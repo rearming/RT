@@ -2,6 +2,8 @@
 # define RT_PARSER_DEFINES_H
 
 // может быть сделать чекер строкой и проверять есть ли там уже такая буква:?
+// нормировать все оси, нормали и т.п. и проверить все значения по умолчанию
+
 #define CAMERA 10
 #define LIGHT 20
 #define OBJECT 30
@@ -29,23 +31,24 @@
 //check objects
 
 //position attributes
-#define NORMAL 6
-#define RADIUS 7
-#define LEN 9
-#define ANGLE 8
-#define MATERIAL 21
+#define CENTER 6
+#define NORMAL 7
+#define RADIUS 8
+#define LEN 10
+#define ANGLE 9
+#define MATERIAL 22
 
 //material
-#define SPECULAR 12
-#define AMBIENCE 10
-#define DIFFUSE 11
-#define PHONG_EXP 13
-#define SMOOTHNESS 14
-#define TRANSMITTANCE 15
-#define REFRACTION 16
-#define EMISSION_POWER 17
-#define SPECULAR_TEXTURE 18
-#define TEXTURE 19
-#define TEXTURE_POS 20
+#define SPECULAR 13
+#define AMBIENCE 11
+#define DIFFUSE 12
+#define PHONG_EXP 14
+#define SMOOTHNESS 15
+#define TRANSMITTANCE 16
+#define REFRACTION 17
+#define EMISSION_POWER 18
+#define SPECULAR_TEXTURE 19
+#define TEXTURE 20
+#define TEXTURE_POS 21
 
 #endif

@@ -11,27 +11,20 @@
 /* ************************************************************************** */
 
 #include "rt.h"
-#include "rt_math_utils.h"
-
-int		ft_check_if_exist(bool *checker, int type)
-{
-	if (checker[type] == true)
-		return (true);
-	rt_raise_error(ERR_PARSING_PARAMETERS);
-	return (false);
-}
 
 void		init_tmp(t_tmp *tmp)
 {
 	tmp->next = NULL;
 	tmp->structure_type = NOT_SET;
 	tmp->type = NOT_SET;
-	tmp->pos = get_float3_color(COL_NOT_SET);
-	tmp->rotation = get_float3_color(COL_NOT_SET);
+	tmp->pos = (cl_float3){{0, 0, 0}};
+	tmp->rotation = (cl_float3){{0, 0, 0}};
 	tmp->intensity = NOT_SET;
-	tmp->dir = get_float3_color(COL_NOT_SET);
-	tmp->color = get_float3_color(COL_NOT_SET);
-	tmp->normal = get_float3_color(COL_NOT_SET);
+	tmp->dir = (cl_float3){{0, 0, 0}};
+	tmp->color = (cl_float3){{0, 0, 0}};
+	tmp->normal = (cl_float3){{0, 1, 0}};
+	tmp->axis = (cl_float3){{0, 1, 0}};
+	tmp->distance = 1;
 	tmp->radius = NOT_SET;
 	tmp->angle = NOT_SET;
 	tmp->len = NOT_SET;
@@ -46,8 +39,7 @@ void		init_tmp(t_tmp *tmp)
 	tmp->specular_texture = 0;
 	tmp->texture_number = NOT_SET;
 	tmp->texture_position = (cl_float3){{0, 0, 0}};
-	tmp->coord_checker = 0;
-	tmp->material_checker = 0;
+	ft_bzero(&tmp->checker, 22);
 }
 /*
 void		copy_tmp(t_tmp *tmp, t_tmp tmp_source)

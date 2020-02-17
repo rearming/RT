@@ -58,7 +58,6 @@ void 		parse_string(t_tmp *tmp, const char *key, json_t *value);
 //void 		parse_texture(t_tmp *tmp, const char *key, json_t *value);
 void		init_tmp(t_tmp *tmp);
 void		copy_tmp(t_tmp *tmp, t_tmp tmp_source);
-int			ft_check_if_exist(int checker, int type);
 int			ft_type_of_structure(const char *param);
 int 		ft_type_of_array(int *type_of_element, const char *param, int structure_type);
 void 		add_elements(t_scene *scene, t_tmp *tmp);
