@@ -44,5 +44,4 @@
 # define ERR_PARSING_CAMERA "rt_parse error: camera is not initialized correctly"
 # define ERR_PARSING_WRONG_PARAM "rt_parse error: wrong params"
 # define ERR_PARSING_DUPLICATED_PARAM "rt_parse error: duplicated parameters"
-# define ERR_PARSING_PARAMETERS "rt parse error: duplicate parameters"
 #endif

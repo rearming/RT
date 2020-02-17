@@ -13,46 +13,80 @@
 #include "rt.h"
 #include "rt_math_utils.h"
 
-void 		parse_string(t_tmp *tmp, const char *key, json_t *value)
+static void	parse_parameters(t_tmp *tmp, const char *key, const char *tmp_value)
+{
+	if (ft_strequ(key, "diffuse"))
+	{
+		check_duplicated(tmp->checker, DIFFUSE);
+		tmp->diffuse = get_float3_color(ft_atoi(tmp_value));
+	}
+	else if (ft_strequ(key, "specular"))
+	{
+		check_duplicated(tmp->checker, SPECULAR);
+		tmp->specular = get_float3_color(ft_atoi(tmp_value));
+	}
+	else if (ft_strequ(key, "color"))
+	{
+		check_duplicated(tmp->checker, COLOR);
+		tmp->color = get_float3_color(ft_atoi(tmp_value));
+	}
+	else if (ft_strequ(key, "emission color"))
+	{
+		check_duplicated(tmp->checker, EMISSION_COLOR);
+		tmp->emission_color = get_float3_color(ft_atoi(tmp_value));
+	}
+	else if (ft_strequ(key, "texture"))
+	{
+		check_duplicated(tmp->checker, TEXTURE);
+	}
+}
+
+static void parse_type(t_tmp *tmp, const char *value)
+{
+	if (tmp->structure_type == LIGHT)
+	{
+		if (ft_strequ(value, "ambient"))
+			tmp->type = AMBIENT;
+		else if (ft_strequ(value, "point"))
+			tmp->type = POINT;
+		else
+			rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+	}
+	else if (tmp->structure_type == OBJECT)
+	{
+		if (ft_strequ(value, "sphere"))
+			tmp->type = SPHERE;
+		else if (ft_strequ(value, "cone"))
+			tmp->type = CONE;
+		else if (ft_strequ(value, "cylinder"))
+			tmp->type = CYLINDER;
+		else if (ft_strequ(value, "plane"))
+			tmp->type = PLANE;
+		else
+			rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+	}
+	else
+		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+}
+
+void		parse_string(t_tmp *tmp, const char *key, json_t *value)
 {
 	const char *tmp_value;
 
 	tmp_value = json_string_value(value);
-	if (tmp->type == NOT_SET && ft_strequ(key, "type"))
+	if (tmp->structure_type == NOT_SET)
 	{
-		if (tmp->structure_type == LIGHT)
-		{
-			if (ft_strequ(tmp_value, "ambient"))
-				tmp->type = AMBIENT;
-			else if (ft_strequ(tmp_value, "point"))
-				tmp->type = POINT;
-			else
-				rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
-		}
-		else if (tmp->structure_type == OBJECT)
-		{
-			if (ft_strequ(tmp_value, "sphere"))
-				tmp->type = SPHERE;
-			else if (ft_strequ(tmp_value, "cone"))
-				tmp->type = CONE;
-			else if (ft_strequ(tmp_value, "cylinder"))
-				tmp->type = CYLINDER;
-			else if (ft_strequ(tmp_value, "plane"))
-				tmp->type = PLANE;
-			else
-				rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
-		}
+		if (ft_strequ(key, "open cl parameters"))
+			;
+		else if (ft_strequ(key, "skybox"))
+			;
 		else
-			rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+			rt_raise_error(ERR_PARSING_WRONG_PARAM);
 	}
-	else if (ft_strequ(key, "diffuse"))
-		tmp->diffuse = get_float3_color(ft_atoi(tmp_value));
-	else if (ft_strequ(key, "color"))
-		tmp->color = get_float3_color(ft_atoi(tmp_value));
-	/*else if (ft_strequ(key, "texture"))
-	{
-
-	}*/
+	else if (tmp->type == NOT_SET && ft_strequ(key, "type"))
+		parse_type(tmp, tmp_value);
+	else if (tmp->structure_type != NOT_SET && tmp->type != NOT_SET)
+		parse_parameters(tmp, key, tmp_value);
 	else
 		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
 }

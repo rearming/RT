@@ -8,6 +8,9 @@
 +* 	3. считать количество текстур и парсить их в однельные листы
 +* 	3. уточнить где что проверяется
 +* 	4. добавить в сцену
+
+
+ проверить parse_string, add elements, add textures and add render parameters
 */
 
 void	printff(t_tmp *tmp)
