@@ -1,0 +1,104 @@
+{
+  "open cl parameters":"RENDER_DEFAULT RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_TEXTURES | RENDER_MESH | RENDER_BACKFACE_CULLING",
+  "skybox": "skybox_street.jpg",
+  "objects": [
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [0, -2.5, 0],
+      "normal": [0, 1, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0x408000",
+        "phong exp": 50
+      },
+      "center": [2.5, 0, 0],
+      "normal": [1, 0, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xb30f0f"
+      },
+      "center": [-2.5, 0, 0],
+      "normal": [1, 0, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xFFFFFF",
+        "phong exp": 40
+      },
+      "center": [0, -25, 0],
+      "normal": [0, 0.6, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [0, 2.5, 0],
+      "normal": [0, 1, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [0, 0, -15],
+      "normal": [0, 0, 1]
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "diffuse": "0xFFFFFF",
+        "emission color": "0xFFFFFF",
+        "emission power": 1
+      },
+      "center": [0, 2.5, 0],
+      "radius": 1.5
+    },
+    {
+      "type": "AABB",
+      "material": {
+        "diffuse": "0x408000"
+      },
+      "vmin": [0, 0, -2],
+      "vmax": [1, 1, 1]
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "specular": "0xb3ff66",
+        "transmittance": 0,
+        "refraction": 0,
+        "phong exp": 200,
+        "smoothness": 1000
+      },
+      "center": [-1, -0.5, -2.5],
+      "radius": 1
+    }
+  ],
+  "camera": {
+    "pos": [0, 2, 10],
+    "rotation": [0, 180, 0]
+  },
+  "light":
+  [
+    {
+      "type": "ambient",
+      "intensity": 0.2,
+      "color": "0xFFFFFF"
+    },
+    {
+      "type": "point",
+      "color": "0xFFFFFF",
+      "intensity": 0.5,
+      "pos": [0, 0, -5]
+    }
+  ]
+}

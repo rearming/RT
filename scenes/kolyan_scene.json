@@ -1,5 +1,6 @@
 {
-	"object": [
+	"open cl parameters":"RENDER_DEFAULT RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_TEXTURES | RENDER_MESH | RENDER_BACKFACE_CULLING",
+	"objects": [
 		{
 			"type": "plane",
 			"material": {

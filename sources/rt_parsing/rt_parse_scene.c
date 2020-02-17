@@ -42,6 +42,7 @@ void 		count_elements(t_scene *scene, t_tmp *tmp)
 			check_camera++;
 		tmp_iterator = tmp_iterator->next;
 	}
+	if (g_textures.)
 	if (check_camera != 1)
 		rt_raise_error(ERR_PARSING_WRONG_CAMERA_PARAMS);
 }

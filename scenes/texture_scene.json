@@ -1,11 +1,15 @@
 {
+  "open cl parameters":"RENDER_DEFAULT RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_TEXTURES | RENDER_MESH | RENDER_BACKFACE_CULLING",
+  "skybox": "skybox_milkyway.png",
   "objects": [
     {
       "type": "sphere",
       "material": {
         "diffuse": "0xFFFFFF",
-        "phong exp": 0,
-        "smoothness": 1000
+        "specular": [0, 0, 0],
+        "phong exp": 40,
+        "smoothness": 0,
+        "texture": "sphere_moon.jpg"
       },
       "center": [0, 2.5, 0],
       "radius": 1.5
@@ -14,18 +18,23 @@
     "type": "sphere",
     "material": {
       "diffuse": "0xFFFFFF",
-      "phong exp": 0,
-      "smoothness": 1000
+      "specular": [0, 0, 0],
+      "phong exp": 40,
+      "smoothness": 0,
+      "texture": "sphere_earth.jpg"
     },
-    "center": [0, 2.5, 0],
+    "center": [0, -2.5, 0],
     "radius": 1.5
   },
   {
     "type": "sphere",
     "material": {
-      "color": "0xFFFFFF",
+      "diffuse": "0xFFFFFF",
       "phong exp": 0,
-      "smoothness": 1000
+      "smoothness": 0,
+      "texture": "sphere_uranus.jpg",
+      "texture pos": [0, 1, 0],
+      "texture specular": 1
     },
    "center": [1, -1.5, 0],
     "radius": 2
@@ -34,7 +43,10 @@
     "material": {
       "diffuse": "0xFFFFFF",
       "phong exp": 0,
-      "smoothness": 1000
+      "smoothness": 0,
+      "texture": "sphere_jupiter.jpg",
+      "texture pos": [0, 1, 0],
+      "texture specular": 1
     },
       "center": [-1, -0.5, -2.5],
       "radius": 1
