@@ -105,15 +105,14 @@ void			rt_textures_init(void)
 	unsigned char	*tmp_texture;
 
 	i = init_basic_textures_parameters();
-	while (i < (int)g_textures.texture_info_size) {
-		tmp_filename = (ft_strchr(g_textures.textures_names->name, 47) != NULL) ?
-					   ft_strdup(g_textures.textures_names->name) :
-					   ft_strjoin(TEXTURES_FOLDER, g_textures.textures_names->name);
-		if (!tmp_filename)
+	while (++i < (int)g_textures.texture_info_size)
+	{
+		if (!(tmp_filename = (ft_strchr(g_textures.textures_names->name, 47)
+			!= NULL) ? ft_strdup(g_textures.textures_names->name) :
+			ft_strjoin(TEXTURES_FOLDER, g_textures.textures_names->name)))
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		tmp_texture = stbi_load(tmp_filename, &g_textures.texture_info[i].width,
-								&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp,
-								STBI_rgb);
+		&g_textures.texture_info[i].height, &g_textures.texture_info[i].bpp, 3);
 		if (!tmp_texture)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		if (g_textures.texture_info[i].height > WIN_HEIGHT * SCALE_HEIGHT * 3)
@@ -126,6 +125,5 @@ void			rt_textures_init(void)
 		if (g_textures.texture_list == NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		g_textures.textures_names = g_textures.textures_names->next;
-		i++;
 	}
 }
