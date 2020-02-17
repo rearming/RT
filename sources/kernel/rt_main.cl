@@ -68,7 +68,6 @@ __kernel void	rt_main(
 #endif
     __global int *img_data)
 {
-//	return check_kd_indices(kd_info, kd_tree, kd_indices); // 1 KERNEL BLYAT'
 	int			g_id = get_global_id(0);
 	int3		img_point = get_img_point(g_id);
 
@@ -114,27 +113,3 @@ __kernel void	rt_main(
 #endif // RENDER_RAYTRACE
 	img_data[g_id] = get_int_color(correct_hdr(params->gamma, params->exposure, final_color));
 }
-
-void	check_kd_indices(
-		__global const t_kd_info *kd_info,
-		__global const t_kd_arr_tree *kd_tree,
-		__global const int *kd_indices)
-{
-//	for (int k = 0; k < kd_info->indices_num; ++k)
-//	{
-//		printf("[%i] ", kd_indices[k]);
-//	}
-//	printf("\n");
-//	for (int i = 0; i < kd_info->nodes_num; i++)
-//	{
-////		printf("node: {%i} ", i);
-////		if (kd_tree[i].objects.num <= 0)
-////			printf("no objects");
-//		for (int j = 0; j < kd_tree[i].objects.num; j++)
-//		{
-//			printf("[%i] ", kd_indices[j + kd_tree[i].obj_offset]);
-//		}
-//	}
-//	printf("\n");
-}
-

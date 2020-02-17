@@ -3,6 +3,8 @@
 
 # include "tiny_obj_loader_c.h"
 
+//#define DEBUG_PRINT_MESHES 1
+
 typedef struct			s_raw_obj
 {
 	tinyobj_attrib_t	attrib;

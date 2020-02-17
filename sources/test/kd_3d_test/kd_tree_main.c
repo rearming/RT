@@ -56,23 +56,6 @@ void	run_check_indices(t_kd_tree *tree)
 	ft_printf("count: [%i]\n", count);
 }
 
-//	node: {0} no objects
-//	node: {1} no objects
-//	node: {2} no objects
-//	node: {3} [0] [1] [4] [5] [6] [7] [10] [11]
-//	node: {4} [1] [2] [3] [5] [7] [8] [9] [11]
-//	node: {5} [0] [1] [2] [6] [7] [8] [0] [2]
-//	node: {6} no objects
-//	node: {7} [0] [2] [5] [6] [8] [11]
-//	node: {8} no objects
-//	node: {9} no objects
-//	node: {10} [0] [5] [6] [11] [5] [11]
-//	node: {11} no objects
-//	node: {12} [5] [11] [0] [0]
-//	node: {13} no objects
-//	node: {14} [0] [0]
-
-
 int		main(void)
 {
 	t_meshes		meshes;
@@ -97,7 +80,7 @@ int		main(void)
 	end = clock();
 	printf("k-d tree built in [%f] sec.\n", (double)(end - start) / CLOCKS_PER_SEC);
 
-	print_kd_tree(kd_tree);
+//	print_kd_tree(kd_tree);
 
 //	printf("left tree depth: [%i]\n", get_max_kd_tree_depth(kd_tree->left));
 //	printf("right tree depth: [%i]\n", get_max_kd_tree_depth(kd_tree->right));

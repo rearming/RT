@@ -42,10 +42,10 @@ float3		pathtrace(
 		else
 		{
 #ifdef RENDER_TEXTURES
-			result_color += ray.energy * skybox_color(&texture_info[2], texture_list, skybox_normal(ray));
+			result_color += ray.energy * skybox_color(&texture_info[1], texture_list, skybox_normal(ray));
 #else
 			result_color += ray.energy * get_float3_color(COL_BG);
-#endif//todo вместо texture_info[1] texture_info[SKYBOX_TEXTURE] (допустим, скайбокс всегда маппим на нулевую текстуру) [gfoote]
+#endif
 			ray.energy = 0;
 		}
 		if (!ray_has_energy(&ray))

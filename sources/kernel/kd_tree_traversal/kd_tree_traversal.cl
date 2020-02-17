@@ -87,6 +87,7 @@ int		kd_tree_traverse(
 
 	ft_stack_push(&stack, helper);
 
+	float3	inv_ray_dir = native_divide((float3)(1), ray->dir);
 	while (stack.last_elem >= 0)
 	{
 		helper = ft_stack_pop(&stack);
@@ -98,7 +99,7 @@ int		kd_tree_traverse(
 		{
 			int		axis = node->split_axis;
 
-			float	t_split = ((node->split) - f3_axis(ray->origin, axis)) / f3_axis(ray->dir, axis);
+			float	t_split = ((node->split) - f3_axis(ray->origin, axis)) * f3_axis(inv_ray_dir, axis);
 
 			int		first_node_index;
 			int		second_node_index;
