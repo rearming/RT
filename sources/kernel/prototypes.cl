@@ -35,8 +35,6 @@ float3		degree_to_rad(float3 rotation_degrees);
 
 void		rotate_point(float3 *point, float3 angle);
 
-float3		degree_to_rad(float3 rotation_degrees);
-
 float3	gram_schmidt_proc_r2(float3 vector_orto, float3 vector_basic);
 
 float3		vec_axis_rotate(float3 vec, float3 axis, float angle);
