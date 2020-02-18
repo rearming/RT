@@ -6,7 +6,7 @@
 /*   By: dgreat <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/15 17:24:51 by dgreat            #+#    #+#             */
-/*   Updated: 2020/02/17 22:38:13 by dgreat           ###   ########.fr       */
+/*   Updated: 2020/02/18 21:43:19 by dgreat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,70 +31,53 @@ t_transform	create_gui_obj(
 	return (gui_obj);
 }
 
-//void	resize_surface(SDL_Rect srcrect, SDL_Rect dstrect,
-//					   SDL_Surface *texture)
-//{
-//	SDL_BlitScaled(texture, NULL, g_sdl.surface, &dstrect);
-//}
-//
-//void				render_surface(SDL_Rect srcrect, SDL_Rect dstrect)
-//{
-//	SDL_Surface		*copy_texture;
-//
-//	copy_texture = SDL_DuplicateSurface(g_sdl.surface);
-//	resize_surface(srcrect,
-//				   dstrect,
-//				   copy_texture);
-//	SDL_BlitSurface(g_sdl.surface, NULL, copy_texture, NULL);
-//	SDL_FreeSurface(copy_texture);
-//}
-
-//SDL_BlitSurface(text, &((SDL_Rect){ -8 , -8 ,100, 30 }), button.surface, NULL);
-//SDL_BlitSurface(text, &((SDL_Rect){ -8 , -8 ,100, 30 }), button.pressed, NULL);
-
-void		call_test(int render, void *rt_)
+void		change_render_algo(short algo, t_rt *rt)
 {
+	rt->opencl_params.render_algo = algo + 1;
+}
 
-	t_rt *rt;
-
-	rt = (t_rt *)rt_;
-	rt->opencl_params.render_algo = render - 1;
+bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt)
+{
+	if (check_button(event, btn->rect))
+	{
+		if (btn->type & CHANGE_ALGO)
+		{
+			change_render_algo(btn->action, rt);
+			btn->state = !btn->state;
+		}
+		return (true);
+	}
+	return (false);
 }
 
 
-t_gui		*init_gui(void)
+
+
+
+
+void		init_gui(void)
 {
-	t_gui		gui;
+	int			i;
 	SDL_Rect	rect;
 
 	TTF_Init();
-	gui.font = TTF_OpenFont("./Fonts/Techno.ttf", FONT_SIZE);
-	gui.surface = SDL_GetWindowSurface(g_sdl.win_tool);
-	SDL_FillRect(gui.surface, NULL,
-				 SDL_MapRGB(gui.surface->format, 63, 63, 63));
-	rect = (SDL_Rect){.x = 0, .y = 0, .h = 100, .w = WIN_GUI_WIDTH / 3} ;
-	gui.obj[pt_btn] = create_gui_obj(rect, COL_RED, "Path trace", call_test);
-//	gui.obj[pt_btn] = create_gui_obj(rect, COL_RED, NULL, NULL);
-	activate_button(gui.obj[pt_btn]);
-	SDL_UpdateWindowSurface(g_sdl.win_tool);
-	return (&gui);
-}
-
-void		init_gui_g(void)
-{
-
-	SDL_Rect	rect;
-
-	TTF_Init();
+	g_gui.obj = rt_safe_malloc(sizeof(t_transform) * btn_count);
 	g_gui.font = TTF_OpenFont("./Fonts/Techno.ttf", FONT_SIZE);
 	g_gui.surface = SDL_GetWindowSurface(g_sdl.win_tool);
 	SDL_FillRect(g_gui.surface, NULL,
-				 SDL_MapRGB(g_gui.surface->format, 63, 63, 63));
+			SDL_MapRGB(g_gui.surface->format, 63, 63, 63));
 	rect = (SDL_Rect){.x = 0, .y = 30, .h = 100, .w = WIN_GUI_WIDTH / 2};
-	g_gui.obj[pt_btn] = create_gui_obj(rect, COL_RED, "Path trace", call_test);
+	g_gui.obj[pt_btn] = (t_transform){ .rect = rect, .state = 0 ,
+		.text = "Path trace", .callback = button_callback, .action = pt_btn,
+		.type = RENDER_BTN, .color = get_color_from_hex(COL_RED)};
 	rect.x += WIN_GUI_WIDTH / 2;
-	g_gui.obj[rt_btn] = create_gui_obj(rect, COL_RED, "Ray trace", call_test);
-//	g_gui.obj[pt_btn] = create_g_gui_obj(rect, COL_RED, NULL, NULL);
-	activate_button(g_gui.obj[pt_btn]);
+	g_gui.obj[rt_btn] = (t_transform){ .rect = rect, .state = 1,
+		.text = "Ray trace", .callback = button_callback, .action = rt_btn,
+		.type = RENDER_BTN, .color = get_color_from_hex(COL_BLUE)};
+
+	i = 0;
+	while (i < btn_count)
+		render_button(g_gui.obj[i++]);
+
 	SDL_UpdateWindowSurface(g_sdl.win_tool);
 }

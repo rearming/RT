@@ -61,8 +61,7 @@ void		rt_render(t_rt *rt, void (*render_func)(t_rt *));
 **	Event handling
 */
 
-void		handle_event(SDL_Event *event, t_rt *rt, t_gui *gui);
-void		handle_event_g(SDL_Event *event, t_rt *rt);
+void		handle_event(SDL_Event *event, t_rt *rt);
 
 /*
 **	SDL utils
@@ -89,10 +88,8 @@ void		rt_opencl_handle_error(int rt_err_code, int opencl_err_code);
 **	Utils
 */
 
-void		rt_loop(t_rt *rt, t_gui *gui);
 
-void		rt_loop_g(t_rt *rt);
-//todo solve new architecture problem
+void		rt_loop(t_rt *rt);
 
 void		print_cl_build_program_debug(void);
 void		rt_raise_error(int err_code);

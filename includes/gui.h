@@ -13,9 +13,9 @@
 # include "gui_errors.h"
 # include "gui_structs.h"
 
-t_gui		*init_gui(void);
 
-void		init_gui_g(void);
+
+void		init_gui(void);
 
 /*
 ** Buttons
@@ -42,10 +42,6 @@ SDL_Color activate_color(SDL_Color color);
 
 SDL_Color disable_color(SDL_Color color);
 
-//void		switch_render_algo(short algo, int btn, t_rt *rt, t_gui *gui);
-
-void		callback_on_click(union SDL_Event event, void * data);
-
-void		call_test(int render, void *rt_);
+//bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt);
 
 #endif //GUI_H

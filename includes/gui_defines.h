@@ -6,15 +6,19 @@
 # define GUI_DEFINES_H
 
 
+
 /*
 ** Sdl gui
 */
 # define RT_GUI_NAME "Dota 5 Tools"
 # define WIN_GUI_WIDTH 640
-# define RT_NK_HEIGHT 480
 
-# define ACTIVATE 2
+#define CHANGE_ALGO (1 << 0)
 
-#define FONT_SIZE 30
+# define ACTIVATE 1
+
+# define FONT_SIZE 30
+
+#define RENDER_BTN 1
 
 #endif //GUI_DEFINES_H
