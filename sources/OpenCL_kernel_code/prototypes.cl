@@ -180,16 +180,6 @@ bool				ray_cylinder_intersect(
 		__global const t_object *cylinder,
 		t_rayhit *best_hit);
 
-bool				ray_paraboloid_intersect(
-		t_ray *ray,
-		__global const t_object *paraboloid,
-		t_rayhit *best_hit);
-
-bool				ray_ellipsoid_intersect(
-		t_ray *ray,
-		__global const t_object *ellipsoid,
-		t_rayhit *best_hit);
-
 float3		pathtrace(
 		__global const t_scene *scene,
 		__global const t_object *objects,

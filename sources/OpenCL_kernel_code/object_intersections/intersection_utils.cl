@@ -37,14 +37,14 @@ void				closest_intersection(
 					if (ray_triangle_intersect_MT(ray, &objects[i], out_best_hit))
 						*out_closest_obj_index = i;
 					break;
-//				case (PARABOLOID):
+				case (PARABOLOID):
 //					if (ray_paraboloid_intersect(ray, &objects[i], out_best_hit))
 //						*out_closest_obj_index = i;
-//					break;
-//				case (ELLIPSOID):
+					break;
+				case (ELLIPSOID):
 //					if (ray_ellipsoid_intersect(ray, &objects[i], out_best_hit))
 //						*out_closest_obj_index = i;
-//					break;
+					break;
 			}
 		}
 #endif // RENDER_OBJECTS

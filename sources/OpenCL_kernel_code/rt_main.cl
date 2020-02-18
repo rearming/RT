@@ -13,7 +13,7 @@
 #include "ray_trianlge_intersection.cl"
 #include "simple_object.cl"
 #include "intersection_utils.cl"
-#include "unlimited_object.cl"
+//#include "unlimited_object.cl"
 
 #include "skybox.cl"
 #include "texture.cl"
