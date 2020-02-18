@@ -78,9 +78,13 @@ void		parse_array(t_tmp *tmp, const char *key, json_t *value)
 		array_size = json_array_size(value);
 		while (++i < array_size)
 		{
-			tmp->next = rt_safe_malloc(sizeof(t_tmp));
-			init_tmp(tmp->next);
-			tmp = tmp->next;
+			printf("\n");
+			if (tmp->structure_type != -1)
+			{
+				tmp->next = rt_safe_malloc(sizeof(t_tmp));
+				init_tmp(tmp->next);
+				tmp = tmp->next;
+			}
 			tmp->structure_type = type_of_structure;
 			if (type_of_structure != type_of_element)
 				tmp->type = type_of_element;

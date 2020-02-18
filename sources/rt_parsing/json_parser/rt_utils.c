@@ -110,3 +110,17 @@ void 		check_duplicated(bool *checker, int number)
 	else
 		checker[number] = true;
 }
+
+int 		check_full(bool *checker)
+{
+	int i;
+
+	i = 0;
+	while(checker[i])
+	{
+		if (checker[i] == true)
+			return (false);
+		i++;
+	}
+	return (true);
+}

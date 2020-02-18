@@ -57,6 +57,7 @@ void		parse_object(t_tmp *tmp, const char *key, json_t *value);
 void		parse_array(t_tmp *tmp, const char *key, json_t *value);
 void		parse_variable(t_tmp *tmp, const char *key, json_t *value);
 void 		parse_string(t_tmp *tmp, const char *key, json_t *value);
+int 		parse_texture(const char *name);
 //void 		parse_texture(t_tmp *tmp, const char *key, json_t *value);
 void		init_tmp(t_tmp *tmp);
 void		copy_tmp(t_tmp *tmp, t_tmp tmp_source);
@@ -64,8 +65,10 @@ int			ft_type_of_structure(const char *param);
 int 		ft_type_of_array(int *type_of_element, const char *param, int structure_type);
 void 		add_elements(t_scene *scene, t_tmp *tmp);
 void 		check_duplicated(bool *checker, int number);
+int 		check_full(bool *checker);
 t_scene		get_hardcoded_scene(); //todo remove after dev
 void		rt_correct_scene(t_scene *scene);
+
 
 /*
 **	Render
@@ -105,5 +108,5 @@ void		*rt_safe_malloc(size_t size);
 bool		rt_exit_clean(void);
 bool		rt_camera_moved(t_camera *camera);
 
-void			ft_add_texture_name_back(t_texture_name **list, char *data);
+int			ft_add_texture_name_back(t_texture_name **list, const char *data);
 #endif

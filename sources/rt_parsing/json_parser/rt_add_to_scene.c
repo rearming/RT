@@ -3,12 +3,13 @@
 static int	add_to_objects(t_tmp *tmp, t_object *object)
 {
 	object->type = tmp->type;
-	object->center = tmp->pos;
 	object->normal = tmp->normal;
+	object->center = tmp->center;
+	object->vmax = tmp->vmax;
+	object->vmin = tmp->vmin;
 	object->radius = tmp->radius;
 	object->angle = tmp->angle;
 	object->len = tmp->len;
-	object->material.emission_color = tmp->color;
 	object->material.ambient = tmp->ambience;
 	object->material.diffuse = tmp->diffuse;
 	object->material.specular = tmp->specular;
@@ -34,10 +35,8 @@ static int	add_light(t_tmp *tmp, t_light *light)
 	light->type = tmp->type;
 	light->intensity = tmp->intensity;
 	light->color = tmp->color;
-	if (tmp->coord_checker % 10 == 1)
-		light->pos = tmp->pos;
-	if (tmp->coord_checker / DIRECTION % 10 == 1)
-		light->dir = tmp->dir;
+	light->pos = tmp->pos;
+	light->dir = tmp->dir;
 }
 
 static void	free_tmp(t_tmp *tmp)

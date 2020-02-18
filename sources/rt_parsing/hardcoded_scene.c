@@ -327,7 +327,7 @@ static void 	add_textures(void)
 		i++;
 	}
 }
-
+/*
 void			print_textures(void)
 {
 	t_texture_name *tmp;
@@ -337,7 +337,7 @@ void			print_textures(void)
 		printf("%s\n", tmp->name);
 		tmp = tmp->next;
 	}
-}
+}*/
 
 t_scene		get_hardcoded_scene(void)
 {
@@ -359,7 +359,7 @@ t_scene		get_hardcoded_scene(void)
 	};
 	scene.objects = rt_get_objects(&scene.obj_nbr);
 	scene.lights = rt_get_lights(&scene.lights_nbr);
-	add_textures();
+	//add_textures();
 	//print_textures();
 	return (scene);
 }

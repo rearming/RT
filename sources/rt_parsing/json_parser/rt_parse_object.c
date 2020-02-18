@@ -21,6 +21,7 @@ void		parse_object(t_tmp *tmp, const char *key, json_t *value)
 			tmp->structure_type = type_of_structure;
 		//	}
 		}
+		//printf("\n");
 		parse_json_file(value, tmp);
 	}
 	else

@@ -38,6 +38,7 @@ static void	parse_parameters(t_tmp *tmp, const char *key, const char *tmp_value)
 	else if (ft_strequ(key, "texture"))
 	{
 		check_duplicated(tmp->checker, TEXTURE);
+		tmp->texture_number = parse_texture(tmp_value);
 	}
 }
 
@@ -77,9 +78,9 @@ void		parse_string(t_tmp *tmp, const char *key, json_t *value)
 	if (tmp->structure_type == NOT_SET)
 	{
 		if (ft_strequ(key, "open cl parameters"))
-			;
+			printf("open cl parameters\n");
 		else if (ft_strequ(key, "skybox"))
-			;
+			ft_add_texture_name_back(&g_textures.textures_names, tmp_value);
 		else
 			rt_raise_error(ERR_PARSING_WRONG_PARAM);
 	}

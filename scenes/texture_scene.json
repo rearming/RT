@@ -33,8 +33,8 @@
       "phong exp": 0,
       "smoothness": 0,
       "texture": "sphere_uranus.jpg",
-      "texture pos": [0, 1, 0],
-      "texture specular": 1
+      "texture position": [0, 1, 0],
+      "specular texture": 1
     },
    "center": [1, -1.5, 0],
     "radius": 2
@@ -45,8 +45,8 @@
       "phong exp": 0,
       "smoothness": 0,
       "texture": "sphere_jupiter.jpg",
-      "texture pos": [0, 1, 0],
-      "texture specular": 1
+      "texture position": [0, 1, 0],
+      "specular texture": 1
     },
       "center": [-1, -0.5, -2.5],
       "radius": 1

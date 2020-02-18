@@ -20,8 +20,8 @@ void	printff(t_tmp *tmp)
 	i = 0;
 	while (tmp)
 	{
-		printf(" i = %i structure_type = %i type = %i %s\n",
-				i, tmp->structure_type, tmp->type, tmp->checker);
+		printf(" i = %i structure_type = %i type = %i \n",
+				i, tmp->structure_type, tmp->type);
 		i++;
 		tmp = tmp->next;
 	}
@@ -55,6 +55,17 @@ void	parse_json_file(json_t *root, t_tmp *tmp)
 	}
 }
 
+void			print_textures(void)
+{
+	t_texture_name *tmp;
+	tmp = g_textures.textures_names;
+	while (tmp)
+	{
+		printf("%s\n", tmp->name);
+		tmp = tmp->next;
+	}
+}
+
 t_scene	rt_parse_scene(const char *json_scene_file)
 {
 	t_scene			scene;
@@ -66,10 +77,12 @@ t_scene	rt_parse_scene(const char *json_scene_file)
 	tmp = rt_safe_malloc(sizeof(t_tmp));
 	text = read_file(json_scene_file, 10);
 	init_tmp(tmp);
+	g_textures.textures_names = NULL;
 	root = json_loads(text, 0, &error);
 	parse_json_file(root, tmp);
 	count_elements(&scene, tmp);
 	add_elements(&scene, tmp);
+	print_textures();
 	//printff(tmp);
 	json_decref(root);
 	free(text);
