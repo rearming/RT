@@ -14,5 +14,5 @@ static inline void		correct_lights_intensity(t_scene *scene)
 
 void		rt_correct_scene(t_scene *scene)
 {
-//	correct_lights_intensity(scene);
+	correct_lights_intensity(scene);
 }

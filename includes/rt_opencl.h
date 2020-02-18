@@ -5,7 +5,7 @@
 
 void				rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer);
 void				rt_opencl_init(void);
-void				rt_opencl_render(t_rt *rt);
+void				rt_opencl_render(void *rt_ptr);
 void				rt_opencl_move_host_mem_to_kernel(
 		t_rt_renderer *renderer,
 		int max_memobj_num, ...);

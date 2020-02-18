@@ -41,7 +41,6 @@ extern t_textures   g_textures;
 void		rt_init(t_rt *out_rt, const char *json_scene_file);
 void		rt_init_renderer_params(t_renderer_params *out_opencl_params);
 int			init_basic_textures_parameters(void);
-void		init_final_texture_parameters(size_t list_size);
 void		rt_add_start_position(int i);
 
 /*
@@ -56,7 +55,7 @@ void		rt_correct_scene(t_scene *scene);
 **	Render
 */
 
-void		rt_render(t_rt *rt, void (*render_func)(t_rt *));
+void		rt_render(void *rt_ptr, void (*render_func)(void *));
 void		rt_update_renderer_params(t_rt *rt, t_rt_renderer *renderer);
 
 /*
@@ -90,4 +89,5 @@ void		*rt_safe_malloc(size_t size);
 bool		rt_exit_clean(void);
 bool		rt_camera_moved(t_camera *camera);
 
+void			ft_add_texture_name_back(t_texture_name **list, char *data);
 #endif

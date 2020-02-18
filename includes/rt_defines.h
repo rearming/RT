@@ -12,6 +12,8 @@
 
 # define RT_OBJLOADER_NOFLAGS 0
 
+#define TEXTURES_FOLDER "./assets/textures/"
+#define SKYBOX_NUM	1
 /*
 **	Window params
 */
@@ -98,7 +100,7 @@
 # ifdef __APPLE__
 #  define ROTATION_SPEED 0.025
 # else
-#  define ROTATION_SPEED 0.5
+#  define ROTATION_SPEED 0.25
 # endif
 
 #endif
