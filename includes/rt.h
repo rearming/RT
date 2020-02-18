@@ -63,12 +63,13 @@ int			ft_type_of_structure(const char *param);
 int 		ft_type_of_array(int *type_of_element, const char *param, int structure_type);
 void 		add_elements(t_scene *scene, t_tmp *tmp);
 void 		check_duplicated(bool *checker, int number);
-int 		check_full(bool *checker);
+//int 		check_full(t_tmp *tmp);
 t_scene		get_hardcoded_scene(); //todo remove after dev
 void		rt_correct_scene(t_scene *scene);
 void		print_tmp(t_tmp *tmp);
 void		print_textures(void);
 int			ft_add_texture_name_back(t_texture_name **list, const char *data);
+int 		hex_to_int(const char *temp);
 
 
 /*

@@ -24,7 +24,7 @@ static void	add_array(cl_float3 *elem, json_t *value)
 		{
 			tmp = json_array_get(value, i);
 			if (!json_is_number(tmp))
-				printf("error");
+				rt_raise_error(ERR_PARSING_WRONG_FORMAT);
 			else
 				elem->s[i] = json_is_integer(tmp) ? json_integer_value(tmp)
 					: json_real_value(tmp);
@@ -112,5 +112,5 @@ void		parse_array(t_tmp *tmp, const char *key, json_t *value)
 	else if (array_type == 2)
 		parse_array2(tmp, type_of_element, value);
 	else
-		rt_raise_error(ERR_PARSING_WRONG_PARAM);
+		rt_raise_error(ERR_PARSING_WRONG_TYPE);
 }

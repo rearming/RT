@@ -18,22 +18,22 @@ static void	parse_parameters(t_tmp *tmp, const char *key, const char *tmp_value)
 	if (ft_strequ(key, "diffuse"))
 	{
 		check_duplicated(tmp->checker, DIFFUSE);
-		tmp->diffuse = get_float3_color(ft_atoi(tmp_value));
+		tmp->diffuse = get_float3_color(hex_to_int(tmp_value));
 	}
 	else if (ft_strequ(key, "specular"))
 	{
 		check_duplicated(tmp->checker, SPECULAR);
-		tmp->specular = get_float3_color(ft_atoi(tmp_value));
+		tmp->specular = get_float3_color(hex_to_int(tmp_value));
 	}
 	else if (ft_strequ(key, "color"))
 	{
 		check_duplicated(tmp->checker, COLOR);
-		tmp->color = get_float3_color(ft_atoi(tmp_value));
+		tmp->color = get_float3_color(hex_to_int(tmp_value));
 	}
 	else if (ft_strequ(key, "emission color"))
 	{
 		check_duplicated(tmp->checker, EMISSION_COLOR);
-		tmp->emission_color = get_float3_color(ft_atoi(tmp_value));
+		tmp->emission_color = get_float3_color(hex_to_int(tmp_value));
 	}
 	else if (ft_strequ(key, "texture"))
 	{
@@ -51,7 +51,7 @@ static void	parse_type(t_tmp *tmp, const char *value)
 		else if (ft_strequ(value, "point"))
 			tmp->type = POINT;
 		else
-			rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+			rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
 	}
 	else if (tmp->structure_type == OBJECT)
 	{
@@ -63,11 +63,13 @@ static void	parse_type(t_tmp *tmp, const char *value)
 			tmp->type = CYLINDER;
 		else if (ft_strequ(value, "plane"))
 			tmp->type = PLANE;
+		else if (ft_strequ(value, "AABB"))
+			tmp->type = AABB;
 		else
 			rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
 	}
 	else
-		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+		rt_raise_error(ERR_PARSING_WRONG_TYPE);
 }
 
 void		parse_string(t_tmp *tmp, const char *key, json_t *value)
@@ -82,12 +84,12 @@ void		parse_string(t_tmp *tmp, const char *key, json_t *value)
 		else if (ft_strequ(key, "skybox"))
 			ft_add_texture_name_back(&g_textures.textures_names, tmp_value);
 		else
-			rt_raise_error(ERR_PARSING_WRONG_PARAM);
+			rt_raise_error(ERR_PARSING_WRONG_TYPE);
 	}
 	else if (tmp->type == NOT_SET && ft_strequ(key, "type"))
 		parse_type(tmp, tmp_value);
 	else if (tmp->structure_type != NOT_SET && tmp->type != NOT_SET)
 		parse_parameters(tmp, key, tmp_value);
 	else
-		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+		rt_raise_error(ERR_PARSING_WRONG_TYPE);
 }

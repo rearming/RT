@@ -49,6 +49,7 @@ static void	free_tmp(t_tmp *tmp)
 		free(tmp);
 		tmp = tmp_iterator;
 	}
+	free(tmp);
 }
 
 void		add_elements(t_scene *scene, t_tmp *tmp)
@@ -71,7 +72,7 @@ void		add_elements(t_scene *scene, t_tmp *tmp)
 		else if (tmp_iterator->structure_type == LIGHT)
 			add_light(tmp_iterator, &scene->lights[i_light++]);
 		else
-			rt_raise_error("check the type, it's not object/light/camera");
+			rt_raise_error(ERR_PARSING_WRONG_TYPE);
 		tmp_iterator = tmp_iterator->next;
 	}
 	free_tmp(tmp);

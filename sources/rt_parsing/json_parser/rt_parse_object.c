@@ -19,5 +19,5 @@ void		parse_object(t_tmp *tmp, const char *key, json_t *value)
 		parse_json_file(value, tmp);
 	}
 	else
-		rt_raise_error(ERR_PARSING_WRONG_OBJECT);
+		rt_raise_error(ERR_PARSING_WRONG_TYPE);
 }

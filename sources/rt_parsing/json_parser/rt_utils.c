@@ -87,7 +87,8 @@ void		check_duplicated(bool *checker, int number)
 		checker[number] = true;
 }
 
-int			check_full(bool *checker)
+/*
+int			check_full(t_tmp *tmp)
 {
 	int i;
 
@@ -100,3 +101,4 @@ int			check_full(bool *checker)
 	}
 	return (true);
 }
+*/
