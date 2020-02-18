@@ -75,3 +75,47 @@ void		rotate_point(float3 *point, float3 angle)
 	rotate_y(point, angle.y);
 	rotate_z(point, angle.z);
 }
+
+/// возвращает вектор длинной вектор 1 умноженный
+/// на cos угла между векторами
+/// и перпендекулярный вектору 2 в плоскости векторов 1 и 2
+
+float3	gram_schmidt_proc_r2(float3 vector_orto, float3 vector_basic)
+{
+	return (vector_orto - vector_basic * dot(vector_orto, vector_basic)
+							/ dot(vector_basic, vector_basic));
+}
+
+
+/// поворачивает вектор 1 относительно оси,
+/// заданной другим вектором на угол заданный в раданах
+/// возвращает повернутый вектор 1
+
+float3		vec_axis_rotate(float3 vec, float3 axis, float angle)
+{
+	float cos_ang, one_minus_cos, sin_ang;
+	float3 rotate_vector;
+
+	cos_ang = cos(angle);
+	one_minus_cos = 1 - cos_ang;
+	sin_ang = sin(angle);
+	rotate_vector[0] = vec[0] * (cos_ang + one_minus_cos * axis[0] * axis[0])
+			+ vec[1] * (one_minus_cos * axis[0] * axis[1] - sin_ang * axis[2])
+			+ vec[2] * (one_minus_cos * axis[0] * axis[2] + sin_ang * axis[1]);
+	rotate_vector[1] = vec[0] * (one_minus_cos * axis[0] * axis[1] + sin_ang * axis[2])
+			+ vec[1] * (cos_ang + one_minus_cos * axis[1] * axis[1])
+			+ vec[2] * (one_minus_cos * axis[1] * axis[2] - sin_ang * axis[0]);
+	rotate_vector[2] = vec[0] * (one_minus_cos * axis[0] * axis[2] - sin_ang * axis[1])
+			+ vec[1] * (one_minus_cos * axis[1] * axis[2] + sin_ang * axis[0])
+			+ vec[2] * (cos_ang + one_minus_cos * axis[2] * axis[2]);
+	return (rotate_vector);
+}
+
+float3		float3_float_mult(float3 vec, float num)
+{
+	float3 vec_out;
+	vec_out[0] = vec[0] * num;
+	vec_out[1] = vec[1] * num;
+	vec_out[2] = vec[2] * num;
+	return vec_out;
+}

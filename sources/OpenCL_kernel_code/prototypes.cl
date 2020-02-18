@@ -35,6 +35,12 @@ float3		degree_to_rad(float3 rotation_degrees);
 
 void		rotate_point(float3 *point, float3 angle);
 
+float3	gram_schmidt_proc_r2(float3 vector_orto, float3 vector_basic);
+
+float3		vec_axis_rotate(float3 vec, float3 axis, float angle);
+
+float3		float3_float_mult(float3 vec, float num);
+
 float3		shade(
 		t_ray *ray,
 		t_rayhit *hit,
@@ -164,8 +170,6 @@ bool				ray_sphere_intersect(
 		__global const t_object *sphere,
 		t_rayhit *best_hit);
 
-float3	orthogonalization(float3 v1, float3 v2);
-
 bool				ray_cone_intersect(
 		t_ray *ray,
 		__global const t_object *cone,
@@ -179,6 +183,11 @@ bool				ray_cylinder_intersect(
 bool				ray_paraboloid_intersect(
 		t_ray *ray,
 		__global const t_object *paraboloid,
+		t_rayhit *best_hit);
+
+bool				ray_ellipsoid_intersect(
+		t_ray *ray,
+		__global const t_object *ellipsoid,
 		t_rayhit *best_hit);
 
 float3		pathtrace(

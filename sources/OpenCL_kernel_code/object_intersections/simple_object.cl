@@ -54,15 +54,6 @@ bool				ray_sphere_intersect(
 
 #define M_PI_360 0.00872664625997
 
-
-// возвращает вектор равный вектору 1
-// и перпендекулярный вектору 2 в плоскости векторов 1 и 2
-float3	orthogonalization(float3 v1, float3 v2)
-{
-	return (v1 - v2 * dot(v1, v2) / dot(v2, v2));
-}
-
-
 bool				ray_cone_intersect(
 		t_ray *ray,
 		__global const t_object *cone,
@@ -72,11 +63,10 @@ bool				ray_cone_intersect(
 	const float		dot_origin_center_axis_cone = dot(origin_center, cone->axis);
 	const float		dot_ray_axis_cone = dot(ray->dir, cone->axis);
 	float			one_sqr_tan_halfangle_of_cone = tan(cone->angle * M_PI_360);
-
+					/// угол в градусах, преобразуем в радианы для tan()
 	one_sqr_tan_halfangle_of_cone *= one_sqr_tan_halfangle_of_cone;
 	one_sqr_tan_halfangle_of_cone += 1.f;
 	///1 + квадрат тангенса полугла вершины конуса,
-	/// угол в градусах, преобразуем в радианы для tan()
 
 	float 			a, b, c, discriminant;
 
@@ -137,48 +127,11 @@ bool				ray_cylinder_intersect(
 	{
 		best_hit->distance = root;
 		best_hit->pos = ray->origin + root * ray->dir;
-		best_hit->normal = fast_normalize(orthogonalization(best_hit->pos - cylinder->center, cylinder->axis));
-		///ортогонализация для R2 (процесс Грама-Шмидта)
-		//todo вынести функцию отдельно в утилиты
+		best_hit->normal = fast_normalize(gram_schmidt_proc_r2(best_hit->pos - cylinder->center, cylinder->axis));
+		///ортогонализация для R2 (процесс Грама-Шмидта) см. math_utils.cl
  		return true;
 	}
 	return false;
 }
 
 
-bool				ray_paraboloid_intersect(
-		t_ray *ray,
-		__global const t_object *paraboloid,
-		t_rayhit *best_hit)
-{
-	const float3	origin_center = ray->origin - paraboloid->center;
-	const float		dot_origin_center_axis_paraboloid = dot(origin_center,
-															 paraboloid->axis);
-	const float		dot_ray_axis_paraboloid = dot(ray->dir, paraboloid->axis);
-
-	float 			a, b, c, discriminant;
-
-	a = dot(ray->dir, ray->dir) - dot_ray_axis_paraboloid * dot_ray_axis_paraboloid;
-	b = 2.f * (dot(ray->dir, origin_center) - dot_ray_axis_paraboloid * (dot_origin_center_axis_paraboloid + 2.f * paraboloid->distance));
-	c = dot(origin_center, origin_center) - dot_origin_center_axis_paraboloid * (dot_origin_center_axis_paraboloid - 4.f * paraboloid->distance);
-
-	discriminant = b * b - 4.f * a * c;
-	if (discriminant < 0)
-	return false;
-
-	float root = (-b - sqrt(discriminant)) / (2.f * a);
-	float root2 = (-b + sqrt(discriminant)) / (2.f * a);
-	if (root < 0 || (root > root2 && root2 > 0)) /// пересечение перед камерой,
-	root = root2;								/// берем меньший (ближайший)
-	if (root < best_hit->distance && root > RAY_MIN_EPSILON && root > 0)
-	{
-		best_hit->distance = root;
-		best_hit->pos = ray->origin + root * ray->dir;
-		const float3 paraboloid_forming = fast_normalize(best_hit->pos - paraboloid->center);
-		best_hit->normal = fast_normalize(dot(paraboloid->axis, paraboloid_forming) > 0 ?
-										  paraboloid_forming - paraboloid->axis :
-										  paraboloid->axis + paraboloid_forming);
-		return true;
-	}
-	return false;
-}
