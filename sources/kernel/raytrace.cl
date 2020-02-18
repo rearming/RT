@@ -65,7 +65,7 @@ float3		raytrace(
 		}
 		else
 		{
-			result_color += ray.energy * skybox_color(&texture_info[2], texture_list, skybox_normal(ray));
+			result_color += ray.energy * skybox_color(&texture_info[SKYBOX_NUM], texture_list, skybox_normal(ray));
 			//todo вместо texture_info[1] texture_info[SKYBOX_TEXTURE] (допустим, скайбокс всегда маппим на нулевую текстуру) [gfoote]
 			ray.energy = 0;
 		}

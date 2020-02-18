@@ -13,6 +13,7 @@ t_material		rt_default_material(void)
 	material.smoothness = 0;
 	material.transmittance = 0;
 	material.refraction = 0;
+	material.texture_number = NOT_SET;
 	return (material);
 }
 
