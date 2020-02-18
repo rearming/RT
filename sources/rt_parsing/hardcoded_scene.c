@@ -109,7 +109,7 @@ static	t_object	*pathtrace_scene(int *out_obj_nbr)
 
 static	t_object	*cornell_box(int *out_obj_nbr)
 {
-	const int	objects_nbr = 11;
+	const int	objects_nbr = 9;
 	t_object	*objects;
 
 	*out_obj_nbr = objects_nbr;
@@ -175,16 +175,16 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 //			.vertices[2] = {{0, 2, 2.5}},
 //			.normal = {{0, 0, 1}}};
 
-	objects[9] = (t_object){.type = PARABOLOID, // texture parabaloid
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
-			.center = {{0, -1.f, -5}},.axis= {{(2.f/3), (1.f/3), (2.f/3)}},
-			.distance = .1f};
-
-	objects[10] = (t_object){.type = ELLIPSOID,
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
-			.center = {{-3.f, -1.f, -2}},.axis= {{-(2.f/3), -(1.f/3), -(2.f/3)}},
-			.distance = 1.1f,
-			.radius = 1.2f};
+//	objects[9] = (t_object){.type = PARABOLOID, // texture parabaloid
+//			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
+//			.center = {{0, -1.f, -5}},.axis= {{(2.f/3), (1.f/3), (2.f/3)}},
+//			.distance = .1f};
+//
+//	objects[10] = (t_object){.type = ELLIPSOID,
+//			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
+//			.center = {{-3.f, -1.f, -2}},.axis= {{-(2.f/3), -(1.f/3), -(2.f/3)}},
+//			.distance = 1.1f,
+//			.radius = 1.2f};
 	return (objects);
 }
 
