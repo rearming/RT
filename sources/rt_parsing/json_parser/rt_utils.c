@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-static void init_tmp_material(t_tmp *tmp)
+static void	init_tmp_material(t_tmp *tmp)
 {
 	tmp->ambience = (cl_float3){{0, 0, 0}};
 	tmp->diffuse = (cl_float3){{0, 0, 0}};
@@ -79,31 +79,7 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 		rt_raise_error(ERR_PARSING_CAMERA);
 }
 
-char		*read_file(const char *argv, int buff_size)
-{
-	int		ret;
-	char	buf[buff_size];
-	char	*tmp;
-	char	*result;
-	int		fd;
-
-	if (!(fd = open(argv, O_RDONLY)))
-		rt_raise_error(ERR_INV_FILE);
-	if (fd < 0 || !(result = ft_strnew(1)))
-		rt_raise_error(ERR_INV_FILE);
-	while ((ret = read(fd, buf, buff_size)) > 0 && result)
-	{
-		buf[ret] = '\0';
-		tmp = ft_strjoin(result, buf);
-		free(result);
-		if (!tmp)
-			rt_raise_error(ERR_MALLOC);
-		result = tmp;
-	}
-	return (result);
-}
-
-void 		check_duplicated(bool *checker, int number)
+void		check_duplicated(bool *checker, int number)
 {
 	if (checker[number] == true)
 		rt_raise_error(ERR_PARSING_DUPLICATED_PARAM);
@@ -111,12 +87,12 @@ void 		check_duplicated(bool *checker, int number)
 		checker[number] = true;
 }
 
-int 		check_full(bool *checker)
+int			check_full(bool *checker)
 {
 	int i;
 
 	i = 0;
-	while(checker[i])
+	while (checker[i])
 	{
 		if (checker[i] == true)
 			return (false);

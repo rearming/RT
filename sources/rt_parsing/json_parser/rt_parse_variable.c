@@ -2,15 +2,23 @@
 
 static void	parse_variable_material2(t_tmp *tmp, const char *key, json_t *value)
 {
-	if (ft_strequ(key, "emission power"))
+	if (ft_strequ(key, "refraction"))
+	{
+		check_duplicated(tmp->checker, REFRACTION);
+		tmp->refraction = json_is_integer(value) ?
+			(float)json_integer_value(value) : (float)json_real_value(value);
+	}
+	else if (ft_strequ(key, "emission power"))
 	{
 		check_duplicated(tmp->checker, EMISSION_POWER);
-		tmp->emission_power = (float)json_real_value(value);
+		tmp->emission_power = json_is_integer(value) ?
+			(float)json_integer_value(value) : (float)json_real_value(value);
 	}
 	else if (ft_strequ(key, "specular texture"))
 	{
 		check_duplicated(tmp->checker, SPECULAR_TEXTURE);
-		tmp->specular_texture = (float)json_real_value(value);
+		tmp->specular_texture = json_is_integer(value) ?
+			(float)json_integer_value(value) : (float)json_real_value(value);
 	}
 	else
 		rt_raise_error(ERR_PARSING_WRONG_PARAM);
@@ -21,22 +29,20 @@ static void	parse_variable_material1(t_tmp *tmp, const char *key, json_t *value)
 	if (ft_strequ(key, "phong exp"))
 	{
 		check_duplicated(tmp->checker, PHONG_EXP);
-		tmp->phong_exp = (float)json_real_value(value);
+		tmp->phong_exp = json_is_integer(value) ?
+			(float)json_integer_value(value) : (float)json_real_value(value);
 	}
 	else if (ft_strequ(key, "smoothness"))
 	{
 		check_duplicated(tmp->checker, SMOOTHNESS);
-		tmp->smoothness = (float)json_real_value(value);
+		tmp->smoothness = json_is_integer(value) ?
+			(float)json_integer_value(value) : (float)json_real_value(value);
 	}
 	else if (ft_strequ(key, "transmittance"))
 	{
 		check_duplicated(tmp->checker, TRANSMITTANCE);
-		tmp->transmittance = (float)json_real_value(value);
-	}
-	else if (ft_strequ(key, "refraction"))
-	{
-		check_duplicated(tmp->checker, REFRACTION);
-		tmp->refraction = (float)json_real_value(value);
+		tmp->transmittance = json_is_integer(value) ?
+			(float)json_integer_value(value) : (float)json_real_value(value);
 	}
 	else
 		parse_variable_material2(tmp, key, value);

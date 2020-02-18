@@ -52,13 +52,11 @@ void		rt_add_start_position(int i);
 t_scene		rt_parse_scene(const char *json_scene_file);
 void		parse_json_file(json_t *root, t_tmp *tmp);
 void		count_elements(t_scene *scene, t_tmp *tmp);
-char		*read_file(const char *argv, int buff_size);
 void		parse_object(t_tmp *tmp, const char *key, json_t *value);
 void		parse_array(t_tmp *tmp, const char *key, json_t *value);
 void		parse_variable(t_tmp *tmp, const char *key, json_t *value);
 void 		parse_string(t_tmp *tmp, const char *key, json_t *value);
 int 		parse_texture(const char *name);
-//void 		parse_texture(t_tmp *tmp, const char *key, json_t *value);
 void		init_tmp(t_tmp *tmp);
 void		copy_tmp(t_tmp *tmp, t_tmp tmp_source);
 int			ft_type_of_structure(const char *param);
@@ -68,6 +66,9 @@ void 		check_duplicated(bool *checker, int number);
 int 		check_full(bool *checker);
 t_scene		get_hardcoded_scene(); //todo remove after dev
 void		rt_correct_scene(t_scene *scene);
+void		print_tmp(t_tmp *tmp);
+void		print_textures(void);
+int			ft_add_texture_name_back(t_texture_name **list, const char *data);
 
 
 /*
@@ -108,5 +109,4 @@ void		*rt_safe_malloc(size_t size);
 bool		rt_exit_clean(void);
 bool		rt_camera_moved(t_camera *camera);
 
-int			ft_add_texture_name_back(t_texture_name **list, const char *data);
 #endif

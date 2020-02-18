@@ -42,7 +42,7 @@ static void	parse_parameters(t_tmp *tmp, const char *key, const char *tmp_value)
 	}
 }
 
-static void parse_type(t_tmp *tmp, const char *value)
+static void	parse_type(t_tmp *tmp, const char *value)
 {
 	if (tmp->structure_type == LIGHT)
 	{

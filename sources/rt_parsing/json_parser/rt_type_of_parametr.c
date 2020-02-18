@@ -39,8 +39,6 @@ static int	ft_check(const char *param, int *type_of_element)
 	ft_check_material(param, type_of_element);
 }
 
-// 1 - parameters, 2 - objects
-
 int			ft_type_of_array(int *type_of_element,
 		const char *param, int structure_type)
 {

@@ -7,34 +7,34 @@
       "material": {
         "diffuse": "0xFFFFFF"
       },
-      "center": [0, -2.5, 0],
-      "normal": [0, 1, 0]
+      "center": [0.0, -2.5, 0.0],
+      "normal": [0.0, 1.0, 0.0]
     },
     {
       "type": "plane",
       "material": {
         "diffuse": "0x408000",
-        "phong exp": 50
+        "phong exp": 50.0
       },
-      "center": [2.5, 0, 0],
-      "normal": [1, 0, 0]
+      "center": [2.5, 0.0, 0.0],
+      "normal": [1.0, 0.0, 0.0]
     },
     {
       "type": "plane",
       "material": {
-        "diffuse": "0xb30f0f"
+       "diffuse": "0xb30f0f"
       },
-      "center": [-2.5, 0, 0],
-      "normal": [1, 0, 0]
+      "center": [-2.5, 0.0, 0.0],
+      "normal": [1.0, 0.0, 0.0]
     },
     {
       "type": "plane",
       "material": {
-        "diffuse": "0xFFFFFF",
-        "phong exp": 40
+      "diffuse": "0xFFFFFF",
+      "phong exp": 40.0
       },
-      "center": [0, -25, 0],
-      "normal": [0, 0.6, 0]
+      "center": [0.0, -25.0, 0.0],
+      "normal": [0.0, 0.6, 0.0]
     },
     {
       "type": "plane",

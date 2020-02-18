@@ -1,5 +1,5 @@
 #include "rt.h"
-//проверять если длинна больше длинны официальной папки, то сверять в сцепке с основной папки иначе просто
+
 t_texture_name	*ft_new_texture_name(const char *data)
 {
 	t_texture_name *tmp;
@@ -13,17 +13,19 @@ t_texture_name	*ft_new_texture_name(const char *data)
 	return (tmp);
 }
 
-int			ft_add_texture_name_back(t_texture_name **list, const char *data)
+int				ft_add_texture_name_back(t_texture_name **list,
+		const char *data)
 {
-	t_texture_name *tmp;
-	int num = 0;
+	t_texture_name	*tmp;
+	int				num;
 
+	num = 0;
 	if (!(*list))
 		*list = ft_new_texture_name(data);
 	else
 	{
 		tmp = *list;
-		while(tmp->next)
+		while (tmp->next)
 		{
 			num++;
 			tmp = tmp->next;
@@ -34,15 +36,14 @@ int			ft_add_texture_name_back(t_texture_name **list, const char *data)
 	return (num);
 }
 
-
-int		search(const char *name)//запустить t_list c функцией equal
+static int		search(const char *name)
 {
-	t_texture_name *iter;
-	int num;
+	t_texture_name	*iter;
+	int				num;
 
 	num = -1;
 	iter = g_textures.textures_names;
-	while(iter)
+	while (iter)
 	{
 		num++;
 		if (ft_strequ(name, iter->name))
@@ -52,7 +53,7 @@ int		search(const char *name)//запустить t_list c функцией equa
 	return (-1);
 }
 
-int 	parse_texture(const char *name)
+int				parse_texture(const char *name)
 {
 	int num;
 

@@ -60,6 +60,7 @@ set(parsing_sources
         sources/rt_parsing/json_parser/rt_add_to_scene.c
         sources/rt_parsing/json_parser/rt_parse_array.c
         sources/rt_parsing/rt_correct_scene.c
+        sources/rt_parsing/print_scene_params_tmp.c
         )
 
 set(event_handling_sources

@@ -32,6 +32,21 @@ static void	add_array(cl_float3 *elem, json_t *value)
 	}
 }
 
+static void	add_elements_in_array_material(t_tmp *tmp,
+		int type_of_element, json_t *value)
+{
+	if (type_of_element == AMBIENCE)
+		add_array(&tmp->ambience, value);
+	else if (type_of_element == DIFFUSE)
+		add_array(&tmp->diffuse, value);
+	else if (type_of_element == SPECULAR)
+		add_array(&tmp->specular, value);
+	else if (type_of_element == EMISSION_COLOR)
+		add_array(&tmp->emission_color, value);
+	else if (type_of_element == TEXTURE_POS)
+		add_array(&tmp->texture_position, value);
+}
+
 static void	add_elements_in_array(t_tmp *tmp, int type_of_element,
 		json_t *value)
 {
@@ -45,25 +60,48 @@ static void	add_elements_in_array(t_tmp *tmp, int type_of_element,
 		add_array(&tmp->color, value);
 	else if (type_of_element == NORMAL)
 		add_array(&tmp->normal, value);
-	else if (type_of_element == TEXTURE_POS)
-		add_array(&tmp->texture_position, value);
-	if (type_of_element == AMBIENCE)
-		add_array(&tmp->ambience, value);
-	else if (type_of_element == DIFFUSE)
-		add_array(&tmp->diffuse, value);
+	else if (type_of_element == AXIS)
+		add_array(&tmp->axis, value);
+	else if (type_of_element == CENTER)
+		add_array(&tmp->center, value);
+	else if (type_of_element == VMIN)
+		add_array(&tmp->vmin, value);
+	else if (type_of_element == VMAX)
+		add_array(&tmp->vmax, value);
 	else
-		add_array(&tmp->specular, value);
+		add_elements_in_array_material(tmp, type_of_element, value);
+}
+
+static void	parse_array2(t_tmp *tmp, int type_of_element, json_t *value)
+{
+	int i;
+	int type_of_structure;
+	int array_size;
+
+	i = -1;
+	type_of_structure = (type_of_element != LIGHT &&
+		type_of_element != OBJECT) ? tmp->structure_type : type_of_element;
+	array_size = json_array_size(value);
+	while (++i < array_size)
+	{
+		if (tmp->structure_type != -1)
+		{
+			tmp->next = rt_safe_malloc(sizeof(t_tmp));
+			init_tmp(tmp->next);
+			tmp = tmp->next;
+		}
+		tmp->structure_type = type_of_structure;
+		if (type_of_structure != type_of_element)
+			tmp->type = type_of_element;
+		parse_json_file(json_array_get(value, i), tmp);
+	}
 }
 
 void		parse_array(t_tmp *tmp, const char *key, json_t *value)
 {
 	int array_type;
-	int array_size;
 	int type_of_element;
-	int type_of_structure;
-	int i;
 
-	i = -1;
 	type_of_element = -1;
 	array_type = ft_type_of_array(&type_of_element, key, tmp->structure_type);
 	if (array_type == 1)
@@ -72,25 +110,7 @@ void		parse_array(t_tmp *tmp, const char *key, json_t *value)
 		add_elements_in_array(tmp, type_of_element, value);
 	}
 	else if (array_type == 2)
-	{
-		type_of_structure = (type_of_element != LIGHT &&
-			type_of_element != OBJECT) ? tmp->structure_type : type_of_element;
-		array_size = json_array_size(value);
-		while (++i < array_size)
-		{
-			printf("\n");
-			if (tmp->structure_type != -1)
-			{
-				tmp->next = rt_safe_malloc(sizeof(t_tmp));
-				init_tmp(tmp->next);
-				tmp = tmp->next;
-			}
-			tmp->structure_type = type_of_structure;
-			if (type_of_structure != type_of_element)
-				tmp->type = type_of_element;
-			parse_json_file(json_array_get(value, i), tmp);
-		}
-	}
+		parse_array2(tmp, type_of_element, value);
 	else
 		rt_raise_error(ERR_PARSING_WRONG_PARAM);
 }
