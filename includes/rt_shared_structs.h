@@ -114,6 +114,8 @@ typedef enum			e_object_type
 	CONE,
 	TRIANGLE,
 	AABB,
+	PARABOLOID,
+	ELLIPSOID
 }						t_object_type;
 
 typedef enum			e_light_type
@@ -186,8 +188,12 @@ typedef struct			s_object
 	t_material			material;
 	cl_float3			center;
 	cl_float3			normal;
+	cl_float3			axis;
+	/// axis for all rotation object
+	/// (cylinder, cone, torus, hiperboloid etc)
 	cl_float			radius;
 	cl_float			angle;
+	cl_float 			distance;
 	cl_float			len;
 	cl_float3			vertices[3]; //it's for .obj
 	cl_float3			vmin;
@@ -198,8 +204,12 @@ typedef struct			s_object
 	t_material			material;
 	float3				center;
 	float3				normal;
+	float3				axis;
+	///axis for all rotation object
+	/// (cylinder, cone, torus, hiperboloid etc)
 	float				radius;
 	float				angle;
+	float 				distance;
 	float				len;
 	float3				vertices[3];
 	float3				vmin;
