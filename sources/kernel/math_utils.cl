@@ -99,23 +99,23 @@ float3		vec_axis_rotate(float3 vec, float3 axis, float angle)
 	cos_ang = cos(angle);
 	one_minus_cos = 1 - cos_ang;
 	sin_ang = sin(angle);
-	rotate_vector[0] = vec[0] * (cos_ang + one_minus_cos * axis[0] * axis[0])
-			+ vec[1] * (one_minus_cos * axis[0] * axis[1] - sin_ang * axis[2])
-			+ vec[2] * (one_minus_cos * axis[0] * axis[2] + sin_ang * axis[1]);
-	rotate_vector[1] = vec[0] * (one_minus_cos * axis[0] * axis[1] + sin_ang * axis[2])
-			+ vec[1] * (cos_ang + one_minus_cos * axis[1] * axis[1])
-			+ vec[2] * (one_minus_cos * axis[1] * axis[2] - sin_ang * axis[0]);
-	rotate_vector[2] = vec[0] * (one_minus_cos * axis[0] * axis[2] - sin_ang * axis[1])
-			+ vec[1] * (one_minus_cos * axis[1] * axis[2] + sin_ang * axis[0])
-			+ vec[2] * (cos_ang + one_minus_cos * axis[2] * axis[2]);
+	rotate_vector.x = vec.x * (cos_ang + one_minus_cos * axis.x * axis.x)
+			+ vec.y * (one_minus_cos * axis.x * axis.y - sin_ang * axis.z)
+			+ vec.z * (one_minus_cos * axis.x * axis.z + sin_ang * axis.y);
+	rotate_vector.y = vec.x * (one_minus_cos * axis.x * axis.y + sin_ang * axis.z)
+			+ vec.y * (cos_ang + one_minus_cos * axis.y * axis.y)
+			+ vec.z * (one_minus_cos * axis.y * axis.z - sin_ang * axis.x);
+	rotate_vector.z = vec.x * (one_minus_cos * axis.x * axis.z - sin_ang * axis.y)
+			+ vec.y * (one_minus_cos * axis.y * axis.z + sin_ang * axis.x)
+			+ vec.z * (cos_ang + one_minus_cos * axis.z * axis.z);
 	return (rotate_vector);
 }
 
 float3		float3_float_mult(float3 vec, float num)
 {
 	float3 vec_out;
-	vec_out[0] = vec[0] * num;
-	vec_out[1] = vec[1] * num;
-	vec_out[2] = vec[2] * num;
+	vec_out.x = vec.x * num;
+	vec_out.y = vec.y * num;
+	vec_out.z = vec.z * num;
 	return vec_out;
 }

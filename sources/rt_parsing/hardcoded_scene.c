@@ -140,8 +140,8 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 			.center = {{0, 0, -25.5}},
 			.normal = {{0, 0, 1}}};
 
-	objects[6] = (t_object){.type = CONE, // light
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
+	objects[6] = (t_object){.type = CONE, // light cone
+			(t_material){.emission_color = get_float3_color(COL_WHITE), .emission_power = 5, .texture_number = NOT_SET},
 			.center = {{-1, 1.5, 0}},
 			.axis = {{0, 1, 0}},
 			.angle = 20.f};
@@ -151,12 +151,12 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 			.center = {{1, -1.5f, 0}},
 			.radius = 1.f};*/
 
-	objects[7] = (t_object){.type = SPHERE, // texture sphere
+	objects[7] = (t_object){.type = SPHERE, // sphere
 			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
 			.center = {{1, -1.5f, -1}},
 			.radius = .9f};
 
-	objects[8] = (t_object){.type = CYLINDER, // texture cylinder
+	objects[8] = (t_object){.type = CYLINDER, // cylinder
 			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
 			.center = {{0, -1.5f, 0}},
 			.axis = {{0, 1, 0}},
@@ -175,7 +175,7 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 //			.vertices[2] = {{0, 2, 2.5}},
 //			.normal = {{0, 0, 1}}};
 
-//	objects[9] = (t_object){.type = PARABOLOID, // texture parabaloid
+//	objects[9] = (t_object){.type = PARABOLOID, // parabaloid
 //			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
 //			.center = {{0, -1.f, -5}},.axis= {{(2.f/3), (1.f/3), (2.f/3)}},
 //			.distance = .1f};
@@ -334,7 +334,7 @@ static void 	add_textures(void)
 	i = 0;
 	char *textures[] = {
 			"sphere_eye.jpg",
-			"skybox_street.jpg"};
+			"dots.jpg"};
 
 	g_textures.texture_info_size = sizeof(textures) / sizeof(char*);
 	g_textures.textures_names = NULL;
@@ -369,9 +369,7 @@ t_scene		get_hardcoded_scene(void)
 		.pos = {{-0.37, 1.2, -15}}, // cornell box pos/rotation
 		.rotation = {{2.95, 9.32, 0}},/**/
 //		.pos = {{0.2, 1.2, -14.2}}, // cornell box pos/rotation
-//		.rotation = {{0, 0, 0}}, // kd-test pos
-//		.pos = {{0, 28, 500}}, //traverse pos
-//		.rotation = {{0, 180, 0}},
+//		.rotation = {{0, 0, 0}},
 		.viewport_distance = 1,
 		.viewport_width = WIN_RATIO < 1 ? D_I_MAZOHIN : 1,
 		.viewport_height = WIN_RATIO > 1 ? D_E_KARMATSKIY : 1
