@@ -13,7 +13,7 @@
  *	7. проверить считывание цвета (если флоты/инты)
  *	8. считывать opencl параметы
  *	9. добавить чекер
- *	10. сцена где нет текстуры вылидает opencl texture error
+ *	10. сцена где нет текстуры и он пытается загрузить текстуру выдает ошибку opencl texture error
 */
 
 char		*read_file(const char *argv, int buff_size)
@@ -40,7 +40,7 @@ char		*read_file(const char *argv, int buff_size)
 	return (result);
 }
 
-void	parse_json_file(json_t *root, t_tmp *tmp)
+void	parse_json_file(json_t *root, t_tmp *tmp, uint32_t *renderer_flags)
 {
 	void		*iter;
 	const char	*key;
@@ -52,13 +52,13 @@ void	parse_json_file(json_t *root, t_tmp *tmp)
 		key = json_object_iter_key(iter);
 		value = json_object_iter_value(iter);
 		if (json_is_object(value))
-			parse_object(tmp, key, value);
+			parse_object(tmp, key, value, renderer_flags);
 		else if (json_is_array(value))
-			parse_array(tmp, key, value);
+			parse_array(tmp, key, value, renderer_flags);
 		else if (json_is_number(value))
 			parse_variable(tmp, key, value);
 		else if (json_is_string(value))
-			parse_string(tmp, key, value);
+			parse_string(tmp, key, value, renderer_flags);
 		else
 			rt_raise_error(ERR_PARSING_WRONG_PARAM);
 		while (tmp->next != NULL)
@@ -67,7 +67,7 @@ void	parse_json_file(json_t *root, t_tmp *tmp)
 	}
 }
 
-t_scene	rt_parse_scene(const char *json_scene_file)
+t_scene	rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags)
 {
 	t_scene			scene;
 	char			*text;
@@ -80,14 +80,14 @@ t_scene	rt_parse_scene(const char *json_scene_file)
 	init_tmp(tmp);
 	g_textures.textures_names = NULL;
 	root = json_loads(text, 0, &error);
-	parse_json_file(root, tmp);
+	parse_json_file(root, tmp, renderer_flags);
 	count_elements(&scene, tmp);
-	print_tmp(tmp);
+	//print_tmp(tmp);
 	add_elements(&scene, tmp);
-	print_textures();
+	//print_textures();
 	json_decref(root);
 	free(text);
-	print_scene(&scene);
+	//print_scene(&scene);
 /*	scene = get_hardcoded_scene();
 	rt_correct_scene(&scene);*/
 	return (scene);

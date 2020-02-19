@@ -1,6 +1,6 @@
 #include "rt.h"
 
-void		parse_object(t_tmp *tmp, const char *key, json_t *value)
+void		parse_object(t_tmp *tmp, const char *key, json_t *value, uint32_t *renderer_flags)
 {
 	int type_of_structure;
 
@@ -21,7 +21,7 @@ void		parse_object(t_tmp *tmp, const char *key, json_t *value)
 				tmp->structure_type = type_of_structure;
 			}
 		}
-		parse_json_file(value, tmp);
+		parse_json_file(value, tmp, renderer_flags);
 	}
 	else
 		rt_raise_error(ERR_PARSING_WRONG_TYPE);

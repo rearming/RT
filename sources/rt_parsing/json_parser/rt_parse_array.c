@@ -72,7 +72,7 @@ static void	add_elements_in_array(t_tmp *tmp, int type_of_element,
 		add_elements_in_array_material(tmp, type_of_element, value);
 }
 
-static void	parse_array2(t_tmp *tmp, int type_of_element, json_t *value)
+static void	parse_array2(t_tmp *tmp, int type_of_element, json_t *value, uint32_t *renderer_flags)
 {
 	int i;
 	int type_of_structure;
@@ -93,11 +93,11 @@ static void	parse_array2(t_tmp *tmp, int type_of_element, json_t *value)
 		tmp->structure_type = type_of_structure;
 		if (type_of_structure != type_of_element)
 			tmp->type = type_of_element;
-		parse_json_file(json_array_get(value, i), tmp);
+		parse_json_file(json_array_get(value, i), tmp, renderer_flags);
 	}
 }
 
-void		parse_array(t_tmp *tmp, const char *key, json_t *value)
+void		parse_array(t_tmp *tmp, const char *key, json_t *value, uint32_t *renderer_flags)
 {
 	int array_type;
 	int type_of_element;
@@ -110,7 +110,7 @@ void		parse_array(t_tmp *tmp, const char *key, json_t *value)
 		add_elements_in_array(tmp, type_of_element, value);
 	}
 	else if (array_type == 2)
-		parse_array2(tmp, type_of_element, value);
+		parse_array2(tmp, type_of_element, value, renderer_flags);
 	else
 		rt_raise_error(ERR_PARSING_WRONG_TYPE);
 }

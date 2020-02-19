@@ -1,5 +1,5 @@
 {
-  "open cl parameters":"RENDER_DEFAULT RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_TEXTURES | RENDER_MESH | RENDER_BACKFACE_CULLING",
+  "open cl parameters":"RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_TEXTURES | RENDER_MESH | RENDER_BACKFACE_CULLING",
   "skybox": "skybox_milkyway.png",
   "objects": [
     {
@@ -25,32 +25,7 @@
     },
     "center": [0.0, -2.5, 0.0],
     "radius": 1.5
-  },
-    {
-    "type": "sphere",
-    "material": {
-      "diffuse": "0xFFFFFF",
-      "phong exp": 0.0,
-      "smoothness": 0.0,
-      "texture": "sphere_uranus.jpg",
-      "texture position": [0.0, 1.0, 0.0],
-      "specular texture": 1.0
-    },
-   "center": [1, -1.5, 0],
-    "radius": 2.0
-  },
-    {"type": "sphere",
-    "material": {
-      "diffuse": "0xFFFFFF",
-      "phong exp": 0.0,
-      "smoothness": 0.0,
-      "texture": "sphere_jupiter.jpg",
-      "texture position": [0.0, 1.0, 0.0],
-      "specular texture": 1.0
-    },
-      "center": [-1, -0.5, -2.5],
-      "radius": 1.0
-   }
+  }
   ],
   "camera": {
     "pos": [0.0, 2.0, 10.0],

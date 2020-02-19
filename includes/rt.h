@@ -49,13 +49,13 @@ void		rt_add_start_position(int i);
 /*
 **	Parsing
 */
-t_scene		rt_parse_scene(const char *json_scene_file);
-void		parse_json_file(json_t *root, t_tmp *tmp);
+t_scene		rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags);
+void		parse_json_file(json_t *root, t_tmp *tmp, uint32_t *renderer_flags);
 void		count_elements(t_scene *scene, t_tmp *tmp);
-void		parse_object(t_tmp *tmp, const char *key, json_t *value);
-void		parse_array(t_tmp *tmp, const char *key, json_t *value);
+void		parse_object(t_tmp *tmp, const char *key, json_t *value, uint32_t *renderer_flags);
+void		parse_array(t_tmp *tmp, const char *key, json_t *value, uint32_t *renderer_flags);
 void		parse_variable(t_tmp *tmp, const char *key, json_t *value);
-void 		parse_string(t_tmp *tmp, const char *key, json_t *value);
+void 		parse_string(t_tmp *tmp, const char *key, json_t *value, const uint32_t *renderer_flags);
 int 		parse_texture(const char *name);
 void		init_tmp(t_tmp *tmp);
 void		copy_tmp(t_tmp *tmp, t_tmp tmp_source);

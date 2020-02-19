@@ -72,7 +72,6 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 	}
 	while (texture_iter)
 	{
-		printf("\n textures here \n");
 		g_textures.texture_info_size++;
 		texture_iter = texture_iter->next;
 	}

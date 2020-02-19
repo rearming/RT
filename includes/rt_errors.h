@@ -47,4 +47,5 @@
 # define ERR_PARSING_WRONG_TYPE "rt_parse error: check the type, it's not object/light/camera"
 # define ERR_PARSING_WRONG_FORMAT "rt_parse error: wrong type of parameter"
 # define ERR_PARSING_DUPLICATED_PARAM "rt_parse error: duplicated parameters"
+# define ERR_PARSING_WRONG_CL_PARAM "rt_parse error: wrong cl parameters"
 #endif

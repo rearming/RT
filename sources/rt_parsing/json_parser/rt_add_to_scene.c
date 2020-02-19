@@ -1,6 +1,6 @@
 #include "rt.h"
 
-static int	add_to_objects(t_tmp *tmp, t_object *object)
+static void	add_to_objects(t_tmp *tmp, t_object *object)
 {
 	object->type = tmp->type;
 	object->normal = tmp->normal;
@@ -33,7 +33,7 @@ static void	add_camera(t_camera *camera, t_tmp *tmp)
 	camera->viewport_height = WIN_RATIO > 1 ? D_E_KARMATSKIY : 1 ;
 }
 
-static int	add_light(t_tmp *tmp, t_light *light)
+static void	add_light(t_tmp *tmp, t_light *light)
 {
 	light->type = tmp->type;
 	light->intensity = tmp->intensity;
