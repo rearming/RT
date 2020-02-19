@@ -43,7 +43,7 @@ void		init_tmp(t_tmp *tmp)
 	tmp->center = (cl_float3){{0, 0, 0}};
 	tmp->vmin = (cl_float3){{0, 0, 0}};
 	tmp->vmax = (cl_float3){{0, 0, 0}};
-	tmp->distance = 1;
+	tmp->distance = NOT_SET;
 	tmp->radius = NOT_SET;
 	tmp->angle = NOT_SET;
 	tmp->len = NOT_SET;
@@ -72,6 +72,7 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 	}
 	while (texture_iter)
 	{
+		printf("\n textures here \n");
 		g_textures.texture_info_size++;
 		texture_iter = texture_iter->next;
 	}

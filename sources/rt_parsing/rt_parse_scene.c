@@ -13,6 +13,7 @@
  *	7. проверить считывание цвета (если флоты/инты)
  *	8. считывать opencl параметы
  *	9. добавить чекер
+ *	10. сцена где нет текстуры вылидает opencl texture error
 */
 
 char		*read_file(const char *argv, int buff_size)
@@ -69,7 +70,7 @@ void	parse_json_file(json_t *root, t_tmp *tmp)
 t_scene	rt_parse_scene(const char *json_scene_file)
 {
 	t_scene			scene;
-/*	char			*text;
+	char			*text;
 	t_tmp			*tmp;
 	json_t			*root;
 	json_error_t	error;
@@ -86,8 +87,8 @@ t_scene	rt_parse_scene(const char *json_scene_file)
 	print_textures();
 	json_decref(root);
 	free(text);
-	print_scene(&scene);*/
-	scene = get_hardcoded_scene();
-	rt_correct_scene(&scene);
+	print_scene(&scene);
+/*	scene = get_hardcoded_scene();
+	rt_correct_scene(&scene);*/
 	return (scene);
 }

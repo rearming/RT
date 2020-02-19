@@ -98,7 +98,8 @@ void		print_scene(t_scene *scene)
 		printf("diffuse = [%.3f][%.3f][%.3f], ", scene->objects[i].material.diffuse.x,scene->objects[i].material.diffuse.y, scene->objects[i].material.diffuse.z);
 		printf("specular = [%.3f][%.3f][%.3f], ", scene->objects[i].material.specular.x,scene->objects[i].material.specular.y, scene->objects[i].material.specular.z);
 		printf("phong exp %.3f, smoothness %.3f, ", scene->objects[i].material.phong_exp,scene->objects[i].material.smoothness);
-		printf("specular = [%.3f][%.3f][%.3f], ", scene->objects[i].center.x,scene->objects[i].center.y, scene->objects[i].center.z);
+		printf("texture = %i, ", scene->objects[i].material.texture_number);
+		printf("center = [%.3f][%.3f][%.3f], ", scene->objects[i].center.x,scene->objects[i].center.y, scene->objects[i].center.z);
 		printf("radius = %.3f\n", scene->objects[i].radius);
 		i++;
 	}

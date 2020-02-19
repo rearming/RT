@@ -1,18 +1,19 @@
 {
   "open cl parameters":"RENDER_DEFAULT RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_TEXTURES | RENDER_MESH | RENDER_BACKFACE_CULLING",
-  "skybox": "skybox_milkyway.png",
+  "skybox": "skybox_street.jpg",
   "object":
     {
       "type": "sphere",
       "material": {
-        "diffuse": "0xFFFFFF",
+        "diffuse": [0.0, 0.0, 0.0],
         "specular": [0.0, 0.0, 0.0],
         "phong exp": 40,
         "smoothness": 0.0,
-        "texture": "sphere_moon.jpg"
+        "emission color": "0xFFFFFF",
+        "emission power": 20
       },
-      "center": [0.0, 5.5, 0.0],
-      "radius": 1.5
+      "center": [20.0, 23.0, 0.0],
+      "radius": 6.0
     },
   "camera": {
     "pos": [0.0, 2.0, 10.0],

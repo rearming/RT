@@ -55,9 +55,9 @@
     {
       "type": "sphere",
       "material": {
-        "diffuse": "0xFFFFFF",
+        "diffuse": "0x000000",
         "emission color": "0xFFFFFF",
-        "emission power": 1
+        "emission power": 1.0
       },
       "center": [0, 2.5, 0],
       "radius": 1.5
@@ -80,7 +80,7 @@
       "smoothness": 1000
       },
       "center": [-1, -0.5, -2.5],
-      "radius": 1
+      "radius": 1.0
     }
   ],
   "camera": {

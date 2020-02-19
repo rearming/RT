@@ -192,7 +192,7 @@ static	t_object	*obj_scene(int *out_obj_nbr)
 
 	objects[0] = (t_object){.type = SPHERE, // light
 			(t_material){.diffuse = get_float3_color(0), .specular = {{0.f, 0.f, 0.f}}, .smoothness = 0,
-					.emission_color = get_float3_color(COL_WHITE), .emission_power = 20},
+					.emission_color = get_float3_color(COL_WHITE), .emission_power = 20, .texture_number = NOT_SET},
 			.center = {{20, 23, 0}},
 			.radius = 6.f};
 	return (objects);
@@ -279,11 +279,11 @@ static	t_object	*texture_scene(int *out_obj_nbr)
 
 static t_object		*rt_get_objects(int *out_obj_nbr)
 {
-//	return (cornell_box(out_obj_nbr));
+	return (cornell_box(out_obj_nbr));
 //	return (kolyan_scene(out_obj_nbr));
 //	return (many_spheres_test(out_obj_nbr));
 //	return (pathtrace_scene(out_obj_nbr));
-	return (obj_scene(out_obj_nbr));
+//	return (obj_scene(out_obj_nbr));
 //	return (texture_scene(out_obj_nbr));
 	RT_UNUSED(cornell_box(out_obj_nbr));
 	RT_UNUSED(kolyan_scene(out_obj_nbr));
@@ -316,7 +316,6 @@ static void 	add_textures(void)
 
 	i = 0;
 	char *textures[] = {
-			"sphere_eye.jpg",
 			"skybox_street.jpg"};
 
 	g_textures.texture_info_size = sizeof(textures) / sizeof(char*);
@@ -359,7 +358,7 @@ t_scene		get_hardcoded_scene(void)
 	};
 	scene.objects = rt_get_objects(&scene.obj_nbr);
 	scene.lights = rt_get_lights(&scene.lights_nbr);
-	//add_textures();
+	add_textures();
 	//print_textures();
 	return (scene);
 }
