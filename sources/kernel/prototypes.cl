@@ -1,15 +1,4 @@
 
-bool		get_hit_material(
-		t_material *out_material,
-		__global const t_object *objects,
-		__global const t_mesh_info *meshes_info,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
-		__global const float3 *v_textures,
-		int closest_obj_index,
-		int closest_polygon_index);
-
 float3		mix_avg_colors(float3 col_prev, float3 col_new, int samples);
 
 float3		mix_colors(float3 col1, float3 col2, float t);
@@ -52,6 +41,39 @@ float3		vec_axis_rotate(float3 vec, float3 axis, float angle);
 
 float3		float3_float_mult(float3 vec, float num);
 
+float3		shade(
+		t_ray *ray,
+		t_rayhit *hit,
+		t_material *material,
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+		__global const t_object *object);
+
+float3		raytrace(
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_light *lights,
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		__global const float3 *v_textures,
+		__global const t_renderer_params *params,
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+		t_ray ray);
+
+bool		get_hit_material(
+		t_material *out_material,
+		__global const t_object *objects,
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		__global const float3 *v_textures,
+		int closest_obj_index,
+		int closest_polygon_index);
+
 float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point);
 
 float3		reflect(float3 ray_dir, float3 normal);
@@ -75,89 +97,6 @@ void			correct_img_point(float3 *img_point);
 t_ray			get_ray(float3 img_point, __global const t_camera *camera);
 
 float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
-
-float3		shade(
-		t_ray *ray,
-		t_rayhit *hit,
-		t_material *material,
-		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
-		__global const t_object *object);
-
-float3		raytrace(
-		__global const t_scene *scene,
-		__global const t_object *objects,
-		__global const t_light *lights,
-		__global const t_mesh_info *meshes_info,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
-		__global const float3 *v_textures,
-		__global const t_renderer_params *params,
-		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
-		t_ray ray);
-
-void		calc_refraction_pathtrace(
-		t_ray *ray,
-		t_rayhit *hit,
-		t_material *material,
-		float3 color,
-		float *seed,
-		float2 pixel,
-		float chance);
-
-void		calc_reflection_pathtrace(
-		t_ray *ray,
-		t_rayhit *hit,
-		t_material *material,
-		float3 color,
-		float *seed,
-		float2 pixel,
-		float chance);
-
-float3		shade_pathtrace(
-		t_ray *ray,
-		t_rayhit *hit,
-		t_material material,
-		float *seed,
-		float2 pixel);
-
-float3		pathtrace(
-		__global const t_scene *scene,
-		__global const t_object *objects,
-		__global const t_mesh_info *meshes_info,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
-		__global const float3 *v_textures,
-		__global const t_renderer_params *params,
-		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
-		t_ray ray,
-		int depth,
-		float *seed,
-		float2 pixel);
-
-float3		texture_shade_pathtrace(
-		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
-		__global const t_object *object,
-		t_ray *ray,
-		t_rayhit *hit,
-		t_material material,
-		float *seed,
-		float2 pixel);
-
-void		create_coordinate_system(float3 normal, float3 *normal_x, float3 *normal_z);
-
-float3		sample_hemisphere(float *seed, float2 pixel, float phong_alpha);
-
-float3		rand_dir_on_hemisphere(
-		float3 normal,
-		float *seed,
-		float2 pixel,
-		float phong_alpha);
 
 bool				in_shadow(
 		__global const t_scene *scene,
@@ -184,11 +123,6 @@ float				compute_light(
 	t_ray *ray,
 	t_material *hit_material);
 
-t_material	get_polygon_material(
-		__global const t_mesh_info *meshes_info,
-		__global const t_polygon *polygons,
-		int polygon_index);
-
 int		ray_mesh_intersect(
 		__global const t_meshes *mesh_info,
 		__global const t_polygon *polygons,
@@ -197,24 +131,10 @@ int		ray_mesh_intersect(
 		t_ray *ray,
 		t_rayhit *out_best_hit);
 
-float3		skybox_color(
-		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
-		float3 normal);
-
-float 		scale(t_ray ray, float skybox_radius);
-
-float3		skybox_normal(t_ray ray);
-
-int		check_borders(int a, int max, int type);
-
-void 	change_format(int i_color, float3 *f_color);
-
-float3 texture(t_ray *out_ray,
-			   t_rayhit *hit,
-			   __global const t_texture_info *texture_info,
-			   __global const float *texture_list,
-			   __global const t_object *object);
+t_material	get_polygon_material(
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		int polygon_index);
 
 void				closest_intersection(
 		__global const t_scene *scene,
@@ -226,6 +146,8 @@ void				closest_intersection(
 		t_rayhit *out_best_hit,
 		int *out_closest_polygon_index,
 		int *out_closest_obj_index);
+
+bool		ray_aabb_intersection(t_ray *ray, __global const t_object *object, t_rayhit *best_hit);
 
 bool				ray_triangle_intersect_MT(
 		t_ray *ray,
@@ -260,5 +182,83 @@ bool				ray_cylinder_intersect(
 		__global const t_object *cylinder,
 		t_rayhit *best_hit);
 
-bool		ray_aabb_intersection(t_ray *ray, __global const t_object *object, t_rayhit *best_hit);
+float3		pathtrace(
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		__global const float3 *v_textures,
+		__global const t_renderer_params *params,
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+		t_ray ray,
+		int depth,
+		float *seed,
+		float2 pixel);
+
+void		create_coordinate_system(float3 normal, float3 *normal_x, float3 *normal_z);
+
+float3		sample_hemisphere(float *seed, float2 pixel, float phong_alpha);
+
+float3		rand_dir_on_hemisphere(
+		float3 normal,
+		float *seed,
+		float2 pixel,
+		float phong_alpha);
+
+void		calc_refraction_pathtrace(
+		t_ray *ray,
+		t_rayhit *hit,
+		t_material *material,
+		float3 color,
+		float *seed,
+		float2 pixel,
+		float chance);
+
+void		calc_reflection_pathtrace(
+		t_ray *ray,
+		t_rayhit *hit,
+		t_material *material,
+		float3 color,
+		float *seed,
+		float2 pixel,
+		float chance);
+
+float3		shade_pathtrace(
+		t_ray *ray,
+		t_rayhit *hit,
+		t_material material,
+		float *seed,
+		float2 pixel);
+
+float3		texture_shade_pathtrace(
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+		__global const t_object *object,
+		t_ray *ray,
+		t_rayhit *hit,
+		t_material material,
+		float *seed,
+		float2 pixel);
+
+float3		skybox_color(
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+		float3 normal);
+
+float 		scale(t_ray ray, float skybox_radius);
+
+float3		skybox_normal(t_ray ray);
+
+void 	change_format(int i_color, float3 *f_color);
+
+float3 texture(t_ray *out_ray,
+			   t_rayhit *hit,
+			   __global const t_texture_info *texture_info,
+			   __global const float *texture_list,
+			   __global const t_object *object);
+
+int		check_borders(int a, int max, int type);
 
