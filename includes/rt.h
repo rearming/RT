@@ -68,6 +68,7 @@ t_scene		get_hardcoded_scene(); //todo remove after dev
 void		rt_correct_scene(t_scene *scene);
 void		print_tmp(t_tmp *tmp);
 void		print_textures(void);
+void		print_scene(t_scene *scene);
 int			ft_add_texture_name_back(t_texture_name **list, const char *data);
 int 		hex_to_int(const char *temp);
 

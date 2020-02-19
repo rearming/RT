@@ -63,12 +63,13 @@ void		add_elements(t_scene *scene, t_tmp *tmp)
 	tmp_iterator = tmp;
 	scene->objects = rt_safe_malloc(sizeof(t_object) * scene->obj_nbr);
 	scene->lights = rt_safe_malloc(sizeof(t_light) * scene->lights_nbr);
+	scene->camera = (t_camera){};
 	while (tmp_iterator)
 	{
 		if (tmp_iterator->structure_type == OBJECT)
 			add_to_objects(tmp_iterator, &scene->objects[i_object++]);
 		else if (tmp_iterator->structure_type == CAMERA)
-			add_camera(&scene->camera, tmp);
+			add_camera(&scene->camera, tmp_iterator);
 		else if (tmp_iterator->structure_type == LIGHT)
 			add_light(tmp_iterator, &scene->lights[i_light++]);
 		else

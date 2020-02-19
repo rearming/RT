@@ -14,6 +14,7 @@
  *	8. считывать opencl параметы
  *	9. добавить чекер
 */
+
 char		*read_file(const char *argv, int buff_size)
 {
 	int		ret;
@@ -68,7 +69,7 @@ void	parse_json_file(json_t *root, t_tmp *tmp)
 t_scene	rt_parse_scene(const char *json_scene_file)
 {
 	t_scene			scene;
-	char			*text;
+/*	char			*text;
 	t_tmp			*tmp;
 	json_t			*root;
 	json_error_t	error;
@@ -80,12 +81,13 @@ t_scene	rt_parse_scene(const char *json_scene_file)
 	root = json_loads(text, 0, &error);
 	parse_json_file(root, tmp);
 	count_elements(&scene, tmp);
-	//print_tmp(tmp);
+	print_tmp(tmp);
 	add_elements(&scene, tmp);
-	//print_textures();
+	print_textures();
 	json_decref(root);
 	free(text);
-	//scene = get_hardcoded_scene();
-	//rt_correct_scene(&scene);
+	print_scene(&scene);*/
+	scene = get_hardcoded_scene();
+	rt_correct_scene(&scene);
 	return (scene);
 }

@@ -76,3 +76,30 @@ void			print_textures(void)
 		tmp = tmp->next;
 	}
 }
+
+void		print_scene(t_scene *scene)
+{
+	int i;
+
+	i = 0;
+	printf("camera pos: [%.3f][%.3f][%.3f]\n", scene->camera.pos.x, scene->camera.pos.y, scene->camera.pos.z);
+	printf("camera rotation: [%.3f][%.3f][%.3f]\n", scene->camera.rotation.x, scene->camera.rotation.y, scene->camera.rotation.z);
+	while (i < scene->lights_nbr)
+	{
+		printf("light %i: type - %i, intensity = [%.3f], ", i, scene->lights[i].type, scene->lights[i].intensity);
+		printf("color = [%.3f][%.3f][%.3f], ", scene->lights[i].color.x,scene->lights[i].color.y, scene->lights[i].color.z);
+		printf("pos = [%.3f][%.3f][%.3f]\n", scene->lights[i].pos.x,scene->lights[i].pos.y, scene->lights[i].pos.z);
+		i++;
+	}
+	i = 0;
+	while (i < scene->obj_nbr)
+	{
+		printf("object %i: type - %i, ", i, scene->objects[i].type);
+		printf("diffuse = [%.3f][%.3f][%.3f], ", scene->objects[i].material.diffuse.x,scene->objects[i].material.diffuse.y, scene->objects[i].material.diffuse.z);
+		printf("specular = [%.3f][%.3f][%.3f], ", scene->objects[i].material.specular.x,scene->objects[i].material.specular.y, scene->objects[i].material.specular.z);
+		printf("phong exp %.3f, smoothness %.3f, ", scene->objects[i].material.phong_exp,scene->objects[i].material.smoothness);
+		printf("specular = [%.3f][%.3f][%.3f], ", scene->objects[i].center.x,scene->objects[i].center.y, scene->objects[i].center.z);
+		printf("radius = %.3f\n", scene->objects[i].radius);
+		i++;
+	}
+}
