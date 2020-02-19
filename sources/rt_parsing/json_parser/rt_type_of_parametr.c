@@ -65,6 +65,12 @@ int			ft_type_of_array(int *type_of_element,
 			*type_of_element = PLANE;
 		else if (ft_strequ(param, "AABB"))
 			*type_of_element = AABB;
+		else if (ft_strequ(param, "triangle"))
+			*type_of_element = TRIANGLE;
+		else if (ft_strequ(param, "paraboloid"))
+			*type_of_element = PARABOLOID;
+		else if (ft_strequ(param, "ellipsoid"))
+			*type_of_element = ELLIPSOID;
 	}
 	return (*type_of_element != -1) ? 2 : (ft_check(param, type_of_element));
 }

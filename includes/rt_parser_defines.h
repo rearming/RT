@@ -6,10 +6,13 @@
 #define OBJECT 30
 
 #define SPHERE 1
-#define CONE 2
+#define CONE 4
 #define CYLINDER 3
-#define PLANE 4
-#define AABB 5
+#define PLANE 2
+#define AABB 6
+#define TRIANGLE 5
+#define PARABOLOID 7
+#define ELLIPSOID 8
 
 #define AMBIENT 1 		// intensity, color
 #define POINT 2			// intensity, color, pos

@@ -79,17 +79,17 @@ static void		parse_material(t_tmp *tmp, const char *key,
 	else if (ft_strequ(key, "specular"))
 	{
 		check_duplicated(tmp->checker, SPECULAR);
-		tmp->specular = get_float3_color(hex_to_int(tmp_value));
+		tmp->specular = get_float3_color((int)strtol(tmp_value, NULL, 16));
 	}
 	else if (ft_strequ(key, "color"))
 	{
 		check_duplicated(tmp->checker, COLOR);
-		tmp->color = get_float3_color(hex_to_int(tmp_value));
+		tmp->color = get_float3_color((int)strtol(tmp_value, NULL, 16));
 	}
 	else if (ft_strequ(key, "emission color"))
 	{
 		check_duplicated(tmp->checker, EMISSION_COLOR);
-		tmp->emission_color = get_float3_color(hex_to_int(tmp_value));
+		tmp->emission_color = get_float3_color((int)strtol(tmp_value, NULL, 16));
 	}
 	else if (ft_strequ(key, "texture"))
 	{
@@ -121,6 +121,12 @@ static void		parse_type(t_tmp *tmp, const char *value)
 			tmp->type = PLANE;
 		else if (ft_strequ(value, "AABB"))
 			tmp->type = AABB;
+		else if (ft_strequ(value, "triangle"))
+			tmp->type = TRIANGLE;
+		else if (ft_strequ(value, "paraboloid"))
+			tmp->type = PARABOLOID;
+		else if (ft_strequ(value, "ellipsoid"))
+			tmp->type = ELLIPSOID;
 		else
 			rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
 	}

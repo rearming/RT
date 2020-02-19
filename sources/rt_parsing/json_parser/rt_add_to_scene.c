@@ -1,10 +1,13 @@
 #include "rt.h"
+#include "rt_math_utils.h"
 
 static void	add_to_objects(t_tmp *tmp, t_object *object)
 {
 	object->type = tmp->type;
-	object->normal = tmp->normal;
+	object->normal = vec_normalize(tmp->normal);
 	object->center = tmp->center;
+	object->distance = tmp->distance;
+	object->axis = vec_normalize(tmp->axis);
 	object->vmax = tmp->vmax;
 	object->vmin = tmp->vmin;
 	object->radius = tmp->radius;

@@ -1,22 +1,20 @@
 {
-  "open cl parameters":"RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_TEXTURES | RENDER_MESH | RENDER_BACKFACE_CULLING",
-  "skybox": "skybox_street.jpg",
+  "open cl parameters":"RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_MESH | RENDER_BACKFACE_CULLING",
   "objects": [
     {
       "type": "plane",
       "material": {
         "diffuse": "0xFFFFFF"
       },
-      "center": [0.0, -2.5, 0.0],
-      "normal": [0.0, 1.0, 0.0]
+      "center": [0.0, 0, 5.0],
+      "normal": [0.0,  0.0, 1.0]
     },
     {
       "type": "plane",
       "material": {
-        "diffuse": "0x408000",
-        "phong exp": 50.0
+        "diffuse": "0x408000"
       },
-      "center": [2.5, 0.0, 0.0],
+      "center": [8.5, 0.0, 0.0],
       "normal": [1.0, 0.0, 0.0]
     },
     {
@@ -24,52 +22,46 @@
       "material": {
        "diffuse": "0xb30f0f"
       },
-      "center": [-2.5, 0.0, 0.0],
+      "center": [-8.5, 0.0, 0.0],
       "normal": [1.0, 0.0, 0.0]
     },
     {
       "type": "plane",
       "material": {
-      "diffuse": "0xFFFFFF",
+      "diffuse": "0xFF",
       "phong exp": 40.0
       },
-      "center": [0.0, -25.0, 0.0],
-      "normal": [0.0, 0.6, 0.0]
+      "center": [0.0, -8.0, 0.0],
+      "normal": [0.0, 1, 0.0]
     },
     {
       "type": "plane",
       "material": {
-      "diffuse": "0xFFFFFF"
+      "diffuse": "0x00FF"
       },
-      "center": [0, 2.5, 0],
+      "center": [0, 8.5, 0],
       "normal": [0, 1, 0]
     },
     {
       "type": "plane",
       "material": {
-      "diffuse": "0xFFFFFF"
+      "diffuse": "FFFFFF"
       },
       "center": [0, 0, -15],
       "normal": [0, 0, 1]
     },
     {
-      "type": "sphere",
+      "type": "ellipsoid",
       "material": {
-        "diffuse": "0x000000",
-        "emission color": "0xFFFFFF",
-        "emission power": 1.0
+        "specular": "0xffffff",
+        "smoothness": 10000
       },
-      "center": [0, 2.5, 0],
-      "radius": 1.5
+      "center": [-2, -1, -2],
+      "axis": [1, 1, 1],
+      "radius": 1.1,
+      "distance": 1.1
     },
-    {
-      "type": "AABB",
-      "material": {
-      "diffuse": "0x408000"
-      },
-      "vmin": [0, 0, -2],
-      "vmax": [1, 1, 1]
-    },
+
     {
       "type": "sphere",
       "material": {
@@ -81,11 +73,30 @@
       },
       "center": [-1, -0.5, -2.5],
       "radius": 1.0
+    },
+    {
+      "type": "paraboloid",
+      "material": {
+        "specular": "0xffffff",
+        "smoothness": 10000
+      },
+      "center": [3.5, 0.5, -1],
+      "axis": [2, -3, 4],
+      "distance": 0.01
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "color": "0xFFFFFF",
+        "emission power": 200
+      },
+      "center": [-1.5, 2, -13],
+      "radius": 0.5
     }
   ],
   "camera": {
-    "pos": [0, 2, 10],
-    "rotation": [0, 180, 0]
+    "pos": [-1.5, 2, -14],
+    "rotation": [0, 0, 0]
   },
   "light":
   [

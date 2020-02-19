@@ -19,5 +19,7 @@ cl_float	vec_length(cl_float3 vec)
 cl_float3	vec_normalize(cl_float3 vec)
 {
 	const cl_float	length = vec_length(vec);
-	return ((cl_float3){.x = vec.x / length, .y = vec.y / length, .z = vec.z / length});
+	return (length == 0 || length == 1 ? vec : (cl_float3){.x = vec.x / length,
+														.y = vec.y / length,
+														.z = vec.z / length});
 }
