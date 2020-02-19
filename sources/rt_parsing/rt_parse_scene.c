@@ -1,13 +1,12 @@
 #include "rt.h"
 
 /*
- * to do:
-*	0. object checker
- *	2. сцена где нет текстуры и он пытается загрузить текстуру выдает ошибку opencl texture error
- *	3. текстуры перекрывают светящиеся параметры
- *	4. 2 лика при добавлении имени текстуры (хз почему лики в функция ft_new_texture_name)
- *	5. перевод цветов во float https://corecoding.com/utilities/rgb-or-hex-to-float.php
- *	ft_atoll_base отрабатывает не правильно
+ * todo :
+ *  0. нет object checker сейчас все параметры не обязательны, как определимся какие обязательны, так и легко добавить
+ *  1. сцена где нет текстуры и он пытается загрузить текстуру выдает ошибку opencl texture error
+ *  2. текстуры перекрывают светящиеся параметры
+ *  3. имена текстур чистятся в load после появления gui передавать их в gui и чистить там
+ *  4. перевод цветов во float https://corecoding.com/utilities/rgb-or-hex-to-float.php использован strtol (<stdlib.h>)
 */
 
 char	*read_file(const char *argv, int buff_size)

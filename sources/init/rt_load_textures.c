@@ -124,6 +124,8 @@ void			rt_textures_init(void)
 		free(tmp_texture);
 		if (g_textures.texture_list == NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
+//		free(g_textures.textures_names->name);
+//		free(g_textures.textures_names);
 		g_textures.textures_names = g_textures.textures_names->next;
 	}
 }

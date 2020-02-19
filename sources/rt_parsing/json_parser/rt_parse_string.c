@@ -71,7 +71,10 @@ static void		parse_material(t_tmp *tmp, const char *key,
 	if (ft_strequ(key, "diffuse"))
 	{
 		check_duplicated(tmp->checker, DIFFUSE);
-        tmp->diffuse = get_float3_color(hex_to_int(tmp_value));
+//        tmp->diffuse = get_float3_color(hex_to_int(tmp_value));
+//        printf("diffuse = [%.3f][%.3f][%.3f], \n", tmp->diffuse.x, tmp->diffuse.y, tmp->diffuse.z);
+        tmp->diffuse = get_float3_color((int)strtol(tmp_value, NULL, 16));
+//        printf("diffuse = [%.3f][%.3f][%.3f], \n", tmp->diffuse.x, tmp->diffuse.y, tmp->diffuse.z);
 	}
 	else if (ft_strequ(key, "specular"))
 	{
