@@ -55,7 +55,7 @@ void		count_elements(t_scene *scene, t_tmp *tmp);
 void		parse_object(t_tmp *tmp, const char *key, json_t *value, uint32_t *renderer_flags);
 void		parse_array(t_tmp *tmp, const char *key, json_t *value, uint32_t *renderer_flags);
 void		parse_variable(t_tmp *tmp, const char *key, json_t *value);
-void 		parse_string(t_tmp *tmp, const char *key, json_t *value, const uint32_t *renderer_flags);
+void 		parse_string(t_tmp *tmp, const char *key, json_t *value, uint32_t *renderer_flags);
 int 		parse_texture(const char *name);
 void		init_tmp(t_tmp *tmp);
 void		copy_tmp(t_tmp *tmp, t_tmp tmp_source);

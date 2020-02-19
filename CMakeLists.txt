@@ -60,7 +60,7 @@ set(parsing_sources
         sources/rt_parsing/json_parser/rt_add_to_scene.c
         sources/rt_parsing/json_parser/rt_parse_array.c
         sources/rt_parsing/rt_correct_scene.c
-        sources/rt_parsing/print_scene_params_tmp.c
+        sources/rt_parsing/print_scene_params_delete_if_everything_works.c
         sources/rt_parsing/json_parser/hex_to_int.c
         )
 
@@ -108,7 +108,10 @@ set(render_sources
 
 set(kd_tree_sources
         sources/kd_tree/rt_kd_get_aabb.c
-        sources/kd_tree/rt_kd_tree_build.c sources/test/kd_3d_test/rt_kd_tree_traversal.c sources/kd_tree/rt_kd_tree_to_array.c sources/kd_tree/rt_kd_tree_utils.c)
+        sources/kd_tree/rt_kd_tree_build.c
+        sources/test/kd_3d_test/rt_kd_tree_traversal.c
+        sources/kd_tree/rt_kd_tree_to_array.c
+        sources/kd_tree/rt_kd_tree_utils.c)
 
 set(sources
         ${debug_sources}
@@ -154,7 +157,7 @@ include_directories(
         libft/includes
         includes
         ${graphic_libs_include_dirs}
-        )
+)
 
 link_directories(
         libft
@@ -166,7 +169,7 @@ link_directories(
 add_executable(RT
         sources/main.c
         ${sources}
-)
+        )
 
 target_link_libraries(RT
         "ftprintf"

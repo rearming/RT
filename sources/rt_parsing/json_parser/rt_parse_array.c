@@ -12,6 +12,29 @@
 
 #include "rt.h"
 
+static void add_array_color(cl_float3 *elem, json_t *value)
+{
+	json_t	*tmp;
+	int		i;
+
+	i = -1;
+	if (json_array_size(value) == 3)
+	{
+		while (++i < 3)
+		{
+			tmp = json_array_get(value, i);
+			if (!json_is_number(tmp))
+				rt_raise_error(ERR_PARSING_WRONG_FORMAT);
+			else if (json_is_integer(tmp))
+				elem->s[i] = (float)(json_integer_value(tmp) / 255.0);
+			else
+				elem->s[i] = json_real_value(tmp);
+		}
+	}
+	else
+		rt_raise_error(ERR_PARSING_WRONG_PARAM);
+}
+
 static void	add_array(cl_float3 *elem, json_t *value)
 {
 	json_t	*tmp;
@@ -30,6 +53,8 @@ static void	add_array(cl_float3 *elem, json_t *value)
 					: json_real_value(tmp);
 		}
 	}
+	else
+		rt_raise_error(ERR_PARSING_WRONG_PARAM);
 }
 
 static void	add_elements_in_array_material(t_tmp *tmp,
@@ -38,11 +63,11 @@ static void	add_elements_in_array_material(t_tmp *tmp,
 	if (type_of_element == AMBIENCE)
 		add_array(&tmp->ambience, value);
 	else if (type_of_element == DIFFUSE)
-		add_array(&tmp->diffuse, value);
+		add_array_color(&tmp->diffuse, value);
 	else if (type_of_element == SPECULAR)
-		add_array(&tmp->specular, value);
+		add_array_color(&tmp->specular, value);
 	else if (type_of_element == EMISSION_COLOR)
-		add_array(&tmp->emission_color, value);
+		add_array_color(&tmp->emission_color, value);
 	else if (type_of_element == TEXTURE_POS)
 		add_array(&tmp->texture_position, value);
 }
@@ -57,7 +82,7 @@ static void	add_elements_in_array(t_tmp *tmp, int type_of_element,
 	else if (type_of_element == DIRECTION)
 		add_array(&tmp->dir, value);
 	else if (type_of_element == COLOR)
-		add_array(&tmp->color, value);
+		add_array_color(&tmp->color, value);
 	else if (type_of_element == NORMAL)
 		add_array(&tmp->normal, value);
 	else if (type_of_element == AXIS)
@@ -72,7 +97,8 @@ static void	add_elements_in_array(t_tmp *tmp, int type_of_element,
 		add_elements_in_array_material(tmp, type_of_element, value);
 }
 
-static void	parse_array2(t_tmp *tmp, int type_of_element, json_t *value, uint32_t *renderer_flags)
+static void	parse_array2(t_tmp *tmp, int type_of_element, json_t *value,
+		uint32_t *renderer_flags)
 {
 	int i;
 	int type_of_structure;
@@ -97,7 +123,8 @@ static void	parse_array2(t_tmp *tmp, int type_of_element, json_t *value, uint32_
 	}
 }
 
-void		parse_array(t_tmp *tmp, const char *key, json_t *value, uint32_t *renderer_flags)
+void		parse_array(t_tmp *tmp, const char *key, json_t *value,
+		uint32_t *renderer_flags)
 {
 	int array_type;
 	int type_of_element;

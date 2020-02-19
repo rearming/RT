@@ -1,6 +1,7 @@
 #include "rt.h"
 
-void		parse_object(t_tmp *tmp, const char *key, json_t *value, uint32_t *renderer_flags)
+void		parse_object(t_tmp *tmp, const char *key, json_t *value,
+		uint32_t *renderer_flags)
 {
 	int type_of_structure;
 

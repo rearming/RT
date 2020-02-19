@@ -4,12 +4,10 @@ t_texture_name	*ft_new_texture_name(const char *data)
 {
 	t_texture_name *tmp;
 
-	tmp = (t_texture_name *)rt_safe_malloc(sizeof(t_texture_name));
-	if (tmp)
-	{
-		tmp->name = ft_strdup(data);
-		tmp->next = NULL;
-	}
+	tmp = rt_safe_malloc(sizeof(t_texture_name));
+	tmp->name = ft_strdup((char *)data);
+	tmp->next = NULL;
+	ft_strclr((char *)data);
 	return (tmp);
 }
 
@@ -20,7 +18,7 @@ int				ft_add_texture_name_back(t_texture_name **list,
 	int				num;
 
 	num = 0;
-	if (!(*list))
+	if (!*list)
 		*list = ft_new_texture_name(data);
 	else
 	{
