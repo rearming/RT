@@ -38,12 +38,12 @@ void				closest_intersection(
 						*out_closest_obj_index = i;
 					break;
 				case (PARABOLOID):
-//					if (ray_paraboloid_intersect(ray, &objects[i], out_best_hit))
-//						*out_closest_obj_index = i;
+					if (ray_paraboloid_intersect(ray, &objects[i], out_best_hit))
+						*out_closest_obj_index = i;
 					break;
 				case (ELLIPSOID):
-//					if (ray_ellipsoid_intersect(ray, &objects[i], out_best_hit))
-//						*out_closest_obj_index = i;
+					if (ray_ellipsoid_intersect(ray, &objects[i], out_best_hit))
+						*out_closest_obj_index = i;
 					break;
 				case (AABB):
 					if (ray_aabb_intersection(ray, &objects[i], out_best_hit))

@@ -109,7 +109,7 @@ static	t_object	*pathtrace_scene(int *out_obj_nbr)
 
 static	t_object	*cornell_box(int *out_obj_nbr)
 {
-	const int	objects_nbr = 9;
+	const int	objects_nbr = 12;
 	t_object	*objects;
 
 	*out_obj_nbr = objects_nbr;
@@ -117,46 +117,47 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 
 	objects[0] = (t_object){.type = PLANE, // bottom
 			(t_material){.diffuse = get_float3_color(COL_DARK_BLUE), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0, .texture_number = NOT_SET},
-			.center = {{0, -15.5, 0}},
+			.center = {{0, -5.5, 0}},
 			.normal = {{0, 1, 0}}};
 	objects[1] = (t_object){.type = PLANE, // right
 			(t_material){.diffuse = get_float3_color(COL_DARK_RED), .specular = {{0, 0, 0}}, .phong_exp = 50, .smoothness = 0, .texture_number = NOT_SET},
-			.center = {{15.5, 0, 0}},
+			.center = {{5.5, 0, 0}},
 			.normal = {{1, 0, 0}}};
 	objects[2] = (t_object){.type = PLANE, // left
 			(t_material){.diffuse = get_float3_color(COL_DARK_GREEN), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0, .texture_number = NOT_SET},
-			.center = {{-15.5, 0, 0}},
+			.center = {{-5.5, 0, 0}},
 			.normal = {{1, 0, 0}}};
 	objects[3] = (t_object){.type = PLANE, // far
 			(t_material){.diffuse = get_float3_color(COL_DARK_BLUE), .specular = {{0, 0, 0}}, .phong_exp = 40, .smoothness = 0, .texture_number = NOT_SET},
-			.center = {{0, 0, 15.5}},
+			.center = {{0, 0, 5.5}},
 			.normal = {{0, 0, 1}}};
 	objects[4] = (t_object){.type = PLANE, // celling
 			(t_material){.diffuse = get_float3_color(COL_DARK_RED), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0, .texture_number = NOT_SET},
-			.center = {{0, 15.5, 0}},
+			.center = {{0, 5.5, 0}},
 			.normal = {{0, 1, 0}}};
 	objects[5] = (t_object){.type = PLANE, // back
 			(t_material){.diffuse = get_float3_color(COL_DARK_GREEN), .specular = {{0, 0, 0}}, .phong_exp = 0, .smoothness = 0, .texture_number = NOT_SET},
-			.center = {{0, 0, -25.5}},
+			.center = {{0, 0, -15.5}},
 			.normal = {{0, 0, 1}}};
 
-	objects[6] = (t_object){.type = CONE, // light cone
-			(t_material){.emission_color = get_float3_color(COL_WHITE), .emission_power = 5, .texture_number = NOT_SET},
+	objects[6] = (t_object){.type = SPHERE, // light sphere
+			(t_material){.emission_color = get_float3_color(COL_WHITE), .emission_power = 100, .texture_number = NOT_SET},
+			.center = {{1, -1.5f, -5}},
+			.radius = 0.3f};
+
+
+	objects[7] = (t_object){.type = SPHERE, // specular sphere
+			(t_material){.specular = {{1, 1, 1}}, .phong_exp = 0, .smoothness = 10000},
+			.center = {{1, -1.5f, -1}},
+			.radius = .9f};
+
+	objects[8] = (t_object){.type = CONE, // sphere
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
 			.center = {{-1, 1.5, 0}},
 			.axis = {{0, 1, 0}},
 			.angle = 20.f};
 
-/*	objects[7] = (t_object){.type = SPHERE, // specular sphere
-			(t_material){.specular = {{1, 1, 1}}, .phong_exp = 0, .smoothness = 10000},
-			.center = {{1, -1.5f, 0}},
-			.radius = 1.f};*/
-
-	objects[7] = (t_object){.type = SPHERE, // sphere
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
-			.center = {{1, -1.5f, -1}},
-			.radius = .9f};
-
-	objects[8] = (t_object){.type = CYLINDER, // cylinder
+	objects[9] = (t_object){.type = CYLINDER, // cylinder
 			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
 			.center = {{0, -1.5f, 0}},
 			.axis = {{0, 1, 0}},
@@ -175,16 +176,17 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 //			.vertices[2] = {{0, 2, 2.5}},
 //			.normal = {{0, 0, 1}}};
 
-//	objects[9] = (t_object){.type = PARABOLOID, // parabaloid
-//			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
-//			.center = {{0, -1.f, -5}},.axis= {{(2.f/3), (1.f/3), (2.f/3)}},
-//			.distance = .1f};
-//
-//	objects[10] = (t_object){.type = ELLIPSOID,
-//			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
-//			.center = {{-3.f, -1.f, -2}},.axis= {{-(2.f/3), -(1.f/3), -(2.f/3)}},
-//			.distance = 1.1f,
-//			.radius = 1.2f};
+	objects[10] = (t_object){.type = PARABOLOID, // parabaloid
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
+			.center = {{3.5fi
+			   +, 0.5f, -1.}},.axis= {{(2.f/3), (1.f/3), (2.f/3)}},
+			.distance = .1f};
+
+	objects[11] = (t_object){.type = ELLIPSOID,
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
+			.center = {{-2.f, -1.f, -2}},.axis= {{-(2.f/3), -(1.f/3), -(2.f/3)}},
+			.distance = 1.1f,
+			.radius = 1.2f};
 	return (objects);
 }
 
@@ -366,7 +368,7 @@ t_scene		get_hardcoded_scene(void)
 //		.rotation = {{0, 180, 0}},
 //		.pos = {{20, 6.6, -6.4}}, //pathtracing scene pos/rotation
 //		.rotation = {{-10, -63.3, 0}},
-		.pos = {{-0.37, 1.2, -15}}, // cornell box pos/rotation
+		.pos = {{-0.37, 1.2, -10}}, // cornell box pos/rotation
 		.rotation = {{2.95, 9.32, 0}},/**/
 //		.pos = {{0.2, 1.2, -14.2}}, // cornell box pos/rotation
 //		.rotation = {{0, 0, 0}},

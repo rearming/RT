@@ -44,6 +44,7 @@
 " -I ./sources/kernel/light_computing " \
 " -I ./sources/kernel/mesh_render " \
 " -I ./sources/kernel/object_intersections " \
+" -I ./sources/kernel/object_intersections/more_difficult_object " \
 " -I ./sources/kernel/pathtrace_algo " \
 " -I ./sources/kernel/texture_formulas"
 

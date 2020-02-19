@@ -15,7 +15,7 @@
 #include "ray_aabb_intersection.cl"
 //#include "simple_object_intersections.cl"
 #include "intersection_utils.cl"
-//#include "unlimited_object.cl"
+#include "unlimited_object.cl"
 
 #include "skybox.cl"
 #include "texture.cl"
