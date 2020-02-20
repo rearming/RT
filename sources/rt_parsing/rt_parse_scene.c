@@ -8,6 +8,7 @@
  *  2. текстуры перекрывают светящиеся параметры
  *  3. имена текстур чистятся в load после появления gui передавать их в gui и чистить там
  *  4. перевод цветов во float https://corecoding.com/utilities/rgb-or-hex-to-float.php использован strtol (<stdlib.h>)
+ *  5. заменить принты на действия
 */
 
 char	*read_file(const char *argv, int buff_size)

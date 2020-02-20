@@ -79,9 +79,9 @@ void		add_elements(t_scene *scene, t_tmp *tmp)
 		else if (tmp_iterator->structure_type == LIGHT)
 			add_light(tmp_iterator, &scene->lights[i_light++]);
 		else if (tmp_iterator->structure_type == RENDER_PARAMETERS)
-			printf("render parameters added");//continue;
+			printf("render parameters added\n");//continue;
 		else if (tmp_iterator->structure_type == SCENE_PARAMETERS)
-			printf("where should I add scene parameters?");
+			printf("where should I add scene parameters?\n");
 		else
 			rt_raise_error(ERR_PARSING_WRONG_TYPE);
 		tmp_iterator = tmp_iterator->next;

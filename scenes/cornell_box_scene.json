@@ -5,7 +5,7 @@
   },
   "render parameters":
   {
-    "render algorithm": "pathtrace",
+    "render algorithm": "raytrace",
     "pathtrace": {
       "max light bounces": 8
     },
