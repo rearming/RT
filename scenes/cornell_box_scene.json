@@ -10,7 +10,8 @@
     },
     "render objects": true,
     "render mesh": {
-      "path": "assets/3d_models/cube_isosphere_materials.obj",
+      "enabled": true,
+      "file": "assets/3d_models/cube_isosphere_materials.obj",
       "backface culling": true
     },
     "textures": true
