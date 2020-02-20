@@ -1,4 +1,8 @@
 {
+  "scene parameters": {
+    "exposure": 2,
+    "gamma": 2.2
+  },
   "render parameters":
   {
     "render algorithm": "pathtrace",
@@ -26,12 +30,6 @@
       "texture": "skybox_sea.jpg"
     }
   },
-
-  "scene parameters": {
-    "exposure": 2,
-    "gamma": 2.2
-  },
-
   "objects": [
     {
       "type": "plane",

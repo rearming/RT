@@ -13,7 +13,7 @@
 #include "rt.h"
 #include "rt_parsing.h"
 
-static void add_array_color(cl_float3 *elem, json_t *value)
+static void	add_array_color(cl_float3 *elem, json_t *value)
 {
 	json_t	*tmp;
 	int		i;
@@ -94,6 +94,8 @@ static void	add_elements_in_array(t_tmp *tmp, int type_of_element,
 		add_array(&tmp->vmin, value);
 	else if (type_of_element == VMAX)
 		add_array(&tmp->vmax, value);
+	else if (type_of_element == DIRECTORY)
+		printf("here add directories with textures\n");
 	else
 		add_elements_in_array_material(tmp, type_of_element, value);
 }

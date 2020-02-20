@@ -11,6 +11,7 @@ void		parse_array(t_tmp *tmp, const char *key, json_t *value, uint32_t *renderer
 void		parse_variable(t_tmp *tmp, const char *key, json_t *value);
 void 		parse_string(t_tmp *tmp, const char *key, json_t *value, uint32_t *renderer_flags);
 int 		parse_texture(const char *name);
+void 		parse_bool(t_tmp *tmp, const char *key, json_t *value, uint32_t *renderer_flags);
 void		init_tmp(t_tmp *tmp);
 void		copy_tmp(t_tmp *tmp, t_tmp tmp_source);
 int			ft_type_of_structure(const char *param, int structure_type);

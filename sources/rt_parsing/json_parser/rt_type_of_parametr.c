@@ -12,6 +12,8 @@ static int	ft_check_material(const char *param, int *type_of_element)
 		*type_of_element = EMISSION_COLOR;
 	else if (ft_strequ(param, "texture position"))
 		*type_of_element = TEXTURE_POS;
+	else if (ft_strequ(param, "directories"))
+		*type_of_element = DIRECTORY;
 	return (*type_of_element != NOT_SET) ? 1 : NOT_SET;
 }
 
@@ -72,13 +74,12 @@ int			ft_type_of_array(int *type_of_element,
 		else if (ft_strequ(param, "ellipsoid"))
 			*type_of_element = ELLIPSOID;
 	}
-	return (*type_of_element != NOT_SET) ? 2 : (ft_check(param, type_of_element));
+	return (*type_of_element != NOT_SET) ? 2 :
+	(ft_check(param, type_of_element));
 }
 
 int			ft_type_of_structure(const char *param, int structure_type)
 {
-	if (structure_type == NOT_SET)
-	{
 	if (ft_strequ(param, "object"))
 		return (OBJECT);
 	else if (ft_strequ(param, "light"))
@@ -87,7 +88,8 @@ int			ft_type_of_structure(const char *param, int structure_type)
 		return (CAMERA);
 	else if (ft_strequ(param, "render parameters"))
 		return (RENDER_PARAMETERS);
-	}
+	else if (ft_strequ(param, "scene parameters"))
+		return (SCENE_PARAMETERS);
 	else if (structure_type == OBJECT && ft_strequ(param, "material"))
 		return (MATERIAL);
 	else if (structure_type == RENDER_PARAMETERS)

@@ -5,6 +5,7 @@
 # define LIGHT 20
 # define OBJECT 30
 # define RENDER_PARAMETERS 40
+# define SCENE_PARAMETERS 50
 
 # define PATHTRACE 1
 # define RAYTRACE 2
@@ -63,5 +64,11 @@
 # define SPECULAR_TEXTURE 25
 # define TEXTURE 26
 # define TEXTURE_POS 27
+
+//scene parameters
+# define EXPOSURE 28
+# define GAMMA 29
+
+# define DIRECTORY 30
 
 #endif

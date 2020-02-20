@@ -50,14 +50,16 @@ void		init_tmp(t_tmp *tmp)
 	tmp->max_depth_r = 8;
 	tmp->max_depth_p = 8;
 	tmp->skybox_num = NOT_SET;
+	tmp->exposure = NOT_SET;
+	tmp->gamma = NOT_SET;
 	init_tmp_material(tmp);
-	ft_bzero(&tmp->checker, 31);
+	ft_bzero(&tmp->checker, 32);
 }
 
 void		count_elements(t_scene *scene, t_tmp *tmp)
 {
 	t_tmp			*tmp_iterator;
-	int				check_camera;
+	int				check_cam_render_scene = 0;;
 	t_texture_name	*texture_iter;
 
 	texture_iter = g_textures.textures_names;
@@ -65,12 +67,14 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 	scene->lights_nbr = 0;
 	scene->obj_nbr = 0;
 	g_textures.texture_info_size = 0;
-	check_camera = 0;
+	check_cam_render_scene = 0;
 	while (tmp_iterator)
 	{
 		scene->lights_nbr += (tmp_iterator->structure_type == LIGHT) ? 1 : 0;
 		scene->obj_nbr += (tmp_iterator->structure_type == OBJECT) ? 1 : 0;
-		check_camera += (tmp_iterator->structure_type == CAMERA) ? 1 : 0;
+		check_cam_render_scene += (tmp_iterator->structure_type == CAMERA) ? 1 : 0;
+		check_cam_render_scene += (tmp_iterator->structure_type == RENDER_PARAMETERS) ? 10 : 0;
+		check_cam_render_scene += (tmp_iterator->structure_type == SCENE_PARAMETERS) ? 100 : 0;
 		tmp_iterator = tmp_iterator->next;
 	}
 	while (texture_iter)
@@ -78,8 +82,8 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 		g_textures.texture_info_size++;
 		texture_iter = texture_iter->next;
 	}
-	if (check_camera != 1)
-		rt_raise_error(ERR_PARSING_CAMERA);
+	if (check_cam_render_scene != 111)
+		rt_raise_error(ERR_PARSING_WRONG_PARAM);
 }
 
 void		check_duplicated(bool *checker, int number)

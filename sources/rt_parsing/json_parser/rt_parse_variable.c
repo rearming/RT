@@ -25,6 +25,11 @@ static void		parse_variable_material2(t_tmp *tmp, const char *key,
 		check_duplicated(tmp->checker, SPECULAR_TEXTURE);
 		tmp->specular_texture = parse_f(value);
 	}
+	else if (ft_strequ(key, "gamma"))
+	{
+		check_duplicated(tmp->checker, GAMMA);
+		tmp->gamma = parse_f(value);
+	}
 	else
 		rt_raise_error(ERR_PARSING_WRONG_PARAM);
 }
@@ -90,14 +95,18 @@ void			parse_variable(t_tmp *tmp, const char *key, json_t *value)
 		check_duplicated(tmp->checker, INTENSITY);
 		tmp->intensity = parse_f(value);
 	}
-	else if (ft_strequ(key, "max light bounces"))
+	else if (ft_strequ(key, "exposure"))
+	{
+		check_duplicated(tmp->checker, EXPOSURE);
+		tmp->exposure = parse_f(value);
+	}
+	else if (ft_strequ(key, "max light bounces") && (tmp->type == RAYTRACE ||
+	tmp->type == PATHTRACE))
 	{
 		if (tmp->type == RAYTRACE)
-			tmp->max_depth_r = 8;
-		else if (tmp->type == PATHTRACE)
-			tmp->max_depth_p = 8;
+			tmp->max_depth_r = json_integer_value(value);
 		else
-			rt_raise_error(ERR_PARSING_WRING_RENDER_PARAMS);
+			tmp->max_depth_p = json_integer_value(value);
 	}
 	else
 		parse_variable_params(tmp, key, value);

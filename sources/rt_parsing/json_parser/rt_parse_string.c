@@ -14,56 +14,26 @@
 #include "rt_math_utils.h"
 #include "rt_parsing.h"
 
-static uint32_t	search_cl_parameters(const char *tmp_value)
+static void		parse_type2(t_tmp *tmp, const char *value)
 {
-	if (ft_strequ(tmp_value, "RENDER_RAYTRACE"))
-		return (RENDER_RAYTRACE);
-	else if (ft_strequ(tmp_value, "RENDER_PATHTRACE"))
-		return (RENDER_PATHTRACE);
-	if (ft_strequ(tmp_value, "RENDER_RAYMARCH"))
-		return (RENDER_RAYMARCH);
-	else if (ft_strequ(tmp_value, "RENDER_MESH"))
-		return (RENDER_MESH);
-	if (ft_strequ(tmp_value, "RENDER_BACKFACE_CULLING"))
-		return (RENDER_BACKFACE_CULLING);
-	else if (ft_strequ(tmp_value, "RENDER_OBJECTS"))
-		return (RENDER_OBJECTS);
-	if (ft_strequ(tmp_value, "RENDER_MESH_VTEXTURES"))
-		return (RENDER_MESH_VTEXTURES);
-	else if (ft_strequ(tmp_value, "RENDER_TEXTURES"))
-		return (RENDER_TEXTURES);
+	if (ft_strequ(value, "sphere"))
+		tmp->type = SPHERE;
+	else if (ft_strequ(value, "cone"))
+		tmp->type = CONE;
+	else if (ft_strequ(value, "cylinder"))
+		tmp->type = CYLINDER;
+	else if (ft_strequ(value, "plane"))
+		tmp->type = PLANE;
+	else if (ft_strequ(value, "AABB"))
+		tmp->type = AABB;
+	else if (ft_strequ(value, "triangle"))
+		tmp->type = TRIANGLE;
+	else if (ft_strequ(value, "paraboloid"))
+		tmp->type = PARABOLOID;
+	else if (ft_strequ(value, "ellipsoid"))
+		tmp->type = ELLIPSOID;
 	else
-		rt_raise_error(ERR_PARSING_WRONG_CL_PARAM);
-	return (-1);
-}
-
-static void		parse_cl_parameters(const char *tmp_value,
-		uint32_t *renderer_flags)
-{
-	char		**cl_parameters;
-	uint32_t	flags;
-	char		*tmp_trimd;
-	int			i;
-
-	flags = 0;
-	i = 0;
-	cl_parameters = ft_strsplit(tmp_value, '|');
-	while (cl_parameters[i])
-	{
-		tmp_trimd = ft_strtrim(cl_parameters[i]);
-		flags = search_cl_parameters(tmp_trimd) | flags;
-		free(tmp_trimd);
-		i++;
-	}
-	i = 0;
-	while (cl_parameters[i])
-	{
-		ft_strclr(cl_parameters[i]);
-		free(cl_parameters[i]);
-		i++;
-	}
-	free(cl_parameters);
-	*renderer_flags = flags;
+		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
 }
 
 static void		parse_material(t_tmp *tmp, const char *key,
@@ -72,7 +42,7 @@ static void		parse_material(t_tmp *tmp, const char *key,
 	if (ft_strequ(key, "diffuse"))
 	{
 		check_duplicated(tmp->checker, DIFFUSE);
-        tmp->diffuse = get_float3_color((int)strtol(tmp_value, NULL, 16));
+		tmp->diffuse = get_float3_color((int)strtol(tmp_value, NULL, 16));
 	}
 	else if (ft_strequ(key, "specular"))
 	{
@@ -87,7 +57,7 @@ static void		parse_material(t_tmp *tmp, const char *key,
 	else if (ft_strequ(key, "emission color"))
 	{
 		check_duplicated(tmp->checker, EMISSION_COLOR);
-		tmp->emission_color = get_float3_color((int)strtol(tmp_value, NULL, 16));
+		tmp->emission_color = get_float3_color((int)strtol(tmp_value, 0, 16));
 	}
 	else if (ft_strequ(key, "texture"))
 	{
@@ -108,26 +78,7 @@ static void		parse_type(t_tmp *tmp, const char *value)
 			rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
 	}
 	else if (tmp->structure_type == OBJECT)
-	{
-		if (ft_strequ(value, "sphere"))
-			tmp->type = SPHERE;
-		else if (ft_strequ(value, "cone"))
-			tmp->type = CONE;
-		else if (ft_strequ(value, "cylinder"))
-			tmp->type = CYLINDER;
-		else if (ft_strequ(value, "plane"))
-			tmp->type = PLANE;
-		else if (ft_strequ(value, "AABB"))
-			tmp->type = AABB;
-		else if (ft_strequ(value, "triangle"))
-			tmp->type = TRIANGLE;
-		else if (ft_strequ(value, "paraboloid"))
-			tmp->type = PARABOLOID;
-		else if (ft_strequ(value, "ellipsoid"))
-			tmp->type = ELLIPSOID;
-		else
-			rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
-	}
+		parse_type2(tmp, value);
 	else
 		rt_raise_error(ERR_PARSING_WRONG_TYPE);
 }
@@ -140,16 +91,17 @@ void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 	tmp_value = json_string_value(value);
 	if (tmp->structure_type == RENDER_PARAMETERS)
 	{
-		if (ft_strequ(key, "render algorithm"))
-		{
-			if (ft_strequ(tmp_value,"pathtrace"))
-				*renderer_flags = *renderer_flags | RENDER_PATHTRACE;
-			else if (ft_strequ(tmp_value,"raytrace"))
-				*renderer_flags = *renderer_flags | RENDER_RAYTRACE;
-
-		}
-		else if (ft_strequ(key, "skybox"))
-			ft_add_texture_name_back(&g_textures.textures_names, tmp_value);
+		if (ft_strequ(key, "render algorithm") &&
+		(ft_strequ(tmp_value, "pathtrace") || ft_strequ(tmp_value, "raytrace")))
+			*renderer_flags = ft_strequ(tmp_value, "pathtrace") ?
+				*renderer_flags | RENDER_PATHTRACE :
+				*renderer_flags | RENDER_RAYTRACE;
+		else if (ft_strequ(key, "texture") && tmp->type == SKYBOX)
+			tmp->skybox_num = parse_texture(tmp_value);
+		else if (ft_strequ(key, "file"))
+			printf("here add obj file\n");
+		else if (ft_strequ(key, "directory"))
+			printf("here add directories\n");
 		else
 			rt_raise_error(ERR_PARSING_WRONG_TYPE);
 	}

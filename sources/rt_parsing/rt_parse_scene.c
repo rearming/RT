@@ -53,6 +53,8 @@ void	parse_json_file(json_t *root, t_tmp *tmp, uint32_t *renderer_flags)
 			parse_variable(tmp, key, value);
 		else if (json_is_string(value))
 			parse_string(tmp, key, value, renderer_flags);
+		else if (json_is_boolean(value))
+			parse_bool(tmp, key, value, renderer_flags);
 		else
 			rt_raise_error(ERR_PARSING_WRONG_PARAM);
 		while (tmp->next != NULL)
