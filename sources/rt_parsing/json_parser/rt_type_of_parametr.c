@@ -75,15 +75,33 @@ int			ft_type_of_array(int *type_of_element,
 	return (*type_of_element != NOT_SET) ? 2 : (ft_check(param, type_of_element));
 }
 
-int			ft_type_of_structure(const char *param)
+int			ft_type_of_structure(const char *param, int structure_type)
 {
+	if (structure_type == NOT_SET)
+	{
 	if (ft_strequ(param, "object"))
 		return (OBJECT);
 	else if (ft_strequ(param, "light"))
 		return (LIGHT);
 	else if (ft_strequ(param, "camera"))
 		return (CAMERA);
-	else if (ft_strequ(param, "material"))
+	else if (ft_strequ(param, "render parameters"))
+		return (RENDER_PARAMETERS);
+	}
+	else if (structure_type == OBJECT && ft_strequ(param, "material"))
 		return (MATERIAL);
+	else if (structure_type == RENDER_PARAMETERS)
+	{
+		if (ft_strequ(param, "pathtrace"))
+			return (PATHTRACE);
+		else if (ft_strequ(param, "raytrace"))
+			return (RAYTRACE);
+		else if (ft_strequ(param, "render mesh"))
+			return (MESH);
+		else if (ft_strequ(param, "textures"))
+			return (TEXTURES);
+		else if (ft_strequ(param, "skybox"))
+			return (SKYBOX);
+	}
 	return (NOT_SET);
 }

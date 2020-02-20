@@ -41,6 +41,7 @@
 # define ERR_PARSING_WRONG_OBJECT "rt_parse error: object is wrong"
 # define ERR_PARSING_WRONG_LIGHT_PARAMS "rt_parse error: wrong light params"
 # define ERR_PARSING_WRONG_CAMERA_PARAMS "rt_parse error: wrong camera params"
+# define ERR_PARSING_WRING_RENDER_PARAMS "rt_parse error: wrong render parameters"
 # define ERR_PARSING_CAMERA "rt_parse error: camera is not initialized correctly"
 # define ERR_PARSING_WRONG_PARAM "rt_parse error: wrong params"
 # define ERR_PARSING_WRONG_COLOR "rt_parse error: wrong color/diffuse/specular param"

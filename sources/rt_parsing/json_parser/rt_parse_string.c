@@ -72,10 +72,7 @@ static void		parse_material(t_tmp *tmp, const char *key,
 	if (ft_strequ(key, "diffuse"))
 	{
 		check_duplicated(tmp->checker, DIFFUSE);
-//        tmp->diffuse = get_float3_color(hex_to_int(tmp_value));
-//        printf("diffuse = [%.3f][%.3f][%.3f], \n", tmp->diffuse.x, tmp->diffuse.y, tmp->diffuse.z);
         tmp->diffuse = get_float3_color((int)strtol(tmp_value, NULL, 16));
-//        printf("diffuse = [%.3f][%.3f][%.3f], \n", tmp->diffuse.x, tmp->diffuse.y, tmp->diffuse.z);
 	}
 	else if (ft_strequ(key, "specular"))
 	{
@@ -141,13 +138,15 @@ void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 	const char *tmp_value;
 
 	tmp_value = json_string_value(value);
-	if (tmp->structure_type == NOT_SET)
+	if (tmp->structure_type == RENDER_PARAMETERS)
 	{
-		if (ft_strequ(key, "open cl parameters"))
+		if (ft_strequ(key, "render algorithm"))
 		{
-			if (renderer_flags == 0)
-				rt_raise_error(ERR_PARSING_DUPLICATED_PARAM);
-			parse_cl_parameters(tmp_value, renderer_flags);
+			if (ft_strequ(tmp_value,"pathtrace"))
+				*renderer_flags = *renderer_flags | RENDER_PATHTRACE;
+			else if (ft_strequ(tmp_value,"raytrace"))
+				*renderer_flags = *renderer_flags | RENDER_RAYTRACE;
+
 		}
 		else if (ft_strequ(key, "skybox"))
 			ft_add_texture_name_back(&g_textures.textures_names, tmp_value);

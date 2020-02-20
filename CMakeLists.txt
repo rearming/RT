@@ -59,7 +59,6 @@ set(parsing_sources
         sources/rt_parsing/json_parser/rt_parse_array.c
         sources/rt_parsing/rt_correct_scene.c
         sources/rt_parsing/print_scene_params_delete_if_everything_works.c
-        sources/rt_parsing/json_parser/hex_to_int.c
         )
 
 set(event_handling_sources

@@ -90,6 +90,15 @@ void			parse_variable(t_tmp *tmp, const char *key, json_t *value)
 		check_duplicated(tmp->checker, INTENSITY);
 		tmp->intensity = parse_f(value);
 	}
+	else if (ft_strequ(key, "max light bounces"))
+	{
+		if (tmp->type == RAYTRACE)
+			tmp->max_depth_r = 8;
+		else if (tmp->type == PATHTRACE)
+			tmp->max_depth_p = 8;
+		else
+			rt_raise_error(ERR_PARSING_WRING_RENDER_PARAMS);
+	}
 	else
 		parse_variable_params(tmp, key, value);
 }

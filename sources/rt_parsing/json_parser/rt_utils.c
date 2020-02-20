@@ -47,8 +47,11 @@ void		init_tmp(t_tmp *tmp)
 	tmp->radius = NOT_SET;
 	tmp->angle = NOT_SET;
 	tmp->len = NOT_SET;
+	tmp->max_depth_r = 8;
+	tmp->max_depth_p = 8;
+	tmp->skybox_num = NOT_SET;
 	init_tmp_material(tmp);
-	ft_bzero(&tmp->checker, 28);
+	ft_bzero(&tmp->checker, 31);
 }
 
 void		count_elements(t_scene *scene, t_tmp *tmp)
