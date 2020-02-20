@@ -6,21 +6,32 @@
 /*   By: dgreat <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/15 17:24:41 by dgreat            #+#    #+#             */
-/*   Updated: 2020/02/18 21:40:24 by dgreat           ###   ########.fr       */
+/*   Updated: 2020/02/20 15:55:31 by dgreat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "rt.h"
 
+bool		check_hover(SDL_Event *event, SDL_Rect button)
+{
+	if (event->motion.x > button.x && event->button.y > button.y &&
+		event->button.x < (button.x + button.w) &&
+		event->button.y < (button.y + button.h))
+		return true;
+	return false;
+}
+
 bool		check_button(SDL_Event *event, SDL_Rect button)
 {
 	if (event->button.x > button.x && event->button.y > button.y &&
 		event->button.x < (button.x + button.w) &&
 		event->button.y < (button.y + button.h))
-		return (true);
+		return (click);
 	return (false);
 }
+
+
 
 void		render_button(t_transform btn)
 {
@@ -29,10 +40,14 @@ void		render_button(t_transform btn)
 
 	text_surface = TTF_RenderText_Solid(g_gui.font, btn.text,
 			(SDL_Color){255, 255, 255, 255});
-	if (!btn.state)
-		color = disable_color(btn.color);
+	if (btn.state == click)
+//		color = disable_color(btn.color);
+		color = get_color_from_hex(BTN_COLOR_CLICK);
+	else if (btn.state == hover)
+//		color = activate_color(btn.color);
+		color = get_color_from_hex(BTN_COLOR_HOVER);
 	else
-		color = activate_color(btn.color);
+		color = get_color_from_hex(BTN_COLOR_NONACTIVE);
 	SDL_FillRect(g_gui.surface,
 			&(btn.rect),
 			SDL_MapRGBA(

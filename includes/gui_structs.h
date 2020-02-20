@@ -12,10 +12,10 @@ typedef	struct			s_transform
 	SDL_Color			color;
 	SDL_Surface			texture;
 	char				*text;
-	short 				action;
+	short				action;
 	bool				(*callback)();
 	void				*parent;
-	bool				state;
+	short				state;
 	short				type;
 }						t_transform;
 
@@ -27,10 +27,15 @@ typedef enum			e_button
 						btn_count
 }						t_btn;
 
+typedef enum 			e_event
+{
+						non_event,
+						hover,
+						click
+}						t_event;
+
 typedef struct			s_gui
 {
-						//TODO: optimise this
-//	t_transform			obj[TRANSFORM_COUNT];
 	t_transform			*obj;
 	TTF_Font			*font;
 	SDL_Surface			*surface;

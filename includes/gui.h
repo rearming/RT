@@ -23,11 +23,13 @@ void		init_gui(void);
 
 bool		check_button(SDL_Event *event, SDL_Rect button);
 
+bool		check_hover(SDL_Event *event, SDL_Rect button);
+
 void		render_button(t_transform btn);
 
-void		activate_button(t_transform btn);
+//void		activate_button(t_transform btn);
 
-void		disable_button(t_transform btn);
+//void		disable_button(t_transform btn);
 
 
 /*

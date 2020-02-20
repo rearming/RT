@@ -6,7 +6,7 @@
 /*   By: dgreat <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/15 17:24:51 by dgreat            #+#    #+#             */
-/*   Updated: 2020/02/18 21:43:19 by dgreat           ###   ########.fr       */
+/*   Updated: 2020/02/20 15:55:11 by dgreat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,44 @@ void		change_render_algo(short algo, t_rt *rt)
 
 bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt)
 {
-	if (check_button(event, btn->rect))
+
+//	if (check_button(event, btn->rect))
+//	{
+//		if (btn->type & CHANGE_ALGO)
+//		{
+//			change_render_algo(btn->action, rt);
+//			btn->state = !btn->state;
+//		}
+//		return (true);
+//	}
+//	return (false);
+
+	short e_type;
+	if (event->type == SDL_MOUSEBUTTONDOWN)
+		e_type = click;
+	else if (event->type == SDL_MOUSEMOTION)
+		e_type = hover;
+
+	if (btn->type & CHANGE_ALGO)
 	{
-		if (btn->type & CHANGE_ALGO)
+		if (btn->state != click)
 		{
-			change_render_algo(btn->action, rt);
-			btn->state = !btn->state;
+			if (e_type == click && check_button(event, btn->rect))
+			{
+				change_render_algo(btn->action, rt);
+				btn->state = click;
+			}
+			else if (e_type == hover && check_hover(event, btn->rect))
+			{
+				btn->state = hover;
+			}
 		}
+		else if (btn->state != click && btn->state != hover)
+			btn->state = non_event;
 		return (true);
 	}
 	return (false);
 }
-
-
-
-
-
 
 void		init_gui(void)
 {

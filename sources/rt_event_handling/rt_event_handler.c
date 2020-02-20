@@ -72,6 +72,7 @@ void		handle_event_gui(SDL_Event *event, t_rt *rt)
 			render_button(g_gui.obj[i]);
 		i++;
 	}
+	SDL_UpdateWindowSurface(g_sdl.win_tool);
 }
 
 void		handle_event(SDL_Event *event, t_rt *rt)
@@ -89,7 +90,8 @@ void		handle_event(SDL_Event *event, t_rt *rt)
 				event->motion.yrel * ROTATION_SPEED * WIN_RATIO;
 		rt->scene.camera.rotation.y += event->motion.xrel * ROTATION_SPEED;
 	}
-	else if (event->type == SDL_MOUSEBUTTONDOWN)
+	else if (event->type == SDL_MOUSEBUTTONDOWN ||
+	event->type == SDL_MOUSEMOTION)
 	{
 		handle_event_gui(event, rt);
 	}
@@ -100,5 +102,4 @@ void		handle_event(SDL_Event *event, t_rt *rt)
 		rt_camera_move(&rt->scene.camera, &rt->events);
 		rt_render(rt, &rt_opencl_render);
 	}
-
 }
