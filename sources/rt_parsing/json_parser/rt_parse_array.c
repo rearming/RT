@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "rt_parsing.h"
 
 static void add_array_color(cl_float3 *elem, json_t *value)
 {

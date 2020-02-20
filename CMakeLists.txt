@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD 11)
 add_compile_options(-Wall -Wextra)
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
-    add_compile_options(-O3)
+    add_compile_options(-O3 -Werror)
 endif()
 
 # <----RTv1 compile---->
@@ -18,7 +18,6 @@ set(debug_sources
         sources/render/render.c
         sources/OpenCL_utils/rt_opencl_render.c
         sources/OpenCL_utils/rt_opencl_memory_management.c
-        sources/rt_parsing/hardcoded_scene.c
         sources/OpenCL_utils/rt_opencl_utils.c
         sources/rt_event_handling/rt_camera_moves.c
         sources/rt_event_handling/rt_event_handling.c
@@ -50,7 +49,6 @@ set(OpenCL_utils_sources
 
 set(parsing_sources
         sources/rt_parsing/rt_parse_scene.c
-        sources/rt_parsing/hardcoded_scene.c
         sources/rt_parsing/json_parser/rt_parse_textures.c
         sources/rt_parsing/json_parser/rt_parse_variable.c
         sources/rt_parsing/json_parser/rt_parse_object.c

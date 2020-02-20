@@ -1,4 +1,5 @@
 #include "rt.h"
+#include "rt_parsing.h"
 
 static float	parse_f(json_t *value)
 {

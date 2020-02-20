@@ -4,6 +4,10 @@
 #include "rt.h"
 #include "tiny_obj_loader_c.h"
 
+void		print_tmp(t_tmp *tmp);
+void		print_textures(void);
+void		print_scene(t_scene *scene);
+
 /*
 **	debug
 */

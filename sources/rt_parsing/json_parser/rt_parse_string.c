@@ -12,6 +12,7 @@
 
 #include "rt.h"
 #include "rt_math_utils.h"
+#include "rt_parsing.h"
 
 static uint32_t	search_cl_parameters(const char *tmp_value)
 {

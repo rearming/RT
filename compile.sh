@@ -21,7 +21,7 @@ if [[ ! -f "lib/jansson/Makefile" ]]; then
   mkdir "build"
   cd build || echo "can't make build directory"
   cmake ..
-  make
+  make jansson/fast
 fi
 
 #cdmkdir build
