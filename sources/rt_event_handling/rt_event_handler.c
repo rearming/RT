@@ -64,12 +64,29 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 
 void		handle_event_gui(SDL_Event *event, t_rt *rt)
 {
-	int i = 0;
+	int i;
+	int	j;
+	t_btn now;
 
+	i = 0;
+	now = g_gui.render;
 	while (i < btn_count)
 	{
 		if (g_gui.obj[i].callback(&g_gui.obj[i], event, rt))
 			render_button(g_gui.obj[i]);
+		if (now != g_gui.render)
+		{
+			j = 0;
+			while (j < btn_count)
+			{
+				if (g_gui.obj[j].action != g_gui.render)
+				{
+					g_gui.obj[j].state = non_event;
+					render_button(g_gui.obj[j]);
+				}
+				j++;
+			}
+		}
 		i++;
 	}
 	SDL_UpdateWindowSurface(g_sdl.win_tool);

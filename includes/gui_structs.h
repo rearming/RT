@@ -2,6 +2,8 @@
 #define GUI_STRUCTS_H
 
 #include "gui_defines.h"
+//#include "rt_structs.h"
+
 /*
 ** SDL_gui structs
 */
@@ -39,7 +41,7 @@ typedef struct			s_gui
 	t_transform			*obj;
 	TTF_Font			*font;
 	SDL_Surface			*surface;
-
+	t_btn				render;
 }						t_gui;
 
 #endif //GUI_STRUCTS_H

@@ -31,6 +31,8 @@ t_transform	create_gui_obj(
 	return (gui_obj);
 }
 
+
+
 void		change_render_algo(short algo, t_rt *rt)
 {
 	rt->opencl_params.render_algo = algo + 1;
@@ -38,41 +40,37 @@ void		change_render_algo(short algo, t_rt *rt)
 
 bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt)
 {
-
-//	if (check_button(event, btn->rect))
-//	{
-//		if (btn->type & CHANGE_ALGO)
-//		{
-//			change_render_algo(btn->action, rt);
-//			btn->state = !btn->state;
-//		}
-//		return (true);
-//	}
-//	return (false);
-
-	short e_type;
+	short	e_type;
+	bool	state;
 	if (event->type == SDL_MOUSEBUTTONDOWN)
-		e_type = click;
-	else if (event->type == SDL_MOUSEMOTION)
-		e_type = hover;
-
-	if (btn->type & CHANGE_ALGO)
 	{
-		if (btn->state != click)
-		{
-			if (e_type == click && check_button(event, btn->rect))
-			{
-				change_render_algo(btn->action, rt);
-				btn->state = click;
-			}
-			else if (e_type == hover && check_hover(event, btn->rect))
-			{
-				btn->state = hover;
-			}
-		}
-		else if (btn->state != click && btn->state != hover)
-			btn->state = non_event;
+		e_type = click;
+		state = check_button(event, btn->rect);
+	}
+	else if (event->type == SDL_MOUSEMOTION)
+	{
+		e_type = hover;
+		state = check_button(event, btn->rect);
+	}
+	if (e_type == hover && state && btn->state != click)
+	{
+		btn->state = hover;
 		return (true);
+	}
+	if (e_type == hover && !state && btn->state == hover)
+	{
+		btn->state = non_event;
+		return (true);
+	}
+	if (e_type == click && btn->state == hover && state)
+	{
+		btn->state = click;
+		if (btn->type & CHANGE_ALGO)
+		{
+			change_render_algo(btn->action, rt);
+			g_gui.render = btn->action;
+			return (true);
+		}
 	}
 	return (false);
 }
@@ -89,14 +87,14 @@ void		init_gui(void)
 	SDL_FillRect(g_gui.surface, NULL,
 			SDL_MapRGB(g_gui.surface->format, 63, 63, 63));
 	rect = (SDL_Rect){.x = 0, .y = 30, .h = 100, .w = WIN_GUI_WIDTH / 2};
-	g_gui.obj[pt_btn] = (t_transform){ .rect = rect, .state = 0 ,
+	g_gui.obj[pt_btn] = (t_transform){ .rect = rect, .state = non_event ,
 		.text = "Path trace", .callback = button_callback, .action = pt_btn,
 		.type = RENDER_BTN, .color = get_color_from_hex(COL_RED)};
 	rect.x += WIN_GUI_WIDTH / 2;
-	g_gui.obj[rt_btn] = (t_transform){ .rect = rect, .state = 1,
+	g_gui.obj[rt_btn] = (t_transform){ .rect = rect, .state = click,
 		.text = "Ray trace", .callback = button_callback, .action = rt_btn,
 		.type = RENDER_BTN, .color = get_color_from_hex(COL_BLUE)};
-
+	g_gui.render = rt_btn;
 	i = 0;
 	while (i < btn_count)
 		render_button(g_gui.obj[i++]);
