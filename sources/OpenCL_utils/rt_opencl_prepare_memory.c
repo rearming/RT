@@ -3,7 +3,7 @@
 
 void		rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer)
 {
-	const int		max_memobj_number = 12;
+	const int		max_memobj_number = 15;
 
 	rt_opencl_move_host_mem_to_kernel(renderer, max_memobj_number,
 			(t_opencl_mem_obj){&rt->scene,
@@ -14,6 +14,14 @@ void		rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer)
 				sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, false, RENDER_RAYTRACE},
 			(t_opencl_mem_obj){&renderer->params,
 				sizeof(t_renderer_params), RT_DEFAULT_MEM_FLAG, true, RENDER_ALWAYS},
+
+			(t_opencl_mem_obj){&rt->kd_info,
+				sizeof(t_kd_info), RT_DEFAULT_MEM_FLAG, false, RENDER_MESH},
+			(t_opencl_mem_obj){rt->kd_info.tree_arr,
+				sizeof(t_kd_arr_tree) * rt->kd_info.nodes_num, RT_DEFAULT_MEM_FLAG, false, RENDER_MESH},
+			(t_opencl_mem_obj){rt->kd_info.indices,
+				sizeof(cl_int) * rt->kd_info.indices_num, RT_DEFAULT_MEM_FLAG, false, RENDER_MESH},
+
 			(t_opencl_mem_obj){rt->scene.meshes.meshes_info,
 				sizeof(t_mesh_info) * rt->scene.meshes.num_meshes, RT_DEFAULT_MEM_FLAG, false, RENDER_MESH},
 			(t_opencl_mem_obj){rt->scene.meshes.polygons,

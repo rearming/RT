@@ -1,6 +1,7 @@
 #include "rt.h"
 #include "rt_opencl.h"
 #include "rt_parsing.h"
+#include "rt_kd_tree.h"
 
 void		rt_init_events(t_events *events)
 {
@@ -24,6 +25,7 @@ void		rt_init(t_rt *out_rt, const char *json_scene_file)
 	if (g_textures.texture_info_size > 0)
 		rt_textures_init();
 	rt_load_obj_files(&out_rt->scene.meshes);
+	out_rt->kd_info = rt_get_kd_object(&out_rt->scene.meshes);
 #ifndef DEBUG_LOADING
 	rt_init_events(&out_rt->events);
 #endif

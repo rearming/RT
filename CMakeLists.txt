@@ -13,24 +13,13 @@ endif()
 
 set(debug_sources
         sources/debug/opencl_debug.c
-        sources/utils/rt_exit_clean.c
-        sources/SDL_utils/sdl_init.c
-        sources/render/render.c
-        sources/OpenCL_utils/rt_opencl_render.c
-        sources/OpenCL_utils/rt_opencl_memory_management.c
-        sources/rt_parsing/hardcoded_scene.c
-        sources/OpenCL_utils/rt_opencl_utils.c
-        sources/rt_event_handling/rt_camera_moves.c
-        sources/rt_event_handling/rt_event_handling.c
-        sources/math_utils/rt_rotation_utils.c
-        sources/math_utils/rt_cl_float3_utils.c
         sources/debug/rt_debug_info.c
         sources/debug/rt_debug_print_utils.c
-        sources/utils/rt_color_utils.c
         sources/debug/rt_profiling.c
         sources/debug/rt_print_obj_file.c
         sources/debug/rt_debug_print_parsed_meshes.c
         sources/debug/rt_print_object.c
+        sources/debug/rt_kd_tree_print.c
         )
 
 set(math_utils_sources
@@ -111,7 +100,9 @@ set(kd_tree_sources
         sources/kd_tree/rt_kd_tree_build.c
         sources/test/kd_3d_test/rt_kd_tree_traversal.c
         sources/kd_tree/rt_kd_tree_to_array.c
-        sources/kd_tree/rt_kd_tree_utils.c)
+        sources/kd_tree/rt_kd_tree_utils.c
+        sources/kd_tree/rt_kd_tree_get.c
+        sources/kd_tree/rt_kd_pack_object_indices.c)
 
 set(sources
         ${debug_sources}
@@ -206,34 +197,10 @@ target_link_libraries(kd_tree_test
         "m"
         )
 
-# <---- kd_tree_2d_test ----> #
-
-add_executable(kd_tree_2d_test
-        ${SDL_utils_sources}
-        ${math_utils_sources}
-        ${utils_sources}
-        sources/test/kd_2d_tree/kd_2d_tree_build.c
-        sources/test/kd_2d_tree/kd_2d_graphic.c
-        sources/test/kd_2d_tree/kd_2d_tree_print.c
-        sources/test/kd_2d_tree/kd_2d_tree_main.c
-        )
-
-target_include_directories(kd_tree_2d_test PRIVATE
-        sources/test)
-
-target_link_libraries(kd_tree_2d_test
-        "ftprintf"
-        "ft"
-        ${graphic_libs_link_names}
-        "m"
-        )
-
 # <---- generic_test ----> #
 
 add_executable(generic_test
         ${sources}
-        includes/jansson.h
-        includes/jansson_config.h
         sources/test/test_asserts.c
         sources/test/generic_test/generic_test_main.c
         )

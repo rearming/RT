@@ -6,6 +6,7 @@
 void		rt_opencl_render(void *rt_ptr)
 {
 	const size_t	kernel_num = OPENCL_RELEASE_KERNEL_NUM;
+//	const size_t	kernel_num = OPENCL_DEBUG_KERNEL_NUM;
 	int				err;
 	t_rt_renderer	*renderer;
 	t_rt			*rt;

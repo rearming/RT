@@ -81,6 +81,7 @@ typedef struct			s_rt
 	t_scene				scene;
 	uint32_t			renderer_flags;
 	t_events			events;
+	t_kd_info			kd_info;
 }						t_rt;
 
 typedef struct 			s_tmp
