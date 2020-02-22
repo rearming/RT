@@ -52,6 +52,8 @@ int			ft_type_of_array(int *type_of_element,
 			*type_of_element = AMBIENT;
 		else if (ft_strequ(param, "point"))
 			*type_of_element = POINT;
+		else if (ft_strequ(param, "directional"))
+			*type_of_element = DIRECTIONAL;
 	}
 	if (structure_type == OBJECT)
 	{

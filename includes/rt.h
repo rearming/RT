@@ -111,6 +111,4 @@ void		*rt_safe_malloc(size_t size);
 bool		rt_exit_clean(void);
 bool		rt_camera_moved(t_camera *camera);
 
-void		ft_add_texture_name_back(t_texture_name **list, char *data);
-
 #endif

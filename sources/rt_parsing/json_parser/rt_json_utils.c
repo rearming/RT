@@ -20,7 +20,7 @@ static void	init_tmp_material(t_tmp *tmp)
 	tmp->phong_exp = 0;
 	tmp->smoothness = 0;
 	tmp->transmittance = 0;
-	tmp->refraction = 0;
+	tmp->refraction = 1;
 	tmp->emission_color = (cl_float3){{0, 0, 0}};
 	tmp->emission_power = 0;
 	tmp->specular_texture = 0;
@@ -48,7 +48,7 @@ void		init_tmp(t_tmp *tmp)
 	tmp->angle = NOT_SET;
 	tmp->len = NOT_SET;
 	init_tmp_material(tmp);
-	ft_bzero(&tmp->checker, 28);
+	ft_bzero(&tmp->checker, sizeof(tmp->checker) / sizeof(bool));
 }
 
 void		count_elements(t_scene *scene, t_tmp *tmp)
@@ -65,9 +65,9 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 	check_camera = 0;
 	while (tmp_iterator)
 	{
-		scene->lights_nbr += (tmp_iterator->structure_type == LIGHT) ? 1 : 0;
-		scene->obj_nbr += (tmp_iterator->structure_type == OBJECT) ? 1 : 0;
-		check_camera += (tmp_iterator->structure_type == CAMERA) ? 1 : 0;
+		scene->lights_nbr += tmp_iterator->structure_type == LIGHT;
+		scene->obj_nbr += tmp_iterator->structure_type == OBJECT;
+		check_camera += tmp_iterator->structure_type == CAMERA;
 		tmp_iterator = tmp_iterator->next;
 	}
 	while (texture_iter)

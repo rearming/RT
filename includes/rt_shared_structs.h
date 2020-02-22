@@ -195,7 +195,7 @@ typedef struct			s_object
 	cl_float			angle;
 	cl_float 			distance;
 	cl_float			len;
-	cl_float3			vertices[3]; //it's for .obj
+	cl_float3			vertices[3];
 	cl_float3			vmin;
 	cl_float3			vmax;
 # else
@@ -205,8 +205,6 @@ typedef struct			s_object
 	float3				center;
 	float3				normal;
 	float3				axis;
-	///axis for all rotation object
-	/// (cylinder, cone, torus, hiperboloid etc)
 	float				radius;
 	float				angle;
 	float 				distance;

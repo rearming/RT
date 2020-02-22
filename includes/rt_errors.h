@@ -1,7 +1,7 @@
 #ifndef RT_ERRORS_H
 # define RT_ERRORS_H
 
-# define ERR_INV_ARGS_NUM "invalid number of arguments!"
+# define ERR_INV_ARGS_NUM "invalid number of arguments, expected 1 arg for .json scene file"
 # define ERR_INV_FILE "invalid file!"
 
 # define ERR_MALLOC "malloc() failed!"
@@ -48,4 +48,7 @@
 # define ERR_PARSING_WRONG_FORMAT "rt_parse error: wrong type of parameter"
 # define ERR_PARSING_DUPLICATED_PARAM "rt_parse error: duplicated parameters"
 # define ERR_PARSING_WRONG_CL_PARAM "rt_parse error: wrong cl parameters"
+
+# define ERR_INVALID_JSON_FILE "can't read json scene file"
+
 #endif

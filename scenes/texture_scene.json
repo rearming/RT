@@ -1,6 +1,5 @@
 {
   "open cl parameters":"RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_TEXTURES | RENDER_MESH | RENDER_BACKFACE_CULLING",
-  "skybox": "skybox_milkyway.png",
   "objects": [
     {
       "type": "sphere",

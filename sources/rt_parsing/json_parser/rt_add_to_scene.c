@@ -20,7 +20,7 @@ static void	add_to_objects(t_tmp *tmp, t_object *object)
 	object->material.smoothness = tmp->smoothness;
 	object->material.transmittance = tmp->transmittance;
 	object->material.refraction = tmp->refraction;
-	object->material.emission_color = tmp->color;
+	object->material.emission_color = tmp->emission_color;
 	object->material.emission_power = tmp->emission_power;
 	object->material.specular_texture = tmp->specular_texture;
 	object->material.texture_number = tmp->texture_number;
@@ -67,8 +67,8 @@ void		add_elements(t_scene *scene, t_tmp *tmp)
 	i_light = 0;
 	i_object = 0;
 	tmp_iterator = tmp;
-	scene->objects = rt_safe_malloc(sizeof(t_object) * scene->obj_nbr);
-	scene->lights = rt_safe_malloc(sizeof(t_light) * scene->lights_nbr);
+	scene->objects = scene->obj_nbr > 0 ? rt_safe_malloc(sizeof(t_object) * scene->obj_nbr) : NULL;
+	scene->lights = scene->lights_nbr > 0 ? rt_safe_malloc(sizeof(t_light) * scene->lights_nbr) : NULL;
 	scene->camera = (t_camera){};
 	while (tmp_iterator)
 	{

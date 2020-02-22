@@ -14,8 +14,7 @@
     {
       "type": "sphere",
       "material": {
-        "diffuse": "0xb3ff66",
-        "specular": [0, 0, 0]
+        "diffuse": "0xb3ff66"
       },
       "center": [4, 1, 0],
       "radius": 1
@@ -24,7 +23,7 @@
       "type": "sphere",
       "material": {
         "diffuse": "0xffd700",
-        "specular": [1, 1, 1],
+        "specular": [255, 72, 0],
         "smoothness": 2000
       },
       "center": [5, 1, 3],
@@ -34,7 +33,6 @@
       "type": "sphere",
       "material": {
         "diffuse": "0x9C6AE4",
-        "specular": [1, 1, 1],
         "smoothness": 20
       },
       "center": [10, 2.4, 6],
@@ -53,9 +51,9 @@
     {
       "type": "sphere",
       "material": {
-      "diffuse": "0xFFFFFF",
-      "specular": [0, 0, 0],
-      "smoothness": 10
+        "diffuse": "0xFFFFFF",
+        "emission color": "0xFFFFFF",
+        "emission power": 1.5
       },
       "center": [7, 0, 2],
       "radius": 0.8
@@ -73,9 +71,7 @@
     {
       "type": "plane",
       "material": {
-        "color": "0xFFFFFF",
-        "specular": [0, 0, 0],
-        "smoothness": 0
+        "diffuse": "0xFFFFFF"
       },
       "center": [0, 0, 0],
       "normal": [0, 1, 0]
@@ -93,11 +89,10 @@
     {
       "type": "sphere",
       "material": {
-      "diffuse": "0xFFFFFF",
-      "specular": [1, 1, 1],
-      "smoothness": 10000,
+      "specular": [0.5, 1.0, 1.0],
       "transmittance": 1,
-      "refraction": 1.15
+      "refraction": 1.15,
+      "smoothness": 10000
       },
     "center": [15, 2.2, -6.2],
     "radius": 2
@@ -105,19 +100,18 @@
     {
       "type": "sphere",
       "material": {
-        "diffuse": "0xFFFFFF",
-        "specular": [1, 1, 1],
-        "refraction": 1.15,
+        "specular": [1.0, 1.0, 1.0],
         "transmittance": 1,
-        "smoothness": 9999
+        "refraction": 1.25,
+        "smoothness": 20000
       },
       "center": [15, 2.6, -1.2],
       "radius": 2
     }
   ],
   "camera": {
-    "pos": [0, 2, 10],
-    "rotation": [0, 180, 0]
+    "pos": [25, 4.8, -11],
+    "rotation": [-1, 300, 0]
   },
   "light":
   [
