@@ -19,7 +19,8 @@
 
 # define FONT_SIZE 30
 
-#define RENDER_BTN 1
+#define RENDER_BTN (1 << 0)
+#define SCREENSHOT (1 << 1)
 
 #define BTN_COLOR_NONACTIVE 0xA0CA92
 #define BTN_COLOR_HOVER 0xD8F793

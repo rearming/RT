@@ -40,6 +40,15 @@ static inline bool	any_key_pressed(t_events *events)
 			|| events->space || events->lshift);
 }
 
+void				sync_rt_and_gui(t_render_algo algo)
+{
+	g_gui.render_algo = algo - 1;
+	g_gui.obj[algo - 1].state = click;
+	render_button(g_gui.obj[algo - 1]);
+	update_all_algo_buttons();
+	SDL_UpdateWindowSurface(g_sdl.win_tool);
+}
+
 static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 {
 	if (event->key.keysym.scancode == SDL_SCANCODE_ESCAPE)
@@ -49,9 +58,15 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 	if (event->key.keysym.scancode == SDL_SCANCODE_M)
 		SDL_SetRelativeMouseMode(!SDL_GetRelativeMouseMode());
 	if (event->key.keysym.scancode == SDL_SCANCODE_R)
+	{
 		rt->opencl_params.render_algo = RAY_TRACE;
+		sync_rt_and_gui(RAY_TRACE);
+	}
 	if (event->key.keysym.scancode == SDL_SCANCODE_P)
+	{
 		rt->opencl_params.render_algo = PATH_TRACE;
+		sync_rt_and_gui(PATH_TRACE);
+	}
 	if (event->key.keysym.scancode == SDL_SCANCODE_N)
 		rt_render(rt, &rt_opencl_render);
 }
@@ -62,31 +77,32 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 //	}
 //}
 
+
+
 void		handle_event_gui(SDL_Event *event, t_rt *rt)
 {
 	int i;
-	int	j;
+
 	t_btn now;
 
 	i = 0;
-	now = g_gui.render;
-	while (i < btn_count)
+	now = g_gui.render_algo;
+	while (i < algo_btn_count)
 	{
 		if (g_gui.obj[i].callback(&g_gui.obj[i], event, rt))
 			render_button(g_gui.obj[i]);
-		if (now != g_gui.render)
+		if (now != g_gui.render_algo)
 		{
-			j = 0;
-			while (j < btn_count)
-			{
-				if (g_gui.obj[j].action != g_gui.render)
-				{
-					g_gui.obj[j].state = non_event;
-					render_button(g_gui.obj[j]);
-				}
-				j++;
-			}
+			update_all_algo_buttons();
 		}
+		i++;
+	}
+	i = 0;
+	while (i < other_btn_count)
+	{
+		if (g_gui.obj[i + algo_btn_count].callback(&g_gui.obj[i + algo_btn_count],
+				event, rt))
+			render_button(g_gui.obj[i + algo_btn_count]);
 		i++;
 	}
 	SDL_UpdateWindowSurface(g_sdl.win_tool);
@@ -107,11 +123,9 @@ void		handle_event(SDL_Event *event, t_rt *rt)
 				event->motion.yrel * ROTATION_SPEED * WIN_RATIO;
 		rt->scene.camera.rotation.y += event->motion.xrel * ROTATION_SPEED;
 	}
-	else if (event->type == SDL_MOUSEBUTTONDOWN ||
-	event->type == SDL_MOUSEMOTION)
-	{
+	if (event->window.windowID == 2)
 		handle_event_gui(event, rt);
-	}
+
 	if (any_key_pressed(&rt->events)
 		|| event->type == SDL_MOUSEMOTION
 		|| rt->opencl_params.render_algo == PATH_TRACE)

@@ -15,7 +15,7 @@
 
 
 
-void		init_gui(void);
+void		init_gui(short algo);
 
 /*
 ** Buttons
@@ -27,9 +27,9 @@ bool		check_hover(SDL_Event *event, SDL_Rect button);
 
 void		render_button(t_transform btn);
 
-//void		activate_button(t_transform btn);
+void		update_all_buttons(void);
 
-//void		disable_button(t_transform btn);
+void		update_all_algo_buttons(void);
 
 
 /*

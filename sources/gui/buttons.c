@@ -56,3 +56,20 @@ void		render_button(t_transform btn)
 	SDL_BlitSurface(text_surface, NULL, g_gui.surface, &btn.rect);
 
 }
+
+void		update_all_algo_buttons(void)
+{
+	int	j;
+
+	j = 0;
+	while (j < algo_btn_count)
+	{
+		if (g_gui.obj[j].action != g_gui.render_algo)
+		{
+			g_gui.obj[j].state = non_event;
+			render_button(g_gui.obj[j]);
+		}
+		j++;
+	}
+
+}
