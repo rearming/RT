@@ -56,7 +56,7 @@ void	run_check_indices(t_kd_tree *tree)
 	ft_printf("count: [%i]\n", count);
 }
 
-int		main(void)
+int		main(int argc, char **argv)
 {
 	t_meshes		meshes;
 	t_aabb			*all_aabbs;
@@ -66,7 +66,7 @@ int		main(void)
 	clock_t			end;
 
 	start = clock();
-	rt_load_obj_files(&meshes);
+	rt_load_obj_file(argc < 2 ? NULL : argv[1], &meshes);
 	end = clock();
 	printf(".obj loaded in [%f] sec.\n", (double)(end - start) / CLOCKS_PER_SEC);
 

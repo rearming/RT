@@ -27,4 +27,6 @@ void				rt_get_meshes(t_raw_obj *raw_obj, t_meshes *out_meshes);
 void				rt_free_raw_obj(t_raw_obj *raw_obj);
 void				rt_free_meshes(t_meshes *meshes);
 
+void				rt_load_obj_file(const char *path_to_obj, t_meshes *out_meshes);
+
 #endif

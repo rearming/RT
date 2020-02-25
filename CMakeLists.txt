@@ -12,14 +12,20 @@ endif()
 # <----RTv1 compile---->
 
 set(debug_sources
-        sources/debug/opencl_debug.c
-        sources/debug/rt_debug_info.c
         sources/debug/rt_debug_print_utils.c
-        sources/debug/rt_profiling.c
         sources/debug/rt_print_obj_file.c
         sources/debug/rt_debug_print_parsed_meshes.c
         sources/debug/rt_print_object.c
         sources/debug/rt_kd_tree_print.c
+        )
+
+set(runtime_debug_sources
+        sources/debug/runtime_debug/opencl_debug.c
+        sources/debug/runtime_debug/rt_debug_info.c
+        )
+
+set(profiling_sources
+        sources/debug/profiling/rt_profiling.c
         )
 
 set(math_utils_sources
@@ -104,6 +110,7 @@ set(kd_tree_sources
 
 set(sources
         ${debug_sources}
+        ${runtime_debug_sources}
         ${math_utils_sources}
         ${OpenCL_utils_sources}
         ${parsing_sources}
@@ -114,6 +121,7 @@ set(sources
         ${init_sources}
         ${render_sources}
         ${kd_tree_sources}
+        ${profiling_sources}
         )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -207,6 +215,29 @@ target_include_directories(generic_test PRIVATE
         sources/test)
 
 target_link_libraries(generic_test
+        "ftprintf"
+        "ft"
+        ${graphic_libs_link_names}
+        "m"
+        "jansson"
+        )
+
+# <---- obj_loading_test ----> #
+
+add_executable(obj_loading_test
+        ${debug_sources}
+        ${OpenCL_sources}
+        ${SDL_utils_sources}
+        ${math_utils_sources}
+        ${utils_sources}
+        ${obj_loading_sources}
+        sources/test/test_asserts.c
+        sources/test/obj_loading_test/obj_loading_test_main.c)
+
+target_include_directories(obj_loading_test PRIVATE
+        sources/test)
+
+target_link_libraries(obj_loading_test
         "ftprintf"
         "ft"
         ${graphic_libs_link_names}

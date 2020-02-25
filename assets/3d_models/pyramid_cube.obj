@@ -1,6 +1,6 @@
 # Blender v2.80 (sub 75) OBJ File: 'untitled.blend'
 # www.blender.org
-mtllib ./assets/3d_models/cube_isosphere_materials.mtl
+mtllib ./assets/3d_models/pyramid_cube.mtl
 o Cube_Cube.002
 v 2.500000 -0.500000 -2.500000
 v 2.500000 2.500000 -2.500000
