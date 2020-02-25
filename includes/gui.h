@@ -13,7 +13,10 @@
 # include "gui_errors.h"
 # include "gui_structs.h"
 
+typedef struct s_rt t_rt;
+typedef struct s_sdl t_sdl;
 
+void		update_all_algo_buttons(void);
 
 void		init_gui(short algo);
 
@@ -29,21 +32,23 @@ void		render_button(t_transform btn);
 
 void		update_all_buttons(void);
 
-void		update_all_algo_buttons(void);
+bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt);
 
 
 /*
 ** Utils
 */
 
+void		change_render_algo(short algo, t_rt *rt);
+
 SDL_Color	get_color_from_hex(unsigned int hex);
 
 SDL_Color	get_rgba_from_hex(unsigned int hex);
 
-SDL_Color activate_color(SDL_Color color);
+SDL_Color 	activate_color(SDL_Color color);
 
-SDL_Color disable_color(SDL_Color color);
+SDL_Color 	disable_color(SDL_Color color);
 
-//bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt);
+
 
 #endif //GUI_H

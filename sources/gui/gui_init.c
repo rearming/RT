@@ -38,47 +38,7 @@ void		change_render_algo(short algo, t_rt *rt)
 	rt->opencl_params.render_algo = algo + 1;
 }
 
-bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt)
-{
-	short	e_type;
-	bool	state;
 
-	if (event->type == SDL_MOUSEBUTTONDOWN)
-	{
-		e_type = click;
-		state = check_button(event, btn->rect);
-	}
-	else if (event->type == SDL_MOUSEMOTION)
-	{
-		e_type = hover;
-		state = check_hover(event, btn->rect);
-	}
-	if (e_type == hover && state && btn->state != click)
-	{
-		btn->state = hover;
-		return (true);
-	}
-	if (e_type == hover && !state && btn->state == hover)
-	{
-		btn->state = non_event;
-		return (true);
-	}
-	if (e_type == click && btn->state == hover && state)
-	{
-		if (btn->type & CHANGE_ALGO)
-		{
-			btn->state = click;
-			change_render_algo(btn->action, rt);
-			g_gui.render_algo = btn->action;
-			return (true);
-		}
-		else if (btn->type & SCREENSHOT)
-		{
-//			create_screenshot();
-		}
-	}
-	return (false);
-}
 
 void		init_algo_buttons(void)
 {

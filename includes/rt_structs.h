@@ -1,7 +1,6 @@
 #ifndef RT_STRUCTS_H
 # define RT_STRUCTS_H
 
-
 typedef struct			s_rgb
 {
 # ifndef FT_OPENCL___
