@@ -4,8 +4,8 @@
     {
       "type": "plane",
       "material": {
-        "emission color": "0xFFFFFF",
-        "emission power": 0.1
+        "specular": [1.0, 1.0, 1.0],
+        "smoothness": 5000
       },
       "center": [0, -2.5, 0],
       "normal": [0, 1, 0]

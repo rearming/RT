@@ -10,7 +10,7 @@ t_opencl_mem_obj	rt_check_opencl_memobj(t_opencl_mem_obj mem_obj)
 		return mem_obj;
 	checked_mem_obj.ptr = &dummy_ptr;
 	checked_mem_obj.copy = false;
-	checked_mem_obj.mem_flags = CL_MEM_READ_ONLY;
+	checked_mem_obj.mem_flags = RT_DEFAULT_MEM_FLAG;
 	checked_mem_obj.renderer_flags = mem_obj.renderer_flags;
 	checked_mem_obj.size = sizeof(cl_char);
 	return (checked_mem_obj);
