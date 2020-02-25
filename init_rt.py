@@ -49,8 +49,7 @@ def update_opencl_header():
 
 
 def correct_mtl_path():
-    # obj_files = glob.glob(meshes_dir_path + "**/" + "*.obj", recursive=True)
-    obj_files = ["./assets/3d_models/breakfast_room/breakfast_room.obj"]
+    obj_files = glob.glob(meshes_dir_path + "**/" + "*.obj", recursive=True)
     mtl_file_paths = glob.glob(meshes_dir_path + "**/" + "*.mtl", recursive=True)
 
     mtl_file_names = list(map(lambda name: (re.findall(r"(?:[^/]+)\.mtl", name)[0]), mtl_file_paths))
@@ -58,20 +57,28 @@ def correct_mtl_path():
     for obj_file in obj_files:
         file = open(obj_file, 'r')
         start_file = file.read(1000)
+        if re.match(r"[\s\S]*# mtllib path corrected[\s\S]*", start_file):
+            file.close()
+            continue
         end_file = file.read()
         file.close()
 
         splitted = start_file.split("\n")
+        contains_material = False
         for line in splitted:
             if re.findall("mtllib", line):
                 for i in range(len(mtl_file_names)):
                     if re.findall(re.findall(r"\w+\.mtl", mtl_file_names[i])[0], line):
                         start_file = re.sub(r"(?<=mtllib[\s])((?:[^/])+\.mtl)", mtl_file_paths[i], start_file)
                         break
+                contains_material = True
                 break
 
+        if not contains_material:
+            continue
         file = open(obj_file, 'wt')
         file.seek(0)
+        file.write("# mtllib path corrected\n")
         file.write(start_file + end_file)
         file.close()
 
@@ -79,4 +86,4 @@ def correct_mtl_path():
 cl_files_names = get_opencl_files_names()
 pwd = os.path.dirname(os.path.realpath(__file__))
 update_opencl_header()
-# correct_mtl_path()
+correct_mtl_path()

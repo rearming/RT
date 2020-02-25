@@ -1,6 +1,7 @@
+# mtllib path corrected
 # Blender v2.80 (sub 75) OBJ File: 'Pictures.blend'
 # www.blender.org
-# mtllib ./assets/3d_models/cube_isosphere_materials.mtl
+mtllib ./assets/3d_models/sauron_tower.mtl
 o Sauron_Tower
 v -11.862000 38.799999 28.568001
 v -11.703000 38.799999 28.691000
