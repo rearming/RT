@@ -84,5 +84,39 @@ typedef struct			s_rt
 	t_kd_info			kd_info;
 }						t_rt;
 
+typedef struct 			s_tmp
+{
+	int 			structure_type;	// object, camera, light
+	int 			type;			// ambience, sphere, cone
+	cl_float3		rotation;		// camera
+	cl_float3		pos;			// camera,	light
+	float 			intensity;		// 			light
+	cl_float3		dir;			// 			light
+	cl_float3 		color;			//			light
+	cl_float3		normal;			//					object
+	cl_float3 		axis;			//					object
+	cl_float3 		center;			//					object
+	cl_float3		vmin;			//					object
+	cl_float3		vmax;			//					object
+	float 			distance;		//					object
+	float			radius;			//					object
+	float			angle;			//					object
+	float 			len;			//					object
+	cl_float3		ambience;		//					object (material)
+	cl_float3		diffuse;		//					object (material)
+	cl_float3		specular;		//					object (material)
+	float			phong_exp;		//					object (material)
+	float			smoothness;		//					object (material)
+	float			transmittance;	//					object (material)
+	float			refraction;		//					object (material)
+	cl_float3 		emission_color;	//					object (material)
+	float			emission_power;//					object (material)
+	float			specular_texture;//					object (material)
+	int 			texture_number; //					object (material)
+	cl_float3		texture_position;//					object (material)
+	bool 			checker[28];
+	struct s_tmp	*next;
+}						t_tmp;
+
 # endif
 #endif

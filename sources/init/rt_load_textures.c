@@ -117,13 +117,15 @@ void			rt_textures_init(void)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		if (g_textures.texture_info[i].height > WIN_HEIGHT * SCALE_HEIGHT * 3)
 			tmp_texture = resize_image(tmp_texture, i, 3 * WIN_HEIGHT);
-		//printf("%s width: [%i], height: [%i]\n", tmp_filename, g_textures.texture_info[i].width, g_textures.texture_info[i].height );
+		printf("%s width: [%i], height: [%i]\n", tmp_filename, g_textures.texture_info[i].width, g_textures.texture_info[i].height );
 		rt_add_start_position(i);
 		rt_change_format_and_add(tmp_texture, i);
 		free(tmp_filename);
 		free(tmp_texture);
 		if (g_textures.texture_list == NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
+//		free(g_textures.textures_names->name);
+//		free(g_textures.textures_names);
 		g_textures.textures_names = g_textures.textures_names->next;
 	}
 }

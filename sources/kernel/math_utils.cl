@@ -58,14 +58,6 @@ void		rotate_z(float3 *point, float angle)
 	point->y = temp.x * sin(angle) + point->y * cos(angle);
 }
 
-void		rotate_point(float3 *point, float3 angle)
-{
-	angle = degree_to_rad(angle);
-	rotate_x(point, angle.x);
-	rotate_y(point, angle.y);
-	rotate_z(point, angle.z);
-}
-
 float3		degree_to_rad(float3 rotation_degrees)
 {
 	float3	radians;
@@ -74,4 +66,56 @@ float3		degree_to_rad(float3 rotation_degrees)
 	radians.y = rotation_degrees.y * M_PI_180;
 	radians.z = rotation_degrees.z * M_PI_180;
 	return (radians);
+}
+
+void		rotate_point(float3 *point, float3 angle)
+{
+	angle = degree_to_rad(angle);
+	rotate_x(point, angle.x);
+	rotate_y(point, angle.y);
+	rotate_z(point, angle.z);
+}
+
+/// возвращает вектор длинной вектор 1 умноженный
+/// на cos угла между векторами
+/// и перпендекулярный вектору 2 в плоскости векторов 1 и 2
+
+float3	gram_schmidt_proc_r2(float3 vector_orto, float3 vector_basic)
+{
+	return (vector_orto - vector_basic * dot(vector_orto, vector_basic)
+							/ dot(vector_basic, vector_basic));
+}
+
+
+/// поворачивает вектор 1 относительно оси,
+/// заданной другим вектором на угол заданный в раданах
+/// возвращает повернутый вектор 1
+
+float3		vec_axis_rotate(float3 vec, float3 axis, float angle)
+{
+	float cos_ang, one_minus_cos, sin_ang;
+	float3 rotate_vector;
+
+	cos_ang = cos(angle);
+	one_minus_cos = 1 - cos_ang;
+	sin_ang = sin(angle);
+	rotate_vector.x = vec.x * (cos_ang + one_minus_cos * axis.x * axis.x)
+			+ vec.y * (one_minus_cos * axis.x * axis.y - sin_ang * axis.z)
+			+ vec.z * (one_minus_cos * axis.x * axis.z + sin_ang * axis.y);
+	rotate_vector.y = vec.x * (one_minus_cos * axis.x * axis.y + sin_ang * axis.z)
+			+ vec.y * (cos_ang + one_minus_cos * axis.y * axis.y)
+			+ vec.z * (one_minus_cos * axis.y * axis.z - sin_ang * axis.x);
+	rotate_vector.z = vec.x * (one_minus_cos * axis.x * axis.z - sin_ang * axis.y)
+			+ vec.y * (one_minus_cos * axis.y * axis.z + sin_ang * axis.x)
+			+ vec.z * (cos_ang + one_minus_cos * axis.z * axis.z);
+	return (rotate_vector);
+}
+
+float3		float3_float_mult(float3 vec, float num)
+{
+	float3 vec_out;
+	vec_out.x = vec.x * num;
+	vec_out.y = vec.y * num;
+	vec_out.z = vec.z * num;
+	return vec_out;
 }

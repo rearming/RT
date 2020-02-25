@@ -20,13 +20,14 @@ void		rt_init(t_rt *out_rt, const char *json_scene_file)
 	rt_sdl_init();
 	rt_opencl_init();
 #endif
-	out_rt->scene = rt_parse_scene(json_scene_file);
+	out_rt->renderer_flags = 0;
+	out_rt->scene = rt_parse_scene(json_scene_file, &out_rt->renderer_flags);
 	if (g_textures.texture_info_size > 0)
 		rt_textures_init();
-	out_rt->renderer_flags = RENDER_DEFAULT;
 	rt_load_obj_files(&out_rt->scene.meshes);
 	out_rt->kd_info = rt_get_kd_object(&out_rt->scene.meshes);
 #ifndef DEBUG_LOADING
 	rt_init_events(&out_rt->events);
 #endif
+
 }

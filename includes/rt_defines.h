@@ -7,13 +7,13 @@
 **	Code constants
 */
 
-# define VALID_ARGS_NUM 1
+# define VALID_ARGS_NUM 2
 # define EXIT_SUCCESS 0
 
 # define RT_OBJLOADER_NOFLAGS 0
 
 #define TEXTURES_FOLDER "./assets/textures/"
-#define SKYBOX_NUM	1
+#define SKYBOX_NUM	0
 /*
 **	Window params
 */

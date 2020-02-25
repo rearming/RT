@@ -1,9 +1,9 @@
 [submodule "libft"]
 	path = libft
 	url = https://github.com/rearming/libft.git
-[submodule "textures2"]
-	path = textures2
-	url = https://github.com/Lilili21/textures
 [submodule "assets/textures"]
 	path = assets/textures
 	url = https://github.com/Lilili21/textures.git
+[submodule "lib/jansson"]
+   	path = lib/jansson
+   	url = https://github.com/akheron/jansson.git

@@ -39,8 +39,16 @@ set(OpenCL_utils_sources
 
 set(parsing_sources
         sources/rt_parsing/rt_parse_scene.c
-        sources/rt_parsing/hardcoded_scene.c
+        sources/rt_parsing/json_parser/rt_parse_textures.c
+        sources/rt_parsing/json_parser/rt_parse_variable.c
+        sources/rt_parsing/json_parser/rt_parse_object.c
+        sources/rt_parsing/json_parser/rt_parse_string.c
+        sources/rt_parsing/json_parser/rt_json_utils.c
+        sources/rt_parsing/json_parser/rt_type_of_parametr.c
+        sources/rt_parsing/json_parser/rt_add_to_scene.c
+        sources/rt_parsing/json_parser/rt_parse_array.c
         sources/rt_parsing/rt_correct_scene.c
+        sources/rt_parsing/print_scene_params_delete_if_everything_works.c
         )
 
 set(event_handling_sources
@@ -65,11 +73,11 @@ set(SDL_utils_sources
         )
 
 set(obj_loading_sources
+        sources/obj_loading/rt_correct_materials.c
         sources/obj_loading/rt_load_obj_files.c
         sources/obj_loading/rt_load_obj_utils.c
         sources/obj_loading/rt_load_obj_meshes.c
         sources/obj_loading/rt_load_obj_materials.c
-        sources/obj_loading/rt_correct_materials.c
         )
 
 set(init_sources
@@ -122,11 +130,11 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
             ${OPENCL_LIBRARIES})
 else()
     set(graphic_libs_include_dirs
-            SDL2_libs/SDL2.framework/Headers)
+            lib/SDL2_libs/SDL2.framework/Headers)
     set(graphic_libs_dirs
-            SDL2_libs/)
+            lib/SDL2_libs/)
     set(graphic_libs_link_names
-            "-F ${PROJECT_SOURCE_DIR}/SDL2_libs -framework SDL2"
+            "-F ${PROJECT_SOURCE_DIR}/lib/SDL2_libs -framework SDL2"
             "-framework OpenCL")
 endif()
 
@@ -138,24 +146,26 @@ include_directories(
         libft/includes
         includes
         ${graphic_libs_include_dirs}
-        )
+)
 
 link_directories(
         libft
         libft/ft_printf
         ${graphic_libs_dirs}
+        lib/jansson/build/lib/
 )
 
 add_executable(RT
         sources/main.c
         ${sources}
-)
+        )
 
 target_link_libraries(RT
         "ftprintf"
         "ft"
         ${graphic_libs_link_names}
         "m"
+        "jansson"
         )
 
 # <----TESTING----> #
@@ -201,4 +211,5 @@ target_link_libraries(generic_test
         "ft"
         ${graphic_libs_link_names}
         "m"
+        "jansson"
         )

@@ -73,7 +73,7 @@ void	rt_print_mtl(tinyobj_material_t *material)
 	ft_printf("material:\n");
 	ft_printf("name: [%s]\n", material->name);
 	color = (cl_float3){{material->ambient[0], material->ambient[1], material->ambient[2]}};
-	rt_print_float3_color(color, "ambient");
+	rt_print_float3_color(color, "ambience");
 	color = (cl_float3){{material->diffuse[0], material->diffuse[1], material->diffuse[2]}};
 	rt_print_float3_color(color, "diffuse");
 	color = (cl_float3){{material->specular[0], material->specular[1], material->specular[2]}};

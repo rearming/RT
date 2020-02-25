@@ -1,0 +1,31 @@
+{
+  "open cl parameters":"RENDER_PATHTRACE | RENDER_OBJECTS | RENDER_MESH | RENDER_BACKFACE_CULLING",
+  "objects": [
+    {
+      "type": "plane",
+      "material":{
+        "diffuse": "0xFFFFFF"
+      },
+      "normal": [0, 1, 0],
+      "center": [0, 0, 0]
+    }
+  ],
+  "camera": {
+    "pos": [0, 0, 0],
+    "rotation": [0, 0, 0]
+  },
+  "light":
+  [
+    {
+      "type": "ambient",
+      "intensity": 0.2,
+      "color": "0xFFFFFF"
+    },
+    {
+      "type": "directional",
+      "color": "0xFFFFFF",
+      "intensity": 0.7,
+      "direction": [1, 1, 0]
+    }
+  ]
+}

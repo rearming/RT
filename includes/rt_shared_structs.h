@@ -114,6 +114,8 @@ typedef enum			e_object_type
 	CONE,
 	TRIANGLE,
 	AABB,
+	PARABOLOID,
+	ELLIPSOID
 }						t_object_type;
 
 typedef enum			e_light_type
@@ -144,7 +146,7 @@ typedef struct			s_light
 
 }						t_light;
 
-typedef struct			s_material
+typedef struct			s_material //есть default material и все задается по default
 {
 # ifndef FT_OPENCL___
 
@@ -152,10 +154,10 @@ typedef struct			s_material
 	cl_float3			diffuse;
 	cl_float3			specular;
 	cl_float			phong_exp;
-	cl_float			smoothness;
+	cl_float			smoothness; // [0.0, 1.0]
 	cl_float			transmittance;
 	cl_float			refraction;
-	cl_float3			emission_color;
+	cl_float3			emission_color; //color может быть задан 3 способами как 3 int, 3 float, и 1 char
 	cl_float			emission_power;
 	cl_float			specular_texture;
 	cl_int				texture_number;
@@ -186,8 +188,12 @@ typedef struct			s_object
 	t_material			material;
 	cl_float3			center;
 	cl_float3			normal;
+	cl_float3			axis;
+	/// axis for all rotation object
+	/// (cylinder, cone, torus, hiperboloid etc)
 	cl_float			radius;
 	cl_float			angle;
+	cl_float 			distance;
 	cl_float			len;
 	cl_float3			vertices[3];
 	cl_float3			vmin;
@@ -198,8 +204,10 @@ typedef struct			s_object
 	t_material			material;
 	float3				center;
 	float3				normal;
+	float3				axis;
 	float				radius;
 	float				angle;
+	float 				distance;
 	float				len;
 	float3				vertices[3];
 	float3				vmin;
