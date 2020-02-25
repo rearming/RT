@@ -8,7 +8,8 @@ void		rt_loop(t_rt *rt)
 
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 	bool flag = false;
-	while (21)
+
+	while (21 || 42)
 	{
 		while (SDL_PollEvent(&event))
 		{

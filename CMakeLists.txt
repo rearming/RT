@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD 11)
 add_compile_options(-Wall -Wextra)
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
-    add_compile_options(-O3)
+    add_compile_options(-O2)
 endif()
 
 # <----RTv1 compile---->
@@ -108,6 +108,12 @@ set(kd_tree_sources
         sources/kd_tree/rt_kd_tree_get.c
         sources/kd_tree/rt_kd_pack_object_indices.c)
 
+set(gui_sources
+        sources/gui/gui_init.c
+        sources/gui/buttons.c
+        sources/gui/gui_utils/color_utils.c
+        sources/gui/button_callback.c)
+
 set(sources
         ${debug_sources}
         ${runtime_debug_sources}
@@ -138,11 +144,12 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
             ${OPENCL_LIBRARIES})
 else()
     set(graphic_libs_include_dirs
-            lib/SDL2_libs/SDL2.framework/Headers)
+            lib/SDL2_libs/SDL2.framework/Headers
+            lib/SDL2_libs/SDL2_ttf.framework/Headers)
     set(graphic_libs_dirs
             lib/SDL2_libs/)
     set(graphic_libs_link_names
-            "-F ${PROJECT_SOURCE_DIR}/lib/SDL2_libs -framework SDL2"
+            "-F ${PROJECT_SOURCE_DIR}/lib/SDL2_libs -framework SDL2 -framework SDL2_ttf"
             "-framework OpenCL")
 endif()
 
@@ -165,8 +172,7 @@ link_directories(
 
 add_executable(RT
         sources/main.c
-        ${sources}
-        )
+        ${sources})
 
 target_link_libraries(RT
         "ftprintf"
