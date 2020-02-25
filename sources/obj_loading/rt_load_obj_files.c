@@ -31,11 +31,6 @@ static inline char 		*read_obj_file(const char *path_to_obj, size_t *out_size)
 	return (buf);
 }
 
-void						correct_mtllib_path(const char *path_to_obj)
-{
-
-}
-
 static inline t_raw_obj		get_raw_obj(const char *path_to_obj)
 {
 	t_raw_obj	raw_obj;
@@ -59,7 +54,7 @@ void					rt_load_obj_file(const char *path_to_obj, t_meshes *out_meshes)
 //	const char			*hardcoded_path = "./assets/3d_models/cube.obj";
 //	const char			*hardcoded_path = "./assets/3d_models/two_cubes.obj";
 //	const char			*hardcoded_path = "./assets/3d_models/isosphere.obj";
-	const char			*hardcoded_path = "./assets/3d_models/sauron_tower.obj";
+//	const char			*hardcoded_path = "./assets/3d_models/sauron_tower.obj";
 //	const char			*hardcoded_path = "./assets/3d_models/monk_statue_triangulated.obj";
 //	const char			*hardcoded_path = "./assets/3d_models/column.obj";
 //	const char			*hardcoded_path = "./assets/3d_models/monkey.obj";
@@ -69,7 +64,7 @@ void					rt_load_obj_file(const char *path_to_obj, t_meshes *out_meshes)
 //	const char			*hardcoded_path = "./assets/3d_models/cube_isosphere_materials.obj";
 //	const char			*hardcoded_path = "./assets/3d_models/teapot_cornell_box_scene.obj";
 //	const char			*hardcoded_path = "./assets/3d_models/test_scene_materials.obj";
-//	const char			*hardcoded_path = "./assets/3d_models/cube_plane_sphere.obj";
+	const char			*hardcoded_path = "./assets/3d_models/cube_plane_sphere.obj";
 	t_raw_obj			raw_obj;
 
 	raw_obj = get_raw_obj(path_to_obj ? path_to_obj : hardcoded_path);

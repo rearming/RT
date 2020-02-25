@@ -83,7 +83,23 @@ def correct_mtl_path():
         file.close()
 
 
+def correct_mtl_emission():
+    mtl_file_paths = glob.glob(meshes_dir_path + "**/" + "*.mtl", recursive=True)
+
+    for mtl_file in mtl_file_paths:
+        file = open(mtl_file, 'r')
+        file_text = file.read()
+        file.close()
+        file_text = re.sub(r"(newmtl emissive[\s\S]*?Kd ([\d.]+) ([\d.]+) ([\d.]+)[\s\S]*?)Ke ([\d.]+) ([\d.]+) ([\d.]+)", r"\g<1>Ke \g<2> \g<3> \g<4>", file_text)
+        print(file_text)
+        file = open(mtl_file, 'wt')
+        file.seek(0)
+        file.write(file_text)
+        file.close()
+
+
 cl_files_names = get_opencl_files_names()
 pwd = os.path.dirname(os.path.realpath(__file__))
 update_opencl_header()
 correct_mtl_path()
+correct_mtl_emission()
