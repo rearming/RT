@@ -109,10 +109,10 @@ set(kd_tree_sources
         sources/kd_tree/rt_kd_pack_object_indices.c)
 
 set(gui_sources
-        sources/gui/gui_init.c
-        sources/gui/buttons.c
-        sources/gui/gui_utils/color_utils.c
-        sources/gui/button_callback.c)
+        sources/gui/rt_gui_init.c
+        sources/gui/rt_gui_buttons.c
+        sources/gui/gui_utils/rt_gui_color_utils.c
+        sources/gui/rt_gui_button_callback.c sources/gui/rt_handle_event_gui.c)
 
 set(sources
         ${debug_sources}
@@ -128,6 +128,7 @@ set(sources
         ${render_sources}
         ${kd_tree_sources}
         ${profiling_sources}
+        ${gui_sources}
         )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")

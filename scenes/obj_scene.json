@@ -1,5 +1,5 @@
 {
-  "open cl parameters":"RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_MESH | RENDER_BACKFACE_CULLING",
+  "open cl parameters":"RENDER_PATHTRACE | RENDER_OBJECTS | RENDER_MESH | RENDER_BACKFACE_CULLING",
   "objects": [],
   "camera": {
     "pos": [9.5, 5.2, -7.1],

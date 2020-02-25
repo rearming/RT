@@ -33,6 +33,8 @@
 **	Global pointers
 */
 
+typedef struct s_gui t_gui;
+
 extern t_opencl		g_opencl;
 extern t_sdl		g_sdl;
 extern t_gui		g_gui;
