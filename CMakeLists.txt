@@ -192,9 +192,13 @@ target_link_libraries(RT
 
 # <----TESTING----> #
 
+set(testing_utils
+        sources/test/test_asserts.c sources/test/test_event_loop.c)
+
 # <---- kd_tree_test ----> #
 
 add_executable(kd_tree_test
+        ${testing_utils}
         ${SDL_utils_sources}
         ${math_utils_sources}
         ${utils_sources}
@@ -221,7 +225,7 @@ target_link_libraries(kd_tree_test
 
 add_executable(generic_test
         ${sources}
-        sources/test/test_asserts.c
+        ${testing_utils}
         sources/test/generic_test/generic_test_main.c
         )
 
@@ -245,13 +249,34 @@ add_executable(obj_loading_test
         ${math_utils_sources}
         ${utils_sources}
         ${obj_loading_sources}
-        sources/test/test_asserts.c
+        ${testing_utils}
         sources/test/obj_loading_test/obj_loading_test_main.c)
 
 target_include_directories(obj_loading_test PRIVATE
         sources/test)
 
 target_link_libraries(obj_loading_test
+        "ftprintf"
+        "ft"
+        ${graphic_libs_link_names}
+        "m"
+        "jansson"
+        )
+
+# <---- sobel_operator_test ----> #
+
+add_executable(sobel_operator_test
+        sources/utils/rt_raise_error.c
+        sources/utils/rt_safe_malloc.c
+        sources/SDL_utils/sdl_init.c
+        sources/render/render.c
+        ${testing_utils}
+        sources/test/sobel_operator_test/sobel_operator_test_main.c)
+
+target_include_directories(sobel_operator_test PRIVATE
+        sources/test)
+
+target_link_libraries(sobel_operator_test
         "ftprintf"
         "ft"
         ${graphic_libs_link_names}
