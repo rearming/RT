@@ -31,7 +31,8 @@ set(profiling_sources
 set(math_utils_sources
         sources/math_utils/rt_math_utils.c
         sources/math_utils/rt_rotation_utils.c
-        sources/math_utils/rt_cl_float3_utils.c sources/math_utils/rt_vector_math.c)
+        sources/math_utils/rt_cl_float3_utils.c
+        sources/math_utils/rt_vector_math.c)
 
 set(OpenCL_utils_sources
         sources/OpenCL_utils/rt_opencl_init.c
@@ -112,7 +113,8 @@ set(gui_sources
         sources/gui/rt_gui_init.c
         sources/gui/rt_gui_buttons.c
         sources/gui/gui_utils/rt_gui_color_utils.c
-        sources/gui/rt_gui_button_callback.c sources/gui/rt_handle_event_gui.c)
+        sources/gui/rt_gui_button_callback.c
+        sources/gui/rt_handle_event_gui.c)
 
 set(sources
         ${debug_sources}
@@ -132,17 +134,22 @@ set(sources
         )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    INCLUDE(FindPkgConfig)
-    PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
-    PKG_SEARCH_MODULE(OPENCL REQUIRED OpenCL)
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake_search_modules)
+
+    find_package(SDL2 REQUIRED)
+    find_package(SDL2_ttf REQUIRED)
+    find_package(OpenCL REQUIRED)
 
     set(graphic_libs_include_dirs
-            ${SDL2_INCLUDE_DIRS})
-    set(graphic_libs_dirs
-            ${SDL2_LIBRARY_DIRS})
+            ${SDL2_INCLUDE_DIRS}
+            ${SDL2_TTF_INCLUDE_DIRS}
+            ${OpenCL_INCLUDE_DIRS})
+
     set(graphic_libs_link_names
-            ${SDL2_LIBRARIES}
-            ${OPENCL_LIBRARIES})
+            SDL2
+            SDL2_ttf
+            OpenCL)
+
 else()
     set(graphic_libs_include_dirs
             lib/SDL2_libs/SDL2.framework/Headers

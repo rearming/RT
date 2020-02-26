@@ -5,8 +5,6 @@
 # include <SDL.h>
 # include <SDL_ttf.h>
 
-//#endif
-
 # include <stdbool.h>
 
 # include "rt_gui_defines.h"
@@ -17,7 +15,7 @@ typedef struct s_rt t_rt;
 typedef struct s_sdl t_sdl;
 
 void		update_all_algo_buttons(void);
-bool rt_handle_event_gui(SDL_Event *event, t_rt *rt);
+bool		rt_handle_event_gui(SDL_Event *event, t_rt *rt);
 void		init_gui(uint64_t algo);
 
 /*
