@@ -270,6 +270,8 @@ add_executable(sobel_operator_test
         sources/utils/rt_safe_malloc.c
         sources/SDL_utils/sdl_init.c
         sources/render/render.c
+        sources/utils/rt_color_utils.c
+        ${math_utils_sources}
         ${testing_utils}
         sources/test/sobel_operator_test/sobel_operator_test_main.c)
 
