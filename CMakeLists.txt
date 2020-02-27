@@ -273,7 +273,7 @@ add_executable(sobel_operator_test
         sources/utils/rt_color_utils.c
         ${math_utils_sources}
         ${testing_utils}
-        sources/test/sobel_operator_test/sobel_operator_test_main.c)
+        sources/test/sobel_operator_test/sobel_operator_test_main.c sources/test/sobel_operator_test/sobel_tests.c sources/test/sobel_operator_test/soble_operator_test_impl.c)
 
 target_include_directories(sobel_operator_test PRIVATE
         sources/test)
