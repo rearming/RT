@@ -26,6 +26,7 @@ typedef enum			e_button
 //						rm_btn
 						algo_btn_count,
 						scr_sbtn = 0,
+//						test_btn,
 						other_btn_count,
 						btn_count = algo_btn_count + other_btn_count
 }						t_btn;

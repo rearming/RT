@@ -31,7 +31,7 @@ bool		check_button(SDL_Event *event, SDL_Rect button)
 	return (false);
 }
 
-void		render_button(t_transform btn)
+void		render_button_(t_transform btn)
 {
 	SDL_Surface *text_surface;
 	SDL_Color	color;
@@ -53,6 +53,70 @@ void		render_button(t_transform btn)
 					color.b,
 					color.a));
 	SDL_BlitSurface(text_surface, NULL, g_gui.surface, &btn.rect);
+}
+
+void 		cut_rect(t_transform *btn, int px)
+{
+	 btn->rect.x += px;
+	 btn->rect.y += px;
+	 btn->rect.w -= 2 * px;
+	 btn->rect.h -= 2 * px;
+}
+
+void		render_border(t_transform *btn, int px, SDL_Color color)
+{
+	SDL_Rect	button;
+
+	button = btn->rect;
+	cut_rect(btn, px);
+	SDL_FillRect(g_gui.surface,
+				 &(button),
+				 SDL_MapRGBA(
+						 g_gui.surface->format,
+						 color.r,
+						 color.g,
+						 color.b,
+						 color.a));
+}
+
+SDL_Rect	centered_label( SDL_Rect button, SDL_Surface *sur)
+{
+	SDL_Rect centered;
+
+	centered.x = button.x + button.w / 2 - sur->w / 2;
+	centered.y = button.y + button.h / 2 - sur->h / 2;
+	centered.w = sur->w;
+	centered.h = sur->h;
+
+	return (centered);
+}
+
+void		render_button(t_transform btn)
+{
+	SDL_Surface *text_surface;
+	SDL_Color	color;
+	SDL_Rect 	label;
+
+
+	text_surface = TTF_RenderText_Solid(g_gui.font, btn.text,
+										get_color_from_hex(FONT_COL));
+	if (btn.state == click)
+		color = get_color_from_hex(BTN_COLOR_CLICK);
+	else if (btn.state == hover)
+		color = get_color_from_hex(BTN_COLOR_HOVER);
+	else
+		color = get_color_from_hex(BTN_COLOR_NONACTIVE);
+	render_border(&btn, BTN_BORDER, get_color_from_hex(GUI_BG));
+	label = centered_label(btn.rect, text_surface);
+	SDL_FillRect(g_gui.surface,
+				 &(btn.rect),
+				 SDL_MapRGBA(
+						 g_gui.surface->format,
+						 color.r,
+						 color.g,
+						 color.b,
+						 color.a));
+	SDL_BlitSurface(text_surface, NULL, g_gui.surface, &label);
 }
 
 void		update_all_algo_buttons(void)

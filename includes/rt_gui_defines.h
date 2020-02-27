@@ -18,12 +18,17 @@
 #  define WIN_GUI_WIDTH 320
 # endif
 
+#define GUI_BG 0x3F3F3F
+#define BTN_BORDER 5
+
 #define CHANGE_ALGO (1 << 0)
 
 # define ACTIVATE 1
 
 # define FONT_SIZE 30
+# define FONT_COL 0x0
 
+#define NONE (0 << 0)
 #define RENDER_BTN (1 << 0)
 #define SCREENSHOT (1 << 1)
 

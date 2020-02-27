@@ -68,24 +68,32 @@ void		init_other_buttons(void)
 {
 	SDL_Rect	rect;
 
-	rect = (SDL_Rect){.x = 0, .y = WIN_HEIGHT - 100,
+	rect = (SDL_Rect){.x = 0, .y = WIN_HEIGHT - 150,
 				   .h = 100, .w = WIN_GUI_WIDTH};
 	g_gui.obj[algo_btn_count + scr_sbtn] = (t_transform){ .rect = rect,
 			.state = non_event, .text = "Take Screenshot", .action = scr_sbtn,
 			.callback = button_callback, .type = SCREENSHOT,
 			.color = get_color_from_hex(COL_GREEN)};
+//	rect = (SDL_Rect){.x = 320, .y = 450,
+//			.h = 100, .w = 100};
+//	g_gui.obj[algo_btn_count + test_btn] = (t_transform){ .rect = rect,
+//			.state = non_event, .text = "test", .action = test_btn,
+//			.callback = button_callback, .type = NONE,
+//			.color = get_color_from_hex(COL_GREEN)};
 }
 
 void		init_gui(uint64_t algo)
 {
 	int			i;
+	SDL_Color	bg;
 
 	TTF_Init();
+	bg = get_color_from_hex(GUI_BG);
 	g_gui.obj = rt_safe_malloc(sizeof(t_transform) * btn_count);
 	g_gui.font = TTF_OpenFont("./Fonts/Techno.ttf", FONT_SIZE);
 	g_gui.surface = SDL_GetWindowSurface(g_sdl.win_tool);
 	SDL_FillRect(g_gui.surface, NULL,
-			SDL_MapRGB(g_gui.surface->format, 63, 63, 63));
+			SDL_MapRGB(g_gui.surface->format, bg.r, bg.g, bg.b));
 	g_gui.render_algo = ((algo & 0b111) - 1);
 	init_algo_buttons();
 	init_other_buttons();
