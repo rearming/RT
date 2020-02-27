@@ -23,7 +23,7 @@ static float	*rt_memcpy(float *help, int size_dst, int type)
 	return (help);
 }
 
-static void		rt_add_texture_and_info(const float *scr,
+static void		rt_add_texture_and_info(const float *src,
 		int size_src, int texture_num)
 {
 	float	*help;
@@ -48,7 +48,7 @@ static void		rt_add_texture_and_info(const float *scr,
 	j = 0;
 	i = size_dst;
 	while (j < size_src)
-		g_textures.texture_list[i++] = scr[j++];
+		g_textures.texture_list[i++] = src[j++];
 }
 
 static void			rt_change_format_and_add(const unsigned char *tmp_texture,
@@ -69,11 +69,12 @@ static void			rt_change_format_and_add(const unsigned char *tmp_texture,
 	{
 		tmp_texture_list[j] = (float)(tmp_texture[i] << 16 |
 				tmp_texture[i + 1] << 8 | tmp_texture[i + 2]);
+		// todo [gfoote] это полный треш. для текстур переписать на cl_int*, для скайбокса использовать stbi_loadf
 		i += 3;
 		j++;
 	}
-	free(tmp_texture_list);
 	rt_add_texture_and_info(tmp_texture_list, j, texture_num);
+	free(tmp_texture_list); //todo [gfoote] free надо делать после того, как закончишь использовать память, а не перед этим. пожалуйста, будь внимательнее
 	if (texture_num + 1 == (int)g_textures.texture_info_size)
 		g_textures.texture_list_size =
 				g_textures.texture_info[texture_num].start + j;
