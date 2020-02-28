@@ -73,7 +73,7 @@ void					rt_load_obj_file(const char *path_to_obj, t_meshes *out_meshes)
 //	rt_print_obj(&raw_obj.attrib, raw_obj.shapes, raw_obj.num_shapes);
 //	rt_print_mtl_file(raw_obj.materials, raw_obj.num_materials);
 	rt_print_parsed_meshes(out_meshes);
-#endif
 	rt_print_parsed_materials(out_meshes);
+#endif
 	rt_free_raw_obj(&raw_obj);
 }

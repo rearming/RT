@@ -31,6 +31,8 @@ static uint32_t	search_cl_parameters(const char *tmp_value)
 		return (RENDER_MESH_VTEXTURES);
 	else if (ft_strequ(tmp_value, "RENDER_TEXTURES"))
 		return (RENDER_TEXTURES);
+	else if (ft_strequ(tmp_value, "RENDER_ANTI_ALIASING"))
+		return (RENDER_ANTI_ALIASING);
 	else
 		rt_raise_error(ERR_PARSING_WRONG_CL_PARAM);
 	return (-1);
