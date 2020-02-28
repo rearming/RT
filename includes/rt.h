@@ -103,6 +103,7 @@ void		rt_switch_render_param(uint32_t *params, uint32_t target);
 
 void		rt_sdl_init(void);
 void		rt_textures_init();
+void 		rt_skybox_init(void);
 
 /*
 **	Utils

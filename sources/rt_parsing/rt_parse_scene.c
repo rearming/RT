@@ -74,6 +74,8 @@ t_scene		rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags)
 		rt_raise_error(ERR_INVALID_JSON_FILE);
 	init_tmp(tmp);
 	g_textures.textures_names = NULL;
+	g_textures.skybox_info = rt_safe_malloc(sizeof(t_skybox_info));
+	g_textures.skybox_info->skybox_exist = false;
 	root = json_loads(text, 0, &error);
 	parse_json_file(root, tmp, renderer_flags);
 	count_elements(&scene, tmp);

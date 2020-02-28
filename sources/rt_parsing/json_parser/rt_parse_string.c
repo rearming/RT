@@ -148,7 +148,13 @@ void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 			parse_cl_parameters(tmp_value, renderer_flags);
 		}
 		else if (ft_strequ(key, "skybox"))
-			ft_add_texture_name_back(&g_textures.textures_names, tmp_value);
+			{
+				if(g_textures.skybox_info->skybox_exist == true)
+					rt_raise_error("duplicated skybox");
+				g_textures.skybox_info->skybox_exist = true;
+				g_textures.skybox_info->skybox_name = ft_strdup(tmp_value);
+				printf("%s\n", g_textures.skybox_info->skybox_name);
+			}
 		else
 			rt_raise_error(ERR_PARSING_WRONG_TYPE);
 	}

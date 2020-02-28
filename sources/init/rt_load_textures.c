@@ -73,7 +73,7 @@ static void			rt_change_format_and_add(const float *tmp_texture,
 		j++;
 	}
 	rt_add_texture_and_info(tmp_texture_list, j, texture_num);
-	free(tmp_texture_list); //todo [gfoote] free надо делать после того, как закончишь использовать память, а не перед этим. пожалуйста, будь внимательнее
+	free(tmp_texture_list);
 	if (texture_num + 1 == (int)g_textures.texture_info_size)
 		g_textures.texture_list_size =
 				g_textures.texture_info[texture_num].start + j;
@@ -106,4 +106,34 @@ void			rt_textures_init(void)
 //		free(g_textures.textures_names);
 		g_textures.textures_names = g_textures.textures_names->next;
 	}
+}
+
+void 		rt_skybox_init(void)
+{
+	char 	*tmp_filename;
+	float	*tmp_texture;
+	int 	i;
+	int 	j;
+	int		texture_list_size;
+
+	i = 0;
+	j = 0;
+	if (!(tmp_filename = (ft_strchr(g_textures.skybox_info->skybox_name, 47) != NULL)
+						 ? ft_strdup(g_textures.skybox_info->skybox_name) :
+						 ft_strjoin(TEXTURES_FOLDER, g_textures.skybox_info->skybox_name)))
+		return (rt_raise_error(ERR_INVALID_TEXRTURE));
+	tmp_texture = stbi_loadf(tmp_filename, &g_textures.skybox_info->width,
+							 &g_textures.skybox_info->height, &g_textures.skybox_info->bpp, STBI_rgb);
+	texture_list_size = g_textures.skybox_info->width * g_textures.skybox_info->height;
+	g_textures.skybox_list = rt_safe_malloc(sizeof(cl_float3) * texture_list_size);
+	while (j < texture_list_size)
+	{
+		g_textures.skybox_list[j].x = tmp_texture[i];
+		g_textures.skybox_list[j].y = tmp_texture[i + 1];
+		g_textures.skybox_list[j].z = tmp_texture[i + 2];
+		i += 3;
+		j++;
+	}
+	free(tmp_filename);
+	free(tmp_texture);
 }

@@ -47,6 +47,23 @@ typedef struct			s_point
 # endif
 }						t_point;
 
+typedef struct			s_skybox_info
+{
+# ifndef FT_OPENCL___
+	bool				skybox_exist;
+	const char			*skybox_name;
+	cl_int				width;
+	cl_int				height;
+	cl_int				bpp;
+# else
+	bool				skybox_exist;
+	const char			*skybox_name;
+	int					width;
+	int					height;
+	int					bpp;
+# endif
+}						t_skybox_info;
+
 typedef struct			s_texture_info
 {
 # ifndef FT_OPENCL___
@@ -74,7 +91,9 @@ typedef struct		s_texture_name
 typedef struct			s_textures
 {
 	//cl_float 			*texture_list;
-	cl_int 			*texture_list;
+	cl_int 				*texture_list;
+	cl_float3 			*skybox_list;
+	t_skybox_info		*skybox_info;
 	t_texture_info		*texture_info; //вот здесь используется количество текстур
 	size_t				texture_list_size;
 	size_t				texture_info_size; // вот это заполнять
