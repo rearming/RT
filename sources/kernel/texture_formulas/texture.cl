@@ -1,18 +1,7 @@
-
-void 	change_format(int i_color, float3 *f_color)
-{
-	f_color->x = (i_color >> 16) & 0xFF;
-	f_color->y = (i_color >> 8) & 0xFF;
-	f_color->z = i_color & 0xFF;
-	f_color->x *= 0.00392156862f; // 1/255
-	f_color->y *= 0.00392156862f;// 1/255
-	f_color->z *= 0.00392156862f;// 1/255
-}
-
 float3 texture(t_ray *out_ray,
 			   t_rayhit *hit,
 			   __global const t_texture_info *texture_info,
-			   __global const float *texture_list,
+			   __global const int *texture_list,
 			   __global const t_object *object)
 {
 	float	u;
@@ -32,6 +21,6 @@ float3 texture(t_ray *out_ray,
 	y = (int)(v * (texture_info->height - 1));
 	y = check_borders(y, texture_info->height - 1, 1);
 	coord = x + y * texture_info->width + texture_info->start;
-	change_format((int)texture_list[coord], &color);
+	color = get_float3_color(texture_list[coord]);
 	return (color);
 }

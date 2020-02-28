@@ -66,7 +66,7 @@ __kernel void	rt_main(
 #endif
 #ifdef RENDER_TEXTURES
     __global const t_texture_info *texture_info,
-	__global const float *texture_list,
+	__global const int *texture_list,
 #endif
     __global int *img_data)
 {
@@ -99,7 +99,7 @@ __kernel void	rt_main(
 #endif
 #ifndef RENDER_TEXTURES
  	__global const t_texture_info 	*texture_info;
-	__global const float 			*texture_list;
+	__global const int 				*texture_list;
 #endif
 
 #ifdef RENDER_PATHTRACE

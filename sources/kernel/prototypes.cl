@@ -11,7 +11,7 @@ int			get_int_color(float3 color);
 
 int         get_texture_color(
 		int2 pos,
-		__constant float *texture_list,
+		__constant int *texture_list,
 		__constant t_texture_info *texture_info
 );
 
@@ -46,7 +46,7 @@ float3		shade(
 		t_rayhit *hit,
 		t_material *material,
 		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const int *texture_list,
 		__global const t_object *object);
 
 float3		raytrace(
@@ -63,7 +63,7 @@ float3		raytrace(
 		__global const float3 *v_textures,
 		__global const t_renderer_params *params,
 		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const int *texture_list,
 		t_ray ray);
 
 bool		get_hit_material(
@@ -249,7 +249,7 @@ float3		pathtrace(
 		__global const float3 *v_textures,
 		__global const t_renderer_params *params,
 		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const int *texture_list,
 		t_ray ray,
 		int depth,
 		float *seed,
@@ -292,7 +292,7 @@ float3		shade_pathtrace(
 
 float3		texture_shade_pathtrace(
 		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const int *texture_list,
 		__global const t_object *object,
 		t_ray *ray,
 		t_rayhit *hit,
@@ -302,19 +302,17 @@ float3		texture_shade_pathtrace(
 
 float3		skybox_color(
 		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const int *texture_list,
 		float3 normal);
 
 float 		scale(t_ray ray, float skybox_radius);
 
 float3		skybox_normal(t_ray ray);
 
-void 	change_format(int i_color, float3 *f_color);
-
 float3 texture(t_ray *out_ray,
 			   t_rayhit *hit,
 			   __global const t_texture_info *texture_info,
-			   __global const float *texture_list,
+			   __global const int *texture_list,
 			   __global const t_object *object);
 
 int		check_borders(int a, int max, int type);
