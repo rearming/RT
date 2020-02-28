@@ -1,0 +1,115 @@
+{
+  "open cl parameters":"RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_MESH | RENDER_BACKFACE_CULLING",
+  "objects": [
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [0.0, 0, 5.0],
+      "normal": [0.0,  0.0, 1.0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0x408000"
+      },
+      "center": [8.5, 0.0, 0.0],
+      "normal": [1.0, 0.0, 0.0]
+    },
+    {
+      "type": "plane",
+      "material": {
+       "diffuse": "0xb30f0f"
+      },
+      "center": [-8.5, 0.0, 0.0],
+      "normal": [1.0, 0.0, 0.0]
+    },
+    {
+      "type": "plane",
+      "material": {
+      "diffuse": "0xFF",
+      "phong exp": 40.0
+      },
+      "center": [0.0, -8.0, 0.0],
+      "normal": [0.0, 1, 0.0]
+    },
+    {
+      "type": "plane",
+      "material": {
+      "diffuse": "0x00FF"
+      },
+      "center": [0, 8.5, 0],
+      "normal": [0, 1, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+      "diffuse": "FFFFFF"
+      },
+      "center": [0, 0, -15],
+      "normal": [0, 0, 1]
+    },
+    {
+      "type": "ellipsoid",
+      "material": {
+        "specular": "0xffffff",
+        "smoothness": 10000
+      },
+      "center": [-2, -1, -2],
+      "axis": [1, 1, 1],
+      "radius": 1.1,
+      "distance": 1.1
+    },
+
+    {
+      "type": "sphere",
+      "material": {
+      "specular": "0xb3ff66",
+      "transmittance": 0,
+      "refraction": 0,
+      "phong exp": 200,
+      "smoothness": 1000
+      },
+      "center": [-1, -0.5, -2.5],
+      "radius": 1.0
+    },
+    {
+      "type": "paraboloid",
+      "material": {
+        "specular": "0xffffff",
+        "smoothness": 10000
+      },
+      "center": [3.5, 0.5, -1],
+      "axis": [2, -3, 4],
+      "distance": 0.01
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "color": "0xFFFFFF",
+        "emission power": 200
+      },
+      "center": [-1.5, 2, -13],
+      "radius": 0.5
+    }
+  ],
+  "camera": {
+    "pos": [-1.5, 2, -14],
+    "rotation": [0, 0, 0]
+  },
+  "light":
+  [
+    {
+      "type": "ambient",
+      "intensity": 0.2,
+      "color": "0xFFFFFF"
+    },
+    {
+      "type": "point",
+      "color": "0xFFFFFF",
+      "intensity": 0.5,
+      "pos": [0, 0, -5]
+    }
+  ]
+}

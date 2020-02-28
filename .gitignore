@@ -1,10 +1,13 @@
-RTv1
+RT
 /cmake-build-debug/
 /cmake-build-release/
 .idea
 .DS_Store
 *.dSYM
 temp
-rtv1
+rt
 .vscode
 build
+*.bmp
+kd_tree_test
+raw_aabbs_data
