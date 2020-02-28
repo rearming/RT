@@ -17,6 +17,7 @@
 # define RENDER_OBJECTS (1 << 5)
 # define RENDER_MESH_VTEXTURES (1 << 6)
 # define RENDER_TEXTURES (1 << 7)
+# define RENDER_ANTI_ALIASING (1 << 8)
 
 # define RENDER_DEFAULT RENDER_RAYTRACE | /*RENDER_OBJECTS |*/ RENDER_TEXTURES | RENDER_MESH /*| RENDER_BACKFACE_CULLING*/
 
@@ -35,7 +36,7 @@
 */
 
 # define OPENCL_RELEASE_KERNEL_NUM WIN_WIDTH * WIN_HEIGHT
-# define OPENCL_DEBUG_KERNEL_NUM 1
+# define OPENCL_DEBUG_KERNEL_NUM 2
 
 # ifndef FT_OPENCL___
 #  define OPENCL_INCLUDE_DIRS \
@@ -47,7 +48,8 @@
 " -I ./sources/kernel/object_intersections/more_difficult_object " \
 " -I ./sources/kernel/pathtrace_algo " \
 " -I ./sources/kernel/texture_formulas" \
-" -I ./sources/kernel/kd_tree_traversal"
+" -I ./sources/kernel/kd_tree_traversal" \
+" -I ./sources/kernel/anti_aliasing"
 # endif
 
 # ifdef __APPLE__

@@ -32,8 +32,8 @@ static void	add_camera(t_camera *camera, t_tmp *tmp)
 	camera->pos = tmp->pos;
 	camera->rotation = tmp->rotation;
 	camera->viewport_distance = 1;
-	camera->viewport_width = WIN_RATIO < 1 ? D_I_MAZOHIN : 1;
-	camera->viewport_height = WIN_RATIO > 1 ? D_E_KARMATSKIY : 1 ;
+	camera->viewport_width = WIN_RATIO;
+	camera->viewport_height = 1;
 }
 
 static void	add_light(t_tmp *tmp, t_light *light)
