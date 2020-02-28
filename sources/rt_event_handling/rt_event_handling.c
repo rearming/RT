@@ -14,4 +14,8 @@ void		handle_event(SDL_Event *event, t_rt *rt)
 		rt_camera_move(&rt->scene.camera, &rt->events);
 		rt_render(rt, &rt_opencl_render);
 	}
+	else if (event->type != SDL_MOUSEMOTION)
+	{
+
+	}
 }

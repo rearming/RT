@@ -90,7 +90,7 @@ void		init_gui(uint64_t algo)
 	TTF_Init();
 	bg = get_color_from_hex(GUI_BG);
 	g_gui.obj = rt_safe_malloc(sizeof(t_transform) * btn_count);
-	g_gui.font = TTF_OpenFont("./Fonts/Techno.ttf", FONT_SIZE);
+	g_gui.font = TTF_OpenFont(FONT_PATH, FONT_SIZE);
 	g_gui.surface = SDL_GetWindowSurface(g_sdl.win_tool);
 	SDL_FillRect(g_gui.surface, NULL,
 			SDL_MapRGB(g_gui.surface->format, bg.r, bg.g, bg.b));

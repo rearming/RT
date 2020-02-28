@@ -97,7 +97,6 @@ void		render_button(t_transform btn)
 	SDL_Color	color;
 	SDL_Rect 	label;
 
-
 	text_surface = TTF_RenderText_Solid(g_gui.font, btn.text,
 										get_color_from_hex(FONT_COL));
 	if (btn.state == click)
@@ -117,6 +116,7 @@ void		render_button(t_transform btn)
 						 color.b,
 						 color.a));
 	SDL_BlitSurface(text_surface, NULL, g_gui.surface, &label);
+	SDL_FreeSurface(text_surface);
 }
 
 void		update_all_algo_buttons(void)

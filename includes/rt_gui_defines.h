@@ -25,6 +25,8 @@
 
 # define ACTIVATE 1
 
+# define FONT_PATH "./Fonts/Techno.ttf"
+//# define FONT_PATH_1 "./Fonts/Techno.ttf"
 # define FONT_SIZE 30
 # define FONT_COL 0x0
 
