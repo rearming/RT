@@ -68,8 +68,10 @@ __kernel void	rt_main(
     __global __write_only int *img_data,
     __global __read_only t_ray *rays)
 {
+
 	int3		img_point = (int3)(get_global_id(0), get_global_id(1), 0);
 	int			g_id = img_point.x + img_point.y * WIN_WIDTH;
+	t_ray		ray = get_ray(convert_float3(img_point), &scene->camera);
 
 	float3		final_color = 0;
 	float3		new_color = 0;
@@ -98,9 +100,8 @@ __kernel void	rt_main(
 #ifdef RENDER_PATHTRACE
 	float3		prev_color = img_data_float[g_id];
 
-	t_ray ray = rays[RAYS_CHUNK_SIZE * g_id + 0];
-#ifdef RENDER_ANTI_ALIASING
-	if (ray.energy.x > 0)
+# ifdef RENDER_ANTI_ALIASING
+	if (rays[RAYS_CHUNK_SIZE * g_id + 0].energy.x > 0)
 	{
 		for	(int i = 0; i < RAYS_CHUNK_SIZE; i++)
 		{
@@ -114,11 +115,11 @@ __kernel void	rt_main(
 					params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1));
 			new_color = mix_avg_colors(new_color, temp_color, i);
 		}
+	//todo [sleonard] add atomic counter (посчитать, насколько больше лучей кидается при anti-aliasing'e)
 	}
 	else
-#endif // RENDER_ANTI_ALIASING
+# endif // RENDER_ANTI_ALIASING
 	{
-		ray = rays[RAYS_CHUNK_SIZE * g_id + 4];
 		new_color = pathtrace(scene, objects, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, v_textures,
 			params, texture_info, texture_list, ray, params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1));
 	}
@@ -128,10 +129,8 @@ __kernel void	rt_main(
 #endif // RENDER_PATHTRACE
 
 #ifdef RENDER_RAYTRACE
-	t_ray ray = rays[RAYS_CHUNK_SIZE * g_id + 0];
-
-#ifdef RENDER_ANTI_ALIASING
-	if (ray.energy.x > 0)
+# ifdef RENDER_ANTI_ALIASING
+	if (rays[RAYS_CHUNK_SIZE * g_id + 0].energy.x > 0)
 	{
 		for	(int i = 0; i < RAYS_CHUNK_SIZE; i++)
 		{
@@ -144,9 +143,8 @@ __kernel void	rt_main(
 		}
 	}
 	else
-#endif // RENDER_ANTI_ALIASING
+# endif // RENDER_ANTI_ALIASING
 	{
-		ray = rays[RAYS_CHUNK_SIZE * g_id + 4];
 		final_color = raytrace(scene, objects, lights, kd_info, kd_tree, kd_indices,
 					meshes_info, polygons, vertices, v_normals, v_textures, params, texture_info, texture_list, ray);
 	}

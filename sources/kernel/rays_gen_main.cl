@@ -97,7 +97,7 @@ __kernel void		rays_gen(
 #pragma unroll
 		for (int x = -1; x < 2; ++x)
 		{
-			float3	origin = (float3)(img_point.x + x, img_point.y + y, 0);
+			float3	origin = (float3)(img_point.x + x * 0.5f, img_point.y + y * 0.5f, 0);
 
 			rays[i + g_id * RAYS_CHUNK_SIZE] =
 					weight > SOBEL_THRESHOLD
