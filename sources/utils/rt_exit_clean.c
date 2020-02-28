@@ -14,8 +14,8 @@ void		rt_del_renderer(void *renderer_ptr, size_t size)
 			clReleaseMemObject(renderer->buffers[i].mem);
 		i++;
 	}
-	clReleaseKernel(renderer->kernel);
-	clReleaseProgram(renderer->program);
+	clReleaseKernel(renderer->main_kernel);
+	clReleaseProgram(renderer->main_program);
 	free(renderer->buffers);
 }
 

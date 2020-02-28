@@ -1,6 +1,22 @@
 #ifndef RT_SHARED_STRUCTS_H
 # define RT_SHARED_STRUCTS_H
 
+typedef struct				s_ray
+{
+# ifndef FT_OPENCL___
+
+	cl_float3				origin;
+	cl_float3				dir;
+	cl_float3				energy;
+# else
+
+	float3					origin;
+	float3					dir;
+	float3					energy;
+# endif
+
+}							t_ray;
+
 typedef struct			s_rgb
 {
 # ifndef FT_OPENCL___

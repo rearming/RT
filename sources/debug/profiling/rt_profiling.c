@@ -20,7 +20,7 @@ void	rt_pathtrace_profile(t_rt *rt, int max_samples)
 			max_samples, (double)(end - start) / CLOCKS_PER_SEC);
 }
 
-void		rt_print_opencl_profile_info(void)
+void rt_print_opencl_profile_info(const char *kernel_name)
 {
 	clWaitForEvents(1, &g_opencl.profile_event);
 	cl_ulong start = 0, end = 0;
@@ -28,6 +28,6 @@ void		rt_print_opencl_profile_info(void)
 	clGetEventProfilingInfo(g_opencl.profile_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL);
 	cl_double nd_range_pure_exec_time_ms = (cl_double)(end - start) * (cl_double)(1e-06);
 	ft_printf("\033[0;91m");
-	ft_printf("kernel exec time: [%.2f]\n", nd_range_pure_exec_time_ms);
+	ft_printf("[%s] exec time: [%.2f]\n", kernel_name, nd_range_pure_exec_time_ms);
 	ft_printf("\033[0m");
 }

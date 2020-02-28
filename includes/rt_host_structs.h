@@ -39,11 +39,17 @@ typedef struct			s_rt_renderer
 {
 	uint32_t			flags;
 	t_renderer_params	params;
-	cl_program			program;
-	cl_kernel			kernel;
+	cl_program			main_program;
+	cl_kernel			main_kernel;
 	t_cl_buffer			*buffers;
 	int					buffers_num;
 	bool				copy_done;
+	cl_program			img_gen_program;
+	cl_kernel			img_gen_kernel;
+	cl_mem				primary_img;
+	cl_program			ray_gen_program;
+	cl_kernel			ray_gen_kernel;
+	cl_mem				rays_buffer;
 }						t_rt_renderer;
 
 typedef struct			s_obj_material

@@ -13,6 +13,7 @@ prototypes_file_name = "prototypes.cl"
 
 def get_opencl_files_names():
     names = [glob.glob(kernel_sources_path + "**/" + "*.cl", recursive=True)]
+    print(names)
     return names
 
 

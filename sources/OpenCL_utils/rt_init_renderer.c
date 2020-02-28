@@ -11,6 +11,7 @@ const char	*g_opencl_defines[] =
 				" -D RENDER_OBJECTS ",
 				" -D RENDER_MESH_VTEXTURES ",
 				" -D RENDER_TEXTURES ",
+				" -D RENDER_ANTI_ALIASING ",
 				NULL
 		};
 
@@ -46,11 +47,18 @@ t_rt_renderer		*rt_create_renderer(uint32_t flags)
 	new_renderer = rt_safe_malloc(sizeof(t_rt_renderer));
 	new_renderer->flags = flags;
 	new_renderer->copy_done = false;
+	new_renderer->primary_img = NULL;
+	new_renderer->rays_buffer = NULL;
 	rt_init_renderer_params(&new_renderer->params);
 	ft_sprintf(&temp_str, "%s %s", OPENCL_INCLUDE_DIRS, opencl_defines);
 	compile_options = ft_del_whitespaces(temp_str);
 	ft_printf("compile options: %s\n", opencl_defines);
-	rt_opencl_create_kernel(compile_options, &new_renderer->kernel, &new_renderer->program);
+	rt_opencl_create_kernel(IMG_GEN_KERNEL_PATH, IMG_GEN_KERNEL_NAME, compile_options,
+			&new_renderer->img_gen_kernel, &new_renderer->img_gen_program);
+	rt_opencl_create_kernel(RAYS_GEN_KERNEL_PATH, RAYS_GEN_KERNEL_NAME, compile_options,
+			&new_renderer->ray_gen_kernel, &new_renderer->ray_gen_program);
+	rt_opencl_create_kernel(MAIN_KERNEL_PATH, MAIN_KERNEL_NAME, compile_options,
+			&new_renderer->main_kernel, &new_renderer->main_program);
 	free((char*)opencl_defines);
 	free(compile_options);
 	free(temp_str);

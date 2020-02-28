@@ -41,6 +41,12 @@ float3		vec_axis_rotate(float3 vec, float3 axis, float angle);
 
 float3		float3_float_mult(float3 vec, float num);
 
+float3		sobel_get_pixel(__global __read_only const int *img, int x, int y);
+
+float		sobel_get_weight_x(__global __read_only const int *img, int img_x, int img_y);
+
+float		sobel_get_weight_y(__global __read_only const int *img, int img_x, int img_y);
+
 float3		shade(
 		t_ray *ray,
 		t_rayhit *hit,
@@ -106,9 +112,6 @@ void			correct_img_point(float3 *img_point);
 t_ray			get_ray(float3 img_point, __global const t_camera *camera);
 
 float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
-
-void	get_rays(
-		t_ray );
 
 bool		ray_aabb_traverse_intersection(t_ray *ray, t_aabb aabb, float *out_near, float *out_far);
 
