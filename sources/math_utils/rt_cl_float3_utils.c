@@ -39,7 +39,7 @@ cl_float3	mul_float3(cl_float3 vec, float mul)
 cl_float3	saturate_float3(cl_float3 value)
 {
 	return ((cl_float3){{
-		ft_saturate(value.x),
-		ft_saturate(value.y),
-		ft_saturate(value.z)}});
+								rt_saturatef(value.x),
+								rt_saturatef(value.y),
+								rt_saturatef(value.z)}});
 }

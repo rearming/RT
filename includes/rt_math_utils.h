@@ -4,10 +4,11 @@
 # include "stdbool.h"
 union cl_float3;
 
-float		ft_minf(float a, float b);
-float		ft_maxf(float a, float b);
-float		ft_clampf(float value, float lower, float upper);
-float		ft_saturate(float value);
+float		rt_minf(float a, float b);
+float		rt_maxf(float a, float b);
+float		rt_clampf(float value, float lower, float upper);
+float		rt_saturatef(float value);
+float		rt_lerpf(float a, float b, float t);
 
 /*
 ** float3
@@ -23,7 +24,6 @@ cl_float3	fmax_float3(cl_float3 a, cl_float3 b);
 cl_float2	fmin_float2(cl_float2 a, cl_float2 b);
 cl_float2	fmax_float2(cl_float2 a, cl_float2 b);
 
-
 cl_float3	vec_subtract(cl_float3 a, cl_float3 b);
 cl_float3	vec_divide(cl_float3 vec, cl_float scalar);
 cl_float	vec_length(cl_float3 vec);
@@ -34,6 +34,7 @@ cl_float3	vec_normalize(cl_float3 vec);
 */
 cl_float	float3_color_power(cl_float3 color);
 cl_float3	get_float3_color(int hex_color);
+int			get_int_color(cl_float3 float3_color);
 
 /*
 **	rotation
