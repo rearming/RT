@@ -88,7 +88,6 @@ void			rt_textures_init(void)
 	i = init_basic_textures_parameters();
 	while (++i < (int)g_textures.texture_info_size)
 	{
-		stbi_is_hdr()
 		if (!(tmp_filename = (ft_strchr(g_textures.textures_names->name, 47)
 			!= NULL) ? ft_strdup(g_textures.textures_names->name) :
 			ft_strjoin(TEXTURES_FOLDER, g_textures.textures_names->name)))

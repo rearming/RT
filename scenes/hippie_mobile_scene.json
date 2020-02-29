@@ -1,0 +1,31 @@
+{
+  "open cl parameters":"RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_MESH | RENDER_ANTI_ALIASING",
+  "objects": [
+    {
+      "type": "plane",
+      "normal": [0, 1, 0],
+      "center": [0, 0, 0],
+      "material": {
+        "diffuse": "0x3d8751"
+      }
+    }
+  ],
+  "camera": {
+    "pos": [23.3, 15.8, 7],
+    "rotation": [-26, -138.5, 0]
+  },
+  "light":
+  [
+    {
+      "type": "ambient",
+      "intensity": 0.2,
+      "color": "0xFFFFFF"
+    },
+    {
+      "type": "directional",
+      "color": "0xFFFFFF",
+      "intensity": 0.7,
+      "direction": [1, 1, 0]
+    }
+  ]
+}
