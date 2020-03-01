@@ -7,7 +7,7 @@ bool rt_handle_event_gui(SDL_Event *event, t_rt *rt)
 	int 	i;
 	t_btn	now;
 
-	if (event->window.windowID != 2)
+	if (event->window.windowID != GUI_WIN_ID)
 		return false;
 	event_handled = false;
 	i = 0;

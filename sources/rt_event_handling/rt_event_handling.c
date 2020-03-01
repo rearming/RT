@@ -22,6 +22,8 @@ float		d_e_karmatsky(int w, int h)
 	return (win_ratio * win_ratio);
 }
 
+
+
 bool		rt_handle_window_event(SDL_Event *event, t_rt *rt)
 {
 	int w;
@@ -32,12 +34,12 @@ bool		rt_handle_window_event(SDL_Event *event, t_rt *rt)
 	SDL_GetWindowSize(g_sdl.win, &w, &h);
 
 	if (event->window.event == SDL_WINDOWEVENT_MOVED){
-		if (event->window.windowID == 1)
+		if (event->window.windowID == RT_WIN_ID)
 		{
 
 			SDL_SetWindowPosition(g_gui.win_tool, w + event->window.data1, event->window.data2);
 		}
-		else if (event->window.windowID == 2)
+		else if (event->window.windowID == GUI_WIN_ID)
 		{
 			SDL_SetWindowPosition(g_sdl.win,  event->window.data1 - w, event->window.data2);
 		}

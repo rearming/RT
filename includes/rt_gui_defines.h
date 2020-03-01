@@ -10,6 +10,10 @@
 /*
 ** Sdl gui
 */
+
+#define RT_WIN_ID 1
+#define GUI_WIN_ID 2
+
 # define RT_GUI_NAME "Dota 5 Tools"
 
 # ifdef __APPLE__
