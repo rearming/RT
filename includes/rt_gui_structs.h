@@ -40,6 +40,7 @@ typedef enum 			e_event
 
 typedef struct			s_gui
 {
+	SDL_Window			*win_tool;
 	t_transform			*obj;
 	TTF_Font			*font;
 	SDL_Surface			*surface;

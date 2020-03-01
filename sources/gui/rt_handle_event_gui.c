@@ -35,6 +35,6 @@ bool rt_handle_event_gui(SDL_Event *event, t_rt *rt)
 		}
 		i++;
 	}
-	SDL_UpdateWindowSurface(g_sdl.win_tool);
+	SDL_UpdateWindowSurface(g_gui.win_tool);
 	return (event_handled);
 }

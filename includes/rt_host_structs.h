@@ -9,7 +9,6 @@ typedef struct			s_sdl
 	SDL_Renderer		*rend;
 	SDL_Texture			*texture;
 	int					pitch;
-	SDL_Window			*win_tool;
 	SDL_Surface			*surface;
 }						t_sdl;
 

@@ -46,11 +46,11 @@ void		init_algo_buttons(void)
 	algo = g_gui.render_algo;
 	rect = (SDL_Rect){.x = 0, .y = 30, .h = 100, .w = WIN_GUI_WIDTH / 2};
 	g_gui.obj[pt_btn] = (t_transform){ .rect = rect, .state = non_event,
-			.text = "Path trace", .callback = button_callback, .action = pt_btn,
+			.text = PATH_TRACE_LABEL, .callback = button_callback, .action = pt_btn,
 			.type = RENDER_BTN, .color = get_color_from_hex(COL_RED)};
 	rect.x += WIN_GUI_WIDTH / 2;
 	g_gui.obj[rt_btn] = (t_transform){ .rect = rect,
-			.text = "Ray trace", .callback = button_callback, .action = rt_btn,
+			.text = RAY_TRACE_LABEL, .callback = button_callback, .action = rt_btn,
 			.type = RENDER_BTN, .color = get_color_from_hex(COL_BLUE)};
 	if (algo == pt_btn)
 	{
@@ -71,7 +71,7 @@ void		init_other_buttons(void)
 	rect = (SDL_Rect){.x = 0, .y = WIN_HEIGHT - 150,
 				   .h = 100, .w = WIN_GUI_WIDTH};
 	g_gui.obj[algo_btn_count + scr_sbtn] = (t_transform){ .rect = rect,
-			.state = non_event, .text = "Take Screenshot", .action = scr_sbtn,
+			.state = non_event, .text = SCREENSHOT_LABEL, .action = scr_sbtn,
 			.callback = button_callback, .type = SCREENSHOT,
 			.color = get_color_from_hex(COL_GREEN)};
 //	rect = (SDL_Rect){.x = 320, .y = 450,
@@ -91,7 +91,7 @@ void		init_gui(uint64_t algo)
 	bg = get_color_from_hex(GUI_BG);
 	g_gui.obj = rt_safe_malloc(sizeof(t_transform) * btn_count);
 	g_gui.font = TTF_OpenFont(FONT_PATH, FONT_SIZE);
-	g_gui.surface = SDL_GetWindowSurface(g_sdl.win_tool);
+	g_gui.surface = SDL_GetWindowSurface(g_gui.win_tool);
 	SDL_FillRect(g_gui.surface, NULL,
 			SDL_MapRGB(g_gui.surface->format, bg.r, bg.g, bg.b));
 	g_gui.render_algo = ((algo & 0b111) - 1);
@@ -100,5 +100,5 @@ void		init_gui(uint64_t algo)
 	i = 0;
 	while (i < btn_count)
 		render_button(g_gui.obj[i++]);
-	SDL_UpdateWindowSurface(g_sdl.win_tool);
+	SDL_UpdateWindowSurface(g_gui.win_tool);
 }
