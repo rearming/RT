@@ -64,6 +64,8 @@ float3		raytrace(
 		__global const t_renderer_params *params,
 		__global const t_texture_info *texture_info,
 		__global const int *texture_list,
+		__global const float3 *skybox_list,
+		__global const t_skybox_info *skybox_info,
 		t_ray ray);
 
 bool		get_hit_material(
@@ -250,6 +252,8 @@ float3		pathtrace(
 		__global const t_renderer_params *params,
 		__global const t_texture_info *texture_info,
 		__global const int *texture_list,
+		__global const float3 *skybox_list,
+		__global const t_skybox_info *skybox_info,
 		t_ray ray,
 		int depth,
 		float *seed,
@@ -301,8 +305,8 @@ float3		texture_shade_pathtrace(
 		float2 pixel);
 
 float3		skybox_color(
-		__global const t_texture_info *texture_info,
-		__global const int *texture_list,
+		__global const float3 *skybox_list,
+		__global const t_skybox_info *skybox_info,
 		float3 normal);
 
 float 		scale(t_ray ray, float skybox_radius);

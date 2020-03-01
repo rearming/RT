@@ -18,7 +18,7 @@ t_opencl_mem_obj	rt_check_opencl_memobj(t_opencl_mem_obj mem_obj)
 
 void		rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer)
 {
-	const int		max_memobj_number = 15;
+	const int		max_memobj_number = 17;
 
 	rt_opencl_move_host_mem_to_kernel(renderer, max_memobj_number,
 			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->scene,
@@ -52,7 +52,10 @@ void		rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer)
 			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.texture_info,
 				sizeof(t_texture_info) * g_textures.texture_info_size, RT_DEFAULT_MEM_FLAG, false, RENDER_TEXTURES}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.texture_list,
-				sizeof(cl_int) * g_textures.texture_list_size, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, false, RENDER_TEXTURES})
-
+				sizeof(cl_int) * g_textures.texture_list_size, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, false, RENDER_TEXTURES}),
+			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.skybox_info,
+				sizeof(t_skybox_info) * 1, RT_DEFAULT_MEM_FLAG, false, RENDER_TEXTURES}),
+			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.skybox_list,
+				sizeof(cl_float3) * g_textures.skybox_info->size, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, false, RENDER_TEXTURES})
 	);
 }

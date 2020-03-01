@@ -100,18 +100,20 @@ __kernel void	rt_main(
 #ifndef RENDER_TEXTURES
  	__global const t_texture_info 	*texture_info;
 	__global const int 				*texture_list;
+	__global const t_skybox_info 	*skybox_info;
+	__global const float3			*skybox_list;
 #endif
 
 #ifdef RENDER_PATHTRACE
 	float3		prev_color = img_data_float[g_id];
 	new_color = pathtrace(scene, objects, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, v_textures,
-		params, texture_info, texture_list, ray, params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1));
+		params, texture_info, texture_list, skybox_list, skybox_info, ray, params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1));
 	final_color = mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num);
 	img_data_float[g_id] = final_color;
 #endif // RENDER_PATHTRACE
 
 #ifdef RENDER_RAYTRACE
-	final_color = raytrace(scene, objects, lights, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, v_textures, params, texture_info, texture_list, ray);
+	final_color = raytrace(scene, objects, lights, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, v_textures, params, texture_info, texture_list, skybox_list, skybox_info, ray);
 #endif // RENDER_RAYTRACE
 	img_data[g_id] = get_int_color(correct_hdr(params->gamma, params->exposure, final_color));
 }

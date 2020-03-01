@@ -55,12 +55,14 @@ typedef struct			s_skybox_info
 	cl_int				width;
 	cl_int				height;
 	cl_int				bpp;
+	cl_long 			size;
 # else
 	bool				skybox_exist;
 	const char			*skybox_name;
 	int					width;
 	int					height;
 	int					bpp;
+	long 				size;
 # endif
 }						t_skybox_info;
 

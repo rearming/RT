@@ -13,6 +13,8 @@ float3		pathtrace(
 		__global const t_renderer_params *params,
 		__global const t_texture_info *texture_info,
 		__global const int *texture_list,
+		__global const float3 *skybox_list,
+		__global const t_skybox_info *skybox_info,
 		t_ray ray,
 		int depth,
 		float *seed,
@@ -42,7 +44,7 @@ float3		pathtrace(
 		else
 		{
 #ifdef RENDER_TEXTURES
-			result_color += ray.energy * skybox_color(&texture_info[SKYBOX_NUM], texture_list, skybox_normal(ray));
+			result_color += ray.energy * skybox_color(skybox_info, skybox_list, skybox_normal(ray));
 #else
 			result_color += ray.energy * get_float3_color(COL_BG);
 #endif

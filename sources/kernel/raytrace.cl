@@ -47,6 +47,8 @@ float3		raytrace(
 		__global const t_renderer_params *params,
 		__global const t_texture_info *texture_info,
 		__global const int *texture_list,
+		__global const float3 *skybox_list,
+		__global const t_skybox_info *skybox_info,
 		t_ray ray)
 {
 	float3		result_color = (float3)(0);
@@ -69,7 +71,7 @@ float3		raytrace(
 		else
 		{
 #ifdef RENDER_TEXTURES
-			result_color += ray.energy * skybox_color(&texture_info[SKYBOX_NUM], texture_list, skybox_normal(ray));
+			result_color += ray.energy * skybox_color(skybox_list, skybox_info, skybox_normal(ray));
 #else
 			result_color += ray.energy * get_float3_color(COL_BG);
 #endif

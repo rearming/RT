@@ -38,7 +38,7 @@ bool				ray_sphere_intersect(
 	return false;
 
 	float root = (-b - sqrt(discriminant)) / (2.f * a);
-	float root2 = (-b + sqrt(discriminant)) / (2.f * a);
+//	float root2 = (-b + sqrt(discriminant)) / (2.f * a);
 
 //	if (root < 0 || (root > root2 && root2 > 0)) /// пересечение перед камерой, берем меньший (ближайший)
 //		root = root2;

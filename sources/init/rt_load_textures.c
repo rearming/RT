@@ -134,6 +134,7 @@ void 		rt_skybox_init(void)
 		i += 3;
 		j++;
 	}
+	g_textures.skybox_info->size = texture_list_size;
 	free(tmp_filename);
 	free(tmp_texture);
 }

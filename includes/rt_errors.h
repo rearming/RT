@@ -48,6 +48,7 @@
 # define ERR_PARSING_WRONG_FORMAT "rt_parse error: wrong type of parameter"
 # define ERR_PARSING_DUPLICATED_PARAM "rt_parse error: duplicated parameters"
 # define ERR_PARSING_WRONG_CL_PARAM "rt_parse error: wrong cl parameters"
+# define ERR_PRSING_DUPLICATED_SKYBOX "rt_parse error: skybox image is duplicated "
 
 # define ERR_INVALID_JSON_FILE "can't read json scene file"
 

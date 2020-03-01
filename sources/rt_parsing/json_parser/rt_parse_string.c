@@ -150,7 +150,7 @@ void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 		else if (ft_strequ(key, "skybox"))
 			{
 				if(g_textures.skybox_info->skybox_exist == true)
-					rt_raise_error("duplicated skybox");
+					rt_raise_error(ERR_PRSING_DUPLICATED_SKYBOX);
 				g_textures.skybox_info->skybox_exist = true;
 				g_textures.skybox_info->skybox_name = ft_strdup(tmp_value);
 				printf("%s\n", g_textures.skybox_info->skybox_name);
