@@ -4,7 +4,7 @@
 
 float3		texture_shade_pathtrace(
 		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const int *texture_list,
 		__global const t_object *object,
 		t_ray *ray,
 		t_rayhit *hit,

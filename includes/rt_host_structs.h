@@ -8,8 +8,9 @@ typedef struct			s_sdl
 	SDL_Window			*win;
 	SDL_Renderer		*rend;
 	SDL_Texture			*texture;
-	SDL_Texture			**texture_list;
 	int					pitch;
+	SDL_Window			*win_tool;
+	SDL_Surface			*surface;
 }						t_sdl;
 
 typedef struct			s_cl_buffer
@@ -81,6 +82,7 @@ typedef struct			s_rt
 	t_scene				scene;
 	uint32_t			renderer_flags;
 	t_events			events;
+	t_kd_info			kd_info;
 }						t_rt;
 
 typedef struct 			s_tmp

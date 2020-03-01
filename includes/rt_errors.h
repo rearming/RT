@@ -1,7 +1,7 @@
 #ifndef RT_ERRORS_H
 # define RT_ERRORS_H
 
-# define ERR_INV_ARGS_NUM "invalid number of arguments!"
+# define ERR_INV_ARGS_NUM "invalid number of arguments, expected 1 arg for .json scene file"
 # define ERR_INV_FILE "invalid file!"
 
 # define ERR_MALLOC "malloc() failed!"
@@ -28,7 +28,7 @@
 # define ERR_OPENCL_INV_SOURCE_CODE_FILE "error when reading opencl source code file"
 # define ERR_OPENCL_LOG "clGetProgramBuildLog failed"
 
-# define ERR_READFILE_OBJ "error when reading .obj file"
+# define ERR_READ_OBJ_FILE "error when reading .obj file"
 # define ERR_OBJLOADER_PARSE_OBJ "tinyobjloader failed"
 
 # define ERR_INVALID_TEXRTURE_DIR "couldn't open texture ditectory"
@@ -49,4 +49,8 @@
 # define ERR_PARSING_WRONG_FORMAT "rt_parse error: wrong type of parameter"
 # define ERR_PARSING_DUPLICATED_PARAM "rt_parse error: duplicated parameters"
 # define ERR_PARSING_WRONG_CL_PARAM "rt_parse error: wrong cl parameters"
+# define ERR_PRSING_DUPLICATED_SKYBOX "rt_parse error: skybox image is duplicated "
+
+# define ERR_INVALID_JSON_FILE "can't read json scene file"
+
 #endif

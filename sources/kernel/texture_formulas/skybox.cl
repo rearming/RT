@@ -1,6 +1,6 @@
 float3		skybox_color(
-		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const float3 *skybox_list,
+		__global const t_skybox_info *skybox_info,
 		float3 normal)
 {
 	float3	color;
@@ -14,13 +14,13 @@ float3		skybox_color(
 	if (u < 0)
 		u += 2 * M_PI_F;
 	u *= M_1_PI_F / 2;
-	x = (int)((texture_info->width - 1) * u);
-	x = check_borders(x, texture_info->width - 1, 0);
+	x = (int)((skybox_info->width - 1) * u);
+	x = check_borders(x, skybox_info->width - 1, 0);
 	v = 0.5 - asin(normal.y) * M_1_PI_F;
-	y = (int)(v * (texture_info->height - 1));
-	y = check_borders(y, texture_info->height - 1, 0);
-	coord = x + y * texture_info->width + texture_info->start;
-	change_format((int)texture_list[coord], &color);
+	y = (int)(v * (skybox_info->height - 1));
+	y = check_borders(y, skybox_info->height - 1, 0);
+	coord = x + y * skybox_info->width;
+	color = skybox_list[coord];
 	return (color);
 }
 

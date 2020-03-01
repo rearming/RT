@@ -5,28 +5,28 @@ t_split		kd_split(t_aabb root_aabb, int axis, int split_num)
 {
 	t_split		split;
 
-	split.s.min = root_aabb.bounds.min;
-	split.s.min.s[axis] = root_aabb.bounds.min.s[axis] + ((root_aabb.bounds.max.s[axis] - root_aabb.bounds.min.s[axis]) / BUCKETS) * (float)split_num;
-	split.s.max = root_aabb.bounds.max;
+	split.s.min = root_aabb.min;
+	split.s.min.s[axis] = root_aabb.min.s[axis] + ((root_aabb.max.s[axis] - root_aabb.min.s[axis]) / BUCKETS) * (float)split_num;
+	split.s.max = root_aabb.max;
 	split.s.max.s[axis] = split.s.min.s[axis];
 	return (split);
 }
 
 bool		kd_is_obj_in_aabb(t_aabb root_aabb, t_aabb obj_aabb)
 {
-	if ((obj_aabb.bounds.min.x <= root_aabb.bounds.max.x
-	&& obj_aabb.bounds.min.y <= root_aabb.bounds.max.y
-	&& obj_aabb.bounds.min.z <= root_aabb.bounds.max.z
-	&& obj_aabb.bounds.max.x >= root_aabb.bounds.min.x
-	&& obj_aabb.bounds.max.y >= root_aabb.bounds.min.y
-	&& obj_aabb.bounds.max.z >= root_aabb.bounds.min.z)
+	if ((obj_aabb.min.x <= root_aabb.max.x
+	&& obj_aabb.min.y <= root_aabb.max.y
+	&& obj_aabb.min.z <= root_aabb.max.z
+	&& obj_aabb.max.x >= root_aabb.min.x
+	&& obj_aabb.max.y >= root_aabb.min.y
+	&& obj_aabb.max.z >= root_aabb.min.z)
 	||
-	(obj_aabb.bounds.max.x >= root_aabb.bounds.min.x
-	&& obj_aabb.bounds.max.y >= root_aabb.bounds.min.y
-	&& obj_aabb.bounds.max.z >= root_aabb.bounds.min.z
-	&& obj_aabb.bounds.min.x <= root_aabb.bounds.max.x
-	&& obj_aabb.bounds.min.y <= root_aabb.bounds.max.y
-	&& obj_aabb.bounds.min.z <= root_aabb.bounds.max.z))
+	(obj_aabb.max.x >= root_aabb.min.x
+	&& obj_aabb.max.y >= root_aabb.min.y
+	&& obj_aabb.max.z >= root_aabb.min.z
+	&& obj_aabb.min.x <= root_aabb.max.x
+	&& obj_aabb.min.y <= root_aabb.max.y
+	&& obj_aabb.min.z <= root_aabb.max.z))
 		return true;
 	return false;
 }
@@ -53,9 +53,9 @@ t_aabb_objects		kd_get_objects_in_aabb(t_aabb aabb, t_aabb *all_aabbs, t_aabb_ob
 
 float		kd_get_aabb_area(t_aabb aabb)
 {
-	return ((aabb.bounds.max.x - aabb.bounds.min.x)
-	* (aabb.bounds.max.y - aabb.bounds.min.y)
-	* (aabb.bounds.max.z - aabb.bounds.min.z));
+	return ((aabb.max.x - aabb.min.x)
+	* (aabb.max.y - aabb.min.y)
+	* (aabb.max.z - aabb.min.z));
 }
 
 float		kd_split_buckets_sah(t_aabb root_aabb,
@@ -85,8 +85,8 @@ float		kd_split_buckets_sah(t_aabb root_aabb,
 			t_aabb	left_aabb = root_aabb;
 			t_aabb	right_aabb = root_aabb;
 
-			left_aabb.bounds.max = split.s.max;
-			right_aabb.bounds.min = split.s.min;
+			left_aabb.max = split.s.max;
+			right_aabb.min = split.s.min;
 
 			left_objects = kd_get_objects_in_aabb(left_aabb, all_aabbs, root_objects);
 			right_objects = kd_get_objects_in_aabb(right_aabb, all_aabbs, root_objects);
@@ -97,6 +97,11 @@ float		kd_split_buckets_sah(t_aabb root_aabb,
 
 			if (sah < best_sah)
 			{
+				if (best_sah != INFINITY)
+				{
+					free((*out_left_objects).indices);
+					free((*out_right_objects).indices);
+				}
 				best_sah = sah;
 				*out_left_aabb = left_aabb;
 				*out_right_aabb = right_aabb;
@@ -105,6 +110,11 @@ float		kd_split_buckets_sah(t_aabb root_aabb,
 				*out_split = split.s.min.s[axis]; // split.s.min.s[axis] == split.s.max.s[axis]
 				*out_split_axis = axis;
 			}
+			else
+			{
+				free(left_objects.indices);
+				free(right_objects.indices);
+			}
 			split_num++;
 		}
 		axis++;
@@ -112,7 +122,7 @@ float		kd_split_buckets_sah(t_aabb root_aabb,
 	return best_sah;
 }
 
-void build_kd_tree_recursive(t_kd_tree *tree,
+void		build_kd_tree_recursive(t_kd_tree *tree,
 							 t_aabb *all_aabbs,
 							 int level,
 							 int *index)
@@ -140,7 +150,11 @@ void build_kd_tree_recursive(t_kd_tree *tree,
 			all_aabbs, &left_aabb, &right_aabb, &left_objects, &right_objects,
 			&split, &split_axis);
 	if (sah > tree->sah)
+	{
+		free(left_objects.indices);
+		free(right_objects.indices);
 		return;
+	}
 
 	tree->split = split;
 	tree->split_axis = split_axis;

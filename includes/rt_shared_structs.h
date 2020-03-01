@@ -47,6 +47,25 @@ typedef struct			s_point
 # endif
 }						t_point;
 
+typedef struct			s_skybox_info
+{
+# ifndef FT_OPENCL___
+	bool				skybox_exist;
+	const char			*skybox_name;
+	cl_int				width;
+	cl_int				height;
+	cl_int				bpp;
+	cl_long 			size;
+# else
+	bool				skybox_exist;
+	const char			*skybox_name;
+	int					width;
+	int					height;
+	int					bpp;
+	long 				size;
+# endif
+}						t_skybox_info;
+
 typedef struct			s_texture_info
 {
 # ifndef FT_OPENCL___
@@ -73,11 +92,12 @@ typedef struct		s_texture_name
 # ifndef FT_OPENCL___
 typedef struct			s_textures
 {
-	cl_float 			*texture_list;
+	cl_int 				*texture_list;
+	cl_float3 			*skybox_list;
+	t_skybox_info		*skybox_info;
 	t_texture_info		*texture_info; //вот здесь используется количество текстур
 	size_t				texture_list_size;
 	size_t				texture_info_size; // вот это заполнять
-	//char 				**textures_name;
 	t_texture_name		*textures_names;
 }						t_textures;
 # endif
@@ -195,7 +215,7 @@ typedef struct			s_object
 	cl_float			angle;
 	cl_float 			distance;
 	cl_float			len;
-	cl_float3			vertices[3]; //it's for .obj
+	cl_float3			vertices[3];
 	cl_float3			vmin;
 	cl_float3			vmax;
 # else
@@ -205,8 +225,6 @@ typedef struct			s_object
 	float3				center;
 	float3				normal;
 	float3				axis;
-	///axis for all rotation object
-	/// (cylinder, cone, torus, hiperboloid etc)
 	float				radius;
 	float				angle;
 	float 				distance;
@@ -345,5 +363,68 @@ typedef struct			s_renderer_params
 	float				gamma;
 # endif
 }						t_renderer_params;
+
+typedef struct		s_aabb
+{
+#ifndef FT_OPENCL___
+	cl_float3		min;
+	cl_float3		max;
+#else
+	float3			min;
+	float3			max;
+#endif
+}					t_aabb;
+
+typedef struct		s_aabb_objects
+{
+#ifndef FT_OPENCL___
+	cl_int			num;
+	cl_int			*indices;
+#else
+	int				num;
+	int				*indices;
+#endif
+}					t_aabb_objects;
+
+# define KD_LEFT 1
+# define KD_RIGHT 2
+
+typedef struct		s_kd_arr_node
+{
+#ifndef FT_OPENCL___
+	cl_int			left_index;
+	cl_int			right_index;
+	cl_float		sah;
+	cl_float		split;
+	cl_int			split_axis;
+	cl_int			obj_offset;
+	t_aabb			aabb;
+	t_aabb_objects	objects;
+#else
+	int				left_index;
+	int				right_index;
+	float			sah;
+	float			split;
+	int				split_axis;
+	int				obj_offset;
+	t_aabb			aabb;
+	t_aabb_objects	objects;
+#endif
+}					t_kd_arr_tree;
+
+typedef struct			s_kd_info
+{
+#ifndef FT_OPENCL___
+	cl_int				nodes_num;
+	cl_int				indices_num;
+	t_kd_arr_tree		*tree_arr;
+	cl_int				*indices;
+#else
+	int					nodes_num;
+	int					indices_num;
+	t_kd_arr_tree		*tree_arr;
+	int					*indices;
+#endif
+}						t_kd_info;
 
 #endif

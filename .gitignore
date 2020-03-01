@@ -8,5 +8,6 @@ temp
 rt
 .vscode
 build
+*.bmp
 kd_tree_test
 raw_aabbs_data

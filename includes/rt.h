@@ -10,6 +10,7 @@
 # include <math.h>
 # include <dirent.h>
 # include <SDL.h>
+# include <SDL_ttf.h>
 # include <fcntl.h>
 
 # ifdef __APPLE__
@@ -27,12 +28,16 @@
 # include "jansson.h"
 # include "rt_parser_defines.h"
 
+
 /*
 **	Global pointers
 */
 
+typedef struct s_gui t_gui;
+
 extern t_opencl		g_opencl;
 extern t_sdl		g_sdl;
+extern t_gui		g_gui;
 extern int			*g_img_data;
 extern cl_float3	g_img_data_float[WIN_WIDTH * WIN_HEIGHT];
 extern t_textures   g_textures;
@@ -71,6 +76,7 @@ void		rt_switch_render_param(uint32_t *params, uint32_t target);
 
 void		rt_sdl_init(void);
 void		rt_textures_init();
+void 		rt_skybox_init(void);
 
 /*
 **	Utils

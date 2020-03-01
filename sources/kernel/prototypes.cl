@@ -11,7 +11,7 @@ int			get_int_color(float3 color);
 
 int         get_texture_color(
 		int2 pos,
-		__constant float *texture_list,
+		__constant int *texture_list,
 		__constant t_texture_info *texture_info
 );
 
@@ -46,13 +46,16 @@ float3		shade(
 		t_rayhit *hit,
 		t_material *material,
 		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const int *texture_list,
 		__global const t_object *object);
 
 float3		raytrace(
 		__global const t_scene *scene,
 		__global const t_object *objects,
 		__global const t_light *lights,
+		__global const t_kd_info *kd_info,
+		__global const t_kd_arr_tree *kd_tree,
+		__global const int *kd_indices,
 		__global const t_mesh_info *meshes_info,
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
@@ -60,7 +63,9 @@ float3		raytrace(
 		__global const float3 *v_textures,
 		__global const t_renderer_params *params,
 		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const int *texture_list,
+		__global const float3 *skybox_list,
+		__global const t_skybox_info *skybox_info,
 		t_ray ray);
 
 bool		get_hit_material(
@@ -73,6 +78,12 @@ bool		get_hit_material(
 		__global const float3 *v_textures,
 		int closest_obj_index,
 		int closest_polygon_index);
+
+bool						ft_stack_push(t_stack *stack, t_kd_traverse_helper helper);
+
+t_kd_traverse_helper		ft_stack_pop(t_stack *stack);
+
+t_kd_traverse_helper		ft_stack_peek(t_stack *stack);
 
 float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point);
 
@@ -98,9 +109,38 @@ t_ray			get_ray(float3 img_point, __global const t_camera *camera);
 
 float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
 
+bool		ray_aabb_traverse_intersection(t_ray *ray, t_aabb aabb, float *out_near, float *out_far);
+
+void		kd_swap_nodes(
+		bool need_swap,
+		int left_index,
+		int right_index,
+		int *out_first,
+		int *out_second);
+
+__global const t_kd_arr_tree	*kd_get_node(
+		__global const t_kd_arr_tree *arr,
+		__global const t_kd_arr_tree *curr_node,
+		int side);
+
+float	f3_axis(float3 vec, int axis);
+
+int		kd_tree_traverse(
+		__global const t_kd_info *kd_info,
+		__global const t_kd_arr_tree *tree_arr,
+		__global const int *kd_indices,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		t_ray *ray,
+		t_rayhit *out_best_hit);
+
 bool				in_shadow(
 		__global const t_scene *scene,
 		__global const t_object *objects,
+		__global const t_kd_info *kd_info,
+		__global const t_kd_arr_tree *kd_tree,
+		__global const int *kd_indices,
 		__global const t_mesh_info *meshes_info,
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
@@ -114,6 +154,9 @@ float				compute_light(
 	__global const t_scene *scene,
 	__global const t_light *lights,
 	__global const t_object *objects,
+	__global const t_kd_info *kd_info,
+	__global const t_kd_arr_tree *kd_tree,
+	__global const int *kd_indices,
 	__global const t_mesh_info *meshes_info,
 	__global const t_polygon *polygons,
 	__global const float3 *vertices,
@@ -139,6 +182,9 @@ t_material	get_polygon_material(
 void				closest_intersection(
 		__global const t_scene *scene,
 		__global const t_object *objects,
+		__global const t_kd_info *kd_info,
+		__global const t_kd_arr_tree *kd_tree,
+		__global const int *kd_indices,
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
@@ -195,6 +241,9 @@ bool				ray_ellipsoid_intersect(
 float3		pathtrace(
 		__global const t_scene *scene,
 		__global const t_object *objects,
+		__global const t_kd_info *kd_info,
+		__global const t_kd_arr_tree *kd_tree,
+		__global const int *kd_indices,
 		__global const t_mesh_info *meshes_info,
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
@@ -202,7 +251,9 @@ float3		pathtrace(
 		__global const float3 *v_textures,
 		__global const t_renderer_params *params,
 		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const int *texture_list,
+		__global const float3 *skybox_list,
+		__global const t_skybox_info *skybox_info,
 		t_ray ray,
 		int depth,
 		float *seed,
@@ -245,7 +296,7 @@ float3		shade_pathtrace(
 
 float3		texture_shade_pathtrace(
 		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const int *texture_list,
 		__global const t_object *object,
 		t_ray *ray,
 		t_rayhit *hit,
@@ -254,20 +305,18 @@ float3		texture_shade_pathtrace(
 		float2 pixel);
 
 float3		skybox_color(
-		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const float3 *skybox_list,
+		__global const t_skybox_info *skybox_info,
 		float3 normal);
 
 float 		scale(t_ray ray, float skybox_radius);
 
 float3		skybox_normal(t_ray ray);
 
-void 	change_format(int i_color, float3 *f_color);
-
 float3 texture(t_ray *out_ray,
 			   t_rayhit *hit,
 			   __global const t_texture_info *texture_info,
-			   __global const float *texture_list,
+			   __global const int *texture_list,
 			   __global const t_object *object);
 
 int		check_borders(int a, int max, int type);

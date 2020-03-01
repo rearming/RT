@@ -21,7 +21,7 @@
 # define WIN_TITLE "Dota 5"
 
 # ifdef __APPLE__
-#  define WIN_WIDTH 2550
+#  define WIN_WIDTH 1960
 #  define WIN_HEIGHT 1300
 # else
 #  define WIN_WIDTH 1920
@@ -89,6 +89,8 @@
 #  define UINT_MAX 4294967295
 # endif
 
+# define KD_TREE_MAX_HEIGHT 23 // ~log2(10kk)
+
 /*
 **	Camera moving
 */
@@ -102,5 +104,7 @@
 # else
 #  define ROTATION_SPEED 0.25
 # endif
+
+
 
 #endif

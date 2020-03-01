@@ -1,6 +1,7 @@
+# mtllib path corrected
 # Blender v2.80 (sub 75) OBJ File: ''
 # www.blender.org
-mtllib ./assets/3d_models/cube_isosphere_materials.mtl
+mtllib ./assets/3d_models/monkey.mtl
 o Suzanne
 v 2.187500 5.820312 3.828125
 v -2.187500 5.820312 3.828125

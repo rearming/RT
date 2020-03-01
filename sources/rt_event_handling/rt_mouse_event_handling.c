@@ -1,4 +1,5 @@
 #include "rt.h"
+#include "rt_gui.h"
 
 bool		rt_handle_mouse_event(SDL_Event *event, t_rt *rt)
 {

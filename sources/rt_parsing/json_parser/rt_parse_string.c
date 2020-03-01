@@ -96,8 +96,14 @@ void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 			*renderer_flags = ft_strequ(tmp_value, "pathtrace") ?
 				*renderer_flags | RENDER_PATHTRACE :
 				*renderer_flags | RENDER_RAYTRACE;
-		else if (ft_strequ(key, "texture") && tmp->type == SKYBOX)
-			tmp->skybox_num = parse_texture(tmp_value);
+		else if (ft_strequ(key, "skybox"))
+			{
+				if(g_textures.skybox_info->skybox_exist == true)
+					rt_raise_error(ERR_PRSING_DUPLICATED_SKYBOX);
+				g_textures.skybox_info->skybox_exist = true;
+				g_textures.skybox_info->skybox_name = ft_strdup(tmp_value);
+				printf("%s\n", g_textures.skybox_info->skybox_name);
+			}
 		else if (ft_strequ(key, "file"))
 			printf("here add obj file\n");
 		else if (ft_strequ(key, "directory"))

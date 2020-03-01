@@ -17,9 +17,10 @@
 # define RENDER_OBJECTS (1 << 5)
 # define RENDER_MESH_VTEXTURES (1 << 6)
 # define RENDER_TEXTURES (1 << 7)
-# define RENDER_SKYBOX (1 << 8)
+# define RENDER_ANTI_ALIASING (1 << 8)
+# define RENDER_SKYBOX (1 << 9)
 
-# define RENDER_DEFAULT RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_TEXTURES | RENDER_MESH | RENDER_BACKFACE_CULLING
+# define RENDER_DEFAULT RENDER_RAYTRACE | /*RENDER_OBJECTS |*/ RENDER_TEXTURES | RENDER_MESH /*| RENDER_BACKFACE_CULLING*/
 
 # define RT_DEFAULT_MEM_FLAG (CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR)
 # define RT_MEM_RW_FLAG (CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR)
@@ -47,17 +48,9 @@
 " -I ./sources/kernel/object_intersections " \
 " -I ./sources/kernel/object_intersections/more_difficult_object " \
 " -I ./sources/kernel/pathtrace_algo " \
-" -I ./sources/kernel/texture_formulas"
-
-
-
-////" -I ./sources/OpenCL_kernel_code " \
-//" -I ./sources/OpenCL_kernel_code/light_computing " \
-//" -I ./sources/OpenCL_kernel_code/mesh_render " \
-//" -I ./sources/OpenCL_kernel_code/object_intersections " \
-///*" -I ./sources/OpenCL_kernel_code/object_intersections/more_difficult_object " */\
-//" -I ./sources/OpenCL_kernel_code/pathtrace_algo " \
-//" -I ./sources/OpenCL_kernel_code/texture_formulas"
+" -I ./sources/kernel/texture_formulas" \
+" -I ./sources/kernel/kd_tree_traversal" \
+" -I ./sources/kernel/anti_aliasing"
 # endif
 
 # ifdef __APPLE__

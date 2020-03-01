@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.13.1)
 project(RT C)
 
 set(CMAKE_C_STANDARD 11)
@@ -6,36 +6,33 @@ set(CMAKE_C_STANDARD 11)
 add_compile_options(-Wall -Wextra)
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
-    add_compile_options(-O3 -Werror)
+    add_compile_options(-O2)
 endif()
 
 # <----RTv1 compile---->
 
 set(debug_sources
-        sources/debug/opencl_debug.c
-        sources/utils/rt_exit_clean.c
-        sources/SDL_utils/sdl_init.c
-        sources/render/render.c
-        sources/OpenCL_utils/rt_opencl_render.c
-        sources/OpenCL_utils/rt_opencl_memory_management.c
-        sources/OpenCL_utils/rt_opencl_utils.c
-        sources/rt_event_handling/rt_camera_moves.c
-        sources/rt_event_handling/rt_event_handling.c
-        sources/math_utils/rt_rotation_utils.c
-        sources/math_utils/rt_cl_float3_utils.c
-        sources/debug/rt_debug_info.c
         sources/debug/rt_debug_print_utils.c
-        sources/utils/rt_color_utils.c
-        sources/debug/rt_profiling.c
         sources/debug/rt_print_obj_file.c
         sources/debug/rt_debug_print_parsed_meshes.c
         sources/debug/rt_print_object.c
+        sources/debug/rt_kd_tree_print.c
+        )
+
+set(runtime_debug_sources
+        sources/debug/runtime_debug/opencl_debug.c
+        sources/debug/runtime_debug/rt_debug_info.c
+        )
+
+set(profiling_sources
+        sources/debug/profiling/rt_profiling.c
         )
 
 set(math_utils_sources
         sources/math_utils/rt_math_utils.c
         sources/math_utils/rt_rotation_utils.c
-        sources/math_utils/rt_cl_float3_utils.c sources/math_utils/rt_vector_math.c)
+        sources/math_utils/rt_cl_float3_utils.c
+        sources/math_utils/rt_vector_math.c)
 
 set(OpenCL_utils_sources
         sources/OpenCL_utils/rt_opencl_init.c
@@ -109,10 +106,20 @@ set(kd_tree_sources
         sources/kd_tree/rt_kd_tree_build.c
         sources/test/kd_3d_test/rt_kd_tree_traversal.c
         sources/kd_tree/rt_kd_tree_to_array.c
-        sources/kd_tree/rt_kd_tree_utils.c)
+        sources/kd_tree/rt_kd_tree_utils.c
+        sources/kd_tree/rt_kd_tree_get.c
+        sources/kd_tree/rt_kd_pack_object_indices.c)
+
+set(gui_sources
+        sources/gui/rt_gui_init.c
+        sources/gui/rt_gui_buttons.c
+        sources/gui/gui_utils/rt_gui_color_utils.c
+        sources/gui/rt_gui_button_callback.c
+        sources/gui/rt_handle_event_gui.c)
 
 set(sources
         ${debug_sources}
+        ${runtime_debug_sources}
         ${math_utils_sources}
         ${OpenCL_utils_sources}
         ${parsing_sources}
@@ -123,27 +130,35 @@ set(sources
         ${init_sources}
         ${render_sources}
         ${kd_tree_sources}
+        ${profiling_sources}
+        ${gui_sources}
         )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    INCLUDE(FindPkgConfig)
-    PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
-    PKG_SEARCH_MODULE(OPENCL REQUIRED OpenCL)
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake_search_modules)
+
+    find_package(SDL2 REQUIRED)
+    find_package(SDL2_ttf REQUIRED)
+    find_package(OpenCL REQUIRED)
 
     set(graphic_libs_include_dirs
-            ${SDL2_INCLUDE_DIRS})
-    set(graphic_libs_dirs
-            ${SDL2_LIBRARY_DIRS})
+            ${SDL2_INCLUDE_DIRS}
+            ${SDL2_TTF_INCLUDE_DIRS}
+            ${OpenCL_INCLUDE_DIRS})
+
     set(graphic_libs_link_names
-            ${SDL2_LIBRARIES}
-            ${OPENCL_LIBRARIES})
+            SDL2
+            SDL2_ttf
+            OpenCL)
+
 else()
     set(graphic_libs_include_dirs
-            lib/SDL2_libs/SDL2.framework/Headers)
+            lib/SDL2_libs/SDL2.framework/Headers
+            lib/SDL2_libs/SDL2_ttf.framework/Headers)
     set(graphic_libs_dirs
             lib/SDL2_libs/)
     set(graphic_libs_link_names
-            "-F ${PROJECT_SOURCE_DIR}/lib/SDL2_libs -framework SDL2"
+            "-F ${PROJECT_SOURCE_DIR}/lib/SDL2_libs -framework SDL2 -framework SDL2_ttf"
             "-framework OpenCL")
 endif()
 
@@ -166,8 +181,7 @@ link_directories(
 
 add_executable(RT
         sources/main.c
-        ${sources}
-        )
+        ${sources})
 
 target_link_libraries(RT
         "ftprintf"
@@ -179,9 +193,13 @@ target_link_libraries(RT
 
 # <----TESTING----> #
 
+set(testing_utils
+        sources/test/test_asserts.c sources/test/test_event_loop.c)
+
 # <---- kd_tree_test ----> #
 
 add_executable(kd_tree_test
+        ${testing_utils}
         ${SDL_utils_sources}
         ${math_utils_sources}
         ${utils_sources}
@@ -204,35 +222,11 @@ target_link_libraries(kd_tree_test
         "m"
         )
 
-# <---- kd_tree_2d_test ----> #
-
-add_executable(kd_tree_2d_test
-        ${SDL_utils_sources}
-        ${math_utils_sources}
-        ${utils_sources}
-        sources/test/kd_2d_tree/kd_2d_tree_build.c
-        sources/test/kd_2d_tree/kd_2d_graphic.c
-        sources/test/kd_2d_tree/kd_2d_tree_print.c
-        sources/test/kd_2d_tree/kd_2d_tree_main.c
-        )
-
-target_include_directories(kd_tree_2d_test PRIVATE
-        sources/test)
-
-target_link_libraries(kd_tree_2d_test
-        "ftprintf"
-        "ft"
-        ${graphic_libs_link_names}
-        "m"
-        )
-
 # <---- generic_test ----> #
 
 add_executable(generic_test
         ${sources}
-        includes/jansson.h
-        includes/jansson_config.h
-        sources/test/test_asserts.c
+        ${testing_utils}
         sources/test/generic_test/generic_test_main.c
         )
 
@@ -240,6 +234,52 @@ target_include_directories(generic_test PRIVATE
         sources/test)
 
 target_link_libraries(generic_test
+        "ftprintf"
+        "ft"
+        ${graphic_libs_link_names}
+        "m"
+        "jansson"
+        )
+
+# <---- obj_loading_test ----> #
+
+add_executable(obj_loading_test
+        ${debug_sources}
+        ${OpenCL_sources}
+        ${SDL_utils_sources}
+        ${math_utils_sources}
+        ${utils_sources}
+        ${obj_loading_sources}
+        ${testing_utils}
+        sources/test/obj_loading_test/obj_loading_test_main.c)
+
+target_include_directories(obj_loading_test PRIVATE
+        sources/test)
+
+target_link_libraries(obj_loading_test
+        "ftprintf"
+        "ft"
+        ${graphic_libs_link_names}
+        "m"
+        "jansson"
+        )
+
+# <---- sobel_operator_test ----> #
+
+add_executable(sobel_operator_test
+        sources/utils/rt_raise_error.c
+        sources/utils/rt_safe_malloc.c
+        sources/SDL_utils/sdl_init.c
+        sources/render/render.c
+        sources/utils/rt_color_utils.c
+        ${math_utils_sources}
+        ${testing_utils}
+        sources/test/sobel_operator_test/sobel_operator_test_main.c sources/test/sobel_operator_test/sobel_tests.c sources/test/sobel_operator_test/soble_operator_test_impl.c)
+
+target_include_directories(sobel_operator_test PRIVATE
+        sources/test)
+
+target_link_libraries(sobel_operator_test
         "ftprintf"
         "ft"
         ${graphic_libs_link_names}

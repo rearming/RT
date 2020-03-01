@@ -18,4 +18,3 @@ void			rt_add_start_position(int i)
 	else
 		g_textures.texture_info[i].start = 0;
 }
-

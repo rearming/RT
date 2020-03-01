@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
-CLANG=$(find /usr /home -type f -name clang 2>/dev/null)
+CLANG=$(find /usr /home ~/ -type f -name clang 2>/dev/null)
 if [[ "$CLANG" == "" ]]; then
   echo "can't find clang compiler! please, instatll it!"
+  exit 1
+fi
+
+CMAKE=$(find /usr /home ~/ -type f -name cmake 2>/dev/null)
+if [[ "$CMAKE" == "" ]]; then
+  echo "can't find cmake! please, instatll it!"
   exit 1
 fi
 
@@ -21,7 +27,7 @@ if [[ ! -f "lib/jansson/Makefile" ]]; then
   mkdir "build"
   cd build || echo "can't make build directory"
   cmake ..
-  make jansson/fast
+  make jansson/fast -j 4
 fi
 
 #cdmkdir build

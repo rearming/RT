@@ -20,7 +20,7 @@ static void	add_to_objects(t_tmp *tmp, t_object *object)
 	object->material.smoothness = tmp->smoothness;
 	object->material.transmittance = tmp->transmittance;
 	object->material.refraction = tmp->refraction;
-	object->material.emission_color = tmp->color;
+	object->material.emission_color = tmp->emission_color;
 	object->material.emission_power = tmp->emission_power;
 	object->material.specular_texture = tmp->specular_texture;
 	object->material.texture_number = tmp->texture_number;
@@ -32,8 +32,8 @@ static void	add_camera(t_camera *camera, t_tmp *tmp)
 	camera->pos = tmp->pos;
 	camera->rotation = tmp->rotation;
 	camera->viewport_distance = 1;
-	camera->viewport_width = WIN_RATIO < 1 ? D_I_MAZOHIN : 1;
-	camera->viewport_height = WIN_RATIO > 1 ? D_E_KARMATSKIY : 1 ;
+	camera->viewport_width = WIN_RATIO;
+	camera->viewport_height = 1;
 }
 
 static void	add_light(t_tmp *tmp, t_light *light)
@@ -67,8 +67,8 @@ void		add_elements(t_scene *scene, t_tmp *tmp)
 	i_light = 0;
 	i_object = 0;
 	tmp_iterator = tmp;
-	scene->objects = rt_safe_malloc(sizeof(t_object) * scene->obj_nbr);
-	scene->lights = rt_safe_malloc(sizeof(t_light) * scene->lights_nbr);
+	scene->objects = scene->obj_nbr > 0 ? rt_safe_malloc(sizeof(t_object) * scene->obj_nbr) : NULL;
+	scene->lights = scene->lights_nbr > 0 ? rt_safe_malloc(sizeof(t_light) * scene->lights_nbr) : NULL;
 	scene->camera = (t_camera){};
 	while (tmp_iterator)
 	{
