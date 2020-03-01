@@ -96,7 +96,7 @@ void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 			*renderer_flags = ft_strequ(tmp_value, "pathtrace") ?
 				*renderer_flags | RENDER_PATHTRACE :
 				*renderer_flags | RENDER_RAYTRACE;
-		else if (ft_strequ(key, "skybox"))
+		else if (ft_strequ(key, "texture") && tmp->type == SKYBOX)
 			{
 				if(g_textures.skybox_info->skybox_exist == true)
 					rt_raise_error(ERR_PRSING_DUPLICATED_SKYBOX);

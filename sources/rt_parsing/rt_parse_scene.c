@@ -9,31 +9,8 @@
  *  3. имена текстур чистятся в load после появления gui передавать их в gui и чистить там
  *  4. перевод цветов во float https://corecoding.com/utilities/rgb-or-hex-to-float.php использован strtol (<stdlib.h>)
  *  5. заменить принты на действия
+ *  6. директории для тексур парсятся в папку, добавить подгрузку текстур из этих папок
 */
-
-char	*read_file(const char *argv, int buff_size)
-{
-	int		ret;
-	char	buf[buff_size];
-	char	*tmp;
-	char	*result;
-	int		fd;
-
-	if (!(fd = open(argv, O_RDONLY)))
-		rt_raise_error(ERR_INV_FILE);
-	if (fd < 0 || !(result = ft_strnew(1)))
-		rt_raise_error(ERR_INV_FILE);
-	while ((ret = read(fd, buf, buff_size)) > 0 && result)
-	{
-		buf[ret] = '\0';
-		tmp = ft_strjoin(result, buf);
-		free(result);
-		if (!tmp)
-			rt_raise_error(ERR_MALLOC);
-		result = tmp;
-	}
-	return (result);
-}
 
 void	parse_json_file(json_t *root, t_tmp *tmp, uint32_t *renderer_flags)
 {
@@ -73,13 +50,10 @@ t_scene		rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags)
 	json_error_t	error;
 
 	tmp = rt_safe_malloc(sizeof(t_tmp));
-	text = ft_readfile(open(json_scene_file, O_RDONLY), NULL, 10000);
-	if (!text)
+	if (!(text = ft_readfile(open(json_scene_file, O_RDONLY), NULL, 10000)))
 		rt_raise_error(ERR_INVALID_JSON_FILE);
 	init_tmp(tmp);
-	g_textures.textures_names = NULL;
-	g_textures.skybox_info = rt_safe_malloc(sizeof(t_skybox_info));
-	g_textures.skybox_info->skybox_exist = false;
+	init_textures_default();
 	root = json_loads(text, 0, &error);
 	parse_json_file(root, tmp, renderer_flags);
 	count_elements(&scene, tmp);
@@ -89,7 +63,5 @@ t_scene		rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags)
 	json_decref(root);
 	free(text);
 	//print_scene(&scene);
-/*	scene = get_hardcoded_scene();
-	rt_correct_scene(&scene);*/
 	return (scene);
 }

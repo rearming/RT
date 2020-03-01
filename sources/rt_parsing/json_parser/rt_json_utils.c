@@ -12,6 +12,13 @@
 
 #include "rt.h"
 
+void 		init_textures_default(void)
+{
+	g_textures.textures_names = NULL;
+	g_textures.skybox_info = rt_safe_malloc(sizeof(t_skybox_info));
+	g_textures.skybox_info->skybox_exist = false;
+}
+
 static void	init_tmp_material(t_tmp *tmp)
 {
 	tmp->ambience = (cl_float3){{0, 0, 0}};
@@ -61,7 +68,7 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 {
 	t_tmp			*tmp_iterator;
 	int				check_cam_render_scene = 0;;
-	t_texture_name	*texture_iter;
+	t_name	*texture_iter;
 
 	texture_iter = g_textures.textures_names;
 	tmp_iterator = tmp;

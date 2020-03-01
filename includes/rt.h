@@ -50,6 +50,7 @@ void		rt_init(t_rt *out_rt, const char *json_scene_file);
 void		rt_init_renderer_params(t_renderer_params *out_opencl_params);
 int			init_basic_textures_parameters(void);
 void		rt_add_start_position(int i);
+char 		*found_file_in_the_folder(const char *file);
 
 /*
 **	Render

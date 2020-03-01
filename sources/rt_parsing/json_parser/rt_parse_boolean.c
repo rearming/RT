@@ -18,10 +18,8 @@ void	parse_bool(t_tmp *tmp, const char *key, json_t *value,
 		{
 			if (tmp->type == MESH)
 				*renderer_flags = *renderer_flags | RENDER_MESH;
-			else if (tmp->type == TEXTURES)
+			else if (tmp->type == TEXTURES || tmp->type == SKYBOX)
 				*renderer_flags = *renderer_flags | RENDER_TEXTURES;
-			else if (tmp->type == SKYBOX)
-				*renderer_flags = *renderer_flags | RENDER_SKYBOX;
 		}
 	}
 }

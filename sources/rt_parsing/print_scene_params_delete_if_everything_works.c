@@ -68,7 +68,7 @@ void	print_tmp(t_tmp *tmp)
 
 void			print_textures(void)
 {
-	t_texture_name *tmp;
+	t_name *tmp;
 	tmp = g_textures.textures_names;
 	while (tmp)
 	{

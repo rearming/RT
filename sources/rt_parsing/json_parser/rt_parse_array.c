@@ -95,7 +95,7 @@ static void	add_elements_in_array(t_tmp *tmp, int type_of_element,
 	else if (type_of_element == VMAX)
 		add_array(&tmp->vmax, value);
 	else if (type_of_element == DIRECTORY)
-		printf("here add directories with textures\n");
+		add_directory(value);
 	else
 		add_elements_in_array_material(tmp, type_of_element, value);
 }

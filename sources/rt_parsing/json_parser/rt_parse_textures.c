@@ -1,21 +1,21 @@
 #include "rt.h"
 
-t_texture_name	*ft_new_texture_name(const char *data)
+t_name		*ft_new_texture_name(const char *data)
 {
-	t_texture_name *tmp;
+	t_name *tmp;
 
-	tmp = rt_safe_malloc(sizeof(t_texture_name));
+	tmp = rt_safe_malloc(sizeof(t_name));
 	tmp->name = ft_strdup((char *)data);
 	tmp->next = NULL;
 	ft_strclr((char *)data);
 	return (tmp);
 }
 
-int				ft_add_texture_name_back(t_texture_name **list,
-		const char *data)
+int			ft_add_texture_name_back(t_name **list,
+											const char *data)
 {
-	t_texture_name	*tmp;
-	int				num;
+	t_name	*tmp;
+	int		num;
 
 	num = 0;
 	if (!*list)
@@ -34,9 +34,9 @@ int				ft_add_texture_name_back(t_texture_name **list,
 	return (num);
 }
 
-static int		search(const char *name)
+static int	search(const char *name)
 {
-	t_texture_name	*iter;
+	t_name	*iter;
 	int				num;
 
 	num = -1;
@@ -51,7 +51,7 @@ static int		search(const char *name)
 	return (-1);
 }
 
-int				parse_texture(const char *name)
+int			parse_texture(const char *name)
 {
 	int num;
 
@@ -61,4 +61,19 @@ int				parse_texture(const char *name)
 	else
 		num = ft_add_texture_name_back(&g_textures.textures_names, name);
 	return (num);
+}
+
+void 		add_directory(json_t *value)
+{
+	size_t i;
+	size_t array_size;
+
+	i = 0;
+	array_size = json_array_size(value);
+	g_textures.folders_names = rt_safe_malloc(sizeof(char *) * json_array_size(value));
+	while (i < array_size)
+	{
+		g_textures.folders_names[i] = ft_strdup(json_string_value(json_array_get(value, i)));
+		i++;
+	}
 }
