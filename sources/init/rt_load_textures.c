@@ -132,5 +132,5 @@ void		rt_skybox_init(void)
 	g_textures.skybox_info->size = texture_list_size;
 	free(tmp_filename);
 	free(tmp_texture);
-	free((void *_)g_textures.skybox_info->skybox_name); // чистим имя skybox или передаем в gui?
+	free((void *)g_textures.skybox_info->skybox_name); // чистим имя skybox или передаем в gui?
 }

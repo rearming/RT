@@ -27,9 +27,9 @@ void		rt_init(t_rt *out_rt, const char *json_scene_file)
 	if (g_textures.skybox_info->skybox_exist == true)
 	{
 		rt_skybox_init();
-		printf("size = %ld, height = %i, width = %i\n",
-				g_textures.skybox_info->size,
-				g_textures.skybox_info->height, g_textures.skybox_info->width);
+		//printf("size = %ld, height = %i, width = %i\n",
+		//		g_textures.skybox_info->size,
+		//		g_textures.skybox_info->height, g_textures.skybox_info->width);
 	}
 	rt_load_obj_file(NULL, &out_rt->scene.meshes);
 	out_rt->kd_info = rt_get_kd_object(&out_rt->scene.meshes);
