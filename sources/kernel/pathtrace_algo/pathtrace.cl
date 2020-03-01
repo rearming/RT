@@ -39,12 +39,12 @@ float3		pathtrace(
 						texture_list, &objects[closest_obj_index], &ray, &hit, hit_material, seed, pixel);
 			else
 #endif
-				result_color += ray.energy * shade_pathtrace(&ray, &hit, hit_material, seed, pixel);
+		result_color += ray.energy * shade_pathtrace(&ray, &hit, hit_material, seed, pixel);
 		}
 		else
 		{
 #ifdef RENDER_TEXTURES
-			result_color += ray.energy * skybox_color(skybox_info, skybox_list, skybox_normal(ray));
+			result_color += ray.energy * skybox_color(skybox_list, skybox_info, skybox_normal(ray));
 #else
 			result_color += ray.energy * get_float3_color(COL_BG);
 #endif
