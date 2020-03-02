@@ -111,10 +111,12 @@ set(kd_tree_sources
 
 set(gui_sources
         sources/gui/rt_gui_init.c
-        sources/gui/rt_gui_buttons.c
+        sources/gui/rt_handle_event_gui.c
         sources/gui/gui_utils/rt_gui_color_utils.c
-        sources/gui/rt_gui_button_callback.c
-        sources/gui/rt_handle_event_gui.c)
+        sources/gui/buttons/rt_gui_buttons_render.c
+        sources/gui/buttons/rt_gui_button_callback.c
+        sources/gui/buttons/rt_buttons_border.c
+        sources/gui/buttons/rt_button_label.c)
 
 set(sources
         ${debug_sources}

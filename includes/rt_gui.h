@@ -22,10 +22,15 @@ void		init_gui(uint64_t algo);
 ** Buttons
 */
 
-bool		check_button(SDL_Event *event, SDL_Rect button);
-bool		check_hover(SDL_Event *event, SDL_Rect button);
+SDL_Rect	centered_label( SDL_Rect button, SDL_Surface *sur);
+void		render_border(t_transform *btn, int px, SDL_Color color);
+
 void		render_button(t_transform btn);
-void		update_all_buttons(void);
+void		render_button_without_border(t_transform btn);
+void		render_button_without_centered(t_transform btn);
+void		render_button_without_anything(t_transform btn);
+void		update_all_algo_buttons(void);
+
 bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt);
 
 /*
@@ -35,7 +40,5 @@ bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt);
 void		change_render_algo(short algo, t_rt *rt);
 SDL_Color	get_color_from_hex(unsigned int hex);
 SDL_Color	get_rgba_from_hex(unsigned int hex);
-SDL_Color 	activate_color(SDL_Color color);
-SDL_Color 	disable_color(SDL_Color color);
 
 #endif //RT_GUI_H

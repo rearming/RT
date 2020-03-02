@@ -6,18 +6,7 @@
 ** SDL_gui structs
 */
 
-typedef	struct			s_transform
-{
-	SDL_Rect			rect;
-	SDL_Color			color;
-	SDL_Surface			texture;
-	char				*text;
-	short				action;
-	bool				(*callback)();
-	void				*parent;
-	short				state;
-	short				type;
-}						t_transform;
+
 
 typedef enum			e_button
 {
@@ -31,12 +20,27 @@ typedef enum			e_button
 						btn_count = algo_btn_count + other_btn_count
 }						t_btn;
 
-typedef enum 			e_event
+typedef enum 			e_state
 {
 						non_event,
 						hover,
-						click
-}						t_event;
+						click,
+						label
+}						t_state;
+
+typedef	struct			s_transform
+{
+	SDL_Rect			rect;
+	SDL_Color			color;
+	SDL_Surface			texture;
+	char				text[100];
+	short				action;
+	bool				(*callback)();
+	t_state 			state;
+	short				type;
+	void				*parent;
+	unsigned short		sons;
+}						t_transform;
 
 typedef struct			s_gui
 {

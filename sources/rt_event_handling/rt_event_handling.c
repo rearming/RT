@@ -3,53 +3,53 @@
 #include "rt_events.h"
 #include "rt_opencl.h"
 
-//# define WIN_RATIO ((float)WIN_WIDTH / WIN_HEIGHT)
-//# define INVERSE_WIN_RATIO ((float)WIN_HEIGHT / WIN_WIDTH)
-//# define D_E_KARMATSKIY (INVERSE_WIN_RATIO * INVERSE_WIN_RATIO)
-//# define D_I_MAZOHIN (WIN_RATIO * WIN_RATIO)
-
-float		d_i_mazokhin(int w, int h)
+void		resize_gui(int height)//TODO NEED DEBUG THIS FUNCTION
 {
-	const float win_ratio = (float)w / h;
+	int			i;
+	float	k = height/(float)WIN_HEIGHT;
+	SDL_Color	bg;
+	bg = get_color_from_hex(arc4random());
 
-	return (win_ratio * win_ratio);
+	i = 0;
+	printf("resize_gui launched\n");
+	TTF_CloseFont(g_gui.font);
+	g_gui.font = TTF_OpenFont(FONT_PATH, (int)(FONT_SIZE * k));
+	SDL_FillRect(g_gui.surface, NULL,
+				 SDL_MapRGB(g_gui.surface->format, bg.r, bg.g, bg.b));
+	while (i < btn_count)
+	{
+		g_gui.obj[i].color = get_color_from_hex(arc4random());
+		g_gui.obj[i].rect.h = (int)((float)g_gui.obj[i].rect.h * k);
+		render_button(g_gui.obj[i]);
+		printf("button [%i] rendered\n", i);
+		i++;
+	}
+
+	SDL_UpdateWindowSurface(g_gui.win_tool);
+	printf("func end\n");
 }
-
-float		d_e_karmatsky(int w, int h)
-{
-	const float win_ratio = (float)h / w;
-
-	return (win_ratio * win_ratio);
-}
-
-
 
 bool		rt_handle_window_event(SDL_Event *event, t_rt *rt)
 {
-	int w;
-	int h;
-	int x;
-	int y;
+	SDL_Rect win;
 
-	SDL_GetWindowSize(g_sdl.win, &w, &h);
-
-	if (event->window.event == SDL_WINDOWEVENT_MOVED){
+	SDL_GetWindowSize(g_sdl.win, &win.w, &win.h);
+ 	if (event->window.event == SDL_WINDOWEVENT_MOVED)
+ 	{
 		if (event->window.windowID == RT_WIN_ID)
-		{
-
-			SDL_SetWindowPosition(g_gui.win_tool, w + event->window.data1, event->window.data2);
-		}
+			SDL_SetWindowPosition(g_gui.win_tool, win.w + event->window.data1, event->window.data2);
 		else if (event->window.windowID == GUI_WIN_ID)
-		{
-			SDL_SetWindowPosition(g_sdl.win,  event->window.data1 - w, event->window.data2);
-		}
+			SDL_SetWindowPosition(g_sdl.win, event->window.data1 - win.w, event->window.data2);
 	}
-	else if (event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+	if  (event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
 	{
-		SDL_GetWindowPosition(g_sdl.win, &x, &y);
-		SDL_SetWindowPosition(g_gui.win_tool, x + w, y);
-		rt->scene.camera.viewport_width = ((float)w / h) < 1 ? d_i_mazokhin(w, h) : 1;
-		rt->scene.camera.viewport_height = ((float)w / h) > 1 ? d_e_karmatsky(w, h) : 1;
+		SDL_GetWindowPosition(g_sdl.win, &win.x, &win.y);
+		SDL_SetWindowPosition(g_gui.win_tool, win.x + win.w, win.y);
+//		resize_gui(win.h);//TODO NEED DEBUG THIS FUNCTION
+//			SDL_SetWindowSize(g_gui.win_tool, WIN_GUI_WIDTH, win.h);
+
+		rt->scene.camera.viewport_width = (float)win.w / (float)win.h;
+		rt->scene.camera.viewport_height = 1;
 		return (true);
 	}
 	return (false);
@@ -67,5 +67,4 @@ void		handle_event(SDL_Event *event, t_rt *rt)
 		rt_camera_move(&rt->scene.camera, &rt->events);
 		rt_render(rt, &rt_opencl_render);
 	}
-
 }
