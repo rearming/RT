@@ -3,17 +3,6 @@
 #include "rt_parsing.h"
 #include "rt_kd_tree.h"
 
-void	free_kd_tree(t_kd_tree *tree)
-{
-	if (!tree)
-		return;
-	free_kd_tree(tree->left);
-	free_kd_tree(tree->right);
-	if (tree->objects.num != NOT_SET)
-		free(tree->objects.indices);
-	free(tree);
-}
-
 t_opencl	g_opencl;
 t_sdl		g_sdl;
 int			*g_img_data;
@@ -87,7 +76,7 @@ int		main(int argc, char **argv)
 //	printf("left tree nodes num: [%i]\n", kd_tree_count_nodes(kd_tree->left));
 //	printf("right tree nodes num: [%i]\n", kd_tree_count_nodes(kd_tree->right));
 
-	export_aabbs(kd_tree);
+//	export_aabbs(kd_tree);
 
 //	t_kd_arr_tree	*kd_tree_arr = kd_tree_to_array(kd_tree);
 
@@ -100,6 +89,6 @@ int		main(int argc, char **argv)
 //	free(kd_tree_arr);
 
 	free(all_aabbs);
-	free_kd_tree(kd_tree);
+	free_kd_tree(kd_tree, true);
 	rt_free_meshes(&meshes);
 }

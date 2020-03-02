@@ -1,9 +1,8 @@
 
-#include "opencl_defines.cl"
+#include "kernel_defines.cl"
 #include "rt_defines.h"
 #include "rt_shared_structs.h"
-#include "opencl_structs.cl"
-#include "rt_host_structs.h"
+#include "kernel_structs.cl"
 #include "prototypes.cl"
 #include "color_utils.cl"
 
@@ -41,47 +40,43 @@
 # endif
 
 __kernel void	rt_main(
-    __global const t_scene *scene,
+    __global __read_only const t_scene *scene,
 #ifdef RENDER_OBJECTS
-    __global const t_object *objects,
+    __global __read_only const t_object *objects,
 #endif
-#ifdef RENDER_RAYTRACE
-    __global const t_light *lights,
-#endif
-    __global const t_renderer_params *params,
+	__global __read_only const t_light *lights,
+    __global __read_only const t_renderer_params *params,
 #ifdef RENDER_MESH
-	__global const t_kd_info *kd_info,
-	__global const t_kd_arr_tree *kd_tree,
-	__global const int *kd_indices,
-	__global const t_mesh_info *meshes_info,
-    __global const t_polygon *polygons,
-	__global const float3 *vertices,
-	__global const float3 *v_normals,
+	__global __read_only const t_kd_info *kd_info,
+	__global __read_only const t_kd_arr_tree *kd_tree,
+	__global __read_only const int *kd_indices,
+	__global __read_only const t_mesh_info *meshes_info,
+    __global __read_only const t_polygon *polygons,
+	__global __read_only const float3 *vertices,
+	__global __read_only const float3 *v_normals,
 # ifdef RENDER_MESH_VTEXTURES
-	__global const float3 *v_textures,
+	__global __read_only const float3 *v_textures,
 # endif
 #endif
 #ifdef RENDER_PATHTRACE
     __global float3 *img_data_float,
 #endif
 #ifdef RENDER_TEXTURES
-    __global const t_texture_info *texture_info,
-	__global const float *texture_list,
+    __global __read_only const t_texture_info *texture_info,
+	__global __read_only const float *texture_list,
 #endif
-    __global int *img_data)
+    __global __write_only int *img_data,
+    __global __read_only t_ray *rays)
 {
+
 	int3		img_point = (int3)(get_global_id(0), get_global_id(1), 0);
 	int			g_id = img_point.x + img_point.y * WIN_WIDTH;
-
 	t_ray		ray = get_ray(convert_float3(img_point), &scene->camera);
 
 	float3		final_color = 0;
 	float3		new_color = 0;
 	float		seed = params->seed;
 
-#ifndef RENDER_RAYTRACE
-	__global const t_light			*lights = 0;
-#endif
 #ifndef RENDER_OBJECTS
 	__global const t_object			*objects = 0;
 #endif
@@ -104,14 +99,56 @@ __kernel void	rt_main(
 
 #ifdef RENDER_PATHTRACE
 	float3		prev_color = img_data_float[g_id];
-	new_color = pathtrace(scene, objects, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, v_textures,
-		params, texture_info, texture_list, ray, params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1));
+
+# ifdef RENDER_ANTI_ALIASING
+	if (rays[RAYS_CHUNK_SIZE * g_id + 0].energy.x > 0)
+	{
+		for	(int i = 0; i < RAYS_CHUNK_SIZE; i++)
+		{
+			t_ray ray = rays[RAYS_CHUNK_SIZE * g_id + i];
+			if (ray.energy.x <= 0)
+				continue;
+
+			float3 temp_color = pathtrace(scene, objects, kd_info, kd_tree, kd_indices,
+					meshes_info, polygons, vertices, v_normals, v_textures,
+					params, texture_info, texture_list, ray,
+					params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1));
+			new_color = mix_avg_colors(new_color, temp_color, i);
+		}
+	//todo [sleonard] add atomic counter (посчитать, насколько больше лучей кидается при anti-aliasing'e)
+	}
+	else
+# endif // RENDER_ANTI_ALIASING
+	{
+		new_color = pathtrace(scene, objects, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, v_textures,
+			params, texture_info, texture_list, ray, params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1));
+	}
 	final_color = mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num);
 	img_data_float[g_id] = final_color;
+
 #endif // RENDER_PATHTRACE
 
 #ifdef RENDER_RAYTRACE
-	final_color = raytrace(scene, objects, lights, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, v_textures, params, texture_info, texture_list, ray);
+# ifdef RENDER_ANTI_ALIASING
+	if (rays[RAYS_CHUNK_SIZE * g_id + 0].energy.x > 0)
+	{
+		for	(int i = 0; i < RAYS_CHUNK_SIZE; i++)
+		{
+			ray = rays[RAYS_CHUNK_SIZE * g_id + i];
+			if (ray.energy.x <= 0)
+				continue;
+			float3 temp_color = raytrace(scene, objects, lights, kd_info, kd_tree, kd_indices,
+					meshes_info, polygons, vertices, v_normals, v_textures, params, texture_info, texture_list, ray);
+			final_color = mix_avg_colors(final_color, temp_color, i);
+		}
+	}
+	else
+# endif // RENDER_ANTI_ALIASING
+	{
+		final_color = raytrace(scene, objects, lights, kd_info, kd_tree, kd_indices,
+					meshes_info, polygons, vertices, v_normals, v_textures, params, texture_info, texture_list, ray);
+	}
+
 #endif // RENDER_RAYTRACE
 	img_data[g_id] = get_int_color(correct_hdr(params->gamma, params->exposure, final_color));
 }

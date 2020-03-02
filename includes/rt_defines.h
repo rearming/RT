@@ -82,6 +82,8 @@
 **	Other ?
 */
 
+#define RAYS_CHUNK_SIZE 9
+
 # define M_PI_180 (M_PI / 180)
 # define NOT_SET (-1)
 

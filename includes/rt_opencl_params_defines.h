@@ -1,7 +1,13 @@
 #ifndef RT_OPENCL_PARAMS_DEFINES_H
 # define RT_OPENCL_PARAMS_DEFINES_H
 
-# define OPENCL_KERNEL_NAME "rt_main"
+# define MAIN_KERNEL_PATH "./sources/kernel/rt_main.cl"
+# define IMG_GEN_KERNEL_PATH "./sources/kernel/img_gen_main.cl"
+# define RAYS_GEN_KERNEL_PATH "./sources/kernel/rays_gen_main.cl"
+
+# define MAIN_KERNEL_NAME "rt_main"
+# define IMG_GEN_KERNEL_NAME "img_gen"
+# define RAYS_GEN_KERNEL_NAME "rays_gen"
 
 /*
 **	Renderers params

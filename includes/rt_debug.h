@@ -27,7 +27,7 @@ void		rt_print_mtl_file(tinyobj_material_t *materials, int num_materials);
 */
 
 void		rt_pathtrace_profile(t_rt *rt, int max_samples);
-void		rt_print_opencl_profile_info(void);
+void rt_print_opencl_profile_info(const char *kernel_name);
 
 /*
 **	Objects

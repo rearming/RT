@@ -24,10 +24,6 @@ inline float sobel_process_pixel(t_sobel_img *img, int img_x, int img_y, int axi
 		{
 			if (axis == X_AXIS)
 			{
-				if ((img_x == 733 && img_y == 468) || img->width == 3)
-				{
-
-				}
 				result.x += sobel_get_pixel(img, x, y).x * kernel_x[k_y][k_x];
 				result.y += sobel_get_pixel(img, x, y).y * kernel_x[k_y][k_x];
 				result.z += sobel_get_pixel(img, x, y).z * kernel_x[k_y][k_x];
