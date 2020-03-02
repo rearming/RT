@@ -15,7 +15,7 @@ void		rt_setup_rays_gen_kernel(t_rt *rt, t_rt_renderer *renderer)
 	}
 
 	err = clSetKernelArg(renderer->ray_gen_kernel, 0,
-			sizeof(cl_mem), &renderer->buffers[0]); /// buffers[0] - t_scene* с камерой (нужна для генерации лучей)
+			sizeof(cl_mem), &renderer->buffers[0].mem); /// buffers[0] - t_scene* с камерой (нужна для генерации лучей)
 	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 
 	err = clSetKernelArg(renderer->ray_gen_kernel, 1,

@@ -1,11 +1,4 @@
 
-typedef struct				s_rayhit
-{
-	float3					pos;
-	float					distance;
-	float3					normal;
-}							t_rayhit;
-
 typedef struct				s_kd_traverse_helper
 {
 	int						node_index;

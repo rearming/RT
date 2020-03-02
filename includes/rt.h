@@ -84,7 +84,7 @@ int 		hex_to_int(const char *temp);
 
 void		rt_render(void *rt_ptr, void (*render_func)(void *));
 void		rt_update_renderer_params(t_rt *rt, t_rt_renderer *renderer);
-void 		wavefront(void *rt_ptr);
+void 		render_wavefront(void *rt_ptr);
 
 /*
 **	Event handling

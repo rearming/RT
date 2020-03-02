@@ -1,6 +1,22 @@
 #ifndef RT_SHARED_STRUCTS_H
 # define RT_SHARED_STRUCTS_H
 
+typedef struct				s_rayhit
+{
+#ifndef FT_OPENCL___
+
+	cl_float3				pos;
+	cl_float				distance;
+	cl_float3				normal;
+#else
+
+	float3					pos;
+	float					distance;
+	float3					normal;
+#endif
+
+}							t_rayhit;
+
 typedef struct				s_ray
 {
 # ifndef FT_OPENCL___

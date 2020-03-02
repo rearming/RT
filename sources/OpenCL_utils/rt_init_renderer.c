@@ -15,7 +15,7 @@ const char	*g_opencl_defines[] =
 				NULL
 		};
 
-char				*rt_get_kernel_compile_options(uint32_t flags)
+char				*rt_get_kernel_compile_defines(uint32_t flags)
 {
 	char		*options;
 	char		*tmp;
@@ -37,12 +37,24 @@ char				*rt_get_kernel_compile_options(uint32_t flags)
 	return (options);
 }
 
+char				*rt_get_kernel_compile_options(uint32_t flags)
+{
+	const char		*opencl_defines = rt_get_kernel_compile_defines(flags);
+	char			*temp_str;
+	char			*compile_options;
+
+	ft_sprintf(&temp_str, "%s %s", OPENCL_INCLUDE_DIRS, opencl_defines);
+	compile_options = ft_del_whitespaces(temp_str);
+	ft_printf("compile options: %s\n", opencl_defines);
+	free((char*)opencl_defines);
+	free(temp_str);
+	return (compile_options);
+}
+
 t_rt_renderer		*rt_create_renderer(uint32_t flags)
 {
 	t_rt_renderer	*new_renderer;
-	const char		*opencl_defines = rt_get_kernel_compile_options(flags);
-	char			*compile_options;
-	char			*temp_str;
+	char			*compile_options = rt_get_kernel_compile_options(flags);
 
 	new_renderer = rt_safe_malloc(sizeof(t_rt_renderer));
 	new_renderer->flags = flags;
@@ -50,18 +62,13 @@ t_rt_renderer		*rt_create_renderer(uint32_t flags)
 	new_renderer->primary_img = NULL;
 	new_renderer->rays_buffer = NULL;
 	rt_init_renderer_params(&new_renderer->params);
-	ft_sprintf(&temp_str, "%s %s", OPENCL_INCLUDE_DIRS, opencl_defines);
-	compile_options = ft_del_whitespaces(temp_str);
-	ft_printf("compile options: %s\n", opencl_defines);
 	rt_opencl_create_kernel(IMG_GEN_KERNEL_PATH, IMG_GEN_KERNEL_NAME, compile_options,
 			&new_renderer->img_gen_kernel, &new_renderer->img_gen_program);
 	rt_opencl_create_kernel(RAYS_GEN_KERNEL_PATH, RAYS_GEN_KERNEL_NAME, compile_options,
 			&new_renderer->ray_gen_kernel, &new_renderer->ray_gen_program);
 	rt_opencl_create_kernel(MAIN_KERNEL_PATH, MAIN_KERNEL_NAME, compile_options,
 			&new_renderer->main_kernel, &new_renderer->main_program);
-	free((char*)opencl_defines);
 	free(compile_options);
-	free(temp_str);
 	return (new_renderer);
 }
 

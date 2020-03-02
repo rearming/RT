@@ -15,6 +15,8 @@
 
 # define RENDER_ALWAYS 0b1111111111111111
 
+# define RENDER_NOTHING 0
+
 # define RENDER_RAYTRACE (1 << 0)
 # define RENDER_PATHTRACE (1 << 1)
 # define RENDER_RAYMARCH (1 << 2)
