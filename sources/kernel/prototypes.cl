@@ -107,9 +107,6 @@ t_ray			get_ray(float3 img_point, __global const t_camera *camera);
 
 float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
 
-void	get_rays(
-		t_ray );
-
 bool		ray_aabb_traverse_intersection(t_ray *ray, t_aabb aabb, float *out_near, float *out_far);
 
 void		kd_swap_nodes(
