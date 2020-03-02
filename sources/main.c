@@ -17,8 +17,10 @@ int		main(int argc, char **argv)
 		rt_raise_error(ERR_INV_ARGS_NUM);
 	rt_init(&rt, argv[1]);
 	init_gui(rt.renderer_flags);
-	rt_render(&rt, &rt_opencl_render);
-	rt_loop(&rt);
+//	rt_render(&rt, &rt_opencl_render);
+	rt_render(&rt, wavefront);
+	while (21);
+//	rt_loop(&rt);
 	exit(rt_exit_clean());
 	return (0);
 }
