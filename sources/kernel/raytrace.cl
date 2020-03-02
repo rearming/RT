@@ -4,7 +4,7 @@ float3		shade(
 		t_rayhit *hit,
 		t_material *material,
 		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const int *texture_list,
 		__global const t_object *object)
 {
 	float3	diffuse_color = material->diffuse;
@@ -46,7 +46,7 @@ float3		raytrace(
 		__global const float3 *v_textures,
 		__global const t_renderer_params *params,
 		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const int *texture_list,
 		t_ray ray)
 {
 	float3		result_color = (float3)(0);

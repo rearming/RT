@@ -1,6 +1,6 @@
 float3		skybox_color(
 		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
+		__global const int *texture_list,
 		float3 normal)
 {
 	float3	color;
@@ -20,7 +20,7 @@ float3		skybox_color(
 	y = (int)(v * (texture_info->height - 1));
 	y = check_borders(y, texture_info->height - 1, 0);
 	coord = x + y * texture_info->width + texture_info->start;
-	change_format((int)texture_list[coord], &color);
+	color = get_float3_color(texture_list[coord]);
 	return (color);
 }
 

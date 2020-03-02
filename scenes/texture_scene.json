@@ -8,35 +8,11 @@
         "specular": [0.0, 0.0, 0.0],
         "phong exp": 40,
         "smoothness": 0.0,
-        "texture": "sphere_moon.jpg"
+        "texture": "skybox_sea.jpg"
       },
       "center": [0.0, 2.5, 0.0],
       "radius": 1.5
-    },
-    {
-      "type": "sphere",
-      "material": {
-      "diffuse": "0xFFFFFF",
-      "specular": [0.0, 0.0, 0.0],
-      "phong exp": 40,
-      "smoothness": 0.0,
-      "texture": "sphere_saturn.jpg"
-    },
-    "center": [8.0, 2.5, 0.0],
-    "radius": 1.5
-    },
-    {
-    "type": "sphere",
-    "material": {
-      "diffuse": "0xFFFFFF",
-      "specular": [0.0, 0.0, 0.0],
-      "phong exp": 40,
-      "smoothness": 0.0,
-      "texture": "sphere_earth.jpg"
-    },
-    "center": [0.0, -2.5, 0.0],
-    "radius": 1.5
-  }
+    }
   ],
   "camera": {
     "pos": [0.0, 2.0, 10.0],

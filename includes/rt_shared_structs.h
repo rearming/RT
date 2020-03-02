@@ -73,7 +73,9 @@ typedef struct		s_texture_name
 # ifndef FT_OPENCL___
 typedef struct			s_textures
 {
-	cl_float 			*texture_list;
+	//cl_float 			*texture_list;
+	cl_int 				*texture_list;
+	cl_float3			*skybox_list;
 	t_texture_info		*texture_info; //вот здесь используется количество текстур
 	size_t				texture_list_size;
 	size_t				texture_info_size; // вот это заполнять
