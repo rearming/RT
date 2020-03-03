@@ -37,11 +37,12 @@ void	parse_json_file(json_t *root, t_tmp *tmp, uint32_t *renderer_flags)
 			rt_raise_error(ERR_PARSING_WRONG_PARAM);
 		while (tmp->next != NULL)
 			tmp = tmp->next;
+		printf("%s\n", key);
 		iter = json_object_iter_next(root, iter);
 	}
 }
 
-t_scene		rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags)
+t_scene rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags)
 {
 	t_scene			scene;
 	char			*text;

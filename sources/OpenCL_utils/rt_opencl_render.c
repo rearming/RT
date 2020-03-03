@@ -11,7 +11,7 @@ void		rt_opencl_render(void *rt_ptr)
 	t_rt			*rt;
 
 	rt = rt_ptr;
-	renderer = rt_get_renderer(rt->renderer_flags);
+	renderer = rt_get_renderer(rt->renderer_flags, rt->scene.clInfo);
 	rt_opencl_prepare_memory(rt, renderer);
 	rt_opencl_setup_image_buffer(renderer);
 	rt_update_renderer_params(rt, renderer);

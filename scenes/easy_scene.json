@@ -26,6 +26,10 @@
       "texture": "skybox_sea.jpg"
     }
   },
+  "scene parameters": {
+    "exposure": 2,
+    "gamma": 2.2
+  },
   "object":
     {
       "type": "sphere",

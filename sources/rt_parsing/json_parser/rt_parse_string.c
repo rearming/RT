@@ -105,9 +105,13 @@ void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 				printf("%s\n", g_textures.skybox_info->skybox_name);
 			}
 		else if (ft_strequ(key, "file"))
-			printf("here add obj file\n");
+			tmp->file = ft_strdup(tmp_value);
 		else if (ft_strequ(key, "directory"))
-			printf("here add directories\n");
+		{
+			g_textures.folders_names = rt_safe_malloc(1);
+			g_textures.folders_names[0] = ft_strdup(tmp_value);
+			g_textures.folders_names[1] = NULL;
+		}
 		else
 			rt_raise_error(ERR_PARSING_WRONG_TYPE);
 	}

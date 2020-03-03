@@ -9,7 +9,9 @@ void		parse_object(t_tmp *tmp, const char *key, json_t *value,
 	type_of_structure = ft_type_of_structure(key, tmp->structure_type);
 	if (type_of_structure != -1)
 	{
-		if (tmp->structure_type == RENDER_PARAMETERS)
+		if (tmp->structure_type == RENDER_PARAMETERS &&
+			type_of_structure != OBJECT && type_of_structure != LIGHT
+			&& type_of_structure != CAMERA)
 			tmp->type = type_of_structure;
 		else
 		{

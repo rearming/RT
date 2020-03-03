@@ -120,7 +120,8 @@ typedef struct 			s_tmp
 	cl_int			skybox_num;		//					render_parameters
 	float			exposure;		//					scene_parameters
 	float			gamma;			//					scene_parameters
-	bool 			checker[32];
+	char*			file;			//					obj_parameters
+	bool 			checker[33];
 	struct s_tmp	*next;
 }						t_tmp;
 

@@ -59,6 +59,7 @@ void		init_tmp(t_tmp *tmp)
 	tmp->skybox_num = NOT_SET;
 	tmp->exposure = NOT_SET;
 	tmp->gamma = NOT_SET;
+	tmp->file = NULL;
 	init_tmp_material(tmp);
 	ft_bzero(&tmp->checker, 32);
 	ft_bzero(&tmp->checker, sizeof(tmp->checker) / sizeof(bool));

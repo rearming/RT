@@ -19,10 +19,7 @@
     },
     "textures": {
       "enabled": true,
-      "directories": [
-        "assets/textures/",
-        "/Users/gfoote/Project42/hdr/"
-      ]
+      "directory": "/Users/gfoote/Project42/hdr/"
     },
     "skybox": {
       "enabled": true,

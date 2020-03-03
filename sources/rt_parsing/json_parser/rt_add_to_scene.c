@@ -58,7 +58,7 @@ static void	free_tmp(t_tmp *tmp)
 	free(tmp);
 }
 
-void		add_elements(t_scene *scene, t_tmp *tmp)
+void add_elements(t_scene *scene, t_tmp *tmp)
 {
 	t_tmp	*tmp_iterator;
 	int		i_light;
@@ -79,9 +79,17 @@ void		add_elements(t_scene *scene, t_tmp *tmp)
 		else if (tmp_iterator->structure_type == LIGHT)
 			add_light(tmp_iterator, &scene->lights[i_light++]);
 		else if (tmp_iterator->structure_type == RENDER_PARAMETERS)
-			printf("render parameters added\n");//continue;
+			{
+				scene->clInfo.max_depth_raytrace = tmp_iterator->max_depth_r;
+				scene->clInfo.max_depth_pathtrace = tmp_iterator->max_depth_p;
+				scene->obj_file = ft_strdup(tmp_iterator->file);
+				free(tmp_iterator->file);
+			}
 		else if (tmp_iterator->structure_type == SCENE_PARAMETERS)
-			printf("where should I add scene parameters?\n");
+			{
+				scene->clInfo.gamma = tmp_iterator->gamma;
+				scene->clInfo.exposure = tmp_iterator->exposure;
+			}
 		else
 			rt_raise_error(ERR_PARSING_WRONG_TYPE);
 		tmp_iterator = tmp_iterator->next;

@@ -101,6 +101,7 @@ void		rt_textures_init(void)
 		if (g_textures.texture_list == NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		free(g_textures.textures_names->name); // чистим именя texture или передаем в gui?
+		free(g_textures.textures_names);
 		g_textures.textures_names = g_textures.textures_names->next;
 	}
 }
