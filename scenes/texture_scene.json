@@ -26,7 +26,7 @@
     },
     "skybox": {
       "enabled": true,
-      "texture": "skybox_sea.jpg"
+      "texture": "skybox_milkyway.png"
     }
   },
   "objects": [

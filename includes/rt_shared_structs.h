@@ -50,18 +50,18 @@ typedef struct			s_point
 typedef struct			s_skybox_info
 {
 # ifndef FT_OPENCL___
-	bool				skybox_exist;
-	const char			*skybox_name;
 	cl_int				width;
 	cl_int				height;
 	cl_int				bpp;
-	cl_long 			size;
-# else
 	bool				skybox_exist;
 	const char			*skybox_name;
+	cl_long 			size;
+# else
 	int					width;
 	int					height;
 	int					bpp;
+	bool				skybox_exist;
+	const char			*skybox_name;
 	long 				size;
 # endif
 }						t_skybox_info;

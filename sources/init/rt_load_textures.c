@@ -79,15 +79,16 @@ static void	rt_change_format_and_add(const float *tmp_texture,
 
 void		rt_textures_init(void)
 {
-	int				i;
-	char			*tmp_filename;
-	float			*tmp_texture;
+	int		i;
+	char	*tmp_filename;
+	float	*tmp_texture;
 
 	i = init_basic_textures_parameters();
 	while (++i < (int)g_textures.texture_info_size)
 	{
-		tmp_filename = found_file_in_the_folder(g_textures.textures_names->name);
-		if (tmp_filename == NULL)
+		if ((tmp_filename =
+			found_file_in_the_folder(g_textures.textures_names->name))
+			== NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		if (!(tmp_texture = stbi_loadf(tmp_filename,
 		&g_textures.texture_info[i].width, &g_textures.texture_info[i].height,
@@ -99,12 +100,10 @@ void		rt_textures_init(void)
 		free(tmp_texture);
 		if (g_textures.texture_list == NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
-//		free(g_textures.textures_names->name); чистим именя texture или передаем в gui?
-//		free(g_textures.textures_names);
+		free(g_textures.textures_names->name); // чистим именя texture или передаем в gui?
 		g_textures.textures_names = g_textures.textures_names->next;
 	}
 }
-
 
 void		rt_skybox_init(void)
 {
@@ -112,23 +111,25 @@ void		rt_skybox_init(void)
 	float	*tmp_texture;
 	int		i;
 	int		j;
-	int		texture_list_size;
 
 	i = 0;
 	j = -1;
-	tmp_filename = found_file_in_the_folder(g_textures.skybox_info->skybox_name);
-	if (tmp_filename == NULL)
+	if ((tmp_filename =
+		found_file_in_the_folder(g_textures.skybox_info->skybox_name))
+		== NULL)
 		return (rt_raise_error(ERR_INVALID_TEXRTURE));
 	tmp_texture = stbi_loadf(tmp_filename, &g_textures.skybox_info->width,
 	&g_textures.skybox_info->height, &g_textures.skybox_info->bpp, STBI_rgb);
-	texture_list_size = g_textures.skybox_info->width
+	g_textures.skybox_info->size = g_textures.skybox_info->width
 			* g_textures.skybox_info->height;
 	g_textures.skybox_list = rt_safe_malloc(sizeof(cl_float3)
-			* texture_list_size);
-	while (++j < texture_list_size)
+			* g_textures.skybox_info->size);
+	while (++j < g_textures.skybox_info->size)
+	{
 		g_textures.skybox_list[j] = (cl_float3) {.x = tmp_texture[i],
-			.y = tmp_texture[++i], .z = tmp_texture[++i]};
-	g_textures.skybox_info->size = texture_list_size;
+				.y = tmp_texture[i + 1], .z = tmp_texture[i + 2]};
+		i += 3;
+	}
 	free(tmp_filename);
 	free(tmp_texture);
 	free((void *)g_textures.skybox_info->skybox_name); // чистим имя skybox или передаем в gui?
