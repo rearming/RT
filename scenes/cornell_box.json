@@ -21,7 +21,7 @@
     "textures": {
       "enabled": true,
       "directories": [
-        "assets/textures",
+        "assets/textures/",
         "~/Desktop/"
       ]
     },
