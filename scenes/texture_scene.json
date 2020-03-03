@@ -21,12 +21,12 @@
       "enabled": true,
       "directories": [
         "assets/textures/",
-        "~/Desktop/"
+        "/Users/gfoote/Project42/hdr/"
       ]
     },
     "skybox": {
       "enabled": true,
-      "texture": "skybox_milkyway.png"
+      "texture": "colorful_studio_8k.hdr"
     }
   },
   "objects": [

@@ -36,19 +36,20 @@ char			*found_file_in_the_folder(const char *file)
 	int		i;
 	char	*check;
 
-	i = -1;
+	i = 0;
 	if (exists(file))
 		return (ft_strdup(file));
 	else if (exists(check = ft_strjoin(TEXTURES_FOLDER, file)))
 		return (check);
 	else
 	{
-		while (g_textures.folders_names[++i])
+		while (g_textures.folders_names[i]!= NULL)
 		{
 			ft_strclr(check);
 			free(check);
 			if (exists(check = ft_strjoin(g_textures.folders_names[i], file)))
 				return (check);
+			i++;
 		}
 	}
 	ft_strclr(check);

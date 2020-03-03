@@ -76,4 +76,5 @@ void 		add_directory(json_t *value)
 		g_textures.folders_names[i] = ft_strdup(json_string_value(json_array_get(value, i)));
 		i++;
 	}
+	g_textures.folders_names[i] = NULL;
 }
