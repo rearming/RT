@@ -33,6 +33,9 @@ typedef struct			s_opencl
 	cl_event			profile_event;
 	cl_mem				img_data_mem;
 	t_list				*renderers;
+
+	t_cl_buffer			*wavefront_shared_buffers;
+	bool				shared_buffers_copy_done;
 }						t_opencl;
 
 typedef struct			s_rt_renderer
@@ -81,6 +84,7 @@ typedef struct			s_opencl_mem_obj
 	cl_mem_flags		mem_flags;
 	bool				copy;
 	uint32_t			renderer_flags;
+//	uint32_t			kernel_type_flags;
 }						t_opencl_mem_obj;
 
 typedef struct			s_rt

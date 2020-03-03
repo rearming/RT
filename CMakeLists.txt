@@ -42,7 +42,7 @@ set(OpenCL_utils_sources
         sources/OpenCL_utils/rt_opencl_utils.c
         sources/OpenCL_utils/rt_opencl_prepare_memory.c
         sources/OpenCL_utils/rt_init_renderer.c
-        sources/OpenCL_utils/rt_wavefront_render.c)
+        sources/OpenCL_utils/rt_wavefront_render.c sources/OpenCL_utils/rt_wavefront_prepare_memory.c)
 
 set(parsing_sources
         sources/rt_parsing/rt_parse_scene.c

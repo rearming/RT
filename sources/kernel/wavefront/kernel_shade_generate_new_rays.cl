@@ -1,10 +1,15 @@
 
 __kernel void		kernel_material_shade_generate_new_rays(
-		__global __read_only const *
-		__global __read_only const *hit_obj_indices
+		__global __read_only const int *pixel_material_indices,
+		__global __write_only t_ray *out_rays_buffer,
+		__global __write_only int *out_rays_pixel_indices,
+		__global __write_only int *out_rays_buffer_len,
+		// offset для записи новых лучей в texture_shade
+
 )
 {
-	//todo делать wavefront отдельно для текстур и для материалов
+	t_ray new_ray;
+
 //	t_material	material =
 //#ifdef RENDER_RAYTRACE
 //	shade_raytrace();
@@ -12,15 +17,22 @@ __kernel void		kernel_material_shade_generate_new_rays(
 //#ifdef RENDER_PATHTRACE
 //	shade_pathtrace();
 //#endif
-
+	/// если генерируем новый луч ->
+	out_rays_pixel_indices[out_rays_buffer_len] = pixel_material_indices[g_id];
+	out_rays_buffer[out_rays_buffer_len] = new_ray;
+	atomic_inc(out_rays_buffer_len);
 }
 
 __kernel void		kernel_texture_shade_generate_new_rays(
-		__global __read_only const *
-__global __read_only const *hit_obj_indices
+		__global __read_only const *hit_obj_indices,
+		__global __read_only const int *material_buffers_len,
+		__global __write_only t_ray *out_rays_buffer,
+		__global __read_only int *out_rays_buffer_len,
 )
 {
-	// todo и вот эта штука будет только для текстур
+	t_ray new_ray;
+
+	out_rays_buffer[g_id + *material_buffers_len] = new_ray;// offset для записи новых лучей
 }
 
 __kernel void		kernel_shade_skybox_or_nothing(

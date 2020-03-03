@@ -26,4 +26,7 @@ t_rt_renderer	*rt_get_renderer(uint32_t flags);
 
 char			*rt_get_kernel_compile_options(uint32_t flags);
 
+t_opencl_mem_obj	rt_check_opencl_memobj(t_opencl_mem_obj mem_obj);
+void				rt_wavefront_render_prepare_shared_memory(t_rt *rt, int memobj_num, ...);
+
 #endif

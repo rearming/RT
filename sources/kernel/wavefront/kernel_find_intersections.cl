@@ -58,19 +58,20 @@ __kernel void		kernel_find_intersections(
 
 	__global __write_only int *material_hit_obj_indices,
 	__global __write_only int *material_hit_polygon_indices,
-	__global int *material_buffers_len
+	__global __write_only int *new_material_pixel_indices,
+	__global __write_only t_rayhit *material_rays_hit_buffer,
+	__global int *material_buffers_len,
 
-	__global __write_only t_rayhit *rays_hit_buffer,
-	//нужен для продления в shade, один для обычных и текстурных материалов
-	__global __write_only int *new_pixel_indices,
-	//индексы пикселей тоже общие
-	__global int *shared_buffers_len,
-	// нужна длинна буферов лучей и индексов пикселей
+///  буферы для пересечений с текстурными объектами
+	__global __write_only int *texture_hit_obj_indices,
+	__global __write_only int *texture_hit_polygon_indices,
+	__global __write_only int *new_textures_pixel_indices,
+	__global __write_only t_rayhit *texture_rays_hit_buffer,
+	__global int *texture_buffers_len,
 
-/// по сути будут еще такие же буферы для пересечений с текстурными объектами
-//	__global __write_only int *texture_hit_obj_indices,
-//	__global __write_only int *texture_hit_polygon_indices,
-//	__global int *texture_buffers_len
+	__global __write_only int *skybox_hit_pixel_indices,
+	__global __write_only t_ray *skybox_hit_rays_buffer,
+	__global int *skybox_hit_buffers_len
 	)
 {
 	int		g_id = get_global_id(0);
@@ -85,12 +86,45 @@ __kernel void		kernel_find_intersections(
 	closest_intersection(scene, objects, kd_info, kd_tree, kd_indices,
 			polygons, vertices, v_normals, &ray, &best_hit,
 			&closest_polygon_index, &closest_obj_index);
-	if (isset(closest_obj_index) || isset(closest_polygon_index))
+
+	if (isset(closest_obj_index))
 	{
-		hit_obj_indices[*buffers_len] = closest_obj_index;
-		hit_polygon_indices[*buffers_len] = closest_polygon_index;
-		rays_hit_buffer[*buffers_len] = best_hit;
-		new_pixel_indices[*buffers_len] = prev_pixel_indices[g_id];
-		atomic_inc(buffers_len);
-	} //todo в другом случае запускать shade skybox
+		if (objects[closest_obj_index].material.texture_number >= 0)
+		{
+			texture_hit_obj_indices[*texture_buffers_len] = closest_obj_index;
+			new_textures_pixel_indices[*texture_buffers_len] = closest_obj_index;
+			texture_rays_hit_buffer[*texture_buffers_len] = best_hit;
+			atomic_inc(texture_buffers_len);
+		}
+		else // объект без текстуры
+		{
+			material_hit_obj_indices[*material_buffers_len] = closest_obj_index;
+			new_material_pixel_indices[*material_buffers_len] = prev_pixel_indices[g_id];
+			material_rays_hit_buffer[*material_buffers_len] = best_hit;
+			atomic_inc(material_buffers_len);
+		}
+	}
+	else if (isset(closest_polygon_index))
+	{
+		if (polygons[closest_polygon_index].material.texture_number >= 0)
+		{
+			texture_hit_obj_indices[*texture_buffers_len] = closest_polygon_index;
+			new_textures_pixel_indices[*texture_buffers_len] = closest_polygon_index;
+			texture_rays_hit_buffer[*texture_buffers_len] = best_hit;
+			atomic_inc(texture_buffers_len);
+		}
+		else // объект без текстуры
+		{
+			material_hit_obj_indices[*material_buffers_len] = closest_polygon_index;
+			new_material_pixel_indices[*material_buffers_len] = prev_pixel_indices[g_id];
+			material_rays_hit_buffer[*material_buffers_len] = best_hit;
+			atomic_inc(material_buffers_len);
+		}
+	}
+	else // луч промахнулся, запускаем скайбокс
+	{
+		skybox_hit_pixel_indices[*skybox_hit_buffers_len] = prev_pixel_indices[g_id];
+		skybox_hit_rays_buffer[*skybox_hit_buffers_len] = rays_buffer[g_id];
+		atomic_inc(skybox_hit_buffers_len);
+	}
 }
