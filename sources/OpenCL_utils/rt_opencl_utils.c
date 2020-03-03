@@ -11,21 +11,9 @@ inline void rt_opencl_setup_image_buffer(t_rt_renderer *renderer)
 		g_opencl.img_data_mem = clCreateBuffer(g_opencl.context,
 				CL_MEM_READ_WRITE, sizeof(int) * WIN_HEIGHT * WIN_WIDTH, NULL, &err);
 		rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
-
 	}
-	if (renderer->primary_img == NULL)
-	{
-		renderer->primary_img = clCreateBuffer(g_opencl.context, // TODO тут тоже самое (переписать)
-				CL_MEM_READ_WRITE, sizeof(int) * WIN_HEIGHT * WIN_WIDTH, NULL, &err);
-		rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
-	}
-
 	err = clSetKernelArg(renderer->main_kernel, renderer->buffers_num,
 			sizeof(cl_mem), &g_opencl.img_data_mem);
-	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
-
-	err = clSetKernelArg(renderer->img_gen_kernel, renderer->buffers_num,
-			sizeof(cl_mem), &renderer->primary_img); // TODO ! [sleonard] -> переделать по-нормальному (wavefront)
 	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 	image_created = true;
 }

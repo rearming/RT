@@ -15,6 +15,6 @@ __kernel void	kernel_generate_primary_rays(
 	int		g_id = get_global_id(0);
 	int3	img_point = get_img_point(g_id);
 
-	out_rays_buffer[g_id] = get_ray(convert_float3(img_point), &camera);
+	out_rays_buffer[g_id] = get_ray(convert_float3(img_point), camera);
 	out_pixel_indices[g_id] = g_id;
 }

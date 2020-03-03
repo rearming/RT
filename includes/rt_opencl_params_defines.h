@@ -40,6 +40,7 @@ typedef enum	e_cl_mem_types
 	RT_CL_MEM_SKYBOX_HIT_PIXEL_INDICES,
 	RT_CL_MEM_SKYBOX_HIT_RAYS_BUFFER,
 	RT_CL_MEM_SKYBOX_HIT_BUFFERS_LEN,
+	RT_CL_MEM_INT_IMG,
 }				t_cl_mem_types;
 
 /*

@@ -31,8 +31,6 @@ void		rt_opencl_move_host_mem_to_kernel(t_rt_renderer *renderer, int max_memobj_
 		}
 		err = clSetKernelArg(renderer->main_kernel, renderer->buffers_num, sizeof(cl_mem),
 							 &renderer->buffers[renderer->buffers_num].mem);
-		err = clSetKernelArg(renderer->img_gen_kernel, renderer->buffers_num, sizeof(cl_mem),
-				&renderer->buffers[renderer->buffers_num].mem); // TODO ! [sleonard] все переписать по-нормальному для wavefront
 		rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 		mem_obj_i++;
 		renderer->buffers_num++;

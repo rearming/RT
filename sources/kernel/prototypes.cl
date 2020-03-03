@@ -89,7 +89,7 @@ t_kd_traverse_helper		ft_stack_pop(t_stack *stack);
 
 t_kd_traverse_helper		ft_stack_peek(t_stack *stack);
 
-float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point);
+float3			canvas_to_viewport(__global __read_only const t_camera *camera, float3 canvas_point);
 
 float3		reflect(float3 ray_dir, float3 normal);
 
@@ -184,14 +184,14 @@ t_material	get_polygon_material(
 		int polygon_index);
 
 void				closest_intersection(
-		__global const t_scene *scene,
-		__global const t_object *objects,
-		__global const t_kd_info *kd_info,
-		__global const t_kd_arr_tree *kd_tree,
-		__global const int *kd_indices,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
+		__global __read_only const t_scene *scene,
+		__global __read_only const t_object *objects,
+		__global __read_only const t_kd_info *kd_info,
+		__global __read_only const t_kd_arr_tree *kd_tree,
+		__global __read_only const int *kd_indices,
+		__global __read_only const t_polygon *polygons,
+		__global __read_only const float3 *vertices,
+		__global __read_only const float3 *v_normals,
 		t_ray *ray,
 		t_rayhit *out_best_hit,
 		int *out_closest_polygon_index,

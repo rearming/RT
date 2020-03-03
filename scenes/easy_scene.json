@@ -1,11 +1,10 @@
 {
   "open cl parameters":"RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_TEXTURES | RENDER_MESH | RENDER_BACKFACE_CULLING",
-  "skybox": "skybox_street.jpg",
-  "object":
+  "objects": [
     {
       "type": "sphere",
       "material": {
-        "diffuse": [0.0, 0.0, 0.0],
+        "diffuse": [1.0, 1.0, 0.0],
         "specular": [0.0, 0.0, 0.0],
         "phong exp": 40,
         "smoothness": 0.0,
@@ -13,10 +12,19 @@
         "emission power": 20
       },
       "center": [20.0, 23.0, 0.0],
-      "radius": 6.0
+      "radius": 3.0
     },
+    {
+      "type": "sphere",
+      "material": {
+        "diffuse": "0xFF00FF"
+      },
+      "center": [0.0, 10.0, 0.0],
+      "radius": 6.0
+    }
+  ],
   "camera": {
-    "pos": [0.0, 2.0, 10.0],
+    "pos": [0.0, 5.0, 10.0],
     "rotation": [0.0, 180.0, 0.0]
   },
   "light":

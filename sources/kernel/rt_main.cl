@@ -65,12 +65,11 @@ __kernel void	rt_main(
     __global __read_only const t_texture_info *texture_info,
 	__global __read_only const float *texture_list,
 #endif
-    __global __write_only int *img_data,
-    __global __read_only t_ray *rays)
+    __global __write_only int *img_data)
 {
 
-	int3		img_point = (int3)(get_global_id(0), get_global_id(1), 0);
-	int			g_id = img_point.x + img_point.y * WIN_WIDTH;
+	int			g_id = get_global_id(0);
+	int3		img_point = get_img_point(g_id);
 	t_ray		ray = get_ray(convert_float3(img_point), &scene->camera);
 
 	float3		final_color = 0;

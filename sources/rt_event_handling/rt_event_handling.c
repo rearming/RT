@@ -12,6 +12,6 @@ void		handle_event(SDL_Event *event, t_rt *rt)
 	if (key_event_handled || mouse_event_handled || tools_event_handled)
 	{
 		rt_camera_move(&rt->scene.camera, &rt->events);
-		rt_render(rt, &rt_opencl_render);
+		rt_render(rt, render_wavefront);
 	}
 }

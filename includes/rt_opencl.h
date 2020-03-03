@@ -3,6 +3,13 @@
 
 #include "rt_host_structs.h"
 
+typedef struct		s_kernel_work_sizes
+{
+	size_t			materials;
+	size_t			textures;
+	size_t			skybox;
+}					t_kernel_work_sizes;
+
 void			rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer);
 void			rt_opencl_init(void);
 void			rt_opencl_render(void *rt_ptr);
@@ -27,6 +34,6 @@ t_rt_renderer	*rt_get_renderer(uint32_t flags);
 char			*rt_get_kernel_compile_options(uint32_t flags);
 
 t_opencl_mem_obj	rt_check_opencl_memobj(t_opencl_mem_obj mem_obj);
-void				rt_wavefront_render_prepare_shared_memory(t_rt *rt, int memobj_num, ...);
-
+void				rt_wavefront_alloc_buffers(t_rt *rt, int memobj_num, ...);
+void				rt_wavefront_setup_buffers(t_rt *rt);
 #endif
