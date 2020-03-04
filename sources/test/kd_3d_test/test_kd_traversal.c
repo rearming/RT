@@ -43,15 +43,15 @@ void		kd_run_traverse_tests(t_kd_arr_tree *arr_tree)
 
 	for (int i = 0; i < 7000; ++i)
 		indices[i] = NOT_SET;
-//	for (int y = 0; y < WIN_HEIGHT; ++y)
-//	{
-//		for (int x = 0; x < WIN_WIDTH; ++x)
-//		{
-			ray = get_ray(WIN_WIDTH / 2, WIN_HEIGHT / 2, (cl_float3){{0, 1, 10}});
+	for (int y = 0; y < WIN_HEIGHT; ++y)
+	{
+		for (int x = 0; x < WIN_WIDTH; ++x)
+		{
+			ray = get_ray(WIN_WIDTH / 2, WIN_HEIGHT / 2, (cl_float3){{0, 0, 0}});
 //				ray = get_ray(x, y, (cl_float3){{0, k, k * 10}});
 			test_kd_traverse(arr_tree, ray, indices);
-//		}
-//	}
+		}
+	}
 	int		indices_found = 0;
 	for (int j = 0; j < 7000; ++j)
 	{

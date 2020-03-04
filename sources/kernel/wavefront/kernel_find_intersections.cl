@@ -21,18 +21,6 @@
 #include "texture.cl"
 #include "texture_utils.cl"
 
-# ifdef RENDER_RAYTRACE
-#  include "raytrace.cl"
-#  include "light_computing.cl"
-# endif
-
-# ifdef RENDER_PATHTRACE
-#  include "pathtrace.cl"
-#  include "shade_pathtrace.cl"
-#  include "texture_shade_pathtrace.cl"
-#  include "pathtrace_utils.cl"
-# endif
-
 # ifdef RENDER_MESH
 #  include "mesh_render_utils.cl"
 #  include "mesh_intersection.cl"
@@ -84,8 +72,7 @@ __kernel void		kernel_find_intersections(
 	__global __read_only const float3 *vertices = 0;
 	__global __read_only const float3 *v_normals = 0;
 #endif
-	int		g_id = get_global_id(0);
-	int3	img_point = get_img_point(g_id);
+	int			g_id = get_global_id(0);
 
 	t_ray 		ray = rays_buffer[prev_pixel_indices[g_id]];
 
@@ -102,7 +89,7 @@ __kernel void		kernel_find_intersections(
 		if (objects[closest_obj_index].material.texture_number >= 0)
 		{
 			texture_hit_obj_indices[*texture_buffers_len] = closest_obj_index;
-			new_textures_pixel_indices[*texture_buffers_len] = closest_obj_index;
+			new_textures_pixel_indices[*texture_buffers_len] = prev_pixel_indices[g_id];
 			texture_rays_hit_buffer[*texture_buffers_len] = best_hit;
 			atomic_inc(texture_buffers_len);
 		}
@@ -121,14 +108,14 @@ __kernel void		kernel_find_intersections(
 		img_data[g_id] = get_int_color(polygon_material.diffuse);
 		if (polygon_material.texture_number >= 0)
 		{
-			texture_hit_obj_indices[*texture_buffers_len] = closest_polygon_index;
-			new_textures_pixel_indices[*texture_buffers_len] = closest_polygon_index;
+			texture_hit_polygon_indices[*texture_buffers_len] = closest_polygon_index;
+			new_textures_pixel_indices[*texture_buffers_len] = prev_pixel_indices[g_id];
 			texture_rays_hit_buffer[*texture_buffers_len] = best_hit;
 			atomic_inc(texture_buffers_len);
 		}
 		else // объект без текстуры
 		{
-			material_hit_obj_indices[*material_buffers_len] = closest_polygon_index;
+			material_hit_polygon_indices[*material_buffers_len] = closest_polygon_index;
 			new_material_pixel_indices[*material_buffers_len] = prev_pixel_indices[g_id];
 			material_rays_hit_buffer[*material_buffers_len] = best_hit;
 			atomic_inc(material_buffers_len);

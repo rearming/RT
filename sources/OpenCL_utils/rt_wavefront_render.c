@@ -25,8 +25,8 @@ void 		kernel_generate_primary_rays(t_rt *rt, cl_program program, cl_kernel kern
 
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			kernel, 1, NULL, global_work_size, NULL, 0, NULL, &g_opencl.profile_event);
-	if (rt->events.info)
-		rt_print_opencl_profile_info("ray generation kernel");
+//	if (rt->events.info)
+//		rt_print_opencl_profile_info("ray generation kernel");
 	clReleaseEvent(g_opencl.profile_event);
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
 }
@@ -184,7 +184,7 @@ void 		render_wavefront(void *rt_ptr)
 	t_kernel_work_sizes		kernel_work_sizes;
 
 	kernel_find_intersections(rt, find_intersection_program,
-			find_intersection_kernel, WIN_WIDTH * WIN_HEIGHT,
+			find_intersection_kernel, WIN_WIDTH * WIN_HEIGHT  /*1*/,
 			&kernel_work_sizes);
 
 	printf("kernel new work sizes: material: [%u], texture: [%u], skybox: [%u]\n",

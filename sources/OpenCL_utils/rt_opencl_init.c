@@ -25,6 +25,7 @@ void rt_opencl_create_kernel(const char *kernel_path,
 	*out_kernel = clCreateKernel(*out_program, kernel_name, &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_KERNEL, err);
 	free(opencl_kernel_code);
+	free((char*)compile_options); //todo remove
 }
 
 #pragma clang diagnostic push

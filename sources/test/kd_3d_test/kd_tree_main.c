@@ -78,7 +78,8 @@ int		main(int argc, char **argv)
 
 //	export_aabbs(kd_tree);
 
-//	t_kd_arr_tree	*kd_tree_arr = kd_tree_to_array(kd_tree);
+//	int out_nodes_num, out_indices_num;
+//	t_kd_arr_tree	*kd_tree_arr = kd_tree_to_array(kd_tree, &out_nodes_num, &out_indices_num);
 
 //	printf("\nprinting kd-tree array:\n");
 //	print_kd_tree_arr(kd_tree_arr, 0);

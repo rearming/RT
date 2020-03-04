@@ -61,12 +61,12 @@ float	f3_axis(float3 vec, int axis)
 }
 
 int		kd_tree_traverse(
-		__global const t_kd_info *kd_info,
-		__global const t_kd_arr_tree *tree_arr,
-		__global const int *kd_indices,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
+		__global __read_only const t_kd_info *kd_info,
+		__global __read_only const t_kd_arr_tree *tree_arr,
+		__global __read_only const int *kd_indices,
+		__global __read_only const t_polygon *polygons,
+		__global __read_only const float3 *vertices,
+		__global __read_only const float3 *v_normals,
 		t_ray *ray,
 		t_rayhit *out_best_hit)
 {
@@ -91,9 +91,12 @@ int		kd_tree_traverse(
 	while (stack.last_elem >= 0)
 	{
 		helper = ft_stack_pop(&stack);
-		node = &tree_arr[helper.node_index];
+		if (helper.node_index < 0)
+			return NOT_SET;
+
 		t_min = helper.t_min;
 		t_max = helper.t_max;
+		node = &tree_arr[helper.node_index];
 
 		while (node->objects.num == NOT_SET)
 		{
@@ -117,6 +120,7 @@ int		kd_tree_traverse(
 				t_max = t_split;
 			}
 		}
+
 		for (int i = 0; i < node->objects.num; ++i)
 		{
 			int		index = kd_indices[i + node->obj_offset];
