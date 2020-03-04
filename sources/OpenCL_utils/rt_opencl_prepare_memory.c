@@ -29,7 +29,7 @@ void		rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer)
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.lights,
 				sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, false, RENDER_ALWAYS}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){&renderer->params,
-				sizeof(t_renderer_params), RT_DEFAULT_MEM_FLAG, true, RENDER_ALWAYS}),
+													  sizeof(t_renderer_params), RT_DEFAULT_MEM_FLAG, true, RENDER_ALWAYS}),
 
 			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->kd_info,
 				sizeof(t_kd_info), RT_DEFAULT_MEM_FLAG, false, RENDER_MESH}),

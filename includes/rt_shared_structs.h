@@ -55,10 +55,10 @@ typedef union			u_color
 {
 # ifndef FT_OPENCL___
 
-	cl_int			value;
+	cl_uint			value;
 # else
 
-	int				value;
+	uint			value;
 # endif
 
 	t_rgb			rgb;

@@ -23,6 +23,7 @@
 
 # ifdef RENDER_RAYTRACE
 #  include "raytrace.cl"
+#  include "shade_raytrace.cl"
 #  include "light_computing.cl"
 # endif
 

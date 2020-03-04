@@ -21,8 +21,8 @@
 # define WIN_TITLE "Dota 5"
 
 # ifdef __APPLE__
-#  define WIN_WIDTH 1900
-#  define WIN_HEIGHT 1300
+#  define WIN_WIDTH 1900 /*2*/
+#  define WIN_HEIGHT 1300 /*1*/
 # else
 #  define WIN_WIDTH 1920
 #  define WIN_HEIGHT 1080
@@ -40,29 +40,29 @@
 */
 
 # define COL_NOT_SET (-1)
-# define COL_RED 0xFF0000
-# define COL_GREEN 0x00FF00
-# define COL_BLUE 0x0000FF
-# define COL_YELLOW 0xFFFF00
-# define COL_WHITE 0xFFFFFF
-# define COL_GREY 0x3A3635
-# define COL_BLACK 0x0
-# define COL_PURPLE 0x7830E0
-# define COL_MAGNETA 0xE2007A
+# define COL_RED 0xFFFF0000
+# define COL_GREEN 0xFF00FF00
+# define COL_BLUE 0xFF0000FF
+# define COL_YELLOW 0xFFFFFF00
+# define COL_WHITE 0xFFFFFFFF
+# define COL_GREY 0xFF3A3635
+# define COL_BLACK 0xFF000000
+# define COL_PURPLE 0xFF7830E0
+# define COL_MAGNETA 0xFFE2007A
 
-# define COL_LIGHT_RED 0xff4d4d
-# define COL_LIGHT_PURPLE 0x9C6AE4
-# define COL_LIGHT_GREEN 0xb3ff66
-# define COL_LIGHT_BLUE 0x80ddff
-# define COL_LIGHT_GREY 0xB9D5E2
+# define COL_LIGHT_RED 0xFFff4d4d
+# define COL_LIGHT_PURPLE 0xFF9C6AE4
+# define COL_LIGHT_GREEN 0xFFb3ff66
+# define COL_LIGHT_BLUE 0xFF80ddff
+# define COL_LIGHT_GREY 0xFFB9D5E2
 
-# define COL_DARK_GREY 0x4E4959
-# define COL_DARK_RED 0xb30f0f
-# define COL_DARK_PURPLE 0x4D1E91
-# define COL_DARK_GREEN 0x408000
-# define COL_DARK_BLUE 0x000080
+# define COL_DARK_GREY 0xFF4E4959
+# define COL_DARK_RED 0xFFb30f0f
+# define COL_DARK_PURPLE 0xFF4D1E91
+# define COL_DARK_GREEN 0xFF408000
+# define COL_DARK_BLUE 0xFF000080
 
-# define COL_GOLD 0xffd700
+# define COL_GOLD 0xFFffd700
 # define COL_BG COL_BLACK
 
 /*

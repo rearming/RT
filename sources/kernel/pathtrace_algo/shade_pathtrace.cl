@@ -5,7 +5,7 @@ void		calc_refraction_pathtrace(
 		t_material *material,
 		float3 color,
 		float *seed,
-		float2 pixel,
+		float2 pixel_seed,
 		float chance)
 {
 	const float		phong_alpha = material->smoothness;
@@ -13,7 +13,7 @@ void		calc_refraction_pathtrace(
 
 	ray->origin = hit->pos;
 	if (material->smoothness < MAX_SMOOTHNESS)
-		ray->dir = rand_dir_on_hemisphere(refract_dir, seed, pixel, phong_alpha);
+		ray->dir = rand_dir_on_hemisphere(refract_dir, seed, pixel_seed, phong_alpha);
 	else
 		ray->dir = refract_dir;
 	ray->energy *= (1.f / chance) * color;
@@ -25,7 +25,7 @@ void		calc_reflection_pathtrace(
 		t_material *material,
 		float3 color,
 		float *seed,
-		float2 pixel,
+		float2 pixel_seed,
 		float chance)
 {
 	const float		phong_alpha = material->smoothness;
@@ -35,7 +35,7 @@ void		calc_reflection_pathtrace(
 	ray->origin = hit->pos + hit->normal * RT_EPSILON;
 	if (material->smoothness < MAX_SMOOTHNESS)
 	{
-		ray->dir = rand_dir_on_hemisphere(reflect_dir, seed, pixel, phong_alpha);
+		ray->dir = rand_dir_on_hemisphere(reflect_dir, seed, pixel_seed, phong_alpha);
 		ray->energy *= (1.f / chance) * color * sdot(hit->normal, ray->dir, phong_math_coeff);
 	}
 	else
@@ -48,46 +48,46 @@ void		calc_reflection_pathtrace(
 float3		shade_pathtrace(
 		t_ray *ray,
 		t_rayhit *hit,
-		t_material material,
+		t_material *material,
 		float *seed,
-		float2 pixel)
+		float2 pixel_seed)
 {
-	float	specular_chance = color_energy(material.specular);
-	float	diffuse_chance = color_energy(material.diffuse);
+	float	specular_chance = color_energy(material->specular);
+	float	diffuse_chance = color_energy(material->diffuse);
 	float	sum = specular_chance + diffuse_chance;
 	specular_chance /= sum;
 	diffuse_chance /= sum;
 
-	const float		surface_chance = rt_randf(seed, pixel);
-	const float		transmit_chance = rt_randf(seed, pixel);
+	const float		surface_chance = rt_randf(seed, pixel_seed);
+	const float		transmit_chance = rt_randf(seed, pixel_seed);
 
-	if (material.emission_power > 0)
+	if (material->emission_power > 0)
 	{
 		ray->energy = 0;
-		return material.emission_color * material.emission_power;
+		return material->emission_color * material->emission_power;
 	}
 	if (surface_chance < specular_chance)
 	{
-		if (transmit_chance < material.transmittance) // if transparent
+		if (transmit_chance < material->transmittance) // if transparent
 		{
-			calc_refraction_pathtrace(ray, hit, &material, material.specular, seed, pixel, specular_chance);
+			calc_refraction_pathtrace(ray, hit, material, material->specular, seed, pixel_seed, specular_chance);
 		}
 		else
 		{
-			calc_reflection_pathtrace(ray, hit, &material, material.specular, seed, pixel, specular_chance);
+			calc_reflection_pathtrace(ray, hit, material, material->specular, seed, pixel_seed, specular_chance);
 		}
 	}
 	else //diffuse surface
 	{
-		if (transmit_chance < material.transmittance) // if transparent
+		if (transmit_chance < material->transmittance) // if transparent
 		{
-			calc_refraction_pathtrace(ray, hit, &material, material.diffuse, seed, pixel, diffuse_chance);
+			calc_refraction_pathtrace(ray, hit, material, material->diffuse, seed, pixel_seed, diffuse_chance);
 		}
 		else
 		{
 			ray->origin = hit->pos + hit->normal * RT_EPSILON;
-			ray->dir = rand_dir_on_hemisphere(hit->normal, seed, pixel, LAMBERT_ALPHA);
-			ray->energy *= (1.f / diffuse_chance) * material.diffuse;
+			ray->dir = rand_dir_on_hemisphere(hit->normal, seed, pixel_seed, LAMBERT_ALPHA);
+			ray->energy *= (1.f / diffuse_chance) * material->diffuse;
 		}
 	}
 	return 0;

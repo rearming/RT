@@ -26,10 +26,11 @@ float3		pathtrace(
 	for (int i = 0; i < params->pathtrace_params.max_depth; ++i)
 	{
 		hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
-		closest_intersection(scene, objects, kd_info, kd_tree, kd_indices, polygons, vertices, v_normals, &ray, &hit, &closest_polygon_index, &closest_obj_index);
+		closest_intersection(scene, objects, kd_info, kd_tree, kd_indices,
+				polygons, vertices, v_normals, &ray, &hit, &closest_polygon_index, &closest_obj_index);
 
 		t_material	hit_material;
-		if (get_hit_material(&hit_material, objects, meshes_info, polygons, vertices, v_normals, v_textures, closest_obj_index, closest_polygon_index))
+		if (get_hit_material(&hit_material, objects, meshes_info, polygons, closest_obj_index, closest_polygon_index))
 		{
 #ifdef RENDER_TEXTURES
 			if (hit_material.texture_number >= 0)

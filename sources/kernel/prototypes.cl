@@ -47,14 +47,6 @@ float		sobel_get_weight_x(__global __read_only const int *img, int img_x, int im
 
 float		sobel_get_weight_y(__global __read_only const int *img, int img_x, int img_y);
 
-float3		shade(
-		t_ray *ray,
-		t_rayhit *hit,
-		t_material *material,
-		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
-		__global const t_object *object);
-
 float3		raytrace(
 		__global const t_scene *scene,
 		__global const t_object *objects,
@@ -77,11 +69,14 @@ bool		get_hit_material(
 		__global const t_object *objects,
 		__global const t_mesh_info *meshes_info,
 		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
-		__global const float3 *v_textures,
 		int closest_obj_index,
 		int closest_polygon_index);
+
+float3		shade_raytrace(
+		t_ray *ray,
+		t_rayhit *hit,
+		t_material *material
+);
 
 bool						ft_stack_push(t_stack *stack, t_kd_traverse_helper helper);
 
@@ -263,12 +258,12 @@ float3		pathtrace(
 
 void		create_coordinate_system(float3 normal, float3 *normal_x, float3 *normal_z);
 
-float3		sample_hemisphere(float *seed, float2 pixel, float phong_alpha);
+float3		sample_hemisphere(float *seed, float2 pixel_seed, float phong_alpha);
 
 float3		rand_dir_on_hemisphere(
 		float3 normal,
 		float *seed,
-		float2 pixel,
+		float2 pixel_seed,
 		float phong_alpha);
 
 void		calc_refraction_pathtrace(
@@ -277,7 +272,7 @@ void		calc_refraction_pathtrace(
 		t_material *material,
 		float3 color,
 		float *seed,
-		float2 pixel,
+		float2 pixel_seed,
 		float chance);
 
 void		calc_reflection_pathtrace(
@@ -286,15 +281,15 @@ void		calc_reflection_pathtrace(
 		t_material *material,
 		float3 color,
 		float *seed,
-		float2 pixel,
+		float2 pixel_seed,
 		float chance);
 
 float3		shade_pathtrace(
 		t_ray *ray,
 		t_rayhit *hit,
-		t_material material,
+		t_material *material,
 		float *seed,
-		float2 pixel);
+		float2 pixel_seed);
 
 float3		texture_shade_pathtrace(
 		__global const t_texture_info *texture_info,
