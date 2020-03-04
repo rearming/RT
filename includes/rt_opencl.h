@@ -5,9 +5,9 @@
 
 typedef struct		s_kernel_work_sizes
 {
-	size_t			materials;
-	size_t			textures;
-	size_t			skybox;
+	uint32_t		materials;
+	uint32_t		textures;
+	uint32_t		skybox;
 }					t_kernel_work_sizes;
 
 void			rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer);
