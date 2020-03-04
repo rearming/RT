@@ -14,30 +14,53 @@
 typedef struct s_rt t_rt;
 typedef struct s_sdl t_sdl;
 
-void		update_all_algo_buttons(void);
-bool		rt_handle_event_gui(SDL_Event *event, t_rt *rt);
 void		init_gui(uint64_t algo);
+bool		rt_handle_event_gui(SDL_Event *event, t_rt *rt);
 
 /*
-** Buttons
+** fake HTML
 */
 
 SDL_Rect	centered_label( SDL_Rect button, SDL_Surface *sur);
+void		cut_rect(SDL_Rect *rect, int px);
 void		render_border(t_transform *btn, int px, SDL_Color color);
 
-void		render_button(t_transform btn);
-void		render_button_without_border(t_transform btn);
-void		render_button_without_centered(t_transform btn);
-void		render_button_without_anything(t_transform btn);
-void		update_all_algo_buttons(void);
+/*
+** Buttons init
+*/
 
+void		init_algo_buttons(void);
+void		init_other_buttons(void);
+
+/*
+** Buttons render
+*/
+
+void		render_button(t_transform btn);
+void		render_button_with_params(t_transform btn, TTF_Font *font, int px);
+void		auto_render_button(int i);
+
+/*
+** Buttons utils
+*/
+
+bool		check_click(SDL_Event *event, SDL_Rect button);
+bool		check_hover(SDL_Event *event, SDL_Rect button);
+void		render_all_buttons(void);
+
+/*
+** Buttons actions
+*/
+
+void		change_render_algo(short algo, t_rt *rt);
+void		create_screenshot(void);
 bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt);
 
 /*
 ** Utils
 */
 
-void		change_render_algo(short algo, t_rt *rt);
+
 SDL_Color	get_color_from_hex(unsigned int hex);
 SDL_Color	get_rgba_from_hex(unsigned int hex);
 

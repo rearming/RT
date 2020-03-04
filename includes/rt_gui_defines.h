@@ -7,12 +7,7 @@
 
 
 
-/*
-** Sdl gui
-*/
 
-#define RT_WIN_ID 1
-#define GUI_WIN_ID 2
 
 # define RT_GUI_NAME "Dota 5 Tools"
 
@@ -20,16 +15,37 @@
 #  define WIN_GUI_WIDTH 600
 #  define GUI_FOOTER 150
 #  define GUI_TITLE 70
+#  define BTN_DEFAULT_SIZE 50
+#  define PANEL_HEIGHT 940
+#  define PANEL_WIDTH 600
+#  define PANEL_Y 200
 # else
 #  define WIN_GUI_WIDTH 300
 #  define GUI_FOOTER 75
 #  define GUI_LABEL 35
+#  define BTN_DEFAULT_SIZE 25
+#  define PANEL_HEIGHT 470
+#  define PANEL_WIDTH 300
+#  define PANEL_Y 100
 # endif
 
-#define GRAY_GUI 0x3F3F3F
+#define DARK_GRAY 0x3F3F3F
+#define BLACK 0X0
+#define WHITE 0xFFFFFF
+# define LIGHT_GREEN 0xA0CA92
+# define GREEN 0xD8F793
+# define DARK_GREEN 0xDDFC74
 
-# define GUI_BG GRAY_GUI
 
+# define GUI_BG DARK_GRAY
+
+
+/*
+** Sdl gui
+*/
+
+#define RT_WIN_ID 1
+#define GUI_WIN_ID 2
 
 # define ACTIVATE 1
 
@@ -72,12 +88,16 @@
 
 
 
+//# define FONT_PATH COMIC_SANS_FONT
 # define FONT_PATH THEWITCHER_FONT
 
-# define FONT_SIZE 30
-# define FONT_COL 0x0
+# define TITLE_FONT_SIZE 40
+# define SUBTITLE_FONT_SIZE 30
+# define BODY_FONT_SIZE 25
 
-# define BTN_BORDER 5
+# define FONT_COL BLACK
+
+# define DEFAULT_BORDER 6
 
 
 # define RT_GUI_TITLE "RT by Sleonard and team"
@@ -86,19 +106,26 @@
 # define RAY_TRACE_LABEL "(RAY TRACE)"
 //# define RAY_TRACE_LABEL "[Ray Trace]"
 # define RAY_MARCH_LABEL "[RAY MARCH]"
+# define CAMERA_LABEL "Camera"
+# define POSITION_LABEL "Position"
+# define PARAMETERS_LABEL "Parameters"
 
 # define SCREENSHOT_LABEL "XTake ScreenshotX"
 
 # define NONE       (0 << 0)
 # define RENDER_BTN (1 << 0)
 # define SCREENSHOT (1 << 1)
+# define PANEL 		(1 << 2)
 
-# define LIGHT_GREEN_BTN 0xA0CA92
-# define GREEN_BTN 0xD8F793
-# define DARK_GREEN_BTN 0xDDFC74
 
-# define BTN_COLOR_NONACTIVE LIGHT_GREEN_BTN
-# define BTN_COLOR_HOVER GREEN_BTN
-# define BTN_COLOR_CLICK DARK_GREEN_BTN
+
+
+# define PANEL_BORDER DEFAULT_BORDER * 3
+
+# define PANEL_BUTTON_WIDTH (PANEL_WIDTH - PANEL_BORDER * 2) / 3
+
+# define BTN_COLOR_NONACTIVE LIGHT_GREEN
+# define BTN_COLOR_HOVER GREEN
+# define BTN_COLOR_CLICK DARK_GREEN
 
 #endif //RT_GUI_DEFINES_H

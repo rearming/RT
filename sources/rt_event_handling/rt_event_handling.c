@@ -12,8 +12,8 @@ void		resize_gui(int height)//TODO NEED DEBUG THIS FUNCTION
 
 	i = 0;
 	printf("resize_gui launched\n");
-	TTF_CloseFont(g_gui.font);
-	g_gui.font = TTF_OpenFont(FONT_PATH, (int)(FONT_SIZE * k));
+//	TTF_CloseFont(g_gui.body_font);
+//	g_gui.swp = TTF_OpenFont(FONT_PATH, (int)(FONT_SIZE * k));
 	SDL_FillRect(g_gui.surface, NULL,
 				 SDL_MapRGB(g_gui.surface->format, bg.r, bg.g, bg.b));
 	while (i < btn_count)

@@ -116,7 +116,12 @@ set(gui_sources
         sources/gui/buttons/rt_gui_buttons_render.c
         sources/gui/buttons/rt_gui_button_callback.c
         sources/gui/buttons/rt_buttons_border.c
-        sources/gui/buttons/rt_button_label.c)
+        sources/gui/buttons/rt_button_label.c
+        sources/gui/buttons/utils/rt_gui_change_algo.c
+        sources/gui/buttons/rt_gui_init_buttons.c
+        sources/gui/buttons/utils/rt_check_hover.c
+        sources/gui/buttons/utils/rt_check_click.c
+        sources/gui/buttons/utils/create_screenshot.c)
 
 set(sources
         ${debug_sources}
@@ -182,7 +187,8 @@ link_directories(
 
 add_executable(RT
         sources/main.c
-        ${sources})
+        ${sources}
+        )
 
 target_link_libraries(RT
         "ftprintf"

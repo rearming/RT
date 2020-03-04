@@ -41,7 +41,7 @@ void				sync_rt_and_gui(uint64_t renderer_params)
 	g_gui.render_algo = render_num;
 	g_gui.obj[render_num].state = click;
 	render_button(g_gui.obj[render_num]);
-	update_all_algo_buttons();
+	render_all_buttons();
 	SDL_UpdateWindowSurface(g_gui.win_tool);
 }
 

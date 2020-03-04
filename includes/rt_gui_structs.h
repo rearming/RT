@@ -13,19 +13,23 @@ typedef enum			e_button
 						rt_btn,
 						pt_btn,
 //						rm_btn
-						algo_btn_count,
-						scr_sbtn = 0,
-//						test_btn,
-						other_btn_count,
-						btn_count = algo_btn_count + other_btn_count
+						scr_sbtn,
+//						all_btn,
+						camera_l,
+						obj_l,
+						obj_pos,
+						btn_count //= all_btn
 }						t_btn;
+
+//typedef enum 			e_all_btns
 
 typedef enum 			e_state
 {
 						non_event,
 						hover,
 						click,
-						label
+						label,
+						surface
 }						t_state;
 
 typedef	struct			s_transform
@@ -34,6 +38,7 @@ typedef	struct			s_transform
 	SDL_Color			color;
 	SDL_Surface			texture;
 	char				text[100];
+	char 				field;
 	short				action;
 	bool				(*callback)();
 	t_state 			state;
@@ -46,9 +51,13 @@ typedef struct			s_gui
 {
 	SDL_Window			*win_tool;
 	t_transform			*obj;
-	TTF_Font			*font;
+	TTF_Font			*subtitle;
+	TTF_Font			*title;
+	TTF_Font			*body;
+//	TTF_Font 			*swp;
 	SDL_Surface			*surface;
 	t_btn				render_algo;
+	t_btn 				panel;
 }						t_gui;
 
 #endif //RT_GUI_STRUCTS_H

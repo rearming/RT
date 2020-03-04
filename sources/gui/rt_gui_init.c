@@ -14,76 +14,110 @@
 #include "rt_gui.h"
 
 
-void		change_render_algo(short algo, t_rt *rt)
-{
-	rt_set_render_algo(&rt->renderer_flags, 1 << (algo));
-}
-
-void		init_algo_buttons(void)
-{
-	SDL_Rect	rect;
-	short		algo;
-
-	algo = g_gui.render_algo;
-	rect = (SDL_Rect){.x = 0, .y = GUI_TITLE, .h = 100, .w = WIN_GUI_WIDTH / 2};
-	g_gui.obj[pt_btn] = (t_transform){ .rect = rect, .state = non_event,
-			.text = PATH_TRACE_LABEL, .callback = button_callback, .action = pt_btn,
-			.type = RENDER_BTN, .color = get_color_from_hex(COL_RED)};
-	rect.x += WIN_GUI_WIDTH / 2;
-	g_gui.obj[rt_btn] = (t_transform){ .rect = rect, .state = non_event,
-			.text = RAY_TRACE_LABEL, .callback = button_callback, .action = rt_btn,
-			.type = RENDER_BTN, .color = get_color_from_hex(COL_BLUE)};
-	if (algo == pt_btn)
-		g_gui.obj[pt_btn].state = click;
-	else if (algo == rt_btn)
-		g_gui.obj[rt_btn].state = click;
-}
-
 void		create_title(void)
 {
 	SDL_Rect	rect;
 	t_transform	title;
 
-	rect = (SDL_Rect){.x = 0, .y = 0, .h = 100, .w = WIN_GUI_WIDTH};
+	rect = (SDL_Rect){.x = 0, .y = 0, .h = GUI_TITLE, .w = WIN_GUI_WIDTH};
 	title = (t_transform){ .rect = rect,
 			.state = label, .text = RT_GUI_TITLE,
-			.color = get_color_from_hex(0xFFFFFF)};
-	render_button_without_border(title);
+			.color = get_color_from_hex(WHITE)};
+	render_button_with_params(title, g_gui.title, 0);
 }
 
-void		init_other_buttons(void)
+//void		render_text_box(t_transform tb)
+//{
+//	SDL_Surface *text_surface;
+//
+//
+//	text_surface = TTF_RenderText_Solid(g_gui.font, tb.text,
+//										get_color_from_hex(FONT_COL));
+//
+//	SDL_FillRect(g_gui.surface,
+//				 &(btn.rect),
+//				 SDL_MapRGBA(
+//						 g_gui.surface->format,
+//						 color.r,
+//						 color.g,
+//						 color.b,
+//						 color.a));
+//	SDL_BlitSurface(text_surface, NULL, g_gui.surface, &(btn.rect));
+//	SDL_FreeSurface(text_surface);
+//}
+////
+//void		textbox_init()
+//{
+//	SDL_Rect	rect;
+//
+//	rect = (SDL_Rect){.x = 300, .y = 300,
+//			.h = 100, .w = 100};
+//	g_gui.obj[a_btn + o_btn + test_text_box] = 	(t_transform){ .rect = rect,
+//			.state = non_event, .text = SCREENSHOT_LABEL, .action = scr_sbtn,
+//			.callback = button_callback, .type = SCREENSHOT,
+//			.color = get_color_from_hex(COL_GREEN)};
+//}
+
+void		init_object_panel()
 {
-	SDL_Rect	rect;
-	rect = (SDL_Rect){.x = 0, .y = WIN_HEIGHT - GUI_FOOTER,
-				   .h = 100, .w = WIN_GUI_WIDTH};
-	g_gui.obj[algo_btn_count + scr_sbtn] = (t_transform){ .rect = rect,
-			.state = non_event, .text = SCREENSHOT_LABEL, .action = scr_sbtn,
-			.callback = button_callback, .type = SCREENSHOT,
-			.color = get_color_from_hex(COL_GREEN)};
+	SDL_Rect rect;
+
+	rect = (SDL_Rect){.x = PANEL_BORDER, .y = PANEL_Y,
+				.h = BTN_DEFAULT_SIZE, .w = PANEL_BUTTON_WIDTH};
+	g_gui.obj[camera_l] = (t_transform){ .rect = rect,
+			.state = click, .text = CAMERA_LABEL, .action = camera_l,
+			.callback = button_callback, .type = PANEL,
+			.color = get_color_from_hex(NONE)};
+	rect.x += rect.w;
+	g_gui.obj[obj_l] = (t_transform){ .rect = rect,
+			.state = non_event, .text = POSITION_LABEL, .action = obj_l,
+			.callback = button_callback, .type = PANEL,
+			.color = get_color_from_hex(NONE)};
+	rect.x += rect.w;
+	g_gui.obj[obj_pos] = (t_transform){ .rect = rect,
+			.state = non_event, .text = PARAMETERS_LABEL, .action = obj_pos,
+			.callback = button_callback, .type = PANEL,
+			.color = get_color_from_hex(NONE)};
+
+}
+
+void		init_font()
+{
+	TTF_Init();
+	g_gui.title = TTF_OpenFont(FONT_PATH, TITLE_FONT_SIZE);
+	g_gui.subtitle = TTF_OpenFont(FONT_PATH, SUBTITLE_FONT_SIZE);
+	g_gui.body = TTF_OpenFont(FONT_PATH, BODY_FONT_SIZE);
+}
+
+void		fill_surfaces()
+{
+	SDL_Color	bg;
+	SDL_Rect	*rect;
+
+	bg = get_color_from_hex(GUI_BG);
+	SDL_FillRect(g_gui.surface, NULL,
+				 SDL_MapRGB(g_gui.surface->format, bg.r, bg.g, bg.b));
+	bg = get_color_from_hex(BTN_COLOR_CLICK);
+	rect = &(SDL_Rect){ .x = 0, .y = PANEL_Y, .h = PANEL_HEIGHT, .w = PANEL_WIDTH};
+	cut_rect(rect, PANEL_BORDER);
+	SDL_FillRect(g_gui.surface, rect,
+				 SDL_MapRGB(g_gui.surface->format, bg.r, bg.g, bg.b));
 }
 
 void		init_gui(uint64_t algo)
 {
-	int			i;
-	SDL_Color	bg;
 
-	TTF_Init();
-	bg = get_color_from_hex(GUI_BG);
-	g_gui.obj = rt_safe_malloc(sizeof(t_transform) * btn_count);
-	g_gui.surface = SDL_GetWindowSurface(g_gui.win_tool);
-
-
-	SDL_FillRect(g_gui.surface, NULL,
-			SDL_MapRGB(g_gui.surface->format, bg.r, bg.g, bg.b));
-	g_gui.font = TTF_OpenFont(FONT_PATH, FONT_SIZE + 10);
-	create_title();
-	TTF_CloseFont(g_gui.font);
-	g_gui.font = TTF_OpenFont(FONT_PATH, FONT_SIZE);
 	g_gui.render_algo = ((algo & 0b111) - 1);
+	g_gui.panel = camera_l;
+	g_gui.obj = rt_safe_malloc(sizeof(t_transform) * (btn_count));
+	init_font();
+	g_gui.surface = SDL_GetWindowSurface(g_gui.win_tool);
+	fill_surfaces();
+	create_title();
 	init_algo_buttons();
+	init_object_panel();
 	init_other_buttons();
-	i = 0;
-	while (i < btn_count)
-		render_button(g_gui.obj[i++]);
+	render_all_buttons();
+
 	SDL_UpdateWindowSurface(g_gui.win_tool);
 }
