@@ -22,7 +22,7 @@ void		rt_loop(t_rt *rt)
 			rt_render(rt, rt_opencl_render);
 		if (flag == true)
 		{
-			rt_pathtrace_profile(rt, 10000);
+			rt_pathtrace_profile(rt, 100000);
 			flag = false;
 		}
 

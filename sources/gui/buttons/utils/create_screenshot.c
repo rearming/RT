@@ -25,7 +25,7 @@ char		*name_generator(void)
 	return (filename);
 }
 
-void		create_screenshot(void)
+void		create_screenshot_(void)
 {
 	const Uint32 format = SDL_PIXELFORMAT_ARGB8888;
 	SDL_Surface *surface;
@@ -44,16 +44,33 @@ void		create_screenshot(void)
 }
 
 
+//void	copy_color_map(uint32_t **map, SDL_Surface *sur)
+//{
+//	int i;
+//
+//	i = 0;
+//	while (i < WIN_WIDTH < WIN_HEIGHT)
+//	{
+//		*map[i] = (uint32_t)sur->pixels[i];
+//	}
+//}
 
-void	create_screenshot_зтп(void)
+
+void	create_screenshot(void)
 {
 	SDL_Surface *surface;
 	char *file;
+	uint32_t *color_map;
+	int i;
+	int j;
+
 
 	const Uint32 format = SDL_PIXELFORMAT_ARGB8888;
 	surface = SDL_CreateRGBSurfaceWithFormat(0, WIN_WIDTH, WIN_HEIGHT, 32, format);
 	SDL_RenderReadPixels(g_sdl.rend, NULL, format, surface->pixels, surface->pitch);
+	color_map = rt_safe_malloc(WIN_HEIGHT * WIN_WIDTH);
+//	copy_color_map(&color_map, surface);
 	file = name_generator();
-	stbi_write_png(file, WIN_WIDTH, WIN_HEIGHT, 1, (Uint32 *)surface->pixels, WIN_WIDTH);
+	stbi_write_png(file, WIN_WIDTH, WIN_HEIGHT, 1, (uint32_t *)surface->pixels, WIN_WIDTH);
 	ft_strdel(&file);
 }

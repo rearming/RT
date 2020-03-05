@@ -1,6 +1,23 @@
 {
   "open cl parameters":"RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_MESH | RENDER_BACKFACE_CULLING",
-  "objects": [],
+  "objects": [{
+    "type": "sphere",
+    "material": {
+      "emission color": "0xFF0000",
+      "emission power": 1
+    },
+    "center": [-2.5, 1, -6],
+    "radius": 1
+  },
+    {
+      "type": "sphere",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [2.5, 1, 6],
+      "radius": 1
+    }
+  ],
   "camera": {
     "pos": [9.5, 5.2, -7.1],
     "rotation": [-14, -53, 0]

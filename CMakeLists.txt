@@ -123,6 +123,11 @@ set(gui_sources
         sources/gui/buttons/utils/rt_check_click.c
         sources/gui/buttons/utils/create_screenshot.c)
 
+set(image_save_sources
+
+        SDL_imagesave/IMG_savejpg.c
+        SDL_imagesave/IMG_savepng.c)
+
 set(sources
         ${debug_sources}
         ${runtime_debug_sources}
@@ -138,6 +143,7 @@ set(sources
         ${kd_tree_sources}
         ${profiling_sources}
         ${gui_sources}
+        ${image_save_sources}
         )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -183,6 +189,7 @@ link_directories(
         libft/ft_printf
         ${graphic_libs_dirs}
         lib/jansson/build/lib/
+        SDL_imagesave/
 )
 
 add_executable(RT
