@@ -22,9 +22,10 @@ __kernel void		kernel_material_shade(
 		__global const t_renderer_params *params,
 
 		__global __read_only const t_object *objects,
-		__global const t_mesh_info *meshes_info,
-		__global const t_polygon *polygons,
+		__global __read_only const t_mesh_info *meshes_info,
+		__global __read_only const t_polygon *polygons,
 
+		__global __read_only const float *raytrace_light_intensity_buffer,
 		__global __read_only const int *material_hit_obj_indices,
 		__global __read_only const int *material_hit_polygon_indices,
 		__global __read_only const int *material_pixel_indices,
@@ -46,7 +47,7 @@ __kernel void		kernel_material_shade(
 
 	int			pixel_index = material_pixel_indices[g_id];
 
-	t_ray 		new_ray = prev_rays_buffer[g_id];
+	t_ray 		new_ray = prev_rays_buffer[pixel_index];
 	t_rayhit	best_hit = material_rays_hit_buffer[g_id]; //todo g_id или pixel_index -> понять!
 
 	t_material	material = isset(material_hit_obj_indices[g_id])
@@ -56,15 +57,17 @@ __kernel void		kernel_material_shade(
 	float seed = params->seed;
 
 	temp_img_data_float[pixel_index] = new_ray.energy
+			* raytrace_light_intensity_buffer[g_id]
 			* shade_raytrace(&new_ray, &best_hit, &material);
 //			* shade_pathtrace(&new_ray, &best_hit, &material, &seed, pixel_seed); //может надо будет подумать над seed'ом рандома
 
-	img_data[pixel_index] = get_int_color(temp_img_data_float[pixel_index]);
+	img_data[pixel_index] = get_int_color(correct_hdr(params->gamma, params->exposure, temp_img_data_float[pixel_index]));
+	// todo remove (test)
 
 	if (ray_has_energy(&new_ray)) // если генерируем новый луч
 	{
 		out_rays_pixel_indices[g_id] = pixel_index;
-		out_rays_buffer[g_id] = new_ray;
+		out_rays_buffer[g_id] = new_ray; // в текструрном будет с offset = out_rays_buffer_len
 		atomic_inc(out_rays_buffer_len);
 	}
 }

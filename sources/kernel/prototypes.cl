@@ -21,23 +21,6 @@ float		sobel_get_weight_x(__global __read_only const int *img, int img_x, int im
 
 float		sobel_get_weight_y(__global __read_only const int *img, int img_x, int img_y);
 
-float3		raytrace(
-		__global const t_scene *scene,
-		__global const t_object *objects,
-		__global const t_light *lights,
-		__global const t_kd_info *kd_info,
-		__global const t_kd_arr_tree *kd_tree,
-		__global const int *kd_indices,
-		__global const t_mesh_info *meshes_info,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
-		__global const float3 *v_textures,
-		__global const t_renderer_params *params,
-		__global const t_texture_info *texture_info,
-		__global const float *texture_list,
-		t_ray ray);
-
 float3			canvas_to_viewport(__global __read_only const t_camera *camera, float3 canvas_point);
 
 float3		reflect(float3 ray_dir, float3 normal);
@@ -61,12 +44,6 @@ void			correct_img_point(float3 *img_point);
 t_ray			get_ray(float3 img_point, __global __read_only const t_camera *camera);
 
 float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
-
-float3		shade_raytrace(
-		t_ray *ray,
-		t_rayhit *hit,
-		t_material *material
-);
 
 bool						ft_stack_push(t_stack *stack, t_kd_traverse_helper helper);
 
@@ -180,6 +157,72 @@ t_material	get_polygon_material(
 		__global const t_polygon *polygons,
 		int polygon_index);
 
+bool				find_any_intersection(
+		__global __read_only const t_scene *scene,
+		__global __read_only const t_object *objects,
+		__global __read_only const t_kd_info *kd_info,
+		__global __read_only const t_kd_arr_tree *kd_tree,
+		__global __read_only const int *kd_indices,
+		__global __read_only const t_mesh_info *meshes_info,
+		__global __read_only const t_polygon *polygons,
+		__global __read_only const float3 *vertices,
+		__global __read_only const float3 *v_normals,
+		t_ray *ray,
+		t_rayhit *out_best_hit);
+
+bool				in_shadow(
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_kd_info *kd_info,
+		__global const t_kd_arr_tree *kd_tree,
+		__global const int *kd_indices,
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		t_ray *ray,
+		t_light_type light_type);
+
+float				blinn_phong_shine(float3 ray_dir, float3 light_dir, float3 normal, float phong_exp);
+
+float				compute_light(
+	__global __read_only const t_scene *scene,
+	__global __read_only const t_light *lights,
+	__global __read_only const t_object *objects,
+	__global __read_only const t_kd_info *kd_info,
+	__global __read_only const t_kd_arr_tree *kd_tree,
+	__global __read_only const int *kd_indices,
+	__global __read_only const t_mesh_info *meshes_info,
+	__global __read_only const t_polygon *polygons,
+	__global __read_only const float3 *vertices,
+	__global __read_only const float3 *v_normals,
+	t_rayhit *hit,
+	t_ray *ray,
+	t_material *hit_material);
+
+float3		raytrace(
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_light *lights,
+		__global const t_kd_info *kd_info,
+		__global const t_kd_arr_tree *kd_tree,
+		__global const int *kd_indices,
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		__global const float3 *v_textures,
+		__global const t_renderer_params *params,
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+		t_ray ray);
+
+float3		shade_raytrace(
+		t_ray *ray,
+		t_rayhit *hit,
+		t_material *material
+);
+
 float3		texture_shade_pathtrace(
 		__global const t_texture_info *texture_info,
 		__global const float *texture_list,
@@ -288,35 +331,4 @@ int		kd_tree_traverse(
 		__global __read_only const float3 *v_normals,
 		t_ray *ray,
 		t_rayhit *out_best_hit);
-
-bool				in_shadow(
-		__global const t_scene *scene,
-		__global const t_object *objects,
-		__global const t_kd_info *kd_info,
-		__global const t_kd_arr_tree *kd_tree,
-		__global const int *kd_indices,
-		__global const t_mesh_info *meshes_info,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
-		t_ray *ray,
-		t_light_type light_type);
-
-float				blinn_phong_shine(float3 ray_dir, float3 light_dir, float3 normal, float phong_exp);
-
-float				compute_light(
-	__global const t_scene *scene,
-	__global const t_light *lights,
-	__global const t_object *objects,
-	__global const t_kd_info *kd_info,
-	__global const t_kd_arr_tree *kd_tree,
-	__global const int *kd_indices,
-	__global const t_mesh_info *meshes_info,
-	__global const t_polygon *polygons,
-	__global const float3 *vertices,
-	__global const float3 *v_normals,
-	__global const float3 *v_textures,
-	t_rayhit *hit,
-	t_ray *ray,
-	t_material *hit_material);
 

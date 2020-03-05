@@ -1,4 +1,5 @@
 
+
 __kernel void		kernel_shade_skybox_or_nothing(
 		__global __read_only const *
 )

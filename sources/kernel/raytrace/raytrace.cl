@@ -32,7 +32,7 @@ float3		raytrace(
 		if (get_hit_material(&hit_material, objects, meshes_info, polygons, closest_obj_index, closest_polygon_index))
 		{
 			result_color += ray.energy
-				* compute_light(scene, lights, objects, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, v_textures, &best_hit, &ray, &hit_material)
+				* compute_light(scene, lights, objects, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, &best_hit, &ray, &hit_material)
 				* shade(&ray, &best_hit, &hit_material, texture_info, texture_list, &objects[closest_obj_index]);
 		}
 		else

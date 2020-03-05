@@ -3,7 +3,7 @@
 
 void rt_wavefront_setup_buffers(t_rt *rt, t_renderer_params render_params)
 {
-	const int	memobj_num = 32;
+	const int	memobj_num = 34;
 
 	cl_uint	counter = 0; //clEnqueueFillBuffer не работает, а нам нужно обнулять atomic counter при каждом запуске
 	rt_wavefront_alloc_buffers(rt, memobj_num,
@@ -13,6 +13,7 @@ void rt_wavefront_setup_buffers(t_rt *rt, t_renderer_params render_params)
 
 			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->scene, sizeof(t_scene), RT_DEFAULT_MEM_FLAG, true, RENDER_ALWAYS}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.objects, sizeof(t_object) * rt->scene.obj_nbr, RT_DEFAULT_MEM_FLAG, false, RENDER_ALWAYS}),
+			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.lights, sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, false, RENDER_ALWAYS}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->kd_info, sizeof(t_kd_info), RT_DEFAULT_MEM_FLAG, false, RENDER_MESH}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->kd_info.tree_arr, sizeof(t_kd_arr_tree) * rt->kd_info.nodes_num, RT_DEFAULT_MEM_FLAG, false, RENDER_MESH}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->kd_info.indices, sizeof(cl_int) * rt->kd_info.indices_num, RT_DEFAULT_MEM_FLAG, false, RENDER_MESH}),
@@ -44,7 +45,8 @@ void rt_wavefront_setup_buffers(t_rt *rt, t_renderer_params render_params)
 
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_float3) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // временный float3 буфер цветов (на один сэмпл pathtrace)
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_float3) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // постоянный float3 буфер цветов
-			rt_check_opencl_memobj((t_opencl_mem_obj){&render_params, sizeof(t_renderer_params), RT_DEFAULT_MEM_FLAG, true, RENDER_ALWAYS})
+			rt_check_opencl_memobj((t_opencl_mem_obj){&render_params, sizeof(t_renderer_params), RT_DEFAULT_MEM_FLAG, true, RENDER_ALWAYS}),
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_float) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}) // raytrace light intensity buffer
 	);
 }
 

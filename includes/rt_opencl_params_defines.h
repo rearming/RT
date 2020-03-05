@@ -21,6 +21,7 @@ typedef enum	e_cl_mem_types
 
 	RT_CL_MEM_SCENE,
 	RT_CL_MEM_OBJECTS,
+	RT_CL_MEM_LIGHTS,
 	RT_CL_MEM_KD_INFO,
 	RT_CL_MEM_KD_TREE,
 	RT_CL_MEM_KD_INDICES,
@@ -52,6 +53,7 @@ typedef enum	e_cl_mem_types
 	RT_CL_MEM_TEMP_FLOAT3_IMG_DATA,
 	RT_CL_MEM_FLOAT3_IMG_DATA,
 	RT_CL_MEM_RENDERER_PARAMS,
+	RT_CL_MEM_LIGHT_INTENSITY_BUFFER,
 }				t_cl_mem_types;
 
 /*
@@ -107,7 +109,7 @@ typedef enum	e_cl_mem_types
 #  define OPENCL_INCLUDE_DIRS \
 " -I ./includes " \
 " -I ./sources/kernel " \
-" -I ./sources/kernel/light_computing " \
+" -I ./sources/kernel/raytrace " \
 " -I ./sources/kernel/mesh_render " \
 " -I ./sources/kernel/object_intersections " \
 " -I ./sources/kernel/object_intersections/more_difficult_object " \
