@@ -250,8 +250,11 @@ void 		render_wavefront(void *rt_ptr)
 				&material_shade_program);
 	}
 
-	kernel_material_shade(rt, material_shade_program,
-			material_shade_kernel, kernel_work_sizes.materials);
+	if (kernel_work_sizes.materials > 0)
+	{
+		kernel_material_shade(rt, material_shade_program,
+				material_shade_kernel, kernel_work_sizes.materials);
+	}
 
 // 	IN_BUFFERS <- 1) obj_indices 2) polygon_indices 3) ray_hits (normal, position) 4) pixel_indices 5) buffer_len
 //	OUT_BUFFERS -> 1) rays_buffer 2) pixel_indices 3) buffers_len 4) float3 colors buffer (pathtrace) 5) img (write into img)

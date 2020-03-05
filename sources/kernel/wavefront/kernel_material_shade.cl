@@ -63,8 +63,8 @@ __kernel void		kernel_material_shade(
 
 	if (ray_has_energy(&new_ray)) // если генерируем новый луч
 	{
-		int cached_buffer_len = atomic_inc(out_rays_buffer_len);
-		out_rays_pixel_indices[cached_buffer_len] = pixel_index;
-		out_rays_buffer[cached_buffer_len] = new_ray;
+		out_rays_pixel_indices[g_id] = pixel_index;
+		out_rays_buffer[g_id] = new_ray;
+		atomic_inc(out_rays_buffer_len);
 	}
 }
