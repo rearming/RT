@@ -63,7 +63,7 @@
 # define COL_DARK_BLUE 0xFF000080
 
 # define COL_GOLD 0xFFffd700
-# define COL_BG COL_BLACK
+# define COL_BG COL_GREY
 
 /*
 **	Development

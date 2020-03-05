@@ -76,11 +76,3 @@ t_ray			get_ray(float3 img_point, __global __read_only const t_camera *camera)
 	ray.energy = (float3)(1.0f, 1.0f, 1.0f);
 	return ray;
 }
-
-float3			correct_hdr(float gamma, float exposure, float3 hdr_color)
-{
-	float3	mapped = (float3)(1.0f) - exp(-hdr_color * exposure);
-	mapped = pow(mapped, (float3)(1.0f / gamma));
-
-	return mapped;
-}

@@ -37,7 +37,7 @@ __kernel void		kernel_material_shade(
 		__global __write_only int *out_rays_pixel_indices,
 		__global __write_only int *out_rays_buffer_len, // offset для записи новых лучей в texture_shade
 
-		__global float3 *temp_img_data_float, //для pathtrace
+		__global float3 *temp_float3_img_data, //для pathtrace
 		__global __write_only int *img_data // test img buf
 )
 {
@@ -56,12 +56,12 @@ __kernel void		kernel_material_shade(
 
 	float seed = params->seed;
 
-	temp_img_data_float[pixel_index] = new_ray.energy
+	temp_float3_img_data[pixel_index] = new_ray.energy
 			* raytrace_light_intensity_buffer[g_id]
 			* shade_raytrace(&new_ray, &best_hit, &material);
 //			* shade_pathtrace(&new_ray, &best_hit, &material, &seed, pixel_seed); //может надо будет подумать над seed'ом рандома
 
-	img_data[pixel_index] = get_int_color(correct_hdr(params->gamma, params->exposure, temp_img_data_float[pixel_index]));
+//	img_data[pixel_index] = get_int_color(correct_hdr(params->gamma, params->exposure, temp_float3_img_data[pixel_index]));
 	// todo remove (test)
 
 	if (ray_has_energy(&new_ray)) // если генерируем новый луч

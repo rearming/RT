@@ -9,6 +9,8 @@ float		color_energy(float3 color);
 
 int			get_int_color(float3 color);
 
+float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
+
 int         get_texture_color(
 		int2 pos,
 		__constant float *texture_list,
@@ -42,8 +44,6 @@ int3		get_img_point(int global_id);
 void			correct_img_point(float3 *img_point);
 
 t_ray			get_ray(float3 img_point, __global __read_only const t_camera *camera);
-
-float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
 
 bool						ft_stack_push(t_stack *stack, t_kd_traverse_helper helper);
 
