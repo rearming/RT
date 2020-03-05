@@ -13,7 +13,8 @@ bool				find_any_intersection(
 		t_rayhit *out_best_hit)
 {
 	int		closest_polygon_index = NOT_SET;
-	int		out_closest_obj_index = NOT_SET;
+	int		closest_obj_index = NOT_SET;
+
 #ifdef RENDER_OBJECTS
 	for (int i = 0; i < scene->obj_nbr; i++)
 	{
@@ -21,49 +22,48 @@ bool				find_any_intersection(
 		{
 			case (SPHERE):
 				if (ray_sphere_intersect(ray, &objects[i], out_best_hit))
-					out_closest_obj_index = i;
+					closest_obj_index = i;
 				break;
 			case (PLANE):
 				if (ray_plane_intersect(ray, objects[i].center, objects[i].normal, out_best_hit))
-					out_closest_obj_index = i;
+					closest_obj_index = i;
 				break;
 			case (CONE):
 				if (ray_cone_intersect(ray, &objects[i], out_best_hit))
-					out_closest_obj_index = i;
+					closest_obj_index = i;
 				break;
 			case (CYLINDER):
 				if (ray_cylinder_intersect(ray, &objects[i], out_best_hit))
-					out_closest_obj_index = i;
+					closest_obj_index = i;
 				break;
 			case (TRIANGLE):
-			if (ray_triangle_intersect_MT(ray, &objects[i], out_best_hit))
-					out_closest_obj_index = i;
+				if (ray_triangle_intersect_MT(ray, &objects[i], out_best_hit))
+					closest_obj_index = i;
 				break;
 			case (PARABOLOID):
 				if (ray_paraboloid_intersect(ray, &objects[i], out_best_hit))
-					out_closest_obj_index = i;
+					closest_obj_index = i;
 				break;
 			case (ELLIPSOID):
 				if (ray_ellipsoid_intersect(ray, &objects[i], out_best_hit))
-					out_closest_obj_index = i;
+					closest_obj_index = i;
 				break;
 			case (AABB):
 				if (ray_aabb_intersection(ray, &objects[i], out_best_hit))
-					out_closest_obj_index = i;
+					closest_obj_index = i;
 				break;
 		}
-		if (isset(out_closest_obj_index) && objects[i].material.transmittance <= 0)
+		if (isset(closest_obj_index))
 			return true;
 	}
 #endif
 
 #ifdef RENDER_MESH
 	closest_polygon_index = kd_tree_traverse(kd_info, kd_tree, kd_indices, polygons, vertices, v_normals, ray, out_best_hit);
-//	*out_closest_polygon_index = ray_mesh_intersect(&scene->meshes, polygons, vertices, v_normals, ray, out_best_hit);
-	if (isset(closest_polygon_index) && get_polygon_material(meshes_info, polygons, closest_polygon_index).transmittance <= 0)
-		return true;
+	return (isset(closest_obj_index) || isset(closest_polygon_index) && get_polygon_material(meshes_info, polygons, closest_polygon_index).transmittance <= 0);
+
 #endif
-	return false;
+	return isset(closest_obj_index);
 }
 
 bool				in_shadow(
@@ -79,20 +79,10 @@ bool				in_shadow(
 		t_ray *ray,
 		t_light_type light_type)
 {
-	int			found_object = NOT_SET;
-	int			found_polygon = NOT_SET;
-	t_rayhit	out_hit = {(float3)(0), INFINITY, (float3)(0)};
+	t_rayhit	out_hit = {(float3)(0), 1, (float3)(0)};
 
-	bool	intersected = find_any_intersection(scene, objects,
-			kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, ray, &out_hit);
-	return intersected && (light_type != POINT || out_hit.distance <= 1);
-//	if (intersected)
-//	{
-//		if (light_type == POINT && out_hit.distance > 1) /// проверяем луч только до источника света
-//			return false;
-//		return true;
-//	}
-//	return false;
+	return find_any_intersection(scene, objects, kd_info, kd_tree, kd_indices,
+			meshes_info, polygons, vertices, v_normals, ray, &out_hit);
 }
 
 float				blinn_phong_shine(float3 ray_dir, float3 light_dir, float3 normal, float phong_exp)
