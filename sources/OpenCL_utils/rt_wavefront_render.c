@@ -249,6 +249,11 @@ void 	kernel_fill_img_data(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 	if (rt->events.info)
 		rt_print_opencl_profile_info("fill img data kernel");
 	clReleaseEvent(g_opencl.profile_event);
+
+	err = clEnqueueReadBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_INT_IMG].mem, CL_TRUE, 0,
+			sizeof(int) * WIN_WIDTH * WIN_HEIGHT,
+			g_img_data, 0, NULL, NULL);
+	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 }
 
 const struct s_kernels_info	g_kernels_info[] = {
@@ -393,12 +398,11 @@ void 		render_wavefront(void *rt_ptr)
 	}
 
 	kernel_fill_img_data(rt, g_wavefront_kernels[RT_KERNEL_FILL_IMG_DATA], WIN_WIDTH * WIN_HEIGHT);
-	int err = clEnqueueReadBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_INT_IMG].mem, CL_TRUE, 0,
-			sizeof(int) * WIN_WIDTH * WIN_HEIGHT,
-			g_img_data, 0, NULL, NULL);
-	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
+
+	params.pathtrace_params.current_samples_num++;
 
 	printf("wavefront render done\n");
+	printf("current samples num: [%i]\n", params.pathtrace_params.current_samples_num);
 	for (int i = 0; i < 26; ++i)
 	{
 		if (g_opencl.wavefront_shared_buffers[i].copy_mem == true)

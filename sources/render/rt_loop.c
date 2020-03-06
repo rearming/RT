@@ -19,7 +19,7 @@ void		rt_loop(t_rt *rt)
 //#endif
 		}
 		if (rt_params_isset(rt->renderer_flags, RENDER_PATHTRACE))
-		{} //rt_render(rt, rt_opencl_render);
+			rt_render(rt, render_wavefront);
 		if (flag == true)
 		{
 			rt_pathtrace_profile(rt, 1000);

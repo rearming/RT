@@ -19,6 +19,6 @@ __kernel void		kernel_skybox_shade(
 #ifdef RENDER_TEXTURES
 	temp_float3_img_data[pixel_index] += ray.energy * skybox_color(&texture_info[SKYBOX_NUM], texture_list, skybox_normal(ray));
 #else
-	temp_float3_img_data[pixel_index] += ray.energy * get_float3_color(COL_BG);
+	temp_float3_img_data[pixel_index] += ray.energy * get_float3_color(COL_BLACK);
 #endif
 }

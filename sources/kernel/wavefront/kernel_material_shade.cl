@@ -55,9 +55,13 @@ __kernel void		kernel_material_shade(
 	float seed = params->seed;
 
 	temp_float3_img_data[pixel_index] += new_ray.energy
+#ifdef RENDER_RAYTRACE
 			* raytrace_light_intensity_buffer[g_id]
 			* shade_raytrace(&new_ray, &best_hit, &material);
-//			* shade_pathtrace(&new_ray, &best_hit, &material, &seed, pixel_seed); //может надо будет подумать над seed'ом рандома
+#endif
+#ifdef RENDER_PATHTRACE
+			* shade_pathtrace(&new_ray, &best_hit, &material, &seed, pixel_seed); //может надо будет подумать над seed'ом рандома
+#endif
 
 	if (ray_has_energy(&new_ray)) // если генерируем новый луч
 	{
