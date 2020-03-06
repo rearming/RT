@@ -6,18 +6,15 @@
 #include "prototypes.cl"
 #include "color_utils.cl"
 
-__kernel void	kernel_material_fill_img_data(
-		__global __read_only const int *material_pixel_indices,
-
+__kernel void	kernel_fill_img_data(
 		__global __read_only const t_renderer_params *params,
 		__global __read_only const float3 *temp_float3_img_data,
 		__global __read_only const float3 *main_float3_img_data,
 		__global __write_only int *img_data)
 {
 	int			g_id = get_global_id(0);
-	int			pixel_index = material_pixel_indices[g_id];
-	float3		new_color = temp_float3_img_data[pixel_index];
+	float3		new_color = temp_float3_img_data[g_id];
 	//потом тут будет mix цветов (temp_float3_img_data, main_float3_img_data, params->pathtrace_params.current_samples_num)
 
-	img_data[pixel_index] = get_int_color(correct_hdr(params->gamma, params->exposure, new_color));
+	img_data[g_id] = get_int_color(correct_hdr(params->gamma, params->exposure, new_color));
 }

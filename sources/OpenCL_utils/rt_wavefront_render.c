@@ -43,10 +43,16 @@ void 		kernel_generate_rays_aa_raytrace()
 //			renderer->kernel, 2, NULL, global_work_size, NULL, 0, NULL, &g_opencl.profile_event);
 }
 
+enum e_cl_mem_types		switch_ray_buffers(int iteration)
+{
+	return iteration % 2 == 0 ? RT_CL_MEM_RAYS_BUFFER : RT_CL_MEM_OUT_RAYS_BUFFER;
+}
+
 void kernel_find_intersections(t_rt *rt,
 							   cl_kernel kernel,
 							   size_t kernel_work_size,
-							   t_kernel_work_sizes *out_work_sizes)
+							   t_kernel_work_sizes *out_work_sizes,
+							   int iteration)
 {
 	int				err = CL_SUCCESS;
 	int				arg_num = 0;
@@ -65,7 +71,7 @@ void kernel_find_intersections(t_rt *rt,
 		err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_V_NORMALS].mem);
 	}
 
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_RAYS_BUFFER].mem);
+	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[switch_ray_buffers(iteration)].mem);
 	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_PIXEL_INDICES].mem);
 
 	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_MATERIAL_HIT_OBJ_INDICES].mem);
@@ -84,10 +90,7 @@ void kernel_find_intersections(t_rt *rt,
 	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_SKYBOX_HIT_RAYS_BUFFER].mem);
 	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_SKYBOX_HIT_BUFFERS_LEN].mem);
 
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_INT_IMG].mem);
-
 	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
-
 
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			kernel, 1, NULL, &kernel_work_size, NULL, 0, NULL, &g_opencl.profile_event);
@@ -104,11 +107,6 @@ void kernel_find_intersections(t_rt *rt,
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 	err = clEnqueueReadBuffer(g_opencl.queue,
 			g_opencl.wavefront_shared_buffers[RT_CL_MEM_SKYBOX_HIT_BUFFERS_LEN].mem, CL_TRUE, 0, sizeof(cl_uint), &out_work_sizes->skybox, 0, NULL, NULL);
-	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
-
-	err |= clEnqueueReadBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_INT_IMG].mem, CL_TRUE, 0,
-			sizeof(int) * WIN_WIDTH * WIN_HEIGHT,
-			g_img_data, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 }
 
@@ -154,9 +152,10 @@ void	kernel_raytrace_material_compute_light(t_rt *rt, cl_kernel kernel, size_t k
 }
 
 void	kernel_material_shade(t_rt *rt,
-							  cl_kernel kernel,
-							  size_t kernel_work_size,
-							  uint32_t *out_new_rays_buffer_len)
+						   cl_kernel kernel,
+						   size_t kernel_work_size,
+						   uint32_t *out_new_rays_buffer_len,
+						   int iteration)
 {
 	int				err = CL_SUCCESS;
 	int				arg_num = 0;
@@ -176,15 +175,13 @@ void	kernel_material_shade(t_rt *rt,
 	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_MATERIAL_PIXEL_INDICES].mem);
 	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_MATERIAL_RAYS_HIT_BUFFER].mem);
 
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_RAYS_BUFFER].mem);
+	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[switch_ray_buffers(iteration)].mem); // IN rays buffer
 
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_OUT_RAYS_BUFFER].mem);
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_OUT_RAYS_PIXEL_INDICES].mem);
+	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[switch_ray_buffers(iteration + 1)].mem); // OUT rays buffer
+	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_PIXEL_INDICES].mem);
 	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_OUT_RAYS_BUFFER_LEN].mem);
 
 	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_TEMP_FLOAT3_IMG_DATA].mem);
-
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_INT_IMG].mem);
 
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			kernel, 1, NULL, &kernel_work_size, NULL, 0, NULL, &g_opencl.profile_event);
@@ -199,7 +196,7 @@ void	kernel_material_shade(t_rt *rt,
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 }
 
-void kernel_shade_textures(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
+void	kernel_shade_textures(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 {
 	int		err;
 
@@ -208,7 +205,7 @@ void kernel_shade_textures(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
 }
 
-void kernel_skybox_shade(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
+void	kernel_skybox_shade(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 {
 	int				err = CL_SUCCESS;
 	int				arg_num = 0;
@@ -219,7 +216,6 @@ void kernel_skybox_shade(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_SKYBOX_HIT_RAYS_BUFFER].mem);
 
 	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_TEMP_FLOAT3_IMG_DATA].mem);
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_INT_IMG].mem);
 
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			kernel, 1, NULL, &kernel_work_size, NULL, 0, NULL, &g_opencl.profile_event);
@@ -234,14 +230,13 @@ void kernel_skybox_shade(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 }
 
-void 		kernel_material_fill_img_data(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
+void 	kernel_fill_img_data(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 {
 	int				err = CL_SUCCESS;
 	int				arg_num = 0;
 
 	if (kernel_work_size <= 0)
 		return;
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_MATERIAL_PIXEL_INDICES].mem);
 
 	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_RENDERER_PARAMS].mem);
 	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_TEMP_FLOAT3_IMG_DATA].mem);
@@ -252,51 +247,7 @@ void 		kernel_material_fill_img_data(t_rt *rt, cl_kernel kernel, size_t kernel_w
 			kernel, 1, NULL, &kernel_work_size, NULL, 0, NULL, &g_opencl.profile_event);
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
 	if (rt->events.info)
-		rt_print_opencl_profile_info("material fill img data kernel");
-	clReleaseEvent(g_opencl.profile_event);
-}
-
-void 		kernel_texture_fill_img_data(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
-{
-	int				err = CL_SUCCESS;
-	int				arg_num = 0;
-
-	if (kernel_work_size <= 0)
-		return;
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_TEXTURE_PIXEL_INDICES].mem);
-
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_RENDERER_PARAMS].mem);
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_TEMP_FLOAT3_IMG_DATA].mem);
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_MAIN_FLOAT3_IMG_DATA].mem);
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_INT_IMG].mem);
-
-	err = clEnqueueNDRangeKernel(g_opencl.queue,
-			kernel, 1, NULL, &kernel_work_size, NULL, 0, NULL, &g_opencl.profile_event);
-	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
-	if (rt->events.info)
-		rt_print_opencl_profile_info("texture fill img data kernel");
-	clReleaseEvent(g_opencl.profile_event);
-}
-
-void 		kernel_skybox_fill_img_data(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
-{
-	int				err = CL_SUCCESS;
-	int				arg_num = 0;
-
-	if (kernel_work_size <= 0)
-		return;
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_SKYBOX_HIT_PIXEL_INDICES].mem);
-
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_RENDERER_PARAMS].mem);
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_TEMP_FLOAT3_IMG_DATA].mem);
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_MAIN_FLOAT3_IMG_DATA].mem);
-	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_INT_IMG].mem);
-
-	err = clEnqueueNDRangeKernel(g_opencl.queue,
-			kernel, 1, NULL, &kernel_work_size, NULL, 0, NULL, &g_opencl.profile_event);
-	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
-	if (rt->events.info)
-		rt_print_opencl_profile_info("skybox fill img data kernel");
+		rt_print_opencl_profile_info("fill img data kernel");
 	clReleaseEvent(g_opencl.profile_event);
 }
 
@@ -325,16 +276,8 @@ const struct s_kernels_info	g_kernels_info[] = {
 			.kernel_name = "kernel_skybox_shade"
 		},
 		(struct s_kernels_info){
-			.kernel_path = "sources/kernel/wavefront/kernel_material_fill_img_data.cl",
-			.kernel_name = "kernel_material_fill_img_data"
-		},
-		(struct s_kernels_info){
-			.kernel_path = "sources/kernel/wavefront/kernel_texture_fill_img_data.cl",
-			.kernel_name = "kernel_texture_fill_img_data"
-		},
-		(struct s_kernels_info){
-			.kernel_path = "sources/kernel/wavefront/kernel_skybox_fill_img_data.cl",
-			.kernel_name = "kernel_skybox_fill_img_data"
+				.kernel_path = "sources/kernel/wavefront/kernel_fill_img_data.cl",
+				.kernel_name = "kernel_fill_img_data"
 		}
 };
 
@@ -359,45 +302,97 @@ void		wavefront_compile_kernels(uint32_t render_flags, t_renderer_params *params
 	}
 }
 
+void		bzero_buffer(enum e_cl_mem_types mem_index)
+{
+	int			err = CL_SUCCESS;
+	cl_uint		zero = 0;
+
+	err |= clEnqueueWriteBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[mem_index].mem,
+			CL_TRUE, 0, sizeof(cl_uint), &zero, 0, NULL, NULL);
+	rt_opencl_handle_error(ERR_OPENCL_FILL_BUFFER, err);
+}
+
+void		bzero_buffers(void)
+{
+	int			err = CL_SUCCESS;
+	cl_uint		zero = 0;
+
+	err |= clEnqueueWriteBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_MATERIAL_BUFFERS_LEN].mem,
+			CL_TRUE, 0, sizeof(cl_uint), &zero, 0, NULL, NULL);
+	err |= clEnqueueWriteBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_TEXTURE_BUFFERS_LEN].mem,
+			CL_TRUE, 0, sizeof(cl_uint), &zero, 0, NULL, NULL);
+	err |= clEnqueueWriteBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_SKYBOX_HIT_BUFFERS_LEN].mem,
+			CL_TRUE, 0, sizeof(cl_uint), &zero, 0, NULL, NULL);
+	err |= clEnqueueWriteBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_OUT_RAYS_BUFFER_LEN].mem,
+			CL_TRUE, 0, sizeof(cl_uint), &zero, 0, NULL, NULL);
+
+//	err |= clEnqueueFillBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_MATERIAL_BUFFERS_LEN].mem, &zero,
+//			sizeof(cl_uint), 0, sizeof(cl_uint), 0, NULL, NULL);
+//	err |= clEnqueueFillBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_TEXTURE_BUFFERS_LEN].mem, &zero,
+//			sizeof(cl_uint), 0, sizeof(cl_uint), 0, NULL, NULL);
+//	err |= clEnqueueFillBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_SKYBOX_HIT_BUFFERS_LEN].mem, &zero,
+//			sizeof(cl_uint), 0, sizeof(cl_uint), 0, NULL, NULL);
+//	err |= clEnqueueFillBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_OUT_RAYS_BUFFER_LEN].mem, &zero,
+//			sizeof(cl_uint), 0, sizeof(cl_uint), 0, NULL, NULL);
+
+	rt_opencl_handle_error(ERR_OPENCL_FILL_BUFFER, err);
+}
+
+void		bzero_float3_temp_img(cl_float3 *zero_arr)
+{
+	int			err = CL_SUCCESS;
+
+	err |= clEnqueueWriteBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_TEMP_FLOAT3_IMG_DATA].mem,
+			CL_TRUE, 0, sizeof(cl_float3) * WIN_WIDTH * WIN_HEIGHT, zero_arr, 0, NULL, NULL);
+	rt_opencl_handle_error(ERR_OPENCL_FILL_BUFFER, err);
+}
+
 void 		render_wavefront(void *rt_ptr)
 {
 	t_rt						*rt = rt_ptr;
 	static t_renderer_params	params;
-	static bool					kernels_compiled = false;
+	static bool					first_init_done = false;
 	t_kernel_work_sizes			kernel_work_sizes;
 	uint32_t					find_intersection_new_work_size;
+	static cl_float3			*float3_temp_img_zeros;
 
-	if (!kernels_compiled)
+	if (!first_init_done)
+	{
 		wavefront_compile_kernels(rt->renderer_flags, &params);
+		float3_temp_img_zeros = rt_safe_malloc(sizeof(cl_float3) * WIN_WIDTH * WIN_HEIGHT);
+		for (int i = 0; i < WIN_WIDTH * WIN_HEIGHT; ++i)
+			float3_temp_img_zeros[i] = (cl_float3){{0, 0, 0}};
+	}
 	rt_wavefront_setup_buffers(rt, params); //todo params вообще-то в разных рендерерах разные хранятся, потом переделать
 
+	bzero_float3_temp_img(float3_temp_img_zeros); // обнулить temp_float3_img_data
 	kernel_generate_primary_rays(rt_ptr, g_wavefront_kernels[RT_KERNEL_GENERATE_PRIMARY_RAYS]);
 
 	find_intersection_new_work_size = WIN_WIDTH * WIN_HEIGHT; // потом тут будет кол-во лучей после генерации анти-алиасингом
 
-//	for (int j = 0; j < params.pathtrace_params.max_depth; ++j)
-//	{
-		kernel_find_intersections(rt, g_wavefront_kernels[RT_KERNEL_FIND_INTERSECTIONS], find_intersection_new_work_size, &kernel_work_sizes);
+	for (int j = 0; j < 8; ++j)
+	{
+		if (find_intersection_new_work_size <= 0)
+			break;
+		bzero_buffer(RT_CL_MEM_MATERIAL_BUFFERS_LEN);
+		bzero_buffer(RT_CL_MEM_TEXTURE_BUFFERS_LEN);
+		bzero_buffer(RT_CL_MEM_SKYBOX_HIT_BUFFERS_LEN);
+		kernel_find_intersections(rt, g_wavefront_kernels[RT_KERNEL_FIND_INTERSECTIONS], find_intersection_new_work_size, &kernel_work_sizes, j);
+		printf("kernel new work sizes: material: [%u], texture: [%u], skybox: [%u]\n",
+			kernel_work_sizes.materials, kernel_work_sizes.textures, kernel_work_sizes.skybox);
+
 		kernel_raytrace_material_compute_light(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_COMPUTE_LIGHT], kernel_work_sizes.materials);
-		kernel_material_shade(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_SHADE],
-			kernel_work_sizes.materials, &find_intersection_new_work_size);
+
+		bzero_buffer(RT_CL_MEM_OUT_RAYS_BUFFER_LEN);
+		find_intersection_new_work_size = 0;
+		kernel_material_shade(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_SHADE], kernel_work_sizes.materials, &find_intersection_new_work_size, j);
+		printf("find_intersection new work size: [%u]\n", find_intersection_new_work_size);
+
 		kernel_skybox_shade(rt, g_wavefront_kernels[RT_KERNEL_SKYBOX_SHADE], kernel_work_sizes.skybox);
-		printf("kernel new work sizes: material: [%u], texture: [%u], skybox: [%u], find_intersection new work size: [%u]\n",
-			kernel_work_sizes.materials, kernel_work_sizes.textures, kernel_work_sizes.skybox, find_intersection_new_work_size);
-//	}
+		printf("wavefront render [%i] iteration\n\n", j);
+	}
 
-//	kernel_find_intersections(rt, g_wavefront_kernels[RT_KERNEL_FIND_INTERSECTIONS], find_intersection_new_work_size, &kernel_work_sizes);
-//	kernel_raytrace_material_compute_light(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_COMPUTE_LIGHT], kernel_work_sizes.materials);
-//	kernel_material_shade(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_SHADE], kernel_work_sizes.materials, &find_intersection_new_work_size);
-//		// потом будте += еще от texture shade
-//	kernel_skybox_shade(rt, g_wavefront_kernels[RT_KERNEL_SKYBOX_SHADE], kernel_work_sizes.skybox);
-//	printf("kernel new work sizes: material: [%u], texture: [%u], skybox: [%u]\n",
-//			kernel_work_sizes.materials, kernel_work_sizes.textures, kernel_work_sizes.skybox);
-
-	kernel_material_fill_img_data(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_FILL_IMG_DATA], kernel_work_sizes.materials);
-	kernel_texture_fill_img_data(rt, g_wavefront_kernels[RT_KERNEL_TEXTURE_FILL_IMG_DATA], kernel_work_sizes.textures);
-	kernel_skybox_fill_img_data(rt, g_wavefront_kernels[RT_KERNEL_SKYBOX_FILL_IMG_DATA], kernel_work_sizes.skybox);
-
+	kernel_fill_img_data(rt, g_wavefront_kernels[RT_KERNEL_FILL_IMG_DATA], WIN_WIDTH * WIN_HEIGHT);
 	int err = clEnqueueReadBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_INT_IMG].mem, CL_TRUE, 0,
 			sizeof(int) * WIN_WIDTH * WIN_HEIGHT,
 			g_img_data, 0, NULL, NULL);
@@ -409,5 +404,5 @@ void 		render_wavefront(void *rt_ptr)
 		if (g_opencl.wavefront_shared_buffers[i].copy_mem == true)
 			clReleaseMemObject(g_opencl.wavefront_shared_buffers[i].mem);
 	}
-	kernels_compiled = true;
+	first_init_done = true;
 }

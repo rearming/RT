@@ -27,6 +27,7 @@
 # define ERR_OPENCL_READ_BUFFER "clEnqueueReadBuffer failed"
 # define ERR_OPENCL_INV_SOURCE_CODE_FILE "error when reading opencl source code file"
 # define ERR_OPENCL_LOG "clGetProgramBuildLog failed"
+# define ERR_OPENCL_FILL_BUFFER "clEnqueueFillBuffer failed"
 
 # define ERR_READ_OBJ_FILE "error when reading .obj file"
 # define ERR_OBJLOADER_PARSE_OBJ "tinyobjloader failed"

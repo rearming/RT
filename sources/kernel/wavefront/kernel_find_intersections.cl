@@ -41,7 +41,7 @@ __kernel void		kernel_find_intersections(
 	__global __read_only const float3 *v_normals,
 #endif
 	__global __read_only const t_ray *rays_buffer,
-	__global __read_only const int *prev_pixel_indices,
+	__global __read_only const int *pixel_indices,
 
 	__global __write_only int *material_hit_obj_indices,
 	__global __write_only int *material_hit_polygon_indices,
@@ -57,9 +57,7 @@ __kernel void		kernel_find_intersections(
 
 	__global __write_only int *skybox_hit_pixel_indices,
 	__global __write_only t_ray *skybox_hit_rays_buffer,
-	__global uint *skybox_hit_buffers_len,
-	__global __write_only int *img_data
-	)
+	__global uint *skybox_hit_buffers_len)
 {
 #ifndef RENDER_MESH
 	__global __read_only const t_kd_info *kd_info = 0;
@@ -71,8 +69,9 @@ __kernel void		kernel_find_intersections(
 	__global __read_only const float3 *v_normals = 0;
 #endif
 	int			g_id = get_global_id(0);
+	int 		pixel_index = pixel_indices[g_id];
 
-	t_ray 		ray = rays_buffer[prev_pixel_indices[g_id]];
+	t_ray 		ray = rays_buffer[pixel_index];
 
 	t_rayhit	best_hit = (t_rayhit){0, INFINITY, 0};
 	int			closest_obj_index = NOT_SET;
@@ -87,18 +86,18 @@ __kernel void		kernel_find_intersections(
 		{
 			uint cached_buffer_len = atomic_inc(texture_buffers_len);
 
-			texture_hit_obj_indices[g_id] = closest_obj_index;
-			texture_hit_polygon_indices[g_id] = closest_polygon_index;
-			new_textures_pixel_indices[g_id] = prev_pixel_indices[g_id];
-			texture_rays_hit_buffer[g_id] = best_hit;
+			texture_hit_obj_indices[cached_buffer_len] = closest_obj_index;
+			texture_hit_polygon_indices[cached_buffer_len] = closest_polygon_index;
+			new_textures_pixel_indices[cached_buffer_len] = pixel_index;
+			texture_rays_hit_buffer[cached_buffer_len] = best_hit;
 		}
 		else // объект без текстуры
 		{
 			uint cached_buffer_len = atomic_inc(material_buffers_len);
 
-			material_hit_obj_indices[cached_buffer_len] = closest_obj_index /*closest_obj_index*/ /* prev_pixel_indices[g_id]*/;
+			material_hit_obj_indices[cached_buffer_len] = closest_obj_index;
 			material_hit_polygon_indices[cached_buffer_len] = closest_polygon_index;
-			new_material_pixel_indices[cached_buffer_len] = prev_pixel_indices[g_id];
+			new_material_pixel_indices[cached_buffer_len] = pixel_index;
 			material_rays_hit_buffer[cached_buffer_len] = best_hit;
 		}
 	}
@@ -110,19 +109,18 @@ __kernel void		kernel_find_intersections(
 		{
 			uint cached_buffer_len = atomic_inc(texture_buffers_len);
 
-			texture_hit_obj_indices[g_id] = closest_obj_index;
-			texture_hit_polygon_indices[g_id] = closest_polygon_index;
-			new_textures_pixel_indices[g_id] = prev_pixel_indices[g_id];
-			texture_rays_hit_buffer[g_id] = best_hit;
+			texture_hit_obj_indices[cached_buffer_len] = closest_obj_index;
+			texture_hit_polygon_indices[cached_buffer_len] = closest_polygon_index;
+			new_textures_pixel_indices[cached_buffer_len] = pixel_index;
+			texture_rays_hit_buffer[cached_buffer_len] = best_hit;
 		}
 		else // объект без текстуры
 		{
 			uint cached_buffer_len = atomic_inc(material_buffers_len);
 
-//			img_data[prev_pixel_indices[g_id]] = get_int_color(polygon_material.diffuse);
 			material_hit_obj_indices[cached_buffer_len] = closest_obj_index;
 			material_hit_polygon_indices[cached_buffer_len] = closest_polygon_index;
-			new_material_pixel_indices[cached_buffer_len] = prev_pixel_indices[g_id];
+			new_material_pixel_indices[cached_buffer_len] = pixel_index;
 			material_rays_hit_buffer[cached_buffer_len] = best_hit;
 		}
 	}
@@ -130,7 +128,7 @@ __kernel void		kernel_find_intersections(
 	{
 		uint cached_buffer_len = atomic_inc(skybox_hit_buffers_len);
 
-		skybox_hit_pixel_indices[cached_buffer_len] = prev_pixel_indices[g_id];
-		skybox_hit_rays_buffer[cached_buffer_len] = rays_buffer[g_id];
+		skybox_hit_pixel_indices[cached_buffer_len] = pixel_index;
+		skybox_hit_rays_buffer[cached_buffer_len] = rays_buffer[pixel_index];
 	}
 }

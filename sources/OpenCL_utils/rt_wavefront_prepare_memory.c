@@ -26,22 +26,22 @@ void rt_wavefront_setup_buffers(t_rt *rt, t_renderer_params render_params)
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // material hit polygon indices
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // material hit pixel indices
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_rayhit) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // material ray hit buffer
-			rt_check_opencl_memobj((t_opencl_mem_obj){&counter, sizeof(cl_uint), CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, true, RENDER_ALWAYS}), // counter
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_uint), CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // counter
 
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // texture hit buffers
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_rayhit) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}),
-			rt_check_opencl_memobj((t_opencl_mem_obj){&counter, sizeof(cl_uint), CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, true, RENDER_ALWAYS}), //counter
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_uint), CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), //counter
 
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // skybox hit buffers
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_ray) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}),
-			rt_check_opencl_memobj((t_opencl_mem_obj){&counter, sizeof(cl_uint), CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, true, RENDER_ALWAYS}), //counter
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_uint), CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), //counter
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_uint) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // img_data (int буфер пикселей)
 
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_ray) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), //out rays buffer (for shade kernels)
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), //out rays pixel indices
-			rt_check_opencl_memobj((t_opencl_mem_obj){&counter, sizeof(cl_uint), CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, false, RENDER_ALWAYS}), // out rays buffer len
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_uint), CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // out rays buffer len
 
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_float3) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // временный float3 буфер цветов (на один сэмпл pathtrace)
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_float3) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // постоянный float3 буфер цветов

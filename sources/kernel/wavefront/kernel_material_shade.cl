@@ -37,9 +37,7 @@ __kernel void		kernel_material_shade(
 		__global __write_only int *out_rays_pixel_indices,
 		__global __write_only uint *out_rays_buffer_len, // offset для записи новых лучей в texture_shade
 
-		__global float3 *temp_float3_img_data, //для pathtrace
-		__global __write_only int *img_data // test img buf
-)
+		__global float3 *temp_float3_img_data)
 {
 	int			g_id = get_global_id(0);
 	int3		img_point = get_img_point(g_id);
@@ -48,7 +46,7 @@ __kernel void		kernel_material_shade(
 	int			pixel_index = material_pixel_indices[g_id];
 
 	t_ray 		new_ray = prev_rays_buffer[pixel_index];
-	t_rayhit	best_hit = material_rays_hit_buffer[g_id]; //todo g_id или pixel_index -> понять!
+	t_rayhit	best_hit = material_rays_hit_buffer[g_id];
 
 	t_material	material = isset(material_hit_obj_indices[g_id])
 			? objects[material_hit_obj_indices[g_id]].material
@@ -56,19 +54,15 @@ __kernel void		kernel_material_shade(
 
 	float seed = params->seed;
 
-	temp_float3_img_data[pixel_index] = new_ray.energy
+	temp_float3_img_data[pixel_index] += new_ray.energy
 			* raytrace_light_intensity_buffer[g_id]
 			* shade_raytrace(&new_ray, &best_hit, &material);
 //			* shade_pathtrace(&new_ray, &best_hit, &material, &seed, pixel_seed); //может надо будет подумать над seed'ом рандома
 
-//	img_data[pixel_index] = get_int_color(correct_hdr(params->gamma, params->exposure, temp_float3_img_data[pixel_index]));
-	// todo remove (test)
-
 	if (ray_has_energy(&new_ray)) // если генерируем новый луч
 	{
-//		printf("energy : %f %f %f\n", new_ray.energy.x, new_ray.energy.y, new_ray.energy.z);
 		uint cached_buffer_len = atomic_inc(out_rays_buffer_len);
 		out_rays_pixel_indices[cached_buffer_len] = pixel_index;
-		out_rays_buffer[cached_buffer_len] = new_ray; // в текструрном будет с offset = out_rays_buffer_len
+		out_rays_buffer[pixel_index] = new_ray; // в текструрном будет с +offset = out_rays_buffer_len
 	}
 }
