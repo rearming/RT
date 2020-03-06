@@ -104,6 +104,12 @@ void		fill_surfaces()
 				 SDL_MapRGB(g_gui.surface->format, bg.r, bg.g, bg.b));
 }
 
+//void		render_text_box(t_transform btn)
+//{
+//	render_button()
+//
+//}
+
 void		init_gui(uint64_t algo)
 {
 
@@ -118,6 +124,6 @@ void		init_gui(uint64_t algo)
 	init_object_panel();
 	init_other_buttons();
 	render_all_buttons();
-
+//	init_text_box();
 	SDL_UpdateWindowSurface(g_gui.win_tool);
 }

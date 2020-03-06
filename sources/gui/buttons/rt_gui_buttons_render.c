@@ -65,8 +65,7 @@ void		render_button_with_params(t_transform btn, TTF_Font *font, int px)
 	label = centered_label(btn.rect, text_surface);
 	SDL_FillRect(g_gui.surface,
 				 &(btn.rect),
-				 SDL_MapRGBA(
-						 g_gui.surface->format,
+				 SDL_MapRGBA(g_gui.surface->format,
 						 color.r,
 						 color.g,
 						 color.b,

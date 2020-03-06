@@ -25,7 +25,7 @@ char		*name_generator(void)
 	return (filename);
 }
 
-void		create_screenshot_(void)
+void		create_screenshot(void)
 {
 	const Uint32 format = SDL_PIXELFORMAT_ARGB8888;
 	SDL_Surface *surface;
@@ -44,33 +44,82 @@ void		create_screenshot_(void)
 }
 
 
-//void	copy_color_map(uint32_t **map, SDL_Surface *sur)
+//SDL_Color**	copy_color_map(SDL_Color *map)
 //{
-//	int i;
+//	SDL_Color costyl[WIN_HEIGHT][WIN_WIDTH];
+//	int i, j;
 //
 //	i = 0;
-//	while (i < WIN_WIDTH < WIN_HEIGHT)
+//	while (i < WIN_HEIGHT)
 //	{
-//		*map[i] = (uint32_t)sur->pixels[i];
+//		j = 0;
+//		while (j < WIN_WIDTH)
+//		{
+//			costyl[i][j] = map[i * WIN_WIDTH + j];
+//			j++;
+//		}
+//		i++;
 //	}
+//	return costyl;
 //}
 
 
-void	create_screenshot(void)
+SDL_Color *get_pixels_from_surface()
 {
 	SDL_Surface *surface;
-	char *file;
-	uint32_t *color_map;
-	int i;
-	int j;
-
-
 	const Uint32 format = SDL_PIXELFORMAT_ARGB8888;
+	SDL_Color *color_map;
+
+
+	color_map = rt_safe_malloc(WIN_WIDTH * WIN_HEIGHT * sizeof(SDL_Color));
 	surface = SDL_CreateRGBSurfaceWithFormat(0, WIN_WIDTH, WIN_HEIGHT, 32, format);
 	SDL_RenderReadPixels(g_sdl.rend, NULL, format, surface->pixels, surface->pitch);
-	color_map = rt_safe_malloc(WIN_HEIGHT * WIN_WIDTH);
-//	copy_color_map(&color_map, surface);
+	color_map = (SDL_Color *)surface->pixels;
+	return (color_map);
+}
+
+void	create_screenshot_png(void)
+{
+	char *file;
+	const Uint32 format= SDL_PIXELFORMAT_ARGB8888;
+	SDL_Color *color_map;
+	int i, j;
+	SDL_Color **costyl;
+	SDL_Surface *surface;
+//	SDL_Color *color_map;
+
+//	format = SDL_PIXELFORMAT_ARGB8888;
+
+
+
+	costyl = rt_safe_malloc((WIN_HEIGHT ) * sizeof(SDL_Color *));
+	i = -1;
+	while (++i < WIN_HEIGHT + 1)
+	{
+		costyl[i] = rt_safe_malloc((WIN_WIDTH ) * sizeof(SDL_Color));
+	}
+
+	surface = SDL_CreateRGBSurfaceWithFormat(0, WIN_WIDTH, WIN_HEIGHT, 32, format);
+	SDL_RenderReadPixels(g_sdl.rend, NULL, format, surface->pixels, surface->pitch);
+//	color_map = (SDL_Color *)rt_safe_malloc(WIN_WIDTH * WIN_HEIGHT * sizeof(SDL_Color));
+//	color_map = (SDL_Color *)surface->pixels;
+	color_map = get_pixels_from_surface();
+	i = 0;
+	while (i < WIN_HEIGHT)
+	{
+		j = 0;
+		while (j < WIN_WIDTH)
+		{
+			costyl[i][j] = color_map[i * WIN_WIDTH + j];
+			j++;
+		}
+		i++;
+	}
+
+
 	file = name_generator();
-	stbi_write_png(file, WIN_WIDTH, WIN_HEIGHT, 1, (uint32_t *)surface->pixels, WIN_WIDTH);
+	stbi_write_png(file, WIN_WIDTH, WIN_HEIGHT, 1, color_map, WIN_WIDTH);
 	ft_strdel(&file);
 }
+
+//void	create_fucking_
