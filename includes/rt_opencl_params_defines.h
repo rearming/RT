@@ -13,7 +13,7 @@
 **	cl_mem buffers
 */
 
-typedef enum	e_cl_mem_types
+enum	e_cl_mem_types
 {
 	RT_CL_MEM_CAMERA = 0,
 	RT_CL_MEM_RAYS_BUFFER,
@@ -54,7 +54,26 @@ typedef enum	e_cl_mem_types
 	RT_CL_MEM_MAIN_FLOAT3_IMG_DATA,
 	RT_CL_MEM_RENDERER_PARAMS,
 	RT_CL_MEM_LIGHT_INTENSITY_BUFFER,
-}				t_cl_mem_types;
+};
+
+struct			s_kernels_info
+{
+	char		*kernel_path;
+	char		*kernel_name;
+};
+
+enum			e_wavefront_kernels
+{
+	RT_KERNEL_GENERATE_PRIMARY_RAYS = 0,
+	RT_KERNEL_FIND_INTERSECTIONS,
+	RT_KERNEL_MATERIAL_COMPUTE_LIGHT,
+	RT_KERNEL_MATERIAL_SHADE,
+	RT_KERNEL_TEXTURE_SHADE,
+	RT_KERNEL_SKYBOX_SHADE,
+	RT_KERNEL_MATERIAL_FILL_IMG_DATA,
+	RT_KERNEL_TEXTURE_FILL_IMG_DATA,
+	RT_KERNEL_SKYBOX_FILL_IMG_DATA,
+};
 
 /*
 ** Kernel types

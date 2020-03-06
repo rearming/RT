@@ -35,7 +35,7 @@ __kernel void		kernel_material_shade(
 
 		__global __write_only t_ray *out_rays_buffer, //общий для всех буфер лучей
 		__global __write_only int *out_rays_pixel_indices,
-		__global __write_only int *out_rays_buffer_len, // offset для записи новых лучей в texture_shade
+		__global __write_only uint *out_rays_buffer_len, // offset для записи новых лучей в texture_shade
 
 		__global float3 *temp_float3_img_data, //для pathtrace
 		__global __write_only int *img_data // test img buf
@@ -66,8 +66,9 @@ __kernel void		kernel_material_shade(
 
 	if (ray_has_energy(&new_ray)) // если генерируем новый луч
 	{
-		out_rays_pixel_indices[g_id] = pixel_index;
-		out_rays_buffer[g_id] = new_ray; // в текструрном будет с offset = out_rays_buffer_len
-		atomic_inc(out_rays_buffer_len);
+//		printf("energy : %f %f %f\n", new_ray.energy.x, new_ray.energy.y, new_ray.energy.z);
+		uint cached_buffer_len = atomic_inc(out_rays_buffer_len);
+		out_rays_pixel_indices[cached_buffer_len] = pixel_index;
+		out_rays_buffer[cached_buffer_len] = new_ray; // в текструрном будет с offset = out_rays_buffer_len
 	}
 }

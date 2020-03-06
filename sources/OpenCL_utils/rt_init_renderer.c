@@ -62,12 +62,14 @@ t_rt_renderer		*rt_create_renderer(uint32_t flags)
 	new_renderer->primary_img = NULL;
 	new_renderer->rays_buffer = NULL;
 	rt_init_renderer_params(&new_renderer->params);
-	rt_opencl_create_kernel(IMG_GEN_KERNEL_PATH, IMG_GEN_KERNEL_NAME, compile_options,
-			&new_renderer->img_gen_kernel, &new_renderer->img_gen_program);
-	rt_opencl_create_kernel(RAYS_GEN_KERNEL_PATH, RAYS_GEN_KERNEL_NAME, compile_options,
-			&new_renderer->ray_gen_kernel, &new_renderer->ray_gen_program);
+	rt_opencl_create_kernel(IMG_GEN_KERNEL_PATH, IMG_GEN_KERNEL_NAME,
+			compile_options,
+			&new_renderer->img_gen_kernel);
+	rt_opencl_create_kernel(RAYS_GEN_KERNEL_PATH, RAYS_GEN_KERNEL_NAME,
+			compile_options,
+			&new_renderer->ray_gen_kernel);
 	rt_opencl_create_kernel(MAIN_KERNEL_PATH, MAIN_KERNEL_NAME, compile_options,
-			&new_renderer->main_kernel, &new_renderer->main_program);
+			&new_renderer->main_kernel);
 	free(compile_options);
 	return (new_renderer);
 }

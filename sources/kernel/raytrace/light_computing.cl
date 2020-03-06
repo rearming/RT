@@ -60,7 +60,7 @@ bool				find_any_intersection(
 
 #ifdef RENDER_MESH
 	closest_polygon_index = kd_tree_traverse(kd_info, kd_tree, kd_indices, polygons, vertices, v_normals, ray, out_best_hit);
-	return (isset(closest_obj_index) || isset(closest_polygon_index) && get_polygon_material(meshes_info, polygons, closest_polygon_index).transmittance <= 0);
+	return isset(closest_obj_index) || (isset(closest_polygon_index) && get_polygon_material(meshes_info, polygons, closest_polygon_index).transmittance <= 0);
 
 #endif
 	return isset(closest_obj_index);

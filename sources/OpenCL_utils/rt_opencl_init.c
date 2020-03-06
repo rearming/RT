@@ -4,25 +4,25 @@
 void rt_opencl_create_kernel(const char *kernel_path,
 							 const char *kernel_name,
 							 const char *compile_options,
-							 cl_kernel *out_kernel,
-							 cl_program *out_program)
+							 cl_kernel *out_kernel)
 {
 	static size_t	size = 0;
 	char			*opencl_kernel_code;
 	int				err;
+	cl_program		program;
 
 //	if (!opencl_kernel_code) //кешировать kernel код
 	opencl_kernel_code = get_opencl_kernel_code_text(kernel_path, &size);
-	*out_program = clCreateProgramWithSource(g_opencl.context, 1,
+	program = clCreateProgramWithSource(g_opencl.context, 1,
 			(const char **)&opencl_kernel_code, &size, &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_PROGRAM, err);
 	if ((err = clBuildProgram(
-			*out_program, 1, &g_opencl.device_id, compile_options, NULL, NULL)))
+			program, 1, &g_opencl.device_id, compile_options, NULL, NULL)))
 	{
-		print_cl_build_program_debug(*out_program);
+		print_cl_build_program_debug(program);
 		rt_raise_error(ERR_OPENCL_BUILD_PROGRAM);
 	}
-	*out_kernel = clCreateKernel(*out_program, kernel_name, &err);
+	*out_kernel = clCreateKernel(program, kernel_name, &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_KERNEL, err);
 	free(opencl_kernel_code);
 	free((char*)compile_options); //todo remove

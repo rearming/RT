@@ -24,11 +24,10 @@ void			rt_opencl_handle_error(
 		const char *rt_err_str,
 		int opencl_err_code);
 
-void			rt_opencl_create_kernel(const char *kernel_path,
+void rt_opencl_create_kernel(const char *kernel_path,
 							 const char *kernel_name,
 							 const char *compile_options,
-							 cl_kernel *out_kernel,
-							 cl_program *out_program);
+							 cl_kernel *out_kernel);
 t_rt_renderer	*rt_get_renderer(uint32_t flags);
 
 char			*rt_get_kernel_compile_options(uint32_t flags);
