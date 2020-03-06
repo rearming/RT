@@ -57,7 +57,8 @@ __kernel void		kernel_find_intersections(
 
 	__global __write_only int *skybox_hit_pixel_indices,
 	__global __write_only t_ray *skybox_hit_rays_buffer,
-	__global uint *skybox_hit_buffers_len
+	__global uint *skybox_hit_buffers_len,
+	__global __write_only int *img_data
 	)
 {
 #ifndef RENDER_MESH
@@ -84,7 +85,7 @@ __kernel void		kernel_find_intersections(
 	{
 		if (objects[closest_obj_index].material.texture_number >= 0)
 		{
-			atomic_inc(texture_buffers_len);
+			uint cached_buffer_len = atomic_inc(texture_buffers_len);
 
 			texture_hit_obj_indices[g_id] = closest_obj_index;
 			texture_hit_polygon_indices[g_id] = closest_polygon_index;
@@ -93,12 +94,12 @@ __kernel void		kernel_find_intersections(
 		}
 		else // объект без текстуры
 		{
-			atomic_inc(material_buffers_len);
+			uint cached_buffer_len = atomic_inc(material_buffers_len);
 
-			material_hit_obj_indices[g_id] = closest_obj_index /*closest_obj_index*/ /* prev_pixel_indices[g_id]*/;
-			material_hit_polygon_indices[g_id] = closest_polygon_index;
-			new_material_pixel_indices[g_id] = prev_pixel_indices[g_id];
-			material_rays_hit_buffer[g_id] = best_hit;
+			material_hit_obj_indices[cached_buffer_len] = closest_obj_index /*closest_obj_index*/ /* prev_pixel_indices[g_id]*/;
+			material_hit_polygon_indices[cached_buffer_len] = closest_polygon_index;
+			new_material_pixel_indices[cached_buffer_len] = prev_pixel_indices[g_id];
+			material_rays_hit_buffer[cached_buffer_len] = best_hit;
 		}
 	}
 	else if (isset(closest_polygon_index))
@@ -107,7 +108,7 @@ __kernel void		kernel_find_intersections(
 
 		if (polygon_material.texture_number >= 0)
 		{
-			atomic_inc(texture_buffers_len);
+			uint cached_buffer_len = atomic_inc(texture_buffers_len);
 
 			texture_hit_obj_indices[g_id] = closest_obj_index;
 			texture_hit_polygon_indices[g_id] = closest_polygon_index;
@@ -116,19 +117,20 @@ __kernel void		kernel_find_intersections(
 		}
 		else // объект без текстуры
 		{
-			atomic_inc(material_buffers_len);
+			uint cached_buffer_len = atomic_inc(material_buffers_len);
 
-			material_hit_obj_indices[g_id] = closest_obj_index;
-			material_hit_polygon_indices[g_id] = closest_polygon_index;
-			new_material_pixel_indices[g_id] = prev_pixel_indices[g_id];
-			material_rays_hit_buffer[g_id] = best_hit;
+//			img_data[prev_pixel_indices[g_id]] = get_int_color(polygon_material.diffuse);
+			material_hit_obj_indices[cached_buffer_len] = closest_obj_index;
+			material_hit_polygon_indices[cached_buffer_len] = closest_polygon_index;
+			new_material_pixel_indices[cached_buffer_len] = prev_pixel_indices[g_id];
+			material_rays_hit_buffer[cached_buffer_len] = best_hit;
 		}
 	}
 	else // луч промахнулся, запускаем скайбокс
 	{
-		atomic_inc(skybox_hit_buffers_len);
+		uint cached_buffer_len = atomic_inc(skybox_hit_buffers_len);
 
-		skybox_hit_pixel_indices[g_id] = prev_pixel_indices[g_id];
-		skybox_hit_rays_buffer[g_id] = rays_buffer[g_id];
+		skybox_hit_pixel_indices[cached_buffer_len] = prev_pixel_indices[g_id];
+		skybox_hit_rays_buffer[cached_buffer_len] = rays_buffer[g_id];
 	}
 }

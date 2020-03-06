@@ -96,6 +96,8 @@ void kernel_find_intersections(t_rt *rt,
 	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_SKYBOX_HIT_RAYS_BUFFER].mem);
 	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_SKYBOX_HIT_BUFFERS_LEN].mem);
 
+	err |= clSetKernelArg(kernel, arg_num++, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[RT_CL_MEM_INT_IMG].mem);
+
 	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 
 
@@ -335,8 +337,8 @@ void 		render_wavefront(void *rt_ptr)
 			find_intersection_kernel, WIN_WIDTH * WIN_HEIGHT,
 			&kernel_work_sizes);
 
-	printf("kernel new work sizes: material: [%u], texture: [%u], skybox: [%u]\n",
-			kernel_work_sizes.materials, kernel_work_sizes.textures, kernel_work_sizes.skybox);
+//	printf("kernel new work sizes: material: [%u], texture: [%u], skybox: [%u]\n",
+//			kernel_work_sizes.materials, kernel_work_sizes.textures, kernel_work_sizes.skybox);
 
 	static cl_program	raytrace_material_compute_light_program;
 	static cl_kernel	raytrace_material_compute_light_kernel;
