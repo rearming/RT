@@ -24,7 +24,15 @@ bool		handle_button(t_transform *btn, t_rt *rt)
 	}
 	else if (btn->type & SCREENSHOT)
 	{
-		create_screenshot();
+
+		if (SCREENSHOT_FORMAT == BMP)
+			create_screenshot_bmp();
+		else if (SCREENSHOT_FORMAT == PNG)
+			create_screenshot_png();
+		else if (SCREENSHOT_FORMAT == JPG)
+			create_screenshot_jpg();
+		else
+			create_screenshot_bmp();
 		return (true);
 	}
 	else if (btn->type & PANEL)

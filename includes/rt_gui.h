@@ -11,6 +11,8 @@
 # include "rt_gui_errors.h"
 # include "rt_gui_structs.h"
 
+
+
 typedef struct s_rt t_rt;
 typedef struct s_sdl t_sdl;
 
@@ -53,14 +55,17 @@ void		render_all_buttons(void);
 */
 
 void		change_render_algo(short algo, t_rt *rt);
-void		create_screenshot(void);
+void		create_screenshot_bmp(void);
+void		create_screenshot_png(void);
+void		create_screenshot_jpg(void);
 bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt);
 
 /*
 ** Utils
 */
 
-
+char 		*name_generator(char *ext);
+SDL_Rect	get_window_data(void);
 SDL_Color	get_color_from_hex(unsigned int hex);
 SDL_Color	get_rgba_from_hex(unsigned int hex);
 

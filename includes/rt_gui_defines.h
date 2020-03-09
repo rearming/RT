@@ -47,6 +47,11 @@
 #define RT_WIN_ID 1
 #define GUI_WIN_ID 2
 
+# define BMP 1
+# define JPG 2
+# define PNG 3
+# define SCREENSHOT_FORMAT PNG
+
 # define ACTIVATE 1
 
 # define ARIZONIA_REGULAR_FONT              "assets/Fonts/Arizonia-Regular.ttf"
