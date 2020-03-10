@@ -91,7 +91,7 @@ void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 	const char *tmp_value;
 
 	tmp_value = json_string_value(value);
-	if (tmp->structure_type == RENDER_PARAMETERS)
+	if (tmp->structure_type == RENDER_PARAMS)
 	{
 		if (ft_strequ(key, "render algorithm") &&
 		(ft_strequ(tmp_value, "pathtrace") || ft_strequ(tmp_value, "raytrace")))
@@ -99,13 +99,12 @@ void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 				*renderer_flags | RENDER_PATHTRACE :
 				*renderer_flags | RENDER_RAYTRACE;
 		else if (ft_strequ(key, "texture") && tmp->type == SKYBOX)
-			{
-				if(g_textures.skybox_info->skybox_exist == true)
-					rt_raise_error(ERR_PRSING_DUPLICATED_SKYBOX);
-				g_textures.skybox_info->skybox_exist = true;
-				g_textures.skybox_info->skybox_name = ft_strdup(tmp_value);
-				printf("%s\n", g_textures.skybox_info->skybox_name);
-			}
+		{
+			if (g_textures.skybox_info->skybox_exist == true)
+				rt_raise_error(ERR_PRSING_DUPLICATED_SKYBOX);
+			g_textures.skybox_info->skybox_exist = true;
+			g_textures.skybox_info->skybox_name = ft_strdup(tmp_value);
+		}
 		else if (ft_strequ(key, "file"))
 			tmp->file = ft_strdup(tmp_value);
 		else if (ft_strequ(key, "directory"))

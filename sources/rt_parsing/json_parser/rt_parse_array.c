@@ -78,7 +78,8 @@ static void	add_elements_in_array(t_tmp *tmp, int type_of_element,
 		add_elements_in_array_material(tmp, type_of_element, value);
 }
 
-static void	parse_array_of_objects(t_tmp *tmp, int type_of_element, json_t *value,
+static void	parse_array_of_objects(t_tmp *tmp, int type_of_element,
+		json_t *value,
 		uint32_t *renderer_flags)
 {
 	int i;

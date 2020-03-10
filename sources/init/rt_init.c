@@ -22,7 +22,6 @@ void		rt_init(t_rt *out_rt, const char *json_scene_file)
 #endif
 	out_rt->renderer_flags = 0 | RENDER_OBJECTS;
 	out_rt->scene = rt_parse_scene(json_scene_file, &out_rt->renderer_flags);
-	//printf("obj_file %s\n", obj_file);
 	if (g_textures.texture_info_size > 0)
 		rt_textures_init();
 	if (g_textures.skybox_info->skybox_exist == true)

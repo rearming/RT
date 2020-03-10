@@ -36,7 +36,7 @@ void	parse_json_file(json_t *root, t_tmp *tmp, uint32_t *renderer_flags)
 	}
 }
 
-t_scene rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags)
+t_scene	rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags)
 {
 	t_scene			scene;
 	char			*text;
@@ -52,11 +52,8 @@ t_scene rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags)
 	root = json_loads(text, 0, &error);
 	parse_json_file(root, tmp, renderer_flags);
 	count_elements(&scene, tmp);
-	//print_tmp(tmp);
 	add_elements(&scene, tmp);
-	//print_textures();
 	json_decref(root);
 	free(text);
-	//print_scene(&scene);
 	return (scene);
 }

@@ -48,6 +48,7 @@ set(parsing_sources
         sources/rt_parsing/rt_parse_scene.c
         sources/rt_parsing/json_parser/rt_add_to_scene.c
         sources/rt_parsing/json_parser/rt_json_utils.c
+        sources/rt_parsing/json_parser/rt_json_utils2.c
         sources/rt_parsing/json_parser/rt_parse_array.c
         sources/rt_parsing/json_parser/rt_parse_boolean.c
         sources/rt_parsing/json_parser/rt_parse_object.c

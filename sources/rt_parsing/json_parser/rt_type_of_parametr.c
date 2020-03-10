@@ -89,12 +89,12 @@ int			ft_type_of_structure(const char *param, int structure_type)
 	else if (ft_strequ(param, "camera"))
 		return (CAMERA);
 	else if (ft_strequ(param, "render parameters"))
-		return (RENDER_PARAMETERS);
+		return (RENDER_PARAMS);
 	else if (ft_strequ(param, "scene parameters"))
-		return (SCENE_PARAMETERS);
+		return (SCENE_PARAMS);
 	else if (structure_type == OBJECT && ft_strequ(param, "material"))
 		return (MATERIAL);
-	else if (structure_type == RENDER_PARAMETERS)
+	else if (structure_type == RENDER_PARAMS)
 	{
 		if (ft_strequ(param, "pathtrace"))
 			return (PATHTRACE);

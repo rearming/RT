@@ -81,8 +81,8 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 		scene->lights_nbr += (tmp_iter->structure_type == LIGHT) ? 1 : 0;
 		scene->obj_nbr += (tmp_iter->structure_type == OBJECT) ? 1 : 0;
 		check_param += (tmp_iter->structure_type == CAMERA) ? 1 : 0;
-		check_param += (tmp_iter->structure_type == RENDER_PARAMETERS) ? 10 : 0;
-		check_param += (tmp_iter->structure_type == SCENE_PARAMETERS) ? 100 : 0;
+		check_param += (tmp_iter->structure_type == RENDER_PARAMS) ? 10 : 0;
+		check_param += (tmp_iter->structure_type == SCENE_PARAMS) ? 100 : 0;
 		tmp_iter = tmp_iter->next;
 	}
 	while (texture_iter)
@@ -90,15 +90,6 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 		g_textures.texture_info_size++;
 		texture_iter = texture_iter->next;
 	}
-	//printf("check_param %i\n", check_param);
 	if (check_param != 111)
 		rt_raise_error(ERR_PARSING_SCENE_NOT_SPECIFIED);
-}
-
-void		check_duplicated(bool *checker, int number)
-{
-	if (checker[number] == true)
-		rt_raise_error(ERR_PARSING_DUPLICATED_PARAM);
-	else
-		checker[number] = true;
 }

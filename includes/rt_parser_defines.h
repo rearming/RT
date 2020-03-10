@@ -4,8 +4,8 @@
 # define CAMERA 10
 # define LIGHT 20
 # define OBJECT 30
-# define RENDER_PARAMETERS 40
-# define SCENE_PARAMETERS 50
+# define RENDER_PARAMS 40
+# define SCENE_PARAMS 50
 
 # define PATHTRACE 1
 # define RAYTRACE 2
