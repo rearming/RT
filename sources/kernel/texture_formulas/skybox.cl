@@ -4,21 +4,21 @@ float3		skybox_color(
 		float3 normal)
 {
 	float3	color;
-	double	u;
+	float	u;
 	int		x;
-	double	v;
+	float	v;
 	int		y;
 	int		coord;
 
 	u = atan2(normal.x, normal.z);
-	if (u < 0)
-		u += 2 * M_PI_F;
-	u *= M_1_PI_F / 2;
-	x = (int)((texture_info->width - 1) * u);
-	x = check_borders(x, texture_info->width - 1, 0);
-	v = 0.5 - asin(normal.y) * M_1_PI_F;
-	y = (int)(v * (texture_info->height - 1));
-	y = check_borders(y, texture_info->height - 1, 0);
+	if (u < 0.0f)
+		u += 2.0f * M_PI_F;
+	u *= M_1_PI_F / 2.0f;
+	x = (int)((texture_info->width - 1.0f) * u);
+	x = check_borders(x, texture_info->width - 1.0f, 0.0f);
+	v = 0.5f - asin(normal.y) * M_1_PI_F;
+	y = (int)(v * (texture_info->height - 1.0f));
+	y = check_borders(y, texture_info->height - 1.0f, 0.0f);
 	coord = x + y * texture_info->width + texture_info->start;
 	change_format((int)texture_list[coord], &color);
 	return (color);
@@ -31,12 +31,12 @@ float 		scale(t_ray ray, float skybox_radius)
 	float	a;
 
 	a = dot(ray.dir, ray.dir);
-	discriminant = 4.0 * a * skybox_radius * skybox_radius;
-	if (discriminant < 0.0)
+	discriminant = 4.0f * a * skybox_radius * skybox_radius;
+	if (discriminant < 0.0f)
 	{
-		return (-1.0);
+		return (-1.0f);
 	}
-	scale = sqrt(discriminant) / (2.0 * a);
+	scale = sqrt(discriminant) / (2.0f * a);
 	return (scale);
 
 }
@@ -44,7 +44,7 @@ float 		scale(t_ray ray, float skybox_radius)
 float3		skybox_normal(t_ray ray)
 {
 	float3 normal;
-	float3 point = (float3)(0.0);
+	float3 point = (float3)(0.0f);
 
 	point = ray.origin + ray.dir * scale(ray, 1);
 	normal = normalize(point - ray.origin);

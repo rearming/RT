@@ -18,14 +18,14 @@ bool				ray_triangle_intersect_MT(
 		return false;
 #endif
 
-	float 	inverse_determinant = 1 / determinant;
+	float 	inverse_determinant = 1.0f / determinant;
 	float3	tvec = ray->origin - triangle->vertices[0];
 	float	u = dot(tvec, plane_vec) * inverse_determinant;
-	if (u < 0 || u > 1)
+	if (u < 0.0f || u > 1.0f)
 		return false;
 	float3	qvec = cross(tvec, v0v1);
 	float 	v = dot(ray->dir, qvec) * inverse_determinant;
-	if (v < 0 || u + v > 1)
+	if (v < 0.0f || u + v > 1.0f)
 		return false;
 
 	float	intersect_dist = dot(v0v2, qvec) * inverse_determinant;
@@ -60,14 +60,14 @@ bool				ray_triangle_intersect_MT_polygon(
 		return false;
 #endif
 
-	float 	inverse_determinant = 1 / determinant;
+	float 	inverse_determinant = 1.0f / determinant;
 	float3	tvec = ray->origin - v0;
 	float	u = dot(tvec, plane_vec) * inverse_determinant;
-	if (u < 0 || u > 1)
+	if (u < 0.0f || u > 1.0f)
 		return false;
 	float3	qvec = cross(tvec, v0v1);
 	float 	v = dot(ray->dir, qvec) * inverse_determinant;
-	if (v < 0 || u + v > 1)
+	if (v < 0.0f || u + v > 1.0f)
 		return false;
 
 	float	intersect_dist = dot(v0v2, qvec) * inverse_determinant;

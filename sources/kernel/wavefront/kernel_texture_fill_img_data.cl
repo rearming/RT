@@ -7,12 +7,12 @@
 #include "color_utils.cl"
 
 __kernel void	kernel_texture_fill_img_data(
-		__global __read_only const int *texture_pixel_indices,
+		__global const int *texture_pixel_indices,
 
-		__global __read_only const t_renderer_params *params,
-		__global __read_only const float3 *temp_float3_img_data,
-		__global __read_only const float3 *main_float3_img_data,
-		__global __write_only int *img_data)
+		__global const t_renderer_params *params,
+		__global const float3 *temp_float3_img_data,
+		__global const float3 *main_float3_img_data,
+		__global int *img_data)
 {
 	int			g_id = get_global_id(0);
 	int			pixel_index = texture_pixel_indices[g_id];

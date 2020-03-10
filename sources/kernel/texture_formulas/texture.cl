@@ -23,14 +23,14 @@ float3 texture(t_ray *out_ray,
 	float3	color;
 
 	u = atan2(hit->normal.x, hit->normal.z) + object->material.texture_position.x;
-	if (u < 0)
-		u += 2 * M_PI_F;
-	u *= M_1_PI_F / 2;
-	x = (int)((texture_info->width - 1) * u);
-	x = check_borders(x, texture_info->width - 1, 1);
-	v = 0.5 - asin(hit->normal.y) * M_1_PI_F + object->material.texture_position.y;
-	y = (int)(v * (texture_info->height - 1));
-	y = check_borders(y, texture_info->height - 1, 1);
+	if (u < 0.0f)
+		u += 2.0f * M_PI_F;
+	u *= M_1_PI_F / 2.0f;
+	x = (int)((texture_info->width - 1.0f) * u);
+	x = check_borders(x, texture_info->width - 1.0f, 1.0f);
+	v = 0.5f - asin(hit->normal.y) * M_1_PI_F + object->material.texture_position.y;
+	y = (int)(v * (texture_info->height - 1.0f));
+	y = check_borders(y, texture_info->height - 1.0f, 1.0f);
 	coord = x + y * texture_info->width + texture_info->start;
 	change_format((int)texture_list[coord], &color);
 	return (color);

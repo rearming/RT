@@ -83,8 +83,11 @@
 */
 
 #define RAYS_CHUNK_SIZE 9
+#ifndef M_PI
+# define M_PI 3.14159265358979323846f
+#endif
 
-# define M_PI_180 (M_PI / 180)
+# define M_PI_180 (M_PI / 180.0f)
 # define NOT_SET (-1)
 
 # ifndef UINT_MAX

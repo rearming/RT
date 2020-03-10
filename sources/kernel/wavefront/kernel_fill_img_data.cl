@@ -7,10 +7,10 @@
 #include "color_utils.cl"
 
 __kernel void	kernel_fill_img_data(
-		__global __read_only const t_renderer_params *params,
-		__global __read_only const float3 *temp_float3_img_data,
+		__global const t_renderer_params *params,
+		__global const float3 *temp_float3_img_data,
 		__global float3 *main_float3_img_data,
-		__global __write_only int *img_data)
+		__global int *img_data)
 {
 	int			g_id = get_global_id(0);
 	float3		prev_color = main_float3_img_data[g_id];

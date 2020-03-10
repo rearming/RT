@@ -16,7 +16,7 @@ int		ray_mesh_intersect(
 				vertices[polygons[i].vert_i[1]],
 				vertices[polygons[i].vert_i[2]],
 				v_normals[polygons[i].vnorm_i],
-				0, 0, 0, /// текстурных вертексов пока нет
+				0.0f, 0.0f, 0.0f, /// текстурных вертексов пока нет
 				ray, out_best_hit))
 			closest_polygon_index = i;
 	}

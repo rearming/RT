@@ -1,8 +1,8 @@
 void		create_coordinate_system(float3 normal, float3 *normal_x, float3 *normal_z)
 {
 	*normal_x = fabs(normal.x) > fabs(normal.y)
-				? fast_normalize((float3)(normal.z, 0, -normal.x))
-				: fast_normalize((float3)(0, -normal.z, normal.y));
+				? fast_normalize((float3)(normal.z, 0.0f, -normal.x))
+				: fast_normalize((float3)(0.0f, -normal.z, normal.y));
 	*normal_z = cross(normal, *normal_x);
 }
 
@@ -10,7 +10,7 @@ float3		sample_hemisphere(float *seed, float2 pixel_seed, float phong_alpha)
 {
 	float	cos_theta = pow(rt_randf(seed, pixel_seed), 1.0f / (phong_alpha + 1.0f));
 	float	sin_theta = sqrt(1.0f - cos_theta * cos_theta);
-	float	phi = 2 * M_PI * rt_randf(seed, pixel_seed);
+	float	phi = 2.0f * M_PI * rt_randf(seed, pixel_seed);
 
 	float3	sample = (float3)(cos(phi) * sin_theta, sin(phi) * sin_theta, cos_theta);
 	return sample.xzy; /// у в координатной системе вверх направлена ось Y, а не Z

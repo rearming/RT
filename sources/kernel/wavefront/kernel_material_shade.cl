@@ -21,21 +21,21 @@
 __kernel void		kernel_material_shade(
 		__global const t_renderer_params *params,
 
-		__global __read_only const t_object *objects,
-		__global __read_only const t_mesh_info *meshes_info,
-		__global __read_only const t_polygon *polygons,
+		__global const t_object *objects,
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
 
-		__global __read_only const float *raytrace_light_intensity_buffer,
-		__global __read_only const int *material_hit_obj_indices,
-		__global __read_only const int *material_hit_polygon_indices,
-		__global __read_only const int *material_pixel_indices,
-		__global __read_only const t_rayhit *material_rays_hit_buffer,
+		__global const float *raytrace_light_intensity_buffer,
+		__global const int *material_hit_obj_indices,
+		__global const int *material_hit_polygon_indices,
+		__global const int *material_pixel_indices,
+		__global const t_rayhit *material_rays_hit_buffer,
 
-		__global __read_only const t_ray *prev_rays_buffer,
+		__global const t_ray *prev_rays_buffer,
 
-		__global __write_only t_ray *out_rays_buffer, //общий для всех буфер лучей
-		__global __write_only int *out_rays_pixel_indices,
-		__global __write_only uint *out_rays_buffer_len, // offset для записи новых лучей в texture_shade
+		__global t_ray *out_rays_buffer, //общий для всех буфер лучей
+		__global int *out_rays_pixel_indices,
+		__global uint *out_rays_buffer_len, // offset для записи новых лучей в texture_shade
 
 		__global float3 *temp_float3_img_data)
 {

@@ -8,7 +8,7 @@
 #include "math_utils.cl"
 #include "utils.cl"
 
-float3		sobel_get_pixel(__global __read_only const int *img, int x, int y)
+float3		sobel_get_pixel(__global const int *img, int x, int y)
 {
 	if (x >= 0 && y >= 0 && x < WIN_WIDTH && y < WIN_HEIGHT)
 	{
@@ -18,7 +18,7 @@ float3		sobel_get_pixel(__global __read_only const int *img, int x, int y)
 	return 0;
 }
 
-float		sobel_get_weight_x(__global __read_only const int *img, int img_x, int img_y)
+float		sobel_get_weight_x(__global const int *img, int img_x, int img_y)
 {
 	const float		kernel_x[3][3] = {
 			{-1, 0, +1},
@@ -46,7 +46,7 @@ float		sobel_get_weight_x(__global __read_only const int *img, int img_x, int im
 	return fabs(result.x) + fabs(result.y) + fabs(result.z);
 }
 
-float		sobel_get_weight_y(__global __read_only const int *img, int img_x, int img_y)
+float		sobel_get_weight_y(__global const int *img, int img_x, int img_y)
 {
 	const float		kernel_y[3][3] = {
 			{+1, +2, +1},
@@ -77,9 +77,9 @@ float		sobel_get_weight_y(__global __read_only const int *img, int img_x, int im
 #define SOBEL_THRESHOLD 100
 
 __kernel void		rays_gen(
-	__global __read_only t_scene *scene,
-	__global __read_only int *img_data,
-	__global __write_only t_ray *rays)
+	__global t_scene *scene,
+	__global int *img_data,
+	__global t_ray *rays)
 {
 	int3		img_point = (int3)(get_global_id(0), get_global_id(1), 0);
 	int			g_id = img_point.x + img_point.y * WIN_WIDTH;

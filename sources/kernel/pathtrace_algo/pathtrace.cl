@@ -18,14 +18,14 @@ float3		pathtrace(
 		float *seed,
 		float2 pixel)
 {
-	float3		result_color = (float3)(0);
-	t_rayhit	hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
+	float3		result_color = (float3)(0.0f);
+	t_rayhit	hit = (t_rayhit){(float3)(0.0f), INFINITY, (float3)(0.0f)};
 	int			closest_obj_index;
 	int			closest_polygon_index;
 
 	for (int i = 0; i < params->pathtrace_params.max_depth; ++i)
 	{
-		hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
+		hit = (t_rayhit){(float3)(0.0f), INFINITY, (float3)(0.0f)};
 		closest_intersection(scene, objects, kd_info, kd_tree, kd_indices,
 				polygons, vertices, v_normals, &ray, &hit, &closest_polygon_index, &closest_obj_index);
 
@@ -47,7 +47,7 @@ float3		pathtrace(
 #else
 			result_color += ray.energy * get_float3_color(COL_BG);
 #endif
-			ray.energy = 0;
+			ray.energy = 0.0f;
 		}
 		if (!ray_has_energy(&ray))
 			break;

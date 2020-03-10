@@ -7,8 +7,8 @@
 #include "color_utils.cl"
 
 __kernel void		kernel_skybox_shade(
-		__global __read_only const int *skybox_hit_pixel_indices,
-		__global __read_only const t_ray *skybox_hit_rays_buffer,
+		__global const int *skybox_hit_pixel_indices,
+		__global const t_ray *skybox_hit_rays_buffer,
 
 		__global float3 *temp_float3_img_data)
 {

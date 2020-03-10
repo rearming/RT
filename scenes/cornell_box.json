@@ -1,5 +1,5 @@
 {
-  "open cl parameters": "RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_MESH | RENDER_BACKFACE_CULLING",
+  "open cl parameters": "RENDER_PATHTRACE | RENDER_OBJECTS | RENDER_MESH | RENDER_BACKFACE_CULLING",
   "objects": [
     {
       "type": "plane",
@@ -72,7 +72,7 @@
     }
   ],
   "camera": {
-    "pos": [-0.2, 1.2, -7],
+    "pos": [-0.2, 0, -14],
     "rotation": [0, 0, 0]
   },
   "light":

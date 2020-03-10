@@ -11,7 +11,7 @@ float3		shade_raytrace(
 {
 	float3	diffuse_color = material->diffuse;
 
-	if (material->transmittance <= 0) // if not transmit
+	if (material->transmittance <= 0.0f) // if not transmit
 	{
 //#ifdef RENDER_TEXTURES
 //		if (material->texture_number != NOT_SET)
@@ -31,5 +31,5 @@ float3		shade_raytrace(
 //	if (material->texture_number != NOT_SET)
 //		return diffuse_color;
 //#endif
-	return material->emission_power > 0 ? material->emission_color : diffuse_color;
+	return material->emission_power > 0.0f ? material->emission_color : diffuse_color;
 }

@@ -16,7 +16,7 @@ void		calc_refraction_pathtrace(
 		ray->dir = rand_dir_on_hemisphere(refract_dir, seed, pixel_seed, phong_alpha);
 	else
 		ray->dir = refract_dir;
-	ray->energy *= (1.f / chance) * color;
+	ray->energy *= (1.0f / chance) * color;
 }
 
 void		calc_reflection_pathtrace(
@@ -29,7 +29,7 @@ void		calc_reflection_pathtrace(
 		float chance)
 {
 	const float		phong_alpha = material->smoothness;
-	const float		phong_math_coeff = (phong_alpha + 2) / (phong_alpha + 1);
+	const float		phong_math_coeff = (phong_alpha + 2.0f) / (phong_alpha + 1.0f);
 	const float3	reflect_dir = reflect(ray->dir, hit->normal);
 
 	ray->origin = hit->pos + hit->normal * RT_EPSILON;
@@ -61,9 +61,9 @@ float3		shade_pathtrace(
 	const float		surface_chance = rt_randf(seed, pixel_seed);
 	const float		transmit_chance = rt_randf(seed, pixel_seed);
 
-	if (material->emission_power > 0)
+	if (material->emission_power > 0.0f)
 	{
-		ray->energy = 0;
+		ray->energy = 0.0f;
 		return material->emission_color * material->emission_power;
 	}
 	if (surface_chance < specular_chance)
@@ -87,8 +87,8 @@ float3		shade_pathtrace(
 		{
 			ray->origin = hit->pos + hit->normal * RT_EPSILON;
 			ray->dir = rand_dir_on_hemisphere(hit->normal, seed, pixel_seed, LAMBERT_ALPHA);
-			ray->energy *= (1.f / diffuse_chance) * material->diffuse;
+			ray->energy *= (1.0f / diffuse_chance) * material->diffuse;
 		}
 	}
-	return 0;
+	return 0.0f;
 }

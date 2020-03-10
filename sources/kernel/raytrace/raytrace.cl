@@ -25,7 +25,7 @@ float3		raytrace(
 
 	for (int i = 0; i < params->raytrace_params.max_depth; ++i)
 	{
-		best_hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
+		best_hit = (t_rayhit){(float3)(0.0f), INFINITY, (float3)(0.0f)};
 		closest_intersection(scene, objects, kd_info, kd_tree, kd_indices, polygons, vertices, v_normals, &ray, &best_hit, &closest_polygon_index, &closest_obj_index);
 
 		t_material	hit_material;
@@ -42,7 +42,7 @@ float3		raytrace(
 #else
 			result_color += ray.energy * get_float3_color(COL_BG);
 #endif
-			ray.energy = 0;
+			ray.energy = 0.0f;
 		}
 		if (!ray_has_energy(&ray))
 			break;

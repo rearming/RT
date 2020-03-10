@@ -41,32 +41,32 @@
 # endif
 
 __kernel void	rt_main(
-    __global __read_only const t_scene *scene,
+    __global const t_scene *scene,
 #ifdef RENDER_OBJECTS
-    __global __read_only const t_object *objects,
+    __global const t_object *objects,
 #endif
-	__global __read_only const t_light *lights,
-    __global __read_only const t_renderer_params *params,
+	__global const t_light *lights,
+    __global const t_renderer_params *params,
 #ifdef RENDER_MESH
-	__global __read_only const t_kd_info *kd_info,
-	__global __read_only const t_kd_arr_tree *kd_tree,
-	__global __read_only const int *kd_indices,
-	__global __read_only const t_mesh_info *meshes_info,
-    __global __read_only const t_polygon *polygons,
-	__global __read_only const float3 *vertices,
-	__global __read_only const float3 *v_normals,
+	__global const t_kd_info *kd_info,
+	__global const t_kd_arr_tree *kd_tree,
+	__global const int *kd_indices,
+	__global const t_mesh_info *meshes_info,
+    __global const t_polygon *polygons,
+	__global const float3 *vertices,
+	__global const float3 *v_normals,
 # ifdef RENDER_MESH_VTEXTURES
-	__global __read_only const float3 *v_textures,
+	__global const float3 *v_textures,
 # endif
 #endif
 #ifdef RENDER_PATHTRACE
     __global float3 *img_data_float,
 #endif
 #ifdef RENDER_TEXTURES
-    __global __read_only const t_texture_info *texture_info,
-	__global __read_only const float *texture_list,
+    __global const t_texture_info *texture_info,
+	__global const float *texture_list,
 #endif
-    __global __write_only int *img_data)
+    __global int *img_data)
 {
 
 	int			g_id = get_global_id(0);

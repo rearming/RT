@@ -61,12 +61,12 @@ float	f3_axis(float3 vec, int axis)
 }
 
 int		kd_tree_traverse(
-		__global __read_only const t_kd_info *kd_info,
-		__global __read_only const t_kd_arr_tree *tree_arr,
-		__global __read_only const int *kd_indices,
-		__global __read_only const t_polygon *polygons,
-		__global __read_only const float3 *vertices,
-		__global __read_only const float3 *v_normals,
+		__global const t_kd_info *kd_info,
+		__global const t_kd_arr_tree *tree_arr,
+		__global const int *kd_indices,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
 		t_ray *ray,
 		t_rayhit *out_best_hit)
 {
@@ -130,7 +130,7 @@ int		kd_tree_traverse(
 				vertices[polygons[index].vert_i[1]],
 				vertices[polygons[index].vert_i[2]],
 				v_normals[polygons[index].vnorm_i],
-				0, 0, 0, /// текстурных вертексов пока нет
+				0.0f, 0.0f, 0.0f, /// текстурных вертексов пока нет
 				ray, out_best_hit))
 			{
 				closest_polygon_index = index;

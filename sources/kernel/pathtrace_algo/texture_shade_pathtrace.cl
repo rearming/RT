@@ -18,9 +18,9 @@ float3		texture_shade_pathtrace(
 	const float		surface_chance = rt_randf(seed, pixel);
 	const float		transmit_chance = rt_randf(seed, pixel);
 
-	if (material.emission_power > 0)
+	if (material.emission_power > 0.0f)
 	{
-		ray->energy = 0;
+		ray->energy = 0.0f;
 		return color * material.emission_power;
 	}
 	if (surface_chance < specular_chance)
@@ -38,13 +38,13 @@ float3		texture_shade_pathtrace(
 	{
 		if (transmit_chance < material.transmittance) // if transparent
 		{
-			calc_refraction_pathtrace(ray, hit, &material, material.diffuse, seed, pixel, (1 - specular_chance));
+			calc_refraction_pathtrace(ray, hit, &material, material.diffuse, seed, pixel, (1.0f - specular_chance));
 		}
 		else
 		{
 			ray->origin = hit->pos + hit->normal * RT_EPSILON;
 			ray->dir = rand_dir_on_hemisphere(hit->normal, seed, pixel, LAMBERT_ALPHA);
-			ray->energy *= (1.f / (1 - specular_chance)) * color;
+			ray->energy *= (1.0f / (1.0f - specular_chance)) * color;
 		}
 	}
 	return 0;

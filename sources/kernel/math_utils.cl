@@ -9,16 +9,6 @@ int 				in_range_inclusive(float number, float min, float max)
 	return number >= min && number <= max ? true : false;
 }
 
-uint		rt_rand(uint seed)
-{
-	seed = (seed ^ 61) ^ (seed >> 16);
-	seed *= 9;
-	seed = seed ^ (seed >> 4);
-	seed *= 0x27d4eb2d;
-	seed = seed ^ (seed >> 15);
-	return seed;
-}
-
 float		rt_fract(float x)
 {
 	return min(x - floor(x), 0x1.fffffep-1f);
@@ -97,7 +87,7 @@ float3		vec_axis_rotate(float3 vec, float3 axis, float angle)
 	float3 rotate_vector;
 
 	cos_ang = cos(angle);
-	one_minus_cos = 1 - cos_ang;
+	one_minus_cos = 1.0f - cos_ang;
 	sin_ang = sin(angle);
 	rotate_vector.x = vec.x * (cos_ang + one_minus_cos * axis.x * axis.x)
 			+ vec.y * (one_minus_cos * axis.x * axis.y - sin_ang * axis.z)

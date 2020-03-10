@@ -6,10 +6,10 @@
 #include "prototypes.cl"
 
 __kernel void		kernel_texture_shade(
-		__global __read_only const int *hit_obj_indices,
-		__global __read_only const int *material_buffers_len,
-		__global __write_only t_ray *out_rays_buffer,
-		__global __read_only int *out_rays_buffer_len
+		__global const int *hit_obj_indices,
+		__global const int *material_buffers_len,
+		__global t_ray *out_rays_buffer,
+		__global int *out_rays_buffer_len
 )
 {
 //	t_ray new_ray;

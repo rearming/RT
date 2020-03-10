@@ -2,7 +2,7 @@ float3		mix_avg_colors(float3 col_prev, float3 col_new, int samples)
 {
 	if (samples <= 0)
 		return (col_new);
-	const float		t = (float) 1 / (samples);
+	const float		t = (float)1.0f / (samples);
 	return mix(col_prev, col_new, t);
 }
 
@@ -16,14 +16,14 @@ float3		get_float3_color(int hex_color)
 	t_color			color = { hex_color };
 
 	return (float3)(
-		(float)color.rgb.r / 255,
-		(float)color.rgb.g / 255,
-		(float)color.rgb.b / 255);
+		(float)color.rgb.r / 255.0f,
+		(float)color.rgb.g / 255.0f,
+		(float)color.rgb.b / 255.0f);
 }
 
 float		color_energy(float3 color)
 {
-	return dot(color, 1.f / 3.f);
+	return dot(color, 1.0f / 3.0f);
 }
 
 int			get_int_color(float3 color)

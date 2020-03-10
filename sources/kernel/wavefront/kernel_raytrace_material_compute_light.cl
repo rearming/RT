@@ -25,28 +25,28 @@
 # endif
 
 __kernel void		kernel_raytrace_material_compute_light(
-		__global __read_only const t_scene *scene,
-		__global __read_only const t_light *lights,
+		__global const t_scene *scene,
+		__global const t_light *lights,
 #ifdef RENDER_OBJECTS
-		__global __read_only const t_object *objects,
+		__global const t_object *objects,
 #endif
 #ifdef RENDER_MESH
-		__global __read_only const t_kd_info *kd_info,
-		__global __read_only const t_kd_arr_tree *kd_tree,
-		__global __read_only const int *kd_indices,
-		__global __read_only const t_mesh_info *meshes_info,
-		__global __read_only const t_polygon *polygons,
-		__global __read_only const float3 *vertices,
-		__global __read_only const float3 *v_normals,
+		__global const t_kd_info *kd_info,
+		__global const t_kd_arr_tree *kd_tree,
+		__global const int *kd_indices,
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
 #endif
-		__global __read_only const t_ray *rays_buffer,
+		__global const t_ray *rays_buffer,
 
-		__global __read_only const int *material_hit_obj_indices,
-		__global __read_only const int *material_hit_polygon_indices,
-		__global __read_only const int *material_pixel_indices,
-		__global __read_only const t_rayhit *material_rays_hit_buffer,
+		__global const int *material_hit_obj_indices,
+		__global const int *material_hit_polygon_indices,
+		__global const int *material_pixel_indices,
+		__global const t_rayhit *material_rays_hit_buffer,
 
-		__global __write_only float *out_light_intensity_buffer)
+		__global float *out_light_intensity_buffer)
 {
 	int			g_id = get_global_id(0);
 	t_ray 		ray = rays_buffer[material_pixel_indices[g_id]];

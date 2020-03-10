@@ -26,7 +26,7 @@ typedef struct			s_opencl
 {
 	cl_context			context;
 	cl_command_queue	queue;
-	cl_platform_id		platform_id;
+	cl_platform_id		platform_ids[2];
 	cl_uint				ret_num_platforms;
 	cl_uint				ret_num_devices;
 	cl_device_id		device_id;

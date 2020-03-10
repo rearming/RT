@@ -20,10 +20,11 @@ void		rt_set_kernel_args(cl_kernel kernel, int args_num, ...)
 	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 }
 
-void kernel_generate_primary_rays(t_rt *rt, cl_kernel kernel)
+float kernel_generate_primary_rays(t_rt *rt, cl_kernel kernel)
 {
 	int				err = CL_SUCCESS;
 	const size_t	kernel_work_size[1] = {WIN_WIDTH * WIN_HEIGHT};
+	float	exec_time = 0;
 
 	rt_set_kernel_args(kernel, 3, RT_CL_MEM_CAMERA, RT_CL_MEM_RAYS_BUFFER, RT_CL_MEM_PIXEL_INDICES);
 
@@ -32,7 +33,9 @@ void kernel_generate_primary_rays(t_rt *rt, cl_kernel kernel)
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
 	if (rt->events.info)
 		rt_print_opencl_profile_info("ray generation kernel");
+	exec_time = rt_get_kernel_exec_time();
 	clReleaseEvent(g_opencl.profile_event);
+	return exec_time;
 }
 
 void 		kernel_generate_rays_aa_pathtrace()
@@ -52,13 +55,14 @@ enum e_cl_mem_types		switch_ray_buffers(int iteration)
 	return iteration % 2 == 0 ? RT_CL_MEM_RAYS_BUFFER : RT_CL_MEM_OUT_RAYS_BUFFER;
 }
 
-void kernel_find_intersections(t_rt *rt,
-							   cl_kernel kernel,
-							   size_t kernel_work_size,
-							   t_kernel_work_sizes *out_work_sizes,
-							   int iteration)
+float kernel_find_intersections(t_rt *rt,
+								cl_kernel kernel,
+								size_t kernel_work_size,
+								t_kernel_work_sizes *out_work_sizes,
+								int iteration)
 {
 	int				err = CL_SUCCESS;
+	float exec_time = 0;
 
 	rt_set_kernel_args(kernel, 24, RT_CL_MEM_SCENE, RT_CL_MEM_OBJECTS,
 			RT_CL_MEM_KD_INFO, RT_CL_MEM_KD_TREE, RT_CL_MEM_KD_INDICES,
@@ -82,7 +86,6 @@ void kernel_find_intersections(t_rt *rt,
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
 	if (rt->events.info)
 		rt_print_opencl_profile_info("find intersection kernel");
-	clReleaseEvent(g_opencl.profile_event);
 
 	err = clEnqueueReadBuffer(g_opencl.queue,
 			g_opencl.wavefront_shared_buffers[RT_CL_MEM_MATERIAL_BUFFERS_LEN].mem, CL_TRUE, 0, sizeof(cl_uint), &out_work_sizes->materials, 0, NULL, NULL);
@@ -93,14 +96,18 @@ void kernel_find_intersections(t_rt *rt,
 	err = clEnqueueReadBuffer(g_opencl.queue,
 			g_opencl.wavefront_shared_buffers[RT_CL_MEM_SKYBOX_HIT_BUFFERS_LEN].mem, CL_TRUE, 0, sizeof(cl_uint), &out_work_sizes->skybox, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
+	exec_time = rt_get_kernel_exec_time();
+	clReleaseEvent(g_opencl.profile_event);
+	return exec_time;
 }
 
-void	kernel_raytrace_material_compute_light(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
+float kernel_raytrace_material_compute_light(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 {
 	int				err = CL_SUCCESS;
+	float exec_time = 0;
 
 	if (kernel_work_size <= 0)
-		return;
+		return 0;
 
 	rt_set_kernel_args(kernel, 16, RT_CL_MEM_SCENE,
 			RT_CL_MEM_LIGHTS, RT_CL_MEM_OBJECTS, RT_CL_MEM_KD_INFO, RT_CL_MEM_KD_TREE,
@@ -119,19 +126,22 @@ void	kernel_raytrace_material_compute_light(t_rt *rt, cl_kernel kernel, size_t k
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
 	if (rt->events.info)
 		rt_print_opencl_profile_info("raytrace compute light kernel");
+	exec_time = rt_get_kernel_exec_time();
 	clReleaseEvent(g_opencl.profile_event);
+	return exec_time;
 }
 
-void	kernel_material_shade(t_rt *rt,
-						   cl_kernel kernel,
-						   size_t kernel_work_size,
-						   uint32_t *out_new_rays_buffer_len,
-						   int iteration)
+float kernel_material_shade(t_rt *rt,
+							cl_kernel kernel,
+							size_t kernel_work_size,
+							uint32_t *out_new_rays_buffer_len,
+							int iteration)
 {
 	int				err = CL_SUCCESS;
+	float exec_time = 0;
 
 	if (kernel_work_size <= 0)
-		return;
+		return exec_time;
 
 	rt_set_kernel_args(kernel, 14, RT_CL_MEM_RENDERER_PARAMS,
 			RT_CL_MEM_OBJECTS, RT_CL_MEM_MESH_INFO, RT_CL_MEM_POLYGONS,
@@ -147,12 +157,14 @@ void	kernel_material_shade(t_rt *rt,
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
 	if (rt->events.info)
 		rt_print_opencl_profile_info("material shade kernel");
-	clReleaseEvent(g_opencl.profile_event);
 
 	err = clEnqueueReadBuffer(g_opencl.queue,
 			g_opencl.wavefront_shared_buffers[RT_CL_MEM_OUT_RAYS_BUFFER_LEN].mem,
 			CL_TRUE, 0, sizeof(cl_uint), out_new_rays_buffer_len, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
+	exec_time = rt_get_kernel_exec_time();
+	clReleaseEvent(g_opencl.profile_event);
+	return exec_time;
 }
 
 void	kernel_shade_textures(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
@@ -164,12 +176,13 @@ void	kernel_shade_textures(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
 }
 
-void	kernel_skybox_shade(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
+float kernel_skybox_shade(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 {
 	int				err = CL_SUCCESS;
+	float exec_time = 0;
 
 	if (kernel_work_size <= 0)
-		return;
+		return exec_time;
 
 	rt_set_kernel_args(kernel, 3, RT_CL_MEM_SKYBOX_HIT_PIXEL_INDICES,
 			RT_CL_MEM_SKYBOX_HIT_RAYS_BUFFER, RT_CL_MEM_TEMP_FLOAT3_IMG_DATA);
@@ -179,15 +192,18 @@ void	kernel_skybox_shade(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
 	if (rt->events.info)
 		rt_print_opencl_profile_info("skybox shade kernel");
+	exec_time = rt_get_kernel_exec_time();
 	clReleaseEvent(g_opencl.profile_event);
+	return exec_time;
 }
 
-void 	kernel_fill_img_data(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
+float kernel_fill_img_data(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 {
 	int				err = CL_SUCCESS;
+	float exec_time = 0;
 
 	if (kernel_work_size <= 0)
-		return;
+		return exec_time;
 
 	rt_set_kernel_args(kernel, 4, RT_CL_MEM_RENDERER_PARAMS, RT_CL_MEM_TEMP_FLOAT3_IMG_DATA,
 			RT_CL_MEM_MAIN_FLOAT3_IMG_DATA, RT_CL_MEM_INT_IMG);
@@ -197,12 +213,14 @@ void 	kernel_fill_img_data(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
 	if (rt->events.info)
 		rt_print_opencl_profile_info("fill img data kernel");
-	clReleaseEvent(g_opencl.profile_event);
 
 	err = clEnqueueReadBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_INT_IMG].mem, CL_TRUE, 0,
 			sizeof(int) * WIN_WIDTH * WIN_HEIGHT,
 			g_img_data, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
+	exec_time = rt_get_kernel_exec_time();
+	clReleaseEvent(g_opencl.profile_event);
+	return exec_time;
 }
 
 const struct s_kernels_info	g_kernels_info[] = {
@@ -247,6 +265,7 @@ void		wavefront_compile_kernels(uint32_t render_flags, t_renderer_params *params
 	g_wavefront_kernels = rt_safe_malloc(sizeof(cl_kernel) * kernels_num);
 	while (i < kernels_num)
 	{
+		printf("compiling [%s]\n", g_kernels_info[i].kernel_name);
 		rt_opencl_create_kernel(
 				g_kernels_info[i].kernel_path,
 				g_kernels_info[i].kernel_name,
@@ -284,6 +303,15 @@ void 		render_wavefront(void *rt_ptr)
 	uint32_t					find_intersection_new_work_size;
 	static cl_float3			*float3_temp_img_zeros;
 
+	float	total_exec_time = 0;
+
+	float	raygen_exec = 0;
+	float	intersect_exec = 0;
+	float	light_exec = 0;
+	float	material_shade_exec = 0;
+	float	skybox_shade_exec = 0;
+	float	img_fill_exec = 0;
+
 	if (!first_init_done)
 	{
 		wavefront_compile_kernels(rt->renderer_flags, &params);
@@ -294,7 +322,7 @@ void 		render_wavefront(void *rt_ptr)
 	rt_wavefront_setup_buffers(rt, params); //todo params вообще-то в разных рендерерах разные хранятся, потом переделать
 
 	bzero_float3_temp_img(float3_temp_img_zeros); // обнулить temp_float3_img_data
-	kernel_generate_primary_rays(rt_ptr, g_wavefront_kernels[RT_KERNEL_GENERATE_PRIMARY_RAYS]);
+	raygen_exec += kernel_generate_primary_rays(rt_ptr, g_wavefront_kernels[RT_KERNEL_GENERATE_PRIMARY_RAYS]);
 
 	find_intersection_new_work_size = WIN_WIDTH * WIN_HEIGHT; // потом тут будет кол-во лучей после генерации анти-алиасингом
 
@@ -305,35 +333,53 @@ void 		render_wavefront(void *rt_ptr)
 		bzero_buffer(RT_CL_MEM_MATERIAL_BUFFERS_LEN);
 		bzero_buffer(RT_CL_MEM_TEXTURE_BUFFERS_LEN);
 		bzero_buffer(RT_CL_MEM_SKYBOX_HIT_BUFFERS_LEN);
-		kernel_find_intersections(rt, g_wavefront_kernels[RT_KERNEL_FIND_INTERSECTIONS], find_intersection_new_work_size, &kernel_work_sizes, j);
+		intersect_exec += kernel_find_intersections(rt, g_wavefront_kernels[RT_KERNEL_FIND_INTERSECTIONS], find_intersection_new_work_size, &kernel_work_sizes, j);
+
 		if (rt->events.info)
 			printf("kernel new work sizes: material: [%u], texture: [%u], skybox: [%u]\n",
 					kernel_work_sizes.materials, kernel_work_sizes.textures, kernel_work_sizes.skybox);
 
 		if (rt->renderer_flags & RENDER_RAYTRACE)
-			kernel_raytrace_material_compute_light(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_COMPUTE_LIGHT], kernel_work_sizes.materials);
+		{
+			light_exec += kernel_raytrace_material_compute_light(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_COMPUTE_LIGHT], kernel_work_sizes.materials);
+		}
 
 		bzero_buffer(RT_CL_MEM_OUT_RAYS_BUFFER_LEN);
 		find_intersection_new_work_size = 0;
-		kernel_material_shade(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_SHADE], kernel_work_sizes.materials, &find_intersection_new_work_size, j);
+		material_shade_exec += kernel_material_shade(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_SHADE], kernel_work_sizes.materials, &find_intersection_new_work_size, j);
+
 		if (rt->events.info)
 			printf("find_intersection new work size: [%u]\n", find_intersection_new_work_size);
 
-		kernel_skybox_shade(rt, g_wavefront_kernels[RT_KERNEL_SKYBOX_SHADE], kernel_work_sizes.skybox);
+		skybox_shade_exec += kernel_skybox_shade(rt, g_wavefront_kernels[RT_KERNEL_SKYBOX_SHADE], kernel_work_sizes.skybox);
+
 		if (rt->events.info)
 			printf("wavefront render [%i] iteration\n\n", j);
 	}
 
-	kernel_fill_img_data(rt, g_wavefront_kernels[RT_KERNEL_FILL_IMG_DATA], WIN_WIDTH * WIN_HEIGHT);
+	img_fill_exec += kernel_fill_img_data(rt, g_wavefront_kernels[RT_KERNEL_FILL_IMG_DATA], WIN_WIDTH * WIN_HEIGHT);
 
 	params.pathtrace_params.current_samples_num++;
 	params.seed = drand48();
 
+	printf("ray gen exec time: [%.3f]\n", raygen_exec);
+	printf("find intersection exec time: [%.3f]\n", intersect_exec);
+	if (rt->renderer_flags & RENDER_RAYTRACE)
+		printf("light shadow exec time: [%.3f]\n", light_exec);
+	printf("material shade exec time: [%.3f]\n", material_shade_exec);
+	printf("skybox shade exec time: [%.3f]\n", skybox_shade_exec);
+	printf("img fill exec time: [%.3f]\n", img_fill_exec);
+	total_exec_time = raygen_exec + intersect_exec + light_exec + material_shade_exec + skybox_shade_exec + img_fill_exec;
+	printf("total exec time: [%f]\n", total_exec_time);
 	printf("current samples num: [%i]\n", params.pathtrace_params.current_samples_num);
+	printf("\n");
+
 	for (int i = 0; i < 26; ++i)
 	{
 		if (g_opencl.wavefront_shared_buffers[i].copy_mem == true)
 			clReleaseMemObject(g_opencl.wavefront_shared_buffers[i].mem);
 	}
+	if (rt_camera_moved(&rt->scene.camera))
+		params.pathtrace_params.current_samples_num = 0;
 	first_init_done = true;
 }

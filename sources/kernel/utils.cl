@@ -1,5 +1,5 @@
 
-float3			canvas_to_viewport(__global __read_only const t_camera *camera, float3 canvas_point)
+float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point)
 {
 	return (float3)
 	(
@@ -65,7 +65,7 @@ void			correct_img_point(float3 *img_point)
 	img_point->y = -img_point->y;
 }
 
-t_ray			get_ray(float3 img_point, __global __read_only const t_camera *camera)
+t_ray			get_ray(float3 img_point, __global const t_camera *camera)
 {
 	t_ray		ray;
 

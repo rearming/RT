@@ -27,46 +27,46 @@
 # endif
 
 __kernel void		kernel_find_intersections(
-	__global __read_only const t_scene *scene,
+	__global const t_scene * restrict scene,
 #ifdef RENDER_OBJECTS
-	__global __read_only const t_object *objects,
+	__global const t_object * restrict objects,
 #endif
 #ifdef RENDER_MESH
-	__global __read_only const t_kd_info *kd_info,
-	__global __read_only const t_kd_arr_tree *kd_tree,
-	__global __read_only const int *kd_indices,
-	__global __read_only const t_mesh_info *meshes_info,
-    __global __read_only const t_polygon *polygons,
-	__global __read_only const float3 *vertices,
-	__global __read_only const float3 *v_normals,
+	__global const t_kd_info * restrict kd_info,
+	__global const t_kd_arr_tree * restrict kd_tree,
+	__global const int * restrict kd_indices,
+	__global const t_mesh_info * restrict meshes_info,
+    __global const t_polygon * restrict polygons,
+	__global const float3 * restrict vertices,
+	__global const float3 * restrict v_normals,
 #endif
-	__global __read_only const t_ray *rays_buffer,
-	__global __read_only const int *pixel_indices,
+	__global const t_ray * restrict rays_buffer,
+	__global const int * restrict pixel_indices,
 
-	__global __write_only int *material_hit_obj_indices,
-	__global __write_only int *material_hit_polygon_indices,
-	__global __write_only int *new_material_pixel_indices,
-	__global __write_only t_rayhit *material_rays_hit_buffer,
-	__global uint *material_buffers_len,
+	__global int * restrict material_hit_obj_indices,
+	__global int * restrict material_hit_polygon_indices,
+	__global int * restrict new_material_pixel_indices,
+	__global t_rayhit * restrict material_rays_hit_buffer,
+	__global uint * restrict material_buffers_len,
 
-	__global __write_only int *texture_hit_obj_indices,
-	__global __write_only int *texture_hit_polygon_indices,
-	__global __write_only int *new_textures_pixel_indices,
-	__global __write_only t_rayhit *texture_rays_hit_buffer,
-	__global uint *texture_buffers_len,
+	__global int * restrict texture_hit_obj_indices,
+	__global int * restrict texture_hit_polygon_indices,
+	__global int * restrict new_textures_pixel_indices,
+	__global t_rayhit * restrict texture_rays_hit_buffer,
+	__global uint * restrict texture_buffers_len,
 
-	__global __write_only int *skybox_hit_pixel_indices,
-	__global __write_only t_ray *skybox_hit_rays_buffer,
-	__global uint *skybox_hit_buffers_len)
+	__global int * restrict skybox_hit_pixel_indices,
+	__global t_ray * restrict skybox_hit_rays_buffer,
+	__global uint * restrict skybox_hit_buffers_len)
 {
 #ifndef RENDER_MESH
-	__global __read_only const t_kd_info *kd_info = 0;
-	__global __read_only const t_kd_arr_tree *kd_tree = 0;
-	__global __read_only const int *kd_indices = 0;
-	__global __read_only const t_mesh_info *meshes_info = 0;
-	__global __read_only const t_polygon *polygons = 0;
-	__global __read_only const float3 *vertices = 0;
-	__global __read_only const float3 *v_normals = 0;
+	__global const t_kd_info *kd_info = 0;
+	__global const t_kd_arr_tree *kd_tree = 0;
+	__global const int *kd_indices = 0;
+	__global const t_mesh_info *meshes_info = 0;
+	__global const t_polygon *polygons = 0;
+	__global const float3 *vertices = 0;
+	__global const float3 *v_normals = 0;
 #endif
 	int			g_id = get_global_id(0);
 	int 		pixel_index = pixel_indices[g_id];
@@ -80,7 +80,7 @@ __kernel void		kernel_find_intersections(
 	closest_intersection(scene, objects, kd_info, kd_tree, kd_indices,
 			polygons, vertices, v_normals, &ray, &best_hit, &closest_polygon_index, &closest_obj_index);
 
-	if (closest_obj_index != NOT_SET)
+	if (isset(closest_obj_index))
 	{
 		if (objects[closest_obj_index].material.texture_number >= 0)
 		{
