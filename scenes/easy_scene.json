@@ -11,19 +11,12 @@
     "render objects": true,
     "render mesh": {
       "enabled": true,
-      "file": "assets/3d_models/cube_isosphere_materials.obj",
+      "file": "assets/3d_models/monkey.obj",
       "backface culling": true
-    },
-    "textures": {
-      "enabled": true,
-      "directories": [
-        "assets/textures",
-        "~/Desktop/"
-      ]
     },
     "skybox": {
       "enabled": true,
-      "texture": "skybox_sea.jpg"
+      "texture": "skybox_street.jpg"
     }
   },
   "scene parameters": {

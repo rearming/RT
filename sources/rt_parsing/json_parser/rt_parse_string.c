@@ -74,6 +74,8 @@ static void		parse_type(t_tmp *tmp, const char *value)
 			tmp->type = AMBIENT;
 		else if (ft_strequ(value, "point"))
 			tmp->type = POINT;
+		else if (ft_strequ(value, "directional"))
+			tmp->type = DIRECTIONAL;
 		else
 			rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
 	}

@@ -31,7 +31,7 @@ static void		parse_variable_material2(t_tmp *tmp, const char *key,
 		tmp->gamma = parse_f(value);
 	}
 	else
-		rt_raise_error(ERR_PARSING_WRONG_PARAM);
+		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, key));
 }
 
 static void		parse_variable_material1(t_tmp *tmp, const char *key,

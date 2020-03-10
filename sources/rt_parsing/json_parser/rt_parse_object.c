@@ -11,7 +11,7 @@ void		parse_object(t_tmp *tmp, const char *key, json_t *value,
 	{
 		if (tmp->structure_type == RENDER_PARAMETERS &&
 			type_of_structure != OBJECT && type_of_structure != LIGHT
-			&& type_of_structure != CAMERA)
+			&& type_of_structure != CAMERA && type_of_structure != SCENE_PARAMETERS)
 			tmp->type = type_of_structure;
 		else
 		{
@@ -33,5 +33,5 @@ void		parse_object(t_tmp *tmp, const char *key, json_t *value,
 		parse_json_file(value, tmp, renderer_flags);
 	}
 	else
-		rt_raise_error(ERR_PARSING_WRONG_TYPE);
+		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_OBJECT, key));
 }

@@ -13,94 +13,72 @@
 #include "rt.h"
 #include "rt_parsing.h"
 
-static void	add_array_color(cl_float3 *elem, json_t *value)
+static void	add_array(cl_float3 *elem, json_t *value, bool color)
 {
 	json_t	*tmp;
 	int		i;
 
 	i = -1;
-	if (json_array_size(value) == 3)
+	if (json_array_size(value) != 3)
+		rt_raise_error(ERR_PARSING_WRONG_ARRAY_FORMAT);
+	while (++i < 3)
 	{
-		while (++i < 3)
+		tmp = json_array_get(value, i);
+		if (!json_is_number(tmp))
+			rt_raise_error(ERR_PARSING_WRONG_ARRAY_FORMAT);
+		if (json_is_integer(tmp))
 		{
-			tmp = json_array_get(value, i);
-			if (!json_is_number(tmp))
-				rt_raise_error(ERR_PARSING_WRONG_FORMAT);
-			else if (json_is_integer(tmp))
-				elem->s[i] = (float)(json_integer_value(tmp) / 255.0);
-			else
-				elem->s[i] = json_real_value(tmp);
+			elem->s[i] = (float)json_integer_value(tmp);
+			elem->s[i] /= (color == true) ? 255.0 : 1.0;
 		}
+		else
+			elem->s[i] = json_real_value(tmp);
 	}
-	else
-		rt_raise_error(ERR_PARSING_WRONG_PARAM);
-}
-
-static void	add_array(cl_float3 *elem, json_t *value)
-{
-	json_t	*tmp;
-	int		i;
-
-	i = -1;
-	if (json_array_size(value) == 3)
-	{
-		while (++i < 3)
-		{
-			tmp = json_array_get(value, i);
-			if (!json_is_number(tmp))
-				rt_raise_error(ERR_PARSING_WRONG_FORMAT);
-			else
-				elem->s[i] = json_is_integer(tmp) ? json_integer_value(tmp)
-					: json_real_value(tmp);
-		}
-	}
-	else
-		rt_raise_error(ERR_PARSING_WRONG_PARAM);
 }
 
 static void	add_elements_in_array_material(t_tmp *tmp,
 		int type_of_element, json_t *value)
 {
 	if (type_of_element == AMBIENCE)
-		add_array(&tmp->ambience, value);
+		add_array(&tmp->ambience, value, false);
 	else if (type_of_element == DIFFUSE)
-		add_array_color(&tmp->diffuse, value);
+		add_array(&tmp->diffuse, value, true);
 	else if (type_of_element == SPECULAR)
-		add_array_color(&tmp->specular, value);
+		add_array(&tmp->specular, value, true);
 	else if (type_of_element == EMISSION_COLOR)
-		add_array_color(&tmp->emission_color, value);
+		add_array(&tmp->emission_color, value, true);
 	else if (type_of_element == TEXTURE_POS)
-		add_array(&tmp->texture_position, value);
+		add_array(&tmp->texture_position, value, false);
 }
 
 static void	add_elements_in_array(t_tmp *tmp, int type_of_element,
 		json_t *value)
 {
 	if (type_of_element == POS)
-		add_array(&tmp->pos, value);
+		add_array(&tmp->pos, value, false);
 	else if (type_of_element == ROTATION)
-		add_array(&tmp->rotation, value);
+		add_array(&tmp->rotation, value, false);
 	else if (type_of_element == DIRECTION)
-		add_array(&tmp->dir, value);
+		add_array(&tmp->dir, value, false);
 	else if (type_of_element == COLOR)
-		add_array_color(&tmp->color, value);
+		add_array(&tmp->color, value, true);
 	else if (type_of_element == NORMAL)
-		add_array(&tmp->normal, value);
+		add_array(&tmp->normal, value, false);
 	else if (type_of_element == AXIS)
-		add_array(&tmp->axis, value);
+		add_array(&tmp->axis, value, false);
 	else if (type_of_element == CENTER)
-		add_array(&tmp->center, value);
+		add_array(&tmp->center, value, false);
 	else if (type_of_element == VMIN)
-		add_array(&tmp->vmin, value);
+		add_array(&tmp->vmin, value, false);
 	else if (type_of_element == VMAX)
-		add_array(&tmp->vmax, value);
+		add_array(&tmp->vmax, value, false);
 	else if (type_of_element == DIRECTORY)
 		add_directory(value);
 	else
 		add_elements_in_array_material(tmp, type_of_element, value);
 }
 
-static void	parse_array2(t_tmp *tmp, int type_of_element, json_t *value,
+static void	parse_array_of_objects(t_tmp *tmp, int type_of_element, json_t *value,
 		uint32_t *renderer_flags)
 {
 	int i;
@@ -140,7 +118,7 @@ void		parse_array(t_tmp *tmp, const char *key, json_t *value,
 		add_elements_in_array(tmp, type_of_element, value);
 	}
 	else if (array_type == 2)
-		parse_array2(tmp, type_of_element, value, renderer_flags);
+		parse_array_of_objects(tmp, type_of_element, value, renderer_flags);
 	else
-		rt_raise_error(ERR_PARSING_WRONG_TYPE);
+		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_TYPE_OF_PARAM, key));
 }

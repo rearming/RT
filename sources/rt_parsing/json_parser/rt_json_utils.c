@@ -12,10 +12,11 @@
 
 #include "rt.h"
 
-void 		init_textures_default(void)
+void		init_textures_default(void)
 {
 	g_textures.textures_names = NULL;
 	g_textures.skybox_info = rt_safe_malloc(sizeof(t_skybox_info));
+	g_textures.texture_info_size = 0;
 	g_textures.skybox_info->skybox_exist = false;
 }
 
@@ -61,38 +62,37 @@ void		init_tmp(t_tmp *tmp)
 	tmp->gamma = NOT_SET;
 	tmp->file = NULL;
 	init_tmp_material(tmp);
-	ft_bzero(&tmp->checker, 32);
 	ft_bzero(&tmp->checker, sizeof(tmp->checker) / sizeof(bool));
 }
 
 void		count_elements(t_scene *scene, t_tmp *tmp)
 {
-	t_tmp			*tmp_iterator;
-	int				check_cam_render_scene = 0;;
+	t_tmp	*tmp_iter;
+	int		check_param;
 	t_name	*texture_iter;
 
 	texture_iter = g_textures.textures_names;
-	tmp_iterator = tmp;
+	tmp_iter = tmp;
 	scene->lights_nbr = 0;
 	scene->obj_nbr = 0;
-	g_textures.texture_info_size = 0;
-	check_cam_render_scene = 0;
-	while (tmp_iterator)
+	check_param = 0;
+	while (tmp_iter)
 	{
-		scene->lights_nbr += (tmp_iterator->structure_type == LIGHT) ? 1 : 0;
-		scene->obj_nbr += (tmp_iterator->structure_type == OBJECT) ? 1 : 0;
-		check_cam_render_scene += (tmp_iterator->structure_type == CAMERA) ? 1 : 0;
-		check_cam_render_scene += (tmp_iterator->structure_type == RENDER_PARAMETERS) ? 10 : 0;
-		check_cam_render_scene += (tmp_iterator->structure_type == SCENE_PARAMETERS) ? 100 : 0;
-		tmp_iterator = tmp_iterator->next;
+		scene->lights_nbr += (tmp_iter->structure_type == LIGHT) ? 1 : 0;
+		scene->obj_nbr += (tmp_iter->structure_type == OBJECT) ? 1 : 0;
+		check_param += (tmp_iter->structure_type == CAMERA) ? 1 : 0;
+		check_param += (tmp_iter->structure_type == RENDER_PARAMETERS) ? 10 : 0;
+		check_param += (tmp_iter->structure_type == SCENE_PARAMETERS) ? 100 : 0;
+		tmp_iter = tmp_iter->next;
 	}
 	while (texture_iter)
 	{
 		g_textures.texture_info_size++;
 		texture_iter = texture_iter->next;
 	}
-	if (check_cam_render_scene != 111)
-		rt_raise_error(ERR_PARSING_WRONG_PARAM);
+	//printf("check_param %i\n", check_param);
+	if (check_param != 111)
+		rt_raise_error(ERR_PARSING_SCENE_NOT_SPECIFIED);
 }
 
 void		check_duplicated(bool *checker, int number)

@@ -1,6 +1,31 @@
 {
-  "open cl parameters": "RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_TEXTURES | RENDER_MESH | RENDER_BACKFACE_CULLING",
-  "skybox": "sphere_earth.jpg",
+  "scene parameters": {
+    "exposure": 2,
+    "gamma": 2.2
+  } ,
+  "render parameters": {
+    "render algorithm": "raytrace",
+    "pathtrace": {
+      "max light bounces": 8
+    },
+    "raytrace": {
+      "max light bounces": 8
+    },
+    "render objects": true,
+    "render mesh": {
+      "enabled": true,
+      "file": "assets/3d_models/cube_isosphere_materials.obj",
+      "backface culling": true
+    },
+    "textures": {
+      "enabled": true,
+      "directory": "/Users/gfoote/Project42/hdr/"
+    },
+    "skybox": {
+      "enabled": true,
+      "texture": "colorful_studio_8k.hdr"
+    }
+  },
   "objects": [
     {
       "type": "plane",

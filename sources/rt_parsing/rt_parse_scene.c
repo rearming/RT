@@ -4,12 +4,7 @@
 /*
  * todo :
  *  0. нет object checker сейчас все параметры не обязательны, как определимся какие обязательны, так и легко добавить
- *  1. сцена где нет текстуры и он пытается загрузить текстуру выдает ошибку opencl texture error
- *  2. текстуры перекрывают светящиеся параметры
- *  3. имена текстур чистятся в load после появления gui передавать их в gui и чистить там
- *  4. перевод цветов во float https://corecoding.com/utilities/rgb-or-hex-to-float.php использован strtol (<stdlib.h>)
- *  5. заменить принты на действия
- *  6. директории для тексур парсятся в папку, добавить подгрузку текстур из этих папок
+ *  1. имена текстур чистятся в load после появления gui передавать их в gui и чистить там
 */
 
 void	parse_json_file(json_t *root, t_tmp *tmp, uint32_t *renderer_flags)
@@ -34,10 +29,9 @@ void	parse_json_file(json_t *root, t_tmp *tmp, uint32_t *renderer_flags)
 		else if (json_is_boolean(value))
 			parse_bool(tmp, key, value, renderer_flags);
 		else
-			rt_raise_error(ERR_PARSING_WRONG_PARAM);
+			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_TYPE_OF_PARAM, key));
 		while (tmp->next != NULL)
 			tmp = tmp->next;
-		printf("%s\n", key);
 		iter = json_object_iter_next(root, iter);
 	}
 }
