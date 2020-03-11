@@ -16,6 +16,7 @@
 
 static void	add_objects(t_tmp *tmp, t_object *object)
 {
+	check_object(tmp);
 	object->type = tmp->type;
 	object->normal = vec_normalize(tmp->normal);
 	object->center = tmp->center;

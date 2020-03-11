@@ -32,3 +32,26 @@ void	check_duplicated(bool *checker, int number)
 	else
 		checker[number] = true;
 }
+
+void	check_object(t_tmp *tmp)
+{
+	int check_obligate;
+	int check_zero;
+
+	check_obligate = 0;
+	check_zero = 0;
+	if (tmp->type == SPHERE)
+	{
+		check_obligate = (tmp->checker[CENTER] + tmp->checker[RADIUS]) / 2;
+		check_zero = tmp->checker[NORMAL] + tmp->checker[DISTANCE] + tmp->checker[AXIS]
+				+ tmp->checker[ANGLE] + tmp->checker[LEN] + tmp->checker[VMIN] +
+				tmp->checker[VMAX];
+	}
+	else if (tmp->type == PARABOLOID)
+	{
+		check_obligate = (tmp->checker[CENTER] + tmp->checker[DISTANCE] + tmp->checker[AXIS]) / 3;
+		check_zero = tmp->checker[NORMAL] + tmp->checker[ANGLE] + tmp->checker[LEN]
+				+ tmp->checker[VMIN] + tmp->checker[VMAX] + tmp->checker[RADIUS];
+	}
+
+}
