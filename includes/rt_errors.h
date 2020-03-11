@@ -37,7 +37,6 @@
 # define ERR_INVALID_TEXTURE_DIR 27
 
 # define ERR_PARSING_WRONG_OBJECT_PARAMS "rt_parse error: wrong object params"
-
 # define ERR_PARSING_WRONG_OBJECT "rt_parse error: wrong object parameter - "
 # define ERR_PARSING_WRONG_TYPE_OF_PARAM "rt_parse error: wrong type of parameter - "
 # define ERR_PARSING_WRONG_PARAM "rt_parse error: wrong param - "

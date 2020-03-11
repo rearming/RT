@@ -36,22 +36,50 @@ void	check_duplicated(bool *checker, int number)
 void	check_object(t_tmp *tmp)
 {
 	int check_obligate;
-	int check_zero;
+	int check;
+	int count;
 
+	count = 2;
 	check_obligate = 0;
-	check_zero = 0;
+	check = tmp->checker[NORMAL] + tmp->checker[DISTANCE] + tmp->checker[AXIS]
+		+ tmp->checker[ANGLE] + tmp->checker[LEN] + tmp->checker[VMIN] +
+		tmp->checker[VMAX] + tmp->checker[CENTER] + tmp->checker[RADIUS] +
+		tmp->checker[POS] + tmp->checker[ROTATION] + tmp->checker[INTENSITY]
+		+ tmp->checker[DIRECTION] + tmp->checker[COLOR];
 	if (tmp->type == SPHERE)
-	{
-		check_obligate = (tmp->checker[CENTER] + tmp->checker[RADIUS]) / 2;
-		check_zero = tmp->checker[NORMAL] + tmp->checker[DISTANCE] + tmp->checker[AXIS]
-				+ tmp->checker[ANGLE] + tmp->checker[LEN] + tmp->checker[VMIN] +
-				tmp->checker[VMAX];
-	}
-	else if (tmp->type == PARABOLOID)
-	{
-		check_obligate = (tmp->checker[CENTER] + tmp->checker[DISTANCE] + tmp->checker[AXIS]) / 3;
-		check_zero = tmp->checker[NORMAL] + tmp->checker[ANGLE] + tmp->checker[LEN]
-				+ tmp->checker[VMIN] + tmp->checker[VMAX] + tmp->checker[RADIUS];
-	}
+		check_obligate = (tmp->checker[CENTER] + tmp->checker[RADIUS]);
+	else if (tmp->type == PLANE)
+		check_obligate = (tmp->checker[CENTER] + tmp->checker[NORMAL]);
+	else if ((tmp->type == CONE || tmp->type == CYLINDER) && ++count < 4)
+		check_obligate = (tmp->checker[CENTER] + tmp->checker[AXIS]
+			+ tmp->checker[ANGLE]);
+	else if (tmp->type == PARABOLOID && ++count < 4)
+		check_obligate = (tmp->checker[CENTER] + tmp->checker[DISTANCE]
+			+ tmp->checker[AXIS]);
+	else if (tmp->type == ELLIPSOID && (count += 2) < 5)
+		check_obligate = (tmp->checker[CENTER] + tmp->checker[AXIS] +
+				tmp->checker[DISTANCE] + tmp->checker[RADIUS]);
+	if (check - check_obligate != 0 || check_obligate / count != 1 ||
+		tmp->checker[EMISSION_COLOR] + tmp->checker[EMISSION_POWER] == 1)
+		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+}
 
+void	check_camera_or_light(t_tmp *tmp, bool type)
+{
+	int check_obligate;
+	int check;
+	int i;
+
+	i = 0;
+	check = 0;
+	while (tmp->checker[++i])
+		check +=tmp->checker[i];
+	if (type)
+		check_obligate = tmp->checker[POS] + tmp->checker[ROTATION];
+	else
+	{
+		check_obligate = 0;
+	}
+	if (check_obligate != 2 || check - check_obligate != 0)
+		rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
 }

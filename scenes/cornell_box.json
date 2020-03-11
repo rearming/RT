@@ -116,7 +116,7 @@
     {
       "type": "sphere",
       "material": {
-        "color": "0xFFFFFF",
+        "emission color": "0xFFFFFF",
         "emission power": 200
       },
       "center": [-1.5, 2, -13],
