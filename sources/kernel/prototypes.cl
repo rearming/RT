@@ -176,7 +176,7 @@ float3		texture_shade_pathtrace(
 		__global const t_object *object,
 		t_ray *ray,
 		t_rayhit *hit,
-		t_material material,
+		t_material *material,
 		float *seed,
 		float2 pixel);
 

@@ -18,19 +18,16 @@
 
 #include "light_computing.cl"
 
-# ifdef RENDER_MESH
+//# ifdef RENDER_MESH
 #  include "mesh_render_utils.cl"
 #  include "mesh_intersection.cl"
 #  include "kd_tree_traversal.cl"
-# endif
+//# endif
 
 __kernel void		kernel_raytrace_material_compute_light(
 		__global const t_scene *scene,
 		__global const t_light *lights,
-#ifdef RENDER_OBJECTS
 		__global const t_object *objects,
-#endif
-#ifdef RENDER_MESH
 		__global const t_kd_info *kd_info,
 		__global const t_kd_arr_tree *kd_tree,
 		__global const int *kd_indices,
@@ -38,7 +35,6 @@ __kernel void		kernel_raytrace_material_compute_light(
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
-#endif
 		__global const t_ray *rays_buffer,
 
 		__global const int *material_hit_obj_indices,

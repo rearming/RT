@@ -40,7 +40,7 @@ void		rt_opencl_init(void)
 			2, g_opencl.platform_ids, &g_opencl.ret_num_platforms);
 	rt_opencl_handle_error(ERR_OPENCL_GET_PLATFORM_ID, err);
 	err = clGetDeviceIDs(
-			g_opencl.platform_ids[1], CL_DEVICE_TYPE_GPU, 1,
+			g_opencl.platform_ids[0], CL_DEVICE_TYPE_GPU, 1,
 			&g_opencl.device_id, &g_opencl.ret_num_devices);
 	rt_opencl_handle_error(ERR_OPENCL_GET_DEVICE_ID, err);
 	g_opencl.context = clCreateContext(

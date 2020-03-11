@@ -8,24 +8,24 @@ float3		texture_shade_pathtrace(
 		__global const t_object *object,
 		t_ray *ray,
 		t_rayhit *hit,
-		t_material material,
+		t_material *material,
 		float *seed,
 		float2 pixel)
 {
-	const float		specular_chance = material.specular_texture;
-	const float3	color = texture(ray, hit, texture_info, texture_list, object); //change material.emission_color to color
+	const float		specular_chance = material->specular_texture;
+	const float3	color = texture(ray, hit, texture_info, texture_list, object); //change material->emission_color to color
 
 	const float		surface_chance = rt_randf(seed, pixel);
 	const float		transmit_chance = rt_randf(seed, pixel);
 
-	if (material.emission_power > 0.0f)
+	if (material->emission_power > 0.0f)
 	{
 		ray->energy = 0.0f;
-		return color * material.emission_power;
+		return color * material->emission_power;
 	}
 	if (surface_chance < specular_chance)
 	{
-		if (transmit_chance < material.transmittance) // if transparent
+		if (transmit_chance < material->transmittance) // if transparent
 		{
 			calc_refraction_pathtrace(ray, hit, &material, color, seed, pixel, specular_chance);
 		}
@@ -36,9 +36,9 @@ float3		texture_shade_pathtrace(
 	}
 	else //diffuse surface
 	{
-		if (transmit_chance < material.transmittance) // if transparent
+		if (transmit_chance < material->transmittance) // if transparent
 		{
-			calc_refraction_pathtrace(ray, hit, &material, material.diffuse, seed, pixel, (1.0f - specular_chance));
+			calc_refraction_pathtrace(ray, hit, &material, material->diffuse, seed, pixel, (1.0f - specular_chance));
 		}
 		else
 		{

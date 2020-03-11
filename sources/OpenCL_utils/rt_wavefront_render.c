@@ -160,20 +160,47 @@ float kernel_material_shade(t_rt *rt,
 
 	err = clEnqueueReadBuffer(g_opencl.queue,
 			g_opencl.wavefront_shared_buffers[RT_CL_MEM_OUT_RAYS_BUFFER_LEN].mem,
-			CL_TRUE, 0, sizeof(cl_uint), out_new_rays_buffer_len, 0, NULL, NULL);
+			CL_TRUE, 0, sizeof(cl_uint), out_new_rays_buffer_len, 0, NULL, NULL); //тут когда текстуры включены можно не читать значение
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 	exec_time = rt_get_kernel_exec_time();
 	clReleaseEvent(g_opencl.profile_event);
 	return exec_time;
 }
 
-void	kernel_shade_textures(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
+float kernel_texture_shade(t_rt *rt,
+						   cl_kernel kernel,
+						   size_t kernel_work_size,
+						   uint32_t *out_new_rays_buffer_len,
+						   int iteration)
 {
-	int		err;
+	int				err = CL_SUCCESS;
+	float exec_time = 0;
+
+	if (kernel_work_size <= 0)
+		return exec_time;
+	rt_set_kernel_args(kernel, 16, RT_CL_MEM_RENDERER_PARAMS,
+			RT_CL_MEM_OBJECTS, RT_CL_MEM_MESH_INFO, RT_CL_MEM_POLYGONS,
+			RT_CL_MEM_TEXTURE_INFO, RT_CL_MEM_TEXTURE_LIST,
+			RT_CL_MEM_LIGHT_INTENSITY_BUFFER, RT_CL_MEM_TEXTURE_HIT_OBJ_INDICES,
+			RT_CL_MEM_TEXTURE_HIT_POLYGON_INDICES, RT_CL_MEM_TEXTURE_PIXEL_INDICES,
+			RT_CL_MEM_TEXTURE_RAYS_HIT_BUFFER,
+			switch_ray_buffers(iteration), switch_ray_buffers(iteration + 1), // IN and OUT rays buffers
+			RT_CL_MEM_PIXEL_INDICES,
+			RT_CL_MEM_OUT_RAYS_BUFFER_LEN, RT_CL_MEM_TEMP_FLOAT3_IMG_DATA);
 
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			kernel, 1, NULL, &kernel_work_size, NULL, 0, NULL, &g_opencl.profile_event);
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
+	if (rt->events.info)
+		rt_print_opencl_profile_info("texture shade kernel");
+
+	err = clEnqueueReadBuffer(g_opencl.queue,
+			g_opencl.wavefront_shared_buffers[RT_CL_MEM_OUT_RAYS_BUFFER_LEN].mem,
+			CL_TRUE, 0, sizeof(cl_uint), out_new_rays_buffer_len, 0, NULL, NULL);
+	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
+	exec_time = rt_get_kernel_exec_time();
+	clReleaseEvent(g_opencl.profile_event);
+	return exec_time;
 }
 
 float kernel_skybox_shade(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
@@ -184,8 +211,11 @@ float kernel_skybox_shade(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 	if (kernel_work_size <= 0)
 		return exec_time;
 
-	rt_set_kernel_args(kernel, 3, RT_CL_MEM_SKYBOX_HIT_PIXEL_INDICES,
-			RT_CL_MEM_SKYBOX_HIT_RAYS_BUFFER, RT_CL_MEM_TEMP_FLOAT3_IMG_DATA);
+	rt_set_kernel_args(kernel, 5,
+			RT_CL_MEM_TEXTURE_INFO, RT_CL_MEM_TEXTURE_LIST,
+			RT_CL_MEM_SKYBOX_HIT_PIXEL_INDICES,
+			RT_CL_MEM_SKYBOX_HIT_RAYS_BUFFER,
+			RT_CL_MEM_TEMP_FLOAT3_IMG_DATA);
 
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			kernel, 1, NULL, &kernel_work_size, NULL, 0, NULL, &g_opencl.profile_event);
@@ -309,6 +339,7 @@ void 		render_wavefront(void *rt_ptr)
 	float	intersect_exec = 0;
 	float	light_exec = 0;
 	float	material_shade_exec = 0;
+	float	texture_shade_exec = 0;
 	float	skybox_shade_exec = 0;
 	float	img_fill_exec = 0;
 
@@ -340,13 +371,12 @@ void 		render_wavefront(void *rt_ptr)
 					kernel_work_sizes.materials, kernel_work_sizes.textures, kernel_work_sizes.skybox);
 
 		if (rt->renderer_flags & RENDER_RAYTRACE)
-		{
 			light_exec += kernel_raytrace_material_compute_light(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_COMPUTE_LIGHT], kernel_work_sizes.materials);
-		}
 
 		bzero_buffer(RT_CL_MEM_OUT_RAYS_BUFFER_LEN);
 		find_intersection_new_work_size = 0;
 		material_shade_exec += kernel_material_shade(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_SHADE], kernel_work_sizes.materials, &find_intersection_new_work_size, j);
+		texture_shade_exec += kernel_texture_shade(rt, g_wavefront_kernels[RT_KERNEL_TEXTURE_SHADE], kernel_work_sizes.textures, &find_intersection_new_work_size, j);
 
 		if (rt->events.info)
 			printf("find_intersection new work size: [%u]\n", find_intersection_new_work_size);
@@ -367,6 +397,8 @@ void 		render_wavefront(void *rt_ptr)
 	if (rt->renderer_flags & RENDER_RAYTRACE)
 		printf("light shadow exec time: [%.3f]\n", light_exec);
 	printf("material shade exec time: [%.3f]\n", material_shade_exec);
+	if (rt->renderer_flags & RENDER_TEXTURES)
+		printf("texture shade exec time: [%.3f]\n", texture_shade_exec);
 	printf("skybox shade exec time: [%.3f]\n", skybox_shade_exec);
 	printf("img fill exec time: [%.3f]\n", img_fill_exec);
 	total_exec_time = raygen_exec + intersect_exec + light_exec + material_shade_exec + skybox_shade_exec + img_fill_exec;

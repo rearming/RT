@@ -6,7 +6,14 @@
 #include "prototypes.cl"
 #include "color_utils.cl"
 
+#include "skybox.cl"
+#include "texture.cl"
+#include "texture_utils.cl"
+
 __kernel void		kernel_skybox_shade(
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+
 		__global const int *skybox_hit_pixel_indices,
 		__global const t_ray *skybox_hit_rays_buffer,
 
