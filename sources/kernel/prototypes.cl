@@ -170,6 +170,8 @@ float3		rand_dir_on_hemisphere(
 		float2 pixel_seed,
 		float phong_alpha);
 
+bool	russian_roulette_terminate(t_ray *ray, float *seed, float2 pixel_seed);
+
 float3		texture_shade_pathtrace(
 		__global const t_texture_info *texture_info,
 		__global const float *texture_list,
@@ -312,6 +314,14 @@ float3		shade_raytrace(
 		t_rayhit *hit,
 		t_material *material
 );
+
+float3		texture_shade_raytrace(
+		t_ray *ray,
+		t_rayhit *hit,
+		t_material *material,
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+		__global const t_object *object);
 
 float3		raytrace(
 		__global const t_scene *scene,

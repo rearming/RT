@@ -3,6 +3,7 @@
 #include "rt_debug.h"
 #include "time.h"
 #include "rt_kd_tree.h"
+#include "rt_math_utils.h"
 
 void		rt_set_kernel_args(cl_kernel kernel, int args_num, ...)
 {
@@ -26,7 +27,7 @@ float kernel_generate_primary_rays(t_rt *rt, cl_kernel kernel)
 	const size_t	kernel_work_size[1] = {WIN_WIDTH * WIN_HEIGHT};
 	float	exec_time = 0;
 
-	rt_set_kernel_args(kernel, 3, RT_CL_MEM_CAMERA, RT_CL_MEM_RAYS_BUFFER, RT_CL_MEM_PIXEL_INDICES);
+	rt_set_kernel_args(kernel, 3, RT_CL_MEM_CAMERA, RT_CL_MEM_OUT_RAYS_BUFFER, RT_CL_MEM_PIXEL_INDICES);
 
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			kernel, 1, NULL, kernel_work_size, NULL, 0, NULL, &g_opencl.profile_event);
@@ -58,16 +59,16 @@ enum e_cl_mem_types		switch_ray_buffers(int iteration)
 float kernel_find_intersections(t_rt *rt,
 								cl_kernel kernel,
 								size_t kernel_work_size,
-								t_kernel_work_sizes *out_work_sizes,
-								int iteration)
+								t_kernel_work_sizes *out_work_sizes)
 {
 	int				err = CL_SUCCESS;
 	float exec_time = 0;
 
-	rt_set_kernel_args(kernel, 24, RT_CL_MEM_SCENE, RT_CL_MEM_OBJECTS,
+	rt_set_kernel_args(kernel, 25, RT_CL_MEM_SCENE, RT_CL_MEM_OBJECTS,
 			RT_CL_MEM_KD_INFO, RT_CL_MEM_KD_TREE, RT_CL_MEM_KD_INDICES,
 			RT_CL_MEM_MESH_INFO, RT_CL_MEM_POLYGONS, RT_CL_MEM_VERTICES,
-			RT_CL_MEM_V_NORMALS, switch_ray_buffers(iteration), RT_CL_MEM_PIXEL_INDICES,
+			RT_CL_MEM_V_NORMALS, RT_CL_MEM_OUT_RAYS_BUFFER, RT_CL_MEM_PIXEL_INDICES,
+			RT_CL_MEM_MATERIAL_RAYS_BUFFER,
 			RT_CL_MEM_MATERIAL_HIT_OBJ_INDICES, RT_CL_MEM_MATERIAL_HIT_POLYGON_INDICES,
 			RT_CL_MEM_MATERIAL_PIXEL_INDICES, RT_CL_MEM_MATERIAL_RAYS_HIT_BUFFER,
 			RT_CL_MEM_MATERIAL_BUFFERS_LEN, RT_CL_MEM_TEXTURE_HIT_OBJ_INDICES,
@@ -134,8 +135,7 @@ float kernel_raytrace_material_compute_light(t_rt *rt, cl_kernel kernel, size_t 
 float kernel_material_shade(t_rt *rt,
 							cl_kernel kernel,
 							size_t kernel_work_size,
-							uint32_t *out_new_rays_buffer_len,
-							int iteration)
+							uint32_t *out_new_rays_buffer_len)
 {
 	int				err = CL_SUCCESS;
 	float exec_time = 0;
@@ -147,8 +147,8 @@ float kernel_material_shade(t_rt *rt,
 			RT_CL_MEM_OBJECTS, RT_CL_MEM_MESH_INFO, RT_CL_MEM_POLYGONS,
 			RT_CL_MEM_LIGHT_INTENSITY_BUFFER, RT_CL_MEM_MATERIAL_HIT_OBJ_INDICES,
 			RT_CL_MEM_MATERIAL_HIT_POLYGON_INDICES, RT_CL_MEM_MATERIAL_PIXEL_INDICES,
-			RT_CL_MEM_MATERIAL_RAYS_HIT_BUFFER,
-			switch_ray_buffers(iteration), switch_ray_buffers(iteration + 1), // IN and OUT rays buffers
+			RT_CL_MEM_MATERIAL_RAYS_HIT_BUFFER, RT_CL_MEM_MATERIAL_RAYS_BUFFER,
+			RT_CL_MEM_OUT_RAYS_BUFFER, // IN and OUT rays buffers
 			RT_CL_MEM_PIXEL_INDICES,
 			RT_CL_MEM_OUT_RAYS_BUFFER_LEN, RT_CL_MEM_TEMP_FLOAT3_IMG_DATA);
 
@@ -333,6 +333,7 @@ void 		render_wavefront(void *rt_ptr)
 	uint32_t					find_intersection_new_work_size;
 	static cl_float3			*float3_temp_img_zeros;
 
+	static float avg_exec_time = 0;
 	float	total_exec_time = 0;
 
 	float	raygen_exec = 0;
@@ -364,7 +365,9 @@ void 		render_wavefront(void *rt_ptr)
 		bzero_buffer(RT_CL_MEM_MATERIAL_BUFFERS_LEN);
 		bzero_buffer(RT_CL_MEM_TEXTURE_BUFFERS_LEN);
 		bzero_buffer(RT_CL_MEM_SKYBOX_HIT_BUFFERS_LEN);
-		intersect_exec += kernel_find_intersections(rt, g_wavefront_kernels[RT_KERNEL_FIND_INTERSECTIONS], find_intersection_new_work_size, &kernel_work_sizes, j);
+		intersect_exec += kernel_find_intersections(rt,
+				g_wavefront_kernels[RT_KERNEL_FIND_INTERSECTIONS],
+				find_intersection_new_work_size, &kernel_work_sizes);
 
 		if (rt->events.info)
 			printf("kernel new work sizes: material: [%u], texture: [%u], skybox: [%u]\n",
@@ -373,9 +376,11 @@ void 		render_wavefront(void *rt_ptr)
 		if (rt->renderer_flags & RENDER_RAYTRACE)
 			light_exec += kernel_raytrace_material_compute_light(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_COMPUTE_LIGHT], kernel_work_sizes.materials);
 
-		bzero_buffer(RT_CL_MEM_OUT_RAYS_BUFFER_LEN);
 		find_intersection_new_work_size = 0;
-		material_shade_exec += kernel_material_shade(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_SHADE], kernel_work_sizes.materials, &find_intersection_new_work_size, j);
+		bzero_buffer(RT_CL_MEM_OUT_RAYS_BUFFER_LEN);
+		material_shade_exec += kernel_material_shade(rt,
+				g_wavefront_kernels[RT_KERNEL_MATERIAL_SHADE],
+				kernel_work_sizes.materials, &find_intersection_new_work_size);
 		texture_shade_exec += kernel_texture_shade(rt, g_wavefront_kernels[RT_KERNEL_TEXTURE_SHADE], kernel_work_sizes.textures, &find_intersection_new_work_size, j);
 
 		if (rt->events.info)
@@ -403,6 +408,8 @@ void 		render_wavefront(void *rt_ptr)
 	printf("img fill exec time: [%.3f]\n", img_fill_exec);
 	total_exec_time = raygen_exec + intersect_exec + light_exec + material_shade_exec + skybox_shade_exec + img_fill_exec;
 	printf("total exec time: [%f]\n", total_exec_time);
+	avg_exec_time = rt_lerpf(avg_exec_time, total_exec_time, 1.0f / params.pathtrace_params.current_samples_num);
+	printf("average exec time: [%f]\n", avg_exec_time);
 	printf("current samples num: [%i]\n", params.pathtrace_params.current_samples_num);
 	printf("\n");
 

@@ -31,7 +31,7 @@ __kernel void		kernel_material_shade(
 		__global const int *material_pixel_indices,
 		__global const t_rayhit *material_rays_hit_buffer,
 
-		__global const t_ray *prev_rays_buffer,
+		__global const t_ray *prev_material_rays_buffer,
 
 		__global t_ray *out_rays_buffer, //общий для всех буфер лучей
 		__global int *out_rays_pixel_indices,
@@ -45,7 +45,7 @@ __kernel void		kernel_material_shade(
 
 	int			pixel_index = material_pixel_indices[g_id];
 
-	t_ray 		new_ray = prev_rays_buffer[pixel_index];
+	t_ray 		new_ray = prev_material_rays_buffer[g_id];
 	t_rayhit	best_hit = material_rays_hit_buffer[g_id];
 
 	t_material	material = isset(material_hit_obj_indices[g_id])
@@ -63,10 +63,11 @@ __kernel void		kernel_material_shade(
 			* shade_pathtrace(&new_ray, &best_hit, &material, &seed, pixel_seed); //может надо будет подумать над seed'ом рандома
 #endif
 
-	if (ray_has_energy(&new_ray)) // если генерируем новый луч
-	{
-		uint cached_buffer_len = atomic_inc(out_rays_buffer_len);
-		out_rays_pixel_indices[cached_buffer_len] = pixel_index;
-		out_rays_buffer[pixel_index] = new_ray; // в текструрном будет с +offset = out_rays_buffer_len
-	}
+//	if (russian_roulette_terminate(&new_ray, &seed, pixel_seed / seed))
+//		return;
+	if (!ray_has_energy(&new_ray))
+		return;
+	uint cached_buffer_len = atomic_inc(out_rays_buffer_len);
+	out_rays_pixel_indices[cached_buffer_len] = pixel_index;
+	out_rays_buffer[cached_buffer_len] = new_ray; // в текструрном будет с +offset = out_rays_buffer_len
 }

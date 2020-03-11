@@ -5,6 +5,7 @@
 #include "kernel_structs.cl"
 #include "prototypes.cl"
 
+#include "color_utils.cl"
 #include "math_utils.cl"
 #include "utils.cl"
 #include "mesh_render_utils.cl"
@@ -13,6 +14,7 @@
 #include "pathtrace_utils.cl"
 #include "shade_pathtrace.cl"
 
+#include "texture_shade_raytrace.cl"
 #include "texture.cl"
 #include "texture_utils.cl"
 
@@ -57,16 +59,18 @@ __kernel void		kernel_texture_shade(
 	temp_float3_img_data[pixel_index] += new_ray.energy
 #ifdef RENDER_RAYTRACE
 		* raytrace_light_intensity_buffer[g_id]
-		* shade_raytrace(&new_ray, &best_hit, &material); // texture shade raytrace
+		* texture_shade_raytrace(&new_ray, &best_hit, &material, texture_info, texture_list, &objects[texture_hit_obj_indices[g_id]]); // texture shade raytrace
 #endif
 #ifdef RENDER_PATHTRACE
 		* texture_shade_pathtrace(texture_info, texture_list, &objects[texture_hit_obj_indices[g_id]],
 				&new_ray, &best_hit, &material, &seed, pixel_seed); //может надо будет подумать над seed'ом рандома
 #endif
-	if (ray_has_energy(&new_ray))
-	{
-		uint cached_buffer_len = atomic_inc(out_rays_buffer_len);
-		out_rays_pixel_indices[cached_buffer_len] = pixel_index;
-		out_rays_buffer[pixel_index] = new_ray;
-	}
+
+	if (russian_roulette_terminate(&new_ray, &seed, pixel_seed))
+		return;
+//	if (!ray_has_energy(&new_ray))
+//		return;
+	uint cached_buffer_len = atomic_inc(out_rays_buffer_len);
+	out_rays_pixel_indices[cached_buffer_len] = pixel_index;
+	out_rays_buffer[pixel_index] = new_ray;
 }

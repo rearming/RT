@@ -3,7 +3,7 @@
 
 void rt_wavefront_setup_buffers(t_rt *rt, t_renderer_params render_params)
 {
-	const int	memobj_num = 36;
+	const int	memobj_num = 37;
 
 	rt_wavefront_alloc_buffers(rt, memobj_num,
 			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->scene.camera, sizeof(t_camera), RT_DEFAULT_MEM_FLAG, true, RENDER_ALWAYS}),
@@ -21,6 +21,7 @@ void rt_wavefront_setup_buffers(t_rt *rt, t_renderer_params render_params)
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.meshes.vertices, sizeof(cl_float3) * rt->scene.meshes.num_vertices, RT_DEFAULT_MEM_FLAG, false, RENDER_MESH}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.meshes.v_normals, sizeof(cl_float3) * rt->scene.meshes.num_v_normals, RT_DEFAULT_MEM_FLAG, false, RENDER_MESH}),
 
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_ray) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), //material rays buffer
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // material hit obj indices
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // material hit polygon indices
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, false, RENDER_ALWAYS}), // material hit pixel indices

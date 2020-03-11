@@ -1,5 +1,5 @@
 {
-  "open cl parameters": "RENDER_PATHTRACE | RENDER_OBJECTS | RENDER_MESH | RENDER_BACKFACE_CULLING",
+  "open cl parameters": "RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_MESH | RENDER_TEXTURES | RENDER_BACKFACE_CULLING",
   "skybox": "sphere_earth.jpg",
   "objects": [
     {

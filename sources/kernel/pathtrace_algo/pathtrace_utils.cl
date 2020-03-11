@@ -35,3 +35,12 @@ float3		rand_dir_on_hemisphere(
 	);
 	return sample_world_space;
 }
+
+bool	russian_roulette_terminate(t_ray *ray, float *seed, float2 pixel_seed)
+{
+	float p = color_energy(ray->energy);
+	if (saturate(rt_randf(seed, pixel_seed)) > p)
+		return true;
+	ray->energy *= (1.0f / p);
+	return false;
+}

@@ -50,7 +50,7 @@ float3		saturate_float3(float3 value)
 
 bool		ray_has_energy(t_ray *ray)
 {
-	return ray->energy.x > 0 || ray->energy.y > 0 || ray->energy.z > 0;
+	return ray->energy.x > RT_EPSILON || ray->energy.y > RT_EPSILON || ray->energy.z > RT_EPSILON;
 }
 
 int3		get_img_point(int global_id)

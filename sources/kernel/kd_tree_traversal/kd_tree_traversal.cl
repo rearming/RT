@@ -91,8 +91,8 @@ int		kd_tree_traverse(
 	while (stack.last_elem >= 0)
 	{
 		helper = ft_stack_pop(&stack);
-		if (helper.node_index < 0)
-			return NOT_SET;
+//		if (helper.node_index < 0)
+//			return NOT_SET;
 
 		t_min = helper.t_min;
 		t_max = helper.t_max;
@@ -120,7 +120,6 @@ int		kd_tree_traverse(
 				t_max = t_split;
 			}
 		}
-
 		for (int i = 0; i < node->objects.num; ++i)
 		{
 			int		index = kd_indices[i + node->obj_offset];
