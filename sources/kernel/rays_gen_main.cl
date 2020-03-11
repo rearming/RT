@@ -81,8 +81,8 @@ __kernel void		rays_gen(
 	__global int *img_data,
 	__global t_ray *rays)
 {
-	int3		img_point = (int3)(get_global_id(0), get_global_id(1), 0);
-	int			g_id = img_point.x + img_point.y * WIN_WIDTH;
+	int		g_id = get_global_id(0);
+	int3	img_point = get_img_point(g_id);
 
 //	rays[RAYS_CHUNK_SIZE * g_id + 4] = get_ray(convert_float3(img_point), &scene->camera);
 	float		x_sobel_value = sobel_get_weight_x(img_data, img_point.x, img_point.y);

@@ -13,7 +13,7 @@ void		rt_update_renderer_params(t_rt *rt, t_rt_renderer *renderer)
 		t_list	*temp = g_opencl.renderers;
 		while (temp)
 		{
-			((t_rt_renderer*)temp->content)->params.pathtrace_params.current_samples_num = 0;
+			((t_rt_renderer*)temp->content)->params.pathtrace_params.current_samples_num = 1;
 			temp = temp->next;
 		}
 	}

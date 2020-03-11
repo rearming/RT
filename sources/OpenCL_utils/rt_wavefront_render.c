@@ -3,6 +3,7 @@
 #include "rt_debug.h"
 #include "time.h"
 #include "rt_kd_tree.h"
+#include "rt_math_utils.h"
 
 void		rt_set_kernel_args(cl_kernel kernel, int args_num, ...)
 {
@@ -333,6 +334,7 @@ void 		render_wavefront(void *rt_ptr)
 	uint32_t					find_intersection_new_work_size;
 	static cl_float3			*float3_temp_img_zeros;
 
+	static float avg_exec_time = 0;
 	float	total_exec_time = 0;
 
 	float	raygen_exec = 0;
@@ -350,8 +352,8 @@ void 		render_wavefront(void *rt_ptr)
 		for (int i = 0; i < WIN_WIDTH * WIN_HEIGHT; ++i)
 			float3_temp_img_zeros[i] = (cl_float3){{0, 0, 0}};
 	}
-	rt_wavefront_setup_buffers(rt, params); //todo params вообще-то в разных рендерерах разные хранятся, потом переделать
 
+	rt_wavefront_setup_buffers(rt, params); //todo params вообще-то в разных рендерерах разные хранятся, потом переделать
 	bzero_float3_temp_img(float3_temp_img_zeros); // обнулить temp_float3_img_data
 	raygen_exec += kernel_generate_primary_rays(rt_ptr, g_wavefront_kernels[RT_KERNEL_GENERATE_PRIMARY_RAYS]);
 
@@ -373,8 +375,8 @@ void 		render_wavefront(void *rt_ptr)
 		if (rt->renderer_flags & RENDER_RAYTRACE)
 			light_exec += kernel_raytrace_material_compute_light(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_COMPUTE_LIGHT], kernel_work_sizes.materials);
 
-		bzero_buffer(RT_CL_MEM_OUT_RAYS_BUFFER_LEN);
 		find_intersection_new_work_size = 0;
+		bzero_buffer(RT_CL_MEM_OUT_RAYS_BUFFER_LEN);
 		material_shade_exec += kernel_material_shade(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_SHADE], kernel_work_sizes.materials, &find_intersection_new_work_size, j);
 		texture_shade_exec += kernel_texture_shade(rt, g_wavefront_kernels[RT_KERNEL_TEXTURE_SHADE], kernel_work_sizes.textures, &find_intersection_new_work_size, j);
 
@@ -403,6 +405,8 @@ void 		render_wavefront(void *rt_ptr)
 	printf("img fill exec time: [%.3f]\n", img_fill_exec);
 	total_exec_time = raygen_exec + intersect_exec + light_exec + material_shade_exec + skybox_shade_exec + img_fill_exec;
 	printf("total exec time: [%f]\n", total_exec_time);
+	avg_exec_time = rt_lerpf(avg_exec_time, total_exec_time, 1.0f / params.pathtrace_params.current_samples_num);
+	printf("average exec time: [%f]\n", avg_exec_time);
 	printf("current samples num: [%i]\n", params.pathtrace_params.current_samples_num);
 	printf("\n");
 
@@ -412,6 +416,6 @@ void 		render_wavefront(void *rt_ptr)
 			clReleaseMemObject(g_opencl.wavefront_shared_buffers[i].mem);
 	}
 	if (rt_camera_moved(&rt->scene.camera))
-		params.pathtrace_params.current_samples_num = 0;
+		params.pathtrace_params.current_samples_num = 1;
 	first_init_done = true;
 }
