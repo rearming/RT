@@ -85,6 +85,24 @@ static void		parse_type(t_tmp *tmp, const char *value)
 		rt_raise_error(ERR_PARSING_WRONG_TYPE);
 }
 
+static void		parse_string2(t_tmp *tmp, const char *key,
+		const char *tmp_value)
+{
+	if (ft_strequ(key, "texture") && tmp->type == SKYBOX)
+	{
+		if (g_textures.skybox_info->skybox_exist == true)
+			rt_raise_error(ERR_PRSING_DUPLICATED_SKYBOX);
+		g_textures.skybox_info->skybox_exist = true;
+		g_textures.skybox_info->skybox_name = ft_strdup(tmp_value);
+	}
+	else if (ft_strequ(key, "directory"))
+	{
+		g_textures.folders_names = rt_safe_malloc(1);
+		g_textures.folders_names[0] = ft_strdup(tmp_value);
+		g_textures.folders_names[1] = NULL;
+	}
+}
+
 void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 		uint32_t *renderer_flags)
 {
@@ -98,21 +116,11 @@ void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 			*renderer_flags = ft_strequ(tmp_value, "pathtrace") ?
 				*renderer_flags | RENDER_PATHTRACE :
 				*renderer_flags | RENDER_RAYTRACE;
-		else if (ft_strequ(key, "texture") && tmp->type == SKYBOX)
-		{
-			if (g_textures.skybox_info->skybox_exist == true)
-				rt_raise_error(ERR_PRSING_DUPLICATED_SKYBOX);
-			g_textures.skybox_info->skybox_exist = true;
-			g_textures.skybox_info->skybox_name = ft_strdup(tmp_value);
-		}
+		else if ((ft_strequ(key, "texture") && tmp->type == SKYBOX) ||
+			ft_strequ(key, "directory"))
+			parse_string2(tmp, key, tmp_value);
 		else if (ft_strequ(key, "file"))
 			tmp->file = ft_strdup(tmp_value);
-		else if (ft_strequ(key, "directory"))
-		{
-			g_textures.folders_names = rt_safe_malloc(1);
-			g_textures.folders_names[0] = ft_strdup(tmp_value);
-			g_textures.folders_names[1] = NULL;
-		}
 		else
 			rt_raise_error(ERR_PARSING_WRONG_TYPE);
 	}

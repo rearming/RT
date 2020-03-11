@@ -25,7 +25,7 @@ void	free_tmp(t_tmp *tmp)
 	free(tmp);
 }
 
-void		check_duplicated(bool *checker, int number)
+void	check_duplicated(bool *checker, int number)
 {
 	if (checker[number] == true)
 		rt_raise_error(ERR_PARSING_DUPLICATED_PARAM);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_parse_textures.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfoote <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/11 12:39:52 by gfoote            #+#    #+#             */
+/*   Updated: 2020/03/11 12:40:39 by gfoote           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 
 t_name		*ft_new_texture_name(const char *data)
@@ -37,7 +49,7 @@ int			ft_add_texture_name_back(t_name **list,
 static int	search(const char *name)
 {
 	t_name	*iter;
-	int				num;
+	int		num;
 
 	num = -1;
 	iter = g_textures.textures_names;
@@ -63,7 +75,7 @@ int			parse_texture(const char *name)
 	return (num);
 }
 
-void 		add_directory(json_t *value)
+void		add_directory(json_t *value)
 {
 	size_t i;
 	size_t array_size;
@@ -72,9 +84,7 @@ void 		add_directory(json_t *value)
 	array_size = json_array_size(value);
 	g_textures.folders_names = rt_safe_malloc(array_size);
 	while (i < array_size)
-	{
-		g_textures.folders_names[i] = ft_strdup(json_string_value(json_array_get(value, i)));
-		i++;
-	}
+		g_textures.folders_names[i] =
+			ft_strdup(json_string_value(json_array_get(value, i++)));
 	g_textures.folders_names[i] = NULL;
 }

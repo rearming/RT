@@ -23,8 +23,9 @@
     "exposure": 2,
     "gamma": 2.2
   },
-  "object":
-    {
+  "objects":
+    [
+      {
       "type": "sphere",
       "material": {
         "diffuse": [0.0, 0.0, 0.0],
@@ -36,7 +37,8 @@
       },
       "center": [20.0, 23.0, 0.0],
       "radius": 6.0
-    },
+    }
+    ],
   "camera": {
     "pos": [0.0, 2.0, 10.0],
     "rotation": [0.0, 180.0, 0.0]
