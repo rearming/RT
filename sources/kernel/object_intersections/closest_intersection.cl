@@ -57,7 +57,7 @@ void				closest_intersection(
 #endif
 
 #ifdef RENDER_MESH
-//	*out_closest_polygon_index = kd_tree_traverse(kd_info, kd_tree, kd_indices, polygons, vertices, v_normals, ray, out_best_hit);
+	*out_closest_polygon_index = kd_tree_traverse(kd_info, kd_tree, kd_indices, polygons, vertices, v_normals, ray, out_best_hit);
 //	*out_closest_polygon_index = ray_mesh_intersect(&scene->meshes, polygons, vertices, v_normals, ray, out_best_hit);
 	if (isset(*out_closest_polygon_index))
 		*out_closest_obj_index = NOT_SET;
