@@ -13,10 +13,10 @@ typedef struct		s_kernel_work_sizes
 
 void		bzero_buffer(enum e_cl_mem_types mem_index);
 void		bzero_float3_temp_img(cl_float3 *zero_arr);
-
 void		rt_set_kernel_args(cl_kernel kernel, int args_num, ...);
 void		wavefront_compile_kernels(uint32_t render_flags, t_renderer_params *params);
 enum e_cl_mem_types		switch_ray_buffers(int iteration);
+void wavefront_release_buffers(bool release_all);
 
 
 /*
@@ -69,6 +69,7 @@ enum	e_cl_mem_types
 	RT_CL_MEM_POLYGONS,
 	RT_CL_MEM_VERTICES,
 	RT_CL_MEM_V_NORMALS,
+	RT_CL_MEM_V_TEXTURES,
 
 	RT_CL_MEM_MATERIAL_HIT_OBJ_INDICES,
 	RT_CL_MEM_MATERIAL_HIT_POLYGON_INDICES,
@@ -90,6 +91,7 @@ enum	e_cl_mem_types
 	RT_CL_MEM_OUT_RAYS_BUFFER,
 	RT_CL_MEM_OUT_RAYS_PIXEL_INDICES,
 	RT_CL_MEM_OUT_RAYS_BUFFER_LEN,
+
 	RT_CL_MEM_TEMP_FLOAT3_IMG_DATA,
 	RT_CL_MEM_MAIN_FLOAT3_IMG_DATA,
 	RT_CL_MEM_RENDERER_PARAMS,

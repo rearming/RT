@@ -27,5 +27,7 @@ char			*rt_get_kernel_compile_options(uint32_t flags);
 
 t_opencl_mem_obj	rt_check_opencl_memobj(t_opencl_mem_obj mem_obj);
 void				rt_wavefront_alloc_buffers(t_rt *rt, int memobj_num, ...);
-void rt_wavefront_setup_buffers(t_rt *rt, t_renderer_params render_params);
+void rt_wavefront_setup_buffers(t_rt *rt,
+								t_renderer_params render_params,
+								uint32_t max_work_size);
 #endif

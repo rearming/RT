@@ -35,7 +35,7 @@ void 		render_wavefront(void *rt_ptr)
 			float3_temp_img_zeros[i] = (cl_float3){{0, 0, 0}};
 	}
 
-	rt_wavefront_setup_buffers(rt, params); //todo params вообще-то в разных рендерерах разные хранятся, потом переделать
+	rt_wavefront_setup_buffers(rt, params, WIN_WIDTH * WIN_HEIGHT); //todo params вообще-то в разных рендерерах разные хранятся, потом переделать
 	bzero_float3_temp_img(float3_temp_img_zeros); // обнулить temp_float3_img_data
 	raygen_exec += kernel_generate_primary_rays(rt_ptr, g_wavefront_kernels[RT_KERNEL_GENERATE_PRIMARY_RAYS]);
 
