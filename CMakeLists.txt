@@ -116,6 +116,9 @@ set(gui_sources
         sources/gui/rt_gui_button_callback.c
         sources/gui/rt_handle_event_gui.c)
 
+set(wavefront_render_sources
+        sources/wavefront_render/wavefront_bzero_utils.c sources/wavefront_render/wavefront_setup_kernels.c sources/wavefront_render/wavefront_run_kernels.c sources/wavefront_render/wavefront_run_kernels_utils.c)
+
 set(sources
         ${debug_sources}
         ${runtime_debug_sources}
@@ -131,6 +134,7 @@ set(sources
         ${kd_tree_sources}
         ${profiling_sources}
         ${gui_sources}
+        ${wavefront_render_sources}
         )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")

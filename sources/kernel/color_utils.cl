@@ -1,6 +1,6 @@
 float3		mix_avg_colors(float3 col_prev, float3 col_new, int samples)
 {
-	if (samples <= 0)
+	if (samples <= 1)
 		return (col_new);
 	const float		t = (float)1.0f / (samples);
 	return mix(col_prev, col_new, t);

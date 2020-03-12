@@ -27,18 +27,18 @@ float3		texture_shade_pathtrace(
 	{
 		if (transmit_chance < material->transmittance) // if transparent
 		{
-			calc_refraction_pathtrace(ray, hit, &material, color, seed, pixel, specular_chance);
+			calc_refraction_pathtrace(ray, hit, material, color, seed, pixel, specular_chance);
 		}
 		else
 		{
-			calc_reflection_pathtrace(ray, hit, &material, color, seed, pixel, specular_chance);
+			calc_reflection_pathtrace(ray, hit, material, color, seed, pixel, specular_chance);
 		}
 	}
 	else //diffuse surface
 	{
 		if (transmit_chance < material->transmittance) // if transparent
 		{
-			calc_refraction_pathtrace(ray, hit, &material, material->diffuse, seed, pixel, (1.0f - specular_chance));
+			calc_refraction_pathtrace(ray, hit, material, material->diffuse, seed, pixel, (1.0f - specular_chance));
 		}
 		else
 		{

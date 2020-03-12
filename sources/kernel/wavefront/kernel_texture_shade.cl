@@ -9,9 +9,10 @@
 #include "utils.cl"
 #include "mesh_render_utils.cl"
 
+#include "shade_raytrace.cl"
+#include "shade_pathtrace.cl"
 #include "texture_shade_pathtrace.cl"
 #include "pathtrace_utils.cl"
-#include "shade_pathtrace.cl"
 
 #include "texture.cl"
 #include "texture_utils.cl"

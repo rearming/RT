@@ -18,15 +18,6 @@ int		main(int argc, char **argv)
 	rt_init(&rt, argv[1]);
 	init_gui(rt.renderer_flags);
 	rt_render(&rt, render_wavefront);
-//	rt_render(&rt, render_wavefront);
-//	rt_render(&rt, render_wavefront);
-//	rt_render(&rt, render_wavefront);
-//	rt_render(&rt, render_wavefront);
-//	rt_render(&rt, render_wavefront);
-//	rt_render(&rt, render_wavefront);
-//	rt_render(&rt, render_wavefront);
-//	rt_render(&rt, render_wavefront);
-//	rt_render(&rt, render_wavefront);
 	rt_loop(&rt);
 	exit(rt_exit_clean());
 	return (0);

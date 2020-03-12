@@ -3,13 +3,6 @@
 
 #include "rt_host_structs.h"
 
-typedef struct		s_kernel_work_sizes
-{
-	uint32_t		materials;
-	uint32_t		textures;
-	uint32_t		skybox;
-}					t_kernel_work_sizes;
-
 void			rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer);
 void			rt_opencl_init(void);
 void			rt_opencl_render(void *rt_ptr);
