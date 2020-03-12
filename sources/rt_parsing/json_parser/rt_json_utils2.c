@@ -92,5 +92,6 @@ void	check_camera_or_light(t_tmp *tmp, bool type)
 			check_obligate = 0;
 	}
 	if (check_obligate / count != 1 || check - check_obligate != 0)
+		(type) ? rt_raise_error(ERR_PARSING_WRONG_CAMERA_PARAMS) :
 		rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
 }

@@ -91,7 +91,7 @@ static void		parse_string2(t_tmp *tmp, const char *key,
 	if (ft_strequ(key, "texture") && tmp->type == SKYBOX)
 	{
 		if (g_textures.skybox_info->skybox_exist == true)
-			rt_raise_error(ERR_PRSING_DUPLICATED_SKYBOX);
+			rt_raise_error(ERR_PARSING_DUPLICATED_SKYBOX);
 		g_textures.skybox_info->skybox_exist = true;
 		g_textures.skybox_info->skybox_name = ft_strdup(tmp_value);
 	}

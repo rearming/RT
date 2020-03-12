@@ -42,11 +42,12 @@
 # define ERR_PARSING_WRONG_PARAM "rt_parse error: wrong param - "
 # define ERR_PARSING_SCENE_NOT_SPECIFIED "rt_parse error: scene is not fully specified "
 # define ERR_PARSING_WRONG_LIGHT_PARAMS "rt_parse error: wrong light params"
-# define ERR_PARSING_WRONG_TYPE "rt_parse error: check the type, it's not object/light/camera"
+# define ERR_PARSING_WRONG_CAMERA_PARAMS "rt_parse error: wrong camera params"
+# define ERR_PARSING_WRONG_TYPE "rt_parse error: check the type of figure, it's not an object, light or a camera"
 # define ERR_PARSING_WRONG_ARRAY_FORMAT "rt_parse error: wrong format of array parameter"
 # define ERR_PARSING_DUPLICATED_PARAM "rt_parse error: duplicated parameters"
-# define ERR_PRSING_DUPLICATED_SKYBOX "rt_parse error: skybox image is duplicated "
-
+# define ERR_PARSING_DUPLICATED_SKYBOX "rt_parse error: skybox image is duplicated "
+# define ERR_PARSING_WRONG_SCENE_PARAMS "rt_parse error: wrong scene parameters "
 # define ERR_INVALID_JSON_FILE "can't read json scene file"
 
 #endif
