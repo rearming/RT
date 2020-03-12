@@ -18,9 +18,10 @@ int			ft_type_of_structure(const char *param, int structure_type);
 int 		ft_type_of_array(int *type_of_element, const char *param, int structure_type);
 void 		add_elements(t_scene *scene, t_tmp *tmp);
 void 		check_duplicated(bool *checker, int number);
+void		check_camera_or_light(t_tmp *tmp, bool type);
+void		check_object(t_tmp *tmp);
 int			ft_add_texture_name_back(t_name **list, const char *data);
 void 		add_directory(json_t *value);
-void		rt_correct_scene(t_scene *scene);
-void		check_object(t_tmp *tmp);
+
 
 #endif

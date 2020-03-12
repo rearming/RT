@@ -44,6 +44,7 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 static void	add_cam_and_light(t_camera *camera, t_light *light, t_tmp *tmp,
 		bool cam)
 {
+	(cam) ? check_camera_or_light(tmp, true) : check_camera_or_light(tmp, false);
 	if (cam)
 	{
 		camera->pos = tmp->pos;

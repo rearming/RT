@@ -69,17 +69,28 @@ void	check_camera_or_light(t_tmp *tmp, bool type)
 	int check_obligate;
 	int check;
 	int i;
+	int count;
 
 	i = 0;
 	check = 0;
-	while (tmp->checker[++i])
+	count = 2;
+	while (++i < 33)
 		check +=tmp->checker[i];
 	if (type)
 		check_obligate = tmp->checker[POS] + tmp->checker[ROTATION];
 	else
 	{
-		check_obligate = 0;
+		if (tmp->type == AMBIENT)
+			check_obligate = (tmp->checker[INTENSITY] + tmp->checker[COLOR]);
+		else if (tmp->type == DIRECTIONAL && ++count < 4)
+			check_obligate = (tmp->checker[INTENSITY] + tmp->checker[COLOR]
+					+ tmp->checker[DIRECTION]);
+		else if (tmp->type == POINT && ++count < 4)
+			check_obligate = (tmp->checker[INTENSITY] + tmp->checker[COLOR]
+							  + tmp->checker[POS]);
+		else
+			check_obligate = 0;
 	}
-	if (check_obligate != 2 || check - check_obligate != 0)
+	if (check_obligate / count != 1 || check - check_obligate != 0)
 		rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
 }

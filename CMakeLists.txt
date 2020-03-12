@@ -56,7 +56,6 @@ set(parsing_sources
         sources/rt_parsing/json_parser/rt_parse_textures.c
         sources/rt_parsing/json_parser/rt_parse_variable.c
         sources/rt_parsing/json_parser/rt_type_of_parametr.c
-        sources/rt_parsing/rt_correct_scene.c
         sources/rt_parsing/print_scene_params_delete_if_everything_works.c
         )
 
