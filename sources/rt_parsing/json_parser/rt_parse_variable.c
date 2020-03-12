@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_parse_variable.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfoote <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/11 12:41:25 by gfoote            #+#    #+#             */
+/*   Updated: 2020/03/11 12:41:26 by gfoote           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
+#include "rt_parsing.h"
 
 static float	parse_f(json_t *value)
 {
@@ -24,8 +37,13 @@ static void		parse_variable_material2(t_tmp *tmp, const char *key,
 		check_duplicated(tmp->checker, SPECULAR_TEXTURE);
 		tmp->specular_texture = parse_f(value);
 	}
+	else if (ft_strequ(key, "gamma"))
+	{
+		check_duplicated(tmp->checker, GAMMA);
+		tmp->gamma = parse_f(value);
+	}
 	else
-		rt_raise_error(ERR_PARSING_WRONG_PARAM);
+		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, key));
 }
 
 static void		parse_variable_material1(t_tmp *tmp, const char *key,
@@ -88,6 +106,19 @@ void			parse_variable(t_tmp *tmp, const char *key, json_t *value)
 	{
 		check_duplicated(tmp->checker, INTENSITY);
 		tmp->intensity = parse_f(value);
+	}
+	else if (ft_strequ(key, "exposure"))
+	{
+		check_duplicated(tmp->checker, EXPOSURE);
+		tmp->exposure = parse_f(value);
+	}
+	else if (ft_strequ(key, "max light bounces") && (tmp->type == RAYTRACE ||
+	tmp->type == PATHTRACE))
+	{
+		if (tmp->type == RAYTRACE)
+			tmp->max_depth_r = json_integer_value(value);
+		else
+			tmp->max_depth_p = json_integer_value(value);
 	}
 	else
 		parse_variable_params(tmp, key, value);

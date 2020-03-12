@@ -1,5 +1,27 @@
 {
-  "open cl parameters":"RENDER_RAYTRACE | RENDER_TEXTURES | RENDER_OBJECTS | RENDER_MESH",
+  "scene parameters": {
+    "exposure": 2,
+    "gamma": 2.2
+  },
+  "render parameters": {
+    "render algorithm": "raytrace",
+    "pathtrace": {
+      "max light bounces": 8
+    },
+    "raytrace": {
+      "max light bounces": 8
+    },
+    "render objects": true,
+    "render mesh": {
+      "enabled": true,
+      "file": "assets/3d_models/sauron_tower.obj",
+      "backface culling": true
+    },
+    "render anti aliasing": true,
+    "textures": {
+      "enabled": true
+    }
+  },
   "objects": [
     {
       "type": "plane",

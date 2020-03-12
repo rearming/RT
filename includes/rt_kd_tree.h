@@ -52,7 +52,7 @@ int				kd_tree_count_nodes(t_kd_tree *tree);
 
 t_kd_info		rt_get_kd_object(t_meshes *meshes);
 void rt_pack_kd_object_indices(t_kd_info *kd_info);
-
+void free_kd_tree(t_kd_tree *tree, bool free_indices);
 /*
 **	test traversal
 */

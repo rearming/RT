@@ -36,7 +36,7 @@ char				*rt_get_kernel_compile_options(uint32_t flags)
 	return (options);
 }
 
-t_rt_renderer		*rt_create_renderer(uint32_t flags)
+t_rt_renderer		*rt_create_renderer(uint32_t flags, t_cl_info clInfo)
 {
 	t_rt_renderer	*new_renderer;
 	const char		*opencl_defines = rt_get_kernel_compile_options(flags);
@@ -46,7 +46,7 @@ t_rt_renderer		*rt_create_renderer(uint32_t flags)
 	new_renderer = rt_safe_malloc(sizeof(t_rt_renderer));
 	new_renderer->flags = flags;
 	new_renderer->copy_done = false;
-	rt_init_renderer_params(&new_renderer->params);
+	rt_init_renderer_params(&new_renderer->params, clInfo);
 	ft_sprintf(&temp_str, "%s %s", OPENCL_INCLUDE_DIRS, opencl_defines);
 	compile_options = ft_del_whitespaces(temp_str);
 	ft_printf("compile options: %s\n", opencl_defines);
@@ -57,7 +57,7 @@ t_rt_renderer		*rt_create_renderer(uint32_t flags)
 	return (new_renderer);
 }
 
-t_rt_renderer		*rt_get_renderer(uint32_t flags)
+t_rt_renderer		*rt_get_renderer(uint32_t flags, t_cl_info clInfo)
 {
 	t_list			*tmp_renderer;
 
@@ -68,6 +68,6 @@ t_rt_renderer		*rt_get_renderer(uint32_t flags)
 			return (tmp_renderer->content);
 		tmp_renderer = tmp_renderer->next;
 	}
-	ft_lstaddback_p(&g_opencl.renderers, rt_create_renderer(flags), sizeof(t_rt_renderer));
+	ft_lstaddback_p(&g_opencl.renderers, rt_create_renderer(flags, clInfo), sizeof(t_rt_renderer));
 	return (g_opencl.renderers->last->content);
 }

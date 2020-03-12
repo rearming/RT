@@ -1,8 +1,31 @@
 {
-  "open cl parameters":"RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_TEXTURES | RENDER_MESH | RENDER_BACKFACE_CULLING",
-  "skybox": "skybox_snowy_park.hdr",
-  "object":
-    {
+  "render parameters":
+  {
+    "render algorithm": "raytrace",
+    "pathtrace": {
+      "max light bounces": 8
+    },
+    "raytrace": {
+      "max light bounces": 8
+    },
+    "render objects": true,
+    "render mesh": {
+      "enabled": true,
+      "file": "assets/3d_models/monkey.obj",
+      "backface culling": true
+    },
+    "skybox": {
+      "enabled": true,
+      "texture": "skybox_street.jpg"
+    }
+  },
+  "scene parameters": {
+    "exposure": 2,
+    "gamma": 2.2
+  },
+  "objects":
+    [
+      {
       "type": "sphere",
       "material": {
         "diffuse": [0.0, 0.0, 0.0],
@@ -14,7 +37,8 @@
       },
       "center": [20.0, 23.0, 0.0],
       "radius": 6.0
-    },
+    }
+    ],
   "camera": {
     "pos": [0.0, 2.0, 10.0],
     "rotation": [0.0, 180.0, 0.0]

@@ -1,6 +1,27 @@
 {
-  "open cl parameters":"RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_MESH | RENDER_BACKFACE_CULLING | RENDER_ANTI_ALIASING",
-  "objects": [],
+  "scene parameters": {
+    "exposure": 2,
+    "gamma": 2.2
+  },
+  "render parameters": {
+    "render algorithm": "raytrace",
+    "pathtrace": {
+      "max light bounces": 8
+    },
+    "raytrace": {
+      "max light bounces": 8
+    },
+    "render objects": true,
+    "render mesh": {
+      "enabled": true,
+      "file": "assets/3d_models/cube_plane_sphere.obj",
+      "backface culling": true
+    },
+    "render anti aliasing": true,
+    "textures": {
+      "enabled": false
+    }
+  },
   "camera": {
     "pos": [9.5, 5.2, -7.1],
     "rotation": [-14, -53, 0]

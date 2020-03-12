@@ -1,79 +1,130 @@
 {
-  "open cl parameters": "RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_TEXTURES | RENDER_MESH | RENDER_BACKFACE_CULLING",
-  "skybox": "skybox_cave.jpg",
+  "scene parameters": {
+    "exposure": 2,
+    "gamma": 2.2
+  },
+  "render parameters":
+  {
+    "render algorithm": "raytrace",
+    "pathtrace": {
+      "max light bounces": 8
+    },
+    "raytrace": {
+      "max light bounces": 8
+    },
+    "render objects": true,
+    "render mesh": {
+      "enabled": true,
+      "file": "assets/3d_models/cube_isosphere_materials.obj",
+      "backface culling": true
+    },
+    "textures": {
+      "enabled": true,
+      "directories": [
+        "assets/textures/",
+        "~/Desktop/"
+      ]
+    },
+    "skybox": {
+      "enabled": true,
+      "texture": "skybox_sea.jpg"
+    }
+  },
   "objects": [
     {
       "type": "plane",
       "material": {
-        "specular": [1.0, 1.0, 1.0],
-        "smoothness": 5000
-      },
-      "center": [0, -2.5, 0],
-      "normal": [0, 1, 0]
-    },
-    {
-      "type": "plane",
-      "material": {
-        "diffuse": "0x00FF00",
-        "phong exp": 50
-      },
-      "center": [2.5, 0, 0],
-      "normal": [1, 0, 0]
-    },
-    {
-      "type": "plane",
-      "material": {
-        "diffuse": "0xFF0000"
-      },
-      "center": [-2.5, 0, 0],
-      "normal": [1, 0, 0]
-    },
-    {
-      "type": "plane",
-      "material": {
-        "diffuse": "0xFFFFFF",
-        "phong exp": 40
-      },
-      "center": [0, 0, 2.5],
-      "normal": [0, 0, 1]
-    },
-    {
-      "type": "plane",
-      "material": {
-        "diffuse": "0xFFFFFF",
-        "phong exp": 0
-      },
-      "center": [0, 2.5, 0],
-      "normal": [0, 1, 0]
-    },
-    {
-      "type": "plane",
-      "material": {
         "diffuse": "0xFFFFFF"
+      },
+      "center": [0.0, 0, 5.0],
+      "normal": [0.0,  0.0, 1.0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0x408000"
+      },
+      "center": [8.5, 0.0, 0.0],
+      "normal": [1.0, 0.0, 0.0]
+    },
+    {
+      "type": "plane",
+      "material": {
+       "diffuse": "0xb30f0f"
+      },
+      "center": [-8.5, 0.0, 0.0],
+      "normal": [1.0, 0.0, 0.0]
+    },
+    {
+      "type": "plane",
+      "material": {
+      "diffuse": "0xFF",
+      "phong exp": 40.0
+      },
+      "center": [0.0, -8.0, 0.0],
+      "normal": [0.0, 1, 0.0]
+    },
+    {
+      "type": "plane",
+      "material": {
+      "diffuse": "0x00FF"
+      },
+      "center": [0, 8.5, 0],
+      "normal": [0, 1, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+      "diffuse": "FFFFFF"
       },
       "center": [0, 0, -15],
       "normal": [0, 0, 1]
     },
     {
-      "type": "sphere",
+      "type": "ellipsoid",
       "material": {
-        "emission color": "0xFFFFFF",
-        "emission power": 1
+        "specular": "0xffffff",
+        "smoothness": 10000
       },
-      "center": [0, 2.5, 0],
-      "radius": 1
+      "center": [-2, -1, -2],
+      "axis": [1, 1, 1],
+      "radius": 1.1,
+      "distance": 1.1
     },
     {
       "type": "sphere",
       "material": {
-        "diffuse": "0xFFFFFF"
+      "specular": "0xb3ff66",
+      "transmittance": 0,
+      "refraction": 0,
+      "phong exp": 200,
+      "smoothness": 1000
       },
-      "center": [1, -1.5, 0],
-      "radius": 1
+      "center": [-1, -0.5, -2.5],
+      "radius": 1.0
+    },
+    {
+      "type": "paraboloid",
+      "material": {
+        "specular": "0xffffff",
+        "smoothness": 10000
+      },
+      "center": [3.5, 0.5, -1],
+      "axis": [2, -3, 4],
+      "distance": 0.01
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "emission color": "0xFFFFFF",
+        "emission power": 200
+      },
+      "center": [-1.5, 2, -13],
+      "radius": 0.5
     }
   ],
   "camera": {
-    "pos": [-0.2, 1.2, -7],
+    "pos": [-1.5, 2, -14],
     "rotation": [0, 0, 0]
   },
   "light":
@@ -87,7 +138,7 @@
       "type": "point",
       "color": "0xFFFFFF",
       "intensity": 0.5,
-      "pos": [0, 0, -3]
+      "pos": [0, 0, -5]
     }
   ]
 }

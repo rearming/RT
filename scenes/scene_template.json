@@ -1,5 +1,27 @@
 {
-  "open cl parameters":"RENDER_PATHTRACE | RENDER_OBJECTS | RENDER_MESH | RENDER_BACKFACE_CULLING",
+  "scene parameters": {
+    "exposure": 2,
+    "gamma": 2.2
+  },
+  "render parameters":
+  {
+    "render algorithm": "pathtrace",
+    "pathtrace": {
+      "max light bounces": 8
+    },
+    "raytrace": {
+      "max light bounces": 8
+    },
+    "render objects": true,
+    "render mesh": {
+      "enabled": true,
+      "file": "assets/3d_models/cube_isosphere_materials.obj",
+      "backface culling": true
+    },
+    "render anti aliasing": true,
+    "textures": {
+      "enabled": false
+    },
   "objects": [
     {
       "type": "plane",

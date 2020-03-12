@@ -12,6 +12,14 @@
 
 #include "rt.h"
 
+void		init_textures_default(void)
+{
+	g_textures.textures_names = NULL;
+	g_textures.skybox_info = rt_safe_malloc(sizeof(t_skybox_info));
+	g_textures.texture_info_size = 0;
+	g_textures.skybox_info->skybox_exist = false;
+}
+
 static void	init_tmp_material(t_tmp *tmp)
 {
 	tmp->ambience = (cl_float3){{0, 0, 0}};
@@ -47,42 +55,41 @@ void		init_tmp(t_tmp *tmp)
 	tmp->radius = NOT_SET;
 	tmp->angle = NOT_SET;
 	tmp->len = NOT_SET;
+	tmp->max_depth_r = 8;
+	tmp->max_depth_p = 8;
+	tmp->skybox_num = NOT_SET;
+	tmp->exposure = NOT_SET;
+	tmp->gamma = NOT_SET;
+	tmp->file = NULL;
 	init_tmp_material(tmp);
 	ft_bzero(&tmp->checker, sizeof(tmp->checker) / sizeof(bool));
 }
 
 void		count_elements(t_scene *scene, t_tmp *tmp)
 {
-	t_tmp			*tmp_iterator;
-	int				check_camera;
-	t_texture_name	*texture_iter;
+	t_tmp	*tmp_iter;
+	int		check_param;
+	t_name	*texture_iter;
 
 	texture_iter = g_textures.textures_names;
-	tmp_iterator = tmp;
+	tmp_iter = tmp;
 	scene->lights_nbr = 0;
 	scene->obj_nbr = 0;
-	g_textures.texture_info_size = 0;
-	check_camera = 0;
-	while (tmp_iterator)
+	check_param = 0;
+	while (tmp_iter)
 	{
-		scene->lights_nbr += tmp_iterator->structure_type == LIGHT;
-		scene->obj_nbr += tmp_iterator->structure_type == OBJECT;
-		check_camera += tmp_iterator->structure_type == CAMERA;
-		tmp_iterator = tmp_iterator->next;
+		scene->lights_nbr += (tmp_iter->structure_type == LIGHT) ? 1 : 0;
+		scene->obj_nbr += (tmp_iter->structure_type == OBJECT) ? 1 : 0;
+		check_param += (tmp_iter->structure_type == CAMERA) ? 1 : 0;
+		check_param += (tmp_iter->structure_type == RENDER_PARAMS) ? 10 : 0;
+		check_param += (tmp_iter->structure_type == SCENE_PARAMS) ? 100 : 0;
+		tmp_iter = tmp_iter->next;
 	}
 	while (texture_iter)
 	{
 		g_textures.texture_info_size++;
 		texture_iter = texture_iter->next;
 	}
-	if (check_camera != 1)
-		rt_raise_error(ERR_PARSING_CAMERA);
-}
-
-void		check_duplicated(bool *checker, int number)
-{
-	if (checker[number] == true)
-		rt_raise_error(ERR_PARSING_DUPLICATED_PARAM);
-	else
-		checker[number] = true;
+	if (check_param != 111)
+		rt_raise_error(ERR_PARSING_SCENE_NOT_SPECIFIED);
 }

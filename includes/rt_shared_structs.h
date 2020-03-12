@@ -50,18 +50,18 @@ typedef struct			s_point
 typedef struct			s_skybox_info
 {
 # ifndef FT_OPENCL___
-	bool				skybox_exist;
-	const char			*skybox_name;
 	cl_int				width;
 	cl_int				height;
 	cl_int				bpp;
-	cl_long 			size;
-# else
 	bool				skybox_exist;
 	const char			*skybox_name;
+	cl_long 			size;
+# else
 	int					width;
 	int					height;
 	int					bpp;
+	bool				skybox_exist;
+	const char			*skybox_name;
 	long 				size;
 # endif
 }						t_skybox_info;
@@ -83,11 +83,11 @@ typedef struct			s_texture_info
 # endif
 }						t_texture_info;
 
-typedef struct		s_texture_name
+typedef struct		s_name
 {
 	char 			*name;
-	struct s_texture_name *next;
-}					t_texture_name;
+	struct s_name *next;
+}					t_name;
 
 # ifndef FT_OPENCL___
 typedef struct			s_textures
@@ -98,7 +98,8 @@ typedef struct			s_textures
 	t_texture_info		*texture_info; //вот здесь используется количество текстур
 	size_t				texture_list_size;
 	size_t				texture_info_size; // вот это заполнять
-	t_texture_name		*textures_names;
+	t_name				*textures_names;
+	char 				**folders_names;
 }						t_textures;
 # endif
 
@@ -297,6 +298,22 @@ typedef struct			s_meshes
 
 }						t_meshes;
 
+typedef struct s_cl_info
+{
+# ifndef FT_OPENCL___
+	cl_float			exposure;
+	cl_float			gamma;
+	cl_int 				max_depth_pathtrace;
+	cl_int 				max_depth_raytrace;
+# else
+	float				exposure;
+	float				gamma;
+	int 				max_depth_pathtrace;
+	int 				max_depth_raytrace;
+# endif
+}				t_cl_info;
+
+
 typedef struct			s_scene
 {
 # ifndef FT_OPENCL___
@@ -307,6 +324,8 @@ typedef struct			s_scene
 	t_meshes			meshes;
 	t_object			*objects;
 	t_light				*lights;
+	char 				*obj_file;
+	t_cl_info			clInfo;
 # else
 
 	t_camera			camera;
@@ -315,6 +334,8 @@ typedef struct			s_scene
 	t_meshes			meshes;
 	t_object			*objects;
 	t_light				*lights;
+	char 				*obj_file;
+	t_cl_info			clInfo;
 # endif
 
 }						t_scene;

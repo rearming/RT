@@ -1,6 +1,31 @@
 {
-  "open cl parameters":"RENDER_RAYTRACE | RENDER_OBJECTS | RENDER_TEXTURES | RENDER_MESH | RENDER_BACKFACE_CULLING",
-  "skybox": "skybox_cave.jpg",
+  "scene parameters": {
+    "exposure": 2,
+    "gamma": 2.2
+  },
+  "render parameters": {
+    "render algorithm": "raytrace",
+    "pathtrace": {
+      "max light bounces": 8
+    },
+    "raytrace": {
+      "max light bounces": 8
+    },
+    "render objects": true,
+    "render mesh": {
+      "enabled": true,
+      "file": "assets/3d_models/cube_isosphere_materials.obj",
+      "backface culling": true
+    },
+    "textures": {
+      "enabled": true,
+      "directory": "/Users/gfoote/Project42/hdr/"
+    },
+    "skybox": {
+      "enabled": true,
+      "texture": "colorful_studio_8k.hdr"
+    }
+  },
   "objects": [
     {
       "type": "sphere",
@@ -9,11 +34,35 @@
         "specular": [0.0, 0.0, 0.0],
         "phong exp": 40,
         "smoothness": 0.0,
-        "texture": "skybox_sea.jpg"
+        "texture": "sphere_moon.jpg"
       },
       "center": [0.0, 2.5, 0.0],
       "radius": 1.5
-    }
+    },
+    {
+      "type": "sphere",
+      "material": {
+      "diffuse": "0xFFFFFF",
+      "specular": [0.0, 0.0, 0.0],
+      "phong exp": 40,
+      "smoothness": 0.0,
+      "texture": "sphere_saturn.jpg"
+    },
+    "center": [8.0, 2.5, 0.0],
+    "radius": 1.5
+    },
+    {
+    "type": "sphere",
+    "material": {
+      "diffuse": "0xFFFFFF",
+      "specular": [0.0, 0.0, 0.0],
+      "phong exp": 40,
+      "smoothness": 0.0,
+      "texture": "sphere_earth.jpg"
+    },
+    "center": [0.0, -2.5, 0.0],
+    "radius": 1.5
+  }
   ],
   "camera": {
     "pos": [0.0, 2.0, 10.0],

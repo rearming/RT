@@ -20,6 +20,6 @@ void				rt_opencl_create_kernel(
 		const char *compile_options,
 		cl_kernel *out_kernel,
 		cl_program *out_program);
-t_rt_renderer		*rt_get_renderer(uint32_t flags);
+t_rt_renderer		*rt_get_renderer(uint32_t flags, t_cl_info clInfo);
 
 #endif

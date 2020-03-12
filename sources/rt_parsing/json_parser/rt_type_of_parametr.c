@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_type_of_parametr.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfoote <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/11 12:41:43 by gfoote            #+#    #+#             */
+/*   Updated: 2020/03/11 12:41:45 by gfoote           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 
 static int	ft_check_material(const char *param, int *type_of_element)
@@ -12,7 +24,9 @@ static int	ft_check_material(const char *param, int *type_of_element)
 		*type_of_element = EMISSION_COLOR;
 	else if (ft_strequ(param, "texture position"))
 		*type_of_element = TEXTURE_POS;
-	return (*type_of_element != -1) ? 1 : -1;
+	else if (ft_strequ(param, "directories"))
+		*type_of_element = DIRECTORY;
+	return (*type_of_element != NOT_SET) ? 1 : NOT_SET;
 }
 
 static int	ft_check(const char *param, int *type_of_element)
@@ -35,8 +49,28 @@ static int	ft_check(const char *param, int *type_of_element)
 		*type_of_element = VMIN;
 	else if (ft_strequ(param, "vmax"))
 		*type_of_element = VMAX;
-	return (*type_of_element != -1) ? 1 :
+	return (*type_of_element != NOT_SET) ? 1 :
 	ft_check_material(param, type_of_element);
+}
+
+static void	ft_check_object(int *type_of_element, const char *param)
+{
+	if (ft_strequ(param, "sphere"))
+		*type_of_element = SPHERE;
+	else if (ft_strequ(param, "cone"))
+		*type_of_element = CONE;
+	else if (ft_strequ(param, "cylinder"))
+		*type_of_element = CYLINDER;
+	else if (ft_strequ(param, "plane"))
+		*type_of_element = PLANE;
+	else if (ft_strequ(param, "AABB"))
+		*type_of_element = AABB;
+	else if (ft_strequ(param, "triangle"))
+		*type_of_element = TRIANGLE;
+	else if (ft_strequ(param, "paraboloid"))
+		*type_of_element = PARABOLOID;
+	else if (ft_strequ(param, "ellipsoid"))
+		*type_of_element = ELLIPSOID;
 }
 
 int			ft_type_of_array(int *type_of_element,
@@ -56,36 +90,35 @@ int			ft_type_of_array(int *type_of_element,
 			*type_of_element = DIRECTIONAL;
 	}
 	if (structure_type == OBJECT)
-	{
-		if (ft_strequ(param, "sphere"))
-			*type_of_element = SPHERE;
-		else if (ft_strequ(param, "cone"))
-			*type_of_element = CONE;
-		else if (ft_strequ(param, "cylinder"))
-			*type_of_element = CYLINDER;
-		else if (ft_strequ(param, "plane"))
-			*type_of_element = PLANE;
-		else if (ft_strequ(param, "AABB"))
-			*type_of_element = AABB;
-		else if (ft_strequ(param, "triangle"))
-			*type_of_element = TRIANGLE;
-		else if (ft_strequ(param, "paraboloid"))
-			*type_of_element = PARABOLOID;
-		else if (ft_strequ(param, "ellipsoid"))
-			*type_of_element = ELLIPSOID;
-	}
-	return (*type_of_element != -1) ? 2 : (ft_check(param, type_of_element));
+		ft_check_object(type_of_element, param);
+	return (*type_of_element != NOT_SET) ? 2 :
+	(ft_check(param, type_of_element));
 }
 
-int			ft_type_of_structure(const char *param)
+int			ft_type_of_structure(const char *param, int structure_type)
 {
-	if (ft_strequ(param, "object"))
-		return (OBJECT);
-	else if (ft_strequ(param, "light"))
+	if (ft_strequ(param, "light"))
 		return (LIGHT);
 	else if (ft_strequ(param, "camera"))
 		return (CAMERA);
-	else if (ft_strequ(param, "material"))
+	else if (ft_strequ(param, "render parameters"))
+		return (RENDER_PARAMS);
+	else if (ft_strequ(param, "scene parameters"))
+		return (SCENE_PARAMS);
+	else if (structure_type == OBJECT && ft_strequ(param, "material"))
 		return (MATERIAL);
-	return (-1);
+	else if (structure_type == RENDER_PARAMS)
+	{
+		if (ft_strequ(param, "pathtrace"))
+			return (PATHTRACE);
+		else if (ft_strequ(param, "raytrace"))
+			return (RAYTRACE);
+		else if (ft_strequ(param, "render mesh"))
+			return (MESH);
+		else if (ft_strequ(param, "textures"))
+			return (TEXTURES);
+		else if (ft_strequ(param, "skybox"))
+			return (SKYBOX);
+	}
+	return (NOT_SET);
 }
