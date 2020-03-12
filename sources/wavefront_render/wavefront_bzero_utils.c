@@ -7,6 +7,7 @@ void		bzero_buffer(enum e_cl_mem_types mem_index)
 	int			err = CL_SUCCESS;
 	cl_uint		zero = 0;
 
+	printf("bzero buffer\n");
 	err |= clEnqueueWriteBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[mem_index].mem,
 			CL_TRUE, 0, sizeof(cl_uint), &zero, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_FILL_BUFFER, err);
