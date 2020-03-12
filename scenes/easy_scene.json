@@ -10,13 +10,12 @@
     },
     "render objects": true,
     "render mesh": {
-      "enabled": true,
+      "enabled": false,
       "file": "assets/3d_models/monkey.obj",
-      "backface culling": true
+      "backface culling": false
     },
-    "skybox": {
-      "enabled": true,
-      "texture": "skybox_street.jpg"
+    "textures": {
+      "enabled": true
     }
   },
   "scene parameters": {
@@ -26,21 +25,44 @@
   "objects":
     [
       {
-      "type": "sphere",
-      "material": {
-        "diffuse": [0.0, 0.0, 0.0],
-        "specular": [0.0, 0.0, 0.0],
-        "phong exp": 40,
-        "smoothness": 0.0,
-        "emission color": "0xFFFFFF",
-        "emission power": 20
+        "type": "plane",
+        "material": {
+          "emission color": "0xFFFFFF",
+          "emission power": 200
+        },
+        "center": [0.0, 0, 5.0],
+        "normal": [0.0,  0.0, 1.0]
       },
-      "center": [20.0, 23.0, 0.0],
-      "radius": 6.0
-    }
+      {
+      "type": "cylinder",
+      "material": {
+        "texture": "plane_spruce.jpg"
+      },
+      "center": [0, -1.5, 0],
+      "axis": [0, 1, 0],
+      "radius": 0.5
+    },
+      {
+        "type": "cone",
+        "material": {
+          "texture": "plane_bricks.bmp"
+        },
+        "center": [-1, 1.5, 0],
+        "axis": [0, 1, 0],
+        "angle": 20
+      },
+      {
+        "type": "sphere",
+        "material": {
+          "texture": "sphere_sauron.jpg",
+          "texture position": [3, 0, 0]
+        },
+        "center": [-10.5, -2.5, -40],
+        "radius": 10
+      }
     ],
   "camera": {
-    "pos": [0.0, 2.0, 10.0],
+    "pos": [0.0, 2.0, -10.0],
     "rotation": [0.0, 180.0, 0.0]
   },
   "light":

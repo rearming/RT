@@ -98,6 +98,7 @@ void		rt_textures_init(void)
 		rt_change_format_and_add(tmp_texture, i);
 		free(tmp_filename);
 		free(tmp_texture);
+		printf("texture name %s, i %i width %i height %i\n", tmp_filename, i, g_textures.texture_info[i].width, g_textures.texture_info[i].height);
 		if (g_textures.texture_list == NULL)
 			return (rt_raise_error(ERR_INVALID_TEXRTURE));
 		free(g_textures.textures_names->name); // чистим именя texture или передаем в gui?

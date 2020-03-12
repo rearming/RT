@@ -313,7 +313,15 @@ float 		scale(t_ray ray, float skybox_radius);
 
 float3		skybox_normal(t_ray ray);
 
-float3 texture(t_ray *out_ray,
+int		convert_x(t_rayhit *hit,
+				  __global const t_texture_info *texture_info,
+				  __global const t_object *object);
+
+int		convert_y(t_rayhit *hit,
+					__global const t_texture_info *texture_info,
+					__global const t_object *object);
+
+float3	texture(t_ray *out_ray,
 			   t_rayhit *hit,
 			   __global const t_texture_info *texture_info,
 			   __global const int *texture_list,

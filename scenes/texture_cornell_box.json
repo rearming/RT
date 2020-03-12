@@ -82,7 +82,6 @@
       "type": "sphere",
       "material": {
         "texture": "sphere_sauron.jpg",
-        "emission color": "0xFFFFFF",
         "emission power": 1
       },
       "center": [0, 2.5, 0],

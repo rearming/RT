@@ -13,7 +13,7 @@ float3		shade(
 	{
 #ifdef RENDER_TEXTURES
 		if (material->texture_number != NOT_SET)
-			diffuse_color = texture(ray, hit, &texture_info[material->texture_number], texture_list, object);
+				diffuse_color = texture(ray, hit, &texture_info[material->texture_number], texture_list, object);
 #endif
 		ray->origin = hit->pos + hit->normal * RT_EPSILON;
 		ray->dir = reflect(ray->dir, hit->normal);

@@ -50,9 +50,12 @@ void	check_object(t_tmp *tmp)
 		check_obligate = (tmp->checker[CENTER] + tmp->checker[RADIUS]);
 	else if (tmp->type == PLANE)
 		check_obligate = (tmp->checker[CENTER] + tmp->checker[NORMAL]);
-	else if ((tmp->type == CONE || tmp->type == CYLINDER) && ++count < 4)
+	else if (tmp->type == CONE && ++count < 4)
 		check_obligate = (tmp->checker[CENTER] + tmp->checker[AXIS]
 			+ tmp->checker[ANGLE]);
+	else if (tmp->type == CYLINDER && ++count < 4)
+		check_obligate = (tmp->checker[CENTER] + tmp->checker[AXIS]
+					  + tmp->checker[RADIUS]);
 	else if (tmp->type == PARABOLOID && ++count < 4)
 		check_obligate = (tmp->checker[CENTER] + tmp->checker[DISTANCE]
 			+ tmp->checker[AXIS]);

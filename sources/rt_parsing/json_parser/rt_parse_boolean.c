@@ -32,7 +32,8 @@ void	parse_bool(t_tmp *tmp, const char *key, json_t *value,
 		else if (ft_strequ(key, "enabled"))
 		{
 			if (tmp->type == MESH)
-				*renderer_flags = *renderer_flags | RENDER_MESH;
+				*renderer_flags = json_is_true(value) ? *renderer_flags
+					| RENDER_MESH : *renderer_flags & ~RENDER_MESH;
 			else if (tmp->type == TEXTURES || tmp->type == SKYBOX)
 				*renderer_flags = json_is_true(value) ? *renderer_flags
 					| RENDER_TEXTURES : *renderer_flags & ~RENDER_TEXTURES;

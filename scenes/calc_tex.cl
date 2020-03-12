@@ -34,7 +34,7 @@ static int		check_borders(int a, int max, int type)
 	return (a);
 }
 
-static int		convert_x(float3 normal, SDL_Surface *texture)
+static int		convert_x(cl_float3 normal, SDL_Surface *texture)
 {
 	double	u;
 	int		x;
@@ -95,7 +95,7 @@ static int2		texture_on_plane(float3 normal, float3 point, float3 pos, SDL_Surfa
 	return (dot);
 }
 
-t_color			texture(float3 normal, SDL_Surface *texture, t_object *obj, float3 dot_on_object)
+t_color			texture(cl_float3 normal, SDL_Surface *texture, t_object *obj, cl_float3 dot_on_object)
 {
 	t_color		col;
 	Uint32		color;
