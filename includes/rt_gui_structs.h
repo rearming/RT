@@ -17,7 +17,7 @@ typedef enum			e_button
 						camera_l,
 						obj_l,
 						obj_pos,
-						test_box,
+//						test_box,
 						btn_count
 }						t_btn;
 

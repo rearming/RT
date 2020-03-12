@@ -83,6 +83,8 @@ void		auto_render_button(int i)
 		render_button(g_gui.obj[i]);
 }
 
+
+
 void		render_all_buttons(void)
 {
 	int	i;
@@ -90,7 +92,8 @@ void		render_all_buttons(void)
 	i = 0;
 	while (i < btn_count)
 	{
-
+		if (g_gui.obj[i].callback == NULL)
+			rt_raise_error(BTN_TROUBLE);
 		if (g_gui.obj[i].type == RENDER_BTN)
 		{
 			if (g_gui.obj[i].action != g_gui.render_algo)

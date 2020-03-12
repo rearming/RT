@@ -81,14 +81,15 @@ void		init_object_panel()
 
 }
 
-
-
 void		init_font()
 {
 	TTF_Init();
-	g_gui.title = TTF_OpenFont(FONT_PATH, TITLE_FONT_SIZE);
-	g_gui.subtitle = TTF_OpenFont(FONT_PATH, SUBTITLE_FONT_SIZE);
-	g_gui.body = TTF_OpenFont(FONT_PATH, BODY_FONT_SIZE);
+	if ((g_gui.title = TTF_OpenFont(FONT_PATH, TITLE_FONT_SIZE)) == NULL)
+		rt_raise_error(FONT_ERROR);
+	if ((g_gui.subtitle = TTF_OpenFont(FONT_PATH, SUBTITLE_FONT_SIZE)) == NULL)
+		rt_raise_error(FONT_ERROR);
+	if ((g_gui.body = TTF_OpenFont(FONT_PATH, BODY_FONT_SIZE)) == NULL)
+		rt_raise_error(FONT_ERROR);
 }
 
 void		fill_surfaces()
