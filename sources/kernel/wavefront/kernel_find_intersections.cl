@@ -27,35 +27,35 @@
 # endif
 
 __kernel void		kernel_find_intersections(
-	__global const t_scene * restrict scene,
-	__global const t_object * restrict objects,
+	__global const t_scene *scene,
+	__global const t_object *objects,
 
-	__global const t_kd_info * restrict kd_info,
-	__global const t_kd_arr_tree * restrict kd_tree,
-	__global const int * restrict kd_indices,
-	__global const t_mesh_info * restrict meshes_info,
-    __global const t_polygon * restrict polygons,
-	__global const float3 * restrict vertices,
-	__global const float3 * restrict v_normals,
+	__global const t_kd_info *kd_info,
+	__global const t_kd_arr_tree *kd_tree,
+	__global const int *kd_indices,
+	__global const t_mesh_info *meshes_info,
+    __global const t_polygon *polygons,
+	__global const float3 *vertices,
+	__global const float3 *v_normals,
 
-	__global const t_ray * restrict rays_buffer,
-	__global const int * restrict pixel_indices,
+	__global const t_ray *rays_buffer,
+	__global const int *pixel_indices,
 
-	__global int * restrict material_hit_obj_indices,
-	__global int * restrict material_hit_polygon_indices,
-	__global int * restrict new_material_pixel_indices,
-	__global t_rayhit * restrict material_rays_hit_buffer,
-	__global uint * restrict material_buffers_len,
+	__global int *material_hit_obj_indices,
+	__global int *material_hit_polygon_indices,
+	__global int *new_material_pixel_indices,
+	__global t_rayhit *material_rays_hit_buffer,
+	__global uint *material_buffers_len,
 
-	__global int * restrict texture_hit_obj_indices,
-	__global int * restrict texture_hit_polygon_indices,
-	__global int * restrict new_textures_pixel_indices,
-	__global t_rayhit * restrict texture_rays_hit_buffer,
-	__global uint * restrict texture_buffers_len,
+	__global int *texture_hit_obj_indices,
+	__global int *texture_hit_polygon_indices,
+	__global int *new_textures_pixel_indices,
+	__global t_rayhit *texture_rays_hit_buffer,
+	__global uint *texture_buffers_len,
 
-	__global int * restrict skybox_hit_pixel_indices,
-	__global t_ray * restrict skybox_hit_rays_buffer,
-	__global uint * restrict skybox_hit_buffers_len)
+	__global int *skybox_hit_pixel_indices,
+	__global t_ray *skybox_hit_rays_buffer,
+	__global uint *skybox_hit_buffers_len)
 {
 	int			g_id = get_global_id(0);
 	int 		pixel_index = pixel_indices[g_id];

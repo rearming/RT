@@ -5,15 +5,16 @@
 #include "kernel_structs.cl"
 #include "prototypes.cl"
 
+#include "color_utils.cl"
 #include "math_utils.cl"
 #include "utils.cl"
 #include "mesh_render_utils.cl"
 
-#include "shade_raytrace.cl"
-#include "shade_pathtrace.cl"
 #include "texture_shade_pathtrace.cl"
 #include "pathtrace_utils.cl"
+#include "shade_pathtrace.cl"
 
+#include "texture_shade_raytrace.cl"
 #include "texture.cl"
 #include "texture_utils.cl"
 
@@ -58,7 +59,7 @@ __kernel void		kernel_texture_shade(
 	temp_float3_img_data[pixel_index] += new_ray.energy
 #ifdef RENDER_RAYTRACE
 		* raytrace_light_intensity_buffer[g_id]
-		* shade_raytrace(&new_ray, &best_hit, &material); // texture shade raytrace
+		* texture_shade_raytrace(&new_ray, &best_hit, &material, texture_info, texture_list, &objects[texture_hit_obj_indices[g_id]]); // texture shade raytrace
 #endif
 #ifdef RENDER_PATHTRACE
 		* texture_shade_pathtrace(texture_info, texture_list, &objects[texture_hit_obj_indices[g_id]],

@@ -8,11 +8,8 @@
 #include "color_utils.cl"
 #include "math_utils.cl"
 #include "utils.cl"
-
-// todo #ifdef RENDER_MESH ?
 #include "mesh_render_utils.cl"
 
-//todo #ifdef RENDER_PATHTRACE ?
 #include "shade_pathtrace.cl"
 #include "pathtrace_utils.cl"
 

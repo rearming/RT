@@ -92,7 +92,7 @@ void 		render_wavefront(void *rt_ptr)
 	printf("current samples num: [%i]\n", params.pathtrace_params.current_samples_num);
 	printf("\n");
 
-	for (int i = 0; i < 26; ++i)
+	for (int i = 0; i < 37; ++i)
 	{
 		if (g_opencl.wavefront_shared_buffers[i].copy_mem == true)
 			clReleaseMemObject(g_opencl.wavefront_shared_buffers[i].mem);
