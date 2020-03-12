@@ -60,6 +60,14 @@ void		create_screenshot_png(void);
 void		create_screenshot_jpg(void);
 bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt);
 
+
+/*
+** Text box render
+*/
+
+
+void		render_text_box(t_transform btn);
+
 /*
 ** Utils
 */

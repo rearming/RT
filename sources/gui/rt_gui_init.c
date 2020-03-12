@@ -81,6 +81,8 @@ void		init_object_panel()
 
 }
 
+
+
 void		init_font()
 {
 	TTF_Init();
@@ -97,18 +99,14 @@ void		fill_surfaces()
 	bg = get_color_from_hex(GUI_BG);
 	SDL_FillRect(g_gui.surface, NULL,
 				 SDL_MapRGB(g_gui.surface->format, bg.r, bg.g, bg.b));
-	bg = get_color_from_hex(BTN_COLOR_CLICK);
+	bg = get_color_from_hex(PANEL_BG);
 	rect = &(SDL_Rect){ .x = 0, .y = PANEL_Y, .h = PANEL_HEIGHT, .w = PANEL_WIDTH};
 	cut_rect(rect, PANEL_BORDER);
 	SDL_FillRect(g_gui.surface, rect,
 				 SDL_MapRGB(g_gui.surface->format, bg.r, bg.g, bg.b));
 }
 
-//void		render_text_box(t_transform btn)
-//{
-//	render_button()
-//
-//}
+
 
 void		init_gui(uint64_t algo)
 {

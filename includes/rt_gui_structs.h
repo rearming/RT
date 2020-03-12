@@ -14,11 +14,11 @@ typedef enum			e_button
 						pt_btn,
 //						rm_btn
 						scr_sbtn,
-//						all_btn,
 						camera_l,
 						obj_l,
 						obj_pos,
-						btn_count //= all_btn
+						test_box,
+						btn_count
 }						t_btn;
 
 //typedef enum 			e_all_btns
@@ -38,7 +38,7 @@ typedef	struct			s_transform
 	SDL_Color			color;
 	SDL_Surface			texture;
 	char				text[100];
-	char 				field;
+	char 				field[10];
 	short				action;
 	bool				(*callback)();
 	t_state 			state;

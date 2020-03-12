@@ -37,7 +37,7 @@
 # define DARK_GREEN 0xDDFC74
 
 
-# define GUI_BG DARK_GRAY
+
 
 
 /*
@@ -55,16 +55,16 @@
 # define ACTIVATE 1
 
 # define ARIZONIA_REGULAR_FONT              "assets/Fonts/Arizonia-Regular.ttf"
-# define BEYOND_FONT                        "assets/Fonts/Beyond.ttf"
+# define BEYOND_FONT                        "assets/Fonts/Beyond.ttf" //todo check this shit
 # define BLADRMF_FONT                       "assets/Fonts/BLADRMF_.TTF"
 # define COALITION_V2_FONT                  "assets/Fonts/Coalition_v2..ttf"
-# define COMIC_SANS_FONT					"assets/Fonts/comic_sans.ttf"
+# define COMIC_SANS_FONT					"assets/Fonts/comic_sans.ttf"//todo check this shit
 # define CYBERPUNK_FONT                     "assets/Fonts/Cyberpunk.ttf"
 # define DEMONIZED_FONT                     "assets/Fonts/Demonized.ttf"
 # define EALOGOREGULAR_PDGR_FONT            "assets/Fonts/EaLogoRegular-PdGr.ttf"
 # define HELVETICA_FONT                     "assets/Fonts/Helvetica.ttf"
 # define MAGMAWAVE_CAPS_FONT                "assets/Fonts/MagmaWave Caps.otf"
-# define NEED_FOR_FONT_FONT                 "assets/Fonts/Need for Font.ttf"
+# define NEED_FOR_FONT_FONT                 "assets/Fonts/Need for Font.ttf" //todo check this shit
 # define NFS_BY_JLTV_FONT                   "assets/Fonts/NFS_by_JLTV.ttf"
 # define OASIS_FONT                         "assets/Fonts/OASIS___.TTF"
 # define ROBOTO_BLACK_FONT                  "assets/Fonts/Roboto-Black.ttf"
@@ -89,12 +89,16 @@
 # define TECHNO_FONT                        "assets/Fonts/Techno.ttf"
 # define TESLA_FONT                         "assets/Fonts/TESLA.ttf"
 # define THEWITCHER_FONT                    "assets/Fonts/Thewitcher.ttf"
-# define TRUE_LIES_FONT                     "assets/Fonts/True Lies.ttf"
+# define TRUE_LIES_FONT                     "assets/Fonts/True Lies.ttf" //todo check this shit
 
 
 
 //# define FONT_PATH COMIC_SANS_FONT
+//# define FONT_PATH DEMONIZED_FONT
 # define FONT_PATH THEWITCHER_FONT
+//# define FONT_PATH ROBOTO_BLACK_FONT
+//# define FONT_PATH TESLA_FONT
+//# define FONT_PATH MAGMAWAVE_CAPS_FONT
 
 # define TITLE_FONT_SIZE 40
 # define SUBTITLE_FONT_SIZE 30
@@ -132,5 +136,8 @@
 # define BTN_COLOR_NONACTIVE LIGHT_GREEN
 # define BTN_COLOR_HOVER GREEN
 # define BTN_COLOR_CLICK DARK_GREEN
+
+# define GUI_BG DARK_GRAY
+# define PANEL_BG BTN_COLOR_CLICK
 
 #endif //RT_GUI_DEFINES_H

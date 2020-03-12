@@ -1,6 +1,6 @@
 #include "rt_gui.h"
 
-SDL_Rect	centered_label( SDL_Rect button, SDL_Surface *sur)
+SDL_Rect	centered_label(SDL_Rect button, SDL_Surface *sur)
 {
 	SDL_Rect centered;
 
@@ -12,6 +12,5 @@ SDL_Rect	centered_label( SDL_Rect button, SDL_Surface *sur)
 		centered.w = sur->w;
 		centered.h = sur->h;
 	}
-
 	return (centered);
 }

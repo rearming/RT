@@ -70,7 +70,8 @@ void		render_button_with_params(t_transform btn, TTF_Font *font, int px)
 						 color.g,
 						 color.b,
 						 color.a));
-	SDL_BlitSurface(text_surface, NULL, g_gui.surface, &label);
+	if (text_surface->h < btn.rect.h && text_surface->w < btn.rect.w)
+		SDL_BlitSurface(text_surface, NULL, g_gui.surface, &label);
 	SDL_FreeSurface(text_surface);
 }
 
