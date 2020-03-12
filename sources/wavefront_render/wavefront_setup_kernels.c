@@ -45,6 +45,14 @@ const struct s_kernels_info	g_kernels_info[] = {
 		(struct s_kernels_info){
 				.kernel_path = "sources/kernel/wavefront/kernel_fill_img_data.cl",
 				.kernel_name = "kernel_fill_img_data"
+		},
+		(struct s_kernels_info){
+				.kernel_path = "sources/kernel/wavefront/kernel_anti_aliasing_img_generation.cl",
+				.kernel_name = "kernel_anti_aliasing_img_generation"
+		},
+		(struct s_kernels_info){
+				.kernel_path = "sources/kernel/wavefront/kernel_anti_aliasing_rays_generation.cl",
+				.kernel_name = "kernel_anti_aliasing_rays_generation"
 		}
 };
 

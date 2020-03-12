@@ -41,8 +41,7 @@ set(OpenCL_utils_sources
         sources/OpenCL_utils/rt_opencl_memory_management.c
         sources/OpenCL_utils/rt_opencl_utils.c
         sources/OpenCL_utils/rt_opencl_prepare_memory.c
-        sources/OpenCL_utils/rt_init_renderer.c
-        sources/OpenCL_utils/rt_wavefront_render.c sources/wavefront_render/rt_wavefront_prepare_memory.c)
+        sources/OpenCL_utils/rt_init_renderer.c)
 
 set(parsing_sources
         sources/rt_parsing/rt_parse_scene.c
@@ -117,7 +116,12 @@ set(gui_sources
         sources/gui/rt_handle_event_gui.c)
 
 set(wavefront_render_sources
-        sources/wavefront_render/wavefront_bzero_utils.c sources/wavefront_render/wavefront_setup_kernels.c sources/wavefront_render/wavefront_run_kernels.c sources/wavefront_render/wavefront_utils.c)
+        sources/wavefront_render/wavefront_bzero_utils.c
+        sources/wavefront_render/wavefront_setup_kernels.c
+        sources/wavefront_render/wavefront_run_kernels.c
+        sources/wavefront_render/wavefront_utils.c
+        sources/wavefront_render/rt_wavefront_render.c
+        sources/wavefront_render/rt_wavefront_prepare_memory.c)
 
 set(sources
         ${debug_sources}
