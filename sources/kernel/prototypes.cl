@@ -210,6 +210,8 @@ float3		rand_dir_on_hemisphere(
 		float2 pixel_seed,
 		float phong_alpha);
 
+bool	russian_roulette_terminate(t_ray *ray, float *seed, float2 pixel_seed);
+
 void		calc_refraction_pathtrace(
 		t_ray *ray,
 		t_rayhit *hit,
@@ -310,6 +312,14 @@ float3		shade_raytrace(
 		t_rayhit *hit,
 		t_material *material
 );
+
+float3		texture_shade_raytrace(
+		t_ray *ray,
+		t_rayhit *hit,
+		t_material *material,
+		__global const t_texture_info *texture_info,
+		__global const float *texture_list,
+		__global const t_object *object);
 
 float3		skybox_color(
 		__global const t_texture_info *texture_info,

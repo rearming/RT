@@ -37,7 +37,7 @@ void				closest_intersection(
 					*out_closest_obj_index = i;
 				break;
 			case (TRIANGLE):
-			if (ray_triangle_intersect_MT(ray, &objects[i], out_best_hit))
+				if (ray_triangle_intersect_MT(ray, &objects[i], out_best_hit))
 					*out_closest_obj_index = i;
 				break;
 			case (PARABOLOID):
@@ -46,7 +46,7 @@ void				closest_intersection(
 				break;
 			case (ELLIPSOID):
 				if (ray_ellipsoid_intersect(ray, &objects[i], out_best_hit))
-				*out_closest_obj_index = i;
+					*out_closest_obj_index = i;
 				break;
 			case (AABB):
 				if (ray_aabb_intersection(ray, &objects[i], out_best_hit))

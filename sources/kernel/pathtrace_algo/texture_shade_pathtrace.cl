@@ -1,7 +1,4 @@
 
-/*t_object *object*/
-/*texture info bla bla*/
-
 float3		texture_shade_pathtrace(
 		__global const t_texture_info *texture_info,
 		__global const float *texture_list,
