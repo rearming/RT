@@ -23,7 +23,7 @@ float		kernel_anti_aliasing_img_generation(t_rt *rt, cl_kernel kernel, size_t ke
 			RT_CL_MEM_VERTICES, RT_CL_MEM_V_NORMALS, RT_CL_MEM_V_TEXTURES,
 			RT_CL_MEM_TEXTURE_INFO, RT_CL_MEM_TEXTURE_LIST, RT_CL_MEM_INT_IMG);
 
-	printf("started kernel aa img generation\n");
+	printf("started kernel anti-aliasing img generation\n");
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			kernel, 1, NULL, &kernel_work_size, NULL, 0, NULL, &g_opencl.profile_event);
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
@@ -37,37 +37,6 @@ float		kernel_anti_aliasing_img_generation(t_rt *rt, cl_kernel kernel, size_t ke
 	exec_time = rt_get_kernel_exec_time();
 	clReleaseEvent(g_opencl.profile_event);
 	return exec_time;
-}
-
-void		test_sobel_processing(cl_kernel kernel, uint32_t find_intersection_work_size)
-{
-	int				err = CL_SUCCESS;
-	t_ray			*rays_buffer = rt_safe_malloc(sizeof(t_ray) * find_intersection_work_size);
-	int				*pixel_indices = rt_safe_malloc(sizeof(int) * find_intersection_work_size);
-
-	err = clEnqueueReadBuffer(g_opencl.queue,
-			g_opencl.wavefront_shared_buffers[RT_CL_MEM_RAYS_BUFFER].mem,
-			CL_TRUE, 0, sizeof(t_ray) * find_intersection_work_size, rays_buffer, 0, NULL, NULL);
-	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
-
-	err |= clEnqueueReadBuffer(g_opencl.queue,
-			g_opencl.wavefront_shared_buffers[RT_CL_MEM_PIXEL_INDICES].mem,
-			CL_TRUE, 0, sizeof(cl_int) * find_intersection_work_size, pixel_indices, 0, NULL, NULL);
-	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
-
-	for (uint32_t i = 0; i < find_intersection_work_size; ++i)
-	{
-		if (rays_buffer[i].origin.x == -69.f)
-			continue;
-		rt_print_clfloat3(rays_buffer[i].origin, "origin");
-		rt_print_clfloat3(rays_buffer[i].dir, "dir");
-		rt_print_clfloat3(rays_buffer[i].energy, "energy");
-	}
-//	bzero(g_img_data, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT);
-//	for (uint32_t i = 0; i < find_intersection_work_size; ++i)
-//	{
-//		g_img_data[pixel_indices[i]] = COL_WHITE;
-//	}
 }
 
 float		kernel_anti_aliasing_rays_generation(t_rt *rt, cl_kernel kernel, size_t kernel_work_size,
@@ -96,7 +65,7 @@ float		kernel_anti_aliasing_rays_generation(t_rt *rt, cl_kernel kernel, size_t k
 	exec_time = rt_get_kernel_exec_time();
 	clReleaseEvent(g_opencl.profile_event);
 
-	test_sobel_processing(kernel, *out_find_intersection_work_size);
+	printf("find_intersection new work size: [%u]\n", *out_find_intersection_work_size);
 	return exec_time;
 }
 
@@ -135,21 +104,21 @@ void 		render_wavefront(void *rt_ptr)
 
 	find_intersection_new_work_size = WIN_WIDTH * WIN_HEIGHT;
 
-//	if (rt_camera_moved(&rt->scene.camera) || !first_init_done || rt->renderer_flags & RENDER_RAYTRACE)
-//	{
-//		rt_wavefront_setup_buffers(rt, params, 1);
-//		aa_img_gen_exec = kernel_anti_aliasing_img_generation(rt, g_wavefront_kernels[RT_KERNEL_ANTI_ALIASING_IMG_GEN], WIN_WIDTH * WIN_HEIGHT);
-//		bzero_buffer(RT_CL_MEM_OUT_RAYS_BUFFER_LEN);
-//		aa_raygen_exec = kernel_anti_aliasing_rays_generation(rt, g_wavefront_kernels[RT_KERNEL_ANTI_ALIASING_RAYS_GEN], WIN_WIDTH * WIN_HEIGHT, &find_intersection_new_work_size);
-//		printf("anti-aliasing img generation exec time: [%f]\n", aa_img_gen_exec);
-//		printf("anti-aliasing ray generation exec time: [%f]\n", aa_raygen_exec);
-//		printf("find_intersection new work size: [%u]\n", find_intersection_new_work_size);
-//		g_opencl.shared_buffers_copy_done = false;
-//		params.pathtrace_params.current_samples_num = 1;
-//		wavefront_release_buffers(true);
-//	}
-//	rt_wavefront_setup_buffers(rt, params, find_intersection_new_work_size);
-//	return ;
+	if (rt_camera_moved(&rt->scene.camera) || !first_init_done || rt->renderer_flags & RENDER_RAYTRACE)
+	{
+		rt_wavefront_setup_buffers(rt, params, 1);
+		aa_img_gen_exec = kernel_anti_aliasing_img_generation(rt, g_wavefront_kernels[RT_KERNEL_ANTI_ALIASING_IMG_GEN], WIN_WIDTH * WIN_HEIGHT);
+		bzero_buffer(RT_CL_MEM_OUT_RAYS_BUFFER_LEN);
+		aa_raygen_exec = kernel_anti_aliasing_rays_generation(rt, g_wavefront_kernels[RT_KERNEL_ANTI_ALIASING_RAYS_GEN], WIN_WIDTH * WIN_HEIGHT, &find_intersection_new_work_size);
+		printf("anti-aliasing img generation exec time: [%f]\n", aa_img_gen_exec);
+		printf("anti-aliasing ray generation exec time: [%f]\n", aa_raygen_exec);
+
+		g_opencl.shared_buffers_copy_done = false;
+		params.pathtrace_params.current_samples_num = 1;
+		wavefront_release_buffers(true);
+	}
+	rt_wavefront_setup_buffers(rt, params, find_intersection_new_work_size);
+	return ;
 
 	rt_wavefront_setup_buffers(rt, params, WIN_WIDTH * WIN_HEIGHT);
 	bzero_float3_temp_img(float3_temp_img_zeros); // обнулить temp_float3_img_data

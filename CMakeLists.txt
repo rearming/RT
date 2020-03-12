@@ -283,7 +283,7 @@ add_executable(sobel_operator_test
         ${testing_utils}
         sources/test/sobel_operator_test/sobel_operator_test_main.c
         sources/test/sobel_operator_test/sobel_tests.c
-        sources/test/sobel_operator_test/soble_operator_test_impl.c)
+        sources/test/sobel_operator_test/soble_operator_test_impl.c sources/test/sobel_operator_test/test_sobel_kernel_processing.c)
 
 target_include_directories(sobel_operator_test PRIVATE
         sources/test)
