@@ -34,10 +34,10 @@ float kernel_find_intersections(
 		size_t kernel_work_size,
 		t_kernel_work_sizes *out_work_sizes,
 		int iteration);
-float kernel_raytrace_material_compute_light(
-		t_rt *rt,
-		cl_kernel kernel,
-		size_t kernel_work_size);
+float kernel_raytrace_material_compute_light(t_rt *rt,
+											 cl_kernel kernel,
+											 size_t kernel_work_size,
+											 int iteration);
 float kernel_material_shade(
 		t_rt *rt,
 		cl_kernel kernel,
@@ -79,6 +79,7 @@ typedef enum	e_cl_mem_types
 	RT_CL_MEM_MATERIAL_HIT_POLYGON_INDICES,
 	RT_CL_MEM_MATERIAL_PIXEL_INDICES,
 	RT_CL_MEM_MATERIAL_RAYS_HIT_BUFFER,
+	RT_CL_MEM_MATERIAL_RAYS_BUFFER,
 	RT_CL_MEM_MATERIAL_BUFFERS_LEN,
 
 	RT_CL_MEM_TEXTURE_HIT_OBJ_INDICES,

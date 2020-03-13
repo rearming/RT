@@ -5,7 +5,7 @@ t_cl_mem_types	switch_ray_buffers(int iteration)
 {
 	if (iteration == 0)
 		return (RT_CL_MEM_PRIMARY_RAYS_BUFFER);
-	return iteration % 2 == 0 ? RT_CL_MEM_OUT_RAYS_BUFFER : RT_CL_MEM_PREV_RAYS_BUFFER;
+	return RT_CL_MEM_OUT_RAYS_BUFFER;
 }
 
 void			wavefront_release_buffers(uint32_t current_render_state)

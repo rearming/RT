@@ -13,10 +13,10 @@ void		rt_set_kernel_args(cl_kernel kernel, int args_num, ...)
 	{
 		arg_type = va_arg(args, t_cl_mem_types);
 //		printf("i: [%i], buffer's ptr: [%p]\n", i, g_opencl.wf_shared_buffers[arg_type].mem);
-		err |= clSetKernelArg(kernel, i, sizeof(cl_mem), &g_opencl.wf_shared_buffers[arg_type].mem);
+		err = clSetKernelArg(kernel, i, sizeof(cl_mem), &g_opencl.wf_shared_buffers[arg_type].mem);
+		rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 	}
 	va_end(args);
-	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 }
 
 const struct s_kernels_info	g_kernels_info[] = {

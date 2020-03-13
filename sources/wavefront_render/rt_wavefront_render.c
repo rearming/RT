@@ -72,6 +72,7 @@ void 		render_wavefront(void *rt_ptr)
 	static t_renderer_params	params;
 	t_kernel_work_sizes			kernel_work_sizes;
 	uint32_t					find_intersection_new_work_size;
+	static uint32_t				cached_find_intersection_work_size;
 	static cl_float3			*float3_temp_img_zeros;
 
 	static float avg_exec_time = 0;
@@ -91,7 +92,7 @@ void 		render_wavefront(void *rt_ptr)
 	printf("\nstart wavefront render!\n");
 	if (rt->render_state == STATE_ALL)
 	{
-//		rt->render_settings |= RENDER_ANTI_ALIASING;
+		rt->render_settings |= RENDER_ANTI_ALIASING;
 		wavefront_compile_kernels(rt->render_settings, &params);
 		float3_temp_img_zeros = rt_safe_malloc(sizeof(cl_float3) * WIN_WIDTH * WIN_HEIGHT);
 		for (int i = 0; i < WIN_WIDTH * WIN_HEIGHT; ++i)
@@ -100,7 +101,7 @@ void 		render_wavefront(void *rt_ptr)
 	else
 		wavefront_release_buffers(rt->render_state);
 
-	find_intersection_new_work_size = WIN_WIDTH * WIN_HEIGHT;
+	find_intersection_new_work_size = cached_find_intersection_work_size;
 
 	if (rt->render_state & STATE_CAMERA_CHANGED)
 		params.pathtrace_params.current_samples_num = 1;
@@ -108,7 +109,7 @@ void 		render_wavefront(void *rt_ptr)
 	{
 		if (rt->render_state != STATE_ALL)
 			wavefront_release_buffers(STATE_AA_RAYS_GENERATED);
-		wavefront_setup_buffers(rt, params, (rt->render_state & ~(STATE_AA_RAYS_GENERATED | STATE_NO_AA_INIT)), 0);
+		wavefront_setup_buffers(rt, params, (rt->render_state & ~(STATE_AA_RAYS_GENERATED)), 0);
 		bzero_buffer(RT_CL_MEM_PRIMARY_RAYS_BUFFER_LEN);
 		aa_img_gen_exec = kernel_anti_aliasing_img_generation(rt,
 				g_wavefront_kernels[RT_KERNEL_ANTI_ALIASING_IMG_GEN], WIN_WIDTH * WIN_HEIGHT);
@@ -116,16 +117,24 @@ void 		render_wavefront(void *rt_ptr)
 				g_wavefront_kernels[RT_KERNEL_ANTI_ALIASING_RAYS_GEN], WIN_WIDTH * WIN_HEIGHT, &find_intersection_new_work_size);
 		printf("anti-aliasing img generation exec time: [%f]\n", aa_img_gen_exec);
 		printf("anti-aliasing ray generation exec time: [%f]\n", aa_raygen_exec);
-
-		rt->render_state &= STATE_AA_RAYS_GENERATED;
+		cached_find_intersection_work_size = find_intersection_new_work_size;
+		printf("find intesect size: [%i], cached size: [%i]\n", find_intersection_new_work_size, cached_find_intersection_work_size);
+		rt->render_state &= STATE_NOTHING;
+		rt->render_state |= STATE_AA_RAYS_GENERATED;
 //		return;
 	}
+	else
+		find_intersection_new_work_size = WIN_WIDTH * WIN_HEIGHT;
+
 	wavefront_setup_buffers(rt, params, rt->render_state, find_intersection_new_work_size);
 
 	bzero_float3_temp_img(float3_temp_img_zeros); // обнулить temp_float3_img_data
 
 	if (!(rt->render_settings & RENDER_ANTI_ALIASING) && rt->render_state & STATE_CAMERA_CHANGED)
+	{
+		bzero_buffer(RT_CL_MEM_PRIMARY_RAYS_BUFFER_LEN);
 		raygen_exec += kernel_generate_primary_rays(rt_ptr, g_wavefront_kernels[RT_KERNEL_GENERATE_PRIMARY_RAYS]);
+	}
 
 	for (int j = 0; j < 8; ++j)
 	{
@@ -142,14 +151,16 @@ void 		render_wavefront(void *rt_ptr)
 					kernel_work_sizes.materials, kernel_work_sizes.textures, kernel_work_sizes.skybox);
 
 		if (rt->render_settings & RENDER_RAYTRACE)
-			light_exec += kernel_raytrace_material_compute_light(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_COMPUTE_LIGHT], kernel_work_sizes.materials);
+			light_exec += kernel_raytrace_material_compute_light(rt,
+					g_wavefront_kernels[RT_KERNEL_MATERIAL_COMPUTE_LIGHT],
+					kernel_work_sizes.materials, 0);
 
 		find_intersection_new_work_size = 0;
 		bzero_buffer(RT_CL_MEM_OUT_RAYS_BUFFER_LEN);
 		material_shade_exec += kernel_material_shade(rt, g_wavefront_kernels[RT_KERNEL_MATERIAL_SHADE], kernel_work_sizes.materials, &find_intersection_new_work_size, j);
 		texture_shade_exec += kernel_texture_shade(rt, g_wavefront_kernels[RT_KERNEL_TEXTURE_SHADE], kernel_work_sizes.textures, &find_intersection_new_work_size, j);
 
-//		if (rt->events.info)
+		if (rt->events.info)
 			printf("find_intersection new work size: [%u]\n", find_intersection_new_work_size);
 
 		skybox_shade_exec += kernel_skybox_shade(rt, g_wavefront_kernels[RT_KERNEL_SKYBOX_SHADE], kernel_work_sizes.skybox);
@@ -174,7 +185,7 @@ void 		render_wavefront(void *rt_ptr)
 	printf("img fill exec time: [%.3f]\n", img_fill_exec);
 	total_exec_time = raygen_exec + intersect_exec + light_exec + material_shade_exec + skybox_shade_exec + img_fill_exec;
 	printf("total exec time: [%f]\n", total_exec_time);
-	avg_exec_time = rt_lerpf(avg_exec_time, total_exec_time, 1.0f / params.pathtrace_params.current_samples_num);
+	avg_exec_time = rt_lerpf(avg_exec_time, total_exec_time, 1.0f / (float)(params.pathtrace_params.current_samples_num - 1));
 	printf("average exec time: [%f]\n", avg_exec_time);
 	if (rt->render_settings & RENDER_PATHTRACE)
 		printf("current samples num: [%i]\n", params.pathtrace_params.current_samples_num);

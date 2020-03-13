@@ -44,7 +44,6 @@ typedef enum	e_gpu_mem_realloc_states{
 	STATE_PARAMS_CHANGED = (1 << 4),
 	STATE_TEXTURES_CHANGED = (1 << 5),
 	STATE_AA_RAYS_GENERATED = (1 << 6),
-	STATE_NO_AA_INIT = (1 << 7),
 	STATE_INIT = (1 << 23),
 	STATE_EXIT = (1 << 24)
 }				t_gpu_mem_realloc_states;

@@ -90,18 +90,10 @@ __kernel void		kernel_anti_aliasing_rays_generation(
 	float	y_sobel_value = sobel_get_weight_y(img_data, img_point.x, img_point.y);
 	float	weight = native_sqrt(x_sobel_value * x_sobel_value + y_sobel_value * y_sobel_value);
 
-	int		i = 0;
-
-//	if (weight < SOBEL_THRESHOLD)
+	if (weight < SOBEL_THRESHOLD)
 	{
 		uint cached_buffer_len = atomic_inc(out_rays_buffer_len);
-		t_ray suka_ray = get_ray(convert_float3(img_point), camera);
-//		out_rays_buffer[cached_buffer_len] = get_ray(convert_float3(img_point), camera);
-//		printf("origin f f f\tdir f f f\tenergy %f %f %f\n",
-//					suka_ray.origin.x, suka_ray.origin.y, suka_ray.origin.z,
-//					suka_ray.dir.x, suka_ray.dir.y, suka_ray.dir.z,
-//					suka_ray.energy.x, suka_ray.energy.y, suka_ray.energy.z);
-		out_rays_buffer[cached_buffer_len] = suka_ray;
+		out_rays_buffer[cached_buffer_len] = get_ray(convert_float3(img_point), camera);
 		out_pixel_indices[cached_buffer_len] = g_id;
 		return;
 	}
@@ -109,12 +101,13 @@ __kernel void		kernel_anti_aliasing_rays_generation(
 	{
 		for (int x = -1; x < 2; ++x)
 		{
+			if (y == 0 && x == 0)
+				continue;
 			float3	origin = (float3)(img_point.x + x * 0.5f, img_point.y + y * 0.5f, 0.0f);
 
 			uint cached_buffer_len = atomic_inc(out_rays_buffer_len);
 			out_rays_buffer[cached_buffer_len] = get_ray(origin, camera);
 			out_pixel_indices[cached_buffer_len] = g_id;
-			i++;
 		}
 	}
 }

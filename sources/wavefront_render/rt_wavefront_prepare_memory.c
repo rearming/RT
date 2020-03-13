@@ -9,13 +9,13 @@ void wavefront_setup_buffers(t_rt *rt,
 							 uint32_t render_state,
 							 uint32_t max_work_size)
 {
-	g_opencl.wf_shared_buffers_len = 40;
+	g_opencl.wf_shared_buffers_len = 41;
 
-	printf("setting up gpu buffers\n");
+	printf("setting up gpu buffers with work size: [%u]\n", max_work_size);
 	rt_wavefront_alloc_buffers(render_state,
 			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->scene.camera, sizeof(t_camera), RT_DEFAULT_MEM_FLAG, STATE_CAMERA_CHANGED, RENDER_ALWAYS}),
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_ray) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // максимально возможное для AA
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // pixel_indices
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_ray) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // максимально возможное для AA
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // pixel_indices
 
 			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->scene, sizeof(t_scene), RT_DEFAULT_MEM_FLAG, STATE_LIGHTS_CHANGED | STATE_OBJECTS_CHANGED, RENDER_ALWAYS}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.objects, sizeof(t_object) * rt->scene.obj_nbr, RT_DEFAULT_MEM_FLAG, STATE_OBJECTS_CHANGED, RENDER_ALWAYS}),
@@ -29,31 +29,32 @@ void wavefront_setup_buffers(t_rt *rt,
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.meshes.v_normals, sizeof(cl_float3) * rt->scene.meshes.num_v_normals, RT_DEFAULT_MEM_FLAG, STATE_MESH_CHANGED, RENDER_ALWAYS}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.meshes.v_textures, sizeof(cl_float3) * rt->scene.meshes.num_v_textures, RT_DEFAULT_MEM_FLAG, STATE_MESH_CHANGED, RENDER_ALWAYS}),
 
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // material hit obj indices
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // material hit polygon indices
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // material hit pixel indices
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_rayhit) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // material ray hit buffer
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // material hit obj indices
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // material hit polygon indices
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // material hit pixel indices
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_rayhit) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // material ray hit buffer
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_ray) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // material rays buffer
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_uint), CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}), // material rays counter
 
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // texture hit obj indices
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // texture hit polygon indices
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // texture hit pixel indices
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_rayhit) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // texture ray hit buffer
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // texture hit obj indices
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // texture hit polygon indices
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // texture hit pixel indices
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_rayhit) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // texture ray hit buffer
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_uint), CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}), // texture rays counter
 
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // skybox hit obj indices
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_ray) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), //skybox rays buffer
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // skybox hit obj indices
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_ray) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), //skybox rays buffer
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_uint), CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}), // skybox rays counter
 
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_uint) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}), // img_data (int буфер пикселей)
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_ray) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), //out rays buffer (for shade kernels)
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), //out rays pixel indices
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_ray) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), //out rays buffer (for shade kernels)
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), //out rays pixel indices
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_uint), CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}), // out rays buffer len
 
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_float3) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}), // временный float3 буфер цветов (на один сэмпл pathtrace)
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_float3) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}), // постоянный float3 буфер цветов
 			rt_check_opencl_memobj((t_opencl_mem_obj){&render_params, sizeof(t_renderer_params), RT_DEFAULT_MEM_FLAG, STATE_PARAMS_CHANGED, RENDER_ALWAYS}),
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_float) * max_work_size, CL_MEM_READ_WRITE, STATE_NO_AA_INIT | STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // raytrace light intensity buffer
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_float) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // raytrace light intensity buffer
 
 			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.texture_info, sizeof(t_texture_info) * g_textures.texture_info_size, RT_DEFAULT_MEM_FLAG, STATE_TEXTURES_CHANGED, RENDER_ALWAYS}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.texture_list, sizeof(t_texture_info) * g_textures.texture_list_size, RT_DEFAULT_MEM_FLAG, STATE_TEXTURES_CHANGED, RENDER_ALWAYS}),
@@ -91,8 +92,6 @@ void		rt_wavefront_alloc_buffers(uint32_t render_state, ...)
 		{
 			g_opencl.wf_shared_buffers[mem_obj_i].mem = clCreateBuffer(g_opencl.context,
 					memobj.mem_flags, memobj.size, memobj.ptr, &err);
-			if (!memobj.ptr)
-				rt_wavefront_bzero_buffer(g_opencl.wf_shared_buffers[mem_obj_i].mem, memobj.size);
 			rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
 		}
 		else if (first_copy)

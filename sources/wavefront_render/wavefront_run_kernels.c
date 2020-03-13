@@ -42,7 +42,7 @@ float kernel_find_intersections(t_rt *rt,
 	int				err = CL_SUCCESS;
 	float exec_time = 0;
 
-	rt_set_kernel_args(kernel, 24, RT_CL_MEM_SCENE, RT_CL_MEM_OBJECTS,
+	rt_set_kernel_args(kernel, 25, RT_CL_MEM_SCENE, RT_CL_MEM_OBJECTS,
 			RT_CL_MEM_KD_INFO, RT_CL_MEM_KD_TREE, RT_CL_MEM_KD_INDICES,
 			RT_CL_MEM_MESH_INFO, RT_CL_MEM_POLYGONS, RT_CL_MEM_VERTICES,
 			RT_CL_MEM_V_NORMALS,
@@ -50,7 +50,8 @@ float kernel_find_intersections(t_rt *rt,
 			iteration == 0 ? RT_CL_MEM_PRIMARY_PIXEL_INDICES : RT_CL_MEM_PREV_PIXEL_INDICES,
 			RT_CL_MEM_MATERIAL_HIT_OBJ_INDICES, RT_CL_MEM_MATERIAL_HIT_POLYGON_INDICES,
 			RT_CL_MEM_MATERIAL_PIXEL_INDICES, RT_CL_MEM_MATERIAL_RAYS_HIT_BUFFER,
-			RT_CL_MEM_MATERIAL_BUFFERS_LEN, RT_CL_MEM_TEXTURE_HIT_OBJ_INDICES,
+			RT_CL_MEM_MATERIAL_RAYS_BUFFER, RT_CL_MEM_MATERIAL_BUFFERS_LEN,
+			RT_CL_MEM_TEXTURE_HIT_OBJ_INDICES,
 			RT_CL_MEM_TEXTURE_HIT_POLYGON_INDICES, RT_CL_MEM_TEXTURE_PIXEL_INDICES,
 			RT_CL_MEM_TEXTURE_RAYS_HIT_BUFFER, RT_CL_MEM_TEXTURE_BUFFERS_LEN,
 			RT_CL_MEM_SKYBOX_HIT_PIXEL_INDICES, RT_CL_MEM_SKYBOX_HIT_RAYS_BUFFER,
@@ -81,7 +82,10 @@ float kernel_find_intersections(t_rt *rt,
 	return exec_time;
 }
 
-float kernel_raytrace_material_compute_light(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
+float kernel_raytrace_material_compute_light(t_rt *rt,
+											 cl_kernel kernel,
+											 size_t kernel_work_size,
+											 int iteration)
 {
 	int				err = CL_SUCCESS;
 	float exec_time = 0;
@@ -92,7 +96,9 @@ float kernel_raytrace_material_compute_light(t_rt *rt, cl_kernel kernel, size_t 
 	rt_set_kernel_args(kernel, 16, RT_CL_MEM_SCENE,
 			RT_CL_MEM_LIGHTS, RT_CL_MEM_OBJECTS, RT_CL_MEM_KD_INFO, RT_CL_MEM_KD_TREE,
 			RT_CL_MEM_KD_INDICES, RT_CL_MEM_MESH_INFO, RT_CL_MEM_POLYGONS, RT_CL_MEM_VERTICES,
-			RT_CL_MEM_V_NORMALS, RT_CL_MEM_PREV_RAYS_BUFFER, RT_CL_MEM_MATERIAL_HIT_OBJ_INDICES,
+			RT_CL_MEM_V_NORMALS,
+			iteration == 0 ? RT_CL_MEM_PRIMARY_RAYS_BUFFER : RT_CL_MEM_PREV_RAYS_BUFFER,
+			RT_CL_MEM_MATERIAL_HIT_OBJ_INDICES,
 			RT_CL_MEM_MATERIAL_HIT_POLYGON_INDICES, RT_CL_MEM_MATERIAL_PIXEL_INDICES,
 			RT_CL_MEM_MATERIAL_RAYS_HIT_BUFFER, RT_CL_MEM_LIGHT_INTENSITY_BUFFER);
 
@@ -127,9 +133,9 @@ float kernel_material_shade(t_rt *rt,
 			RT_CL_MEM_OBJECTS, RT_CL_MEM_MESH_INFO, RT_CL_MEM_POLYGONS,
 			RT_CL_MEM_LIGHT_INTENSITY_BUFFER, RT_CL_MEM_MATERIAL_HIT_OBJ_INDICES,
 			RT_CL_MEM_MATERIAL_HIT_POLYGON_INDICES, RT_CL_MEM_MATERIAL_PIXEL_INDICES,
-			RT_CL_MEM_MATERIAL_RAYS_HIT_BUFFER,
-			switch_ray_buffers(iteration), switch_ray_buffers(iteration + 1), // IN and OUT rays buffers
-			RT_CL_MEM_PREV_PIXEL_INDICES,
+			RT_CL_MEM_MATERIAL_RAYS_HIT_BUFFER, RT_CL_MEM_MATERIAL_RAYS_BUFFER,
+			RT_CL_MEM_OUT_RAYS_BUFFER,
+			RT_CL_MEM_PREV_PIXEL_INDICES, // по факту out pixel indices?
 			RT_CL_MEM_OUT_RAYS_BUFFER_LEN, RT_CL_MEM_TEMP_FLOAT3_IMG_DATA);
 
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
