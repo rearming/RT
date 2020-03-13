@@ -17,7 +17,7 @@ void wavefront_setup_buffers(t_rt *rt,
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_ray) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // максимально возможное для AA
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * max_work_size, CL_MEM_READ_WRITE,  STATE_AA_RAYS_GENERATED, RENDER_ALWAYS}), // pixel_indices
 
-			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->scene, sizeof(t_scene), RT_DEFAULT_MEM_FLAG, STATE_LIGHTS_CHANGED | STATE_OBJECTS_CHANGED, RENDER_ALWAYS}),
+			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->scene, sizeof(t_scene), RT_DEFAULT_MEM_FLAG, STATE_LIGHTS_CHANGED | STATE_OBJECTS_CHANGED | STATE_CAMERA_CHANGED, RENDER_ALWAYS}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.objects, sizeof(t_object) * rt->scene.obj_nbr, RT_DEFAULT_MEM_FLAG, STATE_OBJECTS_CHANGED, RENDER_ALWAYS}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.lights, sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, STATE_LIGHTS_CHANGED, RENDER_ALWAYS}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->kd_info, sizeof(t_kd_info), RT_DEFAULT_MEM_FLAG, STATE_MESH_CHANGED, RENDER_ALWAYS}),
