@@ -43,8 +43,9 @@ float		kernel_anti_aliasing_rays_generation(t_rt *rt, cl_kernel kernel, size_t k
 
 	if (kernel_work_size <= 0)
 		return exec_time;
-	rt_set_kernel_args(kernel, 5,
+	rt_set_kernel_args(kernel, 6,
 			RT_CL_MEM_CAMERA, RT_CL_MEM_INT_IMG,
+			RT_CL_MEM_NUM_PIXEL_RAYS_BUFFER,
 			RT_CL_MEM_PRIMARY_RAYS_BUFFER, RT_CL_MEM_PRIMARY_PIXEL_INDICES,
 			RT_CL_MEM_PRIMARY_RAYS_BUFFER_LEN);
 
@@ -92,7 +93,7 @@ void 		render_wavefront(void *rt_ptr)
 	printf("\nstart wavefront render!\n");
 	if (rt->render_state == STATE_ALL)
 	{
-		rt->render_settings |= RENDER_ANTI_ALIASING;
+//		rt->render_settings |= RENDER_ANTI_ALIASING;
 		wavefront_compile_kernels(rt->render_settings, &params);
 		float3_temp_img_zeros = rt_safe_malloc(sizeof(cl_float3) * WIN_WIDTH * WIN_HEIGHT);
 		for (int i = 0; i < WIN_WIDTH * WIN_HEIGHT; ++i)

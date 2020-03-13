@@ -9,7 +9,7 @@ void wavefront_setup_buffers(t_rt *rt,
 							 uint32_t render_state,
 							 uint32_t max_work_size)
 {
-	g_opencl.wf_shared_buffers_len = 41;
+	g_opencl.wf_shared_buffers_len = 42;
 
 	printf("setting up gpu buffers with work size: [%u]\n", max_work_size);
 	rt_wavefront_alloc_buffers(render_state,
@@ -61,7 +61,8 @@ void wavefront_setup_buffers(t_rt *rt,
 
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_ray) * MAX_AA_BUFFER_SIZE, CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}), // rays buffer for anti-aliasing
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * MAX_AA_BUFFER_SIZE, CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}), // pixel indices buffer for anti-aliasing
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_uint), CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}) // anti-aliasing rays buffer len
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_uint), CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}), // anti-aliasing rays buffer len
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * MAX_AA_BUFFER_SIZE, CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}) // pixel rays count buffer (how many rays was casted in this pixel)
 	);
 }
 

@@ -79,6 +79,7 @@ float		sobel_get_weight_y(__global const int *img, int img_x, int img_y)
 __kernel void		kernel_anti_aliasing_rays_generation(
 	__global const t_camera *camera,
 	__global int *img_data,
+	__global int *num_pixel_rays_buffer,
 	__global t_ray *out_rays_buffer,
 	__global int *out_pixel_indices,
 	__global int *out_rays_buffer_len)
@@ -95,15 +96,17 @@ __kernel void		kernel_anti_aliasing_rays_generation(
 		uint cached_buffer_len = atomic_inc(out_rays_buffer_len);
 		out_rays_buffer[cached_buffer_len] = get_ray(convert_float3(img_point), camera);
 		out_pixel_indices[cached_buffer_len] = g_id;
+		num_pixel_rays_buffer[g_id] = 1;
 		return;
 	}
+	num_pixel_rays_buffer[g_id] = 9;
 	for (int y = -1; y < 2; ++y)
 	{
 		for (int x = -1; x < 2; ++x)
 		{
 			if (y == 0 && x == 0)
 				continue;
-			float3	origin = (float3)(img_point.x + x * 0.5f, img_point.y + y * 0.5f, 0.0f);
+			float3	origin = (float3)(img_point.x + x * 0.0f, img_point.y + y * 0.0f, 0.0f);
 
 			uint cached_buffer_len = atomic_inc(out_rays_buffer_len);
 			out_rays_buffer[cached_buffer_len] = get_ray(origin, camera);

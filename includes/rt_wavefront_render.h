@@ -108,6 +108,8 @@ typedef enum	e_cl_mem_types
 	RT_CL_MEM_PRIMARY_RAYS_BUFFER,
 	RT_CL_MEM_PRIMARY_PIXEL_INDICES,
 	RT_CL_MEM_PRIMARY_RAYS_BUFFER_LEN,
+
+	RT_CL_MEM_NUM_PIXEL_RAYS_BUFFER,
 }				t_cl_mem_types;
 
 struct			s_kernels_info

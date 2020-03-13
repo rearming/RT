@@ -9,7 +9,9 @@ float kernel_generate_primary_rays(t_rt *rt, cl_kernel kernel)
 	const size_t	kernel_work_size[1] = {WIN_WIDTH * WIN_HEIGHT};
 	float	exec_time = 0;
 
-	rt_set_kernel_args(kernel, 3, RT_CL_MEM_CAMERA, RT_CL_MEM_PRIMARY_RAYS_BUFFER, RT_CL_MEM_PRIMARY_PIXEL_INDICES);
+	rt_set_kernel_args(kernel, 4, RT_CL_MEM_CAMERA,
+			RT_CL_MEM_PRIMARY_RAYS_BUFFER, RT_CL_MEM_PRIMARY_PIXEL_INDICES,
+			RT_CL_MEM_NUM_PIXEL_RAYS_BUFFER);
 
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			kernel, 1, NULL, kernel_work_size, NULL, 0, NULL, &g_opencl.profile_event);
@@ -221,8 +223,8 @@ float kernel_fill_img_data(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 	if (kernel_work_size <= 0)
 		return exec_time;
 
-	rt_set_kernel_args(kernel, 4, RT_CL_MEM_RENDERER_PARAMS, RT_CL_MEM_TEMP_FLOAT3_IMG_DATA,
-			RT_CL_MEM_MAIN_FLOAT3_IMG_DATA, RT_CL_MEM_INT_IMG);
+	rt_set_kernel_args(kernel, 5, RT_CL_MEM_RENDERER_PARAMS, RT_CL_MEM_TEMP_FLOAT3_IMG_DATA,
+			RT_CL_MEM_MAIN_FLOAT3_IMG_DATA, RT_CL_MEM_NUM_PIXEL_RAYS_BUFFER, RT_CL_MEM_INT_IMG);
 
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			kernel, 1, NULL, &kernel_work_size, NULL, 0, NULL, &g_opencl.profile_event);
