@@ -18,12 +18,11 @@
       "backface culling": true
     },
     "textures": {
-      "enabled": true,
-      "directory": "/Users/gfoote/Project42/hdr/"
+      "enabled": true
     },
     "skybox": {
       "enabled": true,
-      "texture": "colorful_studio_8k.hdr"
+      "texture": "skybox_cave.jpg"
     }
   },
   "objects": [
@@ -52,17 +51,14 @@
     "radius": 1.5
     },
     {
-    "type": "sphere",
-    "material": {
-      "diffuse": "0xFFFFFF",
-      "specular": [0.0, 0.0, 0.0],
-      "phong exp": 40,
-      "smoothness": 0.0,
-      "texture": "sphere_earth.jpg"
-    },
-    "center": [0.0, -2.5, 0.0],
-    "radius": 1.5
-  }
+      "type": "cylinder",
+      "material": {
+        "texture": "plane_spruce.jpg"
+      },
+      "center": [0, -1.5, 0],
+      "axis": [5, 1, 0],
+      "radius": 0.5
+    }
   ],
   "camera": {
     "pos": [0.0, 2.0, 10.0],

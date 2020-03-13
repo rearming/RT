@@ -1,3 +1,8 @@
+/*
+ * todo :
+ * 	0. check plane
+ */
+
 int		convert_x(t_rayhit *hit,
 				  __global const t_texture_info *texture_info,
 				  __global const t_object *object)
@@ -33,12 +38,12 @@ int		convert_y(t_rayhit *hit,
 		if (object->type == CONE)
 		{
 			v = length(object->center - hit->pos);
-			v *=cos (atan(object->angle));
+			v *=cos(atan(object->angle));
 			help = hit->normal * v;
 		}
 		else
 			help = hit->normal * -object->radius;
-		v = length(help + hit->pos - object->axis);
+		v = length(help + hit->pos - object->center);
 		y = (int)(v * texture_info->width / texture_info->height * 100);
 		y = check_borders(y, texture_info->height - 1, 2);
 	}

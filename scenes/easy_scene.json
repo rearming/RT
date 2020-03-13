@@ -34,18 +34,10 @@
         "normal": [0.0,  0.0, 1.0]
       },
       {
-      "type": "cylinder",
-      "material": {
-        "texture": "plane_spruce.jpg"
-      },
-      "center": [0, -1.5, 0],
-      "axis": [0, 1, 0],
-      "radius": 0.5
-    },
-      {
         "type": "cone",
         "material": {
-          "texture": "plane_bricks.bmp"
+          "texture": "plane_bricks2.jpeg",
+          "specular texture": 0.5
         },
         "center": [-1, 1.5, 0],
         "axis": [0, 1, 0],
@@ -63,7 +55,7 @@
     ],
   "camera": {
     "pos": [0.0, 2.0, -10.0],
-    "rotation": [0.0, 180.0, 0.0]
+    "rotation": [0.0, 0.0, 0.0]
   },
   "light":
   [

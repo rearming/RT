@@ -41,7 +41,7 @@ char			*found_file_in_the_folder(const char *file)
 		return (ft_strdup(file));
 	else if (exists(check = ft_strjoin(TEXTURES_FOLDER, file)))
 		return (check);
-	else
+	else if (g_textures.folders_names)
 	{
 		while (g_textures.folders_names[i]!= NULL)
 		{
