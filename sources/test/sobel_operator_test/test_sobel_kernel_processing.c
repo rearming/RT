@@ -9,12 +9,12 @@ void		test_sobel_processing(cl_kernel kernel, uint32_t find_intersection_work_si
 	int				*pixel_indices = rt_safe_malloc(sizeof(int) * find_intersection_work_size);
 
 	err = clEnqueueReadBuffer(g_opencl.queue,
-			g_opencl.wavefront_shared_buffers[RT_CL_MEM_RAYS_BUFFER].mem,
+			g_opencl.wf_shared_buffers[RT_CL_MEM_RAYS_BUFFER].mem,
 			CL_TRUE, 0, sizeof(t_ray) * find_intersection_work_size, rays_buffer, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 
 	err |= clEnqueueReadBuffer(g_opencl.queue,
-			g_opencl.wavefront_shared_buffers[RT_CL_MEM_PIXEL_INDICES].mem,
+			g_opencl.wf_shared_buffers[RT_CL_MEM_PIXEL_INDICES].mem,
 			CL_TRUE, 0, sizeof(cl_int) * find_intersection_work_size, pixel_indices, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 

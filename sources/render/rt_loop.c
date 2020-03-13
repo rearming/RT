@@ -18,7 +18,7 @@ void		rt_loop(t_rt *rt)
 			SDL_FlushEvent(SDL_MOUSEMOTION);
 //#endif
 		}
-		if (rt_params_isset(rt->renderer_flags, RENDER_PATHTRACE))
+		if (rt_params_isset(rt->render_settings, RENDER_PATHTRACE))
 			rt_render(rt, render_wavefront);
 		if (flag == true)
 		{

@@ -37,8 +37,6 @@ set(math_utils_sources
 set(OpenCL_utils_sources
         sources/OpenCL_utils/rt_opencl_init.c
         sources/OpenCL_utils/rt_opencl_files_parser.c
-        sources/OpenCL_utils/rt_opencl_render.c
-        sources/OpenCL_utils/rt_opencl_memory_management.c
         sources/OpenCL_utils/rt_opencl_utils.c
         sources/OpenCL_utils/rt_opencl_prepare_memory.c
         sources/OpenCL_utils/rt_init_renderer.c)

@@ -12,7 +12,6 @@ void	rt_pathtrace_profile(t_rt *rt, int max_samples)
 	start = clock();
 	while (i < max_samples)
 	{
-		rt_render(rt, &rt_opencl_render);
 		i++;
 	}
 	end = clock();

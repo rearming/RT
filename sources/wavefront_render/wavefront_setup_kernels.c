@@ -12,7 +12,7 @@ void		rt_set_kernel_args(cl_kernel kernel, int args_num, ...)
 	for (int i = 0; i < args_num; ++i)
 	{
 		arg_type = va_arg(args, enum e_cl_mem_types);
-		err |= clSetKernelArg(kernel, i, sizeof(cl_mem), &g_opencl.wavefront_shared_buffers[arg_type].mem);
+		err |= clSetKernelArg(kernel, i, sizeof(cl_mem), &g_opencl.wf_shared_buffers[arg_type].mem);
 	}
 	va_end(args);
 	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);

@@ -1,9 +1,9 @@
 #ifndef RT_WAVEFRONT_RENDER_H
 # define RT_WAVEFRONT_RENDER_H
 
-enum e_cl_mem_types;
 cl_kernel	*g_wavefront_kernels;
 
+typedef enum e_cl_mem_types t_cl_mem_types;
 typedef struct		s_kernel_work_sizes
 {
 	uint32_t		materials;
@@ -11,13 +11,17 @@ typedef struct		s_kernel_work_sizes
 	uint32_t		skybox;
 }					t_kernel_work_sizes;
 
-void		bzero_buffer(enum e_cl_mem_types mem_index);
-void		bzero_float3_temp_img(cl_float3 *zero_arr);
-void		rt_set_kernel_args(cl_kernel kernel, int args_num, ...);
-void		wavefront_compile_kernels(uint32_t render_flags, t_renderer_params *params);
-enum e_cl_mem_types		switch_ray_buffers(int iteration);
-void wavefront_release_buffers(bool release_all);
-
+void			bzero_buffer(t_cl_mem_types mem_index);
+void			bzero_float3_temp_img(cl_float3 *zero_arr);
+void			rt_set_kernel_args(cl_kernel kernel, int args_num, ...);
+void			wavefront_compile_kernels(uint32_t render_flags, t_renderer_params *params);
+t_cl_mem_types	switch_ray_buffers(int iteration);
+void wavefront_release_buffers(uint32_t current_render_state);
+void			rt_wavefront_alloc_buffers(uint32_t render_state, ...);
+void wavefront_setup_buffers(t_rt *rt,
+							 t_renderer_params render_params,
+							 uint32_t render_state,
+							 uint32_t max_work_size);
 
 /*
 **	wavefront run kernels
@@ -53,7 +57,7 @@ float kernel_fill_img_data(t_rt *rt, cl_kernel kernel, size_t kernel_work_size);
 **	wavefront cl_mem buffers
 */
 
-enum	e_cl_mem_types
+typedef enum	e_cl_mem_types
 {
 	RT_CL_MEM_CAMERA = 0,
 	RT_CL_MEM_RAYS_BUFFER,
@@ -99,7 +103,11 @@ enum	e_cl_mem_types
 
 	RT_CL_MEM_TEXTURE_INFO,
 	RT_CL_MEM_TEXTURE_LIST,
-};
+
+	RT_CL_MEM_AA_RAYS_BUFFER,
+	RT_CL_MEM_AA_PIXEL_INDICES,
+	RT_CL_MEM_AA_RAYS_BUFFER_LEN,
+}				t_cl_mem_types;
 
 struct			s_kernels_info
 {

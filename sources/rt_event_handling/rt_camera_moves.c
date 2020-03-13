@@ -15,14 +15,14 @@ static inline void	move_backward(t_camera *camera, cl_float3 rotation_rad)
 
 static inline void	move_left(t_camera *camera, cl_float3 rotation_rad)
 {
-	camera->pos.z += SIDE_MOVE_SPEED * cosf(rotation_rad.y - (float)M_PI / 2);
-	camera->pos.x += SIDE_MOVE_SPEED * sinf(rotation_rad.y - (float)M_PI / 2);
+	camera->pos.z += SIDE_MOVE_SPEED * cosf(rotation_rad.y - (float)M_PI_2);
+	camera->pos.x += SIDE_MOVE_SPEED * sinf(rotation_rad.y - (float)M_PI_2);
 }
 
 static inline void	move_right(t_camera *camera, cl_float3 rotation_rad)
 {
-	camera->pos.z += SIDE_MOVE_SPEED * cosf(rotation_rad.y + (float)M_PI / 2);
-	camera->pos.x += SIDE_MOVE_SPEED * sinf(rotation_rad.y + (float)M_PI / 2);
+	camera->pos.z += SIDE_MOVE_SPEED * cosf(rotation_rad.y + (float)M_PI_2);
+	camera->pos.x += SIDE_MOVE_SPEED * sinf(rotation_rad.y + (float)M_PI_2);
 }
 
 void				rt_camera_move(t_camera *camera, t_events *events)

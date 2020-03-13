@@ -17,7 +17,7 @@ typedef struct			s_cl_buffer
 {
 	cl_mem				mem;
 	uint32_t			renderer_flags;
-	bool				copy_mem;
+	uint32_t			realloc_state;
 }						t_cl_buffer;
 
 typedef struct s_rt_renderer t_rt_renderer;
@@ -34,8 +34,8 @@ typedef struct			s_opencl
 	cl_mem				img_data_mem;
 	t_list				*renderers;
 
-	t_cl_buffer			*wavefront_shared_buffers;
-	bool				shared_buffers_copy_done;
+	t_cl_buffer			*wf_shared_buffers;
+	int					wf_shared_buffers_len;
 }						t_opencl;
 
 typedef struct			s_rt_renderer
@@ -82,7 +82,7 @@ typedef struct			s_opencl_mem_obj
 	void				*ptr;
 	size_t				size;
 	cl_mem_flags		mem_flags;
-	bool				copy;
+	uint32_t			realloc_state;
 	uint32_t			renderer_flags;
 //	uint32_t			kernel_type_flags;
 }						t_opencl_mem_obj;
@@ -90,7 +90,8 @@ typedef struct			s_opencl_mem_obj
 typedef struct			s_rt
 {
 	t_scene				scene;
-	uint32_t			renderer_flags;
+	uint32_t			render_settings;
+	uint32_t			render_state;
 	t_events			events;
 	t_kd_info			kd_info;
 }						t_rt;

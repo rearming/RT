@@ -54,7 +54,7 @@ float kernel_find_intersections(t_rt *rt,
 			RT_CL_MEM_SKYBOX_HIT_PIXEL_INDICES, RT_CL_MEM_SKYBOX_HIT_RAYS_BUFFER,
 			RT_CL_MEM_SKYBOX_HIT_BUFFERS_LEN);
 
-	if (rt->renderer_flags & RENDER_MESH)
+	if (rt->render_settings & RENDER_MESH)
 	{ }
 
 	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
@@ -66,13 +66,13 @@ float kernel_find_intersections(t_rt *rt,
 		rt_print_opencl_profile_info("find intersection kernel");
 
 	err = clEnqueueReadBuffer(g_opencl.queue,
-			g_opencl.wavefront_shared_buffers[RT_CL_MEM_MATERIAL_BUFFERS_LEN].mem, CL_TRUE, 0, sizeof(cl_uint), &out_work_sizes->materials, 0, NULL, NULL);
+			g_opencl.wf_shared_buffers[RT_CL_MEM_MATERIAL_BUFFERS_LEN].mem, CL_TRUE, 0, sizeof(cl_uint), &out_work_sizes->materials, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 	err = clEnqueueReadBuffer(g_opencl.queue,
-			g_opencl.wavefront_shared_buffers[RT_CL_MEM_TEXTURE_BUFFERS_LEN].mem, CL_TRUE, 0, sizeof(cl_uint), &out_work_sizes->textures, 0, NULL, NULL);
+			g_opencl.wf_shared_buffers[RT_CL_MEM_TEXTURE_BUFFERS_LEN].mem, CL_TRUE, 0, sizeof(cl_uint), &out_work_sizes->textures, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 	err = clEnqueueReadBuffer(g_opencl.queue,
-			g_opencl.wavefront_shared_buffers[RT_CL_MEM_SKYBOX_HIT_BUFFERS_LEN].mem, CL_TRUE, 0, sizeof(cl_uint), &out_work_sizes->skybox, 0, NULL, NULL);
+			g_opencl.wf_shared_buffers[RT_CL_MEM_SKYBOX_HIT_BUFFERS_LEN].mem, CL_TRUE, 0, sizeof(cl_uint), &out_work_sizes->skybox, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 	exec_time = rt_get_kernel_exec_time();
 	clReleaseEvent(g_opencl.profile_event);
@@ -94,7 +94,7 @@ float kernel_raytrace_material_compute_light(t_rt *rt, cl_kernel kernel, size_t 
 			RT_CL_MEM_MATERIAL_HIT_POLYGON_INDICES, RT_CL_MEM_MATERIAL_PIXEL_INDICES,
 			RT_CL_MEM_MATERIAL_RAYS_HIT_BUFFER, RT_CL_MEM_LIGHT_INTENSITY_BUFFER);
 
-	if (rt->renderer_flags & RENDER_MESH)
+	if (rt->render_settings & RENDER_MESH)
 	{ }
 
 	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
@@ -137,7 +137,7 @@ float kernel_material_shade(t_rt *rt,
 		rt_print_opencl_profile_info("material shade kernel");
 
 	err = clEnqueueReadBuffer(g_opencl.queue,
-			g_opencl.wavefront_shared_buffers[RT_CL_MEM_OUT_RAYS_BUFFER_LEN].mem,
+			g_opencl.wf_shared_buffers[RT_CL_MEM_OUT_RAYS_BUFFER_LEN].mem,
 			CL_TRUE, 0, sizeof(cl_uint), out_new_rays_buffer_len, 0, NULL, NULL); //тут когда текстуры включены можно не читать значение
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 	exec_time = rt_get_kernel_exec_time();
@@ -173,7 +173,7 @@ float kernel_texture_shade(t_rt *rt,
 		rt_print_opencl_profile_info("texture shade kernel");
 
 	err = clEnqueueReadBuffer(g_opencl.queue,
-			g_opencl.wavefront_shared_buffers[RT_CL_MEM_OUT_RAYS_BUFFER_LEN].mem,
+			g_opencl.wf_shared_buffers[RT_CL_MEM_OUT_RAYS_BUFFER_LEN].mem,
 			CL_TRUE, 0, sizeof(cl_uint), out_new_rays_buffer_len, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 	exec_time = rt_get_kernel_exec_time();
@@ -222,7 +222,7 @@ float kernel_fill_img_data(t_rt *rt, cl_kernel kernel, size_t kernel_work_size)
 	if (rt->events.info)
 		rt_print_opencl_profile_info("fill img data kernel");
 
-	err = clEnqueueReadBuffer(g_opencl.queue, g_opencl.wavefront_shared_buffers[RT_CL_MEM_INT_IMG].mem, CL_TRUE, 0,
+	err = clEnqueueReadBuffer(g_opencl.queue, g_opencl.wf_shared_buffers[RT_CL_MEM_INT_IMG].mem, CL_TRUE, 0,
 			sizeof(int) * WIN_WIDTH * WIN_HEIGHT,
 			g_img_data, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);

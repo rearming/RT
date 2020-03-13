@@ -20,8 +20,9 @@ void		rt_init(t_rt *out_rt, const char *json_scene_file)
 	rt_sdl_init();
 	rt_opencl_init();
 #endif
-	out_rt->renderer_flags = 0;
-	out_rt->scene = rt_parse_scene(json_scene_file, &out_rt->renderer_flags);
+	out_rt->render_settings = 0;
+	out_rt->render_state = STATE_ALL;
+	out_rt->scene = rt_parse_scene(json_scene_file, &out_rt->render_settings);
 	if (g_textures.texture_info_size > 0)
 		rt_textures_init();
 	rt_load_obj_file(NULL, &out_rt->scene.meshes);

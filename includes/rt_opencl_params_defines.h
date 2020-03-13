@@ -10,50 +10,47 @@
 # define RAYS_GEN_KERNEL_NAME "rays_gen"
 
 /*
-** Kernel types
+**	renderers params
 */
 
-# define KERNEL_ALL 0b1111111111111111
-
-# define KERNEL_GENERATE_RAYS (1 << 0)
-# define KERNEL_FIND_INTERSECTIONS (1 << 1)
-# define KERNEL_TEXTURE_SHADE (1 << 2)
-# define KERNEL_MATERIAL_SHADE (1 << 3)
-# define KERNEL_SKYBOX_SHADE (1 << 4)
-
-/*
-**	Renderers params
-*/
-
-# define RENDER_ALWAYS 0b1111111111111111
-
-# define RENDER_NOTHING 0
-
-# define RENDER_RAYTRACE (1 << 0)
-# define RENDER_PATHTRACE (1 << 1)
-# define RENDER_RAYMARCH (1 << 2)
-# define RENDER_MESH (1 << 3)
-# define RENDER_BACKFACE_CULLING (1 << 4)
-# define RENDER_OBJECTS (1 << 5)
-# define RENDER_MESH_VTEXTURES (1 << 6)
-# define RENDER_TEXTURES (1 << 7)
-# define RENDER_ANTI_ALIASING (1 << 8)
+typedef enum	e_render_settings
+{
+	RENDER_NEVER = 0x0,
+	RENDER_ALWAYS = 0b1111111111111111,
+	RENDER_RAYTRACE = (1 << 0),
+	RENDER_PATHTRACE = (1 << 1),
+	RENDER_RAYMARCH = (1 << 2),
+	RENDER_MESH = (1 << 3),
+	RENDER_BACKFACE_CULLING = (1 << 4),
+	RENDER_OBJECTS = (1 << 5),
+	RENDER_MESH_VTEXTURES = (1 << 6),
+	RENDER_TEXTURES = (1 << 7),
+	RENDER_ANTI_ALIASING = (1 << 8),
+}				t_renderer_settings;
 
 # define RENDER_DEFAULT RENDER_RAYTRACE | /*RENDER_OBJECTS |*/ RENDER_TEXTURES | RENDER_MESH /*| RENDER_BACKFACE_CULLING*/
 
+/*
+**	render states
+*/
+
+typedef enum	e_gpu_mem_realloc_states{
+	STATE_NOTHING = 0x0,
+	STATE_ALL = 0b11111111111111111111111111111111,
+	STATE_CAMERA_CHANGED = (1 << 0),
+	STATE_OBJECTS_CHANGED = (1 << 1),
+	STATE_LIGHTS_CHANGED = (1 << 2),
+	STATE_MESH_CHANGED = (1 << 3),
+	STATE_PARAMS_CHANGED = (1 << 4),
+	STATE_TEXTURES_CHANGED = (1 << 5),
+	STATE_AA_RAYS_GENERATED = (1 << 6),
+	STATE_NO_AA_INIT = (1 << 7),
+	STATE_INIT = (1 << 23),
+	STATE_EXIT = (1 << 24)
+}				t_gpu_mem_realloc_states;
+
 # define RT_DEFAULT_MEM_FLAG (CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR)
 # define RT_MEM_RW_FLAG (CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR)
-
-/*
-**	OpenCL host constants
-**
-**  -> Раскомментив строчку OPENCL_DEBUG_KERNEL_NUM можно запустить мало кернелов,
-** 	например, для проверки правильной передачи данных на видеокарту или того,
-** 	как работают какие-либо функции.
-**
-**  [при OPENCL_RELEASE_KERNEL_NUM, т.е. на ~3-ех миллионах кернелов,
-** 	случайный printf в кернеле приводит к намертво зависшему компу]
-*/
 
 # define OPENCL_RELEASE_KERNEL_NUM WIN_WIDTH * WIN_HEIGHT
 # define OPENCL_DEBUG_KERNEL_NUM 2

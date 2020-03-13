@@ -50,8 +50,8 @@ void		rt_opencl_init(void)
 			g_opencl.context, g_opencl.device_id, CL_QUEUE_PROFILING_ENABLE , &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_QUEUE, err);
 	g_opencl.renderers = NULL;
-	g_opencl.wavefront_shared_buffers = NULL;
-	g_opencl.shared_buffers_copy_done = false;
+	g_opencl.wf_shared_buffers = NULL;
+	g_opencl.wf_shared_buffers_len = 0;
 }
 
 #pragma clang diagnostic pop

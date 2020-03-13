@@ -1,18 +1,18 @@
 #include "rt.h"
 #include "rt_wavefront_render.h"
 
-enum e_cl_mem_types		switch_ray_buffers(int iteration)
+t_cl_mem_types	switch_ray_buffers(int iteration)
 {
 	return iteration % 2 == 0 ? RT_CL_MEM_RAYS_BUFFER : RT_CL_MEM_OUT_RAYS_BUFFER;
 }
 
-void					wavefront_release_buffers(bool release_all)
+void			wavefront_release_buffers(uint32_t current_render_state)
 {
-	for (int i = 0; i < 37; ++i) // ты че даун это хардкодить?
+	for (int i = 0; i < g_opencl.wf_shared_buffers_len; ++i)
 	{
-		if (g_opencl.wavefront_shared_buffers[i].copy_mem == true || release_all)
-			clReleaseMemObject(g_opencl.wavefront_shared_buffers[i].mem);
+		if (g_opencl.wf_shared_buffers[i].realloc_state & current_render_state || current_render_state & STATE_EXIT)
+			clReleaseMemObject(g_opencl.wf_shared_buffers[i].mem);
 	}
-	if (release_all)
-		free(g_opencl.wavefront_shared_buffers);
+	if (current_render_state & STATE_EXIT)
+		free(g_opencl.wf_shared_buffers);
 }

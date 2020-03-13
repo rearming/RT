@@ -11,6 +11,7 @@ void		handle_event(SDL_Event *event, t_rt *rt)
 
 	if (key_event_handled || mouse_event_handled || tools_event_handled)
 	{
+		rt->render_state |= STATE_CAMERA_CHANGED;
 		rt_camera_move(&rt->scene.camera, &rt->events);
 		rt_render(rt, render_wavefront);
 	}

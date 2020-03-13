@@ -16,7 +16,7 @@ int		main(int argc, char **argv)
 	if (argc != VALID_ARGS_NUM)
 		rt_raise_error(ERR_INV_ARGS_NUM);
 	rt_init(&rt, argv[1]);
-	init_gui(rt.renderer_flags);
+	init_gui(rt.render_settings);
 	rt_render(&rt, render_wavefront);
 	rt_loop(&rt);
 	exit(rt_exit_clean());
