@@ -49,5 +49,5 @@
 # define ERR_PARSING_DUPLICATED_SKYBOX "rt_parse error: skybox image is duplicated "
 # define ERR_PARSING_WRONG_SCENE_PARAMS "rt_parse error: wrong scene parameters "
 # define ERR_INVALID_JSON_FILE "can't read json scene file"
-
+# define ERR_INVALID_TEXTURE_OBJECT "texture can be used only with basic objects"
 #endif

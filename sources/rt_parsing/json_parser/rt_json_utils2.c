@@ -65,6 +65,9 @@ void	check_object(t_tmp *tmp)
 	if (check - check_obligate != 0 || check_obligate / count != 1 ||
 		tmp->checker[EMISSION_COLOR] + tmp->checker[EMISSION_POWER] == 1)
 		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+	if (tmp->checker[TEXTURE] && !(tmp->type == SPHERE || tmp->type == CONE
+		|| tmp->type == CYLINDER || tmp->type == PLANE))
+		rt_raise_error(ERR_INVALID_TEXTURE_OBJECT);
 }
 
 void	check_camera_or_light(t_tmp *tmp, bool type)

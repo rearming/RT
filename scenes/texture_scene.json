@@ -33,7 +33,8 @@
         "specular": [0.0, 0.0, 0.0],
         "phong exp": 40,
         "smoothness": 0.0,
-        "texture": "sphere_moon.jpg"
+        "texture": "sphere_moon.jpg",
+        "texture position": [1, 0, 0]
       },
       "center": [0.0, 2.5, 0.0],
       "radius": 1.5
@@ -53,7 +54,8 @@
     {
       "type": "cylinder",
       "material": {
-        "texture": "plane_spruce.jpg"
+        "texture": "plane_spruce.jpg",
+        "texture position": [1, 0, 0]
       },
       "center": [0, -1.5, 0],
       "axis": [5, 1, 0],
