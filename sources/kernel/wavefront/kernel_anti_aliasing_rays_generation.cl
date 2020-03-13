@@ -92,10 +92,16 @@ __kernel void		kernel_anti_aliasing_rays_generation(
 
 	int		i = 0;
 
-	if (weight < SOBEL_THRESHOLD)
+//	if (weight < SOBEL_THRESHOLD)
 	{
 		uint cached_buffer_len = atomic_inc(out_rays_buffer_len);
-		out_rays_buffer[cached_buffer_len] = get_ray(convert_float3(img_point), camera);
+		t_ray suka_ray = get_ray(convert_float3(img_point), camera);
+//		out_rays_buffer[cached_buffer_len] = get_ray(convert_float3(img_point), camera);
+//		printf("origin f f f\tdir f f f\tenergy %f %f %f\n",
+//					suka_ray.origin.x, suka_ray.origin.y, suka_ray.origin.z,
+//					suka_ray.dir.x, suka_ray.dir.y, suka_ray.dir.z,
+//					suka_ray.energy.x, suka_ray.energy.y, suka_ray.energy.z);
+		out_rays_buffer[cached_buffer_len] = suka_ray;
 		out_pixel_indices[cached_buffer_len] = g_id;
 		return;
 	}

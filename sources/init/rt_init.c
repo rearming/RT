@@ -9,7 +9,7 @@ void		rt_init_events(t_events *events)
 	events->a = false;
 	events->s = false;
 	events->d = false;
-	events->info = false; // todo remove (debug)
+	events->info = false;
 	events->space = false;
 	events->lshift = false;
 }

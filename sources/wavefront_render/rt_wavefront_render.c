@@ -45,8 +45,8 @@ float		kernel_anti_aliasing_rays_generation(t_rt *rt, cl_kernel kernel, size_t k
 		return exec_time;
 	rt_set_kernel_args(kernel, 5,
 			RT_CL_MEM_CAMERA, RT_CL_MEM_INT_IMG,
-			RT_CL_MEM_AA_RAYS_BUFFER, RT_CL_MEM_AA_PIXEL_INDICES,
-			RT_CL_MEM_AA_RAYS_BUFFER_LEN);
+			RT_CL_MEM_PRIMARY_RAYS_BUFFER, RT_CL_MEM_PRIMARY_PIXEL_INDICES,
+			RT_CL_MEM_PRIMARY_RAYS_BUFFER_LEN);
 
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			kernel, 1, NULL, &kernel_work_size, NULL, 0, NULL, &g_opencl.profile_event);
@@ -55,13 +55,14 @@ float		kernel_anti_aliasing_rays_generation(t_rt *rt, cl_kernel kernel, size_t k
 		rt_print_opencl_profile_info("anti-aliasing rays generation kernel");
 
 	err = clEnqueueReadBuffer(g_opencl.queue,
-			g_opencl.wf_shared_buffers[RT_CL_MEM_AA_RAYS_BUFFER_LEN].mem,
+			g_opencl.wf_shared_buffers[RT_CL_MEM_PRIMARY_RAYS_BUFFER_LEN].mem,
 			CL_TRUE, 0, sizeof(cl_uint), out_find_intersection_work_size, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
 	exec_time = rt_get_kernel_exec_time();
 	clReleaseEvent(g_opencl.profile_event);
 
 	printf("find_intersection new work size: [%u]\n", *out_find_intersection_work_size);
+//	test_sobel_processing(kernel, *out_find_intersection_work_size);
 	return exec_time;
 }
 
@@ -90,7 +91,7 @@ void 		render_wavefront(void *rt_ptr)
 	printf("\nstart wavefront render!\n");
 	if (rt->render_state == STATE_ALL)
 	{
-		rt->render_settings |= RENDER_ANTI_ALIASING;
+//		rt->render_settings |= RENDER_ANTI_ALIASING;
 		wavefront_compile_kernels(rt->render_settings, &params);
 		float3_temp_img_zeros = rt_safe_malloc(sizeof(cl_float3) * WIN_WIDTH * WIN_HEIGHT);
 		for (int i = 0; i < WIN_WIDTH * WIN_HEIGHT; ++i)
@@ -101,23 +102,29 @@ void 		render_wavefront(void *rt_ptr)
 
 	find_intersection_new_work_size = WIN_WIDTH * WIN_HEIGHT;
 
+	if (rt->render_state & STATE_CAMERA_CHANGED)
+		params.pathtrace_params.current_samples_num = 1;
 	if (rt->render_settings & RENDER_ANTI_ALIASING && (rt->render_state & STATE_CAMERA_CHANGED))
 	{
+		if (rt->render_state != STATE_ALL)
+			wavefront_release_buffers(STATE_AA_RAYS_GENERATED);
 		wavefront_setup_buffers(rt, params, (rt->render_state & ~(STATE_AA_RAYS_GENERATED | STATE_NO_AA_INIT)), 0);
-		bzero_buffer(RT_CL_MEM_OUT_RAYS_BUFFER_LEN);
-		aa_img_gen_exec = kernel_anti_aliasing_img_generation(rt, g_wavefront_kernels[RT_KERNEL_ANTI_ALIASING_IMG_GEN], WIN_WIDTH * WIN_HEIGHT);
-		aa_raygen_exec = kernel_anti_aliasing_rays_generation(rt, g_wavefront_kernels[RT_KERNEL_ANTI_ALIASING_RAYS_GEN], WIN_WIDTH * WIN_HEIGHT, &find_intersection_new_work_size);
+		bzero_buffer(RT_CL_MEM_PRIMARY_RAYS_BUFFER_LEN);
+		aa_img_gen_exec = kernel_anti_aliasing_img_generation(rt,
+				g_wavefront_kernels[RT_KERNEL_ANTI_ALIASING_IMG_GEN], WIN_WIDTH * WIN_HEIGHT);
+		aa_raygen_exec = kernel_anti_aliasing_rays_generation(rt,
+				g_wavefront_kernels[RT_KERNEL_ANTI_ALIASING_RAYS_GEN], WIN_WIDTH * WIN_HEIGHT, &find_intersection_new_work_size);
 		printf("anti-aliasing img generation exec time: [%f]\n", aa_img_gen_exec);
 		printf("anti-aliasing ray generation exec time: [%f]\n", aa_raygen_exec);
 
 		rt->render_state &= STATE_AA_RAYS_GENERATED;
+//		return;
 	}
-	return;
 	wavefront_setup_buffers(rt, params, rt->render_state, find_intersection_new_work_size);
 
 	bzero_float3_temp_img(float3_temp_img_zeros); // обнулить temp_float3_img_data
 
-	if (!(rt->render_settings & RENDER_ANTI_ALIASING))
+	if (!(rt->render_settings & RENDER_ANTI_ALIASING) && rt->render_state & STATE_CAMERA_CHANGED)
 		raygen_exec += kernel_generate_primary_rays(rt_ptr, g_wavefront_kernels[RT_KERNEL_GENERATE_PRIMARY_RAYS]);
 
 	for (int j = 0; j < 8; ++j)
@@ -127,7 +134,8 @@ void 		render_wavefront(void *rt_ptr)
 		bzero_buffer(RT_CL_MEM_MATERIAL_BUFFERS_LEN);
 		bzero_buffer(RT_CL_MEM_TEXTURE_BUFFERS_LEN);
 		bzero_buffer(RT_CL_MEM_SKYBOX_HIT_BUFFERS_LEN);
-		intersect_exec += kernel_find_intersections(rt, g_wavefront_kernels[RT_KERNEL_FIND_INTERSECTIONS], find_intersection_new_work_size, &kernel_work_sizes, j);
+		intersect_exec += kernel_find_intersections(rt,
+				g_wavefront_kernels[RT_KERNEL_FIND_INTERSECTIONS], find_intersection_new_work_size, &kernel_work_sizes, j);
 
 		if (rt->events.info)
 			printf("kernel new work sizes: material: [%u], texture: [%u], skybox: [%u]\n",
@@ -173,4 +181,5 @@ void 		render_wavefront(void *rt_ptr)
 	printf("\n");
 
 	rt->render_state = STATE_NOTHING;
+	rt->render_state |= STATE_PARAMS_CHANGED; // для обновления current_samples_num
 }

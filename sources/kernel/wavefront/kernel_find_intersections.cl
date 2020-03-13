@@ -68,7 +68,6 @@ __kernel void		kernel_find_intersections(
 
 	closest_intersection(scene, objects, kd_info, kd_tree, kd_indices,
 			polygons, vertices, v_normals, &ray, &best_hit, &closest_polygon_index, &closest_obj_index);
-
 	uint cached_buffer_len;
 
 	if (isset(closest_obj_index))

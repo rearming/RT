@@ -60,8 +60,8 @@ float kernel_fill_img_data(t_rt *rt, cl_kernel kernel, size_t kernel_work_size);
 typedef enum	e_cl_mem_types
 {
 	RT_CL_MEM_CAMERA = 0,
-	RT_CL_MEM_RAYS_BUFFER,
-	RT_CL_MEM_PIXEL_INDICES,
+	RT_CL_MEM_PREV_RAYS_BUFFER,
+	RT_CL_MEM_PREV_PIXEL_INDICES,
 
 	RT_CL_MEM_SCENE,
 	RT_CL_MEM_OBJECTS,
@@ -104,9 +104,9 @@ typedef enum	e_cl_mem_types
 	RT_CL_MEM_TEXTURE_INFO,
 	RT_CL_MEM_TEXTURE_LIST,
 
-	RT_CL_MEM_AA_RAYS_BUFFER,
-	RT_CL_MEM_AA_PIXEL_INDICES,
-	RT_CL_MEM_AA_RAYS_BUFFER_LEN,
+	RT_CL_MEM_PRIMARY_RAYS_BUFFER,
+	RT_CL_MEM_PRIMARY_PIXEL_INDICES,
+	RT_CL_MEM_PRIMARY_RAYS_BUFFER_LEN,
 }				t_cl_mem_types;
 
 struct			s_kernels_info

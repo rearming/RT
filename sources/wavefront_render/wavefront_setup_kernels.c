@@ -4,14 +4,15 @@
 
 void		rt_set_kernel_args(cl_kernel kernel, int args_num, ...)
 {
-	va_list		args;
-	int			err = CL_SUCCESS;
-	enum e_cl_mem_types arg_type;
+	va_list			args;
+	int				err = CL_SUCCESS;
+	t_cl_mem_types	arg_type;
 	va_start(args, args_num);
 
 	for (int i = 0; i < args_num; ++i)
 	{
-		arg_type = va_arg(args, enum e_cl_mem_types);
+		arg_type = va_arg(args, t_cl_mem_types);
+//		printf("i: [%i], buffer's ptr: [%p]\n", i, g_opencl.wf_shared_buffers[arg_type].mem);
 		err |= clSetKernelArg(kernel, i, sizeof(cl_mem), &g_opencl.wf_shared_buffers[arg_type].mem);
 	}
 	va_end(args);

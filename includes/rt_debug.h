@@ -12,6 +12,9 @@ void		rt_print_clfloat3(cl_float3 vec, const char *definition);
 void		rt_print_float3_color(cl_float3 color, const char *definition);
 void		rt_print_debug_info(t_rt *rt, t_rt_renderer *renderer);
 void		print_cl_device_info(void);
+void		print_bits(uint64_t bits, int len, const char *definition);
+
+void		test_sobel_processing(cl_kernel kernel, uint32_t find_intersection_work_size);
 
 /*
 **	.obj info printing
@@ -27,8 +30,9 @@ void		rt_print_mtl_file(tinyobj_material_t *materials, int num_materials);
 */
 
 void		rt_pathtrace_profile(t_rt *rt, int max_samples);
-void rt_print_opencl_profile_info(const char *kernel_name);
-float rt_get_kernel_exec_time(void);
+void		rt_print_opencl_profile_info(const char *kernel_name);
+float		rt_get_kernel_exec_time(void);
+
 /*
 **	Objects
 */

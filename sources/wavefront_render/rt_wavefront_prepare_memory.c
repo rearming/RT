@@ -58,8 +58,8 @@ void wavefront_setup_buffers(t_rt *rt,
 			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.texture_info, sizeof(t_texture_info) * g_textures.texture_info_size, RT_DEFAULT_MEM_FLAG, STATE_TEXTURES_CHANGED, RENDER_ALWAYS}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.texture_list, sizeof(t_texture_info) * g_textures.texture_list_size, RT_DEFAULT_MEM_FLAG, STATE_TEXTURES_CHANGED, RENDER_ALWAYS}),
 
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_ray) * MAX_AA_BUFFER_SIZE, CL_MEM_READ_WRITE, STATE_CAMERA_CHANGED, RENDER_ALWAYS}), // rays buffer for anti-aliasing
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * MAX_AA_BUFFER_SIZE, CL_MEM_READ_WRITE, STATE_CAMERA_CHANGED, RENDER_ALWAYS}), // pixel indices buffer for anti-aliasing
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(t_ray) * MAX_AA_BUFFER_SIZE, CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}), // rays buffer for anti-aliasing
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * MAX_AA_BUFFER_SIZE, CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}), // pixel indices buffer for anti-aliasing
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_uint), CL_MEM_READ_WRITE, STATE_EXIT, RENDER_ALWAYS}) // anti-aliasing rays buffer len
 	);
 }

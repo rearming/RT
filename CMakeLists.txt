@@ -12,12 +12,13 @@ endif()
 # <----RTv1 compile---->
 
 set(debug_sources
+        sources/test/sobel_operator_test/test_sobel_kernel_processing.c
         sources/debug/rt_debug_print_utils.c
         sources/debug/rt_print_obj_file.c
         sources/debug/rt_debug_print_parsed_meshes.c
         sources/debug/rt_print_object.c
         sources/debug/rt_kd_tree_print.c
-        )
+        sources/debug/print_bits.c)
 
 set(runtime_debug_sources
         sources/debug/runtime_debug/opencl_debug.c
