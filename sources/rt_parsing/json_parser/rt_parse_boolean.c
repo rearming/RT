@@ -12,8 +12,8 @@
 
 #include "rt.h"
 
-void	parse_bool(t_tmp *tmp, const char *key, json_t *value,
-	uint32_t *renderer_flags)
+void	parse_boolean(t_tmp *tmp, const char *key, json_t *value,
+					  uint32_t *renderer_flags)
 {
 	if (tmp->structure_type != RENDER_PARAMS)
 		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, key));

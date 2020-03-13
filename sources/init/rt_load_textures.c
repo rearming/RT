@@ -89,18 +89,17 @@ void		rt_textures_init(void)
 		if ((tmp_filename =
 			found_file_in_the_folder(g_textures.textures_names->name))
 			== NULL)
-			return (rt_raise_error(ERR_INVALID_TEXRTURE));
+			return (rt_raise_error(ERR_INVALID_TEXTURE));
 		if (!(tmp_texture = stbi_loadf(tmp_filename,
 		&g_textures.texture_info[i].width, &g_textures.texture_info[i].height,
 		&g_textures.texture_info[i].bpp, STBI_rgb)))
-			return (rt_raise_error(ERR_INVALID_TEXRTURE));
+			return (rt_raise_error(ERR_INVALID_TEXTURE));
 		rt_add_start_position(i);
 		rt_change_format_and_add(tmp_texture, i);
 		free(tmp_filename);
 		free(tmp_texture);
-		printf("texture name %s, i %i width %i height %i\n", tmp_filename, i, g_textures.texture_info[i].width, g_textures.texture_info[i].height);
 		if (g_textures.texture_list == NULL)
-			return (rt_raise_error(ERR_INVALID_TEXRTURE));
+			return (rt_raise_error(ERR_INVALID_TEXTURE));
 		free(g_textures.textures_names->name); // чистим именя texture или передаем в gui?
 		free(g_textures.textures_names);
 		g_textures.textures_names = g_textures.textures_names->next;
@@ -119,7 +118,7 @@ void		rt_skybox_init(void)
 	if ((tmp_filename =
 		found_file_in_the_folder(g_textures.skybox_info->skybox_name))
 		== NULL)
-		return (rt_raise_error(ERR_INVALID_TEXRTURE));
+		return (rt_raise_error(ERR_INVALID_TEXTURE));
 	tmp_texture = stbi_loadf(tmp_filename, &g_textures.skybox_info->width,
 	&g_textures.skybox_info->height, &g_textures.skybox_info->bpp, STBI_rgb);
 	g_textures.skybox_info->size = g_textures.skybox_info->width

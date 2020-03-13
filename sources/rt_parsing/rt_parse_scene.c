@@ -26,9 +26,9 @@ void	parse_json_file(json_t *root, t_tmp *tmp, uint32_t *renderer_flags)
 		else if (json_is_string(value))
 			parse_string(tmp, key, value, renderer_flags);
 		else if (json_is_boolean(value))
-			parse_bool(tmp, key, value, renderer_flags);
+			parse_boolean(tmp, key, value, renderer_flags);
 		else
-			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_TYPE_OF_PARAM, key));
+			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, key));
 		while (tmp->next != NULL)
 			tmp = tmp->next;
 		iter = json_object_iter_next(root, iter);

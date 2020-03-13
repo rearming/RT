@@ -82,16 +82,6 @@ static void	add_render_and_scene(t_scene *scene, t_tmp *tmp_iterator,
 	}
 }
 
-static void	add_elements2(t_scene *scene, t_tmp *tmp_iterator)
-{
-	if (tmp_iterator->structure_type == CAMERA)
-		add_cam_and_light(&scene->camera, NULL, tmp_iterator, true);
-	else if (tmp_iterator->structure_type == RENDER_PARAMS)
-		add_render_and_scene(scene, tmp_iterator, true);
-	else
-		add_render_and_scene(scene, tmp_iterator, false);
-}
-
 void		add_elements(t_scene *scene, t_tmp *tmp)
 {
 	t_tmp	*tmp_iter;
@@ -111,11 +101,15 @@ void		add_elements(t_scene *scene, t_tmp *tmp)
 			add_objects(tmp_iter, &scene->objects[i_obj++]);
 		else if (tmp_iter->structure_type == LIGHT && i_light < scene->lights_nbr)
 			add_cam_and_light(NULL, &scene->lights[i_light++], tmp_iter, false);
-		else if (tmp_iter->structure_type == CAMERA || tmp_iter->structure_type
-			== RENDER_PARAMS || tmp_iter->structure_type == SCENE_PARAMS)
-			add_elements2(scene, tmp_iter);
+		else if (tmp_iter->structure_type == CAMERA)
+			add_cam_and_light(&scene->camera, NULL, tmp_iter, true);
+		else if (tmp_iter->structure_type == RENDER_PARAMS)
+			add_render_and_scene(scene, tmp_iter, true);
+		else if (tmp_iter->structure_type == SCENE_PARAMS)
+			add_render_and_scene(scene, tmp_iter, false);
 		else
-			rt_raise_error(ERR_PARSING_WRONG_TYPE);
+			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM,
+					"unknown structure"));
 		tmp_iter = tmp_iter->next;
 	}
 	free_tmp(tmp);

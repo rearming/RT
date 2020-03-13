@@ -50,15 +50,17 @@ int		texture_to_plane(t_rayhit *hit,
 	float3	buf_v;
 	int		x;
 	int		y;
+	int 	scale;
 
+	scale = (object->center.z == 0) ? 1 : 4 * object->center.z;
 	buf_u = cross(hit->normal, (float3){0.f, 1.0f, 0.f});
 	if (fabs(length(buf_u)) < 0.0001f)
 		buf_u = cross(hit->normal, (float3) {0.f, 0.0f, 1.0f});
 	buf_v = cross(hit->normal, buf_u);
 	x = (int)(texture_info->width * (dot(buf_u, hit->pos) + object->center.x + object->material.texture_position.x)
-			/ (4 * object->center.z)) % texture_info->width;
+			/ scale) % texture_info->width;
 	y = (int)(texture_info->height * (dot(buf_v, hit->pos) + object->center.y + object->material.texture_position.y)
-			/ (4 * object->center.z)) % texture_info->height;
+			/ scale) % texture_info->height;
 	if (x < 0)
 		x += texture_info->width;
 	if (y < 0)

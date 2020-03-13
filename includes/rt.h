@@ -61,7 +61,7 @@ void		rt_update_renderer_params(t_rt *rt, t_rt_renderer *renderer);
 
 /*
 **	Event handling
-gi */
+*/
 
 void		handle_event(SDL_Event *event, t_rt *rt);
 

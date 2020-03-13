@@ -121,5 +121,5 @@ void		parse_array(t_tmp *tmp, const char *key, json_t *value,
 	else if (array_type == 2)
 		parse_array_of_objects(tmp, type_of_element, value, renderer_flags);
 	else
-		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_TYPE_OF_PARAM, key));
+		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, key));
 }

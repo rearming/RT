@@ -33,7 +33,7 @@ static void		parse_type2(t_tmp *tmp, const char *value)
 	else if (ft_strequ(value, "ellipsoid"))
 		tmp->type = ELLIPSOID;
 	else
-		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+		rt_raise_error(ERR_PARSING_WRONG_OBJECT_TYPE);
 }
 
 static void		parse_material(t_tmp *tmp, const char *key,
@@ -122,12 +122,12 @@ void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 		else if (ft_strequ(key, "file"))
 			tmp->file = ft_strdup(tmp_value);
 		else
-			rt_raise_error(ERR_PARSING_WRONG_TYPE);
+			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, tmp_value));
 	}
 	else if (tmp->type == NOT_SET && ft_strequ(key, "type"))
 		parse_type(tmp, tmp_value);
 	else if (tmp->structure_type != NOT_SET && tmp->type != NOT_SET)
 		parse_material(tmp, key, tmp_value);
 	else
-		rt_raise_error(ERR_PARSING_WRONG_TYPE);
+		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, tmp_value));
 }

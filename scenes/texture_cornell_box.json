@@ -20,17 +20,13 @@
     "textures": {
       "enabled": true,
       "directory": "/Users/gfoote/Project42/hdr/"
-    },
-    "skybox": {
-      "enabled": true,
-      "texture": "colorful_studio_8k.hdr"
     }
   },
   "objects": [
     {
       "type": "plane",
       "material": {
-        "diffuse": "0xFFFFFF"
+        "texture": "plane_bricks.bmp"
       },
       "center": [0, -2.5, 0],
       "normal": [0, 1, 0]
@@ -38,8 +34,8 @@
     {
       "type": "plane",
       "material": {
-        "diffuse": "0x00FF00",
-        "phong exp": 50
+        "texture": "plane_spruce.jpg"
+
       },
       "center": [2.5, 0, 0],
       "normal": [1, 0, 0]
@@ -47,7 +43,7 @@
     {
       "type": "plane",
       "material": {
-        "diffuse": "0xFF0000"
+        "texture": "plane_bricks2.jpeg"
       },
       "center": [-2.5, 0, 0],
       "normal": [1, 0, 0]
@@ -64,8 +60,7 @@
     {
       "type": "plane",
       "material": {
-        "diffuse": "0xFFFFFF",
-        "phong exp": 0
+        "texture": "plane_grass.jpg"
       },
       "center": [0, 2.5, 0],
       "normal": [0, 1, 0]
@@ -73,7 +68,8 @@
     {
       "type": "plane",
       "material": {
-        "diffuse": "0xFFFFFF"
+        "diffuse": "0xFFFFFF",
+        "phong exp": 50
       },
       "center": [0, 0, -15],
       "normal": [0, 0, 1]
@@ -81,8 +77,7 @@
     {
       "type": "sphere",
       "material": {
-        "texture": "sphere_sauron.jpg",
-        "emission power": 1
+        "texture": "sphere_sauron.jpg"
       },
       "center": [0, 2.5, 0],
       "radius": 1

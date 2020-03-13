@@ -33,6 +33,27 @@ void	check_duplicated(bool *checker, int number)
 		checker[number] = true;
 }
 
+char	*object_name(int type)
+{
+	if (type == SPHERE)
+		return "Sphere";
+	if (type == CONE)
+		return "Cone";
+	if (type == CYLINDER)
+		return "Cylinder";
+	if (type == PLANE)
+		return "Plane";
+	if (type == AABB)
+		return "AABB";
+	if (type == TRIANGLE)
+		return "Triangle";
+	if (type == PARABOLOID)
+		return "Paraboloid";
+	if (type == ELLIPSOID)
+		return "Ellipsoid";
+	return NULL;
+}
+
 void	check_object(t_tmp *tmp)
 {
 	int check_obligate;
@@ -55,16 +76,16 @@ void	check_object(t_tmp *tmp)
 			+ tmp->checker[ANGLE]);
 	else if (tmp->type == CYLINDER && ++count < 4)
 		check_obligate = (tmp->checker[CENTER] + tmp->checker[AXIS]
-					  + tmp->checker[RADIUS]);
+			 + tmp->checker[RADIUS]);
 	else if (tmp->type == PARABOLOID && ++count < 4)
 		check_obligate = (tmp->checker[CENTER] + tmp->checker[DISTANCE]
 			+ tmp->checker[AXIS]);
 	else if (tmp->type == ELLIPSOID && (count += 2) < 5)
-		check_obligate = (tmp->checker[CENTER] + tmp->checker[AXIS] +
-				tmp->checker[DISTANCE] + tmp->checker[RADIUS]);
+		check_obligate = (tmp->checker[CENTER] + tmp->checker[AXIS]
+			+ tmp->checker[DISTANCE] + tmp->checker[RADIUS]);
 	if (check - check_obligate != 0 || check_obligate / count != 1 ||
 		tmp->checker[EMISSION_COLOR] + tmp->checker[EMISSION_POWER] == 1)
-		rt_raise_error(ERR_PARSING_WRONG_OBJECT_PARAMS);
+		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_OBJECT_PARAMS, object_name(tmp->type)));
 	if (tmp->checker[TEXTURE] && !(tmp->type == SPHERE || tmp->type == CONE
 		|| tmp->type == CYLINDER || tmp->type == PLANE))
 		rt_raise_error(ERR_INVALID_TEXTURE_OBJECT);
