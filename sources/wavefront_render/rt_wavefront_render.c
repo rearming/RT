@@ -93,7 +93,7 @@ void 		render_wavefront(void *rt_ptr)
 	printf("\nstart wavefront render!\n");
 	if (rt->render_state == STATE_ALL)
 	{
-//		rt->render_settings |= RENDER_ANTI_ALIASING;
+		rt->render_settings |= RENDER_ANTI_ALIASING;
 		wavefront_compile_kernels(rt->render_settings, &params);
 		float3_temp_img_zeros = rt_safe_malloc(sizeof(cl_float3) * WIN_WIDTH * WIN_HEIGHT);
 		for (int i = 0; i < WIN_WIDTH * WIN_HEIGHT; ++i)
@@ -122,6 +122,7 @@ void 		render_wavefront(void *rt_ptr)
 		printf("find intesect size: [%i], cached size: [%i]\n", find_intersection_new_work_size, cached_find_intersection_work_size);
 		rt->render_state &= STATE_NOTHING;
 		rt->render_state |= STATE_AA_RAYS_GENERATED;
+//		return;
 	}
 	else
 		find_intersection_new_work_size = WIN_WIDTH * WIN_HEIGHT;

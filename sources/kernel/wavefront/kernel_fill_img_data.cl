@@ -23,11 +23,13 @@ __kernel void	kernel_fill_img_data(
 	main_float3_img_data[g_id] = final_color;
 #endif
 #ifdef RENDER_RAYTRACE
-//	final_color = new_color / num_pixel_rays_buffer[g_id];
-	if (num_pixel_rays_buffer[g_id] == 9)
-		final_color = new_color / 9;
-	else
-		final_color = get_float3_color(COL_BLACK);
+	final_color = new_color / num_pixel_rays_buffer[g_id];
+
+//	if (num_pixel_rays_buffer[g_id] == 9)
+//		final_color = new_color / 9;
+//	else
+//		final_color = get_float3_color(COL_BLACK);
+
 //		final_color = new_color;
 //		printf("new color %f %f %f\n", final_color.x, final_color.y, final_color.z);
 //	final_color = new_color;

@@ -29,16 +29,17 @@ float		sobel_get_weight_x(__global const int *img, int img_x, int img_y)
 	float3	result = 0;
 
 	int		k_y = 0;
-#pragma unroll
+
 	for (int y = img_y - 1; y <= img_y + 1; ++y)
 	{
 		int		k_x = 0;
-#pragma unroll
+
 		for (int x = img_x - 1; x <= img_x + 1; ++x)
 		{
-			result.x += sobel_get_pixel(img, x, y).x * kernel_x[k_y][k_x];
-			result.y += sobel_get_pixel(img, x, y).y * kernel_x[k_y][k_x];
-			result.z += sobel_get_pixel(img, x, y).z * kernel_x[k_y][k_x];
+			float3	pixel_color = sobel_get_pixel(img, x, y);
+			result.x += pixel_color.x * kernel_x[k_y][k_x];
+			result.y += pixel_color.y * kernel_x[k_y][k_x];
+			result.z += pixel_color.z * kernel_x[k_y][k_x];
 			k_x++;
 		}
 		k_y++;
@@ -57,16 +58,17 @@ float		sobel_get_weight_y(__global const int *img, int img_x, int img_y)
 	float3	result = 0;
 
 	int		k_y = 0;
-#pragma unroll
+
 	for (int y = img_y - 1; y <= img_y + 1; ++y)
 	{
 		int		k_x = 0;
-#pragma unroll
+
 		for (int x = img_x - 1; x <= img_x + 1; ++x)
 		{
-			result.x += sobel_get_pixel(img, x, y).x * kernel_y[k_y][k_x];
-			result.y += sobel_get_pixel(img, x, y).y * kernel_y[k_y][k_x];
-			result.z += sobel_get_pixel(img, x, y).z * kernel_y[k_y][k_x];
+			float3	pixel_color = sobel_get_pixel(img, x, y);
+			result.x += pixel_color.x * kernel_y[k_y][k_x];
+			result.y += pixel_color.y * kernel_y[k_y][k_x];
+			result.z += pixel_color.z * kernel_y[k_y][k_x];
 			k_x++;
 		}
 		k_y++;
@@ -106,7 +108,7 @@ __kernel void		kernel_anti_aliasing_rays_generation(
 		{
 			if (y == 0 && x == 0)
 				continue;
-			float3	origin = (float3)(img_point.x + x * 0.0f, img_point.y + y * 0.0f, 0.0f);
+			float3	origin = (float3)(img_point.x + x * 0.5f, img_point.y + y * 0.5f, 0.0f);
 
 			uint cached_buffer_len = atomic_inc(out_rays_buffer_len);
 			out_rays_buffer[cached_buffer_len] = get_ray(origin, camera);
