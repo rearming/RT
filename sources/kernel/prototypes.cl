@@ -167,6 +167,11 @@ bool				ray_plane_intersect(
 		float3 normal,
 		t_rayhit *best_hit);
 
+bool				ray_sphere_intersect_cut(
+		t_ray *ray,
+		__global const t_object *sphere,
+		t_rayhit *best_hit);
+
 bool				ray_sphere_intersect(
 		t_ray *ray,
 		__global const t_object *sphere,
@@ -177,7 +182,7 @@ bool				ray_cone_intersect(
 		__global const t_object *cone,
 		t_rayhit *best_hit);
 
-bool				ray_cylinder_intersect(
+bool		ray_cylinder_intersect(
 		t_ray *ray,
 		__global const t_object *cylinder,
 		t_rayhit *best_hit);

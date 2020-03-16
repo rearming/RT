@@ -17,8 +17,11 @@ void				closest_intersection(
 		{
 			switch (objects[i].type)
 			{
-				case (SPHERE):
-					if (ray_sphere_intersect(ray, &objects[i], out_best_hit))
+				case (SPHERE):	/// для сферы разделим на две функции обрезанная
+								/// и не обрезанная
+					if ((objects[i].len > 0 && objects[i].len < objects[i].radius) ?
+							ray_sphere_intersect_cut(ray, &objects[i], out_best_hit)
+							: ray_sphere_intersect(ray, &objects[i], out_best_hit))
 						*out_closest_obj_index = i;
 					break;
 				case (PLANE):

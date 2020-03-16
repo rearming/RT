@@ -1,6 +1,8 @@
 #define FT_OPENCL___
 
-# define RAY_MIN_EPSILON 0.0001f
+# define RAY_MIN_EPSILON 0.000001f
 # define RT_EPSILON 0.0001f
+
+# define M_PI_360 0.00872664625997
 
 # define LAMBERT_ALPHA 1.f
