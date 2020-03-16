@@ -117,7 +117,8 @@
 # define NONE       (0 << 0)
 # define RENDER_BTN (1 << 0)
 # define SCREENSHOT (1 << 1)
-# define PANEL 		(1 << 2)
+# define PANEL      (1 << 2)
+# define TEXT_BOX   (1 << 3)
 
 
 

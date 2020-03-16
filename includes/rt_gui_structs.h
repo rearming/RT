@@ -17,7 +17,7 @@ typedef enum			e_button
 						camera_l,
 						obj_l,
 						obj_pos,
-//						test_box,
+						test_box,
 						btn_count
 }						t_btn;
 
@@ -38,7 +38,7 @@ typedef	struct			s_transform
 	SDL_Color			color;
 	SDL_Surface			texture;
 	char				text[100];
-	char 				field[10];
+	char 				field[20];
 	short				action;
 	bool				(*callback)();
 	t_state 			state;
@@ -47,6 +47,13 @@ typedef	struct			s_transform
 	unsigned short		sons;
 }						t_transform;
 
+typedef struct			s_ttf
+{
+	SDL_Surface			*sur;
+	SDL_Color			color;
+	SDL_Rect			rect;
+}						t_ttf;
+
 typedef struct			s_gui
 {
 	SDL_Window			*win_tool;
@@ -54,7 +61,6 @@ typedef struct			s_gui
 	TTF_Font			*subtitle;
 	TTF_Font			*title;
 	TTF_Font			*body;
-//	TTF_Font 			*swp;
 	SDL_Surface			*surface;
 	t_btn				render_algo;
 	t_btn 				panel;

@@ -1,16 +1,37 @@
+#include "rt.h"
 #include "rt_gui.h"
 
-SDL_Rect	centered_label(SDL_Rect button, SDL_Surface *sur)
+t_ttf	get_centered_label(TTF_Font *font, char *text, SDL_Rect rect)
 {
-	SDL_Rect centered;
+	t_ttf		label;
+	SDL_Rect	centered;
 
+	label.sur = TTF_RenderText_Solid(font,
+			text, get_color_from_hex(FONT_COL));
 	centered = (SDL_Rect){0, 0 , 0 ,0};
-	if (sur)
+	if (label.sur)
 	{
-		centered.x = button.x + button.w / 2 - sur->w / 2;
-		centered.y = button.y + button.h / 2 - sur->h / 2;
-		centered.w = sur->w;
-		centered.h = sur->h;
+		centered.x = rect.x + rect.w / 2 - label.sur->w / 2;
+		centered.y = rect.y + rect.h / 2 - label.sur->h / 2;
+		centered.w = label.sur->w;
+		centered.h = label.sur->h;
 	}
-	return (centered);
+	label.rect = centered;
+	return (label);
+}
+
+
+void	render_text(TTF_Font *font, char *text, SDL_Rect rect)
+{
+	const t_ttf	label = get_centered_label(font, text, rect);
+
+	if (label.sur->h < rect.h && label.sur->w < rect.w)
+		SDL_BlitSurface(label.sur, NULL, g_gui.surface, &(label.rect));
+	SDL_FreeSurface(label.sur);
+}
+
+void	render_rect(SDL_Surface *sur, SDL_Rect *rect, SDL_Color col)
+{
+	SDL_FillRect(sur, rect, SDL_MapRGBA(sur->format,
+			col.r, col.g, col.b, col.a));
 }

@@ -23,9 +23,11 @@ bool		rt_handle_event_gui(SDL_Event *event, t_rt *rt);
 ** fake HTML
 */
 
-SDL_Rect	centered_label( SDL_Rect button, SDL_Surface *sur);
+t_ttf		get_centered_label(TTF_Font *font, char *text, SDL_Rect rect);
 void		cut_rect(SDL_Rect *rect, int px);
 void		render_border(t_transform *btn, int px, SDL_Color color);
+void		render_text(TTF_Font *font, char *text, SDL_Rect rect);
+void		render_rect(SDL_Surface *sur, SDL_Rect *rect, SDL_Color col);
 
 /*
 ** Buttons init

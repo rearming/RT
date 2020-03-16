@@ -15,12 +15,5 @@ void				render_border(t_transform *btn, int px, SDL_Color color)
 
 	button = btn->rect;
 	cut_rect(&(btn->rect), px);
-	SDL_FillRect(g_gui.surface,
-				 &(button),
-				 SDL_MapRGBA(
-						 g_gui.surface->format,
-						 color.r,
-						 color.g,
-						 color.b,
-						 color.a));
+	render_rect(g_gui.surface, &(button), color);
 }

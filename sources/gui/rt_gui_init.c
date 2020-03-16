@@ -13,7 +13,6 @@
 #include "rt.h"
 #include "rt_gui.h"
 
-
 void		create_title(void)
 {
 	SDL_Rect	rect;
@@ -25,38 +24,6 @@ void		create_title(void)
 			.color = get_color_from_hex(WHITE)};
 	render_button_with_params(title, g_gui.title, 0);
 }
-
-//void		render_text_box(t_transform tb)
-//{
-//	SDL_Surface *text_surface;
-//
-//
-//	text_surface = TTF_RenderText_Solid(g_gui.font, tb.text,
-//										get_color_from_hex(FONT_COL));
-//
-//	SDL_FillRect(g_gui.surface,
-//				 &(btn.rect),
-//				 SDL_MapRGBA(
-//						 g_gui.surface->format,
-//						 color.r,
-//						 color.g,
-//						 color.b,
-//						 color.a));
-//	SDL_BlitSurface(text_surface, NULL, g_gui.surface, &(btn.rect));
-//	SDL_FreeSurface(text_surface);
-//}
-////
-//void		textbox_init()
-//{
-//	SDL_Rect	rect;
-//
-//	rect = (SDL_Rect){.x = 300, .y = 300,
-//			.h = 100, .w = 100};
-//	g_gui.obj[a_btn + o_btn + test_text_box] = 	(t_transform){ .rect = rect,
-//			.state = non_event, .text = SCREENSHOT_LABEL, .action = scr_sbtn,
-//			.callback = button_callback, .type = SCREENSHOT,
-//			.color = get_color_from_hex(COL_GREEN)};
-//}
 
 void		init_object_panel()
 {
@@ -98,31 +65,36 @@ void		fill_surfaces()
 	SDL_Rect	*rect;
 
 	bg = get_color_from_hex(GUI_BG);
-	SDL_FillRect(g_gui.surface, NULL,
-				 SDL_MapRGB(g_gui.surface->format, bg.r, bg.g, bg.b));
+	render_rect(g_gui.surface, NULL, bg);
 	bg = get_color_from_hex(PANEL_BG);
 	rect = &(SDL_Rect){ .x = 0, .y = PANEL_Y, .h = PANEL_HEIGHT, .w = PANEL_WIDTH};
 	cut_rect(rect, PANEL_BORDER);
-	SDL_FillRect(g_gui.surface, rect,
-				 SDL_MapRGB(g_gui.surface->format, bg.r, bg.g, bg.b));
+	render_rect(g_gui.surface, rect, bg);
 }
 
+void		init_text_box()
+{
+	SDL_Rect rect;
 
+	rect = (SDL_Rect){.x = 0 + 10, .y = 500, .w = PANEL_BUTTON_WIDTH * 2, .h = BTN_DEFAULT_SIZE};
+	g_gui.obj[test_box] = (t_transform){.rect = rect, .action = test_box, .callback = button_callback, .text = "cool", .field = "test", .state = label, .type = TEXT_BOX, .color = get_color_from_hex(0xff0000)};
+
+}
 
 void		init_gui(uint64_t algo)
 {
-
 	g_gui.render_algo = ((algo & 0b111) - 1);
 	g_gui.panel = camera_l;
 	g_gui.obj = rt_safe_malloc(sizeof(t_transform) * (btn_count));
 	init_font();
-	g_gui.surface = SDL_GetWindowSurface(g_gui.win_tool);
+	if ((g_gui.surface = SDL_GetWindowSurface(g_gui.win_tool)) == NULL)
+		rt_raise_error(GET_SURFACE_TROUBLE);
 	fill_surfaces();
 	create_title();
 	init_algo_buttons();
 	init_object_panel();
 	init_other_buttons();
+	init_text_box();
 	render_all_buttons();
-//	init_text_box();
 	SDL_UpdateWindowSurface(g_gui.win_tool);
 }
