@@ -42,14 +42,10 @@
 
 __kernel void	rt_main(
     __global const t_scene *scene,
-#ifdef RENDER_OBJECTS
     __global const t_object *objects,
-#endif
-#ifdef RENDER_RAYTRACE
     __global const t_light *lights,
-#endif
-    __global const t_renderer_params *params,
-#ifdef RENDER_MESH
+    __global const t_render_params *params,
+
 	__global const t_kd_info *kd_info,
 	__global const t_kd_arr_tree *kd_tree,
 	__global const int *kd_indices,
@@ -57,20 +53,16 @@ __kernel void	rt_main(
     __global const t_polygon *polygons,
 	__global const float3 *vertices,
 	__global const float3 *v_normals,
-# ifdef RENDER_MESH_VTEXTURES
 	__global const float3 *v_textures,
-# endif
-#endif
-#ifdef RENDER_PATHTRACE
-    __global float3 *img_data_float,
-#endif
-#ifdef RENDER_TEXTURES
+
     __global const t_texture_info *texture_info,
 	__global const int *texture_list,
 	__global const t_skybox_info *skybox_info,
 	__global const float3 *skybox_list,
-#endif
-    __global int *img_data)
+
+    __global int *img_data,
+
+    __global float3 *img_data_float) //img data float must always be last
 {
 	int3		img_point = (int3)(get_global_id(0), get_global_id(1), 0);
 	int			g_id = img_point.x + img_point.y * WIN_WIDTH;
@@ -80,31 +72,6 @@ __kernel void	rt_main(
 	float3		final_color = 0;
 	float3		new_color = 0;
 	float		seed = params->seed;
-
-#ifndef RENDER_RAYTRACE
-	__global const t_light			*lights = 0;
-#endif
-#ifndef RENDER_OBJECTS
-	__global const t_object			*objects = 0;
-#endif
-#ifndef RENDER_MESH
- 	__global const t_mesh_info		*meshes_info = 0;
- 	__global const t_polygon		*polygons = 0;
- 	__global const float3			*vertices = 0;
- 	__global const float3 			*v_normals = 0;
- 	__global const t_kd_info		*kd_info = 0;
-	__global const t_kd_arr_tree	*kd_tree = 0;
-	__global const int				*kd_indices = 0;
-#endif
-#ifndef RENDER_MESH_VTEXTURES
- 	__global const float3			*v_textures = 0;
-#endif
-#ifndef RENDER_TEXTURES
- 	__global const t_texture_info 	*texture_info = 0;
-	__global const int 				*texture_list = 0;
-	__global const t_skybox_info 	*skybox_info = 0;
-	__global const float3			*skybox_list = 0;
-#endif
 
 #ifdef RENDER_PATHTRACE
 	float3		prev_color = img_data_float[g_id];

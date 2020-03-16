@@ -18,7 +18,7 @@ void		rt_loop(t_rt *rt)
 			SDL_FlushEvent(SDL_MOUSEMOTION);
 #endif
 		}
-		if (rt_params_isset(rt->renderer_flags, RENDER_PATHTRACE))
+		if (rt_bit_isset(rt->render_options, RENDER_PATHTRACE))
 			rt_render(rt, rt_opencl_render);
 		if (flag == true)
 		{

@@ -368,7 +368,7 @@ typedef struct			s_raytrace_params
 
 }						t_raytrace_params;
 
-typedef struct			s_renderer_params
+typedef struct			s_render_params
 {
 # ifndef FT_OPENCL___
 
@@ -385,7 +385,7 @@ typedef struct			s_renderer_params
 	float				exposure;
 	float				gamma;
 # endif
-}						t_renderer_params;
+}						t_render_params;
 
 typedef struct		s_aabb
 {

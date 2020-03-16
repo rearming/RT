@@ -44,7 +44,7 @@ float3		raytrace(
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
 		__global const float3 *v_textures,
-		__global const t_renderer_params *params,
+		__global const t_render_params *params,
 		__global const t_texture_info *texture_info,
 		__global const int *texture_list,
 		__global const float3 *skybox_list,

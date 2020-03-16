@@ -28,6 +28,11 @@
 # define ERR_OPENCL_INV_SOURCE_CODE_FILE "error when reading opencl source code file"
 # define ERR_OPENCL_LOG "clGetProgramBuildLog failed"
 
+# define ERR_OPENCL_RELEASE_PROGRAM "clReleaseProgram failed"
+# define ERR_OPENCL_RELEASE_BUFFER "clReleaseBuffer failed"
+# define ERR_OPENCL_RELEASE_KERNEL "clReleaseKernel failed"
+# define ERR_OPENCL_RELEASE_EVENT "clReleaseEvent failed"
+
 # define ERR_READ_OBJ_FILE "error when reading .obj file"
 # define ERR_OBJLOADER_PARSE_OBJ "tinyobjloader failed"
 

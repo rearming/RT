@@ -43,6 +43,7 @@ t_scene	rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags)
 	json_t			*root;
 	json_error_t	error;
 
+	*renderer_flags = RENDER_OBJECTS; // render objects by default
 	tmp = rt_safe_malloc(sizeof(t_tmp));
 	if (!(text = ft_readfile(open(json_scene_file, O_RDONLY), NULL, 10000)))
 		rt_raise_error(ERR_INVALID_JSON_FILE);

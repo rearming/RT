@@ -12,7 +12,7 @@ void		rt_set_render_params(uint32_t *params, uint32_t new_param)
 
 void		rt_switch_render_param(uint32_t *params, uint32_t target)
 {
-	if (rt_params_isset(*params, target))
+	if (rt_bit_isset(*params, target))
 		rt_unset_render_params(params, target);
 	else
 		rt_set_render_params(params, target);

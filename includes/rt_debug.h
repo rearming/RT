@@ -14,7 +14,7 @@ void		print_scene(t_scene *scene);
 
 void		rt_print_clfloat3(cl_float3 vec, const char *definition);
 void		rt_print_float3_color(cl_float3 color, const char *definition);
-void		rt_print_debug_info(t_rt *rt, t_rt_renderer *renderer);
+void		rt_print_debug_info(t_rt *rt, t_render_kernel *renderer);
 void		print_cl_device_info(void);
 
 /*

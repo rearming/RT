@@ -3,23 +3,16 @@
 
 #include "rt_host_structs.h"
 
-void				rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer);
-void				rt_opencl_init(void);
-void				rt_opencl_render(void *rt_ptr);
-void				rt_opencl_move_host_mem_to_kernel(
-		t_rt_renderer *renderer,
-		int max_memobj_num, ...);
-char				*get_opencl_kernel_code_text(size_t *out_size);
-void				opencl_clean_memobjs(t_rt_renderer *renderer);
-void				rt_opencl_setup_image_buffer(t_rt_renderer *renderer);
-void				rt_opencl_handle_error(
-		const char *rt_err_str,
-		int opencl_err_code);
+void			rt_opencl_init(void);
+void			rt_opencl_render(void *rt_ptr);
+void			rt_opencl_prepare_memory(t_rt *rt, uint32_t render_state);
+void			rt_opencl_alloc_buffers(uint32_t render_state, ...);
+void			rt_opencl_release_buffers(uint32_t current_render_state);
 
-void				rt_opencl_create_kernel(
-		const char *compile_options,
-		cl_kernel *out_kernel,
-		cl_program *out_program);
-t_rt_renderer		*rt_get_renderer(uint32_t flags, t_cl_info clInfo);
+void			rt_opencl_handle_error(const char *rt_err_str, int opencl_err_code);
+
+char			*get_opencl_kernel_code_text(size_t *out_size);
+void			rt_opencl_create_kernel(const char *compile_options, cl_kernel *out_kernel);
+t_render_kernel *rt_get_render_kernel(uint32_t options);
 
 #endif

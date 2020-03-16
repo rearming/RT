@@ -16,11 +16,16 @@ typedef struct			s_sdl
 typedef struct			s_cl_buffer
 {
 	cl_mem				mem;
-	uint32_t			renderer_flags;
-	bool				copy_mem;
+	uint32_t			render_state;
 }						t_cl_buffer;
 
-typedef struct s_rt_renderer t_rt_renderer;
+typedef struct			s_render_kernel
+{
+	cl_kernel			kernel;
+	uint32_t			options;
+	cl_mem				img_data_float;
+	int					samples_num;
+}						t_render_kernel;
 
 typedef struct			s_opencl
 {
@@ -31,20 +36,10 @@ typedef struct			s_opencl
 	cl_uint				ret_num_devices;
 	cl_device_id		device_id;
 	cl_event			profile_event;
-	cl_mem				img_data_mem;
-	t_list				*renderers;
-}						t_opencl;
-
-typedef struct			s_rt_renderer
-{
-	uint32_t			flags;
-	t_renderer_params	params;
-	cl_program			program;
-	cl_kernel			kernel;
 	t_cl_buffer			*buffers;
 	int					buffers_num;
-	bool				copy_done;
-}						t_rt_renderer;
+	t_list				*kernels;
+}						t_opencl;
 
 typedef struct			s_obj_material
 {
@@ -73,16 +68,17 @@ typedef struct			s_opencl_mem_obj
 	void				*ptr;
 	size_t				size;
 	cl_mem_flags		mem_flags;
-	bool				copy;
-	uint32_t			renderer_flags;
+	uint32_t			render_state;
 }						t_opencl_mem_obj;
 
 typedef struct			s_rt
 {
 	t_scene				scene;
-	uint32_t			renderer_flags;
-	t_events			events;
 	t_kd_info			kd_info;
+	uint32_t			render_options;
+	uint32_t			render_state;
+	t_render_params		params;
+	t_events			events;
 }						t_rt;
 
 typedef struct 			s_tmp

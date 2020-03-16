@@ -55,20 +55,20 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 		SDL_SetRelativeMouseMode(!SDL_GetRelativeMouseMode());
 	if (event->key.keysym.scancode == SDL_SCANCODE_R)
 	{
-		rt_set_render_algo(&rt->renderer_flags, RENDER_RAYTRACE);
-		sync_rt_and_gui(rt->renderer_flags);
+		rt_set_render_algo(&rt->render_options, RENDER_RAYTRACE);
+		sync_rt_and_gui(rt->render_options);
 	}
 	if (event->key.keysym.scancode == SDL_SCANCODE_P)
 	{
-		rt_set_render_algo(&rt->renderer_flags, RENDER_PATHTRACE);
-		sync_rt_and_gui(rt->renderer_flags);
+		rt_set_render_algo(&rt->render_options, RENDER_PATHTRACE);
+		sync_rt_and_gui(rt->render_options);
 	}
 	if (event->key.keysym.scancode == SDL_SCANCODE_M)
-		rt_switch_render_param(&rt->renderer_flags, RENDER_MESH);
+		rt_switch_render_param(&rt->render_options, RENDER_MESH);
 	if (event->key.keysym.scancode == SDL_SCANCODE_O)
-		rt_switch_render_param(&rt->renderer_flags, RENDER_OBJECTS);
+		rt_switch_render_param(&rt->render_options, RENDER_OBJECTS);
 	if (event->key.keysym.scancode == SDL_SCANCODE_T)
-		rt_switch_render_param(&rt->renderer_flags, RENDER_TEXTURES);
+		rt_switch_render_param(&rt->render_options, RENDER_TEXTURES);
 }
 
 bool				rt_handle_key_event(SDL_Event *event, t_rt *rt)

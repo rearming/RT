@@ -41,7 +41,7 @@ set(OpenCL_utils_sources
         sources/OpenCL_utils/rt_opencl_memory_management.c
         sources/OpenCL_utils/rt_opencl_utils.c
         sources/OpenCL_utils/rt_opencl_prepare_memory.c
-        sources/OpenCL_utils/rt_init_renderer.c
+        sources/OpenCL_utils/rt_init_render_kernel.c
         )
 
 set(parsing_sources

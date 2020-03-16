@@ -35,7 +35,7 @@ t_transform	create_gui_obj(
 
 void		change_render_algo(short algo, t_rt *rt)
 {
-	rt_set_render_algo(&rt->renderer_flags, 1 << (algo));
+	rt_set_render_algo(&rt->render_options, 1 << (algo));
 }
 
 void		init_algo_buttons(void)

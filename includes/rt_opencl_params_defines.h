@@ -4,36 +4,75 @@
 # define OPENCL_KERNEL_NAME "rt_main"
 
 /*
-**	Renderers params
+**	device mem types
 */
 
-# define RENDER_ALWAYS 0b1111111111111111
+typedef enum	e_cl_mem_type
+{
+	RT_CL_MEM_SCENE = 0,
+	RT_CL_MEM_OBJECTS,
+	RT_CL_MEM_LIGHTS,
+	RT_CL_MEM_PARAMS,
 
-# define RENDER_RAYTRACE (1 << 0)
-# define RENDER_PATHTRACE (1 << 1)
-# define RENDER_RAYMARCH (1 << 2)
-# define RENDER_MESH (1 << 3)
-# define RENDER_BACKFACE_CULLING (1 << 4)
-# define RENDER_OBJECTS (1 << 5)
-# define RENDER_MESH_VTEXTURES (1 << 6)
-# define RENDER_TEXTURES (1 << 7)
-# define RENDER_ANTI_ALIASING (1 << 8)
+	RT_CL_MEM_KD_INFO,
+	RT_CL_MEM_KD_TREE,
+	RT_CL_MEM_KD_INDICES,
+	RT_CL_MEM_MESHES_INFO,
+	RT_CL_MEM_POLYGONS,
+	RT_CL_MEM_VERTICES,
+	RT_CL_MEM_V_NORMALS,
+	RT_CL_MEM_V_TEXTURES,
+
+	RT_CL_MEM_TEXTURE_INFO,
+	RT_CL_MEM_TEXTURE_LIST,
+	RT_CL_MEM_SKYBOX_INFO,
+	RT_CL_MEM_SKYBOX_LIST,
+
+	RT_CL_MEM_IMG_DATA,
+}				t_cl_mem_type;
+
+/*
+**	render options
+*/
+
+typedef enum	e_render_options
+{
+	RENDER_NEVER = 0x0,
+	RENDER_ALWAYS = 0b1111111111111111,
+	RENDER_RAYTRACE = (1 << 0),
+	RENDER_PATHTRACE = (1 << 1),
+	RENDER_RAYMARCH = (1 << 2),
+	RENDER_MESH = (1 << 3),
+	RENDER_BACKFACE_CULLING = (1 << 4),
+	RENDER_OBJECTS = (1 << 5),
+	RENDER_MESH_VTEXTURES = (1 << 6),
+	RENDER_TEXTURES = (1 << 7),
+	RENDER_ANTI_ALIASING = (1 << 8),
+}				t_render_options;
 
 # define RENDER_DEFAULT RENDER_RAYTRACE | /*RENDER_OBJECTS |*/ RENDER_TEXTURES | RENDER_MESH /*| RENDER_BACKFACE_CULLING*/
 
+/*
+**	render states
+*/
+
+typedef enum	e_render_state
+{
+	STATE_NOTHING = 0x0,
+	STATE_ALL = 0b11111111111111111111111111111111,
+	STATE_CAMERA_CHANGED = (1 << 0),
+	STATE_OBJECTS_CHANGED = (1 << 1),
+	STATE_LIGHTS_CHANGED = (1 << 2),
+	STATE_MESH_CHANGED = (1 << 3),
+	STATE_PARAMS_CHANGED = (1 << 4),
+	STATE_TEXTURES_CHANGED = (1 << 5),
+	STATE_SKYBOX_CHANGED = (1 << 6),
+	STATE_INIT = (1 << 23),
+	STATE_EXIT = (1 << 24)
+}				t_render_state;
+
 # define RT_DEFAULT_MEM_FLAG (CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR)
 # define RT_MEM_RW_FLAG (CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR)
-
-/*
-**	OpenCL host constants
-**
-**  -> Раскомментив строчку OPENCL_DEBUG_KERNEL_NUM можно запустить мало кернелов,
-** 	например, для проверки правильной передачи данных на видеокарту или того,
-** 	как работают какие-либо функции.
-**
-**  [при OPENCL_RELEASE_KERNEL_NUM, т.е. на ~3-ех миллионах кернелов,
-** 	случайный printf в кернеле приводит к намертво зависшему компу]
-*/
 
 # define OPENCL_RELEASE_KERNEL_NUM WIN_WIDTH * WIN_HEIGHT
 # define OPENCL_DEBUG_KERNEL_NUM 2

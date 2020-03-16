@@ -1,22 +1,17 @@
 #include "rt.h"
+#include "rt_opencl.h"
 
-void		rt_del_renderer(void *renderer_ptr, size_t size)
+void		rt_release_render_kernel(void *renderer_ptr, size_t size)
 {
-	t_rt_renderer	*renderer;
-	int				i;
+	t_render_kernel *render_kernel;
+	int				err;
 
 	(void)size;
-	renderer = ((t_list*)renderer_ptr)->content;
-	i = 0;
-	while (i < renderer->buffers_num)
-	{
-		if (renderer->buffers[i].copy_mem == false)
-			clReleaseMemObject(renderer->buffers[i].mem);
-		i++;
-	}
-	clReleaseKernel(renderer->kernel);
-	clReleaseProgram(renderer->program);
-	free(renderer->buffers);
+	render_kernel = ((t_list*)renderer_ptr)->content;
+	err = clReleaseMemObject(render_kernel->img_data_float);
+	rt_opencl_handle_error(ERR_OPENCL_RELEASE_BUFFER, err);
+	err = clReleaseKernel(render_kernel->kernel);
+	rt_opencl_handle_error(ERR_OPENCL_RELEASE_KERNEL, err);
 }
 
 bool		rt_exit_clean(void)
@@ -24,7 +19,8 @@ bool		rt_exit_clean(void)
 	int err;
 
 	err = 0;
-	ft_lstdel(&g_opencl.renderers, &rt_del_renderer);
+	rt_opencl_release_buffers(STATE_EXIT);
+	ft_lstdel(&g_opencl.kernels, &rt_release_render_kernel);
 	if (g_opencl.queue)
 	{
 		err |= clFlush(g_opencl.queue);
