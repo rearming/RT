@@ -41,6 +41,5 @@ void		rt_opencl_prepare_memory(t_rt *rt, uint32_t render_state)
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, STATE_EXIT})
 	};
 	g_opencl.buffers_num = sizeof(opencl_mem_objs) / sizeof(t_opencl_mem_obj);
-	print_bits(render_state, 32, "render state");
-//	rt_opencl_alloc_buffers(render_state, opencl_mem_objs);
+	rt_opencl_alloc_buffers(render_state, opencl_mem_objs);
 }

@@ -14,7 +14,6 @@
 #include "ray_trianlge_intersection.cl"
 #include "simple_object.cl"
 #include "ray_aabb_intersection.cl"
-//#include "simple_object_intersections.cl"
 #include "intersection_utils.cl"
 #include "unlimited_object.cl"
 
@@ -79,10 +78,12 @@ __kernel void	rt_main(
 		params, texture_info, texture_list, skybox_list, skybox_info, ray, params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1));
 	final_color = mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num);
 	img_data_float[g_id] = final_color;
+	img_data_float[g_id] = get_float3_color(COL_GREEN);
 #endif // RENDER_PATHTRACE
 
 #ifdef RENDER_RAYTRACE
 	final_color = raytrace(scene, objects, lights, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, v_textures, params, texture_info, texture_list, skybox_list, skybox_info, ray);
+	final_color = get_float3_color(COL_BLUE);
 #endif // RENDER_RAYTRACE
 	img_data[g_id] = get_int_color(correct_hdr(params->gamma, params->exposure, final_color));
 }
