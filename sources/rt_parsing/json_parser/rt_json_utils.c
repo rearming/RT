@@ -32,7 +32,6 @@ static void	init_tmp_material(t_tmp *tmp)
 	tmp->emission_color = (cl_float3){{0, 0, 0}};
 	tmp->emission_power = 0;
 	tmp->specular_texture = 0;
-	tmp->texture_pbr = false;
 	tmp->texture_number = NOT_SET;
 	tmp->texture_position = (cl_float3){{0, 0, 0}};
 }

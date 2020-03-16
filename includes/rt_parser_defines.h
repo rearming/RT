@@ -64,14 +64,12 @@
 # define SPECULAR_TEXTURE 25
 # define TEXTURE 26
 # define TEXTURE_POS 27
-# define TEXTURE_PBR 28
-# define TEXTURE_NORMAL 29
 
 //scene parameters
-# define EXPOSURE 30
-# define GAMMA 31
+# define EXPOSURE 28
+# define GAMMA 29
 
-# define DIRECTORY 32
-# define FILE_NAME 33
+# define DIRECTORY 30
+# define FILE_NAME 31
 
 #endif

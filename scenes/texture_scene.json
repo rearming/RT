@@ -21,7 +21,7 @@
       "enabled": true
     },
     "skybox": {
-      "enabled": false,
+      "enabled": true,
       "texture": "skybox_cave.jpg"
     }
   },
