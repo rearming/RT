@@ -1,0 +1,86 @@
+{
+  "scene parameters": {
+    "exposure": 2,
+    "gamma": 2.2
+  },
+  "render parameters": {
+    "render algorithm": "raytrace",
+    "pathtrace": {
+      "max light bounces": 8
+    },
+    "raytrace": {
+      "max light bounces": 8
+    },
+    "render objects": true,
+    "render mesh": {
+      "enabled": true,
+      "file": "assets/3d_models/cube_isosphere_materials.obj",
+      "backface culling": true
+    },
+    "textures": {
+      "enabled": true,
+      "directory": "./assets/pbr_textures/"
+    },
+    "skybox": {
+      "enabled": true,
+      "texture": "skybox_milkyway.png"
+    }
+  },
+  "objects": [
+    {
+      "type": "sphere",
+      "material": {
+        "diffuse": "0xFFFFFF",
+        "specular": [0.0, 0.0, 0.0],
+        "phong exp": 40,
+        "smoothness": 0.0,
+        "texture": "sphere_moon.jpg",
+        "texture position": [1, 0, 0]
+      },
+      "center": [0.0, 2.5, 0.0],
+      "radius": 1.5
+    },
+    {
+      "type": "cylinder",
+      "material": {
+        "texture": "plane_spruce.jpg",
+        "texture position": [1, 0, 0]
+      },
+      "center": [0, -1.5, 0],
+      "axis": [5, 1, 0],
+      "radius": 0.5
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "diffuse": "0xFFFFFF",
+        "specular": [0.0, 0.0, 0.0],
+        "phong exp": 40,
+        "smoothness": 0.0,
+        "texture pbr": true,
+        "texture normal":"cement-albedo.png",
+        "texture": "cement-normal.png"
+    },
+    "center": [8.0, 2.5, 0.0],
+    "radius": 1.5
+    }
+  ],
+  "camera": {
+    "pos": [0.0, 2.0, 10.0],
+    "rotation": [0.0, 180.0, 0.0]
+  },
+  "light":
+  [
+    {
+      "type": "ambient",
+      "intensity": 0.2,
+      "color": "0xFFFFFF"
+    },
+    {
+      "type": "point",
+      "color": "0xFFFFFF",
+      "intensity": 0.5,
+      "pos": [0.0, 0.0, -5.0]
+    }
+  ]
+}

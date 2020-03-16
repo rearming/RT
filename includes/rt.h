@@ -27,6 +27,7 @@
 # include "rt_defines.h"
 # include "jansson.h"
 # include "rt_parser_defines.h"
+# include "rt_parsing.h"
 
 
 /*

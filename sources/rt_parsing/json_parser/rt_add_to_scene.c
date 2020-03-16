@@ -36,6 +36,8 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 	object->material.refraction = tmp->refraction;
 	object->material.emission_color = tmp->emission_color;
 	object->material.emission_power = tmp->emission_power;
+	object->material.texture_pbr = tmp->texture_pbr;
+	object->material.texture_normal = tmp->texture_normal;
 	object->material.specular_texture = tmp->specular_texture;
 	object->material.texture_number = tmp->texture_number;
 	object->material.texture_position = tmp->texture_position;

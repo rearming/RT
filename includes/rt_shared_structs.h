@@ -54,15 +54,15 @@ typedef struct			s_skybox_info
 	cl_int				height;
 	cl_int				bpp;
 	bool				skybox_exist;
-	const char			*skybox_name;
 	cl_long 			size;
+	const char			*skybox_name;
 # else
 	int					width;
 	int					height;
 	int					bpp;
 	bool				skybox_exist;
-	const char			*skybox_name;
 	long 				size;
+	const char			*skybox_name;
 # endif
 }						t_skybox_info;
 
@@ -181,7 +181,8 @@ typedef struct			s_material //есть default material и все задаетс
 	cl_float3			emission_color; //color может быть задан 3 способами как 3 int, 3 float, и 1 char
 	cl_float			emission_power;
 	cl_float			specular_texture;
-	cl_bool 			bump_texture;
+	cl_bool				texture_pbr;
+	cl_int				texture_normal;
 	cl_int				texture_number;
 	cl_float3			texture_position;
 # else
