@@ -70,7 +70,7 @@ float3		raytrace(
 		}
 		else
 		{
-#ifdef RENDER_TEXTURES
+#ifdef RENDER_SKYBOX
 			result_color += ray.energy * skybox_color(skybox_list, skybox_info, skybox_normal(ray));
 #else
 			result_color += ray.energy * get_float3_color(COL_BG);

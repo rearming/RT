@@ -67,6 +67,8 @@ __kernel void	rt_main(
 #ifdef RENDER_TEXTURES
     __global const t_texture_info *texture_info,
 	__global const int *texture_list,
+#endif
+#ifdef RENDER_SKYBOX
 	__global const t_skybox_info *skybox_info,
 	__global const float3 *skybox_list,
 #endif
@@ -102,6 +104,8 @@ __kernel void	rt_main(
 #ifndef RENDER_TEXTURES
  	__global const t_texture_info 	*texture_info = 0;
 	__global const int 				*texture_list = 0;
+#endif
+#ifndef RENDER_SKYBOX
 	__global const t_skybox_info 	*skybox_info = 0;
 	__global const float3			*skybox_list = 0;
 #endif

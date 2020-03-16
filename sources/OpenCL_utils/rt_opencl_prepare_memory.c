@@ -54,8 +54,8 @@ void		rt_opencl_prepare_memory(t_rt *rt, t_rt_renderer *renderer)
 			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.texture_list,
 				sizeof(cl_int) * g_textures.texture_list_size, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, false, RENDER_TEXTURES}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.skybox_info,
-				sizeof(t_skybox_info), RT_DEFAULT_MEM_FLAG, false, RENDER_TEXTURES}),
+				sizeof(t_skybox_info), RT_DEFAULT_MEM_FLAG, false, RENDER_SKYBOX}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.skybox_list,
-				sizeof(cl_float3) * g_textures.skybox_info->size, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, false, RENDER_TEXTURES})
+				sizeof(cl_float3) * g_textures.skybox_info->size, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, false, RENDER_SKYBOX})
 	);
 }
