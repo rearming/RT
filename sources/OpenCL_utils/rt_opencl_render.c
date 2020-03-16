@@ -22,7 +22,7 @@ void		rt_opencl_prepare_kernel(t_render_kernel *render_kernel)
 
 void		rt_opencl_render(void *rt_ptr)
 {
-	const size_t		global_work_size[2] = {WIN_WIDTH, WIN_HEIGHT};
+	const size_t		global_work_size[1] = {WIN_WIDTH * WIN_HEIGHT};
 	int					err;
 	t_render_kernel		*render_kernel;
 	t_rt				*rt;
@@ -37,7 +37,7 @@ void		rt_opencl_render(void *rt_ptr)
 	if (rt_bit_isset(rt->events, EVENT_INFO))
 		rt_print_debug_info(rt, render_kernel);
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
-			render_kernel->kernel, 2, NULL, global_work_size, NULL, 0, NULL, &g_opencl.profile_event);
+			render_kernel->kernel, 1, NULL, global_work_size, NULL, 0, NULL, &g_opencl.profile_event);
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
 	if (rt_bit_isset(rt->events, EVENT_INFO))
 		rt_print_opencl_profile_info();

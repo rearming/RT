@@ -63,8 +63,8 @@ __kernel void	rt_main(
 
     __global float3 *img_data_float) //img data float must always be last
 {
-	int3		img_point = (int3)(get_global_id(0), get_global_id(1), 0);
-	int			g_id = img_point.x + img_point.y * WIN_WIDTH;
+	int			g_id = get_global_id(0);
+	int3		img_point = get_img_point(g_id);
 
 	t_ray		ray = get_ray(convert_float3(img_point), &scene->camera);
 
