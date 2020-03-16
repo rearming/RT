@@ -18,7 +18,8 @@
       "backface culling": true
     },
     "textures": {
-      "enabled": true
+      "enabled": true,
+      "directory": "./assets/pbr_textures/"
     },
     "skybox": {
       "enabled": true,

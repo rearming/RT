@@ -22,7 +22,7 @@ void	parse_boolean(t_tmp *tmp, const char *key, json_t *value,
 		if (ft_strequ(key, "render objects"))
 			*renderer_flags = json_is_true(value) ? *renderer_flags
 				| RENDER_OBJECTS : *renderer_flags & ~RENDER_OBJECTS;
-		else if (ft_strequ(key, "render anti aliasing"))
+		else if (ft_strequ(key, "anti aliasing"))
 			*renderer_flags = json_is_true(value) ? *renderer_flags
 			| RENDER_ANTI_ALIASING : *renderer_flags & ~RENDER_ANTI_ALIASING;
 		else if (ft_strequ(key, "backface culling"))

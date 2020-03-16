@@ -18,7 +18,7 @@
       "file": "assets/3d_models/cube_isosphere_materials.obj",
       "backface culling": true
     },
-    "render anti aliasing": true,
+    "anti aliasing": true,
     "textures": {
       "enabled": false
     },

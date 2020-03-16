@@ -17,7 +17,7 @@
       "file": "assets/3d_models/monk_statue_triangulated.obj",
       "backface culling": true
     },
-    "render anti aliasing": true,
+    "anti aliasing": true,
     "textures": {
       "enabled": false
     }
