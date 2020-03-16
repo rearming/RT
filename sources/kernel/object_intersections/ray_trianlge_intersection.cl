@@ -43,6 +43,8 @@ bool				ray_triangle_intersect_MT_polygon(
 		float3 v0, float3 v1, float3 v2,
 		float3 vn,
 		float3 vt0, float3 vt1, float3 vt2,
+		float t_min,
+		float t_max,
 		t_ray *ray,
 		t_rayhit *best_hit)
 {
@@ -72,7 +74,10 @@ bool				ray_triangle_intersect_MT_polygon(
 
 	float	intersect_dist = dot(v0v2, qvec) * inverse_determinant;
 
-	if (intersect_dist < best_hit->distance && intersect_dist > RAY_MIN_EPSILON)
+	if (intersect_dist < best_hit->distance
+	&& intersect_dist > RAY_MIN_EPSILON
+	&& intersect_dist >= t_min && intersect_dist <= t_max
+	)
 	{
 		best_hit->distance = intersect_dist;
 		best_hit->normal = vn;

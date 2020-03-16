@@ -61,6 +61,7 @@ t_render_kernel *rt_create_render_kernel(uint32_t options)
 	ft_printf("compile options: %s\n", opencl_defines);
 	rt_opencl_create_kernel(compile_options, &new_kernel->kernel);
 	new_kernel->img_data_float = alloc_float3_img_buffer();
+	new_kernel->samples_num = 0;
 	free((char*)opencl_defines);
 	free(compile_options);
 	free(temp_str);

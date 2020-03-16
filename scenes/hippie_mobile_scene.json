@@ -17,7 +17,7 @@
       "file": "assets/3d_models/hippie-mobile/hippie_mobile.obj",
       "backface culling": true
     },
-    "render anti aliasing": true,
+    "render anti aliasing": false,
     "textures": {
       "enabled": false
     },

@@ -17,6 +17,7 @@ int		ray_mesh_intersect(
 				vertices[polygons[i].vert_i[2]],
 				v_normals[polygons[i].vnorm_i],
 				0, 0, 0, /// текстурных вертексов пока нет
+				RT_EPSILON, INFINITY,
 				ray, out_best_hit))
 			closest_polygon_index = i;
 	}

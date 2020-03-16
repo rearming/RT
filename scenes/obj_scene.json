@@ -14,10 +14,10 @@
     "render objects": true,
     "render mesh": {
       "enabled": true,
-      "file": "assets/3d_models/cube_plane_sphere.obj",
+      "file": "assets/3d_models/test_scene_materials.obj",
       "backface culling": true
     },
-    "render anti aliasing": true,
+    "render anti aliasing": false,
     "textures": {
       "enabled": false
     }

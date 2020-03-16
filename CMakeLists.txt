@@ -203,9 +203,12 @@ add_executable(kd_tree_test
         ${testing_utils}
         ${SDL_utils_sources}
         ${math_utils_sources}
-        ${utils_sources}
         ${kd_tree_sources}
         ${obj_loading_sources}
+        sources/utils/rt_safe_malloc.c
+        sources/utils/rt_raise_error.c
+        sources/utils/rt_color_utils.c
+
         sources/debug/rt_debug_print_parsed_meshes.c
         sources/debug/rt_debug_print_utils.c
         sources/debug/rt_kd_tree_print.c
