@@ -1,5 +1,6 @@
 #include "rt.h"
 #include "rt_opencl.h"
+#include "rt_debug.h"
 
 t_opencl_mem_obj	rt_check_opencl_memobj(t_opencl_mem_obj mem_obj)
 {
@@ -17,9 +18,7 @@ t_opencl_mem_obj	rt_check_opencl_memobj(t_opencl_mem_obj mem_obj)
 
 void		rt_opencl_prepare_memory(t_rt *rt, uint32_t render_state)
 {
-	g_opencl.buffers_num = 17;
-
-	rt_opencl_alloc_buffers(render_state,
+	t_opencl_mem_obj	opencl_mem_objs[] = {
 			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->scene, sizeof(t_scene), RT_DEFAULT_MEM_FLAG, STATE_LIGHTS_CHANGED | STATE_OBJECTS_CHANGED}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.objects, sizeof(t_object) * rt->scene.obj_nbr, RT_DEFAULT_MEM_FLAG, STATE_OBJECTS_CHANGED}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.lights, sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, STATE_LIGHTS_CHANGED}),
@@ -39,6 +38,9 @@ void		rt_opencl_prepare_memory(t_rt *rt, uint32_t render_state)
 			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.skybox_info, sizeof(t_skybox_info), RT_DEFAULT_MEM_FLAG, STATE_SKYBOX_CHANGED}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.skybox_list, sizeof(cl_float3) * g_textures.skybox_info->size, RT_DEFAULT_MEM_FLAG, STATE_SKYBOX_CHANGED}),
 
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, STATE_EXIT}) // int img data
-	);
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, STATE_EXIT})
+	};
+	g_opencl.buffers_num = sizeof(opencl_mem_objs) / sizeof(t_opencl_mem_obj);
+	print_bits(render_state, 32, "render state");
+//	rt_opencl_alloc_buffers(render_state, opencl_mem_objs);
 }

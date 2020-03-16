@@ -17,6 +17,7 @@ set(debug_sources
         sources/debug/rt_debug_print_parsed_meshes.c
         sources/debug/rt_print_object.c
         sources/debug/rt_kd_tree_print.c
+        sources/debug/print_bits.c
         )
 
 set(runtime_debug_sources

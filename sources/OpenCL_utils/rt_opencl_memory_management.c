@@ -1,28 +1,29 @@
 #include "rt.h"
 #include "rt_opencl.h"
+#include "rt_debug.h"
 
-void		rt_opencl_alloc_buffers(uint32_t render_state, ...)
+void		rt_opencl_alloc_buffers(uint32_t render_state, t_opencl_mem_obj *memobjs)
 {
-	va_list				ap;
-	t_opencl_mem_obj	memobj;
-	int					mem_obj_i;
+	int					i;
 	int					err;
 
-	va_start(ap, render_state);
-	mem_obj_i = 0;
-	while (mem_obj_i < g_opencl.buffers_num)
+	i = 0;
+	while (i < g_opencl.buffers_num)
 	{
-		memobj = va_arg(ap, t_opencl_mem_obj);
-		if (memobj.render_state & render_state)
+		if (memobjs[i].render_state & render_state)
 		{
-			g_opencl.buffers[mem_obj_i].mem = clCreateBuffer(g_opencl.context,
-					memobj.mem_flags, memobj.size, memobj.ptr, &err);
+			printf("memobjs[i]: ptr: [%p], size: [%zu]\n", memobjs[i].ptr, memobjs[i].size);
+			print_bits(memobjs[i].render_state, 32, "memobjs[i] render state");
+			print_bits(memobjs[i].mem_flags, 32, "mem flags");
+			printf("\n");
+			g_opencl.buffers[i].mem = clCreateBuffer(g_opencl.context,
+					memobjs[i].mem_flags, memobjs[i].size, memobjs[i].ptr, &err);
+			g_opencl.buffers[i].render_state = memobjs[i].render_state;
 			rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
 		}
-		g_opencl.buffers[mem_obj_i].render_state = memobj.render_state;
-		mem_obj_i++;
+		g_opencl.buffers[i].render_state = memobjs[i].render_state;
+		i++;
 	}
-	va_end(ap);
 }
 
 void			rt_opencl_release_buffers(uint32_t current_render_state)

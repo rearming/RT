@@ -12,6 +12,9 @@ void		handle_event(SDL_Event *event, t_rt *rt)
 	if (key_event_handled || mouse_event_handled || tools_event_handled)
 	{
 		rt_camera_move(&rt->scene.camera, &rt->events);
+		if (rt_camera_moved(&rt->scene.camera))
+			rt->render_state |= STATE_CAMERA_CHANGED;
+		rt->render_state |= STATE_PARAMS_CHANGED; //for pathtrace samples count update, todo refactor
 		rt_render(rt, &rt_opencl_render);
 	}
 }

@@ -6,7 +6,7 @@
 void			rt_opencl_init(void);
 void			rt_opencl_render(void *rt_ptr);
 void			rt_opencl_prepare_memory(t_rt *rt, uint32_t render_state);
-void			rt_opencl_alloc_buffers(uint32_t render_state, ...);
+void			rt_opencl_alloc_buffers(uint32_t render_state, t_opencl_mem_obj *memobjs);
 void			rt_opencl_release_buffers(uint32_t current_render_state);
 
 void			rt_opencl_handle_error(const char *rt_err_str, int opencl_err_code);

@@ -19,7 +19,7 @@ bool		rt_exit_clean(void)
 	int err;
 
 	err = 0;
-	rt_opencl_release_buffers(STATE_EXIT);
+//	rt_opencl_release_buffers(STATE_EXIT); todo uncomment
 	ft_lstdel(&g_opencl.kernels, &rt_release_render_kernel);
 	if (g_opencl.queue)
 	{
