@@ -52,7 +52,8 @@ int		texture_to_plane(t_rayhit *hit,
 	int		y;
 	int 	scale;
 
-	scale = (object->center.z == 0) ? 1 : 4 * object->center.z;
+	scale = (object->material.texture_position.z == 0) ? 1 : object->material.texture_position.z;
+	scale *= (object->center.z == 0) ? 1 : object->center.z;
 	buf_u = cross(hit->normal, (float3){0.f, 1.0f, 0.f});
 	if (fabs(length(buf_u)) < 0.0001f)
 		buf_u = cross(hit->normal, (float3) {0.f, 0.0f, 1.0f});
