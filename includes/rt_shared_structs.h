@@ -184,6 +184,8 @@ typedef struct			s_material //есть default material и все задаетс
 	cl_bool 			bump_texture;
 	cl_int				texture_number;
 	cl_float3			texture_position;
+	cl_bool				texture_pbr;
+	cl_int 				texture_normal;
 # else
 
 	float3				ambient;
@@ -199,6 +201,8 @@ typedef struct			s_material //есть default material и все задаетс
 	bool				bump_texture;
 	int					texture_number;
 	float3				texture_position;
+	bool				texture_pbr;
+	int 				texture_normal;
 # endif
 
 }						t_material;

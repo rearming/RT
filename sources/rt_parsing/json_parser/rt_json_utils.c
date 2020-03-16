@@ -34,6 +34,8 @@ static void	init_tmp_material(t_tmp *tmp)
 	tmp->specular_texture = 0;
 	tmp->texture_number = NOT_SET;
 	tmp->texture_position = (cl_float3){{0, 0, 0}};
+	tmp->texture_pbr = false;
+	tmp->texture_normal = NOT_SET;
 }
 
 void		init_tmp(t_tmp *tmp)

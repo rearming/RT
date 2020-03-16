@@ -47,7 +47,9 @@
       "specular": [0.0, 0.0, 0.0],
       "phong exp": 40,
       "smoothness": 0.0,
-      "texture": "sphere_saturn.jpg"
+      "texture pbr": true,
+      "texture normal": "Stone_NRM.bmp",
+      "texture": "Stone_COLOR.bmp"
     },
     "center": [8.0, 2.5, 0.0],
     "radius": 1.5

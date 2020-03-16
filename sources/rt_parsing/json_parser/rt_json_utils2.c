@@ -89,6 +89,10 @@ void	check_object(t_tmp *tmp)
 	if (tmp->checker[TEXTURE] && !(tmp->type == SPHERE || tmp->type == CONE
 		|| tmp->type == CYLINDER || tmp->type == PLANE))
 		rt_raise_error(ERR_INVALID_TEXTURE_OBJECT);
+	if (tmp->texture_pbr == true)
+		if (tmp->checker[TEXTURE] + tmp->checker[TEXTURE_NORMAL] != 2)
+			rt_raise_error("wrong initialization of bump_mapping");
+
 }
 
 void	check_camera_or_light(t_tmp *tmp, bool type)
