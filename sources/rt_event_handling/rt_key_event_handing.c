@@ -51,7 +51,7 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 		exit(rt_exit_clean());
 	if (event->key.keysym.scancode == SDL_SCANCODE_I)
 		rt_switch_bit(&rt->events, EVENT_INFO);
-	if (event->key.keysym.scancode == SDL_SCANCODE_N)
+	if (event->key.keysym.scancode == SDL_SCANCODE_L)
 		SDL_SetRelativeMouseMode(!SDL_GetRelativeMouseMode());
 	if (event->key.keysym.scancode == SDL_SCANCODE_R)
 	{
@@ -69,6 +69,8 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 		rt_switch_bit(&rt->render_options, RENDER_OBJECTS);
 	if (event->key.keysym.scancode == SDL_SCANCODE_T)
 		rt_switch_bit(&rt->render_options, RENDER_TEXTURES);
+	if (event->key.keysym.scancode == SDL_SCANCODE_B)
+		rt_switch_bit(&rt->render_options, RENDER_ANTI_ALIASING);
 }
 
 bool				rt_handle_key_event(SDL_Event *event, t_rt *rt)

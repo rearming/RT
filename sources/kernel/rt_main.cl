@@ -71,17 +71,46 @@ __kernel void	rt_main(
 	float3		final_color = 0;
 	float3		new_color = 0;
 	float		seed = params->seed;
-
-#ifdef RENDER_PATHTRACE
 	float3		prev_color = img_data_float[g_id];
-	new_color = pathtrace(scene, objects, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, v_textures,
-		params, texture_info, texture_list, skybox_list, skybox_info, ray, params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1));
-	final_color = mix_avg_colors(prev_color, new_color, params->pathtrace_params.current_samples_num);
-	img_data_float[g_id] = final_color;
-#endif // RENDER_PATHTRACE
+
+	float3		temp_color = 0;
+#ifdef RENDER_ANTI_ALIASING
+	float	fsaa_offset = 0.5f;
+
+	for (int y = -1; y < 2; ++y)
+	{
+		for (int x = -1; x < 2; ++x)
+		{
+			float3	ray_origin = convert_float3(img_point);
+			ray_origin.x += x * fsaa_offset;
+			ray_origin.y += y * fsaa_offset;
+			ray = get_ray(ray_origin, &scene->camera);
+#endif // RENDER_ANTI_ALIASING
 
 #ifdef RENDER_RAYTRACE
-	final_color = raytrace(scene, objects, lights, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, v_textures, params, texture_info, texture_list, skybox_list, skybox_info, ray);
+			temp_color += raytrace(scene, objects, lights, kd_info, kd_tree, kd_indices,
+					meshes_info, polygons, vertices, v_normals, v_textures,
+					params, texture_info, texture_list, skybox_list, skybox_info, ray);
 #endif // RENDER_RAYTRACE
+
+#ifdef RENDER_PATHTRACE
+			temp_color += pathtrace(scene, objects, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, v_textures,
+				params, texture_info, texture_list, skybox_list, skybox_info, ray,
+				params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1));
+#endif
+
+#ifdef RENDER_ANTI_ALIASING
+		}
+	}
+	final_color = temp_color / 9;
+#else
+	final_color = temp_color;
+#endif // RENDER_ANTI_ALIASING
+
+#ifdef RENDER_PATHTRACE
+	final_color = mix_avg_colors(prev_color, final_color, params->pathtrace_params.current_samples_num);
+	img_data_float[g_id] = final_color;
+#endif
+
 	img_data[g_id] = get_int_color(correct_hdr(params->gamma, params->exposure, final_color));
 }
