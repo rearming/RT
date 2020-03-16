@@ -9,13 +9,13 @@ static inline void		rt_add_key_event(uint32_t *events, SDL_Scancode scancode)
 	if (scancode == SDL_SCANCODE_S)
 		rt_set_bit(events, EVENT_S);
 	if (scancode == SDL_SCANCODE_A)
-		rt_set_bit(events, EVENT_W);
+		rt_set_bit(events, EVENT_A);
 	if (scancode == SDL_SCANCODE_D)
-		rt_set_bit(events, EVENT_W);
+		rt_set_bit(events, EVENT_D);
 	if (scancode == SDL_SCANCODE_SPACE)
-		rt_set_bit(events, EVENT_W);
+		rt_set_bit(events, EVENT_SPACE);
 	if (scancode == SDL_SCANCODE_X)
-		rt_set_bit(events, EVENT_W);
+		rt_set_bit(events, EVENT_LSHIFT);
 }
 
 static inline void		remove_key_event(uint32_t *events, SDL_Scancode scancode)

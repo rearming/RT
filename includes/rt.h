@@ -66,11 +66,11 @@ void rt_update_render_params(t_render_kernel *render_kernel,
 
 void		handle_event(SDL_Event *event, t_rt *rt);
 
-void		rt_unset_bit(uint32_t *params, uint32_t target);
-void		rt_set_bit(unsigned int *params, uint32_t new_param);
+void		rt_unset_bit(uint32_t *bitfield, uint32_t target);
+void		rt_set_bit(unsigned int *bitfield, uint32_t new_param);
 void		rt_set_render_algo(uint32_t *old_params, uint32_t new_algo);
 bool		rt_bit_isset(uint32_t params, uint32_t target);
-void		rt_switch_bit(uint32_t *params, uint32_t target);
+void		rt_switch_bit(uint32_t *bitfield, uint32_t target);
 
 /*
 **	SDL utils

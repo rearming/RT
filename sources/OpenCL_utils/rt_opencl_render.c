@@ -2,6 +2,7 @@
 #include "rt_opencl.h"
 #include "rt_debug.h"
 #include "time.h"
+#include "rt_events.h"
 
 void		rt_opencl_prepare_kernel(t_render_kernel *render_kernel)
 {

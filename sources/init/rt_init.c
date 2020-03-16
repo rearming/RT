@@ -2,6 +2,7 @@
 #include "rt_opencl.h"
 #include "rt_parsing.h"
 #include "rt_kd_tree.h"
+#include "rt_events.h"
 
 void		rt_init(t_rt *out_rt, const char *json_scene_file)
 {

@@ -52,18 +52,6 @@ typedef struct			s_obj_material
 	cl_float			refraction;
 }						t_obj_material;
 
-typedef enum			s_events
-{
-	EVENT_NOTHING = 0x0,
-	EVENT_W = (1 << 0),
-	EVENT_A = (1 << 1),
-	EVENT_S = (1 << 2),
-	EVENT_D = (1 << 3),
-	EVENT_INFO = (1 << 4),
-	EVENT_SPACE = (1 << 5),
-	EVENT_LSHIFT = (1 << 6),
-}						t_events;
-
 typedef struct			s_opencl_mem_obj
 {
 	void				*ptr;

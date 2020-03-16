@@ -2,6 +2,7 @@
 #include "rt_gui.h"
 #include "rt_events.h"
 #include "rt_opencl.h"
+#include "rt_debug.h"
 
 void		handle_event(SDL_Event *event, t_rt *rt)
 {
@@ -16,4 +17,5 @@ void		handle_event(SDL_Event *event, t_rt *rt)
 			rt->render_state |= STATE_CAMERA_CHANGED;
 		rt_render(rt, &rt_opencl_render);
 	}
+	print_bits(rt->events, 10, "events");
 }
