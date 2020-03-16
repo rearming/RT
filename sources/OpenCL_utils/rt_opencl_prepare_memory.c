@@ -19,10 +19,10 @@ t_opencl_mem_obj	rt_check_opencl_memobj(t_opencl_mem_obj mem_obj)
 void		rt_opencl_prepare_memory(t_rt *rt, uint32_t render_state)
 {
 	t_opencl_mem_obj	opencl_mem_objs[] = {
-			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->scene, sizeof(t_scene), RT_DEFAULT_MEM_FLAG, STATE_LIGHTS_CHANGED | STATE_OBJECTS_CHANGED}),
+			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->scene, sizeof(t_scene), RT_DEFAULT_MEM_FLAG, STATE_CAMERA_CHANGED | STATE_LIGHTS_CHANGED | STATE_OBJECTS_CHANGED}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.objects, sizeof(t_object) * rt->scene.obj_nbr, RT_DEFAULT_MEM_FLAG, STATE_OBJECTS_CHANGED}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.lights, sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, STATE_LIGHTS_CHANGED}),
-			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->params, sizeof(t_render_params), RT_DEFAULT_MEM_FLAG, STATE_PARAMS_CHANGED}),
+			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->params, sizeof(t_render_params), RT_DEFAULT_MEM_FLAG, STATE_PARAMS_CHANGED | STATE_PATHTRACE}),
 
 			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->kd_info, sizeof(t_kd_info), RT_DEFAULT_MEM_FLAG, STATE_MESH_CHANGED}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->kd_info.tree_arr, sizeof(t_kd_arr_tree) * rt->kd_info.nodes_num, RT_DEFAULT_MEM_FLAG, STATE_MESH_CHANGED}),

@@ -30,21 +30,20 @@ void		rt_opencl_render(void *rt_ptr)
 	if (!rt_bit_isset(rt->render_state, STATE_INIT))
 		rt_opencl_release_buffers(rt->render_state);
 	render_kernel = rt_get_render_kernel(rt->render_options);
+	rt_update_render_params(render_kernel, &rt->params, rt->render_options, rt->render_state);
 	rt_opencl_prepare_memory(rt, rt->render_state);
 	rt_opencl_prepare_kernel(render_kernel);
-	print_bits(rt->render_options, 16, "render options");
-	rt_update_render_params(&rt->params, rt->render_options, rt->render_state);
-	if (rt->events.info)
+	if (rt_bit_isset(rt->events, EVENT_INFO))
 		rt_print_debug_info(rt, render_kernel);
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			render_kernel->kernel, 2, NULL, global_work_size, NULL, 0, NULL, &g_opencl.profile_event);
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
-	if (rt->events.info)
+	if (rt_bit_isset(rt->events, EVENT_INFO))
 		rt_print_opencl_profile_info();
 	err = clReleaseEvent(g_opencl.profile_event);
 	rt_opencl_handle_error(ERR_OPENCL_RELEASE_EVENT, err);
 	err = clEnqueueReadBuffer(g_opencl.queue, g_opencl.buffers[RT_CL_MEM_IMG_DATA].mem, CL_TRUE, 0,
 			sizeof(int) * WIN_WIDTH * WIN_HEIGHT, g_img_data, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
-	rt->render_state = STATE_NOTHING;
+	rt->render_state = rt->render_options & RENDER_PATHTRACE ? STATE_PATHTRACE : STATE_NOTHING;
 }

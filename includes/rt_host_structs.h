@@ -52,15 +52,16 @@ typedef struct			s_obj_material
 	cl_float			refraction;
 }						t_obj_material;
 
-typedef struct			s_events
+typedef enum			s_events
 {
-	bool				w;
-	bool				a;
-	bool				s;
-	bool				d;
-	bool				info;
-	bool				space;
-	bool				lshift;
+	EVENT_NOTHING = 0x0,
+	EVENT_W = (1 << 0),
+	EVENT_A = (1 << 1),
+	EVENT_S = (1 << 2),
+	EVENT_D = (1 << 3),
+	EVENT_INFO = (1 << 4),
+	EVENT_SPACE = (1 << 5),
+	EVENT_LSHIFT = (1 << 6),
 }						t_events;
 
 typedef struct			s_opencl_mem_obj
@@ -75,10 +76,10 @@ typedef struct			s_rt
 {
 	t_scene				scene;
 	t_kd_info			kd_info;
+	t_render_params		params;
 	uint32_t			render_options;
 	uint32_t			render_state;
-	t_render_params		params;
-	t_events			events;
+	uint32_t			events;
 }						t_rt;
 
 typedef struct 			s_tmp

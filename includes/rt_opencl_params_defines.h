@@ -67,6 +67,7 @@ typedef enum	e_render_state
 	STATE_PARAMS_CHANGED = (1 << 4),
 	STATE_TEXTURES_CHANGED = (1 << 5),
 	STATE_SKYBOX_CHANGED = (1 << 6),
+	STATE_PATHTRACE = (1 << 7),
 	STATE_INIT = (1 << 23),
 	STATE_EXIT = (1 << 24)
 }				t_render_state;

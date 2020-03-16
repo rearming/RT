@@ -46,7 +46,7 @@ extern t_textures   g_textures;
 */
 
 void		rt_init(t_rt *out_rt, const char *json_scene_file);
-void		rt_init_renderer_params(t_render_params *out_opencl_params, t_cl_info clInfo);
+void		rt_init_render_params(t_render_params *out_opencl_params, t_cl_info clInfo);
 int			init_basic_textures_parameters(void);
 void		rt_add_start_position(int i);
 char 		*found_file_in_the_folder(const char *file);
@@ -56,7 +56,8 @@ char 		*found_file_in_the_folder(const char *file);
 */
 
 void		rt_render(void *rt_ptr, void (*render_func)(void *));
-void		rt_update_render_params(t_render_params *params,
+void rt_update_render_params(t_render_kernel *render_kernel,
+							 t_render_params *params,
 							 uint32_t render_options,
 							 uint32_t render_state);
 /*
@@ -65,11 +66,11 @@ void		rt_update_render_params(t_render_params *params,
 
 void		handle_event(SDL_Event *event, t_rt *rt);
 
-void		rt_unset_render_params(uint32_t *old_params, uint32_t target);
-void		rt_set_render_params(unsigned int *old_params, uint32_t new_param);
+void		rt_unset_bit(uint32_t *params, uint32_t target);
+void		rt_set_bit(unsigned int *params, uint32_t new_param);
 void		rt_set_render_algo(uint32_t *old_params, uint32_t new_algo);
 bool		rt_bit_isset(uint32_t params, uint32_t target);
-void		rt_switch_render_param(uint32_t *params, uint32_t target);
+void		rt_switch_bit(uint32_t *params, uint32_t target);
 
 /*
 **	SDL utils
