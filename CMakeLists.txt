@@ -113,10 +113,21 @@ set(kd_tree_sources
 
 set(gui_sources
         sources/gui/rt_gui_init.c
-        sources/gui/rt_gui_buttons.c
+        sources/gui/rt_handle_event_gui.c
         sources/gui/gui_utils/rt_gui_color_utils.c
-        sources/gui/rt_gui_button_callback.c
-        sources/gui/rt_handle_event_gui.c)
+        sources/gui/buttons/rt_gui_buttons_render.c
+        sources/gui/buttons/rt_gui_button_callback.c
+        sources/gui/buttons/rt_buttons_border.c
+        sources/gui/buttons/rt_button_label.c
+        sources/gui/buttons/utils/rt_gui_change_algo.c
+        sources/gui/buttons/rt_gui_init_buttons.c
+        sources/gui/buttons/utils/rt_check_hover.c
+        sources/gui/buttons/utils/rt_check_click.c
+        sources/gui/buttons/utils/create_screenshot.c
+        sources/gui/buttons/utils/name_generator.c
+        sources/gui/buttons/utils/get_window_data.c
+        sources/gui/text_box/render_text_box.c sources/gui/text_box/init_text_box.c)
+
 
 set(sources
         ${debug_sources}
@@ -133,6 +144,7 @@ set(sources
         ${kd_tree_sources}
         ${profiling_sources}
         ${gui_sources}
+        ${image_save_sources}
         )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -182,7 +194,8 @@ link_directories(
 
 add_executable(RT
         sources/main.c
-        ${sources})
+        ${sources}
+)
 
 target_link_libraries(RT
         "ftprintf"
@@ -231,8 +244,7 @@ target_link_libraries(kd_tree_test
 add_executable(generic_test
         ${sources}
         ${testing_utils}
-        sources/test/generic_test/generic_test_main.c
-        )
+        sources/test/generic_test/generic_test_main.c sources/gui/text_box/render_text_box.c)
 
 target_include_directories(generic_test PRIVATE
         sources/test)

@@ -16,13 +16,13 @@ Introduction
 ============
 
   The FreeType  Project is distributed in  several archive packages;
-  some of them may contain, in addition to the FreeType font engine,
+  some of them may contain, in addition to the FreeType subtitle engine,
   various tools and  contributions which rely on, or  relate to, the
   FreeType Project.
 
   This  license applies  to all  files found  in such  packages, and
   which do not  fall under their own explicit  license.  The license
-  affects  thus  the  FreeType   font  engine,  the  test  programs,
+  affects  thus  the  FreeType   subtitle  engine,  the  test  programs,
   documentation and makefiles, at the very least.
 
   This  license   was  inspired  by  the  BSD,   Artistic,  and  IJG
@@ -52,7 +52,7 @@ Introduction
   encourage you to use the following text:
 
    """
-    Portions of this software are copyright © <year> The FreeType
+    Portions of this software are copyright ï¿½ <year> The FreeType
     Project (www.freetype.org).  All rights reserved.
    """
 

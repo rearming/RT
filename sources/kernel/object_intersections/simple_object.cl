@@ -40,8 +40,8 @@ bool				ray_sphere_intersect(
 	float root = (-b - sqrt(discriminant)) / (2.f * a);
 //	float root2 = (-b + sqrt(discriminant)) / (2.f * a);
 
-//	if (root < 0 || (root > root2 && root2 > 0)) /// пересечение перед камерой, берем меньший (ближайший)
-//		root = root2;
+	if (root < 0 || (root > root2 && root2 > 0)) /// пересечение перед камерой, берем меньший (ближайший)
+		root = root2;
 	if (root < best_hit->distance && root > RAY_MIN_EPSILON)
 	{
 		best_hit->distance = root;

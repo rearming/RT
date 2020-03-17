@@ -34,7 +34,8 @@ void		rt_loop(t_rt *rt)
 			rt_pathtrace_profile(rt, 1000);
 			flag = false;
 		}
-		if (event.type == SDL_QUIT)
+
+		if (event.type == SDL_QUIT || event.window.event == SDL_WINDOWEVENT_CLOSE)
 			break ;
 	}
 }
