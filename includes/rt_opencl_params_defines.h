@@ -32,6 +32,16 @@ typedef enum	e_cl_mem_type
 }				t_cl_mem_type;
 
 /*
+**	render states
+*/
+
+typedef enum	e_render_state
+{
+	STATE_NOTHING = 0x0,
+	STATE_NO_MESH = (1 << 0),
+}				t_render_state;
+
+/*
 **	render options
 */
 
@@ -54,24 +64,24 @@ typedef enum	e_render_options
 # define RENDER_DEFAULT RENDER_RAYTRACE | /*RENDER_OBJECTS |*/ RENDER_TEXTURES | RENDER_MESH /*| RENDER_BACKFACE_CULLING*/
 
 /*
-**	render states
+**	render actions
 */
 
-typedef enum	e_render_state
+typedef enum	e_render_action
 {
-	STATE_NOTHING = 0x0,
-	STATE_ALL = 0b11111111111111111111111111111111,
-	STATE_CAMERA_CHANGED = (1 << 0),
-	STATE_OBJECTS_CHANGED = (1 << 1),
-	STATE_LIGHTS_CHANGED = (1 << 2),
-	STATE_MESH_CHANGED = (1 << 3),
-	STATE_PARAMS_CHANGED = (1 << 4),
-	STATE_TEXTURES_CHANGED = (1 << 5),
-	STATE_SKYBOX_CHANGED = (1 << 6),
-	STATE_PATHTRACE = (1 << 7),
-	STATE_INIT = (1 << 23),
-	STATE_EXIT = (1 << 24)
-}				t_render_state;
+	ACTION_NOTHING = 0x0,
+	ACTION_ALL = 0b11111111111111111111111111111111,
+	ACTION_CAMERA_CHANGED = (1 << 0),
+	ACTION_OBJECTS_CHANGED = (1 << 1),
+	ACTION_LIGHTS_CHANGED = (1 << 2),
+	ACTION_MESH_CHANGED = (1 << 3),
+	ACTION_PARAMS_CHANGED = (1 << 4),
+	ACTION_TEXTURES_CHANGED = (1 << 5),
+	ACTION_SKYBOX_CHANGED = (1 << 6),
+	ACTION_PATHTRACE = (1 << 7),
+	ACTION_INIT = (1 << 23),
+	ACTION_EXIT = (1 << 24)
+}				t_render_action;
 
 # define RT_DEFAULT_MEM_FLAG (CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR)
 # define RT_MEM_RW_FLAG (CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR)

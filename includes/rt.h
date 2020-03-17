@@ -59,7 +59,7 @@ void		rt_render(void *rt_ptr, void (*render_func)(void *));
 void		rt_update_render_params(t_render_kernel *render_kernel,
 							 t_render_params *params,
 							 uint32_t render_options,
-							 uint32_t render_state);
+							 uint32_t render_action);
 /*
 **	Event handling
 */

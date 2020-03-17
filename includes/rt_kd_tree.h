@@ -47,13 +47,14 @@ t_aabb			get_root_aabb(t_aabb *aabbs, int num_aabbs);
 t_kd_tree		*build_kd_tree(t_aabb *all_aabbs, int num_aabbs);
 
 void			kd_tree_to_list(t_kd_tree *tree, t_list **out_list, int *out_nodes_num);
-t_kd_arr_tree *
-kd_tree_to_array(t_kd_tree *tree, int *out_nodes_num, int *out_obj_indices_num);
+t_kd_arr_tree	*kd_tree_to_array(t_kd_tree *tree, int *out_nodes_num, int *out_obj_indices_num);
 int				kd_tree_count_nodes(t_kd_tree *tree);
 
 t_kd_info		rt_get_kd_object(t_meshes *meshes);
-void rt_pack_kd_object_indices(t_kd_info *kd_info);
-void free_kd_tree(t_kd_tree *tree, bool free_indices);
+void			rt_pack_kd_object_indices(t_kd_info *kd_info);
+void			free_kd_tree(t_kd_tree *tree, bool free_indices);
+
+t_kd_info		null_kd_info(void);
 
 /*
 **	test traversal

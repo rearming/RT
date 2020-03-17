@@ -8,7 +8,7 @@ void	render_kernel_reset_samples(t_list *list)
 void	rt_update_render_params(t_render_kernel *render_kernel,
 							 t_render_params *params,
 							 uint32_t render_options,
-							 uint32_t render_state)
+							 uint32_t render_action)
 {
 	if (rt_bit_isset(render_options, RENDER_PATHTRACE))
 	{
@@ -16,6 +16,6 @@ void	rt_update_render_params(t_render_kernel *render_kernel,
 		params->pathtrace_params.current_samples_num = render_kernel->samples_num;
 		render_kernel->samples_num++;
 	}
-	if (rt_bit_isset(render_state, STATE_CAMERA_CHANGED))
+	if (rt_bit_isset(render_action, ACTION_CAMERA_CHANGED))
 		ft_lstmap(g_opencl.kernels, &render_kernel_reset_samples);
 }

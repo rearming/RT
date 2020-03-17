@@ -1,7 +1,7 @@
 # mtllib path corrected
 # Blender v2.80 (sub 75) OBJ File: ''
 # www.blender.org
-mtllib ./assets/3d_models/test_scene_materials.mtl
+mtllib ./assets/3d_models/obj_materials.mtl
 o Cube.001
 v -4.100000 2.260001 -4.400000
 v -2.100000 2.260000 -2.400000

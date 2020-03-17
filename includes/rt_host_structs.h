@@ -15,7 +15,7 @@ typedef struct			s_sdl
 typedef struct			s_cl_buffer
 {
 	cl_mem				mem;
-	uint32_t			render_state;
+	uint32_t			render_action;
 }						t_cl_buffer;
 
 typedef struct			s_render_kernel
@@ -56,7 +56,7 @@ typedef struct			s_opencl_mem_obj
 	void				*ptr;
 	size_t				size;
 	cl_mem_flags		mem_flags;
-	uint32_t			render_state;
+	uint32_t			render_action;
 }						t_opencl_mem_obj;
 
 typedef struct			s_rt
@@ -64,8 +64,9 @@ typedef struct			s_rt
 	t_scene				scene;
 	t_kd_info			kd_info;
 	t_render_params		params;
-	uint32_t			render_options;
 	uint32_t			render_state;
+	uint32_t			render_options;
+	uint32_t			render_actions;
 	uint32_t			events;
 }						t_rt;
 

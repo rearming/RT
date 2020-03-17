@@ -56,6 +56,15 @@ bool		rt_handle_window_event(SDL_Event *event, t_rt *rt)
 	return (false);
 }
 
+void	rt_check_render_state(
+		uint32_t *render_action,
+		uint32_t *render_options,
+		uint32_t render_state)
+{
+	if (render_state & STATE_NO_MESH)
+		rt_unset_bit(render_options, RENDER_MESH | RENDER_MESH_VTEXTURES | RENDER_BACKFACE_CULLING);
+}
+
 void	handle_event(t_rt *rt, SDL_Event *events, int events_num)
 {
 	bool	key_event_handled = false;
@@ -75,7 +84,8 @@ void	handle_event(t_rt *rt, SDL_Event *events, int events_num)
 	{
 		rt_camera_move(&rt->scene.camera, rt->events);
 		if (rt_camera_moved(&rt->scene.camera))
-			rt->render_state |= STATE_CAMERA_CHANGED;
+			rt->render_actions |= ACTION_CAMERA_CHANGED;
+		rt_check_render_state(&rt->render_actions, &rt->render_options, rt->render_state);
 		rt_render(rt, &rt_opencl_render);
 	}
 }

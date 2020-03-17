@@ -20,8 +20,11 @@ void		rt_loop(t_rt *rt)
 			events[event_num] = event;
 			event_num++;
 		}
-		handle_event(rt, events, event_num);
-		event_num = 0;
+		if (event_num > 0)
+		{
+			handle_event(rt, events, event_num);
+			event_num = 0;
+		}
 
 		if (rt_bit_isset(rt->render_options, RENDER_PATHTRACE))
 			rt_render(rt, rt_opencl_render);

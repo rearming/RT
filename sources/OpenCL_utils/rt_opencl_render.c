@@ -28,11 +28,11 @@ void		rt_opencl_render(void *rt_ptr)
 	t_rt				*rt;
 
 	rt = rt_ptr;
-	if (!rt_bit_isset(rt->render_state, STATE_INIT))
-		rt_opencl_release_buffers(rt->render_state);
+	if (!rt_bit_isset(rt->render_actions, ACTION_INIT))
+		rt_opencl_release_buffers(rt->render_actions);
 	render_kernel = rt_get_render_kernel(rt->render_options);
-	rt_update_render_params(render_kernel, &rt->params, rt->render_options, rt->render_state);
-	rt_opencl_prepare_memory(rt, rt->render_state);
+	rt_update_render_params(render_kernel, &rt->params, rt->render_options, rt->render_actions);
+	rt_opencl_prepare_memory(rt, rt->render_actions);
 	rt_opencl_prepare_kernel(render_kernel);
 	if (rt_bit_isset(rt->events, EVENT_INFO))
 		rt_print_debug_info(rt, render_kernel);
@@ -46,5 +46,5 @@ void		rt_opencl_render(void *rt_ptr)
 	err = clEnqueueReadBuffer(g_opencl.queue, g_opencl.buffers[RT_CL_MEM_IMG_DATA].mem, CL_TRUE, 0,
 			sizeof(int) * WIN_WIDTH * WIN_HEIGHT, g_img_data, 0, NULL, NULL);
 	rt_opencl_handle_error(ERR_OPENCL_READ_BUFFER, err);
-	rt->render_state = rt->render_options & RENDER_PATHTRACE ? STATE_PATHTRACE : STATE_NOTHING;
+	rt->render_actions = rt->render_options & RENDER_PATHTRACE ? ACTION_PATHTRACE : ACTION_NOTHING;
 }
