@@ -4,13 +4,19 @@
 #include "rt_opencl.h"
 #include "rt_debug.h"
 
-void		handle_event(SDL_Event *event, t_rt *rt)
+void handle_event(t_rt *rt, SDL_Event *events, int events_num)
 {
-	const bool	key_event_handled = rt_handle_key_event(event, rt);
-	const bool	mouse_event_handled = rt_handle_mouse_event(event, rt);
-	const bool	tools_event_handled = rt_handle_event_gui(event, rt);
+	bool	key_event_handled = false;
+	bool	mouse_event_handled = false;
+	bool	gui_event_handled = false;
 
-	if (key_event_handled || mouse_event_handled || tools_event_handled)
+	for (int i = 0; i < events_num; ++i)
+	{
+		key_event_handled = rt_handle_key_event(&events[i], rt);
+		mouse_event_handled = rt_handle_mouse_event(&events[i], rt);
+		gui_event_handled = rt_handle_event_gui(&events[i], rt);
+	}
+	if (key_event_handled || mouse_event_handled || gui_event_handled || rt->events)
 	{
 		rt_camera_move(&rt->scene.camera, rt->events);
 		if (rt_camera_moved(&rt->scene.camera))

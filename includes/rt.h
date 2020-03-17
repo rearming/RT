@@ -64,7 +64,7 @@ void rt_update_render_params(t_render_kernel *render_kernel,
 **	Event handling
 */
 
-void		handle_event(SDL_Event *event, t_rt *rt);
+void handle_event(t_rt *rt, SDL_Event *events, int events_num);
 
 void		rt_unset_bit(uint32_t *bitfield, uint32_t target);
 void		rt_set_bit(unsigned int *bitfield, uint32_t new_param);

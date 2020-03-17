@@ -1,6 +1,8 @@
 #ifndef RT_EVENTS_H
 # define RT_EVENTS_H
 
+#define MAX_EVENT_IN_LIST 10
+
 typedef enum	s_events
 {
 	EVENT_NOTHING = 0x0,
