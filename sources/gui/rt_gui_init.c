@@ -80,15 +80,15 @@ void		init_cam_text_box(SDL_Rect rect)
 //	render_text(g_gui.body, "Position", rect);
 //	rect.y += BTN_DEFAULT_SIZE * 2;
 	g_gui.obj[c_pos_x] = (t_transform){.rect = rect, .action = c_pos_x,
-			.callback = button_callback, .text = "X", .field = "cam",
+			.callback = button_callback, .text = "Pos X", .field = "cam",
 			.state = label, .type = CAM_TEXT_BOX, .color = color};
 	rect.y += BTN_DEFAULT_SIZE * 2;
 	g_gui.obj[c_pos_y] = (t_transform){.rect = rect, .action = c_pos_y,
-			.callback = button_callback, .text = "Y", .field = "cam",
+			.callback = button_callback, .text = "Pos Y", .field = "cam",
 			.state = label, .type = CAM_TEXT_BOX, .color = color};
 	rect.y += BTN_DEFAULT_SIZE * 2;
 	g_gui.obj[c_pos_z] = (t_transform){.rect = rect, .action = c_pos_z,
-			.callback = button_callback, .text = "Z", .field = "cam",
+			.callback = button_callback, .text = "Pos Z", .field = "cam",
 			.state = label, .type = CAM_TEXT_BOX, .color = color};
 	rect.y += BTN_DEFAULT_SIZE * 2;
 	g_gui.obj[c_angle_x] = (t_transform){.rect = rect, .action = c_pos_x,
@@ -109,15 +109,15 @@ void		init_pos_text_box(SDL_Rect rect)
 	const SDL_Color color = get_color_from_hex(BTN_COLOR_CLICK);
 
 	g_gui.obj[obj_pos_x] = (t_transform){.rect = rect, .action = c_pos_x,
-			.callback = button_callback, .text = "P1osition X", .field = "pos",
+			.callback = button_callback, .text = "Pos X", .field = "pos",
 			.state = hidden, .type = POS_TEXT_BOX, .color = color};
 	rect.y += BTN_DEFAULT_SIZE * 2;
 	g_gui.obj[obj_pos_y] = (t_transform){.rect = rect, .action = c_pos_y,
-			.callback = button_callback, .text = "P1osition Y", .field = "pos",
+			.callback = button_callback, .text = "Pos Y", .field = "pos",
 			.state = hidden, .type = POS_TEXT_BOX, .color = color};
 	rect.y += BTN_DEFAULT_SIZE * 2;
 	g_gui.obj[obj_pos_z] = (t_transform){.rect = rect, .action = c_pos_z,
-			.callback = button_callback, .text = "P1osition Z", .field = "pos",
+			.callback = button_callback, .text = "Pos Z", .field = "pos",
 			.state = hidden, .type = POS_TEXT_BOX, .color = color};
 	rect.y += BTN_DEFAULT_SIZE * 2;
 	g_gui.obj[obj_angle_x] = (t_transform){.rect = rect, .action = c_pos_x,
@@ -138,15 +138,15 @@ void		init_params_text_box(SDL_Rect rect)
 	const SDL_Color color = get_color_from_hex(BTN_COLOR_CLICK);
 
 	g_gui.obj[param_pos_x] = (t_transform){.rect = rect, .action = c_pos_x,
-			.callback = button_callback, .text = "P2osition X", .field = "params",
+			.callback = button_callback, .text = "Pos X", .field = "params",
 			.state = hidden, .type = PARAM_TEXT_BOX, .color = color};
 	rect.y += BTN_DEFAULT_SIZE * 2;
 	g_gui.obj[param_pos_y] = (t_transform){.rect = rect, .action = c_pos_y,
-			.callback = button_callback, .text = "P2osition Y", .field = "params",
+			.callback = button_callback, .text = "Pos Y", .field = "params",
 			.state = hidden, .type = PARAM_TEXT_BOX, .color = color};
 	rect.y += BTN_DEFAULT_SIZE * 2;
 	g_gui.obj[param_pos_z] = (t_transform){.rect = rect, .action = c_pos_z,
-			.callback = button_callback, .text = "P2osition Z", .field = "params",
+			.callback = button_callback, .text = "Pos Z", .field = "params",
 			.state = hidden, .type = PARAM_TEXT_BOX, .color = color};
 	rect.y += BTN_DEFAULT_SIZE * 2;
 	g_gui.obj[param_angle_x] = (t_transform){.rect = rect, .action = c_pos_x,
