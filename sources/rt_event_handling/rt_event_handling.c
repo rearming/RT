@@ -56,7 +56,7 @@ bool		rt_handle_window_event(SDL_Event *event, t_rt *rt)
 	return (false);
 }
 
-void		handle_event(SDL_Event *event, t_rt *rt)
+void	handle_event(t_rt *rt, SDL_Event *events, int events_num)
 {
 	bool	key_event_handled = false;
 	bool	mouse_event_handled = false;
@@ -68,7 +68,7 @@ void		handle_event(SDL_Event *event, t_rt *rt)
 		key_event_handled = rt_handle_key_event(&events[i], rt);
 		mouse_event_handled = rt_handle_mouse_event(&events[i], rt);
 		gui_event_handled = rt_handle_event_gui(&events[i], rt);
-		window_event_handled = rt_handle_window_event(event, rt);
+		window_event_handled = rt_handle_window_event(&events[i], rt);
 	}
 	if (key_event_handled || mouse_event_handled || gui_event_handled
 	|| window_event_handled || rt->events)
