@@ -10,5 +10,6 @@ rt
 build
 Scre*.bmp
 Scre*.png
+Scre*.jpg
 kd_tree_test
 raw_aabbs_data

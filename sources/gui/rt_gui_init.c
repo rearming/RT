@@ -36,13 +36,13 @@ void		init_object_panel()
 			.callback = button_callback, .type = PANEL,
 			.color = get_color_from_hex(NONE)};
 	rect.x += rect.w;
-	g_gui.obj[obj_l] = (t_transform){ .rect = rect,
-			.state = non_event, .text = POSITION_LABEL, .action = obj_l,
+	g_gui.obj[obj_pos] = (t_transform){ .rect = rect,
+			.state = non_event, .text = POSITION_LABEL, .action = obj_pos,
 			.callback = button_callback, .type = PANEL,
 			.color = get_color_from_hex(NONE)};
 	rect.x += rect.w;
-	g_gui.obj[obj_pos] = (t_transform){ .rect = rect,
-			.state = non_event, .text = PARAMETERS_LABEL, .action = obj_pos,
+	g_gui.obj[obj_param] = (t_transform){ .rect = rect,
+			.state = non_event, .text = PARAMETERS_LABEL, .action = obj_param,
 			.callback = button_callback, .type = PANEL,
 			.color = get_color_from_hex(NONE)};
 
@@ -55,7 +55,7 @@ void		init_font()
 		rt_raise_error(FONT_ERROR);
 	if ((g_gui.subtitle = TTF_OpenFont(FONT_PATH, SUBTITLE_FONT_SIZE)) == NULL)
 		rt_raise_error(FONT_ERROR);
-	if ((g_gui.body = TTF_OpenFont(FONT_PATH, BODY_FONT_SIZE)) == NULL)
+	if ((g_gui.body = TTF_OpenFont(MAGMAWAVE_CAPS_FONT, BODY_FONT_SIZE)) == NULL)
 		rt_raise_error(FONT_ERROR);
 }
 
@@ -72,12 +72,109 @@ void		fill_surfaces()
 	render_rect(g_gui.surface, rect, bg);
 }
 
+void		init_cam_text_box(SDL_Rect rect)
+{
+	const SDL_Color color = get_color_from_hex(BTN_COLOR_CLICK);
+//	const SDL_Color color = get_color_from_hex(COL_RED);
+//
+//	render_text(g_gui.body, "Position", rect);
+//	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[c_pos_x] = (t_transform){.rect = rect, .action = c_pos_x,
+			.callback = button_callback, .text = "X", .field = "cam",
+			.state = label, .type = CAM_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[c_pos_y] = (t_transform){.rect = rect, .action = c_pos_y,
+			.callback = button_callback, .text = "Y", .field = "cam",
+			.state = label, .type = CAM_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[c_pos_z] = (t_transform){.rect = rect, .action = c_pos_z,
+			.callback = button_callback, .text = "Z", .field = "cam",
+			.state = label, .type = CAM_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[c_angle_x] = (t_transform){.rect = rect, .action = c_pos_x,
+			.callback = button_callback, .text = "Angle X", .field = "cam",
+			.state = label, .type = CAM_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[c_angle_y] = (t_transform){.rect = rect, .action = c_pos_y,
+			.callback = button_callback, .text = "Angle Y", .field = "cam",
+			.state = label, .type = CAM_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[c_angle_z] = (t_transform){.rect = rect, .action = c_pos_z,
+			.callback = button_callback, .text = "Angle Z", .field = "cam",
+			.state = label, .type = CAM_TEXT_BOX, .color = color};
+}
+
+void		init_pos_text_box(SDL_Rect rect)
+{
+	const SDL_Color color = get_color_from_hex(BTN_COLOR_CLICK);
+
+	g_gui.obj[obj_pos_x] = (t_transform){.rect = rect, .action = c_pos_x,
+			.callback = button_callback, .text = "P1osition X", .field = "pos",
+			.state = hidden, .type = POS_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[obj_pos_y] = (t_transform){.rect = rect, .action = c_pos_y,
+			.callback = button_callback, .text = "P1osition Y", .field = "pos",
+			.state = hidden, .type = POS_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[obj_pos_z] = (t_transform){.rect = rect, .action = c_pos_z,
+			.callback = button_callback, .text = "P1osition Z", .field = "pos",
+			.state = hidden, .type = POS_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[obj_angle_x] = (t_transform){.rect = rect, .action = c_pos_x,
+			.callback = button_callback, .text = "Angle X", .field = "pos",
+			.state = hidden, .type = POS_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[obj_angle_y] = (t_transform){.rect = rect, .action = c_pos_y,
+			.callback = button_callback, .text = "Angle Y", .field = "pos",
+			.state = hidden, .type = POS_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[obj_angle_z] = (t_transform){.rect = rect, .action = c_pos_z,
+			.callback = button_callback, .text = "Angle Z", .field = "pos",
+			.state = hidden, .type = POS_TEXT_BOX, .color = color};
+}
+
+void		init_params_text_box(SDL_Rect rect)
+{
+	const SDL_Color color = get_color_from_hex(BTN_COLOR_CLICK);
+
+	g_gui.obj[param_pos_x] = (t_transform){.rect = rect, .action = c_pos_x,
+			.callback = button_callback, .text = "P2osition X", .field = "params",
+			.state = hidden, .type = PARAM_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[param_pos_y] = (t_transform){.rect = rect, .action = c_pos_y,
+			.callback = button_callback, .text = "P2osition Y", .field = "params",
+			.state = hidden, .type = PARAM_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[param_pos_z] = (t_transform){.rect = rect, .action = c_pos_z,
+			.callback = button_callback, .text = "P2osition Z", .field = "params",
+			.state = hidden, .type = PARAM_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[param_angle_x] = (t_transform){.rect = rect, .action = c_pos_x,
+			.callback = button_callback, .text = "Angle X", .field = "params",
+			.state = hidden, .type = PARAM_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[param_angle_y] = (t_transform){.rect = rect, .action = c_pos_y,
+			.callback = button_callback, .text = "Angle Y", .field = "params",
+			.state = hidden, .type = PARAM_TEXT_BOX, .color = color};
+	rect.y += BTN_DEFAULT_SIZE * 2;
+	g_gui.obj[param_angle_z] = (t_transform){.rect = rect, .action = c_pos_z,
+			.callback = button_callback, .text = "Angle Z", .field = "params",
+			.state = hidden, .type = PARAM_TEXT_BOX, .color = color};
+}
+
+
+
 void		init_text_box()
 {
 	SDL_Rect rect;
 
-	rect = (SDL_Rect){.x = 0 + 10, .y = 500, .w = PANEL_BUTTON_WIDTH * 2, .h = BTN_DEFAULT_SIZE};
-	g_gui.obj[test_box] = (t_transform){.rect = rect, .action = test_box, .callback = button_callback, .text = "cool", .field = "test", .state = label, .type = TEXT_BOX, .color = get_color_from_hex(0xff0000)};
+	rect = (SDL_Rect){.x = (WIN_GUI_WIDTH - PANEL_BUTTON_WIDTH * 2) / 2,
+				   .y = 300,
+				   .w = PANEL_BUTTON_WIDTH * 2,
+				   .h = BTN_DEFAULT_SIZE};
+	init_cam_text_box(rect);
+	init_params_text_box(rect);
+	init_pos_text_box(rect);
 
 }
 

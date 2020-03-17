@@ -12,12 +12,30 @@ typedef enum			e_button
 {
 						rt_btn,
 						pt_btn,
-//						rm_btn
+//						rm_btn,
+//						meshes,
 						scr_sbtn,
 						camera_l,
-						obj_l,
 						obj_pos,
-						test_box,
+						obj_param,
+						c_pos_x,
+						c_pos_y,
+						c_pos_z,
+						c_angle_x,
+						c_angle_y,
+						c_angle_z,
+						obj_pos_x,
+						obj_pos_y,
+						obj_pos_z,
+						obj_angle_x,
+						obj_angle_y,
+						obj_angle_z,
+						param_pos_x,
+						param_pos_y,
+						param_pos_z,
+						param_angle_x,
+						param_angle_y,
+						param_angle_z,
 						btn_count
 }						t_btn;
 
@@ -29,6 +47,7 @@ typedef enum 			e_state
 						hover,
 						click,
 						label,
+						hidden,
 						surface
 }						t_state;
 

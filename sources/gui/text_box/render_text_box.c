@@ -24,7 +24,6 @@ float		count_percent(char *text, char *field)
 {
 	const size_t joined_len = ft_strlen(text) + ft_strlen(field);
 	const size_t text_len = ft_strlen(text);
-//	printf("%f", (float)(text_len / joined_len));
 	return ((float)text_len / (float)joined_len);
 }
 
@@ -34,7 +33,9 @@ void		render_text_box(t_transform btn)
 	SDL_Rect	field;
 	SDL_Color	color;
 
-	render_rect(g_gui.surface, &(btn.rect), get_color_from_hex(0xFFFFFF));
+	if (btn.state == hidden)
+		return ;
+	render_rect(g_gui.surface, &(btn.rect), btn.color);
 
 	text = (SDL_Rect){.x = btn.rect.x, .y = btn.rect.y, .h = btn.rect.h};
 	text.w = (int)((float)btn.rect.w * count_percent(btn.text, btn.field));

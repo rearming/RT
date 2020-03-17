@@ -13,6 +13,8 @@
 #include "rt_gui.h"
 #include "rt.h"
 
+
+
 bool		handle_button(t_transform *btn, t_rt *rt)
 {
 	if (btn->type & RENDER_BTN)
@@ -46,7 +48,8 @@ bool		handle_button(t_transform *btn, t_rt *rt)
 
 bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt)
 {
-
+	if (btn->type & TEXT_BOX)
+		return (false);
 	if (event->type != SDL_MOUSEBUTTONDOWN && event->type != SDL_MOUSEMOTION)
 		return (false);
 	if (event->type == SDL_MOUSEMOTION && check_hover(event, btn->rect) && btn->state != click)

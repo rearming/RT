@@ -110,7 +110,7 @@
 # define RAY_MARCH_LABEL "[RAY MARCH]"
 # define CAMERA_LABEL "Camera"
 # define POSITION_LABEL "Position"
-# define PARAMETERS_LABEL "Parameters"
+# define PARAMETERS_LABEL "Params"
 
 # define SCREENSHOT_LABEL "XTake ScreenshotX"
 
@@ -118,7 +118,10 @@
 # define RENDER_BTN (1 << 0)
 # define SCREENSHOT (1 << 1)
 # define PANEL      (1 << 2)
-# define TEXT_BOX   (1 << 3)
+# define TEXT_BOX	(1 << 10)
+# define CAM_TEXT_BOX   (1 << 3) | TEXT_BOX
+# define POS_TEXT_BOX   (1 << 4) | TEXT_BOX
+# define PARAM_TEXT_BOX   (1 << 5) | TEXT_BOX
 
 
 

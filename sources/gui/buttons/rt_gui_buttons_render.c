@@ -55,17 +55,36 @@ void		auto_render_button(int i)
 {
 	if  (g_gui.obj[i].type & PANEL)
 		render_button_with_params(g_gui.obj[i], g_gui.body, 0);
-	else if (g_gui.obj[i].type & TEXT_BOX)
+	else if ((g_gui.obj[i].type & TEXT_BOX)
+	&& g_gui.obj[i].state != hidden)
 		render_text_box(g_gui.obj[i]);
-	else
+	else if (g_gui.obj[i].state != hidden)
 		render_button(g_gui.obj[i]);
 }
+
+//void		change_text_boxes()
+//{
+//	int i;
+//
+//	i = c_pos_x;
+//	while (i < btn_count)
+//	{
+//		if ((1 << g_gui.panel) )
+//			i++;
+//	}
+//}
 
 void		render_all_buttons(void)
 {
 	int	i;
+//	SDL_Color bg;
+//	SDL_Rect *rect;
 
 	i = 0;
+//	bg = get_color_from_hex(PANEL_BG);
+//	rect = &(SDL_Rect){ .x = 0, .y = PANEL_Y, .h = PANEL_HEIGHT, .w = PANEL_WIDTH};
+//	cut_rect(rect, PANEL_BORDER);
+//	render_rect(g_gui.surface, rect, bg);
 	while (i < btn_count)
 	{
 		if (g_gui.obj[i].callback == NULL)
@@ -83,6 +102,13 @@ void		render_all_buttons(void)
 				g_gui.obj[i].state = non_event;
 			else
 				g_gui.obj[i].state = click;
+		}
+		if (g_gui.obj[i].type & TEXT_BOX)
+		{
+			if (g_gui.obj[i].type & (1 << (g_gui.panel)))
+				g_gui.obj[i].state = label;
+			else
+				g_gui.obj[i].state = hidden;
 		}
 		auto_render_button(i++);
 	}
