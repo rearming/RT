@@ -165,7 +165,7 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 			.center = {{5, -1.5f, 0}},
 			.axis = {{0, 1, 0}},
 			.radius = 3,
-			.len = 5};
+			.len = 1};
 
 //	objects[8] = (t_object){.type = SPHERE, // specular sphere
 //			(t_material){.specular = get_float3_color(COL_LIGHT_GREEN), .transmittance = 0, .refraction = 0,

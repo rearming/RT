@@ -282,18 +282,19 @@ bool		ray_cylinder_intersect(
 	if (dot(origin_center, origin_center) - dot_origin_center_axis
 					* dot_origin_center_axis < cylinder->radius
 					* cylinder->radius)
-		if (fabs(dot_origin_center_axis) < cylinder->len)
+		if (fabs(dot_origin_center_axis) < cylinder->len && cylinder->len > 0)
 		{
 			best_hit->distance = RAY_MIN_EPSILON;
 			best_hit->pos = ray->origin - ray->dir * RAY_MIN_EPSILON ;
 			best_hit->normal = -ray->dir;
 			return true;
 		}
-		else if (fabs(dot(origin_center + (root > 0 ? root : root2)
+		else if ((fabs(dot(origin_center + (root > 0 ? root : root2)
 						* ray->dir, cylinder->axis))
-					< cylinder->len || dot(origin_center + (root > 0 ?
-							root : root2) * ray->dir, cylinder->axis)
-							* dot_origin_center_axis < 0)
+					< cylinder->len && cylinder->len > 0)
+					|| dot(origin_center + (root > 0 ? root : root2)
+							* ray->dir, cylinder->axis)
+						* dot_origin_center_axis < 0)
 		{
 			if (min(distance_up, distance_down) < best_hit->distance)
 			{
@@ -316,7 +317,7 @@ bool		ray_cylinder_intersect(
 		return false;
 
 	if (fabs(dot(origin_center + root * ray->dir, cylinder->axis))
-				< cylinder->len)
+				< cylinder->len && cylinder->len > 0)
 	{
 		best_hit->distance = root;
 		best_hit->pos = ray->origin + root * ray->dir;
@@ -327,8 +328,9 @@ bool		ray_cylinder_intersect(
 	}
 	else
 	{
-		if ((fabs(dot(origin_center + root2 * ray->dir, cylinder->axis))
-					< cylinder->len || dot(origin_center + root2 * ray->dir,
+		if (((fabs(dot(origin_center + root2 * ray->dir, cylinder->axis))
+						< cylinder->len && cylinder->len > 0)
+					|| dot(origin_center + root2 * ray->dir,
 							cylinder->axis) * dot(origin_center + root
 							* ray->dir, cylinder->axis) < 0)
 				&& min(distance_up, distance_down) < best_hit->distance)
