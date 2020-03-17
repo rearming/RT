@@ -71,6 +71,8 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 		rt_switch_bit(&rt->render_options, RENDER_TEXTURES);
 	if (event->key.keysym.scancode == SDL_SCANCODE_B)
 		rt_switch_bit(&rt->render_options, RENDER_ANTI_ALIASING);
+	if (event->key.keysym.scancode == SDL_SCANCODE_N)
+		rt_switch_bit(&rt->render_options, RENDER_SMOOTH_NORMALS);
 }
 
 bool				rt_handle_key_event(SDL_Event *event, t_rt *rt)

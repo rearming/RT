@@ -47,7 +47,9 @@ t_polygon		rt_get_polygon(t_raw_obj *raw_obj, int polygon_i)
 	polygon.vert_i[0] = raw_obj->attrib.faces[3 * polygon_i + 0].v_idx;
 	polygon.vert_i[1] = raw_obj->attrib.faces[3 * polygon_i + 1].v_idx;
 	polygon.vert_i[2] = raw_obj->attrib.faces[3 * polygon_i + 2].v_idx;
-	polygon.vnorm_i = raw_obj->attrib.faces[3 * polygon_i + 0].vn_idx; /// пока что 1 треугольник == одна нормаль
+	polygon.vnorm_i[0] = raw_obj->attrib.faces[3 * polygon_i + 0].vn_idx;
+	polygon.vnorm_i[1] = raw_obj->attrib.faces[3 * polygon_i + 1].vn_idx;
+	polygon.vnorm_i[2] = raw_obj->attrib.faces[3 * polygon_i + 2].vn_idx;
 
 	polygon.vtex_i[0] = raw_obj->attrib.faces[3 * polygon_i + 0].vt_idx > 0
 			? raw_obj->attrib.faces[3 * polygon_i + 0].vt_idx : NOT_SET;

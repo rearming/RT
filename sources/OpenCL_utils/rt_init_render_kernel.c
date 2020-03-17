@@ -12,6 +12,7 @@ const char	*g_opencl_defines[] =
 				" -D RENDER_MESH_VTEXTURES ",
 				" -D RENDER_TEXTURES ",
 				" -D RENDER_ANTI_ALIASING",
+				" -D RENDER_SMOOTH_NORMALS",
 				NULL
 		};
 

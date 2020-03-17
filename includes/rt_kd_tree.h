@@ -8,6 +8,7 @@
 
 # define KD_MAX_OBJ_IN_LEAF 3
 
+# define AABB_OFFSET_EPSILON 0.01f
 # define MIN_OBJ_IN_LEAF 0
 # define BUCKETS 32
 # define EMPTY_COST 1 //todo research optimal value

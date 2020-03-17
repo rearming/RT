@@ -20,7 +20,7 @@ static t_ray get_ray(int x, int y, cl_float3 origin)
 	x -= WIN_WIDTH / 2;
 	y -= WIN_HEIGHT / 2;
 	y *= -1;
-	ray.dir = vec_normalize(canvas_to_viewport(x, y));
+	ray.dir = rt_vec_normalize(canvas_to_viewport(x, y));
 	rt_rotate_point(&ray.dir, (cl_float3){{0, M_PI, 0}});
 	ray.origin = origin;
 	return ray;

@@ -202,7 +202,7 @@ bool				ray_triangle_intersect_MT(
 
 bool				ray_triangle_intersect_MT_polygon(
 		float3 v0, float3 v1, float3 v2,
-		float3 vn,
+		float3 vn0, float3 vn1, float3 vn2,
 		float3 vt0, float3 vt1, float3 vt2,
 		float t_min,
 		float t_max,

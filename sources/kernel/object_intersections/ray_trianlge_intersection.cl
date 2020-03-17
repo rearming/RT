@@ -41,7 +41,7 @@ bool				ray_triangle_intersect_MT(
 }
 bool				ray_triangle_intersect_MT_polygon(
 		float3 v0, float3 v1, float3 v2,
-		float3 vn,
+		float3 vn0, float3 vn1, float3 vn2,
 		float3 vt0, float3 vt1, float3 vt2,
 		float t_min,
 		float t_max,
@@ -80,7 +80,11 @@ bool				ray_triangle_intersect_MT_polygon(
 	)
 	{
 		best_hit->distance = intersect_dist;
-		best_hit->normal = vn;
+#ifdef RENDER_SMOOTH_NORMALS
+		best_hit->normal = (1 - u - v) * vn0 + u * vn1 + v * vn2;
+#else
+		best_hit->normal = vn0;
+#endif
 		best_hit->pos = ray->origin + ray->dir * intersect_dist;
 		return true;
 	}

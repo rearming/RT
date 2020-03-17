@@ -257,13 +257,13 @@ typedef struct			s_polygon
 # ifndef FT_OPENCL___
 
 	cl_int				vert_i[RT_DEFAULT_POLYGON_VERTICES];
-	cl_int				vnorm_i;
+	cl_int				vnorm_i[RT_DEFAULT_POLYGON_VERTICES];
 	cl_int				vtex_i[RT_DEFAULT_POLYGON_VERTICES];
 	cl_int				mesh_index;
 # else
 
 	int					vert_i[RT_DEFAULT_POLYGON_VERTICES];
-	int					vnorm_i;
+	int					vnorm_i[RT_DEFAULT_POLYGON_VERTICES];
 	int					vtex_i[RT_DEFAULT_POLYGON_VERTICES];
 	int					mesh_index;
 #endif
