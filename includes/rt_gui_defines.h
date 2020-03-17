@@ -22,7 +22,7 @@
 # else
 #  define WIN_GUI_WIDTH 300
 #  define GUI_FOOTER 75
-#  define GUI_LABEL 35
+#  define GUI_TITLE 35
 #  define BTN_DEFAULT_SIZE 25
 #  define PANEL_HEIGHT 470
 #  define PANEL_WIDTH 300

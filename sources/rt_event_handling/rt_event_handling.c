@@ -9,7 +9,7 @@ void		resize_gui(int height)//TODO NEED DEBUG THIS FUNCTION
 	int			i;
 	float	k = height/(float)WIN_HEIGHT;
 	SDL_Color	bg;
-	bg = get_color_from_hex(arc4random());
+//	bg = get_color_from_hex(arc4random()); // -> arc4random doesn't exist on Linux
 
 	i = 0;
 	printf("resize_gui launched\n");
@@ -19,7 +19,7 @@ void		resize_gui(int height)//TODO NEED DEBUG THIS FUNCTION
 				 SDL_MapRGB(g_gui.surface->format, bg.r, bg.g, bg.b));
 	while (i < btn_count)
 	{
-		g_gui.obj[i].color = get_color_from_hex(arc4random());
+//		g_gui.obj[i].color = get_color_from_hex(arc4random()); // -> arc4random doesn't exist on Linux
 		g_gui.obj[i].rect.h = (int)((float)g_gui.obj[i].rect.h * k);
 		render_button(g_gui.obj[i]);
 		printf("button [%i] rendered\n", i);

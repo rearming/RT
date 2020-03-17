@@ -1,4 +1,3 @@
-#include <time.h>
 #include "rt.h"
 #include "rt_debug.h"
 #include "rt_opencl.h"
@@ -16,13 +15,10 @@ void		rt_loop(t_rt *rt)
 
 	while (21)
 	{
-		while (SDL_PollEvent(&event))
+		while (SDL_PollEvent(&event) && event_num < MAX_EVENT_IN_LIST)
 		{
 			events[event_num] = event;
 			event_num++;
-#ifndef __APPLE__ //todo проверить на линуксе, нужно ли это [sleonard]
-			SDL_FlushEvent(SDL_MOUSEMOTION);
-#endif
 		}
 		handle_event(rt, events, event_num);
 		event_num = 0;

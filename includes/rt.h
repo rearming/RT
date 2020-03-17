@@ -56,7 +56,7 @@ char 		*found_file_in_the_folder(const char *file);
 */
 
 void		rt_render(void *rt_ptr, void (*render_func)(void *));
-void rt_update_render_params(t_render_kernel *render_kernel,
+void		rt_update_render_params(t_render_kernel *render_kernel,
 							 t_render_params *params,
 							 uint32_t render_options,
 							 uint32_t render_state);
@@ -64,7 +64,7 @@ void rt_update_render_params(t_render_kernel *render_kernel,
 **	Event handling
 */
 
-void handle_event(t_rt *rt, SDL_Event *events, int events_num);
+void		handle_event(t_rt *rt, SDL_Event *events, int events_num);
 
 void		rt_unset_bit(uint32_t *bitfield, uint32_t target);
 void		rt_set_bit(unsigned int *bitfield, uint32_t new_param);

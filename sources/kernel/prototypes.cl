@@ -15,6 +15,47 @@ int         get_texture_color(
 		__constant t_texture_info *texture_info
 );
 
+bool						ft_stack_push(t_stack *stack, t_kd_traverse_helper helper);
+
+t_kd_traverse_helper		ft_stack_pop(t_stack *stack);
+
+t_kd_traverse_helper		ft_stack_peek(t_stack *stack);
+
+float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point);
+
+float3		reflect(float3 ray_dir, float3 normal);
+
+float3		convex_refract(float3 ray_dir, float3 normal, float refract_index);
+
+float3		concave_refract(float3 ray_dir, float3 normal, float refract_index);
+
+bool		isset(int value);
+
+float		saturate(float value);
+
+float3		saturate_float3(float3 value);
+
+bool		ray_has_energy(t_ray *ray);
+
+int3		get_img_point(int global_id);
+
+void			correct_img_point(float3 *img_point);
+
+t_ray			get_ray(float3 img_point, __global const t_camera *camera);
+
+float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
+
+bool		get_hit_material(
+		t_material *out_material,
+		__global const t_object *objects,
+		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		__global const float3 *v_textures,
+		int closest_obj_index,
+		int closest_polygon_index);
+
 float		sdot(float3 a, float3 b, float coeff);
 
 int 				in_range_inclusive(float number, float min, float max);
@@ -68,46 +109,18 @@ float3		raytrace(
 		__global const t_skybox_info *skybox_info,
 		t_ray ray);
 
-bool		get_hit_material(
-		t_material *out_material,
-		__global const t_object *objects,
+t_material	get_polygon_material(
 		__global const t_mesh_info *meshes_info,
+		__global const t_polygon *polygons,
+		int polygon_index);
+
+int		ray_mesh_intersect(
+		__global const t_meshes *mesh_info,
 		__global const t_polygon *polygons,
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
-		__global const float3 *v_textures,
-		int closest_obj_index,
-		int closest_polygon_index);
-
-bool						ft_stack_push(t_stack *stack, t_kd_traverse_helper helper);
-
-t_kd_traverse_helper		ft_stack_pop(t_stack *stack);
-
-t_kd_traverse_helper		ft_stack_peek(t_stack *stack);
-
-float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point);
-
-float3		reflect(float3 ray_dir, float3 normal);
-
-float3		convex_refract(float3 ray_dir, float3 normal, float refract_index);
-
-float3		concave_refract(float3 ray_dir, float3 normal, float refract_index);
-
-bool		isset(int value);
-
-float		saturate(float value);
-
-float3		saturate_float3(float3 value);
-
-bool		ray_has_energy(t_ray *ray);
-
-int3		get_img_point(int global_id);
-
-void			correct_img_point(float3 *img_point);
-
-t_ray			get_ray(float3 img_point, __global const t_camera *camera);
-
-float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
+		t_ray *ray,
+		t_rayhit *out_best_hit);
 
 bool		ray_aabb_traverse_intersection(t_ray *ray, t_aabb aabb, float *out_near, float *out_far);
 
@@ -134,6 +147,36 @@ int		kd_tree_traverse(
 		__global const float3 *v_normals,
 		t_ray *ray,
 		t_rayhit *out_best_hit);
+
+int		check_borders(int a, int max, int type);
+
+int		convert_x(t_rayhit *hit,
+				  __global const t_texture_info *texture_info,
+				  __global const t_object *object);
+
+int		convert_y(t_rayhit *hit,
+				__global const t_texture_info *texture_info,
+				__global const t_object *object);
+
+int		texture_to_plane(t_rayhit *hit,
+						__global const t_texture_info *texture_info,
+						__global const int *texture_list,
+						__global const t_object *object);
+
+float3	texture(t_ray *out_ray,
+			   t_rayhit *hit,
+			   __global const t_texture_info *texture_info,
+			   __global const int *texture_list,
+			   __global const t_object *object);
+
+float3		skybox_color(
+		__global const float3 *skybox_list,
+		__global const t_skybox_info *skybox_info,
+		float3 normal);
+
+float 		scale(t_ray ray, float skybox_radius);
+
+float3		skybox_normal(t_ray ray);
 
 bool				in_shadow(
 		__global const t_scene *scene,
@@ -166,80 +209,6 @@ float				compute_light(
 	t_ray *ray,
 	t_material *hit_material);
 
-int		ray_mesh_intersect(
-		__global const t_meshes *mesh_info,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
-		t_ray *ray,
-		t_rayhit *out_best_hit);
-
-t_material	get_polygon_material(
-		__global const t_mesh_info *meshes_info,
-		__global const t_polygon *polygons,
-		int polygon_index);
-
-void				closest_intersection(
-		__global const t_scene *scene,
-		__global const t_object *objects,
-		__global const t_kd_info *kd_info,
-		__global const t_kd_arr_tree *kd_tree,
-		__global const int *kd_indices,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
-		t_ray *ray,
-		t_rayhit *out_best_hit,
-		int *out_closest_polygon_index,
-		int *out_closest_obj_index);
-
-bool		ray_aabb_intersection(t_ray *ray, __global const t_object *object, t_rayhit *best_hit);
-
-bool				ray_triangle_intersect_MT(
-		t_ray *ray,
-		__global const t_object *triangle,
-		t_rayhit *best_hit);
-
-bool				ray_triangle_intersect_MT_polygon(
-		float3 v0, float3 v1, float3 v2,
-		float3 vn0, float3 vn1, float3 vn2,
-		float3 vt0, float3 vt1, float3 vt2,
-		float t_min,
-		float t_max,
-		t_ray *ray,
-		t_rayhit *best_hit);
-
-bool				ray_plane_intersect(
-		t_ray *ray,
-		float3 center,
-		float3 normal,
-		t_rayhit *best_hit);
-
-bool				ray_sphere_intersect(
-		t_ray *ray,
-		__global const t_object *sphere,
-		t_rayhit *best_hit);
-
-bool				ray_cone_intersect(
-		t_ray *ray,
-		__global const t_object *cone,
-		t_rayhit *best_hit);
-
-bool				ray_cylinder_intersect(
-		t_ray *ray,
-		__global const t_object *cylinder,
-		t_rayhit *best_hit);
-
-bool				ray_paraboloid_intersect(
-		t_ray *ray,
-		__global const t_object *paraboloid,
-		t_rayhit *best_hit);
-
-bool				ray_ellipsoid_intersect(
-		t_ray *ray,
-		__global const t_object *ellipsoid,
-		t_rayhit *best_hit);
-
 float3		pathtrace(
 		__global const t_scene *scene,
 		__global const t_object *objects,
@@ -271,6 +240,16 @@ float3		rand_dir_on_hemisphere(
 		float2 pixel,
 		float phong_alpha);
 
+float3		texture_shade_pathtrace(
+		__global const t_texture_info *texture_info,
+		__global const int *texture_list,
+		__global const t_object *object,
+		t_ray *ray,
+		t_rayhit *hit,
+		t_material material,
+		float *seed,
+		float2 pixel);
+
 void		calc_refraction_pathtrace(
 		t_ray *ray,
 		t_rayhit *hit,
@@ -296,43 +275,64 @@ float3		shade_pathtrace(
 		float *seed,
 		float2 pixel);
 
-float3		texture_shade_pathtrace(
-		__global const t_texture_info *texture_info,
-		__global const int *texture_list,
-		__global const t_object *object,
+bool		ray_aabb_intersection(t_ray *ray, __global const t_object *object, t_rayhit *best_hit);
+
+bool				ray_plane_intersect(
 		t_ray *ray,
-		t_rayhit *hit,
-		t_material material,
-		float *seed,
-		float2 pixel);
+		float3 center,
+		float3 normal,
+		t_rayhit *best_hit);
 
-float3		skybox_color(
-		__global const float3 *skybox_list,
-		__global const t_skybox_info *skybox_info,
-		float3 normal);
+bool				ray_sphere_intersect(
+		t_ray *ray,
+		__global const t_object *sphere,
+		t_rayhit *best_hit);
 
-float 		scale(t_ray ray, float skybox_radius);
+bool				ray_cone_intersect(
+		t_ray *ray,
+		__global const t_object *cone,
+		t_rayhit *best_hit);
 
-float3		skybox_normal(t_ray ray);
+bool				ray_cylinder_intersect(
+		t_ray *ray,
+		__global const t_object *cylinder,
+		t_rayhit *best_hit);
 
-int		convert_x(t_rayhit *hit,
-				  __global const t_texture_info *texture_info,
-				  __global const t_object *object);
+void				closest_intersection(
+		__global const t_scene *scene,
+		__global const t_object *objects,
+		__global const t_kd_info *kd_info,
+		__global const t_kd_arr_tree *kd_tree,
+		__global const int *kd_indices,
+		__global const t_polygon *polygons,
+		__global const float3 *vertices,
+		__global const float3 *v_normals,
+		t_ray *ray,
+		t_rayhit *out_best_hit,
+		int *out_closest_polygon_index,
+		int *out_closest_obj_index);
 
-int		convert_y(t_rayhit *hit,
-				__global const t_texture_info *texture_info,
-				__global const t_object *object);
+bool				ray_triangle_intersect_MT(
+		t_ray *ray,
+		__global const t_object *triangle,
+		t_rayhit *best_hit);
 
-int		texture_to_plane(t_rayhit *hit,
-						__global const t_texture_info *texture_info,
-						__global const int *texture_list,
-						__global const t_object *object);
+bool				ray_triangle_intersect_MT_polygon(
+		float3 v0, float3 v1, float3 v2,
+		float3 vn0, float3 vn1, float3 vn2,
+		float3 vt0, float3 vt1, float3 vt2,
+		float t_min,
+		float t_max,
+		t_ray *ray,
+		t_rayhit *best_hit);
 
-float3	texture(t_ray *out_ray,
-			   t_rayhit *hit,
-			   __global const t_texture_info *texture_info,
-			   __global const int *texture_list,
-			   __global const t_object *object);
+bool				ray_paraboloid_intersect(
+		t_ray *ray,
+		__global const t_object *paraboloid,
+		t_rayhit *best_hit);
 
-int		check_borders(int a, int max, int type);
+bool				ray_ellipsoid_intersect(
+		t_ray *ray,
+		__global const t_object *ellipsoid,
+		t_rayhit *best_hit);
 
