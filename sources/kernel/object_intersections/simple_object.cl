@@ -34,39 +34,37 @@ bool				ray_sphere_intersect_cut(
 	const float	c = dot(origin_center, origin_center) - sphere->radius
 			* sphere->radius;
 
-	const float		distance = (-dot(ray->origin - (sphere->center
-		+ sphere->len * sphere->axis), sphere->axis))
-		/ dot_ray_axis_sphere;
+	const float		inter = -dot(origin_center - sphere->len * sphere->axis,
+										sphere->axis) / dot_ray_axis_sphere;
 
 	float	discriminant = b * b - 4.f * a * c;
 	if (discriminant < 0)
 		return false;
 	discriminant = sqrt(discriminant);
 
-	const float x1 = (-b - sqrt(discriminant)) / (2.f * a);
-	const float x2 = (-b + sqrt(discriminant)) / (2.f * a);
+	const float x1 = (-b - discriminant) / (2.f * a);
+	const float x2 = (-b + discriminant) / (2.f * a);
 	const float	root = min(x1, x2);
 	const float	root2 = max(x1, x2);
 
 	if (root > 0 && root2 > 0)
 	{
-		if (dot(origin_center + ray->dir * root, sphere->axis) > sphere->len
-				&& dot(origin_center + ray->dir * root2, sphere->axis) < sphere->len
-				&& distance < best_hit->distance)
+		if (dot(origin_center + ray->dir * root, sphere->axis) < sphere->len
+				&& root < best_hit->distance)
 		{
-			best_hit->distance = distance;
-			best_hit->pos = ray->origin + ray->dir * distance;
-			best_hit->normal = sphere->axis;
+			best_hit->distance = root;
+			best_hit->pos = ray->origin + root * ray->dir;
+			best_hit->normal = fast_normalize(best_hit->pos - sphere->center);
 			return true;
 		}
 		else
 		{
-			if (dot(origin_center + ray->dir * root, sphere->axis) < sphere->len
-					&& root < best_hit->distance)
+			if (dot(origin_center + ray->dir * root2, sphere->axis) < sphere->len
+					&& inter < best_hit->distance)
 			{
-				best_hit->distance = root;
-				best_hit->pos = ray->origin + root * ray->dir;
-				best_hit->normal = fast_normalize(best_hit->pos - sphere->center);
+				best_hit->distance = inter;
+				best_hit->pos = ray->origin + ray->dir * inter;
+				best_hit->normal = sphere->axis;
 				return true;
 			}
 			else
@@ -85,10 +83,10 @@ bool				ray_sphere_intersect_cut(
 		else
 		{
 			if (dot(origin_center + ray->dir * root2, sphere->axis)
-					< sphere->len && distance < best_hit->distance)
+					< sphere->len && inter < best_hit->distance)
 			{
-				best_hit->distance = distance;
-				best_hit->pos = ray->origin + ray->dir * best_hit->distance;
+				best_hit->distance = inter;
+				best_hit->pos = ray->origin + ray->dir * inter;
 				best_hit->normal = sphere->axis;
 				return true;
 			}
