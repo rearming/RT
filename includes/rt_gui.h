@@ -1,6 +1,6 @@
 
 #ifndef RT_GUI_H
-#define RT_GUI_H
+# define RT_GUI_H
 
 # include <SDL.h>
 # include <SDL_ttf.h>
@@ -62,11 +62,18 @@ void		create_screenshot_png(void);
 void		create_screenshot_jpg(void);
 bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt);
 
+/*
+** Text box init
+*/
+
+void		init_cam_text_box(SDL_Rect rect);
+void		init_pos_text_box(SDL_Rect rect);
+void		init_params_text_box(SDL_Rect rect);
+void		init_text_box();
 
 /*
 ** Text box render
 */
-
 
 void		render_text_box(t_transform btn);
 

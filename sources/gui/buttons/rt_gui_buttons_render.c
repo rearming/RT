@@ -29,8 +29,8 @@ void		render_button(t_transform btn)
 	render_border(&btn, DEFAULT_BORDER, get_color_from_hex(GUI_BG));
 	label = get_centered_label(g_gui.subtitle, btn.text, btn.rect);
 	render_rect(g_gui.surface, &(btn.rect), color);
-	SDL_BlitSurface(label.sur, NULL, g_gui.surface, &(label.rect));
-	SDL_FreeSurface(label.sur);
+	SDL_BlitSurface(label.surface, NULL, g_gui.surface, &(label.rect));
+	SDL_FreeSurface(label.surface);
 }
 
 void		render_button_with_params(t_transform btn, TTF_Font *font, int px)

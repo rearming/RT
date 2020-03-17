@@ -8,7 +8,7 @@ float		count_percent(char *text, char *field)
 	return ((float)text_len / (float)joined_len);
 }
 
-void		render_text_box_(t_transform btn)
+void		render_text_box(t_transform btn)
 {
 	SDL_Rect	text;
 	SDL_Rect	field;
@@ -25,8 +25,8 @@ void		render_text_box_(t_transform btn)
 	render_text(g_gui.body, btn.field, field);
 }
 
-//void 		render_column_text_box(t_transform btn)//todo
-void 		render_text_box(t_transform btn)//todo
+void 		render_column_text_box(t_transform btn)//todo
+//void 		render_text_box(t_transform btn)//todo
 {
 	SDL_Rect text;
 	SDL_Rect field;

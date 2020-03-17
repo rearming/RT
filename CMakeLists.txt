@@ -124,7 +124,7 @@ set(gui_sources
         sources/gui/buttons/utils/create_screenshot.c
         sources/gui/buttons/utils/name_generator.c
         sources/gui/buttons/utils/get_window_data.c
-        sources/gui/text_box/render_text_box.c)
+        sources/gui/text_box/render_text_box.c sources/gui/text_box/init_text_box.c)
 
 
 set(sources
