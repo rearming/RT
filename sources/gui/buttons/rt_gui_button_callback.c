@@ -26,7 +26,6 @@ bool		handle_button(t_transform *btn, t_rt *rt)
 	}
 	else if (btn->type & SCREENSHOT)
 	{
-
 		if (SCREENSHOT_FORMAT == BMP)
 			create_screenshot_bmp();
 		else if (SCREENSHOT_FORMAT == PNG)

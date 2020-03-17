@@ -12,12 +12,14 @@ char*		get_time(void)
 	return (time_);
 }
 
-char		*name_generator(char *ext)//todo : remove \n from filename
+char		*name_generator(char *ext)
 {
 	char *filename;
 	char *tmp;
 
-	tmp = ft_strjoin("Screenshot ", get_time());
+	filename = ft_strjoin("Screenshot ", get_time());
+	tmp = ft_strtrim(filename);
+	free(filename);
 	filename = ft_strjoin(tmp, ext);
 	free(tmp);
 	return (filename);

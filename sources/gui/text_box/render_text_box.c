@@ -25,8 +25,7 @@ void		render_text_box(t_transform btn)
 	render_text(g_gui.body, btn.field, field);
 }
 
-void 		render_column_text_box(t_transform btn)//todo
-//void 		render_text_box(t_transform btn)//todo
+void 		render_column_text_box(t_transform btn)//todo testing
 {
 	SDL_Rect text;
 	SDL_Rect field;

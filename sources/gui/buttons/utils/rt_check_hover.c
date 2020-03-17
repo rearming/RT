@@ -1,5 +1,4 @@
 #include "rt_gui.h"
-#include "rt.h"
 
 bool		check_hover(SDL_Event *event, SDL_Rect button)
 {

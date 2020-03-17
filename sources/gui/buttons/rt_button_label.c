@@ -20,11 +20,11 @@ t_ttf	get_centered_label(TTF_Font *font, char *text, SDL_Rect rect)
 	return (label);
 }
 
-
 void	render_text(TTF_Font *font, char *text, SDL_Rect rect)
 {
-	const t_ttf	label = get_centered_label(font, text, rect);
+	t_ttf	label;
 
+	label = get_centered_label(font, text, rect);
 	if (label.surface->h < rect.h && label.surface->w < rect.w)
 		SDL_BlitSurface(label.surface, NULL, g_gui.surface, &(label.rect));
 	SDL_FreeSurface(label.surface);
