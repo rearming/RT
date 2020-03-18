@@ -275,6 +275,22 @@ float3		shade_pathtrace(
 		float *seed,
 		float2 pixel);
 
+bool			get_pixel(__global const int *img_data, float3 *out_pixel, int x, int y);
+
+float			calc_gauss(int x);
+
+float3			process_pixel_horizontal(
+		__global const int *img_data,
+		int2 img_point,
+		int	blur_coeff,
+		float *out_kernel_sum);
+
+float3			process_pixel_vertical(
+		__global const int *img_data,
+		int2 img_point,
+		int blur_coeff,
+		float *out_kernel_sum);
+
 bool		ray_aabb_intersection(t_ray *ray, __global const t_object *object, t_rayhit *best_hit);
 
 bool				ray_plane_intersect(

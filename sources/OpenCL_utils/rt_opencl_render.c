@@ -87,7 +87,7 @@ void		rt_opencl_render(void *rt_ptr)
 		rt_opencl_compile_kernels(rt->render_options);
 	rt_opencl_prepare_memory(rt, rt->render_actions);
 	run_render_kernel(rt, rt_get_render_kernel(rt->render_options), global_work_size);
-//	run_blur_kernel(rt, g_opencl.kernels[KERNEL_GAUSS_BLUR], global_work_size);
-	run_sepia_kernel(rt, g_opencl.kernels[KERNEL_SEPIA], global_work_size);
+	run_blur_kernel(rt, g_opencl.kernels[KERNEL_GAUSS_BLUR], global_work_size);
+//	run_sepia_kernel(rt, g_opencl.kernels[KERNEL_SEPIA], global_work_size);
 	rt->render_actions &= ACTION_PATHTRACE;
 }
