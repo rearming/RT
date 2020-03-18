@@ -11,8 +11,20 @@ void			rt_opencl_release_buffers(uint32_t current_render_action);
 
 void			rt_opencl_handle_error(const char *rt_err_str, int opencl_err_code);
 
-char			*get_opencl_kernel_code_text(size_t *out_size);
-void			rt_opencl_create_kernel(const char *compile_options, cl_kernel *out_kernel);
-t_render_kernel *rt_get_render_kernel(uint32_t options);
+char			*get_opencl_kernel_code_text(const char *kernel_path, size_t *out_size);
+void			rt_opencl_compile_kernel(const char *kernel_path,
+							  const char *kernel_name,
+							  const char *compile_options,
+							  cl_kernel *out_kernel);
+t_render_kernel	*rt_get_render_kernel(uint32_t options);
+char			*rt_get_kernel_compile_options(uint32_t options);
+void			rt_opencl_compile_kernels(uint32_t render_options);
+void			rt_set_kernel_args(cl_kernel kernel, int args_num, ...);
+
+typedef struct	s_kernel_info
+{
+	char		*kernel_name;
+	char		*kernel_path;
+}				t_kernel_info;
 
 #endif

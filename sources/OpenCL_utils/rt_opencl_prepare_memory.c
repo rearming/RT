@@ -38,7 +38,8 @@ void		rt_opencl_prepare_memory(t_rt *rt, uint32_t render_action)
 			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.skybox_info, sizeof(t_skybox_info), RT_DEFAULT_MEM_FLAG, ACTION_SKYBOX_CHANGED}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.skybox_list, sizeof(cl_float3) * g_textures.skybox_info->size, RT_DEFAULT_MEM_FLAG, ACTION_SKYBOX_CHANGED}),
 
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, ACTION_EXIT})
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, ACTION_EXIT}),
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, ACTION_EXIT}) // out img data for post-process
 	};
 	g_opencl.buffers_num = sizeof(opencl_mem_objs) / sizeof(t_opencl_mem_obj);
 	rt_opencl_alloc_buffers(render_action, opencl_mem_objs);

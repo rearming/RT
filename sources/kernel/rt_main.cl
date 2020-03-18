@@ -3,7 +3,6 @@
 #include "rt_defines.h"
 #include "rt_shared_structs.h"
 #include "opencl_structs.cl"
-#include "rt_host_structs.h"
 #include "prototypes.cl"
 #include "color_utils.cl"
 

@@ -1,13 +1,24 @@
 #ifndef RT_OPENCL_PARAMS_DEFINES_H
 # define RT_OPENCL_PARAMS_DEFINES_H
 
-# define OPENCL_KERNEL_NAME "rt_main"
+# define RENDER_KERNEL_NAME "rt_main"
+# define RENDER_KERNEL_PATH "./sources/kernel/rt_main.cl"
+
+/*
+**	kernels
+*/
+
+typedef enum	e_kernels
+{
+	KERNEL_GAUSS_BLUR = 0,
+	KERNEL_SEPIA,
+}				t_kernels;
 
 /*
 **	device mem types
 */
 
-typedef enum	e_cl_mem_type
+typedef enum	e_cl_mem_types
 {
 	RT_CL_MEM_SCENE = 0,
 	RT_CL_MEM_OBJECTS,
@@ -29,7 +40,9 @@ typedef enum	e_cl_mem_type
 	RT_CL_MEM_SKYBOX_LIST,
 
 	RT_CL_MEM_IMG_DATA,
-}				t_cl_mem_type;
+
+	RT_CL_MEM_OUT_IMG_DATA,
+}				t_cl_mem_types;
 
 /*
 **	render states

@@ -17,5 +17,5 @@ void	rt_update_render_params(t_render_kernel *render_kernel,
 		render_kernel->samples_num++;
 	}
 	if (rt_bit_isset(render_action, ACTION_CAMERA_CHANGED))
-		ft_lstmap(g_opencl.kernels, &render_kernel_reset_samples);
+		ft_lstmap(g_opencl.render_kernels, &render_kernel_reset_samples);
 }

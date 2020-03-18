@@ -37,7 +37,8 @@ typedef struct			s_opencl
 	cl_event			profile_event;
 	t_cl_buffer			*buffers;
 	int					buffers_num;
-	t_list				*kernels;
+	t_list				*render_kernels;
+	cl_kernel			*kernels;
 }						t_opencl;
 
 typedef struct			s_obj_material

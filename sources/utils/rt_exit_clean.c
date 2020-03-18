@@ -20,7 +20,7 @@ bool		rt_exit_clean(void)
 
 	err = 0;
 	rt_opencl_release_buffers(ACTION_EXIT);
-	ft_lstdel(&g_opencl.kernels, &rt_release_render_kernel);
+	ft_lstdel(&g_opencl.render_kernels, &rt_release_render_kernel);
 	if (g_opencl.queue)
 	{
 		err |= clFlush(g_opencl.queue);

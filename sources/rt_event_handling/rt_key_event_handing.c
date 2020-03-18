@@ -61,6 +61,7 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 	if (event->key.keysym.scancode == SDL_SCANCODE_P)
 	{
 		rt_set_render_algo(&rt->render_options, RENDER_PATHTRACE);
+		rt_set_bit(&rt->render_actions, ACTION_PATHTRACE);
 		sync_rt_and_gui(rt->render_options);
 	}
 	if (event->key.keysym.scancode == SDL_SCANCODE_M)

@@ -1,15 +1,18 @@
 #include "rt.h"
 #include "rt_opencl.h"
 
-void rt_opencl_create_kernel(const char *compile_options, cl_kernel *out_kernel)
+void rt_opencl_compile_kernel(const char *kernel_path,
+							  const char *kernel_name,
+							  const char *compile_options,
+							  cl_kernel *out_kernel)
 {
 	static size_t	size = 0;
-	static char		*opencl_kernel_code = NULL;
+	/*static*/ char		*opencl_kernel_code = NULL;
 	cl_program		program;
 	int				err;
 
-	if (!opencl_kernel_code) //кешировать kernel код
-		opencl_kernel_code = get_opencl_kernel_code_text(&size);
+//	if (!opencl_kernel_code) //кешировать kernel код
+	opencl_kernel_code = get_opencl_kernel_code_text(kernel_path, &size);
 	program = clCreateProgramWithSource(g_opencl.context, 1,
 			(const char **)&opencl_kernel_code, &size, &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_PROGRAM, err);
@@ -19,10 +22,12 @@ void rt_opencl_create_kernel(const char *compile_options, cl_kernel *out_kernel)
 		print_cl_build_program_debug(program);
 		rt_raise_error(ERR_OPENCL_BUILD_PROGRAM);
 	}
-	*out_kernel = clCreateKernel(program, OPENCL_KERNEL_NAME, &err);
+	*out_kernel = clCreateKernel(program, kernel_name, &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_KERNEL, err);
 	err = clReleaseProgram(program);
 	rt_opencl_handle_error(ERR_OPENCL_RELEASE_PROGRAM, err);
+	free(opencl_kernel_code);
+	free((char*)compile_options);
 }
 
 #pragma clang diagnostic push
@@ -46,7 +51,7 @@ void		rt_opencl_init(void)
 	g_opencl.queue = clCreateCommandQueue(
 			g_opencl.context, g_opencl.device_id, CL_QUEUE_PROFILING_ENABLE , &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_QUEUE, err);
-	g_opencl.kernels = NULL;
+	g_opencl.render_kernels = NULL;
 }
 
 #pragma clang diagnostic pop
