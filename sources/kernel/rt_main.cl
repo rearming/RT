@@ -59,6 +59,7 @@ __kernel void	rt_main(
 	__global const float3 *skybox_list,
 
     __global int *img_data,
+    __global float *depth_buffer,
 
     __global float3 *img_data_float) //img data float must always be last
 {
@@ -73,6 +74,8 @@ __kernel void	rt_main(
 	float3		prev_color = img_data_float[g_id];
 
 	float3		temp_color = 0;
+	float		intersection_distance;
+
 #ifdef RENDER_ANTI_ALIASING
 	float	fsaa_offset = 0.5f;
 
@@ -89,13 +92,13 @@ __kernel void	rt_main(
 #ifdef RENDER_RAYTRACE
 			temp_color += raytrace(scene, objects, lights, kd_info, kd_tree, kd_indices,
 					meshes_info, polygons, vertices, v_normals, v_textures,
-					params, texture_info, texture_list, skybox_list, skybox_info, ray);
+					params, texture_info, texture_list, skybox_list, skybox_info, ray, &intersection_distance);
 #endif // RENDER_RAYTRACE
 
 #ifdef RENDER_PATHTRACE
 			temp_color += pathtrace(scene, objects, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, v_textures,
 				params, texture_info, texture_list, skybox_list, skybox_info, ray,
-				params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1));
+				params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1), &intersection_distance);
 #endif
 
 #ifdef RENDER_ANTI_ALIASING
@@ -112,4 +115,5 @@ __kernel void	rt_main(
 #endif
 
 	img_data[g_id] = get_int_color(correct_hdr(params->gamma, params->exposure, final_color));
+	depth_buffer[g_id] = intersection_distance;
 }

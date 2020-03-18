@@ -6,7 +6,7 @@
 
 void		set_render_kernel_args(t_render_kernel *render_kernel)
 {
-	int		args_num = 17;
+	int		args_num = 18;
 	int		err;
 
 	rt_set_kernel_args(render_kernel->kernel, args_num,
@@ -16,7 +16,9 @@ void		set_render_kernel_args(t_render_kernel *render_kernel)
 			RT_CL_MEM_V_NORMALS, RT_CL_MEM_V_TEXTURES,
 			RT_CL_MEM_TEXTURE_INFO, RT_CL_MEM_TEXTURE_LIST,
 			RT_CL_MEM_SKYBOX_INFO, RT_CL_MEM_SKYBOX_LIST,
-			RT_CL_MEM_IMG_DATA);
+			RT_CL_MEM_IMG_DATA,
+			RT_CL_MEM_DEPTH_BUFFER
+			);
 	err = clSetKernelArg(render_kernel->kernel, args_num, sizeof(cl_mem), &render_kernel->img_data_float);
 	rt_opencl_handle_error(ERR_OPENCL_SETARG, err);
 }
@@ -45,7 +47,9 @@ void		run_blur_kernel(t_rt *rt, cl_kernel kernel, const size_t *work_size)
 {
 	int		err;
 
-	rt_set_kernel_args(kernel, 2, RT_CL_MEM_IMG_DATA, RT_CL_MEM_OUT_IMG_DATA);
+	rt_set_kernel_args(kernel, 4,
+			RT_CL_MEM_CAMERA, RT_CL_MEM_IMG_DATA, RT_CL_MEM_DEPTH_BUFFER,
+			RT_CL_MEM_OUT_IMG_DATA);
 
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			kernel, 1, NULL, work_size, NULL, 0, NULL, &g_opencl.profile_event);

@@ -86,6 +86,6 @@ void		print_cl_build_program_debug(cl_program program);
 void		rt_raise_error(const char *err_str);
 void		*rt_safe_malloc(size_t size);
 bool		rt_exit_clean(void);
-bool		rt_camera_moved(t_camera *camera);
+bool		rt_camera_changed(t_camera *camera);
 
 #endif

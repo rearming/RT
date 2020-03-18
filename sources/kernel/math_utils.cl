@@ -110,12 +110,3 @@ float3		vec_axis_rotate(float3 vec, float3 axis, float angle)
 			+ vec.z * (cos_ang + one_minus_cos * axis.z * axis.z);
 	return (rotate_vector);
 }
-
-float3		float3_float_mult(float3 vec, float num)
-{
-	float3 vec_out;
-	vec_out.x = vec.x * num;
-	vec_out.y = vec.y * num;
-	vec_out.z = vec.z * num;
-	return vec_out;
-}

@@ -19,6 +19,7 @@ t_opencl_mem_obj	rt_check_opencl_memobj(t_opencl_mem_obj mem_obj)
 void		rt_opencl_prepare_memory(t_rt *rt, uint32_t render_action)
 {
 	t_opencl_mem_obj	opencl_mem_objs[] = {
+			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->scene.camera, sizeof(t_camera), RT_DEFAULT_MEM_FLAG, ACTION_CAMERA_CHANGED}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){&rt->scene, sizeof(t_scene), RT_DEFAULT_MEM_FLAG, ACTION_CAMERA_CHANGED | ACTION_LIGHTS_CHANGED | ACTION_OBJECTS_CHANGED}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.objects, sizeof(t_object) * rt->scene.obj_nbr, RT_DEFAULT_MEM_FLAG, ACTION_OBJECTS_CHANGED}),
 			rt_check_opencl_memobj((t_opencl_mem_obj){rt->scene.lights, sizeof(t_light) * rt->scene.lights_nbr, RT_DEFAULT_MEM_FLAG, ACTION_LIGHTS_CHANGED}),
@@ -39,7 +40,9 @@ void		rt_opencl_prepare_memory(t_rt *rt, uint32_t render_action)
 			rt_check_opencl_memobj((t_opencl_mem_obj){g_textures.skybox_list, sizeof(cl_float3) * g_textures.skybox_info->size, RT_DEFAULT_MEM_FLAG, ACTION_SKYBOX_CHANGED}),
 
 			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, ACTION_EXIT}),
-			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, ACTION_EXIT}) // out img data for post-process
+
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_int) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, ACTION_EXIT}), // out img data for post-process
+			rt_check_opencl_memobj((t_opencl_mem_obj){NULL, sizeof(cl_float) * WIN_WIDTH * WIN_HEIGHT, CL_MEM_READ_WRITE, ACTION_EXIT}) // depth buffer for depth-of-field blur
 	};
 	g_opencl.buffers_num = sizeof(opencl_mem_objs) / sizeof(t_opencl_mem_obj);
 	rt_opencl_alloc_buffers(render_action, opencl_mem_objs);

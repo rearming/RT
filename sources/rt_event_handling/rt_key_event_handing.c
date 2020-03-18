@@ -78,6 +78,14 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 		rt_switch_bit(&rt->render_options, RENDER_BACKFACE_CULLING);
 	if (event->key.keysym.scancode == SDL_SCANCODE_Y)
 		rt_switch_bit(&rt->render_options, RENDER_SKYBOX);
+	if (event->key.keysym.scancode == SDL_SCANCODE_DOWN)
+		rt->scene.camera.focal_distance -= rt->scene.camera.focal_distance > 0.5f ? 0.5f : 0.0f;
+	if (event->key.keysym.scancode == SDL_SCANCODE_UP)
+		rt->scene.camera.focal_distance += 0.5f;
+	if (event->key.keysym.scancode == SDL_SCANCODE_LEFT)
+		rt->scene.camera.aperture -= rt->scene.camera.aperture > 0.5f ? 0.5f : 0.0f;
+	if (event->key.keysym.scancode == SDL_SCANCODE_RIGHT)
+		rt->scene.camera.aperture += 0.5f;
 }
 
 bool				rt_handle_key_event(SDL_Event *event, t_rt *rt)

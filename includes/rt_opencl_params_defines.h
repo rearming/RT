@@ -20,7 +20,8 @@ typedef enum	e_kernels
 
 typedef enum	e_cl_mem_types
 {
-	RT_CL_MEM_SCENE = 0,
+	RT_CL_MEM_CAMERA = 0,
+	RT_CL_MEM_SCENE,
 	RT_CL_MEM_OBJECTS,
 	RT_CL_MEM_LIGHTS,
 	RT_CL_MEM_PARAMS,
@@ -42,6 +43,7 @@ typedef enum	e_cl_mem_types
 	RT_CL_MEM_IMG_DATA,
 
 	RT_CL_MEM_OUT_IMG_DATA,
+	RT_CL_MEM_DEPTH_BUFFER,
 }				t_cl_mem_types;
 
 /*

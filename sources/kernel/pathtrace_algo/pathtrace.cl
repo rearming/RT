@@ -18,7 +18,8 @@ float3		pathtrace(
 		t_ray ray,
 		int depth,
 		float *seed,
-		float2 pixel)
+		float2 pixel,
+		float *out_intersection_distance)
 {
 	float3		result_color = (float3)(0);
 	t_rayhit	hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
@@ -30,6 +31,8 @@ float3		pathtrace(
 		hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
 		closest_intersection(scene, objects, kd_info, kd_tree, kd_indices, polygons, vertices, v_normals, &ray, &hit, &closest_polygon_index, &closest_obj_index);
 
+		if (i == 0)
+			*out_intersection_distance = hit.distance;
 		t_material	hit_material;
 		if (get_hit_material(&hit_material, objects, meshes_info, polygons, vertices, v_normals, v_textures, closest_obj_index, closest_polygon_index))
 		{

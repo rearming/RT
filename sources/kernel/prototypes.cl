@@ -80,8 +80,6 @@ float3	gram_schmidt_proc_r2(float3 vector_orto, float3 vector_basic);
 
 float3		vec_axis_rotate(float3 vec, float3 axis, float angle);
 
-float3		float3_float_mult(float3 vec, float num);
-
 float3		shade(
 		t_ray *ray,
 		t_rayhit *hit,
@@ -107,7 +105,8 @@ float3		raytrace(
 		__global const int *texture_list,
 		__global const float3 *skybox_list,
 		__global const t_skybox_info *skybox_info,
-		t_ray ray);
+		t_ray ray,
+		float *out_intersection_distance);
 
 t_material	get_polygon_material(
 		__global const t_mesh_info *meshes_info,
@@ -228,7 +227,8 @@ float3		pathtrace(
 		t_ray ray,
 		int depth,
 		float *seed,
-		float2 pixel);
+		float2 pixel,
+		float *out_intersection_distance);
 
 void		create_coordinate_system(float3 normal, float3 *normal_x, float3 *normal_z);
 
@@ -290,6 +290,13 @@ float3			process_pixel_vertical(
 		int2 img_point,
 		int blur_coeff,
 		float *out_kernel_sum);
+
+float3			gauss_process_pixel(
+		__global const int *img_data,
+		int2 img_point,
+		int blur_coeff);
+
+float	map_value(float value, float min, float max, float new_min, float new_max);
 
 bool		ray_aabb_intersection(t_ray *ray, __global const t_object *object, t_rayhit *best_hit);
 

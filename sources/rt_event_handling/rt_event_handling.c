@@ -87,7 +87,7 @@ void	handle_event(t_rt *rt, SDL_Event *events, int events_num)
 	|| window_event_handled || rt->events)
 	{
 		rt_camera_move(&rt->scene.camera, rt->events);
-		if (rt_camera_moved(&rt->scene.camera))
+		if (rt_camera_changed(&rt->scene.camera))
 			rt->render_actions |= ACTION_CAMERA_CHANGED;
 		rt_check_render_state(&rt->render_actions, &rt->render_options, rt->render_state);
 		rt_render(rt, &rt_opencl_render);
