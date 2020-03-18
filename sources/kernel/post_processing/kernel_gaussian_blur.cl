@@ -27,8 +27,8 @@ float			calc_gauss(int x)
 {
 	float sigma_sqr = SPREAD * SPREAD;
 
-	return (1 / sqrt(GAUSS_TWO_PI * sigma_sqr)) * pow(GAUSS_E, -(x * x) / (2 * sigma_sqr));
-//	return 1.f;
+//	return (1 / sqrt(GAUSS_TWO_PI * sigma_sqr)) * pow(GAUSS_E, -(x * x) / (2 * sigma_sqr));
+	return 1.f;
 }
 
 float3			process_pixel_horizontal(
@@ -114,18 +114,16 @@ __kernel void	kernel_gaussian_blur(
 	int		g_id = get_global_id(0);
 	int2	img_point = get_img_point(g_id).xy;
 
-	float	depth = clamp(depth_buffer[g_id], 0.0f, 100.0f);
-
+	float	depth = clamp(depth_buffer[g_id], 0.0f, MAX_FOCAL_DISTANCE);
 	int		blur_coeff;
 
 	if (depth < camera->focal_distance - camera->aperture)
-		depth = (camera->focal_distance - camera->aperture) - depth + 1;
+		blur_coeff = (int)round((camera->focal_distance - camera->aperture + 1 - depth) * camera->blur_strength);
 	else if (depth > camera->focal_distance + camera->aperture)
-		depth -= (camera->focal_distance + camera->aperture - 1);
+		blur_coeff = (int)round((depth - (camera->focal_distance + camera->aperture - 1)) * camera->blur_strength);
 	else
-		depth = 1;
+		blur_coeff = 1;
 
-	blur_coeff = (int)round(depth);
 	float3	result_color = gauss_process_pixel(img_data, img_point.xy, blur_coeff);
 	out_img_data[g_id] = get_int_color(result_color);
 }

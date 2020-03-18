@@ -52,9 +52,9 @@ static void	add_cam_and_light(t_camera *camera, t_light *light, t_tmp *tmp,
 		camera->viewport_distance = 1;
 		camera->viewport_width = WIN_RATIO;
 		camera->viewport_height = 1;
-		camera->focal_distance = 5;
-		camera->aperture = 2;
-
+		camera->focal_distance = 7;
+		camera->aperture = 0.5f;
+		camera->blur_strength = 1.5f;
 	}
 	else
 	{

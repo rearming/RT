@@ -107,6 +107,7 @@ typedef struct			s_camera
 {
 # ifndef FT_OPENCL___
 
+	cl_float			blur_strength;
 	cl_float			aperture;
 	cl_float			focal_distance;
 	cl_float			viewport_width;
@@ -116,6 +117,7 @@ typedef struct			s_camera
 	cl_float3			rotation;
 # else
 
+	float				blur_strength;
 	float				aperture;
 	float				focal_distance;
 	float				viewport_width;

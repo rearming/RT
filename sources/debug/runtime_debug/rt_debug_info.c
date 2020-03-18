@@ -12,5 +12,6 @@ void		rt_print_debug_info(t_rt *rt, t_render_kernel *kernel)
 	rt_print_clfloat3(rt->scene.camera.rotation, "camera rotation");
 	printf("camera focal distance: [%f]\n", rt->scene.camera.focal_distance);
 	printf("camera aperture: [%f]\n", rt->scene.camera.aperture);
+	printf("camera blur strength: [%f]\n", rt->scene.camera.blur_strength);
 	ft_printf("\033[0m");
 }

@@ -99,6 +99,8 @@
 # define SIDE_MOVE_SPEED (0.1)
 # define FLY_SPEED 0.2
 
+# define MAX_FOCAL_DISTANCE 50.0f
+
 # ifdef __APPLE__
 #  define ROTATION_SPEED 0.025
 # else

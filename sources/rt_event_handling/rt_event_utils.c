@@ -17,7 +17,8 @@ bool		rt_camera_changed(t_camera *camera)
 	is_changed = !rt_float3_equals(previous_camera.pos, camera->pos)
 				 || !rt_float3_equals(previous_camera.rotation, camera->rotation)
 				 || previous_camera.focal_distance != camera->focal_distance
-				 || previous_camera.aperture != camera->aperture;
+				 || previous_camera.aperture != camera->aperture
+				 || previous_camera.blur_strength != camera->blur_strength;
 	if (prev_time == NOT_SET)
 		prev_time = current_time;
 	if (current_time != prev_time)

@@ -86,6 +86,10 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 		rt->scene.camera.aperture -= rt->scene.camera.aperture > 0.5f ? 0.5f : 0.0f;
 	if (event->key.keysym.scancode == SDL_SCANCODE_RIGHT)
 		rt->scene.camera.aperture += 0.5f;
+	if (event->key.keysym.scancode == SDL_SCANCODE_KP_PLUS)
+		rt->scene.camera.blur_strength += 0.2f;
+	if (event->key.keysym.scancode == SDL_SCANCODE_KP_MINUS)
+		rt->scene.camera.blur_strength -= rt->scene.camera.blur_strength > 0.5f ? 0.2f : 0;
 }
 
 bool				rt_handle_key_event(SDL_Event *event, t_rt *rt)
