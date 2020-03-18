@@ -63,6 +63,10 @@ void	rt_check_render_state(
 {
 	if (render_state & STATE_NO_MESH)
 		rt_unset_bit(render_options, RENDER_MESH | RENDER_MESH_VTEXTURES | RENDER_BACKFACE_CULLING);
+	if (render_state & STATE_NO_TEXTURES)
+		rt_unset_bit(render_options, RENDER_TEXTURES);
+	if (render_state & STATE_NO_SKYBOX)
+		rt_unset_bit(render_options, RENDER_SKYBOX);
 }
 
 void	handle_event(t_rt *rt, SDL_Event *events, int events_num)

@@ -39,6 +39,8 @@ typedef enum	e_render_state
 {
 	STATE_NOTHING = 0x0,
 	STATE_NO_MESH = (1 << 0),
+	STATE_NO_SKYBOX = (1 << 1),
+	STATE_NO_TEXTURES = (1 << 2)
 }				t_render_state;
 
 /*
@@ -48,7 +50,7 @@ typedef enum	e_render_state
 typedef enum	e_render_options
 {
 	RENDER_NEVER = 0x0,
-	RENDER_ALWAYS = 0b1111111111111111,
+	RENDER_ALWAYS = 0b11111111111111111111111111111111,
 	RENDER_RAYTRACE = (1 << 0),
 	RENDER_PATHTRACE = (1 << 1),
 	RENDER_RAYMARCH = (1 << 2),
@@ -59,6 +61,7 @@ typedef enum	e_render_options
 	RENDER_TEXTURES = (1 << 7),
 	RENDER_ANTI_ALIASING = (1 << 8),
 	RENDER_SMOOTH_NORMALS = (1 << 9),
+	RENDER_SKYBOX = (1 << 10),
 }				t_render_options;
 
 # define RENDER_DEFAULT RENDER_RAYTRACE | /*RENDER_OBJECTS |*/ RENDER_TEXTURES | RENDER_MESH /*| RENDER_BACKFACE_CULLING*/

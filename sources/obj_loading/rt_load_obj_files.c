@@ -58,7 +58,7 @@ static inline bool get_raw_obj(const char *path_to_obj, t_raw_obj *out_raw_obj)
 	return (true);
 }
 
-static void		null_meshes(t_meshes *out_meshes)
+void		bzero_meshes(t_meshes *out_meshes)
 {
 	out_meshes->num_polygons = 0;
 	out_meshes->num_vertices = 0;
@@ -79,7 +79,6 @@ bool		rt_load_obj_file(const char *path_to_obj, t_meshes *out_meshes)
 	if (!get_raw_obj(path_to_obj, &raw_obj))
 	{
 		ft_printf_fd(STDERR_FILENO, "[Warning] Can't read .obj file.\n");
-		null_meshes(out_meshes);
 		return (false);
 	}
 	rt_get_meshes(&raw_obj, out_meshes);

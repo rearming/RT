@@ -4,7 +4,7 @@
     "gamma": 2.2
   } ,
   "render parameters": {
-    "render algorithm": "raytrace",
+    "render algorithm": "pathtrace",
     "pathtrace": {
       "max light bounces": 8
     },
@@ -18,8 +18,7 @@
       "backface culling": true
     },
     "textures": {
-      "enabled": true,
-      "directory": "/Users/gfoote/Project42/hdr/"
+      "enabled": true
     }
   },
   "objects": [
@@ -101,6 +100,8 @@
     {
       "type": "sphere",
       "material": {
+        "emission color": "0xFFFFFF",
+        "emission power": 1,
         "texture": "Tex1.jpg"
       },
       "center": [-1, -1.5, -3.5],

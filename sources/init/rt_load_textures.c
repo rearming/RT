@@ -3,6 +3,7 @@
 #include "rt.h"
 #include "rt_math_utils.h"
 #include "stb_image.h"
+#include "rt_load_textures.h"
 
 static int	*rt_memcpy(int *help, int size_dst, int type)
 {
