@@ -15,6 +15,8 @@
 
 #define PRINT_INDICES 1
 
+#define KD_TREE_BINARY_EXT "rtkd"
+
 typedef struct		s_split_p
 {
 	cl_float3		min;
@@ -56,6 +58,9 @@ void			free_kd_tree(t_kd_tree *tree, bool free_indices);
 
 void			bzero_kd_info(t_kd_info *out_kd_info);
 
+bool			rt_kd_tree_import(t_kd_info *kd_info, const char *obj_path);
+void			rt_kd_tree_export(t_kd_info *kd_info, const char *obj_path);
+char			*rt_get_kd_binary_path(const char *obj_path);
 /*
 **	test traversal
 */

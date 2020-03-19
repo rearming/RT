@@ -31,8 +31,16 @@ void		rt_init(t_rt *out_rt, const char *json_scene_file)
 	else
 		out_rt->render_state |= STATE_NO_SKYBOX;
 	if (rt_load_obj_file(out_rt->scene.obj_file, &out_rt->scene.meshes))
-		rt_get_kd_object(&out_rt->scene.meshes, &out_rt->kd_info);
+	{
+		if (!rt_kd_tree_import(&out_rt->kd_info, out_rt->scene.obj_file))
+		{
+			rt_get_kd_object(&out_rt->scene.meshes, &out_rt->kd_info);
+			rt_kd_tree_export(&out_rt->kd_info, out_rt->scene.obj_file);
+		}
+	}
 	else
 		out_rt->render_state |= STATE_NO_MESH;
+//	if (!rt_bit_isset(out_rt->render_state, STATE_NO_MESH))
+//		rt_kd_tree_export(&out_rt->kd_info);
 	out_rt->events = EVENT_NOTHING;
 }
