@@ -14,9 +14,9 @@ int		main(int argc, char **argv)
 {
 	t_rt		rt;
 
-	if (argc != VALID_ARGS_NUM)
+	if (argc < MIN_ARGS_NUM)
 		rt_raise_error(ERR_INV_ARGS_NUM);
-	rt_init(&rt, argv[1]);
+	rt_init(&rt, argv[1], rt_parse_init_options(argv, argc, 2));
 	init_gui(rt.render_options);
 	rt_render(&rt, &rt_opencl_render);
 	rt_loop(&rt);

@@ -5,6 +5,7 @@
 #include "rt_events.h"
 #include "rt_load_textures.h"
 #include "rt_load_obj_files.h"
+#include "rt_init.h"
 
 void		rt_bzero_data(t_rt *rt)
 {
@@ -13,7 +14,7 @@ void		rt_bzero_data(t_rt *rt)
 	bzero_meshes(&rt->scene.meshes);
 }
 
-void		rt_init(t_rt *out_rt, const char *json_scene_file)
+void rt_init(t_rt *out_rt, const char *json_scene_file, uint32_t init_options)
 {
 	rt_sdl_init();
 	rt_opencl_init();
@@ -32,7 +33,8 @@ void		rt_init(t_rt *out_rt, const char *json_scene_file)
 		out_rt->render_state |= STATE_NO_SKYBOX;
 	if (rt_load_obj_file(out_rt->scene.obj_file, &out_rt->scene.meshes))
 	{
-		if (!rt_kd_tree_import(&out_rt->kd_info, out_rt->scene.obj_file))
+		if (!rt_kd_tree_import(&out_rt->kd_info, out_rt->scene.obj_file)
+		|| rt_bit_isset(init_options, INIT_KD_REGENERATE))
 		{
 			rt_get_kd_object(&out_rt->scene.meshes, &out_rt->kd_info);
 			rt_kd_tree_export(&out_rt->kd_info, out_rt->scene.obj_file);
@@ -40,7 +42,5 @@ void		rt_init(t_rt *out_rt, const char *json_scene_file)
 	}
 	else
 		out_rt->render_state |= STATE_NO_MESH;
-//	if (!rt_bit_isset(out_rt->render_state, STATE_NO_MESH))
-//		rt_kd_tree_export(&out_rt->kd_info);
 	out_rt->events = EVENT_NOTHING;
 }

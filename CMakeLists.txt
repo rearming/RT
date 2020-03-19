@@ -94,7 +94,7 @@ set(init_sources
         sources/init/rt_init_render_params.c
         sources/init/rt_load_textures.c
         sources/init/rt_load_textures_utils.c
-        )
+        sources/init/rt_parse_options.c)
 
 set(render_sources
         sources/render/rt_loop.c

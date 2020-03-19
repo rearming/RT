@@ -45,7 +45,8 @@ extern t_textures   g_textures;
 **	Init
 */
 
-void		rt_init(t_rt *out_rt, const char *json_scene_file);
+uint32_t	rt_parse_init_options(char **options, int options_num, int first_option);
+void		rt_init(t_rt *out_rt, const char *json_scene_file, uint32_t init_options);
 
 /*
 **	Render
