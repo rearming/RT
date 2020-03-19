@@ -56,6 +56,8 @@ bool		get_hit_material(
 		int closest_obj_index,
 		int closest_polygon_index);
 
+float	map_value(float value, float min, float max, float new_min, float new_max);
+
 float		sdot(float3 a, float3 b, float coeff);
 
 int 				in_range_inclusive(float number, float min, float max);
@@ -295,8 +297,6 @@ float3			gauss_process_pixel(
 		__global const int *img_data,
 		int2 img_point,
 		int blur_coeff);
-
-float	map_value(float value, float min, float max, float new_min, float new_max);
 
 bool		ray_aabb_intersection(t_ray *ray, __global const t_object *object, t_rayhit *best_hit);
 

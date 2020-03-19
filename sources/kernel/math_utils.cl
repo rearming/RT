@@ -1,4 +1,9 @@
 
+float	map_value(float value, float min, float max, float new_min, float new_max)
+{
+	return (value - min) / (max - min) * (new_max - new_min) + new_min;
+}
+
 float		sdot(float3 a, float3 b, float coeff)
 {
 	return saturate(dot(a, b) * coeff);

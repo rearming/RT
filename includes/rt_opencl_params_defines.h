@@ -55,7 +55,10 @@ typedef enum	e_render_state
 	STATE_NOTHING = 0x0,
 	STATE_NO_MESH = (1 << 0),
 	STATE_NO_SKYBOX = (1 << 1),
-	STATE_NO_TEXTURES = (1 << 2)
+	STATE_NO_TEXTURES = (1 << 2),
+
+	STATE_POSTPROCESS_DOF = (1 << 3),
+	STATE_POSTPROCESS_SEPIA = (1 << 4),
 }				t_render_state;
 
 /*
@@ -118,7 +121,8 @@ typedef enum	e_render_action
 " -I ./sources/kernel/pathtrace_algo " \
 " -I ./sources/kernel/texture_formulas" \
 " -I ./sources/kernel/kd_tree_traversal" \
-" -I ./sources/kernel/anti_aliasing"
+" -I ./sources/kernel/anti_aliasing" \
+" -I ./sources/kernel/post_processing"
 # endif
 
 # ifdef __APPLE__

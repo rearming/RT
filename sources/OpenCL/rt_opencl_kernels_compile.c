@@ -3,8 +3,8 @@
 
 const t_kernel_info	g_kernels_info[] = {
 		(t_kernel_info){
-			.kernel_path = "./sources/kernel/post_processing/kernel_gaussian_blur.cl",
-			.kernel_name = "kernel_gaussian_blur"},
+			.kernel_path = "./sources/kernel/post_processing/kernel_depth_of_field.cl",
+			.kernel_name = "kernel_depth_of_field"},
 		(t_kernel_info){
 				.kernel_path = "./sources/kernel/post_processing/kernel_sepia.cl",
 				.kernel_name = "kernel_sepia"}

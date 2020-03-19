@@ -21,6 +21,17 @@ char			*rt_get_kernel_compile_options(uint32_t options);
 void			rt_opencl_compile_kernels(uint32_t render_options);
 void			rt_set_kernel_args(cl_kernel kernel, int args_num, ...);
 
+void			set_render_kernel_args(t_render_kernel *render_kernel);
+int				switch_img_buffers(int *in_buffer, int *out_buffer);
+
+/*
+**	kernels execution
+*/
+
+void			exec_render_kernel(t_rt *rt, t_render_kernel *render_kernel, const size_t *work_size);
+void			exec_depth_of_field_kernel(t_rt *rt, cl_kernel kernel, const size_t *work_size);
+void			exec_sepia_kernel(t_rt *rt, cl_kernel kernel, const size_t *work_size);
+
 typedef struct	s_kernel_info
 {
 	char		*kernel_name;

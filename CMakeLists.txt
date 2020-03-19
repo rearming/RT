@@ -35,15 +35,15 @@ set(math_utils_sources
         sources/math_utils/rt_cl_float3_utils.c
         sources/math_utils/rt_vector_math.c)
 
-set(OpenCL_utils_sources
-        sources/OpenCL_utils/rt_opencl_init.c
-        sources/OpenCL_utils/rt_opencl_files_parser.c
-        sources/OpenCL_utils/rt_opencl_render.c
-        sources/OpenCL_utils/rt_opencl_memory_management.c
-        sources/OpenCL_utils/rt_opencl_utils.c
-        sources/OpenCL_utils/rt_opencl_prepare_memory.c
-        sources/OpenCL_utils/rt_init_render_kernel.c
-        sources/OpenCL_utils/rt_opencl_kernels_compile.c)
+set(OpenCL_sources
+        sources/OpenCL/rt_opencl_init.c
+        sources/OpenCL/rt_opencl_files_parser.c
+        sources/OpenCL/rt_opencl_render.c
+        sources/OpenCL/rt_opencl_memory_management.c
+        sources/OpenCL/rt_opencl_utils.c
+        sources/OpenCL/rt_opencl_prepare_memory.c
+        sources/OpenCL/rt_init_render_kernel.c
+        sources/OpenCL/rt_opencl_kernels_compile.c sources/OpenCL/rt_opencl_kernels_exec.c sources/OpenCL/rt_opencl_kernels_exec_utils.c)
 
 set(parsing_sources
         sources/rt_parsing/rt_parse_scene.c
@@ -133,7 +133,7 @@ set(sources
         ${debug_sources}
         ${runtime_debug_sources}
         ${math_utils_sources}
-        ${OpenCL_utils_sources}
+        ${OpenCL_sources}
         ${parsing_sources}
         ${event_handling_sources}
         ${utils_sources}
