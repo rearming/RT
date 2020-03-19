@@ -6,10 +6,7 @@
 # define Y_AXIS 1
 # define Z_AXIS 2
 
-# define KD_MAX_OBJ_IN_LEAF 3
-
 # define AABB_OFFSET_EPSILON 0.01f
-# define MIN_OBJ_IN_LEAF 0
 # define BUCKETS 32
 # define EMPTY_COST 1 //todo research optimal value
 
@@ -61,6 +58,9 @@ void			bzero_kd_info(t_kd_info *out_kd_info);
 bool			rt_kd_tree_import(t_kd_info *kd_info, const char *obj_path);
 void			rt_kd_tree_export(t_kd_info *kd_info, const char *obj_path);
 char			*rt_get_kd_binary_path(const char *obj_path);
+
+void			rt_print_kd_tree_info(t_kd_info *kd_info);
+
 /*
 **	test traversal
 */

@@ -23,7 +23,5 @@ void		rt_get_kd_object(t_meshes *meshes, t_kd_info *out_kd_info)
 	free(all_aabbs);
 	free_kd_tree(kd_tree, false);
 	out_kd_info->tree_arr = kd_arr_tree;
-	printf("kd-tree indices num: [%i]\n", out_kd_info->indices_num);
-	printf("kd-tree nodes num: [%i]\n", out_kd_info->nodes_num);
 	rt_pack_kd_object_indices(out_kd_info);
 }

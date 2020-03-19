@@ -109,7 +109,7 @@ set(kd_tree_sources
         sources/kd_tree/rt_kd_tree_to_array.c
         sources/kd_tree/rt_kd_tree_utils.c
         sources/kd_tree/rt_kd_tree_get.c
-        sources/kd_tree/rt_kd_pack_object_indices.c sources/kd_tree/rt_kd_tree_export.c sources/kd_tree/rt_kd_tree_import.c)
+        sources/kd_tree/rt_kd_pack_object_indices.c sources/kd_tree/rt_kd_tree_export.c sources/kd_tree/rt_kd_tree_import.c sources/kd_tree/rt_kd_tree_debug.c)
 
 set(gui_sources
         sources/gui/rt_gui_init.c

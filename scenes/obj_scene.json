@@ -14,7 +14,7 @@
     "render objects": true,
     "render mesh": {
       "enabled": true,
-      "file": "assets/3d_models/test_scene_materials.obj",
+      "file": "assets/3d_models/obj_materials.obj",
       "backface culling": true
     },
     "render anti aliasing": false,

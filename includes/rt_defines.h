@@ -7,7 +7,7 @@
 **	Code constants
 */
 
-# define MIN_ARGS_NUM 3
+# define MIN_ARGS_NUM 2
 # define EXIT_SUCCESS 0
 
 # define RT_OBJLOADER_NOFLAGS 0

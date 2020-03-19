@@ -78,6 +78,7 @@ bool		rt_load_obj_file(const char *path_to_obj, t_meshes *out_meshes)
 
 	if (!get_raw_obj(path_to_obj, &raw_obj))
 	{
+		bzero_meshes(out_meshes);
 		ft_printf_fd(STDERR_FILENO, "[Warning] Can't read .obj file.\n");
 		return (false);
 	}

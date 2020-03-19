@@ -30,6 +30,5 @@ char	*rt_get_kd_binary_path(const char *obj_path)
 	tmp[size] = 0;
 	ft_sprintf(&binary_path, "%s%s", tmp, KD_TREE_BINARY_EXT);
 	free(tmp);
-	printf("new str: [%s]\n", binary_path);
 	return (binary_path);
 }

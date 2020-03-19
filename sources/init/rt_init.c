@@ -1,3 +1,4 @@
+#include <time.h>
 #include "rt.h"
 #include "rt_opencl.h"
 #include "rt_parsing.h"
@@ -36,9 +37,13 @@ void rt_init(t_rt *out_rt, const char *json_scene_file, uint32_t init_options)
 		if (!rt_kd_tree_import(&out_rt->kd_info, out_rt->scene.obj_file)
 		|| rt_bit_isset(init_options, INIT_KD_REGENERATE))
 		{
+			clock_t		start = clock();
 			rt_get_kd_object(&out_rt->scene.meshes, &out_rt->kd_info);
+			printf("kd-tree built in [%f] sec\n",
+					(double)(clock() - start) / CLOCKS_PER_SEC);
 			rt_kd_tree_export(&out_rt->kd_info, out_rt->scene.obj_file);
 		}
+		rt_print_kd_tree_info(&out_rt->kd_info);
 	}
 	else
 		out_rt->render_state |= STATE_NO_MESH;

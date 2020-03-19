@@ -60,7 +60,7 @@ char				*rt_get_kernel_compile_options(uint32_t options)
 
 	ft_sprintf(&temp_str, "%s %s", OPENCL_INCLUDE_DIRS, opencl_defines);
 	compile_options = ft_del_whitespaces(temp_str);
-	ft_printf("compile options: %s\n", opencl_defines);
+//	ft_printf("compile options: %s\n", opencl_defines);
 	free((char*)opencl_defines);
 	free(temp_str);
 	return (compile_options);
