@@ -1,6 +1,8 @@
 
 #include "opencl_defines.cl"
 #include "rt_defines.h"
+#include "rt_window_params.h"
+#include "rt_colors.h"
 #include "rt_shared_structs.h"
 #include "opencl_structs.cl"
 #include "prototypes.cl"

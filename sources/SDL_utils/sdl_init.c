@@ -1,5 +1,6 @@
 #include "rt.h"
 #include "rt_gui.h"
+#include "rt_window_params.h"
 
 void		rt_sdl_init(void)
 {

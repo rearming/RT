@@ -1,6 +1,7 @@
 #include "rt.h"
 #include "rt_gui.h"
 #include "rt_opencl.h"
+#include "rt_window_params.h"
 
 t_opencl	g_opencl;
 t_sdl		g_sdl;

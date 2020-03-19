@@ -1,5 +1,6 @@
 #include "rt.h"
 #include "rt_math_utils.h"
+#include "rt_colors.h"
 
 t_material		rt_default_material(void)
 {

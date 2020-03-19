@@ -21,6 +21,8 @@ t_kd_traverse_helper		ft_stack_pop(t_stack *stack);
 
 t_kd_traverse_helper		ft_stack_peek(t_stack *stack);
 
+bool			pixel_in_img(int x, int y);
+
 float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point);
 
 float3		reflect(float3 ray_dir, float3 normal);
@@ -297,6 +299,10 @@ float3			gauss_process_pixel(
 		__global const int *img_data,
 		int2 img_point,
 		int blur_coeff);
+
+float		sobel_get_weight_x(__global const int *img, int img_x, int img_y);
+
+float		sobel_get_weight_y(__global const int *img, int img_x, int img_y);
 
 bool		ray_aabb_intersection(t_ray *ray, __global const t_object *object, t_rayhit *best_hit);
 

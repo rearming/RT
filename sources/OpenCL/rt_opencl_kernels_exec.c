@@ -49,7 +49,24 @@ void		exec_sepia_kernel(t_rt *rt, cl_kernel kernel, const size_t *work_size)
 	if (!(rt->render_state & STATE_POSTPROCESS_SEPIA))
 		return;
 	switch_img_buffers(&in_img_buffer, &out_img_buffer);
-	rt_set_kernel_args(kernel, 2, in_img_buffer, out_img_buffer); // тут надо будет делать swap
+	rt_set_kernel_args(kernel, 2, in_img_buffer, out_img_buffer);
+	err = clEnqueueNDRangeKernel(g_opencl.queue,
+			kernel, 1, NULL, work_size, NULL, 0, NULL, &g_opencl.profile_event);
+	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
+	err = clReleaseEvent(g_opencl.profile_event);
+	rt_opencl_handle_error(ERR_OPENCL_RELEASE_EVENT, err);
+}
+
+void		exec_cartoon_kernel(t_rt *rt, cl_kernel kernel, const size_t *work_size)
+{
+	int		err;
+	int		in_img_buffer;
+	int		out_img_buffer;
+
+	if (!(rt->render_state & STATE_POSTPROCESS_CARTOON))
+		return;
+	switch_img_buffers(&in_img_buffer, &out_img_buffer);
+	rt_set_kernel_args(kernel, 2, in_img_buffer, out_img_buffer);
 	err = clEnqueueNDRangeKernel(g_opencl.queue,
 			kernel, 1, NULL, work_size, NULL, 0, NULL, &g_opencl.profile_event);
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);

@@ -10,8 +10,9 @@
 
 typedef enum	e_kernels
 {
-	KERNEL_GAUSS_BLUR = 0,
+	KERNEL_DOF = 0,
 	KERNEL_SEPIA,
+	KERNEL_CARTOON,
 }				t_kernels;
 
 /*
@@ -59,6 +60,7 @@ typedef enum	e_render_state
 
 	STATE_POSTPROCESS_DOF = (1 << 3),
 	STATE_POSTPROCESS_SEPIA = (1 << 4),
+	STATE_POSTPROCESS_CARTOON = (1 << 5),
 }				t_render_state;
 
 /*
@@ -80,6 +82,7 @@ typedef enum	e_render_options
 	RENDER_ANTI_ALIASING = (1 << 8),
 	RENDER_SMOOTH_NORMALS = (1 << 9),
 	RENDER_SKYBOX = (1 << 10),
+	RENDER_IMPRESSIVE = (1 << 11),
 }				t_render_options;
 
 # define RENDER_DEFAULT RENDER_RAYTRACE | /*RENDER_OBJECTS |*/ RENDER_TEXTURES | RENDER_MESH /*| RENDER_BACKFACE_CULLING*/

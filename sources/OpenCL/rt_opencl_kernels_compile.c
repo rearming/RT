@@ -7,7 +7,10 @@ const t_kernel_info	g_kernels_info[] = {
 			.kernel_name = "kernel_depth_of_field"},
 		(t_kernel_info){
 				.kernel_path = "./sources/kernel/post_processing/kernel_sepia.cl",
-				.kernel_name = "kernel_sepia"}
+				.kernel_name = "kernel_sepia"},
+		(t_kernel_info){
+				.kernel_path = "./sources/kernel/post_processing/kernel_cartoon.cl",
+				.kernel_name = "kernel_cartoon"}
 };
 
 void		rt_opencl_compile_kernels(uint32_t render_options)

@@ -1,5 +1,6 @@
 #include "rt.h"
 #include "rt_opencl.h"
+#include "rt_window_params.h"
 
 const char	*g_opencl_defines[] =
 		{
@@ -14,6 +15,7 @@ const char	*g_opencl_defines[] =
 				" -D RENDER_ANTI_ALIASING",
 				" -D RENDER_SMOOTH_NORMALS",
 				" -D RENDER_SKYBOX",
+				" -D RENDER_IMPRESSIVE",
 				NULL
 		};
 

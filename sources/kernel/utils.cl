@@ -1,4 +1,9 @@
 
+bool			pixel_in_img(int x, int y)
+{
+	return (x >= 0 && y >= 0 && x < WIN_WIDTH && y < WIN_HEIGHT);
+}
+
 float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point)
 {
 	return (float3)

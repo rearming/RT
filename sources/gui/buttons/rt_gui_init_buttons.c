@@ -1,5 +1,7 @@
 #include "rt.h"
 #include "rt_gui.h"
+#include "rt_colors.h"
+#include "rt_window_params.h"
 
 void		init_algo_buttons(void)
 {

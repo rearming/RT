@@ -13,6 +13,7 @@
 #include "rt.h"
 #include "rt_parsing.h"
 #include "rt_math_utils.h"
+#include "rt_window_params.h"
 
 static void	add_objects(t_tmp *tmp, t_object *object)
 {

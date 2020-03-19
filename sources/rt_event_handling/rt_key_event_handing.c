@@ -98,6 +98,10 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 		rt_switch_bit(&rt->render_state, STATE_POSTPROCESS_DOF);
 	if (event->key.keysym.scancode == SDL_SCANCODE_H)
 		rt_switch_bit(&rt->render_state, STATE_POSTPROCESS_SEPIA);
+	if (event->key.keysym.scancode == SDL_SCANCODE_U)
+		rt_switch_bit(&rt->render_options, RENDER_IMPRESSIVE);
+	if (event->key.keysym.scancode == SDL_SCANCODE_K)
+		rt_switch_bit(&rt->render_state, STATE_POSTPROCESS_CARTOON);
 	keypress_change_dof(event, &rt->scene.camera);
 }
 

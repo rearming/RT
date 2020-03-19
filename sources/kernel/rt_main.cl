@@ -1,6 +1,8 @@
 
 #include "opencl_defines.cl"
 #include "rt_defines.h"
+#include "rt_window_params.h"
+#include "rt_colors.h"
 #include "rt_shared_structs.h"
 #include "opencl_structs.cl"
 #include "prototypes.cl"
@@ -68,12 +70,18 @@ __kernel void	rt_main(
 
 	t_ray		ray = get_ray(convert_float3(img_point), &scene->camera);
 
+	float		seed = params->seed;
+#ifndef RENDER_IMPRESSIVE
+	float2		pixel_seed = convert_float2(img_point.xy);
+#else
+	float2		pixel_seed = (float2)(21.21f, 42.42f);
+#endif
+
 	float3		final_color = 0;
 	float3		new_color = 0;
-	float		seed = params->seed;
 	float3		prev_color = img_data_float[g_id];
-
 	float3		temp_color = 0;
+
 	float		intersection_distance;
 
 #ifdef RENDER_ANTI_ALIASING
@@ -98,7 +106,7 @@ __kernel void	rt_main(
 #ifdef RENDER_PATHTRACE
 			temp_color += pathtrace(scene, objects, kd_info, kd_tree, kd_indices, meshes_info, polygons, vertices, v_normals, v_textures,
 				params, texture_info, texture_list, skybox_list, skybox_info, ray,
-				params->pathtrace_params.max_depth, &seed, /*(float2)(21.1f, 13.f)*/(float2)(img_point.x + 1, img_point.y + 1), &intersection_distance);
+				params->pathtrace_params.max_depth, &seed, pixel_seed, &intersection_distance);
 #endif
 
 #ifdef RENDER_ANTI_ALIASING

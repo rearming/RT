@@ -1,6 +1,7 @@
 #include "rt.h"
 #include "rt_opencl.h"
 #include "rt_debug.h"
+#include "rt_window_params.h"
 
 t_opencl_mem_obj	rt_check_opencl_memobj(t_opencl_mem_obj mem_obj)
 {

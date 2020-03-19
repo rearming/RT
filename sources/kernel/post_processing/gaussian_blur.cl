@@ -1,14 +1,4 @@
 
-bool			get_pixel(__global const int *img_data, float3 *out_pixel, int x, int y)
-{
-	if (x >= 0 && y >= 0 && x < WIN_WIDTH && y < WIN_HEIGHT)
-	{
-		*out_pixel = get_float3_color(img_data[x + y * WIN_WIDTH]);
-		return true;
-	}
-	return false;
-}
-
 #define GAUSS_TWO_PI 6.28319f
 #define GAUSS_E 2.71828f
 #define SPREAD 5.0f

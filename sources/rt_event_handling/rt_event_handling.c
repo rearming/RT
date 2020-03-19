@@ -2,7 +2,7 @@
 #include "rt_gui.h"
 #include "rt_events.h"
 #include "rt_opencl.h"
-#include "rt_debug.h"
+#include "rt_window_params.h"
 
 void		resize_gui(int height)//TODO NEED DEBUG THIS FUNCTION
 {

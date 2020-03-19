@@ -31,6 +31,7 @@ int				switch_img_buffers(int *in_buffer, int *out_buffer);
 void			exec_render_kernel(t_rt *rt, t_render_kernel *render_kernel, const size_t *work_size);
 void			exec_depth_of_field_kernel(t_rt *rt, cl_kernel kernel, const size_t *work_size);
 void			exec_sepia_kernel(t_rt *rt, cl_kernel kernel, const size_t *work_size);
+void			exec_cartoon_kernel(t_rt *rt, cl_kernel kernel, const size_t *work_size);
 
 typedef struct	s_kernel_info
 {
