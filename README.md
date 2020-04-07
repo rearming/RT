@@ -1,13 +1,13 @@
 **(Work in progress, don't be confused of 'Dota 6' title)**
 
-![](https://drive.google.com/uc?id=19A8O0CEcJsFSFifdMMXeW2tsWf_d-Iml)
+![](/screenshots/qADw7VMNr44.jpg)
 
-![](https://drive.google.com/uc?id=1VCmJwFIcMtWlRKm-PDrxnFegHTc4NfGt)
+![](/screenshots/Screenshot_from_2020-02-22_16-46-23.png)
 
-![](https://drive.google.com/uc?id=17_2T9NeOtPhicvJFqGdAfhDZZQmCQ6zg)
+![](/screenshots/Screen_Shot_2020-02-25_at_20.04.42-min.png)
 
-![](https://drive.google.com/uc?id=1iFzJXxCrCDLLPFPh3kUQxbM97TS6bHhO)
+![](/screenshots/Screen_Shot_2020-02-25_at_21.08.20-min.png)
 
-![](https://drive.google.com/uc?id=1dUdSKYaJ5HFFNXRmHsfltTgutClD4-u5)
+![](/screenshots/Screen_Shot_2020-03-17_at_13_16_31-min.png)
 
-![](https://drive.google.com/uc?id=1Ffs5pR8s-JgS4s3jlJmpLBpc9ppMqDMN)
+![](/screenshots/Screen_Shot_2020-01-29_at_13.18.50-min.png)
