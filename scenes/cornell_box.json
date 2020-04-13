@@ -33,7 +33,7 @@
         "diffuse": "0x00FF00",
         "phong exp": 50
       },
-      "center": [2.5, 0, 0],
+      "center": [5.5, 0, 0],
       "normal": [1, 0, 0]
     },
     {
@@ -41,7 +41,7 @@
       "material": {
         "diffuse": "0xFF0000"
       },
-      "center": [-2.5, 0, 0],
+      "center": [-5.5, 0, 0],
       "normal": [1, 0, 0]
     },
     {
@@ -85,7 +85,9 @@
         "diffuse": "0xFFFFFF"
       },
       "center": [1, -1.5, 0],
-      "radius": 1
+      "axis": [-1, -1.5, -1],
+      "len": 0.8,
+      "radius": 1.2
     }
   ],
   "camera": {
