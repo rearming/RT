@@ -5,12 +5,12 @@ bool		ray_aabb_intersection(t_ray ray, t_aabb aabb, float *out_near, float *out_
 {
 	float t[10];
 
-	t[1] = (aabb.bounds.min.x - ray.origin.x) / ray.dir.x;
-	t[2] = (aabb.bounds.max.x - ray.origin.x) / ray.dir.x;
-	t[3] = (aabb.bounds.min.y - ray.origin.y) / ray.dir.y;
-	t[4] = (aabb.bounds.max.y - ray.origin.y) / ray.dir.y;
-	t[5] = (aabb.bounds.min.z - ray.origin.z) / ray.dir.z;
-	t[6] = (aabb.bounds.max.z - ray.origin.z) / ray.dir.z;
+	t[1] = (aabb.min.x - ray.origin.x) / ray.dir.x;
+	t[2] = (aabb.max.x - ray.origin.x) / ray.dir.x;
+	t[3] = (aabb.min.y - ray.origin.y) / ray.dir.y;
+	t[4] = (aabb.max.y - ray.origin.y) / ray.dir.y;
+	t[5] = (aabb.min.z - ray.origin.z) / ray.dir.z;
+	t[6] = (aabb.max.z - ray.origin.z) / ray.dir.z;
 	float t_near = fmaxf(fmaxf(fminf(t[1], t[2]), fminf(t[3], t[4])), fminf(t[5], t[6]));
 	float t_far = fminf(fminf(fmaxf(t[1], t[2]), fmaxf(t[3], t[4])), fmaxf(t[5], t[6]));
 
@@ -23,10 +23,10 @@ bool		ray_aabb_intersection(t_ray ray, t_aabb aabb, float *out_near, float *out_
 
 void		kd_swap_nodes(
 		bool need_swap,
-		t_kd_arr_node *left,
-		t_kd_arr_node *right,
-		t_kd_arr_node **out_first,
-		t_kd_arr_node **out_second)
+		t_kd_arr_tree *left,
+		t_kd_arr_tree *right,
+		t_kd_arr_tree **out_first,
+		t_kd_arr_tree **out_second)
 {
 	if (need_swap)
 	{
@@ -40,7 +40,7 @@ void		kd_swap_nodes(
 	}
 }
 
-t_kd_arr_node	*kd_get_node(t_kd_arr_node *arr, t_kd_arr_node *curr_node, int side)
+t_kd_arr_tree	*kd_get_node(t_kd_arr_tree *arr, t_kd_arr_tree *curr_node, int side)
 {
 	if (side == KD_LEFT)
 		return (&arr[curr_node->left_index]);
@@ -48,7 +48,7 @@ t_kd_arr_node	*kd_get_node(t_kd_arr_node *arr, t_kd_arr_node *curr_node, int sid
 		return (&arr[curr_node->right_index]);
 }
 
-bool	kd_tree_arr_traverse(t_kd_arr_node *tree_arr, t_ray ray, int *indices)
+bool	kd_tree_traverse(t_kd_arr_tree *tree_arr, t_ray ray, int *indices)
 {
 	t_stack	stack;
 	float	t_min;
@@ -57,12 +57,12 @@ bool	kd_tree_arr_traverse(t_kd_arr_node *tree_arr, t_ray ray, int *indices)
 	ft_stack_init(&stack, KD_TREE_MAX_HEIGHT);
 
 	t_kd_traverse_helper	helper;
-	t_kd_arr_node			*node;
+	t_kd_arr_tree			*node;
 
 	helper.node = &tree_arr[0];
 	if (!(ray_aabb_intersection(ray, tree_arr[0].aabb, &helper.t_min, &helper.t_max)))
 	{
-//		printf("INTERSECTION WITH ROOT NODE FAILED!\n");
+		printf("INTERSECTION WITH ROOT NODE FAILED!\n");
 		return (false);
 	}
 
@@ -80,8 +80,8 @@ bool	kd_tree_arr_traverse(t_kd_arr_node *tree_arr, t_ray ray, int *indices)
 			int		axis = node->split_axis;
 			float	t_split = (node->split - ray.origin.s[axis]) / ray.dir.s[axis];
 
-			t_kd_arr_node	*first_node;
-			t_kd_arr_node	*second_node;
+			t_kd_arr_tree	*first_node;
+			t_kd_arr_tree	*second_node;
 			kd_swap_nodes(ray.dir.s[axis] < 0,
 					kd_get_node(tree_arr, node, KD_LEFT),
 					kd_get_node(tree_arr, node, KD_RIGHT), &first_node, &second_node);

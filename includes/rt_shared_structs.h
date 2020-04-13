@@ -47,6 +47,25 @@ typedef struct			s_point
 # endif
 }						t_point;
 
+typedef struct			s_skybox_info
+{
+# ifndef FT_OPENCL___
+	cl_int				width;
+	cl_int				height;
+	cl_int				bpp;
+	bool				skybox_exist;
+	const char			*skybox_name;
+	cl_long 			size;
+# else
+	int					width;
+	int					height;
+	int					bpp;
+	bool				skybox_exist;
+	const char			*skybox_name;
+	long 				size;
+# endif
+}						t_skybox_info;
+
 typedef struct			s_texture_info
 {
 # ifndef FT_OPENCL___
@@ -64,21 +83,23 @@ typedef struct			s_texture_info
 # endif
 }						t_texture_info;
 
-typedef struct		s_texture_name
+typedef struct		s_name
 {
 	char 			*name;
-	struct s_texture_name *next;
-}					t_texture_name;
+	struct s_name *next;
+}					t_name;
 
 # ifndef FT_OPENCL___
 typedef struct			s_textures
 {
-	cl_float 			*texture_list;
+	cl_int 				*texture_list;
+	cl_float3 			*skybox_list;
+	t_skybox_info		*skybox_info;
 	t_texture_info		*texture_info; //вот здесь используется количество текстур
 	size_t				texture_list_size;
 	size_t				texture_info_size; // вот это заполнять
-	//char 				**textures_name;
-	t_texture_name		*textures_names;
+	t_name				*textures_names;
+	char 				**folders_names;
 }						t_textures;
 # endif
 
@@ -86,6 +107,9 @@ typedef struct			s_camera
 {
 # ifndef FT_OPENCL___
 
+	cl_float			blur_strength;
+	cl_float			aperture;
+	cl_float			focal_distance;
 	cl_float			viewport_width;
 	cl_float			viewport_height;
 	cl_float			viewport_distance;
@@ -93,6 +117,9 @@ typedef struct			s_camera
 	cl_float3			rotation;
 # else
 
+	float				blur_strength;
+	float				aperture;
+	float				focal_distance;
 	float				viewport_width;
 	float				viewport_height;
 	float				viewport_distance;
@@ -146,7 +173,7 @@ typedef struct			s_light
 
 }						t_light;
 
-typedef struct			s_material
+typedef struct			s_material //есть default material и все задается по default
 {
 # ifndef FT_OPENCL___
 
@@ -154,12 +181,13 @@ typedef struct			s_material
 	cl_float3			diffuse;
 	cl_float3			specular;
 	cl_float			phong_exp;
-	cl_float			smoothness;
+	cl_float			smoothness; // [0.0, 1.0]
 	cl_float			transmittance;
 	cl_float			refraction;
-	cl_float3			emission_color;
+	cl_float3			emission_color; //color может быть задан 3 способами как 3 int, 3 float, и 1 char
 	cl_float			emission_power;
 	cl_float			specular_texture;
+	cl_bool 			bump_texture;
 	cl_int				texture_number;
 	cl_float3			texture_position;
 # else
@@ -174,6 +202,7 @@ typedef struct			s_material
 	float3				emission_color;
 	float				emission_power;
 	float				specular_texture;
+	bool				bump_texture;
 	int					texture_number;
 	float3				texture_position;
 # endif
@@ -205,8 +234,6 @@ typedef struct			s_object
 	float3				center;
 	float3				normal;
 	float3				axis;
-	///axis for all rotation object
-	/// (cylinder, cone, torus, hiperboloid etc)
 	float				radius;
 	float				angle;
 	float 				distance;
@@ -236,13 +263,13 @@ typedef struct			s_polygon
 # ifndef FT_OPENCL___
 
 	cl_int				vert_i[RT_DEFAULT_POLYGON_VERTICES];
-	cl_int				vnorm_i;
+	cl_int				vnorm_i[RT_DEFAULT_POLYGON_VERTICES];
 	cl_int				vtex_i[RT_DEFAULT_POLYGON_VERTICES];
 	cl_int				mesh_index;
 # else
 
 	int					vert_i[RT_DEFAULT_POLYGON_VERTICES];
-	int					vnorm_i;
+	int					vnorm_i[RT_DEFAULT_POLYGON_VERTICES];
 	int					vtex_i[RT_DEFAULT_POLYGON_VERTICES];
 	int					mesh_index;
 #endif
@@ -279,6 +306,22 @@ typedef struct			s_meshes
 
 }						t_meshes;
 
+typedef struct s_cl_info
+{
+# ifndef FT_OPENCL___
+	cl_float			exposure;
+	cl_float			gamma;
+	cl_int 				max_depth_pathtrace;
+	cl_int 				max_depth_raytrace;
+# else
+	float				exposure;
+	float				gamma;
+	int 				max_depth_pathtrace;
+	int 				max_depth_raytrace;
+# endif
+}				t_cl_info;
+
+
 typedef struct			s_scene
 {
 # ifndef FT_OPENCL___
@@ -289,6 +332,8 @@ typedef struct			s_scene
 	t_meshes			meshes;
 	t_object			*objects;
 	t_light				*lights;
+	char 				*obj_file;
+	t_cl_info			clInfo;
 # else
 
 	t_camera			camera;
@@ -297,6 +342,8 @@ typedef struct			s_scene
 	t_meshes			meshes;
 	t_object			*objects;
 	t_light				*lights;
+	char 				*obj_file;
+	t_cl_info			clInfo;
 # endif
 
 }						t_scene;
@@ -327,7 +374,7 @@ typedef struct			s_raytrace_params
 
 }						t_raytrace_params;
 
-typedef struct			s_renderer_params
+typedef struct			s_render_params
 {
 # ifndef FT_OPENCL___
 
@@ -344,6 +391,69 @@ typedef struct			s_renderer_params
 	float				exposure;
 	float				gamma;
 # endif
-}						t_renderer_params;
+}						t_render_params;
+
+typedef struct		s_aabb
+{
+#ifndef FT_OPENCL___
+	cl_float3		min;
+	cl_float3		max;
+#else
+	float3			min;
+	float3			max;
+#endif
+}					t_aabb;
+
+typedef struct		s_aabb_objects
+{
+#ifndef FT_OPENCL___
+	cl_int			num;
+	cl_int			*indices;
+#else
+	int				num;
+	int				*indices;
+#endif
+}					t_aabb_objects;
+
+# define KD_LEFT 1
+# define KD_RIGHT 2
+
+typedef struct		s_kd_arr_node
+{
+#ifndef FT_OPENCL___
+	cl_int			left_index;
+	cl_int			right_index;
+	cl_float		sah;
+	cl_float		split;
+	cl_int			split_axis;
+	cl_int			obj_offset;
+	t_aabb			aabb;
+	t_aabb_objects	objects;
+#else
+	int				left_index;
+	int				right_index;
+	float			sah;
+	float			split;
+	int				split_axis;
+	int				obj_offset;
+	t_aabb			aabb;
+	t_aabb_objects	objects;
+#endif
+}					t_kd_arr_tree;
+
+typedef struct			s_kd_info
+{
+#ifndef FT_OPENCL___
+	cl_int				nodes_num;
+	cl_int				indices_num;
+	t_kd_arr_tree		*tree_arr;
+	cl_int				*indices;
+#else
+	int					nodes_num;
+	int					indices_num;
+	t_kd_arr_tree		*tree_arr;
+	int					*indices;
+#endif
+}						t_kd_info;
 
 #endif

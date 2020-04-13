@@ -39,7 +39,7 @@ int			get_int_color(float3 color)
 /*
 int         get_texture_color(
 		int2 pos,
-		__constant float *texture_list,
+		__constant int *texture_list,
 		__constant t_texture_info *texture_info
 		)
 {

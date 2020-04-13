@@ -19,32 +19,51 @@ void			rt_add_start_position(int i)
 		g_textures.texture_info[i].start = 0;
 }
 
-t_texture_name	*ft_new_texture_name(char *data)
+static int		exists(const char *file_name)
 {
-	t_texture_name *tmp;
+	FILE *file;
 
-	tmp = (t_texture_name *)rt_safe_malloc(sizeof(t_texture_name));
-	if (tmp)
+	if ((file = fopen(file_name, "r")))
 	{
-		tmp->name = ft_strdup(data);
-		tmp->next = NULL;
+		fclose(file);
+		return (1);
 	}
-	return (tmp);
+	return (0);
 }
 
-void			ft_add_texture_name_back(t_texture_name **list, char *data)
+char			*found_file_in_the_folder(const char *file)
 {
-	t_texture_name *tmp;
+	int		i;
+	char	*check;
 
-	if (!(*list))
-		*list = ft_new_texture_name(data);
-	else
+	i = 0;
+	if (exists(file))
+		return (ft_strdup(file));
+	else if (exists(check = ft_strjoin(TEXTURES_FOLDER, file)))
+		return (check);
+	else if (g_textures.folders_names)
 	{
-		tmp = *list;
-		while(tmp->next)
+		while (g_textures.folders_names[i]!= NULL)
 		{
-			tmp = tmp->next;
+			ft_strclr(check);
+			free(check);
+			if (exists(check = ft_strjoin(g_textures.folders_names[i], file)))
+				return (check);
+			i++;
 		}
-		tmp->next = ft_new_texture_name(data);
 	}
+	ft_strclr(check);
+	free(check);
+	return (NULL);
+}
+
+void		bzero_g_textures(void)
+{
+	g_textures.texture_list_size = 0;
+	g_textures.texture_info_size = 0;
+	g_textures.folders_names = NULL;
+	g_textures.textures_names = NULL;
+	g_textures.texture_list = NULL;
+	g_textures.skybox_list = NULL;
+	g_textures.skybox_info = NULL;
 }

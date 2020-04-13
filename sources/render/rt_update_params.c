@@ -1,20 +1,21 @@
 #include "rt.h"
 
-void		rt_update_renderer_params(t_rt *rt, t_rt_renderer *renderer)
+void	render_kernel_reset_samples(t_list *list)
 {
-	if (rt_params_isset(renderer->flags, RENDER_PATHTRACE))
+	((t_render_kernel*)list->content)->samples_num = 0;
+}
+
+void	rt_update_render_params(t_render_kernel *render_kernel,
+							 t_render_params *params,
+							 uint32_t render_options,
+							 uint32_t render_action)
+{
+	if (rt_bit_isset(render_options, RENDER_PATHTRACE))
 	{
-		renderer->params.seed = drand48();
-		renderer->params.pathtrace_params.current_samples_num++;
+		params->seed = drand48();
+		params->pathtrace_params.current_samples_num = render_kernel->samples_num;
+		render_kernel->samples_num++;
 	}
-	if (rt_camera_moved(&rt->scene.camera))
-	{
-		//todo add libft listmap function [sleonard]
-		t_list	*temp = g_opencl.renderers;
-		while (temp)
-		{
-			((t_rt_renderer*)temp->content)->params.pathtrace_params.current_samples_num = 0;
-			temp = temp->next;
-		}
-	}
+	if (rt_bit_isset(render_action, ACTION_CAMERA_CHANGED))
+		ft_lstmap(g_opencl.render_kernels, &render_kernel_reset_samples);
 }

@@ -1,0 +1,43 @@
+{
+  "scene parameters": {
+    "exposure": 2,
+    "gamma": 2.2
+  },
+  "render parameters": {
+    "render algorithm": "raytrace",
+    "pathtrace": {
+      "max light bounces": 8
+    },
+    "raytrace": {
+      "max light bounces": 8
+    },
+    "render objects": true,
+    "render mesh": {
+      "enabled": true,
+      "file": "assets/3d_models/hippie-mobile/hippie_mobile.obj",
+      "backface culling": true
+    },
+    "render anti aliasing": false,
+    "textures": {
+      "enabled": false
+    },
+    "objects": [],
+    "camera": {
+      "pos": [23.3, 15.8, 7],
+      "rotation": [-26, -138.5, 0]
+    },
+    "light": [
+      {
+        "type": "ambient",
+        "intensity": 0.2,
+        "color": "0xFFFFFF"
+      },
+      {
+        "type": "directional",
+        "color": "0xFFFFFF",
+        "intensity": 0.7,
+        "direction": [1, 1, 0]
+      }
+    ]
+  }
+}

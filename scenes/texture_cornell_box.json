@@ -1,0 +1,129 @@
+{
+  "scene parameters": {
+    "exposure": 2,
+    "gamma": 2.2
+  } ,
+  "render parameters": {
+    "render algorithm": "pathtrace",
+    "pathtrace": {
+      "max light bounces": 8
+    },
+    "raytrace": {
+      "max light bounces": 8
+    },
+    "render objects": true,
+    "render mesh": {
+      "enabled": true,
+      "file": "assets/3d_models/cube_isosphere_materials.obj",
+      "backface culling": true
+    },
+    "textures": {
+      "enabled": true
+    }
+  },
+  "objects": [
+    {
+      "type": "plane",
+      "material": {
+        "texture": "plane_bricks.bmp"
+      },
+      "center": [0, -2.5, 0],
+      "normal": [0, 1, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "texture": "plane_spruce.jpg"
+
+      },
+      "center": [2.5, 0, 0],
+      "normal": [1, 0, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "texture": "plane_bricks2.jpeg"
+      },
+      "center": [-2.5, 0, 0],
+      "normal": [1, 0, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xFFFFFF",
+        "phong exp": 40
+      },
+      "center": [0, 0, 2.5],
+      "normal": [0, 0, 1]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "texture": "plane_grass.jpg"
+      },
+      "center": [0, 2.5, 0],
+      "normal": [0, 1, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xFFFFFF",
+        "phong exp": 50
+      },
+      "center": [0, 0, -15],
+      "normal": [0, 0, 1]
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "texture": "sphere_sauron.jpg"
+      },
+      "center": [0, 2.5, 0],
+      "radius": 1
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "texture": "sphere_sauron.jpg"
+      },
+      "center": [1, -1.5, 0],
+      "radius": 1
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "texture": "dots.jpg"
+      },
+      "center": [-1, -1.5, 0],
+      "radius": 0.8
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "emission color": "0xFFFFFF",
+        "emission power": 1,
+        "texture": "Tex1.jpg"
+      },
+      "center": [-1, -1.5, -3.5],
+      "radius": 0.5
+    }
+  ],
+  "camera": {
+    "pos": [-0.2, 1.2, -14.2],
+    "rotation": [0, 0, 0]
+  },
+  "light":
+  [
+    {
+      "type": "ambient",
+      "intensity": 0.2,
+      "color": "0xFFFFFF"
+    },
+    {
+      "type": "point",
+      "color": "0xFFFFFF",
+      "intensity": 0.5,
+      "pos": [0, 0, -3]
+    }
+  ]
+}

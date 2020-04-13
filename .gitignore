@@ -8,5 +8,10 @@ temp
 rt
 .vscode
 build
+Scre*.bmp
+Scre*.png
+Scre*.jpg
 kd_tree_test
 raw_aabbs_data
+*.zip
+*.rtkd
