@@ -14,88 +14,14 @@ bool				ray_plane_intersect(
 	{
 		best_hit->distance = intersect_dist;
 		best_hit->normal = ray_dir_dot_normal > 0 ? normal * -1.f : normal;
-		///фикс для того, чтобы plane не просвечивал (нормаль зависит от того, с какой стороны камера)
+			/// фикс для того, чтобы plane не просвечивал
+			/// (нормаль зависит от того, с какой стороны камера)
 		best_hit->pos = ray->origin + intersect_dist * ray->dir;
 		return true;
 	}
 	return false;
 }
 
-bool				ray_sphere_intersect_cut(
-		t_ray *ray,
-		__global const t_object *sphere,
-		t_rayhit *best_hit)
-{
-	const float3	origin_center = ray->origin - sphere->center;
-	const float 	dot_ray_axis_sphere = dot(ray->dir, sphere->axis);
-
-	const float	a = dot(ray->dir, ray->dir);
-	const float	b = 2.f * dot(origin_center, ray->dir);
-	const float	c = dot(origin_center, origin_center) - sphere->radius
-			* sphere->radius;
-
-	const float		inter = -dot(origin_center - sphere->len * sphere->axis,
-										sphere->axis) / dot_ray_axis_sphere;
-
-	float	discriminant = b * b - 4.f * a * c;
-	if (discriminant < 0)
-		return false;
-	discriminant = sqrt(discriminant);
-
-	const float x1 = (-b - discriminant) / (2.f * a);
-	const float x2 = (-b + discriminant) / (2.f * a);
-	const float	root = min(x1, x2);
-	const float	root2 = max(x1, x2);
-
-	if (root > 0 && root2 > 0)
-	{
-		if (dot(origin_center + ray->dir * root, sphere->axis) < sphere->len
-				&& root < best_hit->distance)
-		{
-			best_hit->distance = root;
-			best_hit->pos = ray->origin + root * ray->dir;
-			best_hit->normal = fast_normalize(best_hit->pos - sphere->center);
-			return true;
-		}
-		else
-		{
-			if (dot(origin_center + ray->dir * root2, sphere->axis) < sphere->len
-					&& inter < best_hit->distance)
-			{
-				best_hit->distance = inter;
-				best_hit->pos = ray->origin + ray->dir * inter;
-				best_hit->normal = sphere->axis;
-				return true;
-			}
-			else
-				return false;
-		}
-	}
-	else
-	{
-		if (dot(origin_center, sphere->axis) < sphere->len)
-		{
-			best_hit->distance = RAY_MIN_EPSILON;
-			best_hit->pos = ray->origin - ray->dir * RAY_MIN_EPSILON ;
-			best_hit->normal = -ray->dir;
-			return true;
-		}
-		else
-		{
-			if (dot(origin_center + ray->dir * root2, sphere->axis)
-					< sphere->len && inter < best_hit->distance)
-			{
-				best_hit->distance = inter;
-				best_hit->pos = ray->origin + ray->dir * inter;
-				best_hit->normal = sphere->axis;
-				return true;
-			}
-			else
-				return false;
-		}
-	}
-	return false;
-}
 
 bool				ray_sphere_intersect(
 		t_ray *ray,
@@ -282,6 +208,7 @@ bool		ray_cylinder_intersect(
 	if (dot(origin_center, origin_center) - dot_origin_center_axis
 					* dot_origin_center_axis < cylinder->radius
 					* cylinder->radius)
+	{
 		if (fabs(dot_origin_center_axis) < cylinder->len && cylinder->len > 0)
 		{
 			best_hit->distance = RAY_MIN_EPSILON;
@@ -307,8 +234,9 @@ bool		ray_cylinder_intersect(
 				else
 					return false;
 		}
-		else
-			return false;
+	}
+	else
+		return false;
 
 	if ((root < RAY_MIN_EPSILON && root2 < RAY_MIN_EPSILON))
 		return false;
@@ -328,20 +256,22 @@ bool		ray_cylinder_intersect(
 	}
 	else
 	{
+		const float near = min(distance_up, distance_down);
 		if (((fabs(dot(origin_center + root2 * ray->dir, cylinder->axis))
 						< cylinder->len && cylinder->len > 0)
 					|| dot(origin_center + root2 * ray->dir,
 							cylinder->axis) * dot(origin_center + root
 							* ray->dir, cylinder->axis) < 0)
-				&& min(distance_up, distance_down) < best_hit->distance)
-		{
-			best_hit->distance = min(distance_up, distance_down);
-			best_hit->pos = ray->origin + best_hit->distance * ray->dir;
-			best_hit->normal = dot_ray_axis_cylinder < 0 ? cylinder->axis
-					: -1.f * cylinder->axis;
-			return true;
-		}
+					&& near < best_hit->distance)
+			{
+				best_hit->distance = near;
+				best_hit->pos = ray->origin + best_hit->distance * ray->dir;
+				best_hit->normal = dot_ray_axis_cylinder < 0 ? cylinder->axis
+						: -1.f * cylinder->axis;
+				return true;
+			}
 		else
 			return false;
 	}
+	return false;
 }

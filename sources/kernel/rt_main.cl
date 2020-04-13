@@ -16,6 +16,7 @@
 //#include "simple_object_intersections.cl"
 #include "intersection_utils.cl"
 #include "unlimited_object.cl"
+#include "limited_object.cl"
 
 #include "skybox.cl"
 #include "texture.cl"

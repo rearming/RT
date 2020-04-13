@@ -109,7 +109,7 @@ static	t_object	*pathtrace_scene(int *out_obj_nbr)
 
 static	t_object	*cornell_box(int *out_obj_nbr)
 {
-	const int	objects_nbr = 3;
+	const int	objects_nbr = 4;
 	t_object	*objects;
 
 	*out_obj_nbr = objects_nbr;
@@ -140,34 +140,34 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 //			.center = {{0, 0, -15.5}},
 //			.normal = {{0, 0, 1}}};
 
-	objects[1] = (t_object){.type = SPHERE, // light sphere
+	objects[3] = (t_object){.type = SPHERE, // light sphere
 			(t_material){.emission_color = get_float3_color(COL_WHITE), .emission_power = 100, .texture_number = NOT_SET},
-			.center = {{1, -1.5f, -5}},
-			.radius = 2.f,
-			.len = 0.2f,
+			.center = {{1, 1.5f, -5}},
+			.radius = .2f,
+			.len = 0.02f,
 			.axis = {{0, 1, 0}}};
 
 
-//	objects[1] = (t_object){.type = SPHERE, // specular sphere
+//	objects[3] = (t_object){.type = SPHERE, // specular sphere
 //			(t_material){.specular = {{1, 1, 1}}, .phong_exp = 0, .smoothness = 10000},
 //			.center = {{1, -1.5f, -1}},
 //			.radius = .9f};
 
 	objects[0] = (t_object){.type = CONE, // sphere
 			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
-			.center = {{-3, -2, -5}},
+			.center = {{-3, -6, -5}},
 			.axis = {{0, 0, 1}},
 			.angle = 20.f,
-			.len = 5};
+			.len = 4};
 
-	objects[2] = (t_object){.type = CYLINDER, // cylinder
-			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
-			.center = {{5, -1.5f, 0}},
-			.axis = {{0, 1, 0}},
-			.radius = 3,
-			.len = 1};
+//	objects[4] = (t_object){.type = CYLINDER, // cylinder
+//			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
+//			.center = {{5, -1.5f, 0}},
+//			.axis = {{0, 1, 0}},
+//			.radius = 3,
+//			.len = 1};
 
-//	objects[8] = (t_object){.type = SPHERE, // specular sphere
+//	objects[3] = (t_object){.type = SPHERE, // specular sphere
 //			(t_material){.specular = get_float3_color(COL_LIGHT_GREEN), .transmittance = 0, .refraction = 0,
 //				.phong_exp = 200, .smoothness = 1000, .texture_number = NOT_SET},
 //			.center = {{-1, -0.5f, -2.5}},
@@ -180,16 +180,18 @@ static	t_object	*cornell_box(int *out_obj_nbr)
 //			.vertices[2] = {{0, 2, 2.5}},
 //			.normal = {{0, 0, 1}}};
 
-//	objects[4] = (t_object){.type = PARABOLOID, // parabaloid
-//			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
-//			.center = {{3.5f, 0.5f, -1.}},.axis= {{(2.f/3), (1.f/3), (2.f/3)}},
-//			.distance = .1f};
-//
-//	objects[5] = (t_object){.type = ELLIPSOID,
-//			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
-//			.center = {{-2.f, -1.f, -2}},.axis= {{-(2.f/3), -(1.f/3), -(2.f/3)}},
-//			.distance = 1.1f,
-//			.radius = 1.2f};
+	objects[1] = (t_object){.type = PARABOLOID,
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
+			.center = {{3.5f, 0.5f, -1.}},.axis= {{(2.f/3), (1.f/3), (2.f/3)}},
+			.distance = 0.1f,
+			.len = 8};
+
+	objects[2] = (t_object){.type = ELLIPSOID,
+			(t_material){.diffuse = get_float3_color(COL_WHITE), .phong_exp = 0, .smoothness = 10000, .texture_number = NOT_SET},
+			.center = {{-2.f, -1.f, -2}},.axis= {{-(2.f/3), -(1.f/3), -(2.f/3)}},
+			.distance = 1.1f,
+			.radius = 1.2f,
+			.len = .8};
 	return (objects);
 }
 
@@ -323,7 +325,7 @@ static t_light		*rt_get_lights(int *out_lights_nbr)
 	lights[0] = (t_light){.color = get_float3_color(COL_WHITE), .type = AMBIENT, .intensity = 0.2f};
 //	lights[1] = (t_light){.pos = {{0, 10, -5}}, ///для pathtrace scene
 //		.color = get_float3_color(COL_WHITE), .type = POINT, .intensity = 0.5f};
-	lights[1] = (t_light){.pos = {{0, 10, -5}}, /// для cornell box
+	lights[1] = (t_light){.pos = {{-2, 10, -2}}, /// для cornell box
 			.color = get_float3_color(COL_WHITE), .type = POINT, .intensity = 0.4f};
 //	lights[2] = (t_light){.pos = {{0, -10, -5}}, /// для cornell box
 //			.color = get_float3_color(COL_WHITE), .type = POINT, .intensity = 0.3f};

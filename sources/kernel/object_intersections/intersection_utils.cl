@@ -41,11 +41,18 @@ void				closest_intersection(
 						*out_closest_obj_index = i;
 					break;
 				case (PARABOLOID):
-					if (ray_paraboloid_intersect(ray, &objects[i], out_best_hit))
+					if ((objects[i].len > 0) ?
+							ray_paraboloid_intersect_cut(ray, &objects[i], out_best_hit)
+							: ray_paraboloid_intersect(ray, &objects[i], out_best_hit))
 						*out_closest_obj_index = i;
 					break;
 				case (ELLIPSOID):
-					if (ray_ellipsoid_intersect(ray, &objects[i], out_best_hit))
+					if ((objects[i].len > objects[i].distance - objects[i].radius
+							&& objects[i].len < objects[i].distance
+												+ objects[i].radius / 2 ) ?
+							ray_ellipsoid_intersect_cut(ray, &objects[i], out_best_hit)
+							: ray_ellipsoid_intersect(ray, &objects[i], out_best_hit)
+							)
 						*out_closest_obj_index = i;
 					break;
 				case (AABB):
