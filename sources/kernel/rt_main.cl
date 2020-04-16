@@ -18,6 +18,7 @@
 #include "intersection_utils.cl"
 #include "unlimited_object.cl"
 #include "limited_object.cl"
+#include "ray_march.cl"
 
 #include "skybox.cl"
 #include "texture.cl"

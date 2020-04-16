@@ -208,7 +208,8 @@ target_link_libraries(RT
 # <----TESTING----> #
 
 set(testing_utils
-        sources/test/test_asserts.c sources/test/test_event_loop.c)
+        sources/test/test_asserts.c
+        sources/test/test_event_loop.c)
 
 # <---- kd_tree_test ----> #
 
@@ -244,7 +245,8 @@ target_link_libraries(kd_tree_test
 add_executable(generic_test
         ${sources}
         ${testing_utils}
-        sources/test/generic_test/generic_test_main.c sources/gui/text_box/render_text_box.c)
+        sources/test/generic_test/generic_test_main.c
+        sources/gui/text_box/render_text_box.c)
 
 target_include_directories(generic_test PRIVATE
         sources/test)
@@ -312,7 +314,8 @@ add_executable(fsm_test
         sources/utils/rt_safe_malloc.c
         sources/SDL_utils/sdl_init.c
         ${testing_utils}
-        sources/test/fsm_test/fsm_test_main.c sources/test/fsm_test/rt_fsm.c)
+        sources/test/fsm_test/fsm_test_main.c
+        sources/test/fsm_test/rt_fsm.c)
 
 target_include_directories(fsm_test PRIVATE
         sources/test)

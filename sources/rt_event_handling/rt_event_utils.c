@@ -4,7 +4,8 @@
 
 bool		rt_camera_changed(t_camera *camera)
 {
-	static t_camera	previous_camera = (t_camera) {
+	static t_camera	previous_camera = //(t_camera)
+			 {
 		.pos = (cl_float3){{0, 0, 0}},
 		.rotation = (cl_float3){{0, 0, 0}},
 		.focal_distance = 0.0f,

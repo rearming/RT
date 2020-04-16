@@ -20,15 +20,16 @@ void				closest_intersection(
 		{
 			switch (objects[i].type)
 			{
-				case (SPHERE):	/// для сферы разделим на две функции обрезанная
-								/// и не обрезанная
-					if ((objects[i].len > 0 && objects[i].len < objects[i].radius) ?
+			/// сфера, параболоид и эллипсоид разделен на обрезанные и не обрезанные
+				case (SPHERE):
+					if ((objects[i].len >= 0) ?
 							ray_sphere_intersect_cut(ray, &objects[i], out_best_hit)
 							: ray_sphere_intersect(ray, &objects[i], out_best_hit))
 						*out_closest_obj_index = i;
 					break;
 				case (PLANE):
-					if (ray_plane_intersect(ray, objects[i].center, objects[i].normal, out_best_hit))
+					if (ray_plane_intersect(ray, objects[i].center,
+							objects[i].normal, out_best_hit))
 						*out_closest_obj_index = i;
 					break;
 				case (CONE):
@@ -50,12 +51,11 @@ void				closest_intersection(
 						*out_closest_obj_index = i;
 					break;
 				case (ELLIPSOID):
-					if ((objects[i].len > objects[i].distance - objects[i].radius
-							&& objects[i].len < objects[i].distance
-												+ objects[i].radius / 2 ) ?
-							ray_ellipsoid_intersect_cut(ray, &objects[i], out_best_hit)
-							: ray_ellipsoid_intersect(ray, &objects[i], out_best_hit)
-							)
+					if (ray_march_dist_capsule(ray, &objects[i], out_best_hit))
+//					if ((objects[i].len >= 0) ?
+//							ray_ellipsoid_intersect_cut(ray, &objects[i], out_best_hit)
+//							: ray_ellipsoid_intersect(ray, &objects[i], out_best_hit)
+//							)
 						*out_closest_obj_index = i;
 					break;
 				case (AABB):
@@ -67,9 +67,23 @@ void				closest_intersection(
 #endif // RENDER_OBJECTS
 
 #ifdef RENDER_MESH
-	*out_closest_polygon_index = kd_tree_traverse(kd_info, kd_tree, kd_indices, polygons, vertices, v_normals, ray, out_best_hit);
+*out_closest_polygon_index = kd_tree_traverse(kd_info, kd_tree, kd_indices, polygons, vertices, v_normals, ray, out_best_hit);
 //	*out_closest_polygon_index = ray_mesh_intersect(&scene->meshes, polygons, vertices, v_normals, ray, out_best_hit);
 	if (isset(*out_closest_polygon_index))
 		*out_closest_obj_index = NOT_SET;
 #endif
+
+//#ifdef RENDER_RAYMARCH
+//for (int i = 0; i < scene->obj_nbr; i++)
+//		{
+//			switch (objects[i].type)
+//			{
+//				case (CAPSULE):
+//					if (ray_march(ray, &objects[i], out_best_hit,
+//							dist_capsule))
+//						*out_closest_obj_index = i;
+//					break;
+//			}
+//		}
+//#endif
 }
