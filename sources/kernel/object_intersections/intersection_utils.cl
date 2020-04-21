@@ -51,11 +51,9 @@ void				closest_intersection(
 						*out_closest_obj_index = i;
 					break;
 				case (ELLIPSOID):
-					if (ray_march_dist_capsule(ray, &objects[i], out_best_hit))
-//					if ((objects[i].len >= 0) ?
-//							ray_ellipsoid_intersect_cut(ray, &objects[i], out_best_hit)
-//							: ray_ellipsoid_intersect(ray, &objects[i], out_best_hit)
-//							)
+					if ((objects[i].len >= 0) ?
+							ray_ellipsoid_intersect_cut(ray, &objects[i], out_best_hit)
+							: ray_ellipsoid_intersect(ray, &objects[i], out_best_hit))
 						*out_closest_obj_index = i;
 					break;
 				case (AABB):
@@ -73,17 +71,11 @@ void				closest_intersection(
 		*out_closest_obj_index = NOT_SET;
 #endif
 
-//#ifdef RENDER_RAYMARCH
-//for (int i = 0; i < scene->obj_nbr; i++)
-//		{
-//			switch (objects[i].type)
-//			{
-//				case (CAPSULE):
-//					if (ray_march(ray, &objects[i], out_best_hit,
-//							dist_capsule))
-//						*out_closest_obj_index = i;
-//					break;
-//			}
-//		}
-//#endif
+#ifdef RENDER_RAYMARCH
+for (int i = 0; i < scene->obj_nbr; i++)
+	if (ray_march(ray, &objects[i], out_best_hit))
+		*out_closest_obj_index = i;
+	//// крайне неоптимально реализована функция,
+	//// свич происходит на каждом шаге реймарша
+#endif
 }

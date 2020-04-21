@@ -7,8 +7,8 @@
 #  define WIN_WIDTH 1960
 #  define WIN_HEIGHT 1300
 # else
-#  define WIN_WIDTH 1920
-#  define WIN_HEIGHT 1080
+#  define WIN_WIDTH 400
+#  define WIN_HEIGHT 225
 # endif
 
 # define WIN_RATIO ((float)WIN_WIDTH / WIN_HEIGHT)

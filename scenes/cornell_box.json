@@ -24,7 +24,7 @@
         "specular": [1.0, 1.0, 1.0],
         "smoothness": 5000
       },
-      "center": [0, -2.5, 0],
+      "center": [0, -3.5, 0],
       "normal": [0, 1, 0]
     },
     {
@@ -74,21 +74,41 @@
       "type": "sphere",
       "material": {
         "emission color": "0xFFFFFF",
-        "emission power": 1
+        "emission power": 5
       },
-      "center": [0, 2.5, 0],
-      "radius": 1
+      "center": [1, 1.5, 0],
+      "radius": 0.5
     },
     {
       "type": "sphere",
       "material": {
         "diffuse": "0xFFFFFF"
       },
-      "center": [1, -1.5, 0],
-      "axis": [-1, -1.5, -1],
-      "len": 0.8,
-      "radius": 1.2
+      "center": [0, 0, -3.5],
+      "radius": 0.4
+    },
+
+
+
+
+
+    {
+      "type": "ellipsoid",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [1, -0.5, 0],
+      "angle": 0.3,
+      "distance": 0.5,
+      "radius": 1.3,
+      "len": 0.3
     }
+
+
+
+
+
+
   ],
   "camera": {
     "pos": [-0.2, 1.2, -7],

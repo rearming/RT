@@ -142,7 +142,14 @@ typedef enum			e_object_type
 	TRIANGLE,
 	AABB,
 	PARABOLOID,
-	ELLIPSOID
+	ELLIPSOID,
+	BOX,
+	CAPSULE,
+	TORUS,
+	ELLIPSOID_RAYMARCH,
+	TORUS_CAPPED,
+	HEX_PRISM,
+	ROUND_CONE
 }						t_object_type;
 
 typedef enum			e_light_type
@@ -218,9 +225,18 @@ typedef struct			s_object
 	cl_float3			center;
 	cl_float3			normal;
 	cl_float3			axis;
+	cl_float3			rot_p1;
+	cl_float3			rot_p2;
+	cl_float3			rot_p3;
+	cl_float3			rot_n1;
+	cl_float3			rot_n2;
+	cl_float3			rot_n3;
 	/// axis for all rotation object
 	/// (cylinder, cone, torus, hiperboloid etc)
+	cl_float3			size;
 	cl_float			radius;
+	cl_float			radius_2;
+	cl_float			radius_ring;
 	cl_float			angle;
 	cl_float 			distance;
 	cl_float			len;
@@ -234,7 +250,16 @@ typedef struct			s_object
 	float3				center;
 	float3				normal;
 	float3				axis;
+	float3				rot_p1;
+	float3				rot_p2;
+	float3				rot_p3;
+	float3				rot_n1;
+	float3				rot_n2;
+	float3				rot_n3;
+	float3				size;
 	float				radius;
+	float				radius_2;
+	float				radius_ring;
 	float				angle;
 	float 				distance;
 	float				len;
