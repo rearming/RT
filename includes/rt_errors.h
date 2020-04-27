@@ -45,6 +45,7 @@
 # define ERR_PARSING_WRONG_LIGHT_PARAMS "rt_parse error: wrong light params"
 # define ERR_PARSING_WRONG_CAMERA_PARAMS "rt_parse error: wrong camera params"
 # define ERR_PARSING_WRONG_TYPE "rt_parse error: check the type of figure, it's not an object, light or a camera"
+# define ERR_PARSING_MATRIX "rt_parse error: check rotation matrix in object"
 
 # define ERR_PARSING_DUPLICATED_PARAM "rt_parse error: duplicated parameters"
 # define ERR_PARSING_DUPLICATED_SKYBOX "rt_parse error: skybox image is duplicated "

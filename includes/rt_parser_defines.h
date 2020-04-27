@@ -21,6 +21,13 @@
 # define TRIANGLE 5
 # define PARABOLOID 7
 # define ELLIPSOID 8
+# define BOX 9
+# define CAPSULE 10
+# define TORUS 11
+# define ELLIPSOID_RAYMARCH 12
+# define TORUS_CAPPED 13
+# define HEX_PRISM 14
+# define ROUND_CONE 15
 
 #define AMBIENT 1 		// intensity, color
 #define POINT 2			// intensity, color, pos
@@ -65,11 +72,21 @@
 # define TEXTURE 26
 # define TEXTURE_POS 27
 
-//scene parameters
-# define EXPOSURE 28
-# define GAMMA 29
+//position attributes
+# define ALFA_ANGLE 28
+# define BETA_ANGLE 29
+# define GAMMA_ANGLE 30
+# define reverse_ALFA_ANGLE 31
+# define reverse_BETA_ANGLE 32
+# define reverse_GAMMA_ANGLE 33
+# define COMPLICATED 34
+# define COMPLICATED_INDEX 35
 
-# define DIRECTORY 30
-# define FILE_NAME 31
+//scene parameters
+# define EXPOSURE 36
+# define GAMMA 37
+
+# define DIRECTORY 38
+# define FILE_NAME 39
 
 #endif

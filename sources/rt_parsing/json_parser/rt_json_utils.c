@@ -36,6 +36,16 @@ static void	init_tmp_material(t_tmp *tmp)
 	tmp->texture_position = (cl_float3){{0, 0, 0}};
 }
 
+static void init_tmp_complicated_params(t_tmp *tmp) {
+	tmp->complicated = (int)NULL;
+	tmp->complicated_index = NOT_SET;
+	tmp->alfa_angle = (cl_float3){{0, 0, 0}};
+	tmp->beta_angle = (cl_float3){{0, 0, 0}};
+	tmp->gamma_angle = (cl_float3){{0, 0, 0}};
+	tmp->reverse_alfa_angle = (cl_float3){{0, 0, 0}};
+	tmp->reverse_beta_angle = (cl_float3){{0, 0, 0}};
+	tmp->reverse_gamma_angle = (cl_float3){{0, 0, 0}};
+
 void		init_tmp(t_tmp *tmp)
 {
 	tmp->next = NULL;
@@ -62,6 +72,7 @@ void		init_tmp(t_tmp *tmp)
 	tmp->gamma = NOT_SET;
 	tmp->file = NULL;
 	init_tmp_material(tmp);
+	init_tmp_complicated_params(tmp);
 	ft_bzero(&tmp->checker, sizeof(tmp->checker) / sizeof(bool));
 }
 

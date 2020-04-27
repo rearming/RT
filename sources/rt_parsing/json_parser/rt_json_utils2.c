@@ -62,7 +62,7 @@ void	check_object(t_tmp *tmp)
 
 	count = 2;
 	check_obligate = 0;
-	check = tmp->checker[NORMAL] + tmp->checker[DISTANCE] + tmp->checker[AXIS]
+	check = tmp->checker[NORMAL] + tmp->checker[DISTANCE]
 		+ tmp->checker[ANGLE] + tmp->checker[LEN] + tmp->checker[VMIN] +
 		tmp->checker[VMAX] + tmp->checker[CENTER] + tmp->checker[RADIUS] +
 		tmp->checker[POS] + tmp->checker[ROTATION] + tmp->checker[INTENSITY]
@@ -71,17 +71,14 @@ void	check_object(t_tmp *tmp)
 		check_obligate = (tmp->checker[CENTER] + tmp->checker[RADIUS]);
 	else if (tmp->type == PLANE)
 		check_obligate = (tmp->checker[CENTER] + tmp->checker[NORMAL]);
-	else if (tmp->type == CONE && ++count < 4)
-		check_obligate = (tmp->checker[CENTER] + tmp->checker[AXIS]
-			+ tmp->checker[ANGLE]);
-	else if (tmp->type == CYLINDER && ++count < 4)
-		check_obligate = (tmp->checker[CENTER] + tmp->checker[AXIS]
-			 + tmp->checker[RADIUS]);
-	else if (tmp->type == PARABOLOID && ++count < 4)
-		check_obligate = (tmp->checker[CENTER] + tmp->checker[DISTANCE]
-			+ tmp->checker[AXIS]);
-	else if (tmp->type == ELLIPSOID && (count += 2) < 5)
-		check_obligate = (tmp->checker[CENTER] + tmp->checker[AXIS]
+	else if (tmp->type == CONE)
+		check_obligate = (tmp->checker[CENTER] + tmp->checker[ANGLE]);
+	else if (tmp->type == CYLINDER)
+		check_obligate = (tmp->checker[CENTER] + tmp->checker[RADIUS]);
+	else if (tmp->type == PARABOLOID)
+		check_obligate = (tmp->checker[CENTER] + tmp->checker[DISTANCE];
+	else if (tmp->type == ELLIPSOID && count ++ < 4)
+		check_obligate = (tmp->checker[CENTER]
 			+ tmp->checker[DISTANCE] + tmp->checker[RADIUS]);
 	if (check - check_obligate != 0 || check_obligate / count != 1 ||
 		tmp->checker[EMISSION_COLOR] + tmp->checker[EMISSION_POWER] == 1)
