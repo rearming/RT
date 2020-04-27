@@ -112,6 +112,11 @@ void			parse_variable(t_tmp *tmp, const char *key, json_t *value)
 		check_duplicated(tmp->checker, EXPOSURE);
 		tmp->exposure = parse_f(value);
 	}
+	else if (ft_strequ(key, "complicated index"))
+	{
+		check_duplicated(tmp->checker, COMPLICATED_INDEX);
+		tmp->complicated_index = json_integer_value(value);
+	}
 	else if (ft_strequ(key, "max light bounces") && (tmp->type == RAYTRACE ||
 	tmp->type == PATHTRACE))
 	{

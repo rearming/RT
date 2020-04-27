@@ -146,7 +146,7 @@ typedef enum			e_complicated_type
 	DIFFERENT,
 	INTERSECTION
 
-}						t_compicated_type;
+}						t_complicated_type;
 
 typedef enum			e_light_type
 {
@@ -230,7 +230,7 @@ typedef struct			s_object
 	cl_float3			vertices[3];
 	cl_float3			vmin;
 	cl_float3			vmax;
-	t_compicated_type	compicated_type;
+	t_compicated_type	complicated_type;
 	cl_int 				comlicated_index;
 	cl_float3			rotation_matrix_T[3];
 	cl_float3			reverse_rotation_matrix_T[3];

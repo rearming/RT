@@ -72,6 +72,18 @@ static void	add_elements_in_array(t_tmp *tmp, int type_of_element,
 		add_array(&tmp->vmin, value, false);
 	else if (type_of_element == VMAX)
 		add_array(&tmp->vmax, value, false);
+	else if (type_of_element == ALFA_ANGLE)
+		add_array(&tmp->alfa_angle, value, false);
+	else if (type_of_element == BETA_ANGLE)
+		add_array(&tmp->beta_angle, value, false);
+	else if (type_of_element == GAMMA_ANGLE)
+		add_array(&tmp->gamma_angle, value, false);
+	else if (type_of_element == reverse_ALFA_ANGLE)
+		add_array(&tmp->reverse_alfa_angle, value, false);
+	else if (type_of_element == reverse_BETA_ANGLE)
+		add_array(&tmp->reverse_beta_angle, value, false);
+	else if (type_of_element == reverse_GAMMA_ANGLE)
+		add_array(&tmp->reverse_gamma_angle, value, false);
 	else if (type_of_element == DIRECTORY)
 		add_directory(value);
 	else

@@ -61,13 +61,13 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 	object->material.specular_texture = tmp->specular_texture;
 	object->material.texture_number = tmp->texture_number;
 	object->material.texture_position = tmp->texture_position;
-	object->compicated_type = tmp->complicated;
+	object->complicated_type = tmp->complicated;
 	object->comlicated_index = tmp->complicated_index;
 	add_rotation_matrix(tmp, object);
 	//change alpha, betta, gamma to float3[3] rotation_matrix_T;
 	// float3[3] reverse_rotation_matrix_T; характеристики объектов
-	// object->complicated = Nothing, union, different, intersection
-	// object->complicated_index;
+	// object->complicated = nothing, union, different, intersection +
+	// object->complicated_index +;
 }
 
 static void	add_cam_and_light(t_camera *camera, t_light *light, t_tmp *tmp,

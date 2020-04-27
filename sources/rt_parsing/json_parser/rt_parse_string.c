@@ -32,6 +32,20 @@ static void		parse_type2(t_tmp *tmp, const char *value)
 		tmp->type = PARABOLOID;
 	else if (ft_strequ(value, "ellipsoid"))
 		tmp->type = ELLIPSOID;
+	else if (ft_strequ(value, "box"))
+		tmp->type = BOX;
+	else if (ft_strequ(value, "capsule"))
+		tmp->type = CAPSULE;
+	else if (ft_strequ(value, "torus"))
+		tmp->type = TORUS;
+	else if (ft_strequ(value, "ellipsod raymarch"))
+		tmp->type = ELLIPSOID_RAYMARCH;
+	else if (ft_strequ(value, "torus capped"))
+		tmp->type = TORUS_CAPPED;
+	else if (ft_strequ(value, "hex prism"))
+		tmp->type = HEX_PRISM;
+	else if (ft_strequ(value, "round cone"))
+		tmp->type = ROUND_CONE;
 	else
 		rt_raise_error(ERR_PARSING_WRONG_OBJECT_TYPE);
 }
@@ -39,6 +53,8 @@ static void		parse_type2(t_tmp *tmp, const char *value)
 static void		parse_material(t_tmp *tmp, const char *key,
 		const char *tmp_value)
 {
+	int c_type;
+
 	if (ft_strequ(key, "diffuse"))
 	{
 		check_duplicated(tmp->checker, DIFFUSE);
@@ -63,6 +79,18 @@ static void		parse_material(t_tmp *tmp, const char *key,
 	{
 		check_duplicated(tmp->checker, TEXTURE);
 		tmp->texture_number = parse_texture(tmp_value);
+	}
+	else if (ft_strequ(key, "complicated type"))
+	{
+		check_duplicated(tmp->checker, COMPLICATED);
+		if (ft_strequ(tmp_value,"nothing"))
+			tmp->complicated = NOTHING;
+		else if (ft_strequ(tmp_value,"union"))
+			tmp->complicated = UNION;
+		else if (ft_strequ(tmp_value,"different"))
+			tmp->complicated = DIFFERENT;
+		else if (ft_strequ(tmp_value,"intersection"))
+			tmp->complicated = INTERSECTION;
 	}
 }
 
