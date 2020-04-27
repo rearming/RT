@@ -104,3 +104,24 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 	if (check_param != 111)
 		rt_raise_error(ERR_PARSING_SCENE_NOT_SPECIFIED);
 }
+
+cl_float3	*count_matrix(cl_float3 alfa, cl_float3 beta, cl_float3 gamma, boolean reverse) {
+
+	cl_float3 matrix[3];
+	cl_float3 c = (cl_float3){{cos(alfa), cos(beta), cos(gamma)},,};
+	cl_float3 s = (reverse) ? (cl_float3){{sin(-alfa), sin(-beta), sin(-gamma)},,} : (cl_float3){{sin(alfa), sin(beta), sin(gamma)},,};
+	//cl_float3 c1 = c;
+	..cl_float3 s1 = -s;
+	//if (!reverse) {
+		matrix[0] = (cl_float3){{c.x * c.z - s.x * c.y * s.z, -c.x * s.z - s.x * c.y *c.z, s.x *s.y},,};
+		matrix[1] = (cl_float3){{s.x * c.z + c.x * c.y * s.z, -s.x * s.z + c.x * c.y * c.z, - s.y * c.z},,};
+		matrix[2] = (cl_float3){{s.y * s.z, s.y * c.z, c.y},,};
+	//}
+	//else {
+	//	matrix[0] = (cl_float3){{c1.x * c1.z - s1.x * c1.y * s1.z, -c1.x * s1.z - s1.x * c1.y *c1.z, s1.x *s1.y},,};
+	//	matrix[1] = (cl_float3){{s1.x * c1.z + c1.x * c1.y * s1.z, -s1.x * s1.z + c.x * c1.y * c1.z, - s1.y * c1.z},,};
+	//	matrix[2] = (cl_float3){{s1.y * s1.z, s1.y * c1.z, c1.y},,};
+	//}
+	return matrix;
+}
+}

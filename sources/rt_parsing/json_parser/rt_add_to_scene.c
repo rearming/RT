@@ -23,9 +23,9 @@ static void add_rotation_matrix(t_tmp *tmp, t_object *object){
 	check_rotation += (tmp->checker[reverse_BETA_ANGLE]) ? 10 : 0;
 	check_rotation += (tmp->checker[reverse_GAMMA_ANGLE]) ? 10 : 0;
 	if (check_rotation == 30) {
-		object->reverse_rotation_matrix_T;
+		object->reverse_rotation_matrix_T = count_matrix(tmp->reverse_alfa_angle, tmp->reverse_beta_angle, tmp->reverse_gamma_angle, true);
 	} else if (check_rotation == 3) {
-		object->rotation_matrix_T;
+		object->rotation_matrix_T = count_matrix(tmp->alfa_angle, tmp->beta_angle, tmp->gamma_angle, false);
 	} else if (check_rotation != 0){
 		rt_raise_error(ERR_PARSING_MATRIX);
 	}

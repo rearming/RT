@@ -14,6 +14,7 @@ int 		parse_texture(const char *name);
 void 		parse_boolean(t_tmp *tmp, const char *key, json_t *value, uint32_t *renderer_flags);
 
 void 		init_textures_default(void);
+cl_float3	*count_matrix(cl_float3 alfa, cl_float3 beta, cl_float3 gamma, boolean reverse);
 void		init_tmp(t_tmp *tmp);
 void		count_elements(t_scene *scene, t_tmp *tmp);
 void		free_tmp(t_tmp *tmp);

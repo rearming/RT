@@ -51,6 +51,20 @@ char	*object_name(int type)
 		return "Paraboloid";
 	if (type == ELLIPSOID)
 		return "Ellipsoid";
+	if (type == BOX)
+		return "box";
+	if (type == CAPSULE)
+		return "capsule";
+	if (type == TORUS)
+		return "torus";
+	if (type == ELLIPSOID_RAYMARCH)
+		return "ellipsoid raymarch";
+	if (type == TORUS_CAPPED)
+		return "torus capped";
+	if (type == HEX_PRISM)
+		return "hex prism";
+	if (type == ROUND_CONE)
+		return "round cone";
 	return NULL;
 }
 
