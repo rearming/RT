@@ -60,6 +60,16 @@ void				closest_intersection(
 					if (ray_aabb_intersection(ray, &objects[i], out_best_hit))
 						*out_closest_obj_index = i;
 					break;
+				default :
+					if (objects[i].type == BOX || objects[i].type == CAPSULE
+							|| objects[i].type == TORUS
+							|| objects[i].type == ELLIPSOID_RAYMARCH
+							|| objects[i].type == TORUS_CAPPED
+							|| objects[i].type == HEX_PRISM
+							|| objects[i].type == ROUND_CONE)
+						if(ray_march(ray, &objects[i], out_best_hit))
+							*out_closest_obj_index = i;
+					break;
 			}
 		}
 #endif // RENDER_OBJECTS
@@ -72,9 +82,9 @@ void				closest_intersection(
 #endif
 
 #ifdef RENDER_RAYMARCH
-for (int i = 0; i < scene->obj_nbr; i++)
-	if (ray_march(ray, &objects[i], out_best_hit))
-		*out_closest_obj_index = i;
+//for (int i = 0; i < scene->obj_nbr; i++)
+//	if (ray_march(ray, &objects[i], out_best_hit))
+//		*out_closest_obj_index = i;
 	//// крайне неоптимально реализована функция,
 	//// свич происходит на каждом шаге реймарша
 #endif
