@@ -145,6 +145,15 @@ typedef enum			e_object_type
 	ELLIPSOID
 }						t_object_type;
 
+typedef enum			e_complicated_type
+{
+	NOTHING = 0,
+	UNION,
+	DIFFERENT,
+	INTERSECTION
+
+}						t_complicated_type;
+
 typedef enum			e_light_type
 {
 	AMBIENT = 1,
@@ -227,6 +236,11 @@ typedef struct			s_object
 	cl_float3			vertices[3];
 	cl_float3			vmin;
 	cl_float3			vmax;
+	t_compicated_type	complicated_type;
+	cl_int 				comlicated_index;
+	cl_float3			rotation_matrix_T[3];
+	cl_float3			reverse_rotation_matrix_T[3];
+
 # else
 
 	t_object_type		type;
@@ -241,6 +255,10 @@ typedef struct			s_object
 	float3				vertices[3];
 	float3				vmin;
 	float3				vmax;
+	t_compicated_type	compicated_type;
+	int 				comlicated_index;
+	float3			rotation_matrix_T[3];
+	float3			reverse_rotation_matrix_T[3];
 # endif
 
 }						t_object;

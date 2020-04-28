@@ -49,6 +49,18 @@ static int	ft_check(const char *param, int *type_of_element)
 		*type_of_element = VMIN;
 	else if (ft_strequ(param, "vmax"))
 		*type_of_element = VMAX;
+	else if (ft_strequ(param, "alfa angle"))
+		*type_of_element = ALFA_ANGLE;
+	else if (ft_strequ(param, "beta angle"))
+		*type_of_element = BETA_ANGLE;
+	else if (ft_strequ(param, "gamma angle"))
+		*type_of_element = GAMMA_ANGLE;
+	else if (ft_strequ(param, "reverse alfa angle"))
+		*type_of_element = reverse_ALFA_ANGLE;
+	else if (ft_strequ(param, "reverse beta angle"))
+		*type_of_element = reverse_BETA_ANGLE;
+	else if (ft_strequ(param, "reverse gamma angle"))
+		*type_of_element = reverse_GAMMA_ANGLE;
 	return (*type_of_element != NOT_SET) ? 1 :
 	ft_check_material(param, type_of_element);
 }
@@ -71,6 +83,20 @@ static void	ft_check_object(int *type_of_element, const char *param)
 		*type_of_element = PARABOLOID;
 	else if (ft_strequ(param, "ellipsoid"))
 		*type_of_element = ELLIPSOID;
+	else if (ft_strequ(param, "box"))
+		*type_of_element = BOX;
+	else if (ft_strequ(param, "capsule"))
+		*type_of_element = CAPSULE;
+	else if (ft_strequ(param, "torus"))
+		*type_of_element = TORUS;
+	else if (ft_strequ(param, "ellipsod raymarch"))
+		*type_of_element = ELLIPSOID_RAYMARCH;
+	else if (ft_strequ(param, "torus capped"))
+		*type_of_element = TORUS_CAPPED;
+	else if (ft_strequ(param, "hex prism"))
+		*type_of_element = HEX_PRISM;
+	else if (ft_strequ(param, "round cone"))
+		*type_of_element = ROUND_CONE;
 }
 
 int			ft_type_of_array(int *type_of_element,

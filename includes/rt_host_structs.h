@@ -101,13 +101,21 @@ typedef struct 			s_tmp
 	float			specular_texture;//					object (material)
 	int 			texture_number; //					object (material)
 	cl_float3		texture_position;//					object (material)
+	cl_float3		alfa_angle;//						object(complicated)
+	cl_float3		beta_angle;//						object(complicated)
+	cl_float3		gamma_angle;//						object(complicated)
+	cl_float3		reverse_alfa_angle;//						object(complicated)
+	cl_float3		reverse_beta_angle;//						object(complicated)
+	cl_float3		reverse_gamma_angle;//						object(complicated)
+	int				complicated;//						object(complicated)
+	int				complicated_index;//				object(complicated)
 	cl_int			max_depth_r;	//					render_parameters
 	cl_int			max_depth_p;	//					render_parameters
 	cl_int			skybox_num;		//					render_parameters
 	float			exposure;		//					scene_parameters
 	float			gamma;			//					scene_parameters
 	char*			file;			//					obj_parameters
-	bool 			checker[33];
+	bool 			checker[40];
 	struct s_tmp	*next;
 }						t_tmp;
 
