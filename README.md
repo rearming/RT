@@ -1,5 +1,15 @@
-# RT
-1. в чекере добавить необязательную проверку на наличие axis в сфере, элипсоиде, парабаллоиде и т.п.
-2. ДЛЯ сферы len > 0 и len < radius
-  для эллипсоид distance <= radius (if == => elispoid=sphere with radius r/2)
-  len > 0 && len < 3/2 * radius
+**(Work in progress, don't be confused of 'Dota 6' title)**
+
+Github can't upload screenshots properly, so you can see them [here](https://github.com/rearming/RT/tree/master/screenshots)
+
+![](/screenshots/qADw7VMNr44.jpg)
+
+![](/screenshots/Screenshot_from_2020-02-22_16-46-23.png)
+
+![](/screenshots/Screen_Shot_2020-02-25_at_20.04.42-min.png)
+
+![](/screenshots/Screen_Shot_2020-02-25_at_21.08.20-min.png)
+
+![](/screenshots/Screen_Shot_2020-03-17_at_13_16_31-min.png)
+
+![](/screenshots/Screen_Shot_2020-01-29_at_13.18.50-min.png)
