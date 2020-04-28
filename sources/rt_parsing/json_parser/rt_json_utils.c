@@ -105,7 +105,7 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 		rt_raise_error(ERR_PARSING_SCENE_NOT_SPECIFIED);
 }
 
-cl_float3	*count_matrix(cl_float3 alfa, cl_float3 beta, cl_float3 gamma, boolean reverse) {
+cl_float3	*count_matrix(cl_float alfa, cl_float beta, cl_float gamma, bool reverse) {
 
 	cl_float3 matrix[3];
 	cl_float3 c = (cl_float3){{cos(alfa), cos(beta), cos(gamma)},,};
