@@ -13,6 +13,7 @@
 #include "rt.h"
 #include "rt_parsing.h"
 #include "rt_math_utils.h"
+
 static void add_rotation_matrix(t_tmp *tmp, t_object *object){
 	int check_rotation;
 

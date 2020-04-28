@@ -49,18 +49,6 @@ static int	ft_check(const char *param, int *type_of_element)
 		*type_of_element = VMIN;
 	else if (ft_strequ(param, "vmax"))
 		*type_of_element = VMAX;
-	else if (ft_strequ(param, "alfa angle"))
-		*type_of_element = ALFA_ANGLE;
-	else if (ft_strequ(param, "beta angle"))
-		*type_of_element = BETA_ANGLE;
-	else if (ft_strequ(param, "gamma angle"))
-		*type_of_element = GAMMA_ANGLE;
-	else if (ft_strequ(param, "reverse alfa angle"))
-		*type_of_element = reverse_ALFA_ANGLE;
-	else if (ft_strequ(param, "reverse beta angle"))
-		*type_of_element = reverse_BETA_ANGLE;
-	else if (ft_strequ(param, "reverse gamma angle"))
-		*type_of_element = reverse_GAMMA_ANGLE;
 	return (*type_of_element != NOT_SET) ? 1 :
 	ft_check_material(param, type_of_element);
 }

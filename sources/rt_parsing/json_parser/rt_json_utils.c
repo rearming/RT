@@ -111,7 +111,7 @@ cl_float3	*count_matrix(cl_float3 alfa, cl_float3 beta, cl_float3 gamma, boolean
 	cl_float3 c = (cl_float3){{cos(alfa), cos(beta), cos(gamma)},,};
 	cl_float3 s = (reverse) ? (cl_float3){{sin(-alfa), sin(-beta), sin(-gamma)},,} : (cl_float3){{sin(alfa), sin(beta), sin(gamma)},,};
 	//cl_float3 c1 = c;
-	..cl_float3 s1 = -s;
+	//cl_float3 s1 = -s;
 	//if (!reverse) {
 		matrix[0] = (cl_float3){{c.x * c.z - s.x * c.y * s.z, -c.x * s.z - s.x * c.y *c.z, s.x *s.y},,};
 		matrix[1] = (cl_float3){{s.x * c.z + c.x * c.y * s.z, -s.x * s.z + c.x * c.y * c.z, - s.y * c.z},,};
