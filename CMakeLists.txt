@@ -151,7 +151,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake_search_modules)
 
     find_package(SDL2 REQUIRED)
-#    find_package(SDL2_ttf REQUIRED)
+    find_package(SDL2_ttf REQUIRED)
     find_package(OpenCL REQUIRED)
 
     set(graphic_libs_include_dirs

@@ -1,4 +1,20 @@
 
+float3		mix_avg_colors(float3 col_prev, float3 col_new, int samples);
+
+float3		mix_colors(float3 col1, float3 col2, float t);
+
+float3		get_float3_color(int hex_color);
+
+float		color_energy(float3 color);
+
+int			get_int_color(float3 color);
+
+int         get_texture_color(
+		int2 pos,
+		__constant int *texture_list,
+		__constant t_texture_info *texture_info
+);
+
 float3		shade(
 		t_ray *ray,
 		t_rayhit *hit,
@@ -69,22 +85,6 @@ void			correct_img_point(float3 *img_point);
 t_ray			get_ray(float3 img_point, __global const t_camera *camera);
 
 float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
-
-float3		mix_avg_colors(float3 col_prev, float3 col_new, int samples);
-
-float3		mix_colors(float3 col1, float3 col2, float t);
-
-float3		get_float3_color(int hex_color);
-
-float		color_energy(float3 color);
-
-int			get_int_color(float3 color);
-
-int         get_texture_color(
-		int2 pos,
-		__constant int *texture_list,
-		__constant t_texture_info *texture_info
-);
 
 float	map_value(float value, float min, float max, float new_min, float new_max);
 

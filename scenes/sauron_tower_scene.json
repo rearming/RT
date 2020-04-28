@@ -24,15 +24,6 @@
   },
   "objects": [
     {
-      "type": "sphere",
-      "material": {
-        "emission color": "0xFFFFFF",
-        "emission power": 100000
-      },
-      "center": [-700, 1500, -700],
-      "radius": 100
-    },
-    {
       "type": "plane",
       "material": {
         "diffuse": "0xFFFFFF"
