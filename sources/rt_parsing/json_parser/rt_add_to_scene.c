@@ -13,6 +13,8 @@
 #include "rt.h"
 #include "rt_parsing.h"
 #include "rt_math_utils.h"
+#include "rt_window_params.h"
+
 static void add_rotation_matrix(t_tmp *tmp, t_object *object){
 	int check_rotation;
 
@@ -40,10 +42,10 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 	}
 	check_object(tmp);
 	object->type = tmp->type;
-	object->normal = vec_normalize(tmp->normal);
+	object->normal = rt_vec_normalize(tmp->normal);
 	object->center = tmp->center;
 	object->distance = tmp->distance;
-	object->axis = vec_normalize(tmp->axis);
+	object->axis = rt_vec_normalize(tmp->axis);
 	object->vmax = tmp->vmax;
 	object->vmin = tmp->vmin;
 	object->radius = tmp->radius;
