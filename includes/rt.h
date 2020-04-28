@@ -39,35 +39,37 @@ extern t_opencl		g_opencl;
 extern t_sdl		g_sdl;
 extern t_gui		g_gui;
 extern int			*g_img_data;
+extern cl_float3	g_img_data_float[WIN_WIDTH * WIN_HEIGHT];
 extern t_textures   g_textures;
 
 /*
 **	Init
 */
 
-uint32_t	rt_parse_init_options(char **options, int options_num, int first_option);
-void		rt_init(t_rt *out_rt, const char *json_scene_file, uint32_t init_options);
+void		rt_init(t_rt *out_rt, const char *json_scene_file);
+void		rt_init_renderer_params(t_renderer_params *out_opencl_params, t_cl_info clInfo);
+int			init_basic_textures_parameters(void);
+void		rt_add_start_position(int i);
+char 		*found_file_in_folder(char **folders_names, const char *file);
 
 /*
 **	Render
 */
 
 void		rt_render(void *rt_ptr, void (*render_func)(void *));
-void		rt_update_render_params(t_render_kernel *render_kernel,
-							 t_render_params *params,
-							 uint32_t render_options,
-							 uint32_t render_action);
+void		rt_update_renderer_params(t_rt *rt, t_rt_renderer *renderer);
+
 /*
 **	Event handling
 */
 
-void		handle_event(t_rt *rt, SDL_Event *events, int events_num);
+void		handle_event(SDL_Event *event, t_rt *rt);
 
-void		rt_unset_bit(uint32_t *bitfield, uint32_t target);
-void		rt_set_bit(unsigned int *bitfield, uint32_t new_param);
+void		rt_unset_render_params(uint32_t *old_params, uint32_t target);
+void		rt_set_render_params(unsigned int *old_params, uint32_t new_param);
 void		rt_set_render_algo(uint32_t *old_params, uint32_t new_algo);
-bool		rt_bit_isset(uint32_t params, uint32_t target);
-void		rt_switch_bit(uint32_t *bitfield, uint32_t target);
+bool		rt_params_isset(uint32_t params, uint32_t target);
+void		rt_switch_render_param(uint32_t *params, uint32_t target);
 
 /*
 **	SDL utils
@@ -87,6 +89,6 @@ void		print_cl_build_program_debug(cl_program program);
 void		rt_raise_error(const char *err_str);
 void		*rt_safe_malloc(size_t size);
 bool		rt_exit_clean(void);
-bool		rt_camera_changed(t_camera *camera);
+bool		rt_camera_moved(t_camera *camera);
 
 #endif

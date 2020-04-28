@@ -1,8 +1,5 @@
 # RT
-Advanced raytracer written on C with SDL2 and OpenCL
-
-`prototype of texture function:
-
-t_color			texture(t_vec normal, SDL_Surface *tex, t_obj *obj, t_vec point_n);
-//tex params in obj: -tex_number(int); 
-                     -tex_pos(t_vec);
+1. в чекере добавить необязательную проверку на наличие axis в сфере, элипсоиде, парабаллоиде и т.п.
+2. ДЛЯ сферы len > 0 и len < radius
+  для эллипсоид distance <= radius (if == => elispoid=sphere with radius r/2)
+  len > 0 && len < 3/2 * radius

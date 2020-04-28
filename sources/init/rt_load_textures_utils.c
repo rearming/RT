@@ -31,7 +31,7 @@ static int		exists(const char *file_name)
 	return (0);
 }
 
-char			*found_file_in_the_folder(const char *file)
+char			*found_file_in_folder(char **folders_names, const char *file)
 {
 	int		i;
 	char	*check;
@@ -41,9 +41,9 @@ char			*found_file_in_the_folder(const char *file)
 		return (ft_strdup(file));
 	else if (exists(check = ft_strjoin(TEXTURES_FOLDER, file)))
 		return (check);
-	else if (g_textures.folders_names)
+	else if (folders_names)
 	{
-		while (g_textures.folders_names[i]!= NULL)
+		while (folders_names[i]!= NULL)
 		{
 			ft_strclr(check);
 			free(check);

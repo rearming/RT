@@ -34,9 +34,12 @@ void	parse_boolean(t_tmp *tmp, const char *key, json_t *value,
 			if (tmp->type == MESH)
 				*renderer_flags = json_is_true(value) ? *renderer_flags
 					| RENDER_MESH : *renderer_flags & ~RENDER_MESH;
-			else if (tmp->type == TEXTURES || tmp->type == SKYBOX)
+			else if (tmp->type == TEXTURES)
 				*renderer_flags = json_is_true(value) ? *renderer_flags
 					| RENDER_TEXTURES : *renderer_flags & ~RENDER_TEXTURES;
+			else if (tmp->type == SKYBOX)
+				*renderer_flags = json_is_true(value) ? *renderer_flags
+					| RENDER_SKYBOX : *renderer_flags & ~RENDER_SKYBOX;
 		}
 	}
 }

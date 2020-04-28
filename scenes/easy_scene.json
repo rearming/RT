@@ -11,7 +11,8 @@
     "render objects": true,
     "render mesh": {
       "enabled": false,
-      "file": "assets/3d_models/monkey.obj",
+      "file": "/monkey.obj",
+      "directory": "assets/3d_models",
       "backface culling": false
     },
     "textures": {

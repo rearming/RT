@@ -67,6 +67,16 @@ typedef enum	e_render_state
 **	render options
 */
 
+# define RENDER_RAYTRACE (1 << 0)
+# define RENDER_PATHTRACE (1 << 1)
+# define RENDER_RAYMARCH (1 << 2)
+# define RENDER_MESH (1 << 3)
+# define RENDER_BACKFACE_CULLING (1 << 4)
+# define RENDER_OBJECTS (1 << 5)
+# define RENDER_MESH_VTEXTURES (1 << 6)
+# define RENDER_TEXTURES (1 << 7)
+# define RENDER_ANTI_ALIASING (1 << 8)
+# define RENDER_SKYBOX (1 << 9)
 typedef enum	e_render_options
 {
 	RENDER_NEVER = 0x0,
@@ -109,6 +119,17 @@ typedef enum	e_render_action
 
 # define RT_DEFAULT_MEM_FLAG (CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR)
 # define RT_MEM_RW_FLAG (CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR)
+
+/*
+**	OpenCL host constants
+**
+**  -> Раскомментив строчку OPENCL_DEBUG_KERNEL_NUM можно запустить мало кернелов,
+** 	например, для проверки правильной передачи данных на видеокарту или того,
+** 	как работают какие-либо функции.
+**
+**  [при OPENCL_RELEASE_KERNEL_NUM, т.е. на ~3-ех миллионах кернелов,
+** 	случайный printf в кернеле приводит к намертво зависшему компу]
+*/
 
 # define OPENCL_RELEASE_KERNEL_NUM WIN_WIDTH * WIN_HEIGHT
 # define OPENCL_DEBUG_KERNEL_NUM 2

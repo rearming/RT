@@ -168,7 +168,6 @@ bool				ray_cone_intersect(
 	return false;
 }
 
-
 bool		ray_cylinder_intersect(
 		t_ray *ray,
 		__global const t_object *cylinder,

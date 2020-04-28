@@ -43,11 +43,11 @@ bool			ray_march(
 		const float3	ex = {RAY_MARCH_SURFACE_ACC, 0, 0};
 		const float3	ey = {0, RAY_MARCH_SURFACE_ACC, 0};
 		const float3	ez = {0, 0, RAY_MARCH_SURFACE_ACC};
-		const float		dist = distan(surface_point, obj);
+		const float		dist = distan(best_hit->pos, obj);
 		/// вектор р - вектор направление градиента близости к поверхности
-		const float3	r = {dist - distan(surface_point - ex, obj),
-								dist - distan(surface_point - ey, obj),
-								dist - distan(surface_point - ez, obj)};
+		const float3	r = {dist - distan(best_hit->pos - ex, obj),
+								dist - distan(best_hit->pos - ey, obj),
+								dist - distan(best_hit->pos - ez, obj)};
 
 		/// поворачиваем вектор нормали в обратную сторону
 		/// obj->rot_n1, 2, 3 - строчки матрицы поворота для углов эйлера
@@ -65,25 +65,25 @@ float	distan(float3 surface_point, t_object *obj)
 {
 	switch (obj->type)
 	{
-	case (BOX)
+	case (BOX):
 		return dist_box(surface_point, obj);
-	case (CAPSULE)
+	case (CAPSULE):
 		return dist_capsule(surface_point, obj);
-	case (TORUS)
+	case (TORUS):
 		return dist_torus(surface_point, obj);
-	case (ELLIPSOID_RAYMARCH)
+	case (ELLIPSOID_RAYMARCH):
 		return dist_ellipsoid(surface_point, obj);
-	case (TORUS_CAPPED)
+	case (TORUS_CAPPED):
 		return dist_torus_capped(surface_point, obj);
-	case (HEX_PRISM)
+	case (HEX_PRISM):
 		return dist_hex_prism(surface_point, obj);
-	case (ROUND_CONE)
+	case (ROUND_CONE):
 		return dist_round_cone(surface_point, obj);
 	}
 }
 
 bool		ray_march_hit(t_ray *ray,
-		__global const * t_object *obj,
+		__global const t_object *obj,
 		t_rayhit *best_hit)
 {
 	/// для нахождения расстояния сначала повернем и сместим луч,
@@ -110,7 +110,7 @@ bool		ray_march_hit(t_ray *ray,
 	/// идем по лучу к поверхности
 	switch (obj->type)
 	{
-		case (BOX)
+		case (BOX):
 		{
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
@@ -125,7 +125,7 @@ bool		ray_march_hit(t_ray *ray,
 			break;
 		}
 
-		case (CAPSULE)
+		case (CAPSULE):
 		{
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
@@ -140,7 +140,7 @@ bool		ray_march_hit(t_ray *ray,
 			break;
 		}
 
-		case (TORUS)
+		case (TORUS):
 		{
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
@@ -155,7 +155,7 @@ bool		ray_march_hit(t_ray *ray,
 			break;
 		}
 
-		case (ELLIPSOID_RAYMARCH)
+		case (ELLIPSOID_RAYMARCH):
 		{
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
@@ -170,7 +170,7 @@ bool		ray_march_hit(t_ray *ray,
 			break;
 		}
 
-		case (TORUS_CAPPED)
+		case (TORUS_CAPPED):
 		{
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
@@ -185,7 +185,7 @@ bool		ray_march_hit(t_ray *ray,
 			break;
 		}
 
-		case (HEX_PRISM)
+		case (HEX_PRISM):
 		{
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
@@ -200,7 +200,7 @@ bool		ray_march_hit(t_ray *ray,
 			break;
 		}
 
-		case (ROUND_CONE)
+		case (ROUND_CONE):
 		{
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
