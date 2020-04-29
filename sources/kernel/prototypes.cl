@@ -1,20 +1,4 @@
 
-float3		mix_avg_colors(float3 col_prev, float3 col_new, int samples);
-
-float3		mix_colors(float3 col1, float3 col2, float t);
-
-float3		get_float3_color(int hex_color);
-
-float		color_energy(float3 color);
-
-int			get_int_color(float3 color);
-
-int         get_texture_color(
-		int2 pos,
-		__constant int *texture_list,
-		__constant t_texture_info *texture_info
-);
-
 float3		shade(
 		t_ray *ray,
 		t_rayhit *hit,
@@ -85,6 +69,22 @@ void			correct_img_point(float3 *img_point);
 t_ray			get_ray(float3 img_point, __global const t_camera *camera);
 
 float3			correct_hdr(float gamma, float exposure, float3 hdr_color);
+
+float3		mix_avg_colors(float3 col_prev, float3 col_new, int samples);
+
+float3		mix_colors(float3 col1, float3 col2, float t);
+
+float3		get_float3_color(int hex_color);
+
+float		color_energy(float3 color);
+
+int			get_int_color(float3 color);
+
+int         get_texture_color(
+		int2 pos,
+		__constant int *texture_list,
+		__constant t_texture_info *texture_info
+);
 
 float	map_value(float value, float min, float max, float new_min, float new_max);
 
@@ -178,26 +178,26 @@ bool			ray_march(
 		__global const t_object *obj,
 		t_rayhit *best_hit);
 
-float	distan(float3 surface_point, t_object *obj);
+float	distan(float3 surface_point, __global const t_object *obj);
 
 bool		ray_march_hit(t_ray *ray,
 		__global const t_object *obj,
 		t_rayhit *best_hit);
 
-float	dist_box(float3 surface_point, t_object *obj);
+float	dist_box(float3 surface_point, __global const t_object *obj);
 
 float	dist_capsule(float3 surface_point,
 					  __global const t_object *obj);
 
-float	dist_torus(float3 surface_point, t_object *obj);
+float	dist_torus(float3 surface_point, __global const t_object *obj);
 
-float	dist_ellipsoid(float3 surface_point, t_object *obj);
+float	dist_ellipsoid(float3 surface_point, __global const t_object *obj);
 
-float	dist_torus_capped(float3 surface_point, t_object *obj);
+float	dist_torus_capped(float3 surface_point, __global const t_object *obj);
 
-float	dist_hex_prism(float3 surface_point, t_object *obj);
+float	dist_hex_prism(float3 surface_point, __global const t_object *obj);
 
-float	dist_round_cone(float3 surface_point, t_object *obj);
+float	dist_round_cone(float3 surface_point, __global const t_object *obj);
 
 bool				ray_sphere_intersect_cut(
 		t_ray *ray,

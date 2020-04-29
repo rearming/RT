@@ -142,7 +142,14 @@ typedef enum			e_object_type
 	TRIANGLE,
 	AABB,
 	PARABOLOID,
-	ELLIPSOID
+	ELLIPSOID,
+	BOX,
+	CAPSULE,
+	TORUS,
+	ELLIPSOID_RAYMARCH,
+	TORUS_CAPPED,
+	HEX_PRISM,
+	ROUND_CONE
 }						t_object_type;
 
 typedef enum			e_complicated_type
@@ -229,14 +236,17 @@ typedef struct			s_object
 	cl_float3			axis;
 	/// axis for all rotation object
 	/// (cylinder, cone, torus, hiperboloid etc)
+	cl_float3			size;
 	cl_float			radius;
+	cl_float			radius_2;
+	cl_float			radius_ring;
 	cl_float			angle;
 	cl_float 			distance;
 	cl_float			len;
 	cl_float3			vertices[3];
 	cl_float3			vmin;
 	cl_float3			vmax;
-	t_compicated_type	complicated_type;
+	t_complicated_type	complicated_type;
 	cl_int 				comlicated_index;
 	cl_float3			rotation_matrix_T[3];
 	cl_float3			reverse_rotation_matrix_T[3];
@@ -248,17 +258,22 @@ typedef struct			s_object
 	float3				center;
 	float3				normal;
 	float3				axis;
+		/// axis for all rotation object
+		/// (cylinder, cone, torus, hiperboloid etc)
+	float3				size;
 	float				radius;
+	float				radius_2;
+	float				radius_ring;
 	float				angle;
 	float 				distance;
 	float				len;
 	float3				vertices[3];
 	float3				vmin;
 	float3				vmax;
-	t_compicated_type	compicated_type;
+	t_complicated_type	complicated_type;
 	int 				comlicated_index;
-	float3			rotation_matrix_T[3];
-	float3			reverse_rotation_matrix_T[3];
+	float3				rotation_matrix_T[3];
+	float3				reverse_rotation_matrix_T[3];
 # endif
 
 }						t_object;

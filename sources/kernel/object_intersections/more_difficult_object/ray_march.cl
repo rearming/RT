@@ -52,16 +52,16 @@ bool			ray_march(
 		/// поворачиваем вектор нормали в обратную сторону
 		/// obj->rot_n1, 2, 3 - строчки матрицы поворота для углов эйлера
 		/// с противоположным знаком  (rotation negative)
-		(best_hit->normal).x = dot(obj->rot_n1, r);
-		(best_hit->normal).y = dot(obj->rot_n2, r);
-		(best_hit->normal).z = dot(obj->rot_n3, r);
+		(best_hit->normal).x = dot((obj->reverse_rotation_matrix_T)[0], r);
+		(best_hit->normal).y = dot((obj->reverse_rotation_matrix_T)[1], r);
+		(best_hit->normal).z = dot((obj->reverse_rotation_matrix_T)[2], r);
 		best_hit->normal = fast_normalize(best_hit->normal);
 		return true;
 	}
 	return false;
 }
 
-float	distan(float3 surface_point, t_object *obj)
+float	distan(float3 surface_point, __global const t_object *obj)
 {
 	switch (obj->type)
 	{
@@ -79,6 +79,8 @@ float	distan(float3 surface_point, t_object *obj)
 		return dist_hex_prism(surface_point, obj);
 	case (ROUND_CONE):
 		return dist_round_cone(surface_point, obj);
+	default:
+		return RAY_MARCH_MAX_DIST + 1;
 	}
 }
 
@@ -95,16 +97,16 @@ bool		ray_march_hit(t_ray *ray,
 	/// obj->rot_p1, 2, 3 - строчки матрицы поворота для углов эйлера
 	/// alpha, beta, gamma (прецессия, нутация, вращение) (rotation positive)
 
-	float3	p = {dot(obj->rot_p1, surface_point),
-					dot(rot_p2, surface_point),
-					dot(rot_p3, surface_point)};
+	float3	p = {dot((obj->rotation_matrix_T)[0], surface_point),
+					dot((obj->rotation_matrix_T)[1], surface_point),
+					dot((obj->rotation_matrix_T)[2], surface_point)};
 	surface_point = p + obj->center;
 	p = surface_point; ///  вот отсюда теперь будет исходить луч относительно объекта
 
 	/// поворачиваем сам вектор направления
-	float3	d = {dot(obj->rot_p1, ray->dir),
-					dot(obj->rot_p2, ray->dir),
-					dot(obj->rot_p3, ray->dir)};
+	float3	d = {dot((obj->rotation_matrix_T)[0], ray->dir),
+					dot((obj->rotation_matrix_T)[1], ray->dir),
+					dot((obj->rotation_matrix_T)[2], ray->dir)};
 
 	float	distance, distance_diff;
 	/// идем по лучу к поверхности
@@ -214,6 +216,8 @@ bool		ray_march_hit(t_ray *ray,
 			}
 			break;
 		}
+		default:
+			distance = 0;
 	} //  end of switch
 
 	/// пересечение ближайшее - возвращаем точку
@@ -224,9 +228,10 @@ bool		ray_march_hit(t_ray *ray,
 		best_hit->pos = surface_point;
 		return true;
 	}
+	return false;
 }
 
-float	dist_box(float3 surface_point, t_object *obj)
+float	dist_box(float3 surface_point, __global const t_object *obj)
 {
 	surface_point -= obj->center;
 	float3	s;
@@ -254,14 +259,14 @@ float	dist_capsule(float3 surface_point,
 }
 
 
-float	dist_torus(float3 surface_point, t_object *obj)
+float	dist_torus(float3 surface_point, __global const t_object *obj)
 {
 	float3 p1 = surface_point - obj->center;
 	float x = sqrt(p1.x * p1.x + p1.z * p1.z) - obj->radius_ring;
 	return sqrt(x * x + p1.y * p1.y) - obj->radius;
 }
 
-float	dist_ellipsoid(float3 surface_point, t_object *obj)
+float	dist_ellipsoid(float3 surface_point, __global const t_object *obj)
 {
 	float3 p = surface_point - obj->center;
 	float k0 = length(p / obj->size);
@@ -269,7 +274,7 @@ float	dist_ellipsoid(float3 surface_point, t_object *obj)
 	return k0 * (k0 - 1.0) / k1;
 }
 
-float	dist_torus_capped(float3 surface_point, t_object *obj)
+float	dist_torus_capped(float3 surface_point, __global const t_object *obj)
 {
 	float3 p = surface_point - obj->center;
 	p.x = fabs(p.x);
@@ -286,7 +291,7 @@ float	dist_torus_capped(float3 surface_point, t_object *obj)
 				- 2.0 * obj->radius_ring * k) - obj->radius;
 }
 
-float	dist_hex_prism(float3 surface_point, t_object *obj)
+float	dist_hex_prism(float3 surface_point, __global const t_object *obj)
 {
 	float3			q = fabs(surface_point - obj->center);
 	float			pz = q.z;
@@ -298,11 +303,11 @@ float	dist_hex_prism(float3 surface_point, t_object *obj)
 	float3	cl = {clamp(q.x, -kz * obj->radius, kz * obj->radius),
 					obj->radius, 0.0f};
 	cl.x = length(q - cl) * sign(q.y - obj->radius);
-	cl.y = pz - obj->high;
+	cl.y = pz - obj->distance;
 	return clamp(cl.x, cl.y, 0.0f) + length(max(cl, 0.0f));
 }
 
-float	dist_round_cone(float3 surface_point, t_object *obj)
+float	dist_round_cone(float3 surface_point, __global const t_object *obj)
 {
 	const float3	p = surface_point - obj->center;
 	const float3	b = obj->center + obj->axis * obj->distance;

@@ -104,9 +104,6 @@ typedef struct 			s_tmp
 	cl_float		alfa_angle;//						object(complicated)
 	cl_float		beta_angle;//						object(complicated)
 	cl_float		gamma_angle;//						object(complicated)
-	cl_float		reverse_alfa_angle;//						object(complicated)
-	cl_float		reverse_beta_angle;//						object(complicated)
-	cl_float		reverse_gamma_angle;//						object(complicated)
 	int				complicated;//						object(complicated)
 	int				complicated_index;//				object(complicated)
 	cl_int			max_depth_r;	//					render_parameters

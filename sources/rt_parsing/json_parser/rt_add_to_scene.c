@@ -21,15 +21,22 @@ static void add_rotation_matrix(t_tmp *tmp, t_object *object){
 	check_rotation = (tmp->checker[ALFA_ANGLE]) ? 1 : 0;
 	check_rotation += (tmp->checker[BETA_ANGLE]) ? 1 : 0;
 	check_rotation += (tmp->checker[GAMMA_ANGLE]) ? 1 : 0;
-	check_rotation += (tmp->checker[reverse_ALFA_ANGLE]) ? 10 : 0;
-	check_rotation += (tmp->checker[reverse_BETA_ANGLE]) ? 10 : 0;
-	check_rotation += (tmp->checker[reverse_GAMMA_ANGLE]) ? 10 : 0;
-	if (check_rotation == 30) {
-		object->reverse_rotation_matrix_T = count_matrix(tmp->reverse_alfa_angle, tmp->reverse_beta_angle, tmp->reverse_gamma_angle, true);
-	} else if (check_rotation == 3) {
-		object->rotation_matrix_T = count_matrix(tmp->alfa_angle, tmp->beta_angle, tmp->gamma_angle, false);
-	} else if (check_rotation != 0){
+	if (check_rotation == 3)
+	{
+		count_matrix(object->rotation_matrix_T,
+				(cl_float3) {{tmp->alfa_angle, tmp->beta_angle,
+						 tmp->gamma_angle}}, true);
+		count_matrix(object->reverse_rotation_matrix_T,
+				(cl_float3) {{tmp->alfa_angle, tmp->beta_angle,
+						 tmp->gamma_angle}}, false);
+	}
+	else if (check_rotation != 0)
+	{
 		rt_raise_error(ERR_PARSING_MATRIX);
+	}
+	else
+	{
+
 	}
 }
 
@@ -40,7 +47,7 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 		tmp->checker[DISTANCE] = false;
 		printf("Ellipsoid changed to sphere with radius = r");
 	}
-	check_object(tmp);
+//	check_object(tmp);
 	object->type = tmp->type;
 	object->normal = rt_vec_normalize(tmp->normal);
 	object->center = tmp->center;
@@ -66,10 +73,6 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 	object->complicated_type = tmp->complicated;
 	object->comlicated_index = tmp->complicated_index;
 	add_rotation_matrix(tmp, object);
-	//change alpha, betta, gamma to float3[3] rotation_matrix_T;
-	// float3[3] reverse_rotation_matrix_T; характеристики объектов
-	// object->complicated = nothing, union, different, intersection +
-	// object->complicated_index +;
 }
 
 static void	add_cam_and_light(t_camera *camera, t_light *light, t_tmp *tmp,

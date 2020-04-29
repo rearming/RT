@@ -36,15 +36,14 @@ static void	init_tmp_material(t_tmp *tmp)
 	tmp->texture_position = (cl_float3){{0, 0, 0}};
 }
 
-static void init_tmp_complicated_params(t_tmp *tmp) {
+static void init_tmp_complicated_params(t_tmp *tmp)
+{
 	tmp->complicated = (int)NULL;
 	tmp->complicated_index = NOT_SET;
-	tmp->alfa_angle = (cl_float3){{0, 0, 0}};
-	tmp->beta_angle = (cl_float3){{0, 0, 0}};
-	tmp->gamma_angle = (cl_float3){{0, 0, 0}};
-	tmp->reverse_alfa_angle = (cl_float3){{0, 0, 0}};
-	tmp->reverse_beta_angle = (cl_float3){{0, 0, 0}};
-	tmp->reverse_gamma_angle = (cl_float3){{0, 0, 0}};
+	tmp->alfa_angle = 0;
+	tmp->beta_angle = 0;
+	tmp->gamma_angle = 0;
+}
 
 void		init_tmp(t_tmp *tmp)
 {
@@ -105,23 +104,20 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 		rt_raise_error(ERR_PARSING_SCENE_NOT_SPECIFIED);
 }
 
-cl_float3	*count_matrix(cl_float alfa, cl_float beta, cl_float gamma, bool reverse) {
+void	count_matrix(cl_float3 *rotation_matrix, cl_float3 *rotation_matrix_,
+		cl_float3 angle, bool reversed) {
 
-	cl_float3 matrix[3];
-	cl_float3 c = (cl_float3){{cos(alfa), cos(beta), cos(gamma)},,};
-	cl_float3 s = (reverse) ? (cl_float3){{sin(-alfa), sin(-beta), sin(-gamma)},,} : (cl_float3){{sin(alfa), sin(beta), sin(gamma)},,};
-	//cl_float3 c1 = c;
-	//cl_float3 s1 = -s;
-	//if (!reverse) {
-		matrix[0] = (cl_float3){{c.x * c.z - s.x * c.y * s.z, -c.x * s.z - s.x * c.y *c.z, s.x *s.y},,};
-		matrix[1] = (cl_float3){{s.x * c.z + c.x * c.y * s.z, -s.x * s.z + c.x * c.y * c.z, - s.y * c.z},,};
-		matrix[2] = (cl_float3){{s.y * s.z, s.y * c.z, c.y},,};
-	//}
-	//else {
-	//	matrix[0] = (cl_float3){{c1.x * c1.z - s1.x * c1.y * s1.z, -c1.x * s1.z - s1.x * c1.y *c1.z, s1.x *s1.y},,};
-	//	matrix[1] = (cl_float3){{s1.x * c1.z + c1.x * c1.y * s1.z, -s1.x * s1.z + c.x * c1.y * c1.z, - s1.y * c1.z},,};
-	//	matrix[2] = (cl_float3){{s1.y * s1.z, s1.y * c1.z, c1.y},,};
-	//}
-	return matrix;
-}
+	cl_float3 c = (cl_float3){{cos(angle.x), cos(angle.y), cos(angle.z)}};
+	cl_float3 s = (cl_float3){{sin(angle.x), sin(angle.y), sin(angle.z)}};
+	s = reversed ? (cl_float3){{-s.x, -s.y, -s.z}} : s;
+
+	rotation_matrix[0] = (cl_float3){{c.x * c.z - s.x * c.y * s.z,
+								   -c.x * s.z - s.x * c.y *c.z,
+								   s.x *s.y}};
+	rotation_matrix[1] = (cl_float3){{s.x * c.z + c.x * c.y * s.z,
+								   -s.x * s.z + c.x * c.y * c.z,
+								   -s.y * c.z}};
+	rotation_matrix[2] = (cl_float3){{s.y * s.z,
+								   s.y * c.z,
+								   c.y}};
 }
