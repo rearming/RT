@@ -42,15 +42,6 @@ static void		parse_variable_material2(t_tmp *tmp, const char *key,
 	} else if (ft_strequ(key, "gamma angle")) {
 		check_duplicated(tmp->checker, GAMMA_ANGLE);
 		tmp->gamma_angle = parse_f(value);
-	} else if (ft_strequ(key, "reverse alfa angle")) {
-		check_duplicated(tmp->checker, reverse_ALFA_ANGLE);
-		tmp->reverse_alfa_angle = parse_f(value);
-	} else if (ft_strequ(key, "reverse beta angle")) {
-		check_duplicated(tmp->checker, reverse_BETA_ANGLE);
-		tmp->reverse_beta_angle = parse_f(value);
-	} else if (ft_strequ(key, "reverse gamma angle")) {
-		check_duplicated(tmp->checker, reverse_GAMMA_ANGLE);
-		tmp->reverse_gamma_angle = parse_f(value);
 	} else
 		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, key));
 }
@@ -89,6 +80,16 @@ static void		parse_variable_params(t_tmp *tmp, const char *key,
 	{
 		check_duplicated(tmp->checker, RADIUS);
 		tmp->radius = parse_f(value);
+	}
+	else if (ft_strequ(key, "radius 2"))
+	{
+		check_duplicated(tmp->checker, RADIUS_2);
+		tmp->radius_2 = parse_f(value);
+	}
+	else if (ft_strequ(key, "radius ring"))
+	{
+		check_duplicated(tmp->checker, RADIUS_RING);
+		tmp->radius_ring = parse_f(value);
 	}
 	else if (ft_strequ(key, "angle"))
 	{
