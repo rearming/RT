@@ -90,16 +90,16 @@ void	check_object(t_tmp *tmp)
 	else if (tmp->type == CYLINDER)
 		check_obligate = (tmp->checker[CENTER] + tmp->checker[RADIUS]);
 	else if (tmp->type == PARABOLOID)
-		check_obligate = (tmp->checker[CENTER] + tmp->checker[DISTANCE];
+		check_obligate = (tmp->checker[CENTER] + tmp->checker[DISTANCE]);
 	else if (tmp->type == ELLIPSOID && count ++ < 4)
 		check_obligate = (tmp->checker[CENTER]
 			+ tmp->checker[DISTANCE] + tmp->checker[RADIUS]);
 	if (check - check_obligate != 0 || check_obligate / count != 1 ||
 		tmp->checker[EMISSION_COLOR] + tmp->checker[EMISSION_POWER] == 1)
 		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_OBJECT_PARAMS, object_name(tmp->type)));
-	if (tmp->checker[TEXTURE] && !(tmp->type == SPHERE || tmp->type == CONE
-		|| tmp->type == CYLINDER || tmp->type == PLANE))
-		rt_raise_error(ERR_INVALID_TEXTURE_OBJECT);
+//	if (tmp->checker[TEXTURE] && !(tmp->type == SPHERE || tmp->type == CONE
+//		|| tmp->type == CYLINDER || tmp->type == PLANE))
+//		rt_raise_error(ERR_INVALID_TEXTURE_OBJECT);
 }
 
 void	check_camera_or_light(t_tmp *tmp, bool type)

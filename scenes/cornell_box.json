@@ -19,6 +19,15 @@
   },
   "objects": [
     {
+      "type": "box",
+      "material": {
+        "diffuse": "0xFFFFFF",
+        "phong exp": 0
+      },
+      "center": [-1, -0.5, 0],
+      "size": [1, 0.7, 0.3]
+    },
+    {
       "type": "plane",
       "material": {
         "specular": [1.0, 1.0, 1.0],
