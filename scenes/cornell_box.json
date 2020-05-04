@@ -89,14 +89,12 @@
       "radius": 1
     },
     {
-      "type": "sphere",
+      "type": "box",
       "material": {
         "diffuse": "0xFFFFFF"
       },
       "center": [1, -1.5, 0],
-      "axis": [-1, -1.5, -1],
-      "len": 0.8,
-      "radius": 1.2
+      "size": [0.3, 0.7, 0.2]
     }
   ],
   "camera": {
