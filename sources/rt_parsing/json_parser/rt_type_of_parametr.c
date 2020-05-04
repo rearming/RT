@@ -49,6 +49,8 @@ static int	ft_check(const char *param, int *type_of_element)
 		*type_of_element = VMIN;
 	else if (ft_strequ(param, "vmax"))
 		*type_of_element = VMAX;
+	else if (ft_strequ(param, "size"))
+		*type_of_element = SIZE;
 	return (*type_of_element != NOT_SET) ? 1 :
 	ft_check_material(param, type_of_element);
 }

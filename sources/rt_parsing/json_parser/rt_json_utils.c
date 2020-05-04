@@ -43,6 +43,9 @@ static void init_tmp_complicated_params(t_tmp *tmp)
 	tmp->alfa_angle = 0;
 	tmp->beta_angle = 0;
 	tmp->gamma_angle = 0;
+	tmp->size = (cl_float3){{0, 0, 0}};
+	tmp->radius_2 = NOT_SET;
+	tmp->radius_ring = NOT_SET;
 }
 
 void		init_tmp(t_tmp *tmp)

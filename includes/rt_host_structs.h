@@ -87,6 +87,9 @@ typedef struct 			s_tmp
 	cl_float3		vmax;			//					object
 	float 			distance;		//					object
 	float			radius;			//					object
+	float			radius_2;			//					object
+	float			radius_ring;			//					object
+	cl_float3		size;			//					object
 	float			angle;			//					object
 	float 			len;			//					object
 	cl_float3		ambience;		//					object (material)

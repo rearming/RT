@@ -56,8 +56,11 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 	object->vmax = tmp->vmax;
 	object->vmin = tmp->vmin;
 	object->radius = tmp->radius;
+	object->radius_2 = tmp->radius_2;
+	object->radius_ring = tmp->radius_ring;
 	object->angle = tmp->angle;
 	object->len = tmp->len;
+	object->size = tmp->size;
 	object->material.ambient = tmp->ambience;
 	object->material.diffuse = tmp->diffuse;
 	object->material.specular = tmp->specular;

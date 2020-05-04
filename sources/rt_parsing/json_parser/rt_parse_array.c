@@ -72,6 +72,8 @@ static void	add_elements_in_array(t_tmp *tmp, int type_of_element,
 		add_array(&tmp->vmin, value, false);
 	else if (type_of_element == VMAX)
 		add_array(&tmp->vmax, value, false);
+	else if (type_of_element == SIZE)
+		add_array(&tmp->size, value, false);
 	else if (type_of_element == DIRECTORY)
 		add_directory(value);
 	else

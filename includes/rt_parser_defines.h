@@ -76,11 +76,11 @@
 # define ALFA_ANGLE 28
 # define BETA_ANGLE 29
 # define GAMMA_ANGLE 30
-# define reverse_ALFA_ANGLE 31
-# define reverse_BETA_ANGLE 32
-# define reverse_GAMMA_ANGLE 33
-# define COMPLICATED 34
-# define COMPLICATED_INDEX 35
+# define COMPLICATED 31
+# define COMPLICATED_INDEX 32
+# define SIZE 33
+# define RADIUS_RING 34
+# define RADIUS_2 35
 
 //scene parameters
 # define EXPOSURE 36
