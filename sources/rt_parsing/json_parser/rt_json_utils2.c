@@ -65,41 +65,74 @@ char	*object_name(int type)
 		return "hex prism";
 	if (type == ROUND_CONE)
 		return "round cone";
+	if (type == TEST_OBJECT)
+		return "test object";
 	return NULL;
+}
+
+int		check_tmp(t_tmp *tmp)
+{
+		int check;
+
+		check = tmp->checker[CENTER];
+		if (tmp->type == SPHERE)
+			check += tmp->checker[RADIUS];
+		else if (tmp->type == CYLINDER)
+			check += tmp->checker[RADIUS] + tmp->checker[AXIS];
+		else if (tmp->type == CONE)
+			check += tmp->checker[ANGLE] + tmp->checker[AXIS];
+		else if (tmp->type == PLANE)
+			check += tmp->checker[NORMAL];
+		else if (tmp->type == PARABOLOID)
+			check += tmp->checker[DISTANCE];
+		else if (tmp->type == ELLIPSOID)
+			check += tmp->checker[DISTANCE] + tmp->checker[RADIUS];
+		else if (tmp->type == BOX)
+			check += tmp->checker[SIZE];
+		else if (tmp->type == CAPSULE)
+			check += tmp->checker[AXIS] + tmp->checker[RADIUS] + tmp->checker[DISTANCE];
+		else if (tmp->type == TORUS)
+			check += tmp->checker[RADIUS] + tmp->checker[RADIUS_RING];
+		else if (tmp->type == ELLIPSOID_RAYMARCH)
+			check += tmp->checker[SIZE];
+		else if (tmp->type == TORUS_CAPPED)
+			check += tmp->checker[RADIUS] + tmp->checker[DISTANCE] + tmp->checker[ANGLE];
+		else if (tmp->type == HEX_PRISM)
+			check += tmp->checker[RADIUS] + tmp->checker[DISTANCE];
+		else if (tmp->type == ROUND_CONE)
+			check += tmp->checker[AXIS] + tmp->checker[RADIUS]
+					+ tmp->checker[DISTANCE] + tmp->checker[RADIUS_2];
+		return check;
 }
 
 void	check_object(t_tmp *tmp)
 {
-	int check_obligate;
 	int check;
-	int count;
 
-	count = 2;
-	check_obligate = 0;
-	check = tmp->checker[NORMAL] + tmp->checker[DISTANCE]
-		+ tmp->checker[ANGLE] + tmp->checker[LEN] + tmp->checker[VMIN] +
-		tmp->checker[VMAX] + tmp->checker[CENTER] + tmp->checker[RADIUS] +
-		tmp->checker[POS] + tmp->checker[ROTATION] + tmp->checker[INTENSITY]
-		+ tmp->checker[DIRECTION] + tmp->checker[COLOR];
-	if (tmp->type == SPHERE)
-		check_obligate = (tmp->checker[CENTER] + tmp->checker[RADIUS]);
-	else if (tmp->type == PLANE)
-		check_obligate = (tmp->checker[CENTER] + tmp->checker[NORMAL]);
-	else if (tmp->type == CONE)
-		check_obligate = (tmp->checker[CENTER] + tmp->checker[ANGLE]);
-	else if (tmp->type == CYLINDER)
-		check_obligate = (tmp->checker[CENTER] + tmp->checker[RADIUS]);
-	else if (tmp->type == PARABOLOID)
-		check_obligate = (tmp->checker[CENTER] + tmp->checker[DISTANCE]);
-	else if (tmp->type == ELLIPSOID && count ++ < 4)
-		check_obligate = (tmp->checker[CENTER]
-			+ tmp->checker[DISTANCE] + tmp->checker[RADIUS]);
-	if (check - check_obligate != 0 || check_obligate / count != 1 ||
-		tmp->checker[EMISSION_COLOR] + tmp->checker[EMISSION_POWER] == 1)
+	if (tmp->type != TEST_OBJECT && tmp->type != AABB && tmp->type != TRIANGLE)
+	{
+		check = tmp->checker[CENTER] + tmp->checker[NORMAL]
+				+ tmp->checker[VMIN] + tmp->checker[VMAX]
+				+ tmp->checker[RADIUS] + tmp->checker[ANGLE]
+				+ tmp->checker[DISTANCE] + tmp->checker[SIZE]
+				+ tmp->checker[RADIUS_RING] + tmp->checker[RADIUS_2]
+				+ tmp->checker[ALFA_ANGLE] + tmp->checker[COMPLICATED];
+		if (tmp->type == PLANE)
+			check += tmp->checker[LEN] + tmp->checker[AXIS];
+		else if (tmp->type == CONE || tmp->type == CYLINDER)
+			check += tmp->checker[AXIS];
+		else if (tmp->type > ELLIPSOID)
+			check += tmp->checker[LEN] + tmp->checker[AXIS]
+					- tmp->checker[ALFA_ANGLE] - tmp->checker[COMPLICATED];
+		check -= check_tmp(tmp);
+		if (check != 0)
+			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_OBJECT_PARAMS, object_name(tmp->type)));
+	}
+	if (tmp->checker[EMISSION_COLOR] + tmp->checker[EMISSION_POWER] == 1)
 		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_OBJECT_PARAMS, object_name(tmp->type)));
-//	if (tmp->checker[TEXTURE] && !(tmp->type == SPHERE || tmp->type == CONE
-//		|| tmp->type == CYLINDER || tmp->type == PLANE))
-//		rt_raise_error(ERR_INVALID_TEXTURE_OBJECT);
+	if (tmp->checker[TEXTURE] && !(tmp->type == SPHERE || tmp->type == CONE
+		|| tmp->type == CYLINDER || tmp->type == PLANE))
+		rt_raise_error(ERR_INVALID_TEXTURE_OBJECT);
 }
 
 void	check_camera_or_light(t_tmp *tmp, bool type)

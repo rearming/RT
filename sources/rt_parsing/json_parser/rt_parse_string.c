@@ -46,6 +46,8 @@ static void		parse_type2(t_tmp *tmp, const char *value)
 		tmp->type = HEX_PRISM;
 	else if (ft_strequ(value, "round cone"))
 		tmp->type = ROUND_CONE;
+	else if (ft_strequ(value, "test object"))
+		tmp->type = TEST_OBJECT;
 	else
 		rt_raise_error(ERR_PARSING_WRONG_OBJECT_TYPE);
 }

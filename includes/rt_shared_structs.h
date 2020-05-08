@@ -150,6 +150,7 @@ typedef enum			e_object_type
 	TORUS_CAPPED,
 	HEX_PRISM,
 	ROUND_CONE
+	TEST_OBJECT
 }						t_object_type;
 
 typedef enum			e_complicated_type
@@ -243,6 +244,8 @@ typedef struct			s_object
 	cl_float			angle;
 	cl_float 			distance;
 	cl_float			len;
+	cl_float 			param_0;
+	cl_float3			param_1;
 	cl_float3			vertices[3];
 	cl_float3			vmin;
 	cl_float3			vmax;

@@ -21,28 +21,47 @@ static float	parse_f(json_t *value)
 
 static void		parse_variable_material2(t_tmp *tmp, const char *key,
 		json_t *value) {
-	if (ft_strequ(key, "refraction")) {
+	if (ft_strequ(key, "refraction"))
+	{
 		check_duplicated(tmp->checker, REFRACTION);
 		tmp->refraction = parse_f(value);
-	} else if (ft_strequ(key, "emission power")) {
+	}
+	else if (ft_strequ(key, "emission power"))
+	{
 		check_duplicated(tmp->checker, EMISSION_POWER);
 		tmp->emission_power = parse_f(value);
-	} else if (ft_strequ(key, "specular texture")) {
+	}
+	else if (ft_strequ(key, "specular texture"))
+	{
 		check_duplicated(tmp->checker, SPECULAR_TEXTURE);
 		tmp->specular_texture = parse_f(value);
-	} else if (ft_strequ(key, "gamma")) {
+	}
+	else if (ft_strequ(key, "gamma")
+	{
 		check_duplicated(tmp->checker, GAMMA);
 		tmp->gamma = parse_f(value);
-	} else if (ft_strequ(key, "alfa angle")) {
+	}
+	else if (ft_strequ(key, "alfa angle"))
+	{
 		check_duplicated(tmp->checker, ALFA_ANGLE);
 		tmp->alfa_angle = parse_f(value);
-	} else if (ft_strequ(key, "beta angle")) {
+	}
+	else if (ft_strequ(key, "beta angle"))
+	{
 		check_duplicated(tmp->checker, BETA_ANGLE);
 		tmp->beta_angle = parse_f(value);
-	} else if (ft_strequ(key, "gamma angle")) {
+	}
+	else if (ft_strequ(key, "gamma angle"))
+	{
 		check_duplicated(tmp->checker, GAMMA_ANGLE);
 		tmp->gamma_angle = parse_f(value);
-	} else
+	}
+	else if (ft_strequ(key, "param_0"))
+	{
+		check_duplicated(tmp->checker, PARAM_0);
+		tmp->gamma_angle = parse_f(value);
+	}
+	else
 		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, key));
 }
 

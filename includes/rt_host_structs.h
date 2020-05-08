@@ -90,6 +90,8 @@ typedef struct 			s_tmp
 	float			radius_2;			//					object
 	float			radius_ring;			//					object
 	cl_float3		size;			//					object
+	float 			param_0;
+	cl_float3		param_1;
 	float			angle;			//					object
 	float 			len;			//					object
 	cl_float3		ambience;		//					object (material)
@@ -115,7 +117,7 @@ typedef struct 			s_tmp
 	float			exposure;		//					scene_parameters
 	float			gamma;			//					scene_parameters
 	char*			file;			//					obj_parameters
-	bool 			checker[40];
+	bool 			checker[41];
 	struct s_tmp	*next;
 }						t_tmp;
 

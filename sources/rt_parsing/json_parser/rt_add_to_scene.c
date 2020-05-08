@@ -31,13 +31,7 @@ static void add_rotation_matrix(t_tmp *tmp, t_object *object){
 						 tmp->gamma_angle}}, false);
 	}
 	else if (check_rotation != 0)
-	{
 		rt_raise_error(ERR_PARSING_MATRIX);
-	}
-	else
-	{
-
-	}
 }
 
 static void	add_objects(t_tmp *tmp, t_object *object)
@@ -47,7 +41,7 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 		tmp->checker[DISTANCE] = false;
 		printf("Ellipsoid changed to sphere with radius = r");
 	}
-//	check_object(tmp);
+	check_object(tmp);
 	object->type = tmp->type;
 	object->normal = rt_vec_normalize(tmp->normal);
 	object->center = tmp->center;
@@ -75,6 +69,8 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 	object->material.texture_position = tmp->texture_position;
 	object->complicated_type = tmp->complicated;
 	object->comlicated_index = tmp->complicated_index;
+	object->param_1 = tmp->param_1;
+	object->param_0 = tmp->param_0;
 	add_rotation_matrix(tmp, object);
 }
 
