@@ -46,6 +46,8 @@ static void init_tmp_complicated_params(t_tmp *tmp)
 	tmp->size = (cl_float3){{0, 0, 0}};
 	tmp->radius_2 = NOT_SET;
 	tmp->radius_ring = NOT_SET;
+	tmp->param_0 = NOT_SET;
+	tmp->param_1 = (cl_float3){{0, 0, 0}};
 }
 
 void		init_tmp(t_tmp *tmp)

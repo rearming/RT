@@ -53,6 +53,8 @@ static int	ft_check(const char *param, int *type_of_element)
 		*type_of_element = VMAX;
 	else if (ft_strequ(param, "size"))
 		*type_of_element = SIZE;
+	else if (ft_strequ(param, "param_1"))
+		*type_of_element = PARAM_1;
 	return (*type_of_element != NOT_SET) ? 1 :
 	ft_check_material(param, type_of_element);
 }
@@ -89,6 +91,8 @@ static void	ft_check_object(int *type_of_element, const char *param)
 		*type_of_element = HEX_PRISM;
 	else if (ft_strequ(param, "round cone"))
 		*type_of_element = ROUND_CONE;
+	else if (ft_strequ(param, "test object"))
+		*type_of_element = TEST_OBJECT;
 }
 
 int			ft_type_of_array(int *type_of_element,

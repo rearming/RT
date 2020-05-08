@@ -65,6 +65,8 @@ char	*object_name(int type)
 		return "hex prism";
 	if (type == ROUND_CONE)
 		return "round cone";
+	if (type == TEST_OBJECT)
+		return "test object";
 	return NULL;
 }
 

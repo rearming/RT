@@ -82,12 +82,14 @@
 # define SIZE 33
 # define RADIUS_RING 34
 # define RADIUS_2 35
+# define PARAM_0 36
+# define PARAM_1 37
 
 //scene parameters
-# define EXPOSURE 36
-# define GAMMA 37
+# define EXPOSURE 37
+# define GAMMA 38
 
-# define DIRECTORY 38
-# define FILE_NAME 39
+# define DIRECTORY 39
+# define FILE_NAME 40
 
 #endif
