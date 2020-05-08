@@ -149,7 +149,7 @@ typedef enum			e_object_type
 	ELLIPSOID_RAYMARCH,
 	TORUS_CAPPED,
 	HEX_PRISM,
-	ROUND_CONE
+	ROUND_CONE,
 	TEST_OBJECT
 }						t_object_type;
 
@@ -167,7 +167,7 @@ typedef enum			e_light_type
 	AMBIENT = 1,
 	POINT,
 	DIRECTIONAL,
-	PARALLEL,
+	PARALLEL
 }						t_light_type;
 
 typedef struct			s_light

@@ -36,7 +36,7 @@ static void		parse_variable_material2(t_tmp *tmp, const char *key,
 		check_duplicated(tmp->checker, SPECULAR_TEXTURE);
 		tmp->specular_texture = parse_f(value);
 	}
-	else if (ft_strequ(key, "gamma")
+	else if (ft_strequ(key, "gamma"))
 	{
 		check_duplicated(tmp->checker, GAMMA);
 		tmp->gamma = parse_f(value);
