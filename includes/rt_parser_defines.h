@@ -28,6 +28,7 @@
 # define TORUS_CAPPED 13
 # define HEX_PRISM 14
 # define ROUND_CONE 15
+# define TEST_OBJECT 16
 
 #define AMBIENT 1 		// intensity, color
 #define POINT 2			// intensity, color, pos

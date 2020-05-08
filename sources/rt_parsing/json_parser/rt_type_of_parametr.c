@@ -45,6 +45,8 @@ static int	ft_check(const char *param, int *type_of_element)
 		*type_of_element = AXIS;
 	else if (ft_strequ(param, "center"))
 		*type_of_element = CENTER;
+	else if (ft_strequ(param, "size"))
+		*type_of_element = SIZE;
 	else if (ft_strequ(param, "vmin"))
 		*type_of_element = VMIN;
 	else if (ft_strequ(param, "vmax"))
