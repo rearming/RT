@@ -18,12 +18,20 @@
   },
   "objects": [
     {
+    "type": "sphere",
+    "material": {
+      "emission color": "0xFFFFFF",
+      "emission power": 1
+    },
+    "center": [0, 2.5, 0],
+    "radius": 1
+  },
+    {
       "type": "capsule",
       "material": {
-        "diffuse": "0xFFFFFF",
-        "phong exp": 0
+        "diffuse": "0xFFFFFF"
       },
-      "center": [1, -0.5, 0],
+      "center": [-1, -1.5, 0],
       "axis": [1, 0.7, 0.3],
       "distance": 1.7,
       "radius": 0.7
@@ -31,38 +39,34 @@
     {
       "type": "torus",
       "material": {
-        "diffuse": "0xFFFFFF",
-        "phong exp": 0
+        "diffuse": "0xFFFFFF"
       },
       "center": [1, -0.5, 0],
-      "radius_ring": 1.7,
+      "radius ring": 1.7,
       "radius": 0.7
     },
     {
       "type": "box",
       "material": {
-        "diffuse": "0xFFFFFF",
-        "phong exp": 0
+        "diffuse": "0xFFFFFF"
       },
-      "center": [1, -0.5, 0],
+      "center": [0, -0.5, 0],
       "size": [1, 0.7, 0.3]
     },
     {
       "type": "ellipsoid_raymarch",
       "material": {
-        "diffuse": "0xFFFFFF",
-        "phong exp": 0
+        "diffuse": "0xFFFFFF"
       },
       "center": [1, -0.5, 0],
       "size": [1, 0.7, 0.3]
     },
     {
-      "type": "torus_capped",
+      "type": "torus capped",
       "material": {
-        "diffuse": "0xFFFFFF",
-        "phong exp": 0
+        "diffuse": "0xFFFFFF"
       },
-      "center": [1, -0.5, 0],
+      "center": [1, -1.5, 0],
       "angle": 0.3,
       "distance": 0.5,
       "radius": 1.3
