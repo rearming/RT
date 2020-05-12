@@ -83,7 +83,7 @@ static void	ft_check_object(int *type_of_element, const char *param)
 		*type_of_element = CAPSULE;
 	else if (ft_strequ(param, "torus"))
 		*type_of_element = TORUS;
-	else if (ft_strequ(param, "ellipsod raymarch"))
+	else if (ft_strequ(param, "ellipsoid raymarch"))
 		*type_of_element = ELLIPSOID_RAYMARCH;
 	else if (ft_strequ(param, "torus capped"))
 		*type_of_element = TORUS_CAPPED;
