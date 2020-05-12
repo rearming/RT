@@ -38,7 +38,7 @@ static void		parse_type2(t_tmp *tmp, const char *value)
 		tmp->type = CAPSULE;
 	else if (ft_strequ(value, "torus"))
 		tmp->type = TORUS;
-	else if (ft_strequ(value, "ellipsod raymarch"))
+	else if (ft_strequ(value, "ellipsoid raymarch"))
 		tmp->type = ELLIPSOID_RAYMARCH;
 	else if (ft_strequ(value, "torus capped"))
 		tmp->type = TORUS_CAPPED;

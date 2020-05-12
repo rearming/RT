@@ -144,8 +144,7 @@ void		add_elements(t_scene *scene, t_tmp *tmp)
 		else if (tmp_iter->structure_type == SCENE_PARAMS)
 			add_render_and_scene(scene, tmp_iter, false);
 		else
-			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM,
-					"unknown structure"));
+			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, "unknown structure"));
 		tmp_iter = tmp_iter->next;
 	}
 	free_tmp(tmp);
