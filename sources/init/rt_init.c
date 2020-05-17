@@ -43,7 +43,7 @@ void rt_init(t_rt *out_rt, const char *json_scene_file, uint32_t init_options)
 					(double)(clock() - start) / CLOCKS_PER_SEC);
 			rt_kd_tree_export(&out_rt->kd_info, out_rt->scene.obj_file);
 		}
-		rt_print_kd_tree_info(&out_rt->kd_info);
+//		rt_print_kd_tree_info(&out_rt->kd_info);
 	}
 	else
 		out_rt->render_state |= STATE_NO_MESH;

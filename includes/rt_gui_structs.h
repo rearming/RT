@@ -56,6 +56,7 @@ typedef	struct			s_transform
 	bool				(*callback)();
 	t_state				state;
 	short				type;
+	bool				on_focus;
 	void				*parent;
 	unsigned short		sons;
 }						t_transform;

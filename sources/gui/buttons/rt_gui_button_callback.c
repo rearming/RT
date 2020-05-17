@@ -45,10 +45,20 @@ bool		handle_button(t_transform *btn, t_rt *rt)
 	return (false);
 }
 
+bool		handle_textbox(t_transform *btn, SDL_Event *event, t_rt *rt)
+{
+	if (event->type == SDL_MOUSEMOTION)
+		return (0);
+}
+
 bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt)
 {
 	if (btn->type & TEXT_BOX)
+	{
+
+		handle_textbox(btn, event, rt);
 		return (false);
+	}
 	if (event->type != SDL_MOUSEBUTTONDOWN && event->type != SDL_MOUSEMOTION)
 		return (false);
 	if (event->type == SDL_MOUSEMOTION && check_hover(event, btn->rect) && btn->state != click)
