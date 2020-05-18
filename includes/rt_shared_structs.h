@@ -250,7 +250,7 @@ typedef struct			s_object
 	cl_float3			vmin;
 	cl_float3			vmax;
 	t_complicated_type	complicated_type;
-	cl_int 				comlicated_index;
+	cl_int 				complicated_index;
 	cl_float3			rotation_matrix_T[3];
 	cl_float3			reverse_rotation_matrix_T[3];
 
@@ -258,25 +258,27 @@ typedef struct			s_object
 
 	t_object_type		type;
 	t_material			material;
-	float3				center;
-	float3				normal;
-	float3				axis;
-		/// axis for all rotation object
-		/// (cylinder, cone, torus, hiperboloid etc)
-	float3				size;
-	float				radius;
-	float				radius_2;
-	float				radius_ring;
-	float				angle;
-	float 				distance;
-	float				len;
-	float3				vertices[3];
-	float3				vmin;
-	float3				vmax;
+	float3			center;
+	float3			normal;
+	float3			axis;
+	/// axis for all rotation object
+	/// (cylinder, cone, torus, hiperboloid etc)
+	float3			size;
+	float			radius;
+	float			radius_2;
+	float			radius_ring;
+	float			angle;
+	float 			distance;
+	float			len;
+	float 			param_0;
+	float3			param_1;
+	float3			vertices[3];
+	float3			vmin;
+	float3			vmax;
 	t_complicated_type	complicated_type;
-	int 				comlicated_index;
-	float3				rotation_matrix_T[3];
-	float3				reverse_rotation_matrix_T[3];
+	int 				complicated_index;
+	float3			rotation_matrix_T[3];
+	float3			reverse_rotation_matrix_T[3];
 # endif
 
 }						t_object;

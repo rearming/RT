@@ -96,7 +96,7 @@ int		check_tmp(t_tmp *tmp)
 		else if (tmp->type == ELLIPSOID_RAYMARCH)
 			check += tmp->checker[SIZE];
 		else if (tmp->type == TORUS_CAPPED)
-			check += tmp->checker[RADIUS] + tmp->checker[DISTANCE] + tmp->checker[ANGLE];
+			check += tmp->checker[RADIUS] + tmp->checker[RADIUS_RING] + tmp->checker[ANGLE];
 		else if (tmp->type == HEX_PRISM)
 			check += tmp->checker[RADIUS] + tmp->checker[DISTANCE];
 		else if (tmp->type == ROUND_CONE)

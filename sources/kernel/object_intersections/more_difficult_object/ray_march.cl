@@ -1,9 +1,4 @@
-bool			ray_march(
-		t_ray *ray,
-		__global const t_object *obj,
-		t_rayhit *best_hit)
-{
-	/// как сделать матрицу поворота
+/// как сделать матрицу поворота
 //	const float a = obj->len;//это углы эйлера альфа, бета, гамма
 //	const float b = obj->len;
 //	const float g = obj->len;
@@ -37,21 +32,29 @@ bool			ray_march(
 //					s1.y * c1.z,
 //					c1.y};
 //
-	if (ray_march_hit(ray, obj, best_hit)) /// если есть пересечение считаем нормаль
+
+bool			ray_march(
+		t_ray *ray,
+		__global const t_object *obj,
+		t_rayhit *best_hit)
+{
+
+	if (ray_march_hit(ray, obj, best_hit))
+		// если есть пересечение считаем нормаль
 	{
-		/// нахождение нормали, [ex, ey, ez]  смещение относительно точки по осям
+		// нахождение нормали, [ex, ey, ez]  смещение относительно точки по осям
 		const float3	ex = {RAY_MARCH_SURFACE_ACC, 0, 0};
 		const float3	ey = {0, RAY_MARCH_SURFACE_ACC, 0};
 		const float3	ez = {0, 0, RAY_MARCH_SURFACE_ACC};
 		const float		dist = distan(best_hit->pos, obj);
-		/// вектор р - вектор направление градиента близости к поверхности
+		// вектор р - вектор направление градиента близости к поверхности
 		const float3	r = {dist - distan(best_hit->pos - ex, obj),
 								dist - distan(best_hit->pos - ey, obj),
 								dist - distan(best_hit->pos - ez, obj)};
 
-		/// поворачиваем вектор нормали в обратную сторону
-		/// obj->rot_n1, 2, 3 - строчки матрицы поворота для углов эйлера
-		/// с противоположным знаком  (rotation negative)
+		// поворачиваем вектор нормали в обратную сторону
+		// obj->rot_n1, 2, 3 - строчки матрицы поворота для углов эйлера
+		// с противоположным знаком  (rotation negative)
 		(best_hit->normal).x = dot((obj->reverse_rotation_matrix_T)[0], r);
 		(best_hit->normal).y = dot((obj->reverse_rotation_matrix_T)[1], r);
 		(best_hit->normal).z = dot((obj->reverse_rotation_matrix_T)[2], r);
@@ -67,18 +70,25 @@ float	distan(float3 surface_point, __global const t_object *obj)
 	{
 	case (BOX):
 		return dist_box(surface_point, obj);
+		break;
 	case (CAPSULE):
 		return dist_capsule(surface_point, obj);
+		break;
 	case (TORUS):
 		return dist_torus(surface_point, obj);
+		break;
 	case (ELLIPSOID_RAYMARCH):
 		return dist_ellipsoid(surface_point, obj);
+		break;
 	case (TORUS_CAPPED):
 		return dist_torus_capped(surface_point, obj);
+		break;
 	case (HEX_PRISM):
 		return dist_hex_prism(surface_point, obj);
+		break;
 	case (ROUND_CONE):
 		return dist_round_cone(surface_point, obj);
+		break;
 	default:
 		return RAY_MARCH_MAX_DIST + 1;
 	}
@@ -88,28 +98,33 @@ bool		ray_march_hit(t_ray *ray,
 		__global const t_object *obj,
 		t_rayhit *best_hit)
 {
-	/// для нахождения расстояния сначала повернем и сместим луч,
-	/// переходя в СК объекта
-	float3	surface_point = ray->origin;
+	// для нахождения расстояния сначала повернем и сместим луч,
+	// переходя в СК объекта
+	float3	surface_point = ray->origin - obj->center;
 
-	/// перемещаем точку рей оригн в новую,
-	/// поворачивая вектор (рей оригн - обжект сентр) на углы эйлера
-	/// obj->rot_p1, 2, 3 - строчки матрицы поворота для углов эйлера
-	/// alpha, beta, gamma (прецессия, нутация, вращение) (rotation positive)
+	// перемещаем точку рей оригн в новую,
+	// поворачивая вектор (рей оригн - обжект сентр) на углы эйлера
+	// obj->rot_p1, 2, 3 - строчки матрицы поворота для углов эйлера
+	// alpha, beta, gamma (прецессия, нутация, вращение) (rotation positive)
 
 	float3	p = {dot((obj->rotation_matrix_T)[0], surface_point),
 					dot((obj->rotation_matrix_T)[1], surface_point),
 					dot((obj->rotation_matrix_T)[2], surface_point)};
 	surface_point = p + obj->center;
-	p = surface_point; ///  вот отсюда теперь будет исходить луч относительно объекта
+	p = surface_point;
+	// вот отсюда теперь будет исходить луч относительно объекта
 
-	/// поворачиваем сам вектор направления
+	// поворачиваем сам вектор направления
 	float3	d = {dot((obj->rotation_matrix_T)[0], ray->dir),
 					dot((obj->rotation_matrix_T)[1], ray->dir),
 					dot((obj->rotation_matrix_T)[2], ray->dir)};
 
+//	float3	p = ray->origin;
+//	float3	surface_point = p;
+//	float3	d = ray->dir;
+
 	float	distance, distance_diff;
-	/// идем по лучу к поверхности
+	// идем по лучу к поверхности
 	switch (obj->type)
 	{
 		case (BOX):
@@ -219,8 +234,7 @@ bool		ray_march_hit(t_ray *ray,
 		default:
 			distance = 0;
 	} //  end of switch
-
-	/// пересечение ближайшее - возвращаем точку
+	// пересечение ближайшее - возвращаем точку
 	if (best_hit->distance > distance
 			&& distance > RAY_MIN_EPSILON)
 	{
@@ -247,7 +261,7 @@ float	dist_box(float3 surface_point, __global const t_object *obj)
 float	dist_capsule(float3 surface_point,
 					  __global const t_object *obj)
 {
-	const float3	ab = obj->distance * obj->axis;
+	const float3	ab = obj->distance * fast_normalize(obj->axis);
 	const float3	ap = surface_point - obj->center;
 
 	float t = dot(ab, ap) / dot(ab, ab);

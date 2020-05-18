@@ -18,6 +18,9 @@ int		main(int argc, char **argv)
 		rt_raise_error(ERR_INV_ARGS_NUM);
 	rt_init(&rt, argv[1], rt_parse_init_options(argv, argc, 2));
 	init_gui(rt.render_options);
+//	printf("\n\n%d, %d\n\n", rt.scene.objects[12].complicated_type, rt.scene.objects[13].complicated_type);
+	for (int i = 0; i < rt.scene.obj_nbr; ++i)
+		printf("%d - %d, ", i, rt.scene.objects[i].complicated_type);
 	rt_render(&rt, &rt_opencl_render);
 	rt_loop(&rt);
 	exit(rt_exit_clean());

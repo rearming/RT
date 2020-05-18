@@ -61,15 +61,101 @@ void				closest_intersection(
 						*out_closest_obj_index = i;
 					break;
 				default :
-					if (objects[i].type == BOX || objects[i].type == CAPSULE
-							|| objects[i].type == TORUS
-							|| objects[i].type == ELLIPSOID_RAYMARCH
-							|| objects[i].type == TORUS_CAPPED
-							|| objects[i].type == HEX_PRISM
-							|| objects[i].type == ROUND_CONE)
-						if(ray_march(ray, &objects[i], out_best_hit))
-							*out_closest_obj_index = i;
+					{
+//# ifdef RENDER_RAYMARCH
+						if (objects[i].type == BOX
+								|| objects[i].type == CAPSULE
+								|| objects[i].type == TORUS
+								|| objects[i].type == ELLIPSOID_RAYMARCH
+								|| objects[i].type == TORUS_CAPPED
+								|| objects[i].type == TEST_OBJECT
+								|| objects[i].type == HEX_PRISM
+								|| objects[i].type == ROUND_CONE)
+						{
+							if (objects[i].complicated_type == NOTHING
+									|| objects[i].complicated_type == UNION)
+							{
+								t_rayhit c = *out_best_hit;
+								if(ray_march(ray, &objects[i], &c))
+								{
+									*out_best_hit = c;
+									*out_closest_obj_index = i;
+									break ;
+								}
+								// код ниже не работает, попытка сделать чек
+								// камера внутри реймарш объекта
+//								t_ray r_plus = (t_ray){.origin = ray->origin
+//										+ RAY_MARCH_MAX_DIST * ray->dir,
+//										.dir = -ray->dir, .energy = ray->energy};
+//								t_ray r_minus = (t_ray){.origin = ray->origin
+//										- RAY_MARCH_MAX_DIST * ray->dir,
+//										.dir = -ray->dir, .energy = ray->energy};
+//								t_rayhit p = (t_rayhit){.distance = RAY_MARCH_MAX_DIST,
+//										.pos = ray->origin, .normal = -ray->dir};
+//								t_rayhit m = (t_rayhit){.distance = RAY_MARCH_MAX_DIST,
+//										.pos = ray->origin, .normal = r_plus.dir};
+//								if (!(ray_march(&r_plus, &objects[i], &p)
+//										&& ray_march(&r_minus, &objects[i], &m)))
+//									break ;
+//								out_best_hit->distance = RAY_MIN_EPSILON;
+//								out_best_hit->pos = ray->origin;
+//								out_best_hit->normal = -ray->dir;
+//								*out_closest_obj_index = i;
+//								break ;
+
+								// это тоже самое но вынесено в функцию,
+								// работает так же как код выше
+//								int	close_ind_rm = ray_march_simple_obj(ray,
+//										objects, out_best_hit, i);
+//								*out_closest_obj_index = close_ind_rm != -1 ?
+//										close_ind_rm : *out_closest_obj_index;
+//								break ;
+							}
+							// работает только для выпуклых поверхностей, для тора может лагать
+							else if (objects[i].complicated_type == INTERSECTION
+									&& objects[i].complicated_index > i)
+							{
+								t_rayhit	a = *out_best_hit;
+								t_rayhit	b = *out_best_hit;
+								if (ray_march(ray, &objects[objects[i].complicated_index], &b)
+										&& ray_march(ray, &objects[i], &a))
+								{
+									float max_dist = (a.distance > b.distance ? a.distance : b.distance);
+									t_ray		r = (t_ray){.origin = ray->origin + max_dist * ray->dir,
+														.dir = -ray->dir, .energy = ray->energy};
+									t_rayhit	c = (t_rayhit){.distance = max_dist, .pos = ray->origin,
+								 						.normal = ray->dir};
+									if (!ray_march(&r, a.distance > b.distance ?
+											&objects[objects[i].complicated_index] : &objects[i], &c))
+									{
+										*out_best_hit = a.distance > b.distance ? a : b;
+										*out_closest_obj_index = a.distance > b.distance ? i
+												: objects[i].complicated_index;
+									}
+								}
+								// этот вариант (ниже) не работает, хотя делается
+								// все тоже самое внутри функции ray_march_inter_s_obj
+//								int	close_ind_rm = ray_march_inter_s_obj(ray,
+//										objects, out_best_hit, i);
+//								*out_closest_obj_index = close_ind_rm != -1 ?
+//										close_ind_rm : *out_closest_obj_index;
+//								break ;
+							}
+							// работает только для выпуклых поверхностей, для тора может лагать
+							else if (objects[i].complicated_type == DIFFERENT)
+							{
+								// этот вариант работает, хотя для интерсекшн
+								// это не прокатывает
+								int	close_ind_rm = ray_march_diff_obj(ray,
+										objects, out_best_hit, i);
+								*out_closest_obj_index = close_ind_rm != -1 ?
+										close_ind_rm : *out_closest_obj_index;
+								break ;
+							}
+						}
+//# endif
 					break;
+					}
 			}
 		}
 #endif // RENDER_OBJECTS
@@ -79,13 +165,5 @@ void				closest_intersection(
 //	*out_closest_polygon_index = ray_mesh_intersect(&scene->meshes, polygons, vertices, v_normals, ray, out_best_hit);
 	if (isset(*out_closest_polygon_index))
 		*out_closest_obj_index = NOT_SET;
-#endif
-
-#ifdef RENDER_RAYMARCH
-//for (int i = 0; i < scene->obj_nbr; i++)
-//	if (ray_march(ray, &objects[i], out_best_hit))
-//		*out_closest_obj_index = i;
-	//// крайне неоптимально реализована функция,
-	//// свич происходит на каждом шаге реймарша
 #endif
 }

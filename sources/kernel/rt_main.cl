@@ -19,6 +19,7 @@
 #include "unlimited_object.cl"
 #include "limited_object.cl"
 #include "ray_march.cl"
+#include "ray_march_utils.cl"
 
 #include "skybox.cl"
 #include "texture.cl"

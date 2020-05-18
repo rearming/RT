@@ -1,7 +1,7 @@
 #define FT_OPENCL___
 
-# define RAY_MIN_EPSILON 0.000001f
-# define RT_EPSILON 0.0001f
+# define RAY_MIN_EPSILON 0.001f
+# define RT_EPSILON 0.001f
 # define RAY_MARCH_MAX_STEPS 10000
 # define RAY_MARCH_MAX_DIST 1000.f
 # define RAY_MARCH_SURFACE_ACC .001f

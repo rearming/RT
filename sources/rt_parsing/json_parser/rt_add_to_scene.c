@@ -21,7 +21,7 @@ static void add_rotation_matrix(t_tmp *tmp, t_object *object){
 	check_rotation = (tmp->checker[ALFA_ANGLE]) ? 1 : 0;
 	check_rotation += (tmp->checker[BETA_ANGLE]) ? 1 : 0;
 	check_rotation += (tmp->checker[GAMMA_ANGLE]) ? 1 : 0;
-	if (check_rotation == 3)
+	if (check_rotation == 3 || check_rotation == 0)
 	{
 		count_matrix(object->rotation_matrix_T,
 				(cl_float3) {{tmp->alfa_angle, tmp->beta_angle,
@@ -68,7 +68,7 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 	object->material.texture_number = tmp->texture_number;
 	object->material.texture_position = tmp->texture_position;
 	object->complicated_type = tmp->complicated;
-	object->comlicated_index = tmp->complicated_index;
+	object->complicated_index = tmp->complicated_index;
 	object->param_1 = tmp->param_1;
 	object->param_0 = tmp->param_0;
 	add_rotation_matrix(tmp, object);

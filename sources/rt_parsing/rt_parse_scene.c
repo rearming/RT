@@ -6,6 +6,9 @@
  *  0. имена текстур чистятся в load после появления gui передавать их в gui и чистить там
 */
 
+void	print_tmp(t_tmp *tmp);
+
+
 void	parse_json_file(json_t *root, t_tmp *tmp, uint32_t *renderer_flags)
 {
 	void		*iter;
@@ -52,6 +55,7 @@ t_scene	rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags)
 	root = json_loads(text, 0, &error);
 	parse_json_file(root, tmp, renderer_flags);
 	count_elements(&scene, tmp);
+	print_tmp(tmp);
 	add_elements(&scene, tmp);
 	json_decref(root);
 	free(text);

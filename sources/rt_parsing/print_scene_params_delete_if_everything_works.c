@@ -34,6 +34,12 @@ void	print_tmp(t_tmp *tmp)
 			printf("radius = %.3f, ", tmp->radius);
 		if (tmp->checker[ANGLE] == true)
 			printf("angle = %.3f, ", tmp->angle);
+		if (tmp->checker[ALFA_ANGLE] == true)
+			printf("angle = %.3f, ", tmp->alfa_angle);
+		if (tmp->checker[BETA_ANGLE] == true)
+			printf("angle = %.3f, ", tmp->beta_angle);
+		if (tmp->checker[GAMMA_ANGLE] == true)
+			printf("angle = %.3f, ", tmp->gamma_angle);
 		if (tmp->checker[LEN] == true)
 			printf("len = %.3f, ", tmp->len);
 		if (tmp->checker[AMBIENCE] == true)
@@ -60,6 +66,10 @@ void	print_tmp(t_tmp *tmp)
 			printf("texture_number = %i, ", tmp->texture_number);
 		if (tmp->checker[TEXTURE_POS] == true)
 			printf("texture_pos = [%.3f][%.3f][%.3f]", tmp->texture_position.x, tmp->texture_position.y, tmp->texture_position.z);
+		if (tmp->checker[COMPLICATED] == true)
+			printf("compl = %d, ",tmp->complicated);
+		if (tmp->checker[COMPLICATED_INDEX] == true)
+			printf("compl_index = %i, ", tmp->complicated_index);
 		printf("\n");
 		i++;
 		tmp = tmp->next;

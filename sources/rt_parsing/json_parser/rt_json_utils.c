@@ -38,7 +38,7 @@ static void	init_tmp_material(t_tmp *tmp)
 
 static void init_tmp_complicated_params(t_tmp *tmp)
 {
-	tmp->complicated = (int)NULL;
+	tmp->complicated = NOTHING;
 	tmp->complicated_index = NOT_SET;
 	tmp->alfa_angle = 0;
 	tmp->beta_angle = 0;
@@ -109,8 +109,7 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 		rt_raise_error(ERR_PARSING_SCENE_NOT_SPECIFIED);
 }
 
-void	count_matrix(cl_float3 *rotation_matrix, cl_float3 *rotation_matrix_,
-		cl_float3 angle, bool reversed) {
+void	count_matrix(cl_float3 *rotation_matrix, cl_float3 angle, bool reversed) {
 
 	cl_float3 c = (cl_float3){{cos(angle.x), cos(angle.y), cos(angle.z)}};
 	cl_float3 s = (cl_float3){{sin(angle.x), sin(angle.y), sin(angle.z)}};
@@ -121,7 +120,7 @@ void	count_matrix(cl_float3 *rotation_matrix, cl_float3 *rotation_matrix_,
 								   s.x *s.y}};
 	rotation_matrix[1] = (cl_float3){{s.x * c.z + c.x * c.y * s.z,
 								   -s.x * s.z + c.x * c.y * c.z,
-								   -s.y * c.z}};
+								   -c.x * s.y}};
 	rotation_matrix[2] = (cl_float3){{s.y * s.z,
 								   s.y * c.z,
 								   c.y}};
