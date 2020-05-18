@@ -178,11 +178,18 @@ bool			ray_march(
 		__global const t_object *obj,
 		t_rayhit *best_hit);
 
+int			ray_march_diff_obj(t_ray *ray,
+		__global const t_object *objects,
+		t_rayhit *out_best_hit,
+		int i);
+
 int			ray_march_inter_s_obj(t_ray *ray,
-		__global const t_object *objects, t_rayhit *out_best_hit, int i);
+		__global const t_object *objects, t_rayhit *out_best_hit,
+		int i);
 
 int			ray_march_simple_obj(t_ray *ray,
-		__global const t_object *objects, t_rayhit *out_best_hit, int i);
+		__global const t_object *objects, t_rayhit *out_best_hit,
+		int i);
 
 float	distan(float3 surface_point, __global const t_object *obj);
 
