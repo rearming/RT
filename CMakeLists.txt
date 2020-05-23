@@ -17,6 +17,7 @@ set(debug_sources
         sources/debug/rt_debug_print_parsed_meshes.c
         sources/debug/rt_print_object.c
         sources/debug/rt_kd_tree_print.c
+        sources/debug/print_bits.c
         )
 
 set(runtime_debug_sources
@@ -34,21 +35,22 @@ set(math_utils_sources
         sources/math_utils/rt_cl_float3_utils.c
         sources/math_utils/rt_vector_math.c)
 
-set(OpenCL_utils_sources
-        sources/OpenCL_utils/rt_opencl_init.c
-        sources/OpenCL_utils/rt_opencl_files_parser.c
-        sources/OpenCL_utils/rt_opencl_render.c
-        sources/OpenCL_utils/rt_opencl_memory_management.c
-        sources/OpenCL_utils/rt_opencl_utils.c
-        sources/OpenCL_utils/rt_opencl_prepare_memory.c
-        sources/OpenCL_utils/rt_init_renderer.c
-        )
+set(OpenCL_sources
+        sources/OpenCL/rt_opencl_init.c
+        sources/OpenCL/rt_opencl_files_parser.c
+        sources/OpenCL/rt_opencl_render.c
+        sources/OpenCL/rt_opencl_memory_management.c
+        sources/OpenCL/rt_opencl_utils.c
+        sources/OpenCL/rt_opencl_prepare_memory.c
+        sources/OpenCL/rt_init_render_kernel.c
+        sources/OpenCL/rt_opencl_kernels_compile.c sources/OpenCL/rt_opencl_kernels_exec.c sources/OpenCL/rt_opencl_kernels_exec_utils.c)
 
 set(parsing_sources
         sources/rt_parsing/rt_parse_scene.c
         sources/rt_parsing/json_parser/rt_add_to_scene.c
         sources/rt_parsing/json_parser/rt_json_utils.c
         sources/rt_parsing/json_parser/rt_json_utils2.c
+        sources/rt_parsing/json_parser/rt_json_utils3.c
         sources/rt_parsing/json_parser/rt_parse_array.c
         sources/rt_parsing/json_parser/rt_parse_boolean.c
         sources/rt_parsing/json_parser/rt_parse_object.c
@@ -93,7 +95,7 @@ set(init_sources
         sources/init/rt_init_render_params.c
         sources/init/rt_load_textures.c
         sources/init/rt_load_textures_utils.c
-        )
+        sources/init/rt_parse_options.c)
 
 set(render_sources
         sources/render/rt_loop.c
@@ -108,20 +110,31 @@ set(kd_tree_sources
         sources/kd_tree/rt_kd_tree_to_array.c
         sources/kd_tree/rt_kd_tree_utils.c
         sources/kd_tree/rt_kd_tree_get.c
-        sources/kd_tree/rt_kd_pack_object_indices.c)
+        sources/kd_tree/rt_kd_pack_object_indices.c sources/kd_tree/rt_kd_tree_export.c sources/kd_tree/rt_kd_tree_import.c sources/kd_tree/rt_kd_tree_debug.c)
 
 set(gui_sources
         sources/gui/rt_gui_init.c
-        sources/gui/rt_gui_buttons.c
+        sources/gui/rt_handle_event_gui.c
         sources/gui/gui_utils/rt_gui_color_utils.c
-        sources/gui/rt_gui_button_callback.c
-        sources/gui/rt_handle_event_gui.c)
+        sources/gui/buttons/rt_gui_buttons_render.c
+        sources/gui/buttons/rt_gui_button_callback.c
+        sources/gui/buttons/rt_buttons_border.c
+        sources/gui/buttons/rt_button_label.c
+        sources/gui/buttons/utils/rt_gui_change_algo.c
+        sources/gui/buttons/rt_gui_init_buttons.c
+        sources/gui/buttons/utils/rt_check_hover.c
+        sources/gui/buttons/utils/rt_check_click.c
+        sources/gui/buttons/utils/create_screenshot.c
+        sources/gui/buttons/utils/name_generator.c
+        sources/gui/buttons/utils/get_window_data.c
+        sources/gui/text_box/render_text_box.c sources/gui/text_box/init_text_box.c)
+
 
 set(sources
         ${debug_sources}
         ${runtime_debug_sources}
         ${math_utils_sources}
-        ${OpenCL_utils_sources}
+        ${OpenCL_sources}
         ${parsing_sources}
         ${event_handling_sources}
         ${utils_sources}
@@ -132,6 +145,7 @@ set(sources
         ${kd_tree_sources}
         ${profiling_sources}
         ${gui_sources}
+        ${image_save_sources}
         )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -181,7 +195,8 @@ link_directories(
 
 add_executable(RT
         sources/main.c
-        ${sources})
+        ${sources}
+)
 
 target_link_libraries(RT
         "ftprintf"
@@ -202,9 +217,12 @@ add_executable(kd_tree_test
         ${testing_utils}
         ${SDL_utils_sources}
         ${math_utils_sources}
-        ${utils_sources}
         ${kd_tree_sources}
         ${obj_loading_sources}
+        sources/utils/rt_safe_malloc.c
+        sources/utils/rt_raise_error.c
+        sources/utils/rt_color_utils.c
+
         sources/debug/rt_debug_print_parsed_meshes.c
         sources/debug/rt_debug_print_utils.c
         sources/debug/rt_kd_tree_print.c
@@ -227,8 +245,7 @@ target_link_libraries(kd_tree_test
 add_executable(generic_test
         ${sources}
         ${testing_utils}
-        sources/test/generic_test/generic_test_main.c
-        )
+        sources/test/generic_test/generic_test_main.c sources/gui/text_box/render_text_box.c)
 
 target_include_directories(generic_test PRIVATE
         sources/test)

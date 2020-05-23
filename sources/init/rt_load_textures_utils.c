@@ -56,3 +56,14 @@ char 		*found_file_in_folder(const char *file, char **folders_names)
 	free(check);
 	return (NULL);
 }
+
+void		bzero_g_textures(void)
+{
+	g_textures.texture_list_size = 0;
+	g_textures.texture_info_size = 0;
+	g_textures.folders_names = NULL;
+	g_textures.textures_names = NULL;
+	g_textures.texture_list = NULL;
+	g_textures.skybox_list = NULL;
+	g_textures.skybox_info = NULL;
+}

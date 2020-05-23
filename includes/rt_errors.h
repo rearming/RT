@@ -11,7 +11,7 @@
 # define ERR_SDL_RENDER "SDL_Create_Renderer failed."
 # define ERR_SDL_TEXTURE_CREATE "SDL_Create_Texture failed."
 
-# define ERR_USAGE 12
+# define ERR_READ_KERNEL_FILE "can't open .cl kernel file!"
 # define ERR_OPENCL "something went wrong in OpenCL!"
 # define ERR_OPENCL_CLEAN "error when cleaning OpenCL objects"
 # define ERR_OPENCL_SETARG "clSetKernelArg failed"
@@ -27,6 +27,11 @@
 # define ERR_OPENCL_READ_BUFFER "clEnqueueReadBuffer failed"
 # define ERR_OPENCL_INV_SOURCE_CODE_FILE "error when reading opencl source code file"
 # define ERR_OPENCL_LOG "clGetProgramBuildLog failed"
+
+# define ERR_OPENCL_RELEASE_PROGRAM "clReleaseProgram failed"
+# define ERR_OPENCL_RELEASE_BUFFER "clReleaseBuffer failed"
+# define ERR_OPENCL_RELEASE_KERNEL "clReleaseKernel failed"
+# define ERR_OPENCL_RELEASE_EVENT "clReleaseEvent failed"
 
 # define ERR_READ_OBJ_FILE "error when reading .obj file"
 # define ERR_OBJLOADER_PARSE_OBJ "tinyobjloader failed"
@@ -49,4 +54,5 @@
 # define ERR_PARSING_DUPLICATED_PARAM "rt_parse error: duplicated parameters"
 # define ERR_PARSING_DUPLICATED_SKYBOX "rt_parse error: skybox image is duplicated "
 # define ERR_INVALID_TEXTURE_OBJECT "texture can be used only with basic objects"
+
 #endif

@@ -17,7 +17,7 @@
       "file": "assets/3d_models/sauron_tower.obj",
       "backface culling": true
     },
-    "anti aliasing": true,
+    "render anti aliasing": false,
     "textures": {
       "enabled": true
     }

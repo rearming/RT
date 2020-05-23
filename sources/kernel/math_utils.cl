@@ -1,4 +1,9 @@
 
+float	map_value(float value, float min, float max, float new_min, float new_max)
+{
+	return (value - min) / (max - min) * (new_max - new_min) + new_min;
+}
+
 float		sdot(float3 a, float3 b, float coeff)
 {
 	return saturate(dot(a, b) * coeff);
@@ -109,13 +114,4 @@ float3		vec_axis_rotate(float3 vec, float3 axis, float angle)
 			+ vec.y * (one_minus_cos * axis.y * axis.z + sin_ang * axis.x)
 			+ vec.z * (cos_ang + one_minus_cos * axis.z * axis.z);
 	return (rotate_vector);
-}
-
-float3		float3_float_mult(float3 vec, float num)
-{
-	float3 vec_out;
-	vec_out.x = vec.x * num;
-	vec_out.y = vec.y * num;
-	vec_out.z = vec.z * num;
-	return vec_out;
 }

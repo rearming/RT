@@ -11,47 +11,30 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "rt_parsing.h"
 
-void	free_tmp(t_tmp *tmp)
+int			count_sum(const bool *checker, bool object)
 {
-	t_tmp	*tmp_iterator;
+	int sum;
+	int i;
 
-	while (tmp)
-	{
-		tmp_iterator = tmp->next;
-		free(tmp);
-		tmp = tmp_iterator;
-	}
-	free(tmp);
-}
-
-void	check_duplicated(bool *checker, int number)
-{
-	if (checker[number] == true)
-		rt_raise_error(ERR_PARSING_DUPLICATED_PARAM);
+	sum = 0;
+	i = 0;
+	if (object)
+		sum = checker[NORMAL] + checker[DISTANCE] + checker[AXIS]
+			+ checker[ANGLE] + checker[LEN] + checker[VMIN]
+			+ checker[VMAX] + checker[CENTER] + checker[RADIUS]
+			+ checker[POS] + checker[ROTATION] + checker[INTENSITY]
+			+ checker[DIRECTION] + checker[COLOR];
 	else
-		checker[number] = true;
-}
-
-char	*object_name(int type)
-{
-	if (type == SPHERE)
-		return "Sphere";
-	if (type == CONE)
-		return "Cone";
-	if (type == CYLINDER)
-		return "Cylinder";
-	if (type == PLANE)
-		return "Plane";
-	if (type == AABB)
-		return "AABB";
-	if (type == TRIANGLE)
-		return "Triangle";
-	if (type == PARABOLOID)
-		return "Paraboloid";
-	if (type == ELLIPSOID)
-		return "Ellipsoid";
-	return NULL;
+	{
+		while (i < (int)sizeof(checker))
+		{
+			sum += checker[i];
+			i++;
+		}
+	}
+	return (sum);
 }
 
 void	check_object(t_tmp *tmp)
@@ -62,11 +45,7 @@ void	check_object(t_tmp *tmp)
 
 	count = 2;
 	check_obligate = 0;
-	check = tmp->checker[NORMAL] + tmp->checker[DISTANCE] + tmp->checker[AXIS]
-		+ tmp->checker[ANGLE] + tmp->checker[LEN] + tmp->checker[VMIN] +
-		tmp->checker[VMAX] + tmp->checker[CENTER] + tmp->checker[RADIUS] +
-		tmp->checker[POS] + tmp->checker[ROTATION] + tmp->checker[INTENSITY]
-		+ tmp->checker[DIRECTION] + tmp->checker[COLOR];
+	check = count_sum(tmp->checker, true);
 	if (tmp->type == SPHERE)
 		check_obligate = (tmp->checker[CENTER] + tmp->checker[RADIUS]);
 	else if (tmp->type == PLANE)
@@ -76,7 +55,7 @@ void	check_object(t_tmp *tmp)
 			+ tmp->checker[ANGLE]);
 	else if (tmp->type == CYLINDER && ++count < 4)
 		check_obligate = (tmp->checker[CENTER] + tmp->checker[AXIS]
-			 + tmp->checker[RADIUS]);
+			+ tmp->checker[RADIUS]);
 	else if (tmp->type == PARABOLOID && ++count < 4)
 		check_obligate = (tmp->checker[CENTER] + tmp->checker[DISTANCE]
 			+ tmp->checker[AXIS]);
@@ -99,28 +78,19 @@ void	check_camera_or_light(t_tmp *tmp, bool type)
 {
 	int check_obligate;
 	int check;
-	int i;
 	int count;
 
-	i = 0;
-	check = 0;
+	check = count_sum(tmp->checker, false);
 	count = 2;
-	while (++i < 33)
-		check +=tmp->checker[i];
 	if (type)
 		check_obligate = tmp->checker[POS] + tmp->checker[ROTATION];
 	else
 	{
-		if (tmp->type == AMBIENT)
-			check_obligate = (tmp->checker[INTENSITY] + tmp->checker[COLOR]);
-		else if (tmp->type == DIRECTIONAL && ++count < 4)
-			check_obligate = (tmp->checker[INTENSITY] + tmp->checker[COLOR]
-					+ tmp->checker[DIRECTION]);
+		check_obligate = tmp->checker[INTENSITY] + tmp->checker[COLOR];
+		if (tmp->type == DIRECTIONAL && ++count < 4)
+			check_obligate += tmp->checker[DIRECTION];
 		else if (tmp->type == POINT && ++count < 4)
-			check_obligate = (tmp->checker[INTENSITY] + tmp->checker[COLOR]
-							  + tmp->checker[POS]);
-		else
-			check_obligate = 0;
+			check_obligate += tmp->checker[POS];
 	}
 	if (check_obligate / count != 1 || check - check_obligate != 0)
 		(type) ? rt_raise_error(ERR_PARSING_WRONG_CAMERA_PARAMS) :

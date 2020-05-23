@@ -41,7 +41,7 @@ bool				ray_sphere_intersect(
 //	float root2 = (-b + sqrt(discriminant)) / (2.f * a);
 
 //	if (root < 0 || (root > root2 && root2 > 0)) /// пересечение перед камерой, берем меньший (ближайший)
-//		root = root2;
+//		root = root2; /// это закомментил SLEONARD, пока не надо это раскомменчивать
 	if (root < best_hit->distance && root > RAY_MIN_EPSILON)
 	{
 		best_hit->distance = root;

@@ -125,8 +125,11 @@ int		kd_tree_traverse(
 				vertices[polygons[index].vert_i[0]],
 				vertices[polygons[index].vert_i[1]],
 				vertices[polygons[index].vert_i[2]],
-				v_normals[polygons[index].vnorm_i],
+				v_normals[polygons[index].vnorm_i[0]],
+				v_normals[polygons[index].vnorm_i[1]],
+				v_normals[polygons[index].vnorm_i[2]],
 				0, 0, 0, /// текстурных вертексов пока нет
+				t_min, t_max,
 				ray, out_best_hit))
 			{
 				closest_polygon_index = index;

@@ -12,7 +12,7 @@ static inline void		rt_init_raytrace_params(t_raytrace_params *out_raytrace_para
 	out_raytrace_params->max_depth = clInfo.max_depth_raytrace;
 }
 
-void					rt_init_renderer_params(t_renderer_params *out_opencl_params, t_cl_info clInfo)
+void					rt_init_render_params(t_render_params *out_opencl_params, t_cl_info clInfo)
 {
 	out_opencl_params->seed = drand48();
 	out_opencl_params->gamma = clInfo.gamma;

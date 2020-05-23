@@ -1,5 +1,25 @@
 # Blender MTL File: 'None'
-# Material Count: 5
+# Material Count: 7
+
+newmtl None
+Ns 500.000001
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.800000 0.800000 0.800000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl emissive_plain
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.800000 0.800000 0.800000
+Ni 1.450000
+d 1.000000
+illum 2
 
 newmtl emissive_plane
 Ns 225.000000
@@ -31,15 +51,15 @@ Ni 1.450000
 d 1.000000
 illum 1
 
-newmtl opaque_purple
-Ns 225.000000
-Ka 0.777143 0.777143 0.777143
-Kd 0.800000 0.800000 0.800000
-Ks 0.500000 0.500000 0.500000
+newmtl specular_ground_material
+Ns 900.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.787985 0.776076 0.800000
+Ks 0.814286 0.814286 0.814286
 Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
-illum 3
+illum 2
 
 newmtl thor_material
 Ns 225.000000

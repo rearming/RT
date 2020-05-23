@@ -1,7 +1,7 @@
 #ifndef RT_PARSING_H
 # define RT_PARSING_H
 
-void		rt_load_obj_file(const char *path_to_obj, t_meshes *out_meshes);
+bool rt_load_obj_file(const char *path_to_obj, t_meshes *out_meshes);
 
 t_scene 	rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags);
 void		parse_json_file(json_t *root, t_tmp *tmp, uint32_t *renderer_flags);

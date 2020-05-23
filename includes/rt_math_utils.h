@@ -24,10 +24,11 @@ cl_float3	fmax_float3(cl_float3 a, cl_float3 b);
 cl_float2	fmin_float2(cl_float2 a, cl_float2 b);
 cl_float2	fmax_float2(cl_float2 a, cl_float2 b);
 
-cl_float3	vec_subtract(cl_float3 a, cl_float3 b);
-cl_float3	vec_divide(cl_float3 vec, cl_float scalar);
-cl_float	vec_length(cl_float3 vec);
-cl_float3	vec_normalize(cl_float3 vec);
+cl_float3	rt_float3_sub(cl_float3 a, cl_float3 b);
+cl_float3	rt_float3_div(cl_float3 vec, cl_float scalar);
+cl_float3	rt_float3_add(cl_float3 a, cl_float3 b);
+cl_float	rt_vec_length(cl_float3 vec);
+cl_float3	rt_vec_normalize(cl_float3 vec);
 
 /*
 **	float3 colors

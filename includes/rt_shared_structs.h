@@ -107,6 +107,9 @@ typedef struct			s_camera
 {
 # ifndef FT_OPENCL___
 
+	cl_float			blur_strength;
+	cl_float			aperture;
+	cl_float			focal_distance;
 	cl_float			viewport_width;
 	cl_float			viewport_height;
 	cl_float			viewport_distance;
@@ -114,6 +117,9 @@ typedef struct			s_camera
 	cl_float3			rotation;
 # else
 
+	float				blur_strength;
+	float				aperture;
+	float				focal_distance;
 	float				viewport_width;
 	float				viewport_height;
 	float				viewport_distance;
@@ -261,13 +267,13 @@ typedef struct			s_polygon
 # ifndef FT_OPENCL___
 
 	cl_int				vert_i[RT_DEFAULT_POLYGON_VERTICES];
-	cl_int				vnorm_i;
+	cl_int				vnorm_i[RT_DEFAULT_POLYGON_VERTICES];
 	cl_int				vtex_i[RT_DEFAULT_POLYGON_VERTICES];
 	cl_int				mesh_index;
 # else
 
 	int					vert_i[RT_DEFAULT_POLYGON_VERTICES];
-	int					vnorm_i;
+	int					vnorm_i[RT_DEFAULT_POLYGON_VERTICES];
 	int					vtex_i[RT_DEFAULT_POLYGON_VERTICES];
 	int					mesh_index;
 #endif
@@ -372,7 +378,7 @@ typedef struct			s_raytrace_params
 
 }						t_raytrace_params;
 
-typedef struct			s_renderer_params
+typedef struct			s_render_params
 {
 # ifndef FT_OPENCL___
 
@@ -389,7 +395,7 @@ typedef struct			s_renderer_params
 	float				exposure;
 	float				gamma;
 # endif
-}						t_renderer_params;
+}						t_render_params;
 
 typedef struct		s_aabb
 {

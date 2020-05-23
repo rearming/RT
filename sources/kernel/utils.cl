@@ -1,4 +1,9 @@
 
+bool			pixel_in_img(int x, int y)
+{
+	return (x >= 0 && y >= 0 && x < WIN_WIDTH && y < WIN_HEIGHT);
+}
+
 float3			canvas_to_viewport(__global const t_camera *camera, float3 canvas_point)
 {
 	return (float3)
@@ -55,7 +60,7 @@ bool		ray_has_energy(t_ray *ray)
 
 int3		get_img_point(int global_id)
 {
-	return (int3)(global_id % WIN_WIDTH, global_id / WIN_HEIGHT, 0);
+	return (int3)(global_id % WIN_WIDTH, global_id / WIN_WIDTH, 0);
 }
 
 void			correct_img_point(float3 *img_point)

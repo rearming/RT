@@ -44,12 +44,13 @@ float3		raytrace(
 		__global const float3 *vertices,
 		__global const float3 *v_normals,
 		__global const float3 *v_textures,
-		__global const t_renderer_params *params,
+		__global const t_render_params *params,
 		__global const t_texture_info *texture_info,
 		__global const int *texture_list,
 		__global const float3 *skybox_list,
 		__global const t_skybox_info *skybox_info,
-		t_ray ray)
+		t_ray ray,
+		float *out_intersection_distance)
 {
 	float3		result_color = (float3)(0);
 	t_rayhit	best_hit;
@@ -60,7 +61,8 @@ float3		raytrace(
 	{
 		best_hit = (t_rayhit){(float3)(0), INFINITY, (float3)(0)};
 		closest_intersection(scene, objects, kd_info, kd_tree, kd_indices, polygons, vertices, v_normals, &ray, &best_hit, &closest_polygon_index, &closest_obj_index);
-
+		if (i == 0)
+			*out_intersection_distance = best_hit.distance;
 		t_material	hit_material;
 		if (get_hit_material(&hit_material, objects, meshes_info, polygons, vertices, v_normals, v_textures, closest_obj_index, closest_polygon_index))
 		{

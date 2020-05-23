@@ -172,7 +172,7 @@ void		build_kd_tree_recursive(t_kd_tree *tree,
 	tree->right = rt_safe_malloc(sizeof(t_kd_tree));
 	tree->right->objects = right_objects;
 	tree->right->aabb = right_aabb;
-	tree->right->sah = kd_get_aabb_area(right_aabb) * (float) right_objects.num;
+	tree->right->sah = kd_get_aabb_area(right_aabb) * (float)right_objects.num;
 	build_kd_tree_recursive(tree->right, all_aabbs, level + 1, index);
 }
 

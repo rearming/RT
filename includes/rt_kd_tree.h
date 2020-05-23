@@ -6,13 +6,13 @@
 # define Y_AXIS 1
 # define Z_AXIS 2
 
-# define KD_MAX_OBJ_IN_LEAF 3
-
-# define MIN_OBJ_IN_LEAF 0
+# define AABB_OFFSET_EPSILON 0.01f
 # define BUCKETS 32
-# define EMPTY_COST 0.5
+# define EMPTY_COST 1 //todo research optimal value
 
 #define PRINT_INDICES 1
+
+#define KD_TREE_BINARY_EXT "rtkd"
 
 typedef struct		s_split_p
 {
@@ -46,13 +46,21 @@ t_aabb			get_root_aabb(t_aabb *aabbs, int num_aabbs);
 t_kd_tree		*build_kd_tree(t_aabb *all_aabbs, int num_aabbs);
 
 void			kd_tree_to_list(t_kd_tree *tree, t_list **out_list, int *out_nodes_num);
-t_kd_arr_tree *
-kd_tree_to_array(t_kd_tree *tree, int *out_nodes_num, int *out_obj_indices_num);
+t_kd_arr_tree	*kd_tree_to_array(t_kd_tree *tree, int *out_nodes_num, int *out_obj_indices_num);
 int				kd_tree_count_nodes(t_kd_tree *tree);
 
-t_kd_info		rt_get_kd_object(t_meshes *meshes);
-void rt_pack_kd_object_indices(t_kd_info *kd_info);
-void free_kd_tree(t_kd_tree *tree, bool free_indices);
+void			rt_get_kd_object(t_meshes *meshes, t_kd_info *out_kd_info);
+void			rt_pack_kd_object_indices(t_kd_info *kd_info);
+void			free_kd_tree(t_kd_tree *tree, bool free_indices);
+
+void			bzero_kd_info(t_kd_info *out_kd_info);
+
+bool			rt_kd_tree_import(t_kd_info *kd_info, const char *obj_path);
+void			rt_kd_tree_export(t_kd_info *kd_info, const char *obj_path);
+char			*rt_get_kd_binary_path(const char *obj_path);
+
+void			rt_print_kd_tree_info(t_kd_info *kd_info);
+
 /*
 **	test traversal
 */

@@ -29,7 +29,7 @@ bool				ray_paraboloid_intersect(
 		best_hit->pos = ray->origin + root * ray->dir;
 							///		сложная формула
 //		const float3 pos_parab_center = paraboloid->center - best_hit->pos;
-//		const float3 paraboloid_radius_pos = pos_parab_center - float3_float_mult(paraboloid->axis, dot(pos_parab_center, paraboloid->axis));
+//		const float3 paraboloid_radius_pos = pos_parab_center - paraboloid->axis * dot(pos_parab_center, paraboloid->axis);
 //		best_hit->normal = fast_normalize(
 //				vec_axis_rotate(paraboloid->axis,
 //						cross(paraboloid->axis, pos_parab_center),

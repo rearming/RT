@@ -73,7 +73,7 @@ static void		parse_material(t_tmp *tmp, const char *key,
 
 static void		parse_type(t_tmp *tmp, const char *value)
 {
-	if (tmp->structure_type == LIGHT)
+	if (tmp->struct_type == LIGHT)
 	{
 		if (ft_strequ(value, "ambient"))
 			tmp->type = AMBIENT;
@@ -84,7 +84,7 @@ static void		parse_type(t_tmp *tmp, const char *value)
 		else
 			rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
 	}
-	else if (tmp->structure_type == OBJECT)
+	else if (tmp->struct_type == OBJECT)
 		parse_type2(tmp, value);
 	else
 		rt_raise_error(ERR_PARSING_WRONG_TYPE);
@@ -114,7 +114,7 @@ void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 	const char *tmp_value;
 
 	tmp_value = json_string_value(value);
-	if (tmp->structure_type == RENDER_PARAMS)
+	if (tmp->struct_type == RENDER_PARAMS)
 	{
 		if (ft_strequ(key, "render algorithm") &&
 		(ft_strequ(tmp_value, "pathtrace") || ft_strequ(tmp_value, "raytrace")))
@@ -131,7 +131,7 @@ void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 	}
 	else if (tmp->type == NOT_SET && ft_strequ(key, "type"))
 		parse_type(tmp, tmp_value);
-	else if (tmp->structure_type != NOT_SET && tmp->type != NOT_SET)
+	else if (tmp->struct_type != NOT_SET && tmp->type != NOT_SET)
 		parse_material(tmp, key, tmp_value);
 	else
 		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, tmp_value));
