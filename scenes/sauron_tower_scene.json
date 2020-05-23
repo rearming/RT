@@ -26,7 +26,8 @@
     {
       "type": "plane",
       "material": {
-        "diffuse": "0xFFFFFF"
+        "diffuse": "0xFFFFFF",
+        "texture": "plane_bricks.bmp"
       },
       "normal": [0, 1, 0],
       "center": [0, 0, 0]

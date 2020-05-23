@@ -22,7 +22,7 @@
       "directory": "./assets/pbr_textures/"
     },
     "skybox": {
-      "enabled": false,
+      "enabled": true,
       "texture": "skybox_cave.jpg"
     }
   },
