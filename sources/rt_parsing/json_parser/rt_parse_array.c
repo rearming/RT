@@ -88,17 +88,17 @@ static void	parse_array_of_objects(t_tmp *tmp, int type_of_element,
 
 	i = -1;
 	type_of_structure = (type_of_element != LIGHT &&
-		type_of_element != OBJECT) ? tmp->structure_type : type_of_element;
+		type_of_element != OBJECT) ? tmp->struct_type : type_of_element;
 	array_size = json_array_size(value);
 	while (++i < array_size)
 	{
-		if (tmp->structure_type != -1)
+		if (tmp->struct_type != -1)
 		{
 			tmp->next = rt_safe_malloc(sizeof(t_tmp));
 			init_tmp(tmp->next);
 			tmp = tmp->next;
 		}
-		tmp->structure_type = type_of_structure;
+		tmp->struct_type = type_of_structure;
 		if (type_of_structure != type_of_element)
 			tmp->type = type_of_element;
 		parse_json_file(json_array_get(value, i), tmp, renderer_flags);
@@ -112,7 +112,7 @@ void		parse_array(t_tmp *tmp, const char *key, json_t *value,
 	int type_of_element;
 
 	type_of_element = -1;
-	array_type = ft_type_of_array(&type_of_element, key, tmp->structure_type);
+	array_type = ft_type_of_array(&type_of_element, key, tmp->struct_type);
 	if (array_type == 1)
 	{
 		check_duplicated(tmp->checker, type_of_element);

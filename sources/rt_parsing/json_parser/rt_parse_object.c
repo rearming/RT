@@ -27,10 +27,10 @@ void		parse_object(t_tmp *tmp, const char *key, json_t *value,
 {
 	int type_of_structure;
 
-	type_of_structure = ft_type_of_structure(key, tmp->structure_type);
+	type_of_structure = ft_type_of_structure(key, tmp->struct_type);
 	if (type_of_structure == -1)
 		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_OBJECT, key));
-	if (ft_check(tmp->structure_type, type_of_structure))
+	if (ft_check(tmp->struct_type, type_of_structure))
 		tmp->type = type_of_structure;
 	else
 	{
@@ -38,13 +38,13 @@ void		parse_object(t_tmp *tmp, const char *key, json_t *value,
 			check_duplicated(tmp->checker, type_of_structure);
 		else
 		{
-			if (tmp->structure_type != NOT_SET)
+			if (tmp->struct_type != NOT_SET)
 			{
 				tmp->next = (t_tmp *)rt_safe_malloc(sizeof(t_tmp));
 				init_tmp(tmp->next);
 				tmp = tmp->next;
 			}
-			tmp->structure_type = type_of_structure;
+			tmp->struct_type = type_of_structure;
 		}
 	}
 	parse_json_file(value, tmp, renderer_flags);

@@ -39,7 +39,7 @@ static void	init_tmp_material(t_tmp *tmp)
 void		init_tmp(t_tmp *tmp)
 {
 	tmp->next = NULL;
-	tmp->structure_type = NOT_SET;
+	tmp->struct_type = NOT_SET;
 	tmp->type = NOT_SET;
 	tmp->pos = (cl_float3){{0, 0, 0}};
 	tmp->rotation = (cl_float3){{0, 0, 0}};
@@ -78,11 +78,11 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 	check_param = 0;
 	while (tmp_iter)
 	{
-		scene->lights_nbr += (tmp_iter->structure_type == LIGHT) ? 1 : 0;
-		scene->obj_nbr += (tmp_iter->structure_type == OBJECT) ? 1 : 0;
-		check_param += (tmp_iter->structure_type == CAMERA) ? 1 : 0;
-		check_param += (tmp_iter->structure_type == RENDER_PARAMS) ? 10 : 0;
-		check_param += (tmp_iter->structure_type == SCENE_PARAMS) ? 100 : 0;
+		scene->lights_nbr += (tmp_iter->struct_type == LIGHT) ? 1 : 0;
+		scene->obj_nbr += (tmp_iter->struct_type == OBJECT) ? 1 : 0;
+		check_param += (tmp_iter->struct_type == CAMERA) ? 1 : 0;
+		check_param += (tmp_iter->struct_type == RENDER_PARAMS) ? 10 : 0;
+		check_param += (tmp_iter->struct_type == SCENE_PARAMS) ? 100 : 0;
 		tmp_iter = tmp_iter->next;
 	}
 	while (texture_iter)
@@ -92,4 +92,17 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 	}
 	if (check_param != 111)
 		rt_raise_error(ERR_PARSING_SCENE_NOT_SPECIFIED);
+}
+
+void		free_tmp(t_tmp *tmp)
+{
+	t_tmp	*tmp_iterator;
+
+	while (tmp)
+	{
+		tmp_iterator = tmp->next;
+		free(tmp);
+		tmp = tmp_iterator;
+	}
+	free(tmp);
 }

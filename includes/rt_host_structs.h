@@ -73,7 +73,7 @@ typedef struct			s_rt
 
 typedef struct 			s_tmp
 {
-	int 			structure_type;	// object, camera, light
+	int 			struct_type;	// object, camera, light
 	int 			type;			// ambience, sphere, cone
 	cl_float3		rotation;		// camera
 	cl_float3		pos;			// camera,	light
