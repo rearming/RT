@@ -88,7 +88,7 @@ void		rt_textures_init(void)
 	while (++i < (int)g_textures.texture_info_size)
 	{
 		if ((tmp_filename =
-			found_file_in_the_folder(g_textures.textures_names->name))
+					 found_file_in_folder(g_textures.textures_names->name, g_textures.folders_names))
 			== NULL)
 			return (rt_raise_error(ERR_INVALID_TEXTURE));
 		if (!(tmp_texture = stbi_loadf(tmp_filename,
@@ -97,6 +97,7 @@ void		rt_textures_init(void)
 			return (rt_raise_error(ERR_INVALID_TEXTURE));
 		rt_add_start_position(i);
 		rt_change_format_and_add(tmp_texture, i);
+		//draw_perlin();
 		free(tmp_filename);
 		free(tmp_texture);
 		if (g_textures.texture_list == NULL)
@@ -117,7 +118,7 @@ void		rt_skybox_init(void)
 	i = 0;
 	j = -1;
 	if ((tmp_filename =
-		found_file_in_the_folder(g_textures.skybox_info->skybox_name))
+				 found_file_in_folder(g_textures.skybox_info->skybox_name, g_textures.folders_names))
 		== NULL)
 		return (rt_raise_error(ERR_INVALID_TEXTURE));
 	tmp_texture = stbi_loadf(tmp_filename, &g_textures.skybox_info->width,
