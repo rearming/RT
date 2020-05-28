@@ -97,6 +97,7 @@ void		rt_textures_init(void)
 			return (rt_raise_error(ERR_INVALID_TEXTURE));
 		rt_add_start_position(i);
 		rt_change_format_and_add(tmp_texture, i);
+		//draw_perlin();
 		free(tmp_filename);
 		free(tmp_texture);
 		if (g_textures.texture_list == NULL)

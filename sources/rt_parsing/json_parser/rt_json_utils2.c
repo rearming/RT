@@ -69,7 +69,7 @@ void	check_object(t_tmp *tmp)
 		|| tmp->type == CYLINDER || tmp->type == PLANE))
 		rt_raise_error(ERR_INVALID_TEXTURE_OBJECT);
 	if (tmp->texture_pbr == true)
-		if (tmp->checker[TEXTURE] + tmp->checker[TEXTURE_NORMAL] != 2)
+		if (tmp->checker[TEXTURE] + tmp->checker[TEXTURE_NORMAL] + tmp->checker[TEXTURE_PBR_INDEX]!= 3)
 			rt_raise_error("wrong initialization of bump_mapping");
 
 }

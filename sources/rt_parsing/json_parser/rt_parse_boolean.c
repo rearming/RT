@@ -15,9 +15,9 @@
 void	parse_boolean(t_tmp *tmp, const char *key, json_t *value,
 			uint32_t *renderer_flags)
 {
-	if (tmp->struct_type != RENDER_PARAMS)
-		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, key));
-	else
+	if (tmp->struct_type == OBJECT && ft_strequ(key, "texture pbr"))
+		tmp->texture_pbr = json_is_true(value);
+	else if (tmp->struct_type == RENDER_PARAMS)
 	{
 		if (ft_strequ(key, "render objects"))
 			*renderer_flags = json_is_true(value) ? *renderer_flags
@@ -42,4 +42,6 @@ void	parse_boolean(t_tmp *tmp, const char *key, json_t *value,
 					| RENDER_SKYBOX : *renderer_flags & ~RENDER_SKYBOX;
 		}
 	}
+	else
+		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, key));
 }

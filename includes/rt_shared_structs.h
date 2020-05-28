@@ -187,11 +187,11 @@ typedef struct			s_material //есть default material и все задаетс
 	cl_float3			emission_color; //color может быть задан 3 способами как 3 int, 3 float, и 1 char
 	cl_float			emission_power;
 	cl_float			specular_texture;
-	cl_bool 			bump_texture;
 	cl_int				texture_number;
 	cl_float3			texture_position;
 	cl_bool				texture_pbr;
 	cl_int 				texture_normal;
+	cl_float 			texture_pbr_index;
 # else
 
 	float3				ambient;
@@ -204,11 +204,11 @@ typedef struct			s_material //есть default material и все задаетс
 	float3				emission_color;
 	float				emission_power;
 	float				specular_texture;
-	bool				bump_texture;
 	int					texture_number;
 	float3				texture_position;
 	bool				texture_pbr;
 	int 				texture_normal;
+	float 				texture_pbr_index;
 # endif
 
 }						t_material;

@@ -163,11 +163,14 @@ int		convert_y(t_rayhit *hit,
 
 int		texture_to_plane(t_rayhit *hit,
 						__global const t_texture_info *texture_info,
+						__global const t_object *object);
+
+void	change_coordinates(t_rayhit *hit,
+						__global const t_texture_info *texture_info,
 						__global const int *texture_list,
 						__global const t_object *object);
 
-float3	texture(t_ray *out_ray,
-			   t_rayhit *hit,
+float3	texture(t_rayhit *hit,
 			   __global const t_texture_info *texture_info,
 			   __global const int *texture_list,
 			   __global const t_object *object);

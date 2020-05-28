@@ -64,7 +64,7 @@ static void		parse_material(t_tmp *tmp, const char *key,
 		check_duplicated(tmp->checker, TEXTURE);
 		tmp->texture_number = parse_texture(tmp_value);
 	}
-	else if (ft_strequ(key, "texture normal"))
+	else if (ft_strequ(key, "pbr normal"))
 	{
 		check_duplicated(tmp->checker, TEXTURE_NORMAL);
 		tmp->texture_normal = parse_texture(tmp_value);

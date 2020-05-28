@@ -41,6 +41,7 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 	object->material.texture_pbr = tmp->texture_pbr;
 	object->material.texture_number = tmp->texture_number;
 	object->material.texture_normal = tmp->texture_normal;
+	object->material.texture_pbr_index = tmp->texture_pbr_index;
 	object->material.texture_position = tmp->texture_position;
 }
 

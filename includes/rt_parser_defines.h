@@ -66,12 +66,13 @@
 # define TEXTURE_POS 27
 # define TEXTURE_PBR 28
 # define TEXTURE_NORMAL 29
+# define TEXTURE_PBR_INDEX 30
 
 //scene parameters
-# define EXPOSURE 30
-# define GAMMA 31
+# define EXPOSURE 31
+# define GAMMA 32
 
-# define DIRECTORY 32
-# define FILE_NAME 33
+# define DIRECTORY 33
+# define FILE_NAME 34
 
 #endif

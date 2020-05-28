@@ -42,9 +42,8 @@ int		convert_y(t_rayhit *hit,
 }
 
 int		texture_to_plane(t_rayhit *hit,
-						__global const t_texture_info *texture_info,
-						__global const int *texture_list,
-						__global const t_object *object)
+			__global const t_texture_info *texture_info,
+			__global const t_object *object)
 {
 	float3	buf_u;
 	float3	buf_v;
@@ -69,8 +68,7 @@ int		texture_to_plane(t_rayhit *hit,
 	return (x + y * texture_info->width + texture_info->start);
 }
 
-float3	texture(t_ray *out_ray,
-			   t_rayhit *hit,
+float3	texture(t_rayhit *hit,
 			   __global const t_texture_info *texture_info,
 			   __global const int *texture_list,
 			   __global const t_object *object)
@@ -82,6 +80,7 @@ float3	texture(t_ray *out_ray,
 	int		coord;
 	float3	color;
 
+
 	if (object->type == SPHERE || object->type == CONE || object->type == CYLINDER)
 	{
 		x = convert_x(hit, texture_info, object);
@@ -89,7 +88,36 @@ float3	texture(t_ray *out_ray,
 		coord = x + y * texture_info->width + texture_info->start;
 	}
 	else if (object->type == PLANE)
-		coord = texture_to_plane(hit, texture_info, texture_list, object);
+		coord = texture_to_plane(hit, texture_info, object);
 	color = get_float3_color(texture_list[coord]);
 	return (color);
+}
+
+void	change_coordinates(t_rayhit *hit,
+				__global const t_texture_info *texture_info,
+				__global const int *texture_list,
+				__global const t_object *object)
+{
+	int		x;
+	int		y;
+	int		coord;
+	float3	color_curr;
+	float3	color_x;
+	float3	color_y;
+	float	index_x;
+	float	index_y;
+
+	x = convert_x(hit, texture_info, object);
+	y = convert_y(hit, texture_info, object);
+	coord = x + y * texture_info->width + texture_info->start;
+
+	color_curr = get_float3_color(texture_list[coord]);
+	color_x = get_float3_color(texture_list[coord + 1]);
+	color_y = get_float3_color(texture_list[coord + texture_info->width]);
+
+	index_x = (color_x.x - color_curr.x + color_x.y - color_curr.y + color_x.z - color_curr.z) / 3 * object->material.texture_pbr_index;
+	index_y = (color_y.x - color_curr.x + color_y.y - color_curr.y + color_y.z - color_curr.z) / 3 * object->material.texture_pbr_index;
+
+	rotate_x(&hit->normal, index_x);
+	rotate_y(&hit->normal, index_y);
 }
