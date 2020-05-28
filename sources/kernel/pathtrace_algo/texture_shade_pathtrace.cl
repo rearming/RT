@@ -13,7 +13,7 @@ float3		texture_shade_pathtrace(
 		float2 pixel)
 {
 	const float		specular_chance = material.specular_texture;
-	const float3	color = texture(ray, hit, texture_info, texture_list, object); //change material.emission_color to color
+	const float3	color = texture(hit, texture_info, texture_list, object); //change material.emission_color to color
 
 	const float		surface_chance = rt_randf(seed, pixel);
 	const float		transmit_chance = rt_randf(seed, pixel);
