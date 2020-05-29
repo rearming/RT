@@ -1,14 +1,6 @@
 #include "rt.h"
 #include "rt_parsing.h"
 
-/*
- * todo :
- *  0. имена текстур чистятся в load после появления gui передавать их в gui и чистить там
-*/
-
-void	print_tmp(t_tmp *tmp);
-
-
 void	parse_json_file(json_t *root, t_tmp *tmp, uint32_t *renderer_flags)
 {
 	void		*iter;
@@ -46,7 +38,7 @@ t_scene	rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags)
 	json_t			*root;
 	json_error_t	error;
 
-	*renderer_flags = RENDER_OBJECTS; // render objects by default
+	*renderer_flags = RENDER_OBJECTS;
 	tmp = rt_safe_malloc(sizeof(t_tmp));
 	if (!(text = ft_readfile(open(json_scene_file, O_RDONLY), NULL, 10000)))
 		rt_raise_error(ERR_INVALID_JSON_FILE);
@@ -55,7 +47,6 @@ t_scene	rt_parse_scene(const char *json_scene_file, uint32_t *renderer_flags)
 	root = json_loads(text, 0, &error);
 	parse_json_file(root, tmp, renderer_flags);
 	count_elements(&scene, tmp);
-	print_tmp(tmp);
 	add_elements(&scene, tmp);
 	json_decref(root);
 	free(text);

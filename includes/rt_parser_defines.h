@@ -72,6 +72,9 @@
 # define SPECULAR_TEXTURE 25
 # define TEXTURE 26
 # define TEXTURE_POS 27
+# define TEXTURE_PBR 28
+# define TEXTURE_NORMAL 29
+# define TEXTURE_PBR_INDEX 30
 
 //position attributes
 # define ALFA_ANGLE 28

@@ -11,24 +11,21 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "rt_parsing.h"
 
-void	free_tmp(t_tmp *tmp)
+int			count_sum(const bool *checker, bool object)
 {
-	t_tmp	*tmp_iterator;
+	int sum;
+	int i;
 
-	while (tmp)
-	{
-		tmp_iterator = tmp->next;
-		free(tmp);
-		tmp = tmp_iterator;
-	}
-	free(tmp);
-}
-
-void	check_duplicated(bool *checker, int number)
-{
-	if (checker[number] == true)
-		rt_raise_error(ERR_PARSING_DUPLICATED_PARAM);
+	sum = 0;
+	i = 0;
+	if (object)
+		sum = checker[NORMAL] + checker[DISTANCE] + checker[AXIS]
+			+ checker[ANGLE] + checker[LEN] + checker[VMIN]
+			+ checker[VMAX] + checker[CENTER] + checker[RADIUS]
+			+ checker[POS] + checker[ROTATION] + checker[INTENSITY]
+			+ checker[DIRECTION] + checker[COLOR];
 	else
 		checker[number] = true;
 }
@@ -133,6 +130,10 @@ void	check_object(t_tmp *tmp)
 	if (tmp->checker[TEXTURE] && !(tmp->type == SPHERE || tmp->type == CONE
 		|| tmp->type == CYLINDER || tmp->type == PLANE))
 		rt_raise_error(ERR_INVALID_TEXTURE_OBJECT);
+	if (tmp->texture_pbr == true)
+		if (tmp->checker[TEXTURE] + tmp->checker[TEXTURE_NORMAL] + tmp->checker[TEXTURE_PBR_INDEX]!= 3)
+			rt_raise_error("wrong initialization of bump_mapping");
+
 }
 
 void	check_camera_or_light(t_tmp *tmp, bool type)

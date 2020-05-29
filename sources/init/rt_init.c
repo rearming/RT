@@ -24,12 +24,12 @@ void rt_init(t_rt *out_rt, const char *json_scene_file, uint32_t init_options)
 	out_rt->render_state = STATE_NOTHING;
 	out_rt->scene = rt_parse_scene(json_scene_file, &out_rt->render_options);
 	rt_init_render_params(&out_rt->params, out_rt->scene.clInfo);//todo fix this "clInfo" thing [gfoote]
-	if (g_textures.texture_info_size > 0)
-		rt_textures_init();
+	if (g_textures.texture_info_size > 0 && (out_rt->render_options & RENDER_TEXTURES))
+	    rt_textures_init();
 	else
 		out_rt->render_state |= STATE_NO_TEXTURES;
-	if (g_textures.skybox_info->skybox_exist)
-		rt_skybox_init();
+	if (g_textures.skybox_info->skybox_exist && (out_rt->render_options & RENDER_SKYBOX))
+	    rt_skybox_init();
 	else
 		out_rt->render_state |= STATE_NO_SKYBOX;
 	if (rt_load_obj_file(out_rt->scene.obj_file, &out_rt->scene.meshes))

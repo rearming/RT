@@ -4,7 +4,7 @@
     "gamma": 2.2
   } ,
   "render parameters": {
-    "render algorithm": "pathtrace",
+    "render algorithm": "raytrace",
     "pathtrace": {
       "max light bounces": 8
     },
@@ -26,7 +26,8 @@
     {
       "type": "plane",
       "material": {
-        "texture": "plane_bricks.bmp"
+        "texture": "plane_wall.jpg",
+        "texture position": [0, 0, 4]
       },
       "center": [0, -2.5, 0],
       "normal": [0, 1, 0]
@@ -34,7 +35,8 @@
     {
       "type": "plane",
       "material": {
-        "texture": "plane_spruce.jpg"
+        "texture": "plane_wall2.jpg",
+        "texture position": [0, 0, 4]
 
       },
       "center": [2.5, 0, 0],
@@ -43,7 +45,7 @@
     {
       "type": "plane",
       "material": {
-        "texture": "plane_bricks2.jpeg"
+        "texture": "plane_wall3.jpg"
       },
       "center": [-2.5, 0, 0],
       "normal": [1, 0, 0]
@@ -51,16 +53,7 @@
     {
       "type": "plane",
       "material": {
-        "diffuse": "0xFFFFFF",
-        "phong exp": 40
-      },
-      "center": [0, 0, 2.5],
-      "normal": [0, 0, 1]
-    },
-    {
-      "type": "plane",
-      "material": {
-        "texture": "plane_grass.jpg"
+        "texture": "plane_sky.jpg"
       },
       "center": [0, 2.5, 0],
       "normal": [0, 1, 0]
@@ -93,7 +86,7 @@
     {
       "type": "sphere",
       "material": {
-        "texture": "dots.jpg"
+        "texture": "sphere_sauron.jpg"
       },
       "center": [-1, -1.5, 0],
       "radius": 0.8
@@ -103,7 +96,7 @@
       "material": {
         "emission color": "0xFFFFFF",
         "emission power": 1,
-        "texture": "Tex1.jpg"
+        "texture": "sphere_sauron.jpg"
       },
       "center": [-1, -1.5, -3.5],
       "radius": 0.5

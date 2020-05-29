@@ -65,7 +65,10 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 	object->material.emission_color = tmp->emission_color;
 	object->material.emission_power = tmp->emission_power;
 	object->material.specular_texture = tmp->specular_texture;
+	object->material.texture_pbr = tmp->texture_pbr;
 	object->material.texture_number = tmp->texture_number;
+	object->material.texture_normal = tmp->texture_normal;
+	object->material.texture_pbr_index = tmp->texture_pbr_index;
 	object->material.texture_position = tmp->texture_position;
 	object->complicated_type = tmp->complicated;
 	object->complicated_index = tmp->complicated_index;
@@ -77,7 +80,8 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 static void	add_cam_and_light(t_camera *camera, t_light *light, t_tmp *tmp,
 		bool cam)
 {
-	(cam) ? check_camera_or_light(tmp, true) : check_camera_or_light(tmp, false);
+	(cam) ? check_camera_or_light(tmp, true) :
+		check_camera_or_light(tmp, false);
 	if (cam)
 	{
 		camera->pos = tmp->pos;
@@ -106,7 +110,8 @@ static void	add_render_and_scene(t_scene *scene, t_tmp *tmp_iterator,
 	{
 		scene->clInfo.max_depth_raytrace = tmp_iterator->max_depth_r;
 		scene->clInfo.max_depth_pathtrace = tmp_iterator->max_depth_p;
-		scene->obj_file = (tmp_iterator->file != NULL) ? ft_strdup(tmp_iterator->file) : NULL;
+		scene->obj_file = (tmp_iterator->file != NULL) ?
+			ft_strdup(tmp_iterator->file) : NULL;
 		free(tmp_iterator->file);
 	}
 	else
@@ -118,30 +123,35 @@ static void	add_render_and_scene(t_scene *scene, t_tmp *tmp_iterator,
 	}
 }
 
+static void	init_params(t_scene *scene, int *i_light, int *i_obj)
+{
+	*i_light = 0;
+	*i_obj = 0;
+	scene->objects = scene->obj_nbr > 0 ?
+			rt_safe_malloc(sizeof(t_object) * scene->obj_nbr) : NULL;
+	scene->lights = scene->lights_nbr > 0 ?
+			rt_safe_malloc(sizeof(t_light) * scene->lights_nbr) : NULL;
+}
+
 void		add_elements(t_scene *scene, t_tmp *tmp)
 {
 	t_tmp	*tmp_iter;
 	int		i_light;
 	int		i_obj;
 
-	i_light = 0;
-	i_obj = 0;
+	init_params(scene, &i_light, &i_obj);
 	tmp_iter = tmp;
-	scene->objects = scene->obj_nbr > 0 ?
-		rt_safe_malloc(sizeof(t_object) * scene->obj_nbr) : NULL;
-	scene->lights = scene->lights_nbr > 0 ?
-		rt_safe_malloc(sizeof(t_light) * scene->lights_nbr) : NULL;
 	while (tmp_iter)
 	{
-		if (tmp_iter->structure_type == OBJECT && i_obj < scene->obj_nbr)
+		if (tmp_iter->struct_type == OBJECT && i_obj < scene->obj_nbr)
 			add_objects(tmp_iter, &scene->objects[i_obj++]);
-		else if (tmp_iter->structure_type == LIGHT && i_light < scene->lights_nbr)
+		else if (tmp_iter->struct_type == LIGHT && i_light < scene->lights_nbr)
 			add_cam_and_light(NULL, &scene->lights[i_light++], tmp_iter, false);
-		else if (tmp_iter->structure_type == CAMERA)
+		else if (tmp_iter->struct_type == CAMERA)
 			add_cam_and_light(&scene->camera, NULL, tmp_iter, true);
-		else if (tmp_iter->structure_type == RENDER_PARAMS)
+		else if (tmp_iter->struct_type == RENDER_PARAMS)
 			add_render_and_scene(scene, tmp_iter, true);
-		else if (tmp_iter->structure_type == SCENE_PARAMS)
+		else if (tmp_iter->struct_type == SCENE_PARAMS)
 			add_render_and_scene(scene, tmp_iter, false);
 		else
 			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, "unknown structure"));

@@ -7,7 +7,7 @@ void	print_tmp(t_tmp *tmp)
 	i = 0;
 	while (tmp)
 	{
-		printf(" i = %i structure_type = %i type = %i, ", i, tmp->structure_type, tmp->type);
+		printf(" i = %i struct_type = %i type = %i, ", i, tmp->struct_type, tmp->type);
 		if (tmp->checker[ROTATION] == true)
 			printf("rotation = [%.3f][%.3f][%.3f], ", tmp->rotation.x, tmp->rotation.y, tmp->rotation.z);
 		if (tmp->checker[POS] == true)

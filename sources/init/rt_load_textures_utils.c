@@ -1,6 +1,6 @@
 #include "rt.h"
 
-int				init_basic_textures_parameters(void)
+int			init_basic_textures_parameters(void)
 {
 	g_textures.texture_list_size = 0;
 	g_textures.texture_list = NULL;
@@ -9,7 +9,7 @@ int				init_basic_textures_parameters(void)
 	return (-1);
 }
 
-void			rt_add_start_position(int i)
+void		rt_add_start_position(int i)
 {
 	if (i < (int)g_textures.texture_info_size && i > 0)
 		g_textures.texture_info[i].start = g_textures.texture_info[i - 1].start
@@ -19,7 +19,7 @@ void			rt_add_start_position(int i)
 		g_textures.texture_info[i].start = 0;
 }
 
-static int		exists(const char *file_name)
+static int	exists(const char *file_name)
 {
 	FILE *file;
 
@@ -31,7 +31,7 @@ static int		exists(const char *file_name)
 	return (0);
 }
 
-char			*found_file_in_folder(char **folders_names, const char *file)
+char 		*found_file_in_folder(const char *file, char **folders_names)
 {
 	int		i;
 	char	*check;

@@ -26,7 +26,8 @@
     {
       "type": "plane",
       "material": {
-        "diffuse": "0xFFFFFF"
+        "texture": "plane_fire.jpg",
+        "texture position": [0, 0, 100]
       },
       "normal": [0, 1, 0],
       "center": [0, 0, 0]
@@ -36,14 +37,15 @@
       "material": {
         "emission power": 1,
         "emission color": "0xFFFFFF",
-        "texture": "sphere_sauron.jpg"
+        "texture": "sphere_sauron.jpg",
+        "texture position": [0, 0, 100]
       },
       "radius": 5,
       "center": [-5, 115, 25]
     }
   ],
   "camera": {
-    "pos": [145, 40, -195],
+    "pos": [145, 140, -195],
     "rotation": [8, -31, 0]
   },
   "light":

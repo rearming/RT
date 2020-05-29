@@ -20,7 +20,8 @@ static float	parse_f(json_t *value)
 }
 
 static void		parse_variable_material2(t_tmp *tmp, const char *key,
-		json_t *value) {
+		json_t *value)
+{
 	if (ft_strequ(key, "refraction"))
 	{
 		check_duplicated(tmp->checker, REFRACTION);
@@ -60,6 +61,11 @@ static void		parse_variable_material2(t_tmp *tmp, const char *key,
 	{
 		check_duplicated(tmp->checker, PARAM_0);
 		tmp->gamma_angle = parse_f(value);
+	}
+	else if (ft_strequ(key, "pbr index"))
+	{
+		check_duplicated(tmp->checker, TEXTURE_PBR_INDEX);
+		tmp->texture_pbr_index = parse_f(value);
 	}
 	else
 		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, key));

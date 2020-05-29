@@ -73,7 +73,7 @@ typedef struct			s_rt
 
 typedef struct 			s_tmp
 {
-	int 			structure_type;	// object, camera, light
+	int 			struct_type;	// object, camera, light
 	int 			type;			// ambience, sphere, cone
 	cl_float3		rotation;		// camera
 	cl_float3		pos;			// camera,	light
@@ -106,6 +106,9 @@ typedef struct 			s_tmp
 	float			specular_texture;//					object (material)
 	int 			texture_number; //					object (material)
 	cl_float3		texture_position;//					object (material)
+	bool 			texture_pbr; 	//					object (material)
+	int 			texture_normal; //					object (material)
+	float 			texture_pbr_index;//				object (material)
 	cl_float		alfa_angle;//						object(complicated)
 	cl_float		beta_angle;//						object(complicated)
 	cl_float		gamma_angle;//						object(complicated)
@@ -116,7 +119,7 @@ typedef struct 			s_tmp
 	cl_int			skybox_num;		//					render_parameters
 	float			exposure;		//					scene_parameters
 	float			gamma;			//					scene_parameters
-	char*			file;			//					obj_parameters
+	char*			file;			//
 	bool 			checker[41];
 	struct s_tmp	*next;
 }						t_tmp;
