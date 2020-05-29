@@ -41,7 +41,7 @@ void	rt_print_kd_tree_info(t_kd_info *kd_info)
 			nodes_with_one_tris++;
 	}
 
-	qsort(sort_objects_num, filled_nodes, sizeof(int), /*(__compar_fn_t)*/int_cmpfunc);
+	qsort(sort_objects_num, filled_nodes, sizeof(int), (__compar_fn_t)int_cmpfunc);
 	for (int j = 0; j < filled_nodes; ++j)
 	{
 		printf("%i\n", sort_objects_num[j]);

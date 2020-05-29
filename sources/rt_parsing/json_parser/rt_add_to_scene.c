@@ -41,7 +41,7 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 		tmp->checker[DISTANCE] = false;
 		printf("Ellipsoid changed to sphere with radius = r");
 	}
-	check_object(tmp);
+//	check_object(tmp);
 	object->type = tmp->type;
 	object->normal = rt_vec_normalize(tmp->normal);
 	object->center = tmp->center;
@@ -157,5 +157,5 @@ void		add_elements(t_scene *scene, t_tmp *tmp)
 			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, "unknown structure"));
 		tmp_iter = tmp_iter->next;
 	}
-	free_tmp(tmp);
+//	free_tmp(tmp);
 }

@@ -8,23 +8,23 @@ void	check_duplicated(bool *checker, int number)
 		checker[number] = true;
 }
 
-char	*object_name(int type)
-{
-	if (type == SPHERE)
-		return ("Sphere");
-	if (type == CONE)
-		return ("Cone");
-	if (type == CYLINDER)
-		return ("Cylinder");
-	if (type == PLANE)
-		return ("Plane");
-	if (type == AABB)
-		return ("AABB");
-	if (type == TRIANGLE)
-		return ("Triangle");
-	if (type == PARABOLOID)
-		return ("Paraboloid");
-	if (type == ELLIPSOID)
-		return ("Ellipsoid");
-	return (NULL);
-}
+//char	*object_name(int type)
+//{
+//	if (type == SPHERE)
+//		return ("Sphere");
+//	if (type == CONE)
+//		return ("Cone");
+//	if (type == CYLINDER)
+//		return ("Cylinder");
+//	if (type == PLANE)
+//		return ("Plane");
+//	if (type == AABB)
+//		return ("AABB");
+//	if (type == TRIANGLE)
+//		return ("Triangle");
+//	if (type == PARABOLOID)
+//		return ("Paraboloid");
+//	if (type == ELLIPSOID)
+//		return ("Ellipsoid");
+//	return (NULL);
+//}

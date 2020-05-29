@@ -13,22 +13,22 @@
 #include "rt.h"
 #include "rt_parsing.h"
 
-int			count_sum(const bool *checker, bool object)
-{
-	int sum;
-	int i;
-
-	sum = 0;
-	i = 0;
-	if (object)
-		sum = checker[NORMAL] + checker[DISTANCE] + checker[AXIS]
-			+ checker[ANGLE] + checker[LEN] + checker[VMIN]
-			+ checker[VMAX] + checker[CENTER] + checker[RADIUS]
-			+ checker[POS] + checker[ROTATION] + checker[INTENSITY]
-			+ checker[DIRECTION] + checker[COLOR];
-	else
-		checker[number] = true;
-}
+//int			count_sum(const bool *checker, bool object)
+//{
+//	int sum;
+//	int i;
+//
+//	sum = 0;
+//	i = 0;
+//	if (object)
+//		sum = checker[NORMAL] + checker[DISTANCE] + checker[AXIS]
+//			+ checker[ANGLE] + checker[LEN] + checker[VMIN]
+//			+ checker[VMAX] + checker[CENTER] + checker[RADIUS]
+//			+ checker[POS] + checker[ROTATION] + checker[INTENSITY]
+//			+ checker[DIRECTION] + checker[COLOR];
+//	else
+//		checker[number] = true;
+//}
 
 char	*object_name(int type)
 {

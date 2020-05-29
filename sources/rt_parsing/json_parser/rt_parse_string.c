@@ -55,8 +55,6 @@ static void		parse_type2(t_tmp *tmp, const char *value)
 static void		parse_material(t_tmp *tmp, const char *key,
 		const char *tmp_value)
 {
-	int c_type;
-
 	if (ft_strequ(key, "diffuse"))
 	{
 		check_duplicated(tmp->checker, DIFFUSE);

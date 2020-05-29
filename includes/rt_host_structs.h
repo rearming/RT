@@ -120,7 +120,7 @@ typedef struct 			s_tmp
 	float			exposure;		//					scene_parameters
 	float			gamma;			//					scene_parameters
 	char*			file;			//
-	bool 			checker[41];
+	bool 			checker[45];
 	struct s_tmp	*next;
 }						t_tmp;
 

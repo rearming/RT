@@ -77,22 +77,22 @@
 # define TEXTURE_PBR_INDEX 30
 
 //position attributes
-# define ALFA_ANGLE 28
-# define BETA_ANGLE 29
-# define GAMMA_ANGLE 30
-# define COMPLICATED 31
-# define COMPLICATED_INDEX 32
-# define SIZE 33
-# define RADIUS_RING 34
-# define RADIUS_2 35
-# define PARAM_0 36
-# define PARAM_1 37
+# define ALFA_ANGLE 31
+# define BETA_ANGLE 32
+# define GAMMA_ANGLE 33
+# define COMPLICATED 34
+# define COMPLICATED_INDEX 35
+# define SIZE 36
+# define RADIUS_RING 37
+# define RADIUS_2 38
+# define PARAM_0 39
+# define PARAM_1 40
 
 //scene parameters
-# define EXPOSURE 37
-# define GAMMA 38
+# define EXPOSURE 41
+# define GAMMA 42
 
-# define DIRECTORY 39
-# define FILE_NAME 40
+# define DIRECTORY 43
+# define FILE_NAME 44
 
 #endif

@@ -114,42 +114,6 @@ float3		vec_axis_rotate(float3 vec, float3 axis, float angle);
 
 bool		ray_aabb_intersection(t_ray *ray, __global const t_object *object, t_rayhit *best_hit);
 
-void				closest_intersection(
-		__global const t_scene *scene,
-		__global const t_object *objects,
-		__global const t_light *lights,
-		__global const t_kd_info *kd_info,
-		__global const t_kd_arr_tree *kd_tree,
-		__global const int *kd_indices,
-		__global const t_mesh_info *meshes_info,
-		__global const t_polygon *polygons,
-		__global const float3 *vertices,
-		__global const float3 *v_normals,
-		t_ray *ray,
-		t_rayhit *out_best_hit,
-		int *out_closest_polygon_index,
-		int *out_closest_obj_index);
-
-bool				ray_triangle_intersect_MT(
-		t_ray *ray,
-		__global const t_object *triangle,
-		t_rayhit *best_hit);
-
-bool				ray_triangle_intersect_MT_polygon(
-		float3 v0, float3 v1, float3 v2,
-		float3 vn0, float3 vn1, float3 vn2,
-		float3 vt0, float3 vt1, float3 vt2,
-		float t_min,
-		float t_max,
-		t_ray *ray,
-		t_rayhit *best_hit);
-
-bool				ray_plane_intersect(
-		t_ray *ray,
-		float3 center,
-		float3 normal,
-		t_rayhit *best_hit);
-
 bool				ray_sphere_intersect(
 		t_ray *ray,
 		__global const t_object *sphere,
@@ -184,9 +148,6 @@ int			ray_march_diff_obj(t_ray *ray,
 		__global const t_object *objects,
 		t_rayhit *out_best_hit,
 		int i);
-int		texture_to_plane(t_rayhit *hit,
-						__global const t_texture_info *texture_info,
-						__global const t_object *object);
 
 void	change_coordinates(t_rayhit *hit,
 						__global const t_texture_info *texture_info,
@@ -196,10 +157,7 @@ void	change_coordinates(t_rayhit *hit,
 int			ray_march_inter_s_obj(t_ray *ray,
 		__global const t_object *objects, t_rayhit *out_best_hit,
 		int i);
-float3	texture(t_rayhit *hit,
-			   __global const t_texture_info *texture_info,
-			   __global const int *texture_list,
-			   __global const t_object *object);
+
 
 int			ray_march_simple_obj(t_ray *ray,
 		__global const t_object *objects, t_rayhit *out_best_hit,
@@ -314,16 +272,6 @@ int		convert_y(t_rayhit *hit,
 				__global const t_texture_info *texture_info,
 				__global const t_object *object);
 
-int		texture_to_plane(t_rayhit *hit,
-						__global const t_texture_info *texture_info,
-						__global const int *texture_list,
-						__global const t_object *object);
-
-float3	texture(t_ray *out_ray,
-			   t_rayhit *hit,
-			   __global const t_texture_info *texture_info,
-			   __global const int *texture_list,
-			   __global const t_object *object);
 
 int		check_borders(int a, int max, int type);
 
