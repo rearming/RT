@@ -82,34 +82,6 @@ void				closest_intersection(
 									*out_closest_obj_index = i;
 									break ;
 								}
-								// код ниже не работает, попытка сделать чек
-								// камера внутри реймарш объекта
-//								t_ray r_plus = (t_ray){.origin = ray->origin
-//										+ RAY_MARCH_MAX_DIST * ray->dir,
-//										.dir = -ray->dir, .energy = ray->energy};
-//								t_ray r_minus = (t_ray){.origin = ray->origin
-//										- RAY_MARCH_MAX_DIST * ray->dir,
-//										.dir = -ray->dir, .energy = ray->energy};
-//								t_rayhit p = (t_rayhit){.distance = RAY_MARCH_MAX_DIST,
-//										.pos = ray->origin, .normal = -ray->dir};
-//								t_rayhit m = (t_rayhit){.distance = RAY_MARCH_MAX_DIST,
-//										.pos = ray->origin, .normal = r_plus.dir};
-//								if (!(ray_march(&r_plus, &objects[i], &p)
-//										&& ray_march(&r_minus, &objects[i], &m)))
-//									break ;
-//								out_best_hit->distance = RAY_MIN_EPSILON;
-//								out_best_hit->pos = ray->origin;
-//								out_best_hit->normal = -ray->dir;
-//								*out_closest_obj_index = i;
-//								break ;
-
-								// это тоже самое но вынесено в функцию,
-								// работает так же как код выше
-//								int	close_ind_rm = ray_march_simple_obj(ray,
-//										objects, out_best_hit, i);
-//								*out_closest_obj_index = close_ind_rm != -1 ?
-//										close_ind_rm : *out_closest_obj_index;
-//								break ;
 							}
 							// работает только для выпуклых поверхностей, для тора может лагать
 							else if (objects[i].complicated_type == INTERSECTION
@@ -133,13 +105,6 @@ void				closest_intersection(
 												: objects[i].complicated_index;
 									}
 								}
-								// этот вариант (ниже) не работает, хотя делается
-								// все тоже самое внутри функции ray_march_inter_s_obj
-//								int	close_ind_rm = ray_march_inter_s_obj(ray,
-//										objects, out_best_hit, i);
-//								*out_closest_obj_index = close_ind_rm != -1 ?
-//										close_ind_rm : *out_closest_obj_index;
-//								break ;
 							}
 							// работает только для выпуклых поверхностей, для тора может лагать
 							else if (objects[i].complicated_type == DIFFERENT)
