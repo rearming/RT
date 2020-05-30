@@ -74,7 +74,7 @@ void		fill_surfaces()
 
 
 
-void		init_gui(uint64_t algo)
+void		init_gui(uint64_t algo, t_scene scene)
 {
 	g_gui.render_algo = ((algo & 0b111) - 1);
 	g_gui.panel = camera_l;
@@ -87,7 +87,7 @@ void		init_gui(uint64_t algo)
 	init_algo_buttons();
 	init_object_panel();
 	init_other_buttons();
-	init_text_box();
-	render_all_buttons();
+	init_text_box(scene);
+	render_all_buttons(scene);
 	SDL_UpdateWindowSurface(g_gui.win_tool);
 }

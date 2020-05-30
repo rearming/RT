@@ -14,10 +14,12 @@
 
 
 typedef struct s_rt t_rt;
+typedef struct s_scene t_scene ;
 typedef struct s_sdl t_sdl;
 
-void		init_gui(uint64_t algo);
+void		init_gui(uint64_t algo, t_scene scene);
 bool		rt_handle_event_gui(SDL_Event *event, t_rt *rt);
+//void		ft_strcpy(char *dst, char *src);
 
 /*
 ** fake HTML
@@ -42,7 +44,7 @@ void		init_other_buttons(void);
 
 void		render_button(t_transform btn);
 void		render_button_with_params(t_transform btn, TTF_Font *font, int px);
-void		auto_render_button(int i);
+void		auto_render_button(int i, t_scene scene);
 
 /*
 ** Buttons utils
@@ -50,7 +52,7 @@ void		auto_render_button(int i);
 
 bool		check_click(SDL_Event *event, SDL_Rect button);
 bool		check_hover(SDL_Event *event, SDL_Rect button);
-void		render_all_buttons(void);
+void		render_all_buttons(t_scene scene);
 
 /*
 ** Buttons actions
@@ -66,22 +68,25 @@ bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt);
 ** Text box init
 */
 
-void		init_cam_text_box(SDL_Rect rect);
-void		init_pos_text_box(SDL_Rect rect);
-void		init_params_text_box(SDL_Rect rect);
-void		init_text_box();
+t_transform		auto_init_btns_ret(SDL_Rect rect, short action, char *text, float param);
+void		auto_init_btns(SDL_Rect rect, short action, char *text, float param);
+void		init_cam_text_box(t_scene scene, SDL_Rect rect);
+void		init_pos_text_box(t_scene scene, SDL_Rect rect);
+void		init_params_text_box(t_scene scene, SDL_Rect rect);
+void		init_text_box(t_scene scene);
 
 /*
 ** Text box render
 */
 
-void		render_text_box(t_transform btn);
+void		render_text_box(t_transform btn, t_scene scene);
 
 /*
 ** Utils
 */
 
-char 		*name_generator(char *ext);
+bool is_positions_changed(int tb_id, float curr_value);
+char		*name_generator(char *ext);
 SDL_Rect	get_window_data(void);
 SDL_Color	get_color_from_hex(unsigned int hex);
 SDL_Color	get_rgba_from_hex(unsigned int hex);

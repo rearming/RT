@@ -1,3 +1,4 @@
+//#include <tclDecls.h>
 #include "rt.h"
 #include "rt_events.h"
 #include "rt_gui.h"
@@ -34,14 +35,14 @@ static inline void		remove_key_event(uint32_t *events, SDL_Scancode scancode)
 		rt_unset_bit(events, EVENT_LSHIFT);
 }
 
-void				sync_rt_and_gui(uint64_t renderer_params)
+void sync_rt_and_gui(t_scene scene, uint64_t renderer_params)
 {
 	const uint64_t	render_num = (renderer_params & (0b111)) - 1;
 
 	g_gui.render_algo = render_num;
 	g_gui.obj[render_num].state = click;
 	render_button(g_gui.obj[render_num]);
-	render_all_buttons();
+	render_all_buttons(scene);
 	SDL_UpdateWindowSurface(g_gui.win_tool);
 }
 
@@ -72,13 +73,13 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 	if (event->key.keysym.scancode == SDL_SCANCODE_R)
 	{
 		rt_set_render_algo(&rt->render_options, RENDER_RAYTRACE);
-		sync_rt_and_gui(rt->render_options);
+		sync_rt_and_gui(rt->scene, rt->render_options);
 	}
 	if (event->key.keysym.scancode == SDL_SCANCODE_P)
 	{
 		rt_set_render_algo(&rt->render_options, RENDER_PATHTRACE);
 		rt_set_bit(&rt->render_actions, ACTION_PATHTRACE);
-		sync_rt_and_gui(rt->render_options);
+		sync_rt_and_gui(rt->scene, rt->render_options);
 	}
 	if (event->key.keysym.scancode == SDL_SCANCODE_M)
 		rt_switch_bit(&rt->render_options, RENDER_MESH);

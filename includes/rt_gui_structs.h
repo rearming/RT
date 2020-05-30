@@ -51,14 +51,16 @@ typedef	struct			s_transform
 	SDL_Color			color;
 	SDL_Surface			texture;
 	char				text[100];
-	char				field[20];
+//	char				field[10];
+	char*				field;
 	short				action;
 	bool				(*callback)();
 	t_state				state;
 	short				type;
-	bool				on_focus;
-	void				*parent;
-	unsigned short		sons;
+	bool				focus;
+	float 				param;
+//	void				*parent;
+//	unsigned short		sons;
 }						t_transform;
 
 typedef struct			s_ttf

@@ -8,14 +8,19 @@ float		count_percent(char *text, char *field)
 	return ((float)text_len / (float)joined_len);
 }
 
-void		render_text_box(t_transform btn)
+void		render_text_box(t_transform btn, t_scene scene)
 {
 	SDL_Rect	text;
 	SDL_Rect	field;
+	SDL_Color	color;
 
 	if (btn.state == hidden)
 		return ;
-	render_rect(g_gui.surface, &(btn.rect), btn.color);
+	if (btn.focus == true)
+		color = get_color_from_hex(BTN_COLOR_CLICK);
+	else
+		color = get_color_from_hex(BTN_COLOR_NONACTIVE);
+	render_rect(g_gui.surface, &(btn.rect), color);
 
 	text = (SDL_Rect){.x = btn.rect.x, .y = btn.rect.y, .h = btn.rect.h};
 	text.w = (int)((float)btn.rect.w * count_percent(btn.text, btn.field));
@@ -25,17 +30,17 @@ void		render_text_box(t_transform btn)
 	render_text(g_gui.body, btn.field, field);
 }
 
-void 		render_column_text_box(t_transform btn)//todo testing
-{
-	SDL_Rect text;
-	SDL_Rect field;
-
-	if (btn.state == hidden)
-		return;
-	render_rect(g_gui.surface, &(btn.rect), btn.color);
-	text = (SDL_Rect) {.x = btn.rect.x, .y = btn.rect.y, .h = btn.rect.h / 2, .w = btn.rect.w};
-	field = (SDL_Rect) {.x = btn.rect.x, .h = btn.rect.h / 2, .w = btn.rect.w};
-	field.y += text.h;
-	render_text(g_gui.body, btn.text, text);
-	render_text(g_gui.body, btn.field, field);
-}
+//void 		render_column_text_box(t_transform btn)//todo testing
+//{
+//	SDL_Rect text;
+//	SDL_Rect field;
+//
+//	if (btn.state == hidden)
+//		return;
+//	render_rect(g_gui.surface, &(btn.rect), btn.color);
+//	text = (SDL_Rect) {.x = btn.rect.x, .y = btn.rect.y, .h = btn.rect.h / 2, .w = btn.rect.w};
+//	field = (SDL_Rect) {.x = btn.rect.x, .h = btn.rect.h / 2, .w = btn.rect.w};
+//	field.y += text.h;
+//	render_text(g_gui.body, btn.text, text);
+//	render_text(g_gui.body, btn.field, field);
+//}

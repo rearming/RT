@@ -244,7 +244,7 @@ target_link_libraries(kd_tree_test
 add_executable(generic_test
         ${sources}
         ${testing_utils}
-        sources/test/generic_test/generic_test_main.c sources/gui/text_box/render_text_box.c)
+        sources/test/generic_test/generic_test_main.c )
 
 target_include_directories(generic_test PRIVATE
         sources/test)
