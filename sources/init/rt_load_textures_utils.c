@@ -31,7 +31,7 @@ static int	exists(const char *file_name)
 	return (0);
 }
 
-char 		*found_file_in_folder(const char *file, char **folders_names)
+char		*found_file(const char *file, char **folders_names)
 {
 	int		i;
 	char	*check;
@@ -43,7 +43,7 @@ char 		*found_file_in_folder(const char *file, char **folders_names)
 		return (check);
 	else if (folders_names)
 	{
-		while (folders_names[i]!= NULL)
+		while (folders_names[i] != NULL)
 		{
 			ft_strclr(check);
 			free(check);

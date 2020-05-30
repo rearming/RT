@@ -15,8 +15,6 @@ static void	parse_type3(int *type, const char *value)
 		*type = ROUND_CONE;
 	else if (ft_strequ(value, "test object"))
 		*type = TEST_OBJECT;
-	else
-		rt_raise_error(ERR_PARSING_WRONG_OBJECT_TYPE);
 }
 
 void		parse_type2(int *type, const char *value)
@@ -42,5 +40,5 @@ void		parse_type2(int *type, const char *value)
 	else if (ft_strequ(value, "capsule"))
 		*type = CAPSULE;
 	else
-		parse_type3(tmp, value);
+		parse_type3(type, value);
 }
