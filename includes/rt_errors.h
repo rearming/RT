@@ -39,7 +39,7 @@
 # define ERR_INVALID_JSON_FILE "can't read json scene file"
 # define ERR_PARSING_WRONG_ARRAY_FORMAT "rt_parse error: wrong format of array parameter"
 # define ERR_PARSING_WRONG_SCENE_PARAMS "rt_parse error: wrong scene parameters"
-# define ERR_PARSING_WRONG_PARAM "rt_parse error: wrong parameter - "
+# define ERR_PARS_WRONG_PRM "rt_parse error: wrong parameter - "
 
 # define ERR_INVALID_TEXTURE "can't read texture file"
 # define ERR_PARSING_WRONG_OBJECT_PARAMS "rt_parse error: wrong params in "
@@ -55,5 +55,5 @@
 # define ERR_PARSING_DUPLICATED_PARAM "rt_parse error: duplicated parameters"
 # define ERR_PARSING_DUPLICATED_SKYBOX "rt_parse error: skybox image is duplicated "
 # define ERR_INVALID_TEXTURE_OBJECT "texture can be used only with basic objects"
-
+# define ERR_IVALID_BUMP_INITIALIZATION "wrong initialization of bump_mapping"
 #endif

@@ -14,42 +14,31 @@
 #include "rt_math_utils.h"
 #include "rt_parsing.h"
 
-static void		parse_type2(t_tmp *tmp, const char *value)
+static void		parse_material2(t_tmp *tmp, const char *key,
+		const char *tmp_value)
 {
-	if (ft_strequ(value, "sphere"))
-		tmp->type = SPHERE;
-	else if (ft_strequ(value, "cone"))
-		tmp->type = CONE;
-	else if (ft_strequ(value, "cylinder"))
-		tmp->type = CYLINDER;
-	else if (ft_strequ(value, "plane"))
-		tmp->type = PLANE;
-	else if (ft_strequ(value, "AABB"))
-		tmp->type = AABB;
-	else if (ft_strequ(value, "triangle"))
-		tmp->type = TRIANGLE;
-	else if (ft_strequ(value, "paraboloid"))
-		tmp->type = PARABOLOID;
-	else if (ft_strequ(value, "ellipsoid"))
-		tmp->type = ELLIPSOID;
-	else if (ft_strequ(value, "box"))
-		tmp->type = BOX;
-	else if (ft_strequ(value, "capsule"))
-		tmp->type = CAPSULE;
-	else if (ft_strequ(value, "torus"))
-		tmp->type = TORUS;
-	else if (ft_strequ(value, "ellipsoid raymarch"))
-		tmp->type = ELLIPSOID_RAYMARCH;
-	else if (ft_strequ(value, "torus capped"))
-		tmp->type = TORUS_CAPPED;
-	else if (ft_strequ(value, "hex prism"))
-		tmp->type = HEX_PRISM;
-	else if (ft_strequ(value, "round cone"))
-		tmp->type = ROUND_CONE;
-	else if (ft_strequ(value, "test object"))
-		tmp->type = TEST_OBJECT;
-	else
-		rt_raise_error(ERR_PARSING_WRONG_OBJECT_TYPE);
+	if (ft_strequ(key, "texture"))
+	{
+		check_duplicated(tmp->checker, TEXTURE);
+		tmp->texture_number = parse_texture(tmp_value);
+	}
+	else if (ft_strequ(key, "complicated type"))
+	{
+		check_duplicated(tmp->checker, COMPLICATED);
+		if (ft_strequ(tmp_value, "nothing"))
+			tmp->complicated = NOTHING;
+		else if (ft_strequ(tmp_value, "union"))
+			tmp->complicated = UNION;
+		else if (ft_strequ(tmp_value, "different"))
+			tmp->complicated = DIFFERENT;
+		else if (ft_strequ(tmp_value, "intersection"))
+			tmp->complicated = INTERSECTION;
+	}
+	else if (ft_strequ(key, "pbr normal"))
+	{
+		check_duplicated(tmp->checker, TEXTURE_NORMAL);
+		tmp->texture_normal = parse_texture(tmp_value);
+	}
 }
 
 static void		parse_material(t_tmp *tmp, const char *key,
@@ -75,28 +64,8 @@ static void		parse_material(t_tmp *tmp, const char *key,
 		check_duplicated(tmp->checker, EMISSION_COLOR);
 		tmp->emission_color = get_float3_color((int)strtol(tmp_value, 0, 16));
 	}
-	else if (ft_strequ(key, "texture"))
-	{
-		check_duplicated(tmp->checker, TEXTURE);
-		tmp->texture_number = parse_texture(tmp_value);
-	}
-	else if (ft_strequ(key, "complicated type"))
-	{
-		check_duplicated(tmp->checker, COMPLICATED);
-		if (ft_strequ(tmp_value,"nothing"))
-			tmp->complicated = NOTHING;
-		else if (ft_strequ(tmp_value,"union"))
-			tmp->complicated = UNION;
-		else if (ft_strequ(tmp_value,"different"))
-			tmp->complicated = DIFFERENT;
-		else if (ft_strequ(tmp_value,"intersection"))
-			tmp->complicated = INTERSECTION;
-	}
-	else if (ft_strequ(key, "pbr normal"))
-	{
-		check_duplicated(tmp->checker, TEXTURE_NORMAL);
-		tmp->texture_normal = parse_texture(tmp_value);
-	}
+	else
+		parse_material2(tmp, key, tmp_value);
 }
 
 static void		parse_type(t_tmp *tmp, const char *value)
@@ -113,7 +82,7 @@ static void		parse_type(t_tmp *tmp, const char *value)
 			rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
 	}
 	else if (tmp->struct_type == OBJECT)
-		parse_type2(tmp, value);
+		parse_type2(&tmp->type, value);
 	else
 		rt_raise_error(ERR_PARSING_WRONG_TYPE);
 }
@@ -155,12 +124,12 @@ void			parse_string(t_tmp *tmp, const char *key, json_t *value,
 		else if (ft_strequ(key, "file"))
 			tmp->file = ft_strdup(tmp_value);
 		else
-			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, tmp_value));
+			rt_raise_error(ft_strjoin(ERR_PARS_WRONG_PRM, tmp_value));
 	}
 	else if (tmp->type == NOT_SET && ft_strequ(key, "type"))
 		parse_type(tmp, tmp_value);
 	else if (tmp->struct_type != NOT_SET && tmp->type != NOT_SET)
 		parse_material(tmp, key, tmp_value);
 	else
-		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, tmp_value));
+		rt_raise_error(ft_strjoin(ERR_PARS_WRONG_PRM, tmp_value));
 }
