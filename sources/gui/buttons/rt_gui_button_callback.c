@@ -94,13 +94,7 @@ bool		handle_movement(t_transform *btn, SDL_Event *event, t_scene scene)
 bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt)
 {
 	if (btn->type & TEXT_BOX)
-	{
-		int test;
-
-		test = is_positions_changed(c_pos_x, rt->scene.camera.pos.x);
-
 		return (handle_textbox(btn, event, rt) || handle_movement(btn, event, rt->scene));
-	}
 	if (event->type != SDL_MOUSEBUTTONDOWN && event->type != SDL_MOUSEMOTION)
 		return (false);
 	if (event->type == SDL_MOUSEMOTION && check_hover(event, btn->rect) && btn->state != click)
