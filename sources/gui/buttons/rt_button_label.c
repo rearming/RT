@@ -7,8 +7,8 @@ t_ttf	get_centered_label(TTF_Font *font, char *text, SDL_Rect rect)
 	SDL_Rect	centered;
 
 	label.surface = TTF_RenderText_Solid(font,
-										 text, get_color_from_hex(FONT_COL));
-	centered = (SDL_Rect){0, 0 , 0 ,0};
+			text, get_color_from_hex(FONT_COL));
+	centered = (SDL_Rect){0, 0, 0, 0};
 	if (label.surface)
 	{
 		centered.x = rect.x + rect.w / 2 - label.surface->w / 2;

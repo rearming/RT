@@ -35,7 +35,7 @@ static inline void		remove_key_event(uint32_t *events, SDL_Scancode scancode)
 		rt_unset_bit(events, EVENT_LSHIFT);
 }
 
-void sync_rt_and_gui(t_scene scene, uint64_t renderer_params)
+void					sync_rt_and_gui(t_scene scene, uint64_t renderer_params)
 {
 	const uint64_t	render_num = (renderer_params & (0b111)) - 1;
 

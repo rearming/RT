@@ -1,6 +1,6 @@
 #include "rt.h"
 
-SDL_Rect get_window_data()
+SDL_Rect	get_window_data(void)
 {
 	SDL_Rect window;
 

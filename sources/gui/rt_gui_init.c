@@ -25,7 +25,7 @@ void		create_title(void)
 	render_button_with_params(title, g_gui.title, 0);
 }
 
-void		init_object_panel()
+void		init_object_panel(void)
 {
 	SDL_Rect rect;
 
@@ -35,31 +35,20 @@ void		init_object_panel()
 			.state = click, .text = CAMERA_LABEL, .action = camera_l,
 			.callback = button_callback, .type = PANEL,
 			.color = get_color_from_hex(NONE)};
-//	rect.x += rect.w;
-//	g_gui.obj[obj_pos] = (t_transform){ .rect = rect,
-//			.state = non_event, .text = POSITION_LABEL, .action = obj_pos,
-//			.callback = button_callback, .type = PANEL,
-//			.color = get_color_from_hex(NONE)};
-//	rect.x += rect.w;
-//	g_gui.obj[obj_param] = (t_transform){ .rect = rect,
-//			.state = non_event, .text = PARAMETERS_LABEL, .action = obj_param,
-//			.callback = button_callback, .type = PANEL,
-//			.color = get_color_from_hex(NONE)};
-
 }
 
-void		init_font()
+void		init_font(void)
 {
 	TTF_Init();
 	if ((g_gui.title = TTF_OpenFont(FONT_PATH, TITLE_FONT_SIZE)) == NULL)
 		rt_raise_error(FONT_ERROR);
 	if ((g_gui.subtitle = TTF_OpenFont(FONT_PATH, SUBTITLE_FONT_SIZE)) == NULL)
 		rt_raise_error(FONT_ERROR);
-	if ((g_gui.body = TTF_OpenFont(MAGMAWAVE_CAPS_FONT, BODY_FONT_SIZE)) == NULL)
+	if ((g_gui.body = TTF_OpenFont(MAGMAWAV_CAPS_FONT, BODY_FONT_SIZE)) == NULL)
 		rt_raise_error(FONT_ERROR);
 }
 
-void		fill_surfaces()
+void		fill_surfaces(void)
 {
 	SDL_Color	bg;
 	SDL_Rect	*rect;
@@ -67,12 +56,11 @@ void		fill_surfaces()
 	bg = get_color_from_hex(GUI_BG);
 	render_rect(g_gui.surface, NULL, bg);
 	bg = get_color_from_hex(PANEL_BG);
-	rect = &(SDL_Rect){ .x = 0, .y = PANEL_Y, .h = PANEL_HEIGHT, .w = PANEL_WIDTH};
+	rect = &(SDL_Rect){ .x = 0, .y = PANEL_Y,
+					.h = PANEL_HEIGHT, .w = PANEL_WIDTH};
 	cut_rect(rect, PANEL_BORDER);
 	render_rect(g_gui.surface, rect, bg);
 }
-
-
 
 void		init_gui(uint64_t algo, t_scene scene)
 {

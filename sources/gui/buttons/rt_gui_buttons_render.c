@@ -13,7 +13,7 @@
 #include "rt_gui.h"
 #include "rt.h"
 
-void		render_button(t_transform btn)
+void	render_button(t_transform btn)
 {
 	SDL_Color	color;
 	t_ttf		label;
@@ -33,7 +33,7 @@ void		render_button(t_transform btn)
 	SDL_FreeSurface(label.surface);
 }
 
-void		render_button_with_params(t_transform btn, TTF_Font *font, int px)
+void	render_button_with_params(t_transform btn, TTF_Font *font, int px)
 {
 	SDL_Color	color;
 
@@ -53,7 +53,7 @@ void		render_button_with_params(t_transform btn, TTF_Font *font, int px)
 
 void	auto_render_button(int i, t_scene scene)
 {
-	if  (g_gui.obj[i].type & PANEL)
+	if (g_gui.obj[i].type & PANEL)
 		render_button_with_params(g_gui.obj[i], g_gui.body, 0);
 	else if ((g_gui.obj[i].type & TEXT_BOX)
 	&& g_gui.obj[i].state != hidden)
@@ -62,45 +62,26 @@ void	auto_render_button(int i, t_scene scene)
 		render_button(g_gui.obj[i]);
 }
 
-void render_all_buttons(t_scene scene)
+void	render_all_buttons(t_scene scene)
 {
-	int	i;
-	SDL_Color bg;
-	SDL_Rect *rect;
+	int			i;
+	SDL_Color	bg;
+	SDL_Rect	*rect;
 
 	i = 0;
 	bg = get_color_from_hex(PANEL_BG);
-	rect = &(SDL_Rect){ .x = 0, .y = PANEL_Y, .h = PANEL_HEIGHT, .w = PANEL_WIDTH};
+	rect = &(SDL_Rect){ .x = 0, .y = PANEL_Y,
+					.h = PANEL_HEIGHT, .w = PANEL_WIDTH};
 	cut_rect(rect, PANEL_BORDER);
 	render_rect(g_gui.surface, rect, bg);
 	while (i < btn_count)
 	{
 		if (g_gui.obj[i].callback == NULL)
 		{
-			printf("%i\n", i);
+			ft_printf("%i\n", i);
 			rt_raise_error(BTN_TROUBLE);
 		}
-		if (g_gui.obj[i].type == RENDER_BTN)
-		{
-			if (g_gui.obj[i].action != g_gui.render_algo)
-				g_gui.obj[i].state = non_event;
-			else
-				g_gui.obj[i].state = click;
-		}
-		if (g_gui.obj[i].type == PANEL)
-		{
-			if (g_gui.obj[i].action != g_gui.panel)
-				g_gui.obj[i].state = non_event;
-			else
-				g_gui.obj[i].state = click;
-		}
-		if (g_gui.obj[i].type & TEXT_BOX)
-		{
-			if (g_gui.obj[i].type & (1 << (g_gui.panel)))
-				g_gui.obj[i].state = label;
-			else
-				g_gui.obj[i].state = hidden;
-		}
+		fix_states(i);
 		auto_render_button(i++, scene);
 	}
 	SDL_UpdateWindowSurface(g_gui.win_tool);

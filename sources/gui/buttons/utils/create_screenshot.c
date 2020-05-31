@@ -3,23 +3,23 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-
-SDL_Surface *get_pixels_from_surface()
+SDL_Surface	*get_pixels_from_surface(void)
 {
-	SDL_Surface *surface;
-	const Uint32 format = SDL_PIXELFORMAT_ABGR8888;
-	const SDL_Rect win = get_window_data();
+	SDL_Surface		*surface;
+	const Uint32	format = SDL_PIXELFORMAT_ABGR8888;
+	const SDL_Rect	win = get_window_data();
 
-
-	surface = SDL_CreateRGBSurfaceWithFormat(0, win.w, win.h, 32, format);
-	SDL_RenderReadPixels(g_sdl.rend, NULL, format, surface->pixels, surface->pitch);
+	surface = SDL_CreateRGBSurfaceWithFormat(0, win.w, win.h,
+			32, format);
+	SDL_RenderReadPixels(g_sdl.rend, NULL, format, surface->pixels,
+			surface->pitch);
 	return (surface);
 }
 
 void		create_screenshot_bmp(void)
 {
-	SDL_Surface *surface;
-	char *file;
+	SDL_Surface	*surface;
+	char		*file;
 
 	surface = get_pixels_from_surface();
 	file = name_generator(".bmp");
@@ -28,12 +28,12 @@ void		create_screenshot_bmp(void)
 	SDL_FreeSurface(surface);
 }
 
-void	create_screenshot_png(void)
+void		create_screenshot_png(void)
 {
-	char *file;
-	SDL_Color *color_map;
-	SDL_Surface *surface;
-	const SDL_Rect win = get_window_data();
+	char			*file;
+	SDL_Color		*color_map;
+	SDL_Surface		*surface;
+	const SDL_Rect	win = get_window_data();
 
 	surface = get_pixels_from_surface();
 	color_map = (SDL_Color *)surface->pixels;
@@ -42,15 +42,14 @@ void	create_screenshot_png(void)
 			color_map, win.w * 4);
 	ft_strdel(&file);
 	SDL_FreeSurface(surface);
-
 }
 
-void	create_screenshot_jpg(void)
+void		create_screenshot_jpg(void)
 {
-	char *file;
-	SDL_Color *color_map;
-	SDL_Surface *surface;
-	const SDL_Rect win = get_window_data();
+	char			*file;
+	SDL_Color		*color_map;
+	SDL_Surface		*surface;
+	const SDL_Rect	win = get_window_data();
 
 	surface = get_pixels_from_surface();
 	color_map = (SDL_Color *)surface->pixels;
@@ -58,5 +57,4 @@ void	create_screenshot_jpg(void)
 	stbi_write_jpg(file, win.w, win.h, 4, color_map, 100);
 	ft_strdel(&file);
 	SDL_FreeSurface(surface);
-
 }

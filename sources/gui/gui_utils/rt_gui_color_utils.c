@@ -12,8 +12,7 @@
 
 #include "rt_gui.h"
 
-
-SDL_Color activate_color(SDL_Color color)
+SDL_Color	activate_color(SDL_Color color)
 {
 	color.r <<= ACTIVATE;
 	color.g <<= ACTIVATE;
@@ -21,7 +20,7 @@ SDL_Color activate_color(SDL_Color color)
 	return (color);
 }
 
-SDL_Color disable_color(SDL_Color color)
+SDL_Color	disable_color(SDL_Color color)
 {
 	color.r >>= ACTIVATE;
 	color.g >>= ACTIVATE;

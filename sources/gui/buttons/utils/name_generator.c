@@ -2,8 +2,7 @@
 #include "rt_gui.h"
 #include "time.h"
 
-
-char*		get_time(void)
+char		*get_time(void)
 {
 	char			*time_;
 	const time_t	cur = time(NULL);

@@ -1,7 +1,7 @@
 #include "rt.h"
 #include "rt_gui.h"
 
-void		 		cut_rect(SDL_Rect *rect, int px)
+void				cut_rect(SDL_Rect *rect, int px)
 {
 	rect->x += px;
 	rect->y += px;
