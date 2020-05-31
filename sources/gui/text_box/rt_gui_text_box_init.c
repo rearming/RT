@@ -17,10 +17,10 @@ void		auto_init_btns(SDL_Rect rect, short action, char *text,
 	g_gui.obj[action].state = hidden;
 	if (action >= c_pos_x && action <= c_angle_z )
 		g_gui.obj[action].type = CAM_TEXT_BOX;
-	else if (action >= obj_pos_x && action <= obj_angle_z )
-		g_gui.obj[action].type = POS_TEXT_BOX;
-	else if (action >= param_pos_x && action <= param_angle_z )
-		g_gui.obj[action].type = PARAM_TEXT_BOX;
+//	else if (action >= obj_pos_x && action <= obj_angle_z )
+//		g_gui.obj[action].type = POS_TEXT_BOX;
+//	else if (action >= param_pos_x && action <= param_angle_z )
+//		g_gui.obj[action].type = PARAM_TEXT_BOX;
 	else
 		rt_raise_error(PANEL_BOXES_TROUBLE);
 	g_gui.obj[action].color = color;
@@ -34,19 +34,17 @@ t_transform		auto_init_btns_ret(SDL_Rect rect, short action, char *text,
 	const SDL_Color color = get_color_from_hex(BTN_COLOR_CLICK);
 	t_transform btn;
 
-//	sprintf(btn.field, "%i", (int)(param));
 	ft_sprintf(&(btn.field), "%i", (int)(param));
-//	btn.field = ft_itoa((int)(param));
 	btn.rect = rect;
 	btn.action = action;
 	btn.callback = button_callback;
 	btn.state = hidden;
 	if (action >= c_pos_x && action <= c_angle_z )
 		btn.type = CAM_TEXT_BOX;
-	else if (action >= obj_pos_x && action <= obj_angle_z )
-		btn.type = POS_TEXT_BOX;
-	else if (action >= param_pos_x && action <= param_angle_z )
-		btn.type = PARAM_TEXT_BOX;
+//	else if (action >= obj_pos_x && action <= obj_angle_z )
+//		btn.type = POS_TEXT_BOX;
+//	else if (action >= param_pos_x && action <= param_angle_z )
+//		btn.type = PARAM_TEXT_BOX;
 	else
 		rt_raise_error(PANEL_BOXES_TROUBLE);
 	btn.color = color;
