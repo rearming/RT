@@ -35,16 +35,16 @@ void		init_object_panel()
 			.state = click, .text = CAMERA_LABEL, .action = camera_l,
 			.callback = button_callback, .type = PANEL,
 			.color = get_color_from_hex(NONE)};
-	rect.x += rect.w;
-	g_gui.obj[obj_pos] = (t_transform){ .rect = rect,
-			.state = non_event, .text = POSITION_LABEL, .action = obj_pos,
-			.callback = button_callback, .type = PANEL,
-			.color = get_color_from_hex(NONE)};
-	rect.x += rect.w;
-	g_gui.obj[obj_param] = (t_transform){ .rect = rect,
-			.state = non_event, .text = PARAMETERS_LABEL, .action = obj_param,
-			.callback = button_callback, .type = PANEL,
-			.color = get_color_from_hex(NONE)};
+//	rect.x += rect.w;
+//	g_gui.obj[obj_pos] = (t_transform){ .rect = rect,
+//			.state = non_event, .text = POSITION_LABEL, .action = obj_pos,
+//			.callback = button_callback, .type = PANEL,
+//			.color = get_color_from_hex(NONE)};
+//	rect.x += rect.w;
+//	g_gui.obj[obj_param] = (t_transform){ .rect = rect,
+//			.state = non_event, .text = PARAMETERS_LABEL, .action = obj_param,
+//			.callback = button_callback, .type = PANEL,
+//			.color = get_color_from_hex(NONE)};
 
 }
 
@@ -74,7 +74,7 @@ void		fill_surfaces()
 
 
 
-void		init_gui(uint64_t algo)
+void		init_gui(uint64_t algo, t_scene scene)
 {
 	g_gui.render_algo = ((algo & 0b111) - 1);
 	g_gui.panel = camera_l;
@@ -87,7 +87,7 @@ void		init_gui(uint64_t algo)
 	init_algo_buttons();
 	init_object_panel();
 	init_other_buttons();
-	init_text_box();
-	render_all_buttons();
+	init_text_box(scene);
+	render_all_buttons(scene);
 	SDL_UpdateWindowSurface(g_gui.win_tool);
 }

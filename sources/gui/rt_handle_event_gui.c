@@ -1,3 +1,4 @@
+//#include <tclDecls.h>
 #include "rt.h"
 #include "rt_gui.h"
 
@@ -19,12 +20,12 @@ bool rt_handle_event_gui(SDL_Event *event, t_rt *rt)
 
 		if (g_gui.obj[i].callback(&g_gui.obj[i], event, rt))
 		{
-			auto_render_button(i);
+			auto_render_button(i, rt->scene);
 			event_handled = true;
 		}
 		if (now != g_gui.render_algo || panel != g_gui.panel)
 		{
-			render_all_buttons();
+			render_all_buttons(rt->scene);
 		}
 		i++;
 	}

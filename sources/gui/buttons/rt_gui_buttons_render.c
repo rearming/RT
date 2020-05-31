@@ -51,18 +51,18 @@ void		render_button_with_params(t_transform btn, TTF_Font *font, int px)
 	render_text(font, btn.text, btn.rect);
 }
 
-void		auto_render_button(int i)
+void	auto_render_button(int i, t_scene scene)
 {
 	if  (g_gui.obj[i].type & PANEL)
 		render_button_with_params(g_gui.obj[i], g_gui.body, 0);
 	else if ((g_gui.obj[i].type & TEXT_BOX)
 	&& g_gui.obj[i].state != hidden)
-		render_text_box(g_gui.obj[i]);
+		render_text_box(g_gui.obj[i], scene);
 	else if (g_gui.obj[i].state != hidden)
 		render_button(g_gui.obj[i]);
 }
 
-void		render_all_buttons(void)
+void render_all_buttons(t_scene scene)
 {
 	int	i;
 	SDL_Color bg;
@@ -76,7 +76,10 @@ void		render_all_buttons(void)
 	while (i < btn_count)
 	{
 		if (g_gui.obj[i].callback == NULL)
+		{
+			printf("%i\n", i);
 			rt_raise_error(BTN_TROUBLE);
+		}
 		if (g_gui.obj[i].type == RENDER_BTN)
 		{
 			if (g_gui.obj[i].action != g_gui.render_algo)
@@ -98,7 +101,7 @@ void		render_all_buttons(void)
 			else
 				g_gui.obj[i].state = hidden;
 		}
-		auto_render_button(i++);
+		auto_render_button(i++, scene);
 	}
 	SDL_UpdateWindowSurface(g_gui.win_tool);
 }

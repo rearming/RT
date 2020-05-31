@@ -59,7 +59,7 @@ bool			rt_kd_tree_import(t_kd_info *kd_info, const char *obj_path);
 void			rt_kd_tree_export(t_kd_info *kd_info, const char *obj_path);
 char			*rt_get_kd_binary_path(const char *obj_path);
 
-void			rt_print_kd_tree_info(t_kd_info *kd_info);
+//void			rt_print_kd_tree_info(t_kd_info *kd_info);
 
 /*
 **	test traversal
