@@ -47,12 +47,10 @@ void		add_rotation_matrix(t_tmp *tmp, t_object *object)
 		rt_raise_error(ERR_PARSING_MATRIX);
 }
 
-void		add_cam_and_light(t_camera *camera, t_light *light, t_tmp *tmp,
-		bool cam)
+void		add_cam_and_light(t_camera *camera, t_light *light, t_tmp *tmp)
 {
-	(cam) ? check_camera_or_light(tmp) :
-	check_camera_or_light(tmp);
-	if (cam)
+	check_camera_or_light(tmp->checker, tmp->type, tmp->struct_type);
+	if (tmp->struct_type == CAMERA)
 	{
 		camera->pos = tmp->pos;
 		camera->rotation = tmp->rotation;

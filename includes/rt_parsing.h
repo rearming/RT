@@ -27,10 +27,9 @@ void	init_tmp(t_tmp *tmp);
 void	count_elements(t_scene *scene, t_tmp *tmp);
 void	free_tmp(t_tmp *tmp);
 void	check_duplicated(bool *checker, int number);
-void	check_camera_or_light(t_tmp *tmp);
-void	add_cam_and_light(t_camera *camera, t_light *light, t_tmp *tmp,
-		bool cam);
-void	check_object(t_tmp *tmp);
+void	check_camera_or_light(bool *checker, int type, int structure_type);
+void	add_cam_and_light(t_camera *camera, t_light *light, t_tmp *tmp);
+void	check_object(bool *checker, int type, bool texture_pbr);
 char	*object_name(int type);
 
 int		ft_type_of_structure(const char *param, int structure_type);

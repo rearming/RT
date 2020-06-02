@@ -46,7 +46,7 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 		tmp->checker[DISTANCE] = false;
 		printf("Ellipsoid changed to sphere with radius = r");
 	}
-	check_object(tmp);
+	check_object(tmp->checker, tmp->type, tmp->texture_pbr);
 	object->type = tmp->type;
 	object->normal = rt_vec_normalize(tmp->normal);
 	object->center = tmp->center;
@@ -107,9 +107,9 @@ void		add_elements(t_scene *scene, t_tmp *tmp)
 		if (tmp_iter->struct_type == OBJECT && i_obj < scene->obj_nbr)
 			add_objects(tmp_iter, &scene->objects[i_obj++]);
 		else if (tmp_iter->struct_type == LIGHT && i_light < scene->lights_nbr)
-			add_cam_and_light(NULL, &scene->lights[i_light++], tmp_iter, false);
+			add_cam_and_light(NULL, &scene->lights[i_light++], tmp_iter);
 		else if (tmp_iter->struct_type == CAMERA)
-			add_cam_and_light(&scene->camera, NULL, tmp_iter, true);
+			add_cam_and_light(&scene->camera, NULL, tmp_iter);
 		else if (tmp_iter->struct_type == RENDER_PARAMS)
 			add_render_and_scene(scene, tmp_iter, true);
 		else if (tmp_iter->struct_type == SCENE_PARAMS)
