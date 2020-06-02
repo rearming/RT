@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "rt_parsing.h"
 
 static int	ft_check_material(const char *param, int *type_of_element)
 {
@@ -51,48 +52,10 @@ static int	ft_check(const char *param, int *type_of_element)
 		*type_of_element = VMIN;
 	else if (ft_strequ(param, "vmax"))
 		*type_of_element = VMAX;
-	else if (ft_strequ(param, "size"))
-		*type_of_element = SIZE;
 	else if (ft_strequ(param, "param_1"))
 		*type_of_element = PARAM_1;
 	return (*type_of_element != NOT_SET) ? 1 :
 	ft_check_material(param, type_of_element);
-}
-
-static void	ft_check_object(int *type_of_element, const char *param)
-{
-	if (ft_strequ(param, "sphere"))
-		*type_of_element = SPHERE;
-	else if (ft_strequ(param, "cone"))
-		*type_of_element = CONE;
-	else if (ft_strequ(param, "cylinder"))
-		*type_of_element = CYLINDER;
-	else if (ft_strequ(param, "plane"))
-		*type_of_element = PLANE;
-	else if (ft_strequ(param, "AABB"))
-		*type_of_element = AABB;
-	else if (ft_strequ(param, "triangle"))
-		*type_of_element = TRIANGLE;
-	else if (ft_strequ(param, "paraboloid"))
-		*type_of_element = PARABOLOID;
-	else if (ft_strequ(param, "ellipsoid"))
-		*type_of_element = ELLIPSOID;
-	else if (ft_strequ(param, "box"))
-		*type_of_element = BOX;
-	else if (ft_strequ(param, "capsule"))
-		*type_of_element = CAPSULE;
-	else if (ft_strequ(param, "torus"))
-		*type_of_element = TORUS;
-	else if (ft_strequ(param, "ellipsoid raymarch"))
-		*type_of_element = ELLIPSOID_RAYMARCH;
-	else if (ft_strequ(param, "torus capped"))
-		*type_of_element = TORUS_CAPPED;
-	else if (ft_strequ(param, "hex prism"))
-		*type_of_element = HEX_PRISM;
-	else if (ft_strequ(param, "round cone"))
-		*type_of_element = ROUND_CONE;
-	else if (ft_strequ(param, "test object"))
-		*type_of_element = TEST_OBJECT;
 }
 
 int			ft_type_of_array(int *type_of_element,
@@ -112,7 +75,7 @@ int			ft_type_of_array(int *type_of_element,
 			*type_of_element = DIRECTIONAL;
 	}
 	if (structure_type == OBJECT)
-		ft_check_object(type_of_element, param);
+		parse_type2(type_of_element, param);
 	return (*type_of_element != NOT_SET) ? 2 :
 	(ft_check(param, type_of_element));
 }

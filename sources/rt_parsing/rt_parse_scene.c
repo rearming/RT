@@ -23,7 +23,7 @@ void	parse_json_file(json_t *root, t_tmp *tmp, uint32_t *renderer_flags)
 		else if (json_is_boolean(value))
 			parse_boolean(tmp, key, value, renderer_flags);
 		else
-			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, key));
+			rt_raise_error(ft_strjoin(ERR_PARS_WRONG_PRM, key));
 		while (tmp->next != NULL)
 			tmp = tmp->next;
 		iter = json_object_iter_next(root, iter);

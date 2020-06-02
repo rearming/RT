@@ -15,46 +15,8 @@
 #include "rt_math_utils.h"
 #include "rt_window_params.h"
 
-static void add_rotation_matrix(t_tmp *tmp, t_object *object){
-	int check_rotation;
-
-	check_rotation = (tmp->checker[ALFA_ANGLE]) ? 1 : 0;
-	check_rotation += (tmp->checker[BETA_ANGLE]) ? 1 : 0;
-	check_rotation += (tmp->checker[GAMMA_ANGLE]) ? 1 : 0;
-	if (check_rotation == 3 || check_rotation == 0)
-	{
-		count_matrix(object->rotation_matrix_T,
-				(cl_float3) {{tmp->alfa_angle, tmp->beta_angle,
-						 tmp->gamma_angle}}, true);
-		count_matrix(object->reverse_rotation_matrix_T,
-				(cl_float3) {{tmp->alfa_angle, tmp->beta_angle,
-						 tmp->gamma_angle}}, false);
-	}
-	else if (check_rotation != 0)
-		rt_raise_error(ERR_PARSING_MATRIX);
-}
-
-static void	add_objects(t_tmp *tmp, t_object *object)
+static void	add_material(t_tmp *tmp, t_object *object)
 {
-	if (tmp->type == ELLIPSOID && tmp->distance == tmp->radius) {
-		tmp->type = SPHERE;
-		tmp->checker[DISTANCE] = false;
-		printf("Ellipsoid changed to sphere with radius = r");
-	}
-//	check_object(tmp);
-	object->type = tmp->type;
-	object->normal = rt_vec_normalize(tmp->normal);
-	object->center = tmp->center;
-	object->distance = tmp->distance;
-	object->axis = rt_vec_normalize(tmp->axis);
-	object->vmax = tmp->vmax;
-	object->vmin = tmp->vmin;
-	object->radius = tmp->radius;
-	object->radius_2 = tmp->radius_2;
-	object->radius_ring = tmp->radius_ring;
-	object->angle = tmp->angle;
-	object->len = tmp->len;
-	object->size = tmp->size;
 	object->material.ambient = tmp->ambience;
 	object->material.diffuse = tmp->diffuse;
 	object->material.specular = tmp->specular;
@@ -74,33 +36,32 @@ static void	add_objects(t_tmp *tmp, t_object *object)
 	object->complicated_index = tmp->complicated_index;
 	object->param_1 = tmp->param_1;
 	object->param_0 = tmp->param_0;
-	add_rotation_matrix(tmp, object);
 }
 
-static void	add_cam_and_light(t_camera *camera, t_light *light, t_tmp *tmp,
-		bool cam)
+static void	add_objects(t_tmp *tmp, t_object *object)
 {
-	(cam) ? check_camera_or_light(tmp, true) :
-		check_camera_or_light(tmp, false);
-	if (cam)
+	if (tmp->type == ELLIPSOID && tmp->distance == tmp->radius)
 	{
-		camera->pos = tmp->pos;
-		camera->rotation = tmp->rotation;
-		camera->viewport_distance = 1;
-		camera->viewport_width = WIN_RATIO;
-		camera->viewport_height = 1;
-		camera->focal_distance = 7;
-		camera->aperture = 0.5f;
-		camera->blur_strength = 1.5f;
+		tmp->type = SPHERE;
+		tmp->checker[DISTANCE] = false;
+		printf("Ellipsoid changed to sphere with radius = r");
 	}
-	else
-	{
-		light->type = tmp->type;
-		light->intensity = tmp->intensity;
-		light->color = tmp->color;
-		light->pos = tmp->pos;
-		light->dir = tmp->dir;
-	}
+	check_object(tmp);
+	object->type = tmp->type;
+	object->normal = rt_vec_normalize(tmp->normal);
+	object->center = tmp->center;
+	object->distance = tmp->distance;
+	object->axis = rt_vec_normalize(tmp->axis);
+	object->vmax = tmp->vmax;
+	object->vmin = tmp->vmin;
+	object->radius = tmp->radius;
+	object->radius_2 = tmp->radius_2;
+	object->radius_ring = tmp->radius_ring;
+	object->angle = tmp->angle;
+	object->len = tmp->len;
+	object->size = tmp->size;
+	add_material(tmp, object);
+	add_rotation_matrix(tmp, object);
 }
 
 static void	add_render_and_scene(t_scene *scene, t_tmp *tmp_iterator,
@@ -154,8 +115,8 @@ void		add_elements(t_scene *scene, t_tmp *tmp)
 		else if (tmp_iter->struct_type == SCENE_PARAMS)
 			add_render_and_scene(scene, tmp_iter, false);
 		else
-			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, "unknown structure"));
+			rt_raise_error(ft_strjoin(ERR_PARS_WRONG_PRM, "unknown structure"));
 		tmp_iter = tmp_iter->next;
 	}
-//	free_tmp(tmp);
+	free_tmp(tmp);
 }

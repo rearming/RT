@@ -30,24 +30,19 @@
 # define ROUND_CONE 15
 # define TEST_OBJECT 16
 
-#define AMBIENT 1 		// intensity, color
-#define POINT 2			// intensity, color, pos
-#define DIRECTIONAL 3 	// intensity, color, 	, dir
-#define PARALLEL 4		// intensity, color, pos, dir
+# define AMBIENT 1
+# define POINT 2
+# define DIRECTIONAL 3
+# define PARALLEL 4
 
-//check camera
-#define POS 2
-#define ROTATION 3
+# define POS 2
+# define ROTATION 3
 
-//check light
-# define TYPE 0		//obj, light
+# define TYPE 0
 # define INTENSITY 1
 # define DIRECTION 4
 # define COLOR 5
 
-//check objects
-
-//position attributes
 # define CENTER 6
 # define NORMAL 7
 # define AXIS 8
@@ -59,7 +54,6 @@
 # define DISTANCE 14
 # define MATERIAL 15
 
-//material
 # define SPECULAR 16
 # define AMBIENCE 17
 # define DIFFUSE 18
@@ -76,7 +70,6 @@
 # define TEXTURE_NORMAL 29
 # define TEXTURE_PBR_INDEX 30
 
-//position attributes
 # define ALFA_ANGLE 31
 # define BETA_ANGLE 32
 # define GAMMA_ANGLE 33
@@ -88,7 +81,6 @@
 # define PARAM_0 39
 # define PARAM_1 40
 
-//scene parameters
 # define EXPOSURE 41
 # define GAMMA 42
 
