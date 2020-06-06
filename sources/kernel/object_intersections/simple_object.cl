@@ -40,8 +40,8 @@ bool				ray_sphere_intersect(
 		return false;
 	discriminant = sqrt(discriminant);
 
-	const float x1 = (-b - sqrt(discriminant)) / (2.f * a);
-	const float x2 = (-b + sqrt(discriminant)) / (2.f * a);
+	const float x1 = (-b - discriminant) / (2.f * a);
+	const float x2 = (-b + discriminant) / (2.f * a);
 	const float	root = min(x1, x2);
 	const float	root2 = max(x1, x2);
 

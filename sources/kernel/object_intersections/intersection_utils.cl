@@ -20,11 +20,17 @@ void				closest_intersection(
 		{
 			switch (objects[i].type)
 			{
-			/// сфера, параболоид и эллипсоид разделен на обрезанные и не обрезанные
+			/**
+			 *
+			 * сфера, параболоид и эллипсоид разделен на обрезанные и не обрезанные
+			 *
+			 **/
 				case (SPHERE):
 					if ((objects[i].len >= 0) ?
-							ray_sphere_intersect_cut(ray, &objects[i], out_best_hit)
-							: ray_sphere_intersect(ray, &objects[i], out_best_hit))
+							ray_sphere_intersect_cut(ray, &objects[i],
+																out_best_hit)
+							: ray_sphere_intersect(ray, &objects[i],
+																out_best_hit))
 						*out_closest_obj_index = i;
 					break;
 				case (PLANE):
@@ -41,19 +47,24 @@ void				closest_intersection(
 						*out_closest_obj_index = i;
 					break;
 				case (TRIANGLE):
-					if (ray_triangle_intersect_MT(ray, &objects[i], out_best_hit))
+					if (ray_triangle_intersect_MT(ray, &objects[i],
+																out_best_hit))
 						*out_closest_obj_index = i;
 					break;
 				case (PARABOLOID):
 					if ((objects[i].len > 0) ?
-							ray_paraboloid_intersect_cut(ray, &objects[i], out_best_hit)
-							: ray_paraboloid_intersect(ray, &objects[i], out_best_hit))
+							ray_paraboloid_intersect_cut(ray, &objects[i],
+																out_best_hit)
+							: ray_paraboloid_intersect(ray, &objects[i],
+																out_best_hit))
 						*out_closest_obj_index = i;
 					break;
 				case (ELLIPSOID):
 					if ((objects[i].len >= 0) ?
-							ray_ellipsoid_intersect_cut(ray, &objects[i], out_best_hit)
-							: ray_ellipsoid_intersect(ray, &objects[i], out_best_hit))
+							ray_ellipsoid_intersect_cut(ray, &objects[i],
+																out_best_hit)
+							: ray_ellipsoid_intersect(ray, &objects[i],
+																out_best_hit))
 						*out_closest_obj_index = i;
 					break;
 				case (AABB):
@@ -62,7 +73,6 @@ void				closest_intersection(
 					break;
 				default :
 					{
-//# ifdef RENDER_RAYMARCH
 						if (objects[i].type == BOX
 								|| objects[i].type == CAPSULE
 								|| objects[i].type == TORUS
@@ -83,47 +93,117 @@ void				closest_intersection(
 									break ;
 								}
 							}
-							// работает только для выпуклых поверхностей, для тора может лагать
-							else if (objects[i].complicated_type == INTERSECTION
+							/**
+							 *
+							 * работает только для выпуклых поверхностей,
+							 * для тора может лагать
+							 *
+							**/
+							else if (objects[i].complicated_type
+															== INTERSECTION
 									&& objects[i].complicated_index > i)
 							{
 								t_rayhit	a = *out_best_hit;
 								t_rayhit	b = *out_best_hit;
-								if (ray_march(ray, &objects[objects[i].complicated_index], &b)
+								if (ray_march(ray, &objects[objects[i]
+											.complicated_index], &b)
 										&& ray_march(ray, &objects[i], &a))
 								{
-									float max_dist = (a.distance > b.distance ? a.distance : b.distance);
-									t_ray		r = (t_ray){.origin = ray->origin + max_dist * ray->dir,
-														.dir = -ray->dir, .energy = ray->energy};
-									t_rayhit	c = (t_rayhit){.distance = max_dist, .pos = ray->origin,
-								 						.normal = ray->dir};
-									if (!ray_march(&r, a.distance > b.distance ?
-											&objects[objects[i].complicated_index] : &objects[i], &c))
+									float	max_dist = (a.distance > b.distance
+											? a.distance : b.distance);
+									t_ray	r = (t_ray){
+										.origin = ray->origin + max_dist
+												* ray->dir,
+										.dir = -ray->dir,
+						   				.energy = ray->energy};
+									t_rayhit	c = (t_rayhit){
+										.distance = max_dist,
+										.pos = ray->origin,
+										.normal = ray->dir};
+									if (!ray_march(&r, a.distance > b.distance
+										?&objects[objects[i].complicated_index]
+										: &objects[i], &c))
 									{
-										*out_best_hit = a.distance > b.distance ? a : b;
-										*out_closest_obj_index = a.distance > b.distance ? i
+										*out_best_hit = a.distance > b.distance
+												? a : b;
+										*out_closest_obj_index = a.distance
+												> b.distance ? i
 												: objects[i].complicated_index;
 									}
 								}
 							}
-							// работает только для выпуклых поверхностей, для тора может лагать
+							/**
+							 *
+							 * работает только для выпуклых поверхностей,
+							 * для тора может лагать
+							 *
+							 **/
 							else if (objects[i].complicated_type == DIFFERENT)
 							{
-								// этот вариант работает, хотя для интерсекшн
-								// это не прокатывает
-								int	close_ind_rm = ray_march_diff_obj(ray,
-										objects, out_best_hit, i);
-								*out_closest_obj_index = close_ind_rm != -1 ?
-										close_ind_rm : *out_closest_obj_index;
+								{
+									int a, b;
+
+									if (objects[i].complicated_index < 0)
+										break;
+									else
+									{
+										b = i;
+										a = objects[i].complicated_index;
+									}
+									t_rayhit	a_h = *out_best_hit;
+									bool		a_hit = ray_march(ray,
+											&objects[a], &a_h);
+									if (!a_hit)
+										break;
+									t_rayhit	b_h = *out_best_hit;
+									bool		b_hit = ray_march(ray,
+											&objects[b], &b_h);
+									if ((a_hit && !b_hit)
+											|| (a_h.distance < b_h.distance))
+									{
+										*out_best_hit = a_h;
+										*out_closest_obj_index = a;
+										break;
+									}
+									t_ray		r = *ray;
+									r.origin = a_h.pos;
+									r.dir = -r.dir;
+									b_h.pos = ray->origin;
+									if (ray_march(&r, &objects[b], &b_h))
+									{
+										*out_best_hit = a_h;
+										*out_closest_obj_index = a;
+										break;
+									}
+									r.origin = ray->origin +
+											(RAY_MARCH_MAX_DIST) * ray->dir;
+									a_h.distance = RAY_MARCH_MAX_DIST;
+									a_h.pos = ray->origin;
+									b_h.distance = RAY_MARCH_MAX_DIST;
+									b_h.pos = ray->origin;
+									ray_march(&r, &objects[a], &a_h);
+									ray_march(&r, &objects[b], &b_h);
+									if (a_h.distance > b_h.distance)
+										break;
+									a_h.distance = length(a_h.pos
+															- ray->origin);
+									a_h.normal = -a_h.normal;
+									*out_best_hit = a_h;
+									*out_closest_obj_index = b;
+								}
 								break ;
 							}
 						}
-//# endif
 					break;
 					}
 			}
 		}
-#endif // RENDER_OBJECTS
+#endif
+/**
+ *
+ * RENDER_OBJECTS
+ *
+ **/
 
 #ifdef RENDER_MESH
 *out_closest_polygon_index = kd_tree_traverse(kd_info, kd_tree, kd_indices, polygons, vertices, v_normals, ray, out_best_hit);
