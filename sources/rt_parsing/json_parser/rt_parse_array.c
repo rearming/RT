@@ -39,7 +39,9 @@ static void	add_array(cl_float3 *elem, json_t *value, bool color)
 static void	add_elements_in_array_material(t_tmp *tmp,
 		int type_of_element, json_t *value)
 {
-	if (type_of_element == AMBIENCE)
+	if (type_of_element == PARAM_1)
+		add_array(&tmp->param_1, value, false);
+	else if (type_of_element == AMBIENCE)
 		add_array(&tmp->ambience, value, false);
 	else if (type_of_element == DIFFUSE)
 		add_array(&tmp->diffuse, value, true);
@@ -74,8 +76,6 @@ static void	add_elements_in_array(t_tmp *tmp, int type_of_element,
 		add_array(&tmp->vmax, value, false);
 	else if (type_of_element == SIZE)
 		add_array(&tmp->size, value, false);
-	else if (type_of_element == PARAM_1)
-		add_array(&tmp->param_1, value, false);
 	else if (type_of_element == DIRECTORY)
 		add_directory(value);
 	else
@@ -125,5 +125,5 @@ void		parse_array(t_tmp *tmp, const char *key, json_t *value,
 	else if (array_type == 2)
 		parse_array_of_objects(tmp, type_of_element, value, renderer_flags);
 	else
-		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_PARAM, key));
+		rt_raise_error(ft_strjoin(ERR_PARS_WRONG_PRM, key));
 }

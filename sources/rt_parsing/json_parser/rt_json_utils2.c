@@ -13,157 +13,134 @@
 #include "rt.h"
 #include "rt_parsing.h"
 
-//int			count_sum(const bool *checker, bool object)
-//{
-//	int sum;
-//	int i;
-//
-//	sum = 0;
-//	i = 0;
-//	if (object)
-//		sum = checker[NORMAL] + checker[DISTANCE] + checker[AXIS]
-//			+ checker[ANGLE] + checker[LEN] + checker[VMIN]
-//			+ checker[VMAX] + checker[CENTER] + checker[RADIUS]
-//			+ checker[POS] + checker[ROTATION] + checker[INTENSITY]
-//			+ checker[DIRECTION] + checker[COLOR];
-//	else
-//		checker[number] = true;
-//}
-
-char	*object_name(int type)
+char		*object_name(int type)
 {
 	if (type == SPHERE)
-		return "Sphere";
+		return ("Sphere");
 	if (type == CONE)
-		return "Cone";
+		return ("Cone");
 	if (type == CYLINDER)
-		return "Cylinder";
+		return ("Cylinder");
 	if (type == PLANE)
-		return "Plane";
-	if (type == AABB)
-		return "AABB";
-	if (type == TRIANGLE)
-		return "Triangle";
-	if (type == PARABOLOID)
-		return "Paraboloid";
-	if (type == ELLIPSOID)
-		return "Ellipsoid";
-	if (type == BOX)
-		return "box";
-	if (type == CAPSULE)
-		return "capsule";
-	if (type == TORUS)
-		return "torus";
+		return ("Plane");
 	if (type == ELLIPSOID_RAYMARCH)
-		return "ellipsoid raymarch";
-	if (type == TORUS_CAPPED)
-		return "torus capped";
-	if (type == HEX_PRISM)
-		return "hex prism";
-	if (type == ROUND_CONE)
-		return "round cone";
-	if (type == TEST_OBJECT)
-		return "test object";
-	return NULL;
+		return ("ellipsoid raymarch");
+	if (type == AABB)
+		return ("AABB");
+	if (type == TRIANGLE)
+		return ("Triangle");
+	if (type == PARABOLOID)
+		return ("Paraboloid");
+	if (type == ELLIPSOID || type == BOX)
+		return (type == BOX) ? ("box") : ("Ellipsoid");
+	if (type == CAPSULE || type == TORUS)
+		return (type == TORUS) ? ("torus") : ("capsule");
+	if (type == TORUS_CAPPED || type == HEX_PRISM)
+		return (type == HEX_PRISM) ? ("hex prism") : ("torus capped");
+	if (type == ROUND_CONE || type == TEST_OBJECT)
+		return (type == TEST_OBJECT) ? ("test object") : ("round cone");
+	return (NULL);
 }
 
-int		check_tmp(t_tmp *tmp)
-{
-		int check;
-
-		check = tmp->checker[CENTER];
-		if (tmp->type == SPHERE)
-			check += tmp->checker[RADIUS];
-		else if (tmp->type == CYLINDER)
-			check += tmp->checker[RADIUS] + tmp->checker[AXIS];
-		else if (tmp->type == CONE)
-			check += tmp->checker[ANGLE] + tmp->checker[AXIS];
-		else if (tmp->type == PLANE)
-			check += tmp->checker[NORMAL];
-		else if (tmp->type == PARABOLOID)
-			check += tmp->checker[DISTANCE];
-		else if (tmp->type == ELLIPSOID)
-			check += tmp->checker[DISTANCE] + tmp->checker[RADIUS];
-		else if (tmp->type == BOX)
-			check += tmp->checker[SIZE];
-		else if (tmp->type == CAPSULE)
-			check += tmp->checker[AXIS] + tmp->checker[RADIUS] + tmp->checker[DISTANCE];
-		else if (tmp->type == TORUS)
-			check += tmp->checker[RADIUS] + tmp->checker[RADIUS_RING];
-		else if (tmp->type == ELLIPSOID_RAYMARCH)
-			check += tmp->checker[SIZE];
-		else if (tmp->type == TORUS_CAPPED)
-			check += tmp->checker[RADIUS] + tmp->checker[RADIUS_RING] + tmp->checker[ANGLE];
-		else if (tmp->type == HEX_PRISM)
-			check += tmp->checker[RADIUS] + tmp->checker[DISTANCE];
-		else if (tmp->type == ROUND_CONE)
-			check += tmp->checker[AXIS] + tmp->checker[RADIUS]
-					+ tmp->checker[DISTANCE] + tmp->checker[RADIUS_2];
-		return check;
-}
-
-void	check_object(t_tmp *tmp)
+int			check_tmp(bool *checker, int type)
 {
 	int check;
-
-	if (tmp->type != TEST_OBJECT && tmp->type != AABB && tmp->type != TRIANGLE)
-	{
-		check = tmp->checker[CENTER] + tmp->checker[NORMAL]
-				+ tmp->checker[VMIN] + tmp->checker[VMAX]
-				+ tmp->checker[RADIUS] + tmp->checker[ANGLE]
-				+ tmp->checker[DISTANCE] + tmp->checker[SIZE]
-				+ tmp->checker[RADIUS_RING] + tmp->checker[RADIUS_2]
-				+ tmp->checker[ALFA_ANGLE] + tmp->checker[COMPLICATED];
-		if (tmp->type == PLANE)
-			check += tmp->checker[LEN] + tmp->checker[AXIS];
-		else if (tmp->type == CONE || tmp->type == CYLINDER)
-			check += tmp->checker[AXIS];
-		else if (tmp->type > ELLIPSOID)
-			check += tmp->checker[LEN] + tmp->checker[AXIS]
-					- tmp->checker[ALFA_ANGLE] - tmp->checker[COMPLICATED];
-		check -= check_tmp(tmp);
-		if (check != 0)
-			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_OBJECT_PARAMS, object_name(tmp->type)));
-	}
-	if (tmp->checker[EMISSION_COLOR] + tmp->checker[EMISSION_POWER] == 1)
-		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_OBJECT_PARAMS, object_name(tmp->type)));
-	if (tmp->checker[TEXTURE] && !(tmp->type == SPHERE || tmp->type == CONE
-		|| tmp->type == CYLINDER || tmp->type == PLANE))
-		rt_raise_error(ERR_INVALID_TEXTURE_OBJECT);
-	if (tmp->texture_pbr == true)
-		if (tmp->checker[TEXTURE] + tmp->checker[TEXTURE_NORMAL] + tmp->checker[TEXTURE_PBR_INDEX]!= 3)
-			rt_raise_error("wrong initialization of bump_mapping");
-
-}
-
-void	check_camera_or_light(t_tmp *tmp, bool type)
-{
-	int check_obligate;
-	int check;
-	int i;
 	int count;
 
-	i = 0;
-	check = 0;
+	check = checker[CENTER];
+	check += (type == PLANE) ? checker[NORMAL] : 0;
+	check += (type == ROUND_CONE) ? checker[ROUND_CONE] : 0;
+	check += (type == TORUS_CAPPED || type == CONE) ? checker[ANGLE] : 0;
+	check += (type == BOX || type == ELLIPSOID_RAYMARCH) ? checker[SIZE] : 0;
+	check += (type == TORUS_CAPPED || type == TORUS) ? checker[RADIUS_RING] : 0;
+	check += (type == SPHERE || type == CYLINDER || type == TORUS || type > 12
+		|| type == CAPSULE || type == ELLIPSOID) ? checker[RADIUS] : 0;
+	check += (type == CONE || type == CYLINDER || type == CAPSULE
+		|| type == ROUND_CONE) ? checker[AXIS] : 0;
+	check += (type == PARABOLOID || type == ELLIPSOID || type == CAPSULE ||
+		type == HEX_PRISM || type == ROUND_CONE) ? checker[DISTANCE] : 0;
 	count = 2;
-	while (++i < 33)
-		check +=tmp->checker[i];
-	if (type)
-		check_obligate = tmp->checker[POS] + tmp->checker[ROTATION];
-	else
+	count += (type == ROUND_CONE) ? 3 : 0;
+	count += (type == CONE || type == CYLINDER || type == TORUS
+		|| type == ELLIPSOID || type == HEX_PRISM) ? 1 : 0;
+	count += (type == CAPSULE || type == TORUS_CAPPED) ? 2 : 0;
+	if (check - count != 0)
+		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_OBJECT_PARAMS,
+			object_name(type)));
+	return (check);
+}
+
+static int	sum_check(bool *checker, int type)
+{
+	int i;
+	int checker_sum;
+
+	checker_sum = checker[CENTER] + checker[NORMAL]
+			+ checker[VMIN] + checker[VMAX]
+			+ checker[RADIUS] + checker[ANGLE]
+			+ checker[DISTANCE] + checker[SIZE]
+			+ checker[RADIUS_RING] + checker[RADIUS_2];
+	if (type == 0)
 	{
-		if (tmp->type == AMBIENT)
-			check_obligate = (tmp->checker[INTENSITY] + tmp->checker[COLOR]);
-		else if (tmp->type == DIRECTIONAL && ++count < 4)
-			check_obligate = (tmp->checker[INTENSITY] + tmp->checker[COLOR]
-					+ tmp->checker[DIRECTION]);
-		else if (tmp->type == POINT && ++count < 4)
-			check_obligate = (tmp->checker[INTENSITY] + tmp->checker[COLOR]
-							  + tmp->checker[POS]);
-		else
-			check_obligate = 0;
+		i = -1;
+		checker_sum = 0;
+		while (++i < (45))
+			checker_sum += checker[i];
 	}
-	if (check_obligate / count != 1 || check - check_obligate != 0)
-		(type) ? rt_raise_error(ERR_PARSING_WRONG_CAMERA_PARAMS) :
-		rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
+	else if (type == 1)
+		checker_sum += checker[ALFA_ANGLE] + checker[BETA_ANGLE]
+				+ checker[GAMMA_ANGLE] + checker[COMPLICATED]
+				+ checker[COMPLICATED_INDEX];
+	else
+		checker_sum += checker[LEN] + checker[AXIS];
+	return (checker_sum);
+}
+
+void		check_object(bool *checker, int type, bool texture_pbr)
+{
+	int check;
+
+	if (type != TEST_OBJECT && type != AABB && type != TRIANGLE)
+	{
+		check = sum_check(checker, 1);
+		check += (type == PLANE) ? checker[LEN] + checker[AXIS] : 0;
+		check += (type == CONE || type == CYLINDER) ? checker[AXIS] : 0;
+		if (type > ELLIPSOID)
+			check = sum_check(checker, 2);
+		if ((check - check_tmp(checker, type)) != 0 || check == 0)
+			rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_OBJECT_PARAMS,
+					object_name(type)));
+	}
+	if (checker[EMISSION_COLOR] + checker[EMISSION_POWER] == 1)
+		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_OBJECT_PARAMS,
+				object_name(type)));
+	if (checker[TEXTURE] && !(type == SPHERE || type == CONE
+		|| type == CYLINDER || type == PLANE))
+		rt_raise_error(ERR_INVALID_TEXTURE_OBJECT);
+	if (texture_pbr == true && (checker[TEXTURE] +
+	checker[TEXTURE_NORMAL] + checker[TEXTURE_PBR_INDEX] != 3))
+		rt_raise_error(ERR_IVALID_BUMP_INITIALIZATION);
+}
+
+void		check_camera_or_light(bool *checker, int type, int structure_type)
+{
+	int check_here;
+	int check;
+
+	check = sum_check(checker, 0);
+	check_here = checker[POS] + checker[ROTATION];
+	if (structure_type == CAMERA &&
+		(check - check_here != 0 || check_here != 2))
+		rt_raise_error(ERR_PARSING_WRONG_CAMERA_PARAMS);
+	if (structure_type == LIGHT)
+	{
+		check_here = (checker[INTENSITY] + checker[COLOR]);
+		check_here += (type == DIRECTIONAL) ? checker[DIRECTION] : 0;
+		check_here += (type == POINT) ? checker[POS] : 0;
+		if (check - check_here != 0 ||
+			(type == AMBIENT && check_here != 2)
+			|| (check_here != 3 && (type == DIRECTIONAL
+			|| type == POINT)))
+			rt_raise_error(ERR_PARSING_WRONG_LIGHT_PARAMS);
+	}
 }

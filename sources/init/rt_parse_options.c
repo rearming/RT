@@ -10,7 +10,8 @@ uint32_t	parse_option(const char *option)
 	return (0);
 }
 
-uint32_t	rt_parse_init_options(char **options, int options_num, int first_option)
+uint32_t	rt_parse_init_options(char **options, int options_num,
+		int first_option)
 {
 	uint32_t	bit_options;
 	int			i;

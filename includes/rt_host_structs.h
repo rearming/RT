@@ -71,57 +71,57 @@ typedef struct			s_rt
 	uint32_t			events;
 }						t_rt;
 
-typedef struct 			s_tmp
+typedef struct			s_tmp
 {
-	int 			struct_type;	// object, camera, light
-	int 			type;			// ambience, sphere, cone
-	cl_float3		rotation;		// camera
-	cl_float3		pos;			// camera,	light
-	float 			intensity;		// 			light
-	cl_float3		dir;			// 			light
-	cl_float3 		color;			//			light
-	cl_float3		normal;			//					object
-	cl_float3 		axis;			//					object
-	cl_float3 		center;			//					object
-	cl_float3		vmin;			//					object
-	cl_float3		vmax;			//					object
-	float 			distance;		//					object
-	float			radius;			//					object
-	float			radius_2;			//					object
-	float			radius_ring;			//					object
-	cl_float3		size;			//					object
-	float 			param_0;
-	cl_float3		param_1;
-	float			angle;			//					object
-	float 			len;			//					object
-	cl_float3		ambience;		//					object (material)
-	cl_float3		diffuse;		//					object (material)
-	cl_float3		specular;		//					object (material)
-	float			phong_exp;		//					object (material)
-	float			smoothness;		//					object (material)
-	float			transmittance;	//					object (material)
-	float			refraction;		//					object (material)
-	cl_float3 		emission_color;	//					object (material)
-	float			emission_power;//					object (material)
-	float			specular_texture;//					object (material)
-	int 			texture_number; //					object (material)
-	cl_float3		texture_position;//					object (material)
-	bool 			texture_pbr; 	//					object (material)
-	int 			texture_normal; //					object (material)
-	float 			texture_pbr_index;//				object (material)
-	cl_float		alfa_angle;//						object(complicated)
-	cl_float		beta_angle;//						object(complicated)
-	cl_float		gamma_angle;//						object(complicated)
-	int				complicated;//						object(complicated)
-	int				complicated_index;//				object(complicated)
-	cl_int			max_depth_r;	//					render_parameters
-	cl_int			max_depth_p;	//					render_parameters
-	cl_int			skybox_num;		//					render_parameters
-	float			exposure;		//					scene_parameters
-	float			gamma;			//					scene_parameters
-	char*			file;			//
-	bool 			checker[45];
-	struct s_tmp	*next;
+	int					struct_type;
+	int					type;
+	cl_float3			rotation;
+	cl_float3			pos;
+	float				intensity;
+	cl_float3			dir;
+	cl_float3			color;
+	cl_float3			normal;
+	cl_float3			axis;
+	cl_float3			center;
+	cl_float3			vmin;
+	cl_float3			vmax;
+	float				distance;
+	float				radius;
+	float				radius_2;
+	float				radius_ring;
+	cl_float3			size;
+	float				param_0;
+	cl_float3			param_1;
+	float				angle;
+	float				len;
+	cl_float3			ambience;
+	cl_float3			diffuse;
+	cl_float3			specular;
+	float				phong_exp;
+	float				smoothness;
+	float				transmittance;
+	float				refraction;
+	cl_float3			emission_color;
+	float				emission_power;
+	float				specular_texture;
+	int					texture_number;
+	cl_float3			texture_position;
+	bool				texture_pbr;
+	int					texture_normal;
+	float				texture_pbr_index;
+	cl_float			alfa_angle;
+	cl_float			beta_angle;
+	cl_float			gamma_angle;
+	int					complicated;
+	int					complicated_index;
+	cl_int				max_depth_r;
+	cl_int				max_depth_p;
+	cl_int				skybox_num;
+	float				exposure;
+	float				gamma;
+	char*				file;
+	bool				checker[45];
+	struct s_tmp		*next;
 }						t_tmp;
 
 # endif

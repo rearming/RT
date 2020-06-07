@@ -18,14 +18,14 @@
   },
   "objects": [
     {
-    "type": "plane",
-    "material": {
-      "diffuse": "0x0000FF",
-      "phong exp": 50
+      "type": "plane",
+      "material": {
+        "diffuse": "0x0000FF",
+        "phong exp": 50
+      },
+      "center": [0, -6.5, 0],
+      "normal": [0, 1, 0]
     },
-    "center": [0, -6.5, 0],
-    "normal": [0, 1, 0]
-  },
     {
       "type": "plane",
       "material": {
@@ -108,7 +108,7 @@
     {
       "type": "capsule",
       "material": {
-        "diffuse": "0xFFFFFF"
+        "diffuse": "0xFAFAFF"
       },
       "center": [0, -1, -2],
       "axis": [-1, 0.7, 0.3],
@@ -118,53 +118,50 @@
     {
       "type": "box",
       "material": {
-        "diffuse": "0xFFFFFF"
+        "diffuse": "0x00FF00"
       },
-      "center": [0, -0.5, 1],
-      "size": [0.5, 0.3, 0.2],
-      "alfa angle": 0.4,
-      "beta angle": -0.6,
-      "gamma angle": 0.8,
+      "center": [0, -0.5, -1],
+      "size": [0.4, 0.2, 0.1],
       "complicated type": "different",
-      "complicated index": 12
+      "complicated index": -12
     },
     {
       "type": "ellipsoid raymarch",
       "material": {
         "diffuse": "0xFFFFFF"
       },
-      "center": [0, -0.5, 1],
+      "center": [0, -0.5, -1],
       "size": [0.5, 0.3, 0.2],
       "complicated type": "different",
-      "complicated index": -11
+      "complicated index": 11
     },
     {
       "type": "box",
       "material": {
-        "diffuse": "0xFFFFFF"
+        "diffuse": "0xFFFFAA"
       },
       "center": [0, -0.5, 0],
       "size": [0.5, 0.3, 0.2],
       "alfa angle": 0.4,
       "beta angle": -0.6,
       "gamma angle": 0.8,
-      "complicated type": "different",
+      "complicated type": "intersection",
       "complicated index": 14
     },
     {
       "type": "ellipsoid raymarch",
       "material": {
-        "diffuse": "0xFFFFFF"
+        "diffuse": "0xFFAAFF"
       },
       "center": [0, -0.5, 0],
       "size": [0.5, 0.3, 0.2],
-      "complicated type": "different",
-      "complicated index": -13
+      "complicated type": "intersection",
+      "complicated index": 13
     },
     {
       "type": "hex prism",
       "material": {
-        "diffuse": "0xFFFFFF"
+        "diffuse": "0xFF3333"
       },
       "center": [1, 0, -3],
       "distance": 0.3,
@@ -173,7 +170,7 @@
     {
       "type": "round cone",
       "material": {
-        "diffuse": "0xFFFFFF"
+        "diffuse": "0xAAFF00"
       },
       "center": [-1, 0, -2],
       "axis": [0.2, -0.9, -0.3],
@@ -184,12 +181,25 @@
     {
       "type": "torus capped",
       "material": {
-        "diffuse": "0xFFFFFF"
+        "diffuse": "0xAAFF00"
       },
       "center": [0, -2, -3],
       "angle": 0.3,
       "radius ring": 0.8,
       "radius": 0.2,
+      "complicated type": "nothing"
+    },
+    {
+      "type": "torus",
+      "material": {
+        "diffuse": "0xFF00FF"
+      },
+      "center": [0, 1, -3],
+      "radius ring": 0.4,
+      "radius": 0.1,
+      "alfa angle": 0.5,
+      "beta angle": -0.8,
+      "gamma angle": 0.3,
       "complicated type": "nothing"
     }
   ],

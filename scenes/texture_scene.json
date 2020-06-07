@@ -55,7 +55,7 @@
     {
       "type": "cylinder",
       "material": {
-        "texture": "plane_spruce.jpg",
+        "texture": "plane_wall.jpg",
         "texture position": [1, 0, 0]
       },
       "center": [0, -1.5, 0],

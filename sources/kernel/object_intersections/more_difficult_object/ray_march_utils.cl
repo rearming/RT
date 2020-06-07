@@ -60,6 +60,7 @@ int			ray_march_diff_obj(t_ray *ray,
 			int i)
 {
 	int a, b;
+
 	if (objects[i].complicated_index < 0)
 		return -1;
 	else
@@ -81,6 +82,7 @@ int			ray_march_diff_obj(t_ray *ray,
 	t_ray		r = *ray;
 	r.origin = a_h.pos;
 	r.dir = -r.dir;
+	b_h.pos = ray->origin;
 	if (ray_march(&r, &objects[b], &b_h))
 	{
 		*out_best_hit = a_h;
