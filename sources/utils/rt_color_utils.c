@@ -1,6 +1,6 @@
 #include "rt.h"
 
-int			get_int_color(cl_float3 float3_color)
+int				get_int_color(cl_float3 float3_color)
 {
 	t_color		color;
 

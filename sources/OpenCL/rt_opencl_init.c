@@ -7,11 +7,10 @@ void rt_opencl_compile_kernel(const char *kernel_path,
 							  cl_kernel *out_kernel)
 {
 	static size_t	size = 0;
-	/*static*/ char		*opencl_kernel_code = NULL;
+	char		*opencl_kernel_code = NULL;
 	cl_program		program;
 	int				err;
 
-//	if (!opencl_kernel_code) //кешировать kernel код
 	opencl_kernel_code = get_opencl_kernel_code_text(kernel_path, &size);
 	program = clCreateProgramWithSource(g_opencl.context, 1,
 			(const char **)&opencl_kernel_code, &size, &err);

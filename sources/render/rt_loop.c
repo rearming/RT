@@ -7,7 +7,7 @@ void		rt_loop(t_rt *rt)
 {
 	SDL_Event		event;
 
-	SDL_SetRelativeMouseMode(SDL_TRUE);
+//	SDL_SetRelativeMouseMode(SDL_TRUE);
 	bool flag = false;
 
 	SDL_Event	events[MAX_EVENT_IN_LIST];

@@ -42,5 +42,5 @@ bool				rt_camera_move(t_camera *camera, uint32_t events)
 		camera->pos.y += FLY_SPEED;
 	if (events & EVENT_LSHIFT)
 		camera->pos.y -= FLY_SPEED;
-	return events;
+	return (events);
 }

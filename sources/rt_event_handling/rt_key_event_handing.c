@@ -3,7 +3,9 @@
 #include "rt_events.h"
 #include "rt_gui.h"
 
-static inline void		rt_add_key_event(uint32_t *events, SDL_Scancode scancode)
+static inline void		rt_add_key_event(
+		uint32_t *events,
+		SDL_Scancode scancode)
 {
 	if (scancode == SDL_SCANCODE_W)
 		rt_set_bit(events, EVENT_W);
