@@ -29,11 +29,12 @@ bool		rt_handle_window_event(SDL_Event *event, t_rt *rt)
 	return (false);
 }
 
-void	rt_check_render_state(
+void		rt_check_render_state(
 		uint32_t *render_action,
 		uint32_t *render_options,
 		uint32_t render_state)
 {
+	(void)render_action;
 	if (render_state & STATE_NO_MESH)
 		rt_unset_bit(render_options, RENDER_MESH | RENDER_MESH_VTEXTURES
 		| RENDER_BACKFACE_CULLING);
@@ -43,27 +44,40 @@ void	rt_check_render_state(
 		rt_unset_bit(render_options, RENDER_SKYBOX);
 }
 
-void	handle_event(t_rt *rt, SDL_Event *events, int events_num)
+static bool	handle_all_events(t_rt *rt, SDL_Event *events, int events_num)
 {
-	bool	key_event_handled = false;
-	bool	mouse_event_handled = false;
-	bool	gui_event_handled = false;
-	bool	window_event_handled = false;
+	bool	key_event_handled;
+	bool	mouse_event_handled;
+	bool	gui_event_handled;
+	bool	window_event_handled;
+	int		i;
 
-	for (int i = 0; i < events_num; ++i)
+	key_event_handled = false;
+	mouse_event_handled = false;
+	gui_event_handled = false;
+	window_event_handled = false;
+	i = 0;
+	while (i < events_num)
 	{
 		key_event_handled = rt_handle_key_event(&events[i], rt);
 		mouse_event_handled = rt_handle_mouse_event(&events[i], rt);
 		gui_event_handled = rt_handle_event_gui(&events[i], rt);
 		window_event_handled = rt_handle_window_event(&events[i], rt);
+		i++;
 	}
-	if (key_event_handled || mouse_event_handled || gui_event_handled
-	|| window_event_handled || rt->events)
+	return (key_event_handled | mouse_event_handled
+	| gui_event_handled | window_event_handled);
+}
+
+void		handle_event(t_rt *rt, SDL_Event *events, int events_num)
+{
+	if (handle_all_events(rt, events, events_num) || rt->events)
 	{
 		rt_camera_move(&rt->scene.camera, rt->events);
 		if (rt_camera_changed(&rt->scene.camera))
 			rt->render_actions |= ACTION_CAMERA_CHANGED;
-		rt_check_render_state(&rt->render_actions, &rt->render_options, rt->render_state);
+		rt_check_render_state(&rt->render_actions,
+				&rt->render_options, rt->render_state);
 		rt_render(rt, &rt_opencl_render);
 	}
 }

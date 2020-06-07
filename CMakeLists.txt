@@ -43,7 +43,9 @@ set(OpenCL_sources
         sources/OpenCL/rt_opencl_utils.c
         sources/OpenCL/rt_opencl_prepare_memory.c
         sources/OpenCL/rt_init_render_kernel.c
-        sources/OpenCL/rt_opencl_kernels_compile.c sources/OpenCL/rt_opencl_kernels_exec.c sources/OpenCL/rt_opencl_kernels_exec_utils.c)
+        sources/OpenCL/rt_opencl_kernels_compile.c
+        sources/OpenCL/rt_opencl_kernels_exec.c
+        sources/OpenCL/rt_opencl_kernels_exec_utils.c)
 
 set(parsing_sources
         sources/rt_parsing/rt_parse_scene.c
@@ -69,6 +71,7 @@ set(event_handling_sources
         sources/rt_event_handling/rt_mouse_event_handling.c
         sources/rt_event_handling/rt_camera_moves.c
         sources/rt_event_handling/rt_event_handling.c
+        sources/rt_event_handling/rt_key_event_handing2.c
         )
 
 set(utils_sources
@@ -110,7 +113,10 @@ set(kd_tree_sources
         sources/kd_tree/rt_kd_tree_to_array.c
         sources/kd_tree/rt_kd_tree_utils.c
         sources/kd_tree/rt_kd_tree_get.c
-        sources/kd_tree/rt_kd_pack_object_indices.c sources/kd_tree/rt_kd_tree_export.c sources/kd_tree/rt_kd_tree_import.c sources/kd_tree/rt_kd_tree_debug.c)
+        sources/kd_tree/rt_kd_pack_object_indices.c
+        sources/kd_tree/rt_kd_tree_export.c
+        sources/kd_tree/rt_kd_tree_import.c
+        sources/kd_tree/rt_kd_tree_debug.c)
 
 set(gui_sources
         sources/gui/rt_gui_init.c
@@ -130,7 +136,8 @@ set(gui_sources
         sources/gui/text_box/render_text_box.c
         sources/gui/text_box/init_text_box.c
         sources/gui/text_box/rt_gui_text_box_init.c
-        sources/gui/buttons/utils/check_positions.c sources/gui/buttons/rt_gui_buttons_render2.c)
+        sources/gui/buttons/utils/check_positions.c
+        sources/gui/buttons/rt_gui_buttons_render2.c)
 
 
 set(sources

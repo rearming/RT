@@ -1,6 +1,6 @@
 #include "rt.h"
 
-char *get_opencl_kernel_code_text(const char *kernel_path, size_t *out_size)
+char	*get_opencl_kernel_code_text(const char *kernel_path, size_t *out_size)
 {
 	char		*result_cl_file;
 	char		*cl_file;

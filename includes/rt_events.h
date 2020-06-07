@@ -18,5 +18,6 @@ typedef enum	s_events
 bool		rt_handle_mouse_event(SDL_Event *event, t_rt *rt);
 bool		rt_handle_key_event(SDL_Event *event, t_rt *rt);
 bool		rt_camera_move(t_camera *camera, uint32_t events);
+void		rt_handle_keypress2(SDL_Event *event, t_rt *rt);
 
 #endif
