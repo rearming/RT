@@ -1,17 +1,17 @@
 #include "rt.h"
 #include "rt_opencl.h"
 
-void rt_opencl_compile_kernel(const char *kernel_path,
-							  const char *kernel_name,
-							  const char *compile_options,
-							  cl_kernel *out_kernel)
+void		rt_opencl_compile_kernel(
+		const char *kernel_path,
+		const char *kernel_name,
+		const char *compile_options,
+		cl_kernel *out_kernel)
 {
 	static size_t	size = 0;
-	/*static*/ char		*opencl_kernel_code = NULL;
+	char			*opencl_kernel_code;
 	cl_program		program;
 	int				err;
 
-//	if (!opencl_kernel_code) //кешировать kernel код
 	opencl_kernel_code = get_opencl_kernel_code_text(kernel_path, &size);
 	program = clCreateProgramWithSource(g_opencl.context, 1,
 			(const char **)&opencl_kernel_code, &size, &err);
@@ -49,10 +49,9 @@ void		rt_opencl_init(void)
 			NULL, 1, &g_opencl.device_id, NULL, NULL, &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_CONTEXT, err);
 	g_opencl.queue = clCreateCommandQueue(
-			g_opencl.context, g_opencl.device_id, CL_QUEUE_PROFILING_ENABLE , &err);
+			g_opencl.context, g_opencl.device_id, 0, &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_QUEUE, err);
 	g_opencl.render_kernels = NULL;
 }
 
 #pragma clang diagnostic pop
-
