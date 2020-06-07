@@ -41,7 +41,7 @@ bool		handle_button(t_transform *btn, t_rt *rt)
 	return (false);
 }
 
-bool		handle_textbox(t_transform *btn, SDL_Event *event, t_rt *rt)
+bool		handle_textbox(t_transform *btn, SDL_Event *event)
 {
 	if (event->type == SDL_MOUSEMOTION)
 		return (false);
@@ -87,7 +87,7 @@ bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt)
 {
 	if (btn->type & TEXT_BOX)
 	{
-		return (handle_textbox(btn, event, rt) ||
+		return (handle_textbox(btn, event) ||
 				handle_movement(btn, rt->scene));
 	}
 	if (event->type != SDL_MOUSEBUTTONDOWN && event->type != SDL_MOUSEMOTION)
