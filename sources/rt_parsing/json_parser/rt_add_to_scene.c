@@ -69,8 +69,8 @@ static void	add_render_and_scene(t_scene *scene, t_tmp *tmp_iterator,
 {
 	if (render)
 	{
-		scene->clInfo.max_depth_raytrace = tmp_iterator->max_depth_r;
-		scene->clInfo.max_depth_pathtrace = tmp_iterator->max_depth_p;
+		scene->cl_info.max_depth_raytrace = tmp_iterator->max_depth_r;
+		scene->cl_info.max_depth_pathtrace = tmp_iterator->max_depth_p;
 		scene->obj_file = (tmp_iterator->file != NULL) ?
 			ft_strdup(tmp_iterator->file) : NULL;
 		free(tmp_iterator->file);
@@ -79,8 +79,8 @@ static void	add_render_and_scene(t_scene *scene, t_tmp *tmp_iterator,
 	{
 		if (tmp_iterator->checker[GAMMA] + tmp_iterator->checker[EXPOSURE] != 2)
 			rt_raise_error(ERR_PARSING_WRONG_SCENE_PARAMS);
-		scene->clInfo.gamma = tmp_iterator->gamma;
-		scene->clInfo.exposure = tmp_iterator->exposure;
+		scene->cl_info.gamma = tmp_iterator->gamma;
+		scene->cl_info.exposure = tmp_iterator->exposure;
 	}
 }
 

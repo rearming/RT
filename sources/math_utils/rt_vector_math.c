@@ -13,7 +13,11 @@ cl_float3	rt_float3_add(cl_float3 a, cl_float3 b)
 
 cl_float3	rt_float3_div(cl_float3 vec, cl_float scalar)
 {
-	return ((cl_float3){.x = vec.x / scalar, .y = vec.y / scalar, .z = vec.z / scalar});
+	return ((cl_float3) {
+		.x = vec.x / scalar,
+		.y = vec.y / scalar,
+		.z = vec.z / scalar
+	});
 }
 
 cl_float	rt_vec_length(cl_float3 vec)
@@ -24,7 +28,10 @@ cl_float	rt_vec_length(cl_float3 vec)
 cl_float3	rt_vec_normalize(cl_float3 vec)
 {
 	const cl_float	length = rt_vec_length(vec);
-	return (length == 0 || length == 1 ? vec : (cl_float3){.x = vec.x / length,
-														.y = vec.y / length,
-														.z = vec.z / length});
+
+	return (length == 0 || length == 1 ? vec : (cl_float3){
+		.x = vec.x / length,
+		.y = vec.y / length,
+		.z = vec.z / length
+	});
 }

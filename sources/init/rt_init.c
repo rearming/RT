@@ -29,28 +29,32 @@ static void	rt_init_textures(t_rt *out_rt)
 		out_rt->render_state |= STATE_NO_SKYBOX;
 }
 
-void 		rt_init(t_rt *out_rt, const char *json_scene_file, uint32_t init_options)
+void		rt_init(
+		t_rt *out_rt,
+		const char *json_scene_file,
+		uint32_t init_options)
 {
+	clock_t		start;
+
 	rt_sdl_init();
 	rt_opencl_init();
 	rt_bzero_data(out_rt);
 	out_rt->render_actions = ACTION_ALL;
 	out_rt->render_state = STATE_NOTHING;
 	out_rt->scene = rt_parse_scene(json_scene_file, &out_rt->render_options);
-	rt_init_render_params(&out_rt->params, out_rt->scene.clInfo);//todo fix this "clInfo" thing [gfoote]
+	rt_init_render_params(&out_rt->params, out_rt->scene.cl_info);
 	rt_init_textures(out_rt);
 	if (rt_load_obj_file(out_rt->scene.obj_file, &out_rt->scene.meshes))
 	{
 		if (!rt_kd_tree_import(&out_rt->kd_info, out_rt->scene.obj_file)
 		|| rt_bit_isset(init_options, INIT_KD_REGENERATE))
 		{
-			clock_t	start = clock();
+			start = clock();
 			rt_get_kd_object(&out_rt->scene.meshes, &out_rt->kd_info);
 			printf("kd-tree built in [%f] sec\n",
 					(double)(clock() - start) / CLOCKS_PER_SEC);
 			rt_kd_tree_export(&out_rt->kd_info, out_rt->scene.obj_file);
 		}
-//		rt_print_kd_tree_info(&out_rt->kd_info);
 	}
 	else
 		out_rt->render_state |= STATE_NO_MESH;

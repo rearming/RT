@@ -33,7 +33,7 @@ set(math_utils_sources
         sources/math_utils/rt_math_utils.c
         sources/math_utils/rt_rotation_utils.c
         sources/math_utils/rt_cl_float3_utils.c
-        sources/math_utils/rt_vector_math.c)
+        sources/math_utils/rt_vector_math.c sources/math_utils/rt_cl_float3_utils2.c)
 
 set(OpenCL_sources
         sources/OpenCL/rt_opencl_init.c

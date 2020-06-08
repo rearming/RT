@@ -375,7 +375,7 @@ typedef struct			s_scene
 	t_object			*objects;
 	t_light				*lights;
 	char 				*obj_file;
-	t_cl_info			clInfo;
+	t_cl_info			cl_info;
 # else
 
 	t_camera			camera;
@@ -385,7 +385,7 @@ typedef struct			s_scene
 	t_object			*objects;
 	t_light				*lights;
 	char 				*obj_file;
-	t_cl_info			clInfo;
+	t_cl_info			cl_info;
 # endif
 
 }						t_scene;

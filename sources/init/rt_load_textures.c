@@ -1,4 +1,4 @@
-# define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
 
 #include "rt.h"
 #include "rt_math_utils.h"

@@ -43,4 +43,3 @@ void		rt_rotate_point(cl_float3 *point, cl_float3 angle)
 	rotate_y(point, angle.y);
 	rotate_z(point, angle.z);
 }
-
