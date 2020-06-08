@@ -45,7 +45,7 @@ set(OpenCL_sources
         sources/OpenCL/rt_init_render_kernel.c
         sources/OpenCL/rt_opencl_kernels_compile.c
         sources/OpenCL/rt_opencl_kernels_exec.c
-        sources/OpenCL/rt_opencl_kernels_exec_utils.c)
+        sources/OpenCL/rt_opencl_kernels_exec_utils.c sources/OpenCL/rt_opencl_prepare_mem_array.c)
 
 set(parsing_sources
         sources/rt_parsing/rt_parse_scene.c

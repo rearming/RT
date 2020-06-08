@@ -24,6 +24,13 @@ void			rt_set_kernel_args(cl_kernel kernel, int args_num, ...);
 void			set_render_kernel_args(t_render_kernel *render_kernel);
 int				switch_img_buffers(int *in_buffer, int *out_buffer);
 
+t_opencl_mem_obj	rt_check_opencl_memobj(t_opencl_mem_obj mem_obj);
+void				rt_opencl_prepare_mem_arr1(t_rt *rt, t_opencl_mem_obj *mem_obj);
+void				rt_opencl_prepare_mem_arr2(t_rt *rt, t_opencl_mem_obj *mem_obj);
+void				rt_opencl_prepare_mem_arr3(t_rt *rt, t_opencl_mem_obj *mem_obj);
+void				rt_opencl_prepare_mem_arr4(t_rt *rt, t_opencl_mem_obj *mem_obj);
+void				rt_opencl_prepare_mem_arr5(t_rt *rt, t_opencl_mem_obj *mem_obj);
+
 /*
 **	kernels execution
 */

@@ -19,13 +19,15 @@ const char	*g_opencl_defines[] =
 	NULL
 };
 
+#define FUCK_NORME CL_MEM_READ_WRITE
+
 static cl_mem	alloc_float3_img_buffer(void)
 {
 	int		err;
 	cl_mem	mem;
 
-	mem = clCreateBuffer(g_opencl.context, CL_MEM_READ_WRITE,
-			sizeof(cl_float3) * WIN_WIDTH * WIN_HEIGHT, NULL, &err);
+	mem = clCreateBuffer(g_opencl.context, FUCK_NORME,
+			WIN_WIDTH * WIN_HEIGHT * sizeof(cl_float3), NULL, &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_BUFFER, err);
 	return (mem);
 }
