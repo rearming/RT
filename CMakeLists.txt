@@ -91,7 +91,7 @@ set(obj_loading_sources
         sources/obj_loading/rt_load_obj_utils.c
         sources/obj_loading/rt_load_obj_meshes.c
         sources/obj_loading/rt_load_obj_materials.c
-        )
+        sources/obj_loading/rt_load_vertices.c)
 
 set(init_sources
         sources/init/rt_init.c

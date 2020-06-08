@@ -31,4 +31,9 @@ void			bzero_meshes(t_meshes *out_meshes);
 
 bool 			rt_load_obj_file(const char *path_to_obj, t_meshes *out_meshes);
 
+cl_float3		*rt_get_vertices(
+		const float *raw_vertices, size_t num_vertices);
+cl_float3		*rt_get_texture_vertices(
+		const float *raw_vertices, size_t num_vertices);
+
 #endif
