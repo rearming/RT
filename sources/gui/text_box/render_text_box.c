@@ -9,7 +9,7 @@ float		count_percent(char *text, char *field)
 	return ((float)text_len / (float)joined_len);
 }
 
-void		render_text_box(t_transform btn, t_scene scene)
+void		render_text_box(t_transform btn)
 {
 	SDL_Rect	text;
 	SDL_Rect	field;

@@ -42,7 +42,7 @@ void			init_other_buttons(void);
 void			render_button(t_transform btn);
 void			render_button_with_params(t_transform btn,
 		TTF_Font *font, int px);
-void			auto_render_button(int i, t_scene scene);
+void			auto_render_button(int i);
 void			fix_states(short action);
 
 /*
@@ -51,7 +51,7 @@ void			fix_states(short action);
 
 bool			check_click(SDL_Event *event, SDL_Rect button);
 bool			check_hover(SDL_Event *event, SDL_Rect button);
-void			render_all_buttons(t_scene scene);
+void			render_all_buttons();
 
 /*
 ** Buttons actions
@@ -80,7 +80,7 @@ void			init_text_box(t_scene scene);
 ** Text box render
 */
 
-void			render_text_box(t_transform btn, t_scene scene);
+void			render_text_box(t_transform btn);
 
 /*
 ** Utils
