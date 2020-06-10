@@ -85,13 +85,45 @@ void				closest_intersection(
 							if (objects[i].complicated_type == NOTHING
 									|| objects[i].complicated_type == UNION)
 							{
-								t_rayhit c = *out_best_hit;
-								if(ray_march(ray, &objects[i], &c))
+								t_rayhit	c = *out_best_hit;
+								if (ray_march(ray, &objects[i], &c))
 								{
 									*out_best_hit = c;
 									*out_closest_obj_index = i;
 									break ;
 								}
+
+
+								/**
+								 *
+								 * Проверка камеры внутри объекта
+								 *
+								 **/
+
+								t_ray r_plus = (t_ray){.origin = ray->origin
+										+ RAY_MARCH_MAX_DIST * ray->dir,
+										.dir = -ray->dir,
+										.energy = ray->energy};
+								t_ray r_minus = (t_ray){.origin = ray->origin
+										- RAY_MARCH_MAX_DIST * ray->dir,
+										.dir = ray->dir,
+										.energy = ray->energy};
+								t_rayhit p = (t_rayhit){
+										.distance = RAY_MARCH_MAX_DIST,
+										.pos = ray->origin,
+										.normal = -ray->dir};
+								t_rayhit m = (t_rayhit){
+										.distance = RAY_MARCH_MAX_DIST,
+										.pos = ray->origin,
+										.normal = r_plus.dir};
+								if (!(ray_march(&r_plus, &objects[i], &p) &&
+										ray_march(&r_minus, &objects[i], &m)))
+									break ;
+								out_best_hit->distance = RAY_MIN_EPSILON;
+								out_best_hit->pos = ray->origin;
+								out_best_hit->normal = -ray->dir;
+								*out_closest_obj_index = i;
+								break ;
 							}
 							/**
 							 *
