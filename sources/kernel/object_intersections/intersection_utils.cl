@@ -153,8 +153,10 @@ void				closest_intersection(
 										.pos = ray->origin,
 										.normal = ray->dir};
 									if (!ray_march(&r, a.distance > b.distance
-										?&objects[objects[i].complicated_index]
-										: &objects[i], &c))
+										? &objects[objects[i].complicated_index]
+										: &objects[i], &c) && (a.distance
+												> b.distance ? a : b).distance
+										< out_best_hit->distance)
 									{
 										*out_best_hit = a.distance > b.distance
 												? a : b;
@@ -185,23 +187,30 @@ void				closest_intersection(
 									t_rayhit	a_h = *out_best_hit;
 									bool		a_hit = ray_march(ray,
 											&objects[a], &a_h);
+
 									if (!a_hit)
 										break;
 									t_rayhit	b_h = *out_best_hit;
 									bool		b_hit = ray_march(ray,
 											&objects[b], &b_h);
+
 									if ((a_hit && !b_hit)
-											|| (a_h.distance < b_h.distance))
+											|| (a_h.distance < b_h.distance)
+											&& out_best_hit->distance
+											> a_h.distance)
 									{
 										*out_best_hit = a_h;
 										*out_closest_obj_index = a;
 										break;
 									}
 									t_ray		r = *ray;
+
 									r.origin = a_h.pos;
 									r.dir = -r.dir;
 									b_h.pos = ray->origin;
-									if (ray_march(&r, &objects[b], &b_h))
+									if (ray_march(&r, &objects[b], &b_h) &&
+											out_best_hit->distance
+											> a_h.distance)
 									{
 										*out_best_hit = a_h;
 										*out_closest_obj_index = a;
@@ -217,11 +226,14 @@ void				closest_intersection(
 									ray_march(&r, &objects[b], &b_h);
 									if (a_h.distance > b_h.distance)
 										break;
-									a_h.distance = length(a_h.pos
-															- ray->origin);
-									a_h.normal = -a_h.normal;
-									*out_best_hit = a_h;
-									*out_closest_obj_index = b;
+									b_h.distance = RAY_MARCH_MAX_DIST
+											- b_h.distance;
+									b_h.normal = -b_h.normal;
+									if (out_best_hit->distance > b_h.distance)
+									{
+										*out_best_hit = b_h;
+										*out_closest_obj_index = b;
+									}
 								}
 								break ;
 							}

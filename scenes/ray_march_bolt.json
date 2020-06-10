@@ -1,0 +1,356 @@
+{
+  "scene parameters": {
+    "exposure": 2,
+    "gamma": 2.2
+  },
+  "render parameters": {
+    "render algorithm": "raytrace",
+    "pathtrace": {
+      "max light bounces": 8
+    },
+    "raytrace": {
+      "max light bounces": 8
+    },
+    "render objects": true,
+    "render mesh": {
+      "enabled": false
+    }
+  },
+  "objects": [
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0x0000FF",
+        "phong exp": 50
+      },
+      "center": [0, -6.5, 0],
+      "normal": [0, 1, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0x00FF00",
+        "phong exp": 50
+      },
+      "center": [6.5, 0, 0],
+      "normal": [1, 0, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xFF0000"
+      },
+      "center": [-6.5, 0, 0],
+      "normal": [1, 0, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xFFFFFF",
+        "phong exp": 40
+      },
+      "center": [0, 0, 6.5],
+      "normal": [0, 0, 1]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xFFFFFF",
+        "phong exp": 0
+      },
+      "center": [0, 6.5, 0],
+      "normal": [0, 1, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [0, 0, -15],
+      "normal": [0, 0, 1]
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "emission color": "0xFFFFFF",
+        "emission power": 1
+      },
+      "center": [-1, 5.5, 0],
+      "radius": 0.7
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "emission color": "0xFFFFFF",
+        "emission power": 1
+      },
+      "center": [-1, -5.5, 0],
+      "radius": 0.7
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "emission color": "0xFFFFFF",
+        "emission power": 1
+      },
+      "center": [1, 5.5, 0],
+      "radius": 0.7
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "emission color": "0xFFFFFF",
+        "emission power": 1
+      },
+      "center": [1, -5.5, 0],
+      "radius": 0.7
+    },
+    {
+      "type": "hex prism",
+      "material": {
+        "diffuse": "0xFF33FF"
+      },
+      "center": [0, -4.5, 0],
+      "distance": 0.01,
+      "radius": 1,
+      "complicated type": "different",
+      "complicated index": -11
+    },
+    {
+      "type": "capsule",
+      "material": {
+        "diffuse": "0x33FFFF"
+      },
+      "center": [0.7, -4.5, 0],
+      "axis": [-1.0, 0.0, 0],
+      "distance": 1.4,
+      "radius": 0.1,
+      "complicated type": "different",
+      "complicated index": 10
+    },
+    {
+      "type": "ellipsoid raymarch",
+      "material": {
+        "diffuse": "0xFF33FF"
+      },
+      "center": [0, 0, 0],
+      "size": [1.2, 1.2, 0.2],
+      "complicated type": "different",
+      "complicated index": -13
+    },
+    {
+      "type": "ellipsoid raymarch",
+      "material": {
+        "diffuse": "0xFF33FF"
+      },
+      "center": [0, 0, 0],
+      "size": [1.0, 1.0, 1.2],
+      "complicated type": "different",
+      "complicated index": 12
+    },
+    {
+      "type": "ellipsoid raymarch",
+      "material": {
+        "diffuse": "0xFF33FF"
+      },
+      "center": [-2.5, 0, 0.2],
+      "size": [1.2, 1.2, 0.2],
+      "complicated type": "different",
+      "complicated index": -15
+    },
+    {
+      "type": "ellipsoid raymarch",
+      "material": {
+        "diffuse": "0xFF33FF"
+      },
+      "center": [-2.5, 0, 0.2],
+      "size": [1.0, 1.0, 1.2],
+      "complicated type": "different",
+      "complicated index": 14
+    },
+    {
+      "type": "ellipsoid raymarch",
+      "material": {
+        "diffuse": "0xFF33FF"
+      },
+      "center": [2.5, 0, -0.2],
+      "size": [1.2, 1.2, 0.2],
+      "complicated type": "different",
+      "complicated index": -17
+    },
+    {
+      "type": "ellipsoid raymarch",
+      "material": {
+        "diffuse": "0xFF33FF"
+      },
+      "center": [2.5, 0, -0.2],
+      "size": [1.0, 1.0, 1.2],
+      "complicated type": "different",
+      "complicated index": 16
+    },
+    {
+      "type": "ellipsoid raymarch",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [-1.25, 0, 0],
+      "size": [1.0, 0.2, 0.5],
+      "complicated type": "different",
+      "complicated index": -19
+    },
+    {
+      "type": "ellipsoid raymarch",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [-1.25, 0, 0],
+      "size": [0.8, 1.2, 0.3],
+      "complicated type": "different",
+      "complicated index": 18
+    },
+    {
+      "type": "ellipsoid raymarch",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [1.25, 0, 0],
+      "size": [1.0, 0.2, 0.5],
+      "complicated type": "different",
+      "complicated index": -21
+    },
+    {
+      "type": "ellipsoid raymarch",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [1.25, 0, 0],
+      "size": [0.8, 1.2, 0.3],
+      "complicated type": "different",
+      "complicated index": 20
+    },
+    {
+      "type": "hex prism",
+      "material": {
+        "diffuse": "0x33FF33"
+      },
+      "center": [0, 0, 0],
+      "distance": 0.01,
+      "radius": 1,
+      "complicated type": "different",
+      "complicated index": -23
+    },
+    {
+      "type": "hex prism",
+      "material": {
+        "diffuse": "0x33FF33"
+      },
+      "center": [0, 0, 0],
+      "distance": 0.02,
+      "radius": 0.8,
+      "complicated type": "different",
+      "complicated index": 22
+    },
+    {
+      "type": "hex prism",
+      "material": {
+        "diffuse": "0x33FF33"
+      },
+      "center": [-2.5, 0, -0.2],
+      "distance": 0.01,
+      "radius": 1,
+      "complicated type": "different",
+      "complicated index": -25
+    },
+    {
+      "type": "hex prism",
+      "material": {
+        "diffuse": "0x33FF33"
+      },
+      "center": [-2.5, 0, -0.2],
+      "distance": 0.02,
+      "radius": 0.8,
+      "complicated type": "different",
+      "complicated index": 24
+    },
+    {
+      "type": "hex prism",
+      "material": {
+        "diffuse": "0x33FF33"
+      },
+      "center": [2.5, 0, 0.2],
+      "distance": 0.01,
+      "radius": 1,
+      "complicated type": "different",
+      "complicated index": -27
+    },
+    {
+      "type": "hex prism",
+      "material": {
+        "diffuse": "0x33FF33"
+      },
+      "center": [2.5, 0, 0.2],
+      "distance": 0.02,
+      "radius": 0.8,
+      "complicated type": "different",
+      "complicated index": 26
+    },
+    {
+      "type": "hex prism",
+      "material": {
+        "specular": [0.5, 1.0, 1.0],
+        "transmittance": 1,
+        "refraction": 1.15,
+        "smoothness": 10000
+      },
+      "center": [0, 0, 0],
+      "distance": 1,
+      "radius": 0.2,
+      "alfa angle": 0.7854,
+      "beta angle": 0,
+      "gamma angle": 1.5708,
+      "complicated type": "intersection",
+      "complicated index": 29
+    },
+    {
+      "type": "hex prism",
+      "material": {
+        "specular": [0.5, 1.0, 1.0],
+        "transmittance": 1,
+        "refraction": 1.15,
+        "smoothness": 10000
+      },
+      "center": [0, 0, 0],
+      "distance": 1,
+      "radius": 0.2,
+      "alfa angle": 0,
+      "beta angle": 1.5708,
+      "gamma angle": 1.0472,
+      "complicated type": "intersection",
+      "complicated index": 28
+    }
+  ],
+  "camera": {
+    "pos": [-0.0, 0, -7],
+    "rotation": [0, 0, 0]
+  },
+  "light":
+  [
+    {
+      "type": "ambient",
+      "intensity": 0.2,
+      "color": "0xFFFFFF"
+    },
+    {
+      "type": "point",
+      "color": "0xFFFFFF",
+      "intensity": 0.5,
+      "pos": [0, 0, -3]
+    },
+    {
+      "type": "point",
+      "color": "0xFFFFFF",
+      "intensity": 0.5,
+      "pos": [0, 0, 3]
+    }
+  ]
+}

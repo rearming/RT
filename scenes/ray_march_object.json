@@ -184,7 +184,7 @@
         "diffuse": "0xAAFF00"
       },
       "center": [0, -2, -3],
-      "angle": 0.3,
+      "angle": 1.2,
       "radius ring": 0.8,
       "radius": 0.2,
       "complicated type": "nothing"
