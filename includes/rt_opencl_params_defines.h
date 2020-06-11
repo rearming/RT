@@ -67,16 +67,6 @@ typedef enum	e_render_state
 **	render options
 */
 
-//# define RENDER_RAYTRACE (1 << 0)
-//# define RENDER_PATHTRACE (1 << 1)
-//# define RENDER_RAYMARCH (1 << 2)
-//# define RENDER_MESH (1 << 3)
-//# define RENDER_BACKFACE_CULLING (1 << 4)
-//# define RENDER_OBJECTS (1 << 5)
-//# define RENDER_MESH_VTEXTURES (1 << 6)
-//# define RENDER_TEXTURES (1 << 7)
-//# define RENDER_ANTI_ALIASING (1 << 8)
-//# define RENDER_SKYBOX (1 << 9)
 typedef enum	e_render_options
 {
 	RENDER_NEVER = 0x0,
@@ -94,8 +84,6 @@ typedef enum	e_render_options
 	RENDER_SKYBOX = (1 << 10),
 	RENDER_IMPRESSIVE = (1 << 11),
 }				t_render_options;
-
-# define RENDER_DEFAULT RENDER_RAYTRACE | /*RENDER_OBJECTS |*/ RENDER_TEXTURES | RENDER_MESH /*| RENDER_BACKFACE_CULLING*/
 
 /*
 **	render actions

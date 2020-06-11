@@ -33,10 +33,7 @@ void			rt_opencl_compile_kernel(
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_PROGRAM, err);
 	if ((err = clBuildProgram(
 			program, 1, &g_opencl.device_id, compile_options, NULL, NULL)))
-	{
-		print_cl_build_program_debug(program);
 		rt_raise_error(ERR_OPENCL_BUILD_PROGRAM);
-	}
 	*out_kernel = clCreateKernel(program, kernel_name, &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_KERNEL, err);
 	printf("kernel [%s] compiled with options [%s] in [%.3f] sec.\n",

@@ -6,7 +6,6 @@ const char	*g_opencl_defines[] =
 {
 	" -D RENDER_RAYTRACE ",
 	" -D RENDER_PATHTRACE ",
-	" -D RENDER_RAYMARCH",
 	" -D RENDER_MESH ",
 	" -D RENDER_BACKFACE_CULLING ",
 	" -D RENDER_OBJECTS ",

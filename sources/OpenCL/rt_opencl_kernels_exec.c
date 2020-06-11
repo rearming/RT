@@ -20,8 +20,6 @@ void		exec_render_kernel(
 			render_kernel->kernel, 1, NULL, work_size, NULL, 0, NULL,
 			&g_opencl.profile_event);
 	rt_opencl_handle_error(ERR_OPENCL_RUN_KERNELS, err);
-	if (rt_bit_isset(rt->events, EVENT_INFO))
-		rt_print_opencl_profile_info();
 	err = clReleaseEvent(g_opencl.profile_event);
 	rt_opencl_handle_error(ERR_OPENCL_RELEASE_EVENT, err);
 }
