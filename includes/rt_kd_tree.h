@@ -44,6 +44,13 @@ typedef struct		s_kd_tree
 t_aabb			*rt_get_all_aabbs(t_meshes *meshes);
 t_aabb			get_root_aabb(t_aabb *aabbs, int num_aabbs);
 t_kd_tree		*build_kd_tree(t_aabb *all_aabbs, int num_aabbs);
+bool			kd_is_obj_in_aabb(t_aabb root_aabb, t_aabb obj_aabb);
+t_aabb_objects	kd_get_objects_in_aabb(
+		t_aabb aabb,
+		t_aabb *all_aabbs,
+		t_aabb_objects *prev_objects);
+float			kd_get_aabb_area(t_aabb aabb);
+t_aabb_objects	get_root_aabb_objects(int num_aabbs);
 
 void			kd_tree_to_list(t_kd_tree *tree, t_list **out_list, int *out_nodes_num);
 t_kd_arr_tree	*kd_tree_to_array(t_kd_tree *tree, int *out_nodes_num, int *out_obj_indices_num);

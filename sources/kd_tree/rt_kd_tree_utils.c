@@ -4,7 +4,7 @@
 void	free_kd_tree(t_kd_tree *tree, bool free_indices)
 {
 	if (!tree)
-		return;
+		return ;
 	free_kd_tree(tree->left, free_indices);
 	free_kd_tree(tree->right, free_indices);
 	if (tree->objects.num != NOT_SET && free_indices)
@@ -15,15 +15,16 @@ void	free_kd_tree(t_kd_tree *tree, bool free_indices)
 int		kd_tree_count_nodes(t_kd_tree *tree)
 {
 	if (!tree)
-		return 0;
-	return kd_tree_count_nodes(tree->left) + kd_tree_count_nodes(tree->right) + 1;
+		return (0);
+	return
+	(kd_tree_count_nodes(tree->left) + kd_tree_count_nodes(tree->right) + 1);
 }
 
 char	*rt_get_kd_binary_path(const char *obj_path)
 {
-	char		*binary_path;
-	char		*tmp;
-	size_t		size = ft_strlen_char(obj_path, '.') + 1;
+	char			*binary_path;
+	char			*tmp;
+	const size_t	size = ft_strlen_char(obj_path, '.') + 1;
 
 	tmp = rt_safe_malloc(size + 1);
 	ft_memcpy(tmp, obj_path, size);

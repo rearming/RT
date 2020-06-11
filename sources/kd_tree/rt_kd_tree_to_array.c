@@ -50,4 +50,3 @@ t_kd_arr_tree	*kd_tree_to_array(
 	*out_nodes_num = nodes_num;
 	return (kd_tree_arr);
 }
-

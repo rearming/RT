@@ -14,7 +14,8 @@ void		rt_pack_kd_object_indices(t_kd_info *kd_info)
 		j = 0;
 		while (j < kd_info->tree_arr[i].objects.num)
 		{
-			kd_info->indices[j + offset] = kd_info->tree_arr[i].objects.indices[j];
+			kd_info->indices[j + offset] =
+					kd_info->tree_arr[i].objects.indices[j];
 			j++;
 		}
 		kd_info->tree_arr[i].obj_offset = offset;
