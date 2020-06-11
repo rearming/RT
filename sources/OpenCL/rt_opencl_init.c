@@ -1,7 +1,21 @@
+#include <time.h>
 #include "rt.h"
 #include "rt_opencl.h"
 
-void		rt_opencl_compile_kernel(
+static void		release_resources(
+		cl_program program,
+		char *opencl_kernel_code,
+		const char *compile_options)
+{
+	int		err;
+
+	err = clReleaseProgram(program);
+	rt_opencl_handle_error(ERR_OPENCL_RELEASE_PROGRAM, err);
+	free(opencl_kernel_code);
+	free((char*)compile_options);
+}
+
+void			rt_opencl_compile_kernel(
 		const char *kernel_path,
 		const char *kernel_name,
 		const char *compile_options,
@@ -11,6 +25,7 @@ void		rt_opencl_compile_kernel(
 	char			*opencl_kernel_code;
 	cl_program		program;
 	int				err;
+	const clock_t	start = clock();
 
 	opencl_kernel_code = get_opencl_kernel_code_text(kernel_path, &size);
 	program = clCreateProgramWithSource(g_opencl.context, 1,
@@ -24,16 +39,16 @@ void		rt_opencl_compile_kernel(
 	}
 	*out_kernel = clCreateKernel(program, kernel_name, &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_KERNEL, err);
-	err = clReleaseProgram(program);
-	rt_opencl_handle_error(ERR_OPENCL_RELEASE_PROGRAM, err);
-	free(opencl_kernel_code);
-	free((char*)compile_options);
+	printf("kernel [%s] compiled with options [%s] in [%.3f] sec.\n",
+			kernel_name, compile_options,
+			(double)(clock() - start) / CLOCKS_PER_SEC);
+	release_resources(program, opencl_kernel_code, compile_options);
 }
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
-void		rt_opencl_init(void)
+void			rt_opencl_init(void)
 {
 	int			err;
 
