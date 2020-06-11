@@ -36,7 +36,7 @@ int			ray_march_inter_s_obj(t_ray *ray,
 {
 	t_rayhit	a = *out_best_hit;
 	t_rayhit	b = *out_best_hit;
-	if (ray_march(ray, &objects[objects[i].complicated_index], &b)
+	if (ray_march(ray, &objects[objects[i].raymarch_index], &b)
 			&& ray_march(ray, &objects[i], &a))
 	{
 		float max_dist = (a.distance > b.distance ? a.distance : b.distance);
@@ -45,10 +45,10 @@ int			ray_march_inter_s_obj(t_ray *ray,
 		t_rayhit	c = (t_rayhit){.distance = max_dist, .pos = ray->origin,
 				.normal = ray->dir};
 		if (!ray_march(&r, a.distance < b.distance ?  &objects[i]
-				: &objects[objects[i].complicated_index], &c))
+				: &objects[objects[i].raymarch_index], &c))
 		{
 			*out_best_hit = a.distance > b.distance ? a : b;
-			return a.distance > b.distance ? i : objects[i].complicated_index;
+			return a.distance > b.distance ? i : objects[i].raymarch_index;
 		}
 	}
 	return -1;
@@ -61,12 +61,12 @@ int			ray_march_diff_obj(t_ray *ray,
 {
 	int a, b;
 
-	if (objects[i].complicated_index < 0)
+	if (objects[i].raymarch_index < 0)
 		return -1;
 	else
 	{
 		b = i;
-		a = objects[i].complicated_index;
+		a = objects[i].raymarch_index;
 	}
 	t_rayhit	a_h = *out_best_hit;
 	bool		a_hit = ray_march(ray, &objects[a], &a_h);

@@ -25,7 +25,7 @@
 # define ERR_OPENCL_CREATE_BUFFER "clCreateBuffer failed"
 # define ERR_OPENCL_RUN_KERNELS "clEnqueueNDRangeKernel failed"
 # define ERR_OPENCL_READ_BUFFER "clEnqueueReadBuffer failed"
-# define ERR_OPENCL_INV_SOURCE_CODE_FILE "error when reading opencl source code file"
+# define ERR_OPENCL_INV_SOURCE_CODE_FILE "error reading opencl source code file"
 # define ERR_OPENCL_LOG "clGetProgramBuildLog failed"
 
 # define ERR_OPENCL_RELEASE_PROGRAM "clReleaseProgram failed"
@@ -37,7 +37,7 @@
 # define ERR_OBJLOADER_PARSE_OBJ "tinyobjloader failed"
 
 # define ERR_INVALID_JSON_FILE "can't read json scene file"
-# define ERR_PARSING_WRONG_ARRAY_FORMAT "rt_parse error: wrong format of array parameter"
+# define ERR_PARSING_ARRAY "rt_parse error: wrong data in array parameter"
 # define ERR_PARSING_WRONG_SCENE_PARAMS "rt_parse error: wrong scene parameters"
 # define ERR_PARS_WRONG_PRM "rt_parse error: wrong parameter - "
 
@@ -46,14 +46,14 @@
 # define ERR_PARSING_WRONG_OBJECT_TYPE "rt_parse error: wrong type of object"
 # define ERR_PARSING_WRONG_OBJECT "rt_parse error: wrong object parameter - "
 
-# define ERR_PARSING_SCENE_NOT_SPECIFIED "rt_parse error: scene is not fully specified "
+# define ERR_PARSING_SCENE_NOT_FULL "rt_parse error: scene isn't complete"
 # define ERR_PARSING_WRONG_LIGHT_PARAMS "rt_parse error: wrong light params"
 # define ERR_PARSING_WRONG_CAMERA_PARAMS "rt_parse error: wrong camera params"
-# define ERR_PARSING_WRONG_TYPE "rt_parse error: check the type of figure, it's not an object, light or a camera"
+# define ERR_PARSING_WRONG_TYPE "rt_parse error: check the type of json_token"
 # define ERR_PARSING_MATRIX "rt_parse error: check rotation matrix in object"
 
 # define ERR_PARSING_DUPLICATED_PARAM "rt_parse error: duplicated parameters"
-# define ERR_PARSING_DUPLICATED_SKYBOX "rt_parse error: skybox image is duplicated "
-# define ERR_INVALID_TEXTURE_OBJECT "texture can be used only with basic objects"
+# define ERR_PARSING_DUPLICATED_SKYBOX "skybox image is duplicated"
+# define ERR_INVALID_TEXTURE_OBJECT "texture should be only on basic objects"
 # define ERR_IVALID_BUMP_INITIALIZATION "wrong initialization of bump_mapping"
 #endif

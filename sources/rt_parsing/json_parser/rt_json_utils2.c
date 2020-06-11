@@ -89,8 +89,8 @@ static int	sum_check(bool *checker, int type)
 	}
 	else if (type == 1)
 		checker_sum += checker[ALFA_ANGLE] + checker[BETA_ANGLE]
-				+ checker[GAMMA_ANGLE] + checker[COMPLICATED]
-				+ checker[COMPLICATED_INDEX];
+				+ checker[GAMMA_ANGLE] + checker[RAYMARCH]
+				+ checker[RAYMARCH_INDEX];
 	else
 		checker_sum += checker[LEN] + checker[AXIS];
 	return (checker_sum);
@@ -114,11 +114,11 @@ void		check_object(bool *checker, int type, bool texture_pbr)
 	if (checker[EMISSION_COLOR] + checker[EMISSION_POWER] == 1)
 		rt_raise_error(ft_strjoin(ERR_PARSING_WRONG_OBJECT_PARAMS,
 				object_name(type)));
-	if (checker[TEXTURE] && !(type == SPHERE || type == CONE
-		|| type == CYLINDER || type == PLANE))
+	if (checker[TEXTURE] && type > CONE)
 		rt_raise_error(ERR_INVALID_TEXTURE_OBJECT);
 	if (texture_pbr == true && (checker[TEXTURE] +
-	checker[TEXTURE_NORMAL] + checker[TEXTURE_PBR_INDEX] != 3))
+		checker[TEXTURE_NORMAL] + checker[TEXTURE_PBR_INDEX] != 3 ||
+		type > CONE))
 		rt_raise_error(ERR_IVALID_BUMP_INITIALIZATION);
 }
 

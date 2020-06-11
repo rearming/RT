@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   rt_parse_string.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gfoote <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -22,17 +22,17 @@ static void		parse_material2(t_tmp *tmp, const char *key,
 		check_duplicated(tmp->checker, TEXTURE);
 		tmp->texture_number = parse_texture(tmp_value);
 	}
-	else if (ft_strequ(key, "complicated type"))
+	else if (ft_strequ(key, "raymarch type"))
 	{
-		check_duplicated(tmp->checker, COMPLICATED);
+		check_duplicated(tmp->checker, RAYMARCH);
 		if (ft_strequ(tmp_value, "nothing"))
-			tmp->complicated = NOTHING;
+			tmp->raymarch = NOTHING;
 		else if (ft_strequ(tmp_value, "union"))
-			tmp->complicated = UNION;
+			tmp->raymarch = UNION;
 		else if (ft_strequ(tmp_value, "different"))
-			tmp->complicated = DIFFERENT;
+			tmp->raymarch = DIFFERENT;
 		else if (ft_strequ(tmp_value, "intersection"))
-			tmp->complicated = INTERSECTION;
+			tmp->raymarch = INTERSECTION;
 	}
 	else if (ft_strequ(key, "pbr normal"))
 	{

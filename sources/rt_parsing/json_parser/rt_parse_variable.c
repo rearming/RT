@@ -88,10 +88,10 @@ void			parse_variable(t_tmp *tmp, const char *key, json_t *value)
 		tmp->intensity = parse(value, tmp->checker, INTENSITY);
 	else if (ft_strequ(key, "exposure"))
 		tmp->exposure = parse(value, tmp->checker, EXPOSURE);
-	else if (ft_strequ(key, "complicated index"))
+	else if (ft_strequ(key, "raymarch index"))
 	{
-		check_duplicated(tmp->checker, COMPLICATED_INDEX);
-		tmp->complicated_index = json_integer_value(value);
+		check_duplicated(tmp->checker, RAYMARCH_INDEX);
+		tmp->raymarch_index = json_integer_value(value);
 	}
 	else if (ft_strequ(key, "max light bounces") && (tmp->type == RAYTRACE ||
 	tmp->type == PATHTRACE))

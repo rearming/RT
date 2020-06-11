@@ -12,6 +12,8 @@ float3		texture_shade_pathtrace(
 		float *seed,
 		float2 pixel)
 {
+	if (material.texture_pbr) //change rayhit
+		change_coordinates(hit, texture_info, texture_list, object);
 	const float		specular_chance = material.specular_texture;
 	const float3	color = texture(hit, texture_info, texture_list, object); //change material.emission_color to color
 

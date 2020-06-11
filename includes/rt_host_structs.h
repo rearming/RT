@@ -112,17 +112,18 @@ typedef struct			s_tmp
 	cl_float			alfa_angle;
 	cl_float			beta_angle;
 	cl_float			gamma_angle;
-	int					complicated;
-	int					complicated_index;
+	int					raymarch;
+	int					raymarch_index;
 	cl_int				max_depth_r;
 	cl_int				max_depth_p;
 	cl_int				skybox_num;
 	float				exposure;
 	float				gamma;
-	char*				file;
+	char				*file;
 	bool				checker[45];
 	struct s_tmp		*next;
 }						t_tmp;
 
 # endif
+
 #endif

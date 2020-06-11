@@ -20,12 +20,12 @@ static void	add_array(cl_float3 *elem, json_t *value, bool color)
 
 	i = -1;
 	if (json_array_size(value) != 3)
-		rt_raise_error(ERR_PARSING_WRONG_ARRAY_FORMAT);
+		rt_raise_error(ERR_PARSING_ARRAY);
 	while (++i < 3)
 	{
 		tmp = json_array_get(value, i);
 		if (!json_is_number(tmp))
-			rt_raise_error(ERR_PARSING_WRONG_ARRAY_FORMAT);
+			rt_raise_error(ERR_PARSING_ARRAY);
 		if (json_is_integer(tmp))
 		{
 			elem->s[i] = (float)json_integer_value(tmp);
