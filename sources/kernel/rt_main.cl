@@ -37,11 +37,9 @@
 #  include "pathtrace_utils.cl"
 # endif
 
-# ifdef RENDER_MESH
-#  include "mesh_render_utils.cl"
-#  include "mesh_intersection.cl"
-#  include "kd_tree_traversal.cl"
-# endif
+# include "mesh_render_utils.cl"
+# include "mesh_intersection.cl"
+# include "kd_tree_traversal.cl"
 
 __kernel void	rt_main(
     __global const t_scene *scene,
