@@ -19,7 +19,8 @@ void		rt_get_kd_object(t_meshes *meshes, t_kd_info *out_kd_info)
 	out_kd_info->nodes_num = 0;
 	all_aabbs = rt_get_all_aabbs(meshes);
 	kd_tree = build_kd_tree(all_aabbs, meshes->num_polygons);
-	kd_arr_tree = kd_tree_to_array(kd_tree, &out_kd_info->nodes_num, &out_kd_info->indices_num);
+	kd_arr_tree = kd_tree_to_array(
+			kd_tree, &out_kd_info->nodes_num, &out_kd_info->indices_num);
 	free(all_aabbs);
 	free_kd_tree(kd_tree, false);
 	out_kd_info->tree_arr = kd_arr_tree;

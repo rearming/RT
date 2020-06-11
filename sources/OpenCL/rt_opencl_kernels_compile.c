@@ -24,7 +24,6 @@ void		rt_opencl_compile_kernels(uint32_t render_options)
 	g_opencl.kernels = rt_safe_malloc(sizeof(cl_kernel) * kern_num);
 	while (i < kern_num)
 	{
-		printf("compiling [%s]\n", g_kernels_info[i].kernel_name);
 		rt_opencl_compile_kernel(g_kernels_info[i].kernel_path,
 				g_kernels_info[i].kernel_name,
 				rt_get_kernel_compile_options(render_options),

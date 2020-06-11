@@ -8,18 +8,23 @@ t_aabb		get_aabb_polygon(cl_float3 vertices[RT_DEFAULT_POLYGON_VERTICES])
 
 	aabb.min = rt_float3_sub(
 			fmin_float3(vertices[0], fmin_float3(vertices[1], vertices[2])),
-			(cl_float3) {{AABB_OFFSET_EPSILON, AABB_OFFSET_EPSILON, AABB_OFFSET_EPSILON}});
+			(cl_float3) {{
+				AABB_OFFSET_EPSILON, AABB_OFFSET_EPSILON, AABB_OFFSET_EPSILON
+			}});
 	aabb.max = rt_float3_add(
 			fmax_float3(vertices[0], fmax_float3(vertices[1], vertices[2])),
-			(cl_float3){{AABB_OFFSET_EPSILON, AABB_OFFSET_EPSILON, AABB_OFFSET_EPSILON}});
+			(cl_float3){{
+				AABB_OFFSET_EPSILON, AABB_OFFSET_EPSILON, AABB_OFFSET_EPSILON
+			}});
 	return (aabb);
 }
 
 t_aabb		get_root_aabb(t_aabb *aabbs, int num_aabbs)
 {
 	t_aabb	root_aabb;
-	int		i = 0;
+	int		i;
 
+	i = 0;
 	root_aabb.min = (cl_float3){{INFINITY, INFINITY, INFINITY}};
 	root_aabb.max = (cl_float3){{-INFINITY, -INFINITY, -INFINITY}};
 	while (i < num_aabbs)
@@ -40,10 +45,11 @@ t_aabb		*rt_get_all_aabbs(t_meshes *meshes)
 	i = 0;
 	while (i < meshes->num_polygons)
 	{
-		tris_aabb[i] = get_aabb_polygon((cl_float3[RT_DEFAULT_POLYGON_VERTICES]){
-			meshes->vertices[meshes->polygons[i].vert_i[0]],
-			meshes->vertices[meshes->polygons[i].vert_i[1]],
-			meshes->vertices[meshes->polygons[i].vert_i[2]]});
+		tris_aabb[i] = get_aabb_polygon(
+				(cl_float3[RT_DEFAULT_POLYGON_VERTICES]){
+					meshes->vertices[meshes->polygons[i].vert_i[0]],
+					meshes->vertices[meshes->polygons[i].vert_i[1]],
+					meshes->vertices[meshes->polygons[i].vert_i[2]]});
 		i++;
 	}
 	return (tris_aabb);
