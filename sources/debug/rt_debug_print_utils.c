@@ -8,7 +8,8 @@ void		rt_print_clfloat3(cl_float3 vec, const char *definition)
 
 void		rt_print_float3_color(cl_float3 color, const char *definition)
 {
-	printf("%s: r: [%.2f], g: [%.2f], arr: [%.2f]\n", definition, color.x, color.y, color.z);
+	printf("%s: r: [%.2f], g: [%.2f], arr: [%.2f]\n",
+			definition, color.x, color.y, color.z);
 }
 
 void		rt_print_material(const t_material *material)
@@ -25,5 +26,4 @@ void		rt_print_material(const t_material *material)
 		printf("emission_power: [%f]\n", material->emission_power);
 		rt_print_float3_color(material->emission_color, "emission color");
 	}
-	/// потом может будут нужны texture_number и texture_position
 }

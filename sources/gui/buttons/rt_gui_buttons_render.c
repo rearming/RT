@@ -62,7 +62,7 @@ void	auto_render_button(int i)
 		render_button(g_gui.obj[i]);
 }
 
-void	render_all_buttons()
+void	render_all_buttons(void)
 {
 	int			i;
 	SDL_Color	bg;
