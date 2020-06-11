@@ -1147,8 +1147,8 @@
       "center": [-0.0, -2.6, 1.2],
       "distance": 0.3,
       "radius": 1.1,
-      "complicated type": "different",
-      "complicated index": -105
+      "raymarch type": "different",
+      "raymarch index": -105
     },
     {
       "type": "capsule",
@@ -1159,8 +1159,8 @@
       "axis": [-1.0, 0.0, 0],
       "distance": 0.4,
       "radius": 1,
-      "complicated type": "different",
-      "complicated index": 104
+      "raymarch type": "different",
+      "raymarch index": 104
     }
   ],
   "camera": {

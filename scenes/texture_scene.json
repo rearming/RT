@@ -13,7 +13,7 @@
     },
     "render objects": true,
     "render mesh": {
-      "enabled": false,
+      "enabled": true,
       "file": "assets/3d_models/cube_isosphere_materials.obj",
       "backface culling": true
     },
