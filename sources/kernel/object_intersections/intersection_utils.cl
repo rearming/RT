@@ -73,16 +73,9 @@ void				closest_intersection(
 					break;
 				default :
 					{
-						if (objects[i].type == BOX
-								|| objects[i].type == CAPSULE
-								|| objects[i].type == TORUS
-								|| objects[i].type == ELLIPSOID_RAYMARCH
-								|| objects[i].type == TORUS_CAPPED
-								|| objects[i].type == TEST_OBJECT
-								|| objects[i].type == HEX_PRISM
-								|| objects[i].type == ROUND_CONE)
+						if (objects[i].raymarch_type != NOTHING)
 						{
-							if (objects[i].raymarch_type == NOTHING
+							if (objects[i].raymarch_type == SIMPLE
 									|| objects[i].raymarch_type == UNION)
 							{
 								t_rayhit	c = *out_best_hit;
