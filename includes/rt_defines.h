@@ -1,8 +1,6 @@
 #ifndef RT_DEFINES_H
 # define RT_DEFINES_H
 
-//# define DEBUG_LOADING 1
-
 /*
 **	Code constants
 */
@@ -12,8 +10,7 @@
 
 # define RT_OBJLOADER_NOFLAGS 0
 
-#define TEXTURES_FOLDER "./assets/textures/"
-#define SKYBOX_NUM	0
+# define TEXTURES_FOLDER "./assets/textures/"
 
 /*
 **	Development
@@ -25,7 +22,7 @@
 **	Objects and materials
 */
 
-# define MAX_SMOOTHNESS 10000 //todo сделать в диапазоне [0, 1000]
+# define MAX_SMOOTHNESS 10000
 # define MAX_TRANSMITTANCE 1
 
 /*
@@ -39,7 +36,7 @@
 #  define UINT_MAX 4294967295
 # endif
 
-# define KD_TREE_MAX_HEIGHT 23 // ~log2(10kk)
+# define KD_TREE_MAX_HEIGHT 23
 
 /*
 **	Camera moving

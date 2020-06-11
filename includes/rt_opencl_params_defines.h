@@ -111,7 +111,7 @@ typedef enum	e_render_action
 /*
 **	OpenCL host constants
 **
-**  -> Раскомментив строчку OPENCL_DEBUG_KERNEL_NUM можно запустить мало кернелов,
+**  Раскомментив строчку OPENCL_DEBUG_KERNEL_NUM можно запустить мало кернелов,
 ** 	например, для проверки правильной передачи данных на видеокарту или того,
 ** 	как работают какие-либо функции.
 **
@@ -135,6 +135,7 @@ typedef enum	e_render_action
 " -I ./sources/kernel/kd_tree_traversal" \
 " -I ./sources/kernel/anti_aliasing" \
 " -I ./sources/kernel/post_processing"
+
 # endif
 
 # ifdef __APPLE__

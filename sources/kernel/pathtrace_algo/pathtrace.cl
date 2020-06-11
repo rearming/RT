@@ -37,12 +37,12 @@ float3		pathtrace(
 		if (get_hit_material(&hit_material, objects, meshes_info, polygons, vertices, v_normals, v_textures, closest_obj_index, closest_polygon_index))
 		{
 #ifdef RENDER_TEXTURES
-			if (hit_material.texture_number >= 0)
-				result_color += ray.energy * texture_shade_pathtrace(&texture_info[hit_material.texture_number],
-						texture_list, &objects[closest_obj_index], &ray, &hit, hit_material, seed, pixel);
-			else
+		if (hit_material.texture_number != NOT_SET)
+			result_color += ray.energy * texture_shade_pathtrace(&texture_info[hit_material.texture_number],
+				texture_list, &objects[closest_obj_index], &ray, &hit, hit_material, seed, pixel);
+		else
 #endif
-		result_color += ray.energy * shade_pathtrace(&ray, &hit, hit_material, seed, pixel);
+			result_color += ray.energy * shade_pathtrace(&ray, &hit, hit_material, seed, pixel);
 		}
 		else
 		{

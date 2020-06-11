@@ -73,17 +73,10 @@ void				closest_intersection(
 					break;
 				default :
 					{
-						if (objects[i].type == BOX
-								|| objects[i].type == CAPSULE
-								|| objects[i].type == TORUS
-								|| objects[i].type == ELLIPSOID_RAYMARCH
-								|| objects[i].type == TORUS_CAPPED
-								|| objects[i].type == TEST_OBJECT
-								|| objects[i].type == HEX_PRISM
-								|| objects[i].type == ROUND_CONE)
+						if (objects[i].raymarch_type != NOTHING)
 						{
-							if (objects[i].complicated_type == NOTHING
-									|| objects[i].complicated_type == UNION)
+							if (objects[i].raymarch_type == SIMPLE
+									|| objects[i].raymarch_type == UNION)
 							{
 								t_rayhit	c = *out_best_hit;
 								if (ray_march(ray, &objects[i], &c))
@@ -131,14 +124,14 @@ void				closest_intersection(
 							 * для тора может лагать
 							 *
 							**/
-							else if (objects[i].complicated_type
+							else if (objects[i].raymarch_type
 															== INTERSECTION
-									&& objects[i].complicated_index > i)
+									&& objects[i].raymarch_index > i)
 							{
 								t_rayhit	a = *out_best_hit;
 								t_rayhit	b = *out_best_hit;
 								if (ray_march(ray, &objects[objects[i]
-											.complicated_index], &b)
+											.raymarch_index], &b)
 										&& ray_march(ray, &objects[i], &a))
 								{
 									float	max_dist = (a.distance > b.distance
@@ -153,7 +146,7 @@ void				closest_intersection(
 										.pos = ray->origin,
 										.normal = ray->dir};
 									if (!ray_march(&r, a.distance > b.distance
-										? &objects[objects[i].complicated_index]
+										? &objects[objects[i].raymarch_index]
 										: &objects[i], &c) && (a.distance
 												> b.distance ? a : b).distance
 										< out_best_hit->distance)
@@ -162,7 +155,7 @@ void				closest_intersection(
 												? a : b;
 										*out_closest_obj_index = a.distance
 												> b.distance ? i
-												: objects[i].complicated_index;
+												: objects[i].raymarch_index;
 									}
 								}
 							}
@@ -172,17 +165,17 @@ void				closest_intersection(
 							 * для тора может лагать
 							 *
 							 **/
-							else if (objects[i].complicated_type == DIFFERENT)
+							else if (objects[i].raymarch_type == DIFFERENT)
 							{
 								{
 									int a, b;
 
-									if (objects[i].complicated_index < 0)
+									if (objects[i].raymarch_index < 0)
 										break;
 									else
 									{
 										b = i;
-										a = objects[i].complicated_index;
+										a = objects[i].raymarch_index;
 									}
 									t_rayhit	a_h = *out_best_hit;
 									bool		a_hit = ray_march(ray,

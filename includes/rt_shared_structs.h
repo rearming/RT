@@ -23,47 +23,53 @@ typedef union			u_color
 {
 # ifndef FT_OPENCL___
 
-	cl_int			value;
+	cl_int				value;
 # else
 
-	int				value;
+	int					value;
 # endif
 
-	t_rgb			rgb;
+	t_rgb				rgb;
 }						t_color;
 
 typedef struct			s_point
 {
 # ifndef FT_OPENCL___
+
 	cl_int				x;
 	cl_int				y;
 	cl_int				z;
 	t_color				color;
 # else
+
 	int					x;
 	int					y;
 	int					z;
 	t_color				color;
 # endif
+
 }						t_point;
 
 typedef struct			s_skybox_info
 {
 # ifndef FT_OPENCL___
+
 	cl_int				width;
 	cl_int				height;
 	cl_int				bpp;
 	bool				skybox_exist;
 	const char			*skybox_name;
-	cl_long 			size;
+	cl_long				size;
 # else
+
 	int					width;
 	int					height;
 	int					bpp;
 	bool				skybox_exist;
 	const char			*skybox_name;
-	long 				size;
+	long				size;
 # endif
+
 }						t_skybox_info;
 
 typedef struct			s_texture_info
@@ -78,28 +84,30 @@ typedef struct			s_texture_info
 
 	int					width;
 	int					height;
-	int 				start;
+	int					start;
 	int					bpp;
 # endif
+
 }						t_texture_info;
 
-typedef struct		s_name
+typedef struct			s_name
 {
-	char 			*name;
-	struct s_name *next;
-}					t_name;
+	char				*name;
+	struct s_name		*next;
+}						t_name;
 
 # ifndef FT_OPENCL___
+
 typedef struct			s_textures
 {
-	cl_int 				*texture_list;
-	cl_float3 			*skybox_list;
+	cl_int				*texture_list;
+	cl_float3			*skybox_list;
 	t_skybox_info		*skybox_info;
-	t_texture_info		*texture_info; //вот здесь используется количество текстур
+	t_texture_info		*texture_info;
 	size_t				texture_list_size;
-	size_t				texture_info_size; // вот это заполнять
+	size_t				texture_info_size;
 	t_name				*textures_names;
-	char 				**folders_names;
+	char				**folders_names;
 }						t_textures;
 # endif
 
@@ -153,14 +161,15 @@ typedef enum			e_object_type
 	TEST_OBJECT
 }						t_object_type;
 
-typedef enum			e_complicated_type
+typedef enum			e_raymarch_type
 {
-	NOTHING = 0,
+	SIMPLE = -1,
+	NOTHING,
 	UNION,
 	DIFFERENT,
 	INTERSECTION
 
-}						t_complicated_type;
+}						t_raymarch_type;
 
 typedef enum			e_light_type
 {
@@ -190,7 +199,7 @@ typedef struct			s_light
 
 }						t_light;
 
-typedef struct			s_material //есть default material и все задается по default
+typedef struct			s_material
 {
 # ifndef FT_OPENCL___
 
@@ -198,17 +207,17 @@ typedef struct			s_material //есть default material и все задаетс
 	cl_float3			diffuse;
 	cl_float3			specular;
 	cl_float			phong_exp;
-	cl_float			smoothness; // [0.0, 1.0]
+	cl_float			smoothness;
 	cl_float			transmittance;
 	cl_float			refraction;
-	cl_float3			emission_color; //color может быть задан 3 способами как 3 int, 3 float, и 1 char
+	cl_float3			emission_color;
 	cl_float			emission_power;
 	cl_float			specular_texture;
 	cl_int				texture_number;
 	cl_float3			texture_position;
 	cl_bool				texture_pbr;
-	cl_int 				texture_normal;
-	cl_float 			texture_pbr_index;
+	cl_int				texture_normal;
+	cl_float			texture_pbr_index;
 # else
 
 	float3				ambient;
@@ -224,8 +233,8 @@ typedef struct			s_material //есть default material и все задаетс
 	int					texture_number;
 	float3				texture_position;
 	bool				texture_pbr;
-	int 				texture_normal;
-	float 				texture_pbr_index;
+	int					texture_normal;
+	float				texture_pbr_index;
 # endif
 
 }						t_material;
@@ -239,50 +248,46 @@ typedef struct			s_object
 	cl_float3			center;
 	cl_float3			normal;
 	cl_float3			axis;
-	/// axis for all rotation object
-	/// (cylinder, cone, torus, hiperboloid etc)
 	cl_float3			size;
 	cl_float			radius;
 	cl_float			radius_2;
 	cl_float			radius_ring;
 	cl_float			angle;
-	cl_float 			distance;
+	cl_float			distance;
 	cl_float			len;
-	cl_float 			param_0;
+	cl_float			param_0;
 	cl_float3			param_1;
 	cl_float3			vertices[3];
 	cl_float3			vmin;
 	cl_float3			vmax;
-	t_complicated_type	complicated_type;
-	cl_int 				complicated_index;
-	cl_float3			rotation_matrix_T[3];
-	cl_float3			reverse_rotation_matrix_T[3];
+	t_raymarch_type		raymarch_type;
+	cl_int				raymarch_index;
+	cl_float3			rotation_matrix_t[3];
+	cl_float3			reverse_rotation_matrix_t[3];
 
 # else
 
 	t_object_type		type;
 	t_material			material;
-	float3			center;
-	float3			normal;
-	float3			axis;
-	/// axis for all rotation object
-	/// (cylinder, cone, torus, hiperboloid etc)
-	float3			size;
-	float			radius;
-	float			radius_2;
-	float			radius_ring;
-	float			angle;
-	float 			distance;
-	float			len;
-	float 			param_0;
-	float3			param_1;
-	float3			vertices[3];
-	float3			vmin;
-	float3			vmax;
-	t_complicated_type	complicated_type;
-	int 				complicated_index;
-	float3			rotation_matrix_T[3];
-	float3			reverse_rotation_matrix_T[3];
+	float3				center;
+	float3				normal;
+	float3				axis;
+	float3				size;
+	float				radius;
+	float				radius_2;
+	float				radius_ring;
+	float				angle;
+	float				distance;
+	float				len;
+	float				param_0;
+	float3				param_1;
+	float3				vertices[3];
+	float3				vmin;
+	float3				vmax;
+	t_raymarch_type		raymarch_type;
+	int					raymarch_index;
+	float3				rotation_matrix_t[3];
+	float3				reverse_rotation_matrix_t[3];
 # endif
 
 }						t_object;
@@ -298,6 +303,7 @@ typedef struct			s_mesh_info
 
 	t_material			material;
 # endif
+
 }						t_mesh_info;
 
 typedef struct			s_polygon
@@ -314,7 +320,7 @@ typedef struct			s_polygon
 	int					vnorm_i[RT_DEFAULT_POLYGON_VERTICES];
 	int					vtex_i[RT_DEFAULT_POLYGON_VERTICES];
 	int					mesh_index;
-#endif
+# endif
 
 }						t_polygon;
 
@@ -348,21 +354,23 @@ typedef struct			s_meshes
 
 }						t_meshes;
 
-typedef struct s_cl_info
+typedef struct			s_cl_info
 {
 # ifndef FT_OPENCL___
+
 	cl_float			exposure;
 	cl_float			gamma;
-	cl_int 				max_depth_pathtrace;
-	cl_int 				max_depth_raytrace;
+	cl_int				max_depth_pathtrace;
+	cl_int				max_depth_raytrace;
 # else
+
 	float				exposure;
 	float				gamma;
-	int 				max_depth_pathtrace;
-	int 				max_depth_raytrace;
+	int					max_depth_pathtrace;
+	int					max_depth_raytrace;
 # endif
-}				t_cl_info;
 
+}						t_cl_info;
 
 typedef struct			s_scene
 {
@@ -374,7 +382,7 @@ typedef struct			s_scene
 	t_meshes			meshes;
 	t_object			*objects;
 	t_light				*lights;
-	char 				*obj_file;
+	char				*obj_file;
 	t_cl_info			cl_info;
 # else
 
@@ -384,7 +392,7 @@ typedef struct			s_scene
 	t_meshes			meshes;
 	t_object			*objects;
 	t_light				*lights;
-	char 				*obj_file;
+	char				*obj_file;
 	t_cl_info			cl_info;
 # endif
 
@@ -433,69 +441,82 @@ typedef struct			s_render_params
 	float				exposure;
 	float				gamma;
 # endif
+
 }						t_render_params;
 
-typedef struct		s_aabb
+typedef struct			s_aabb
 {
-#ifndef FT_OPENCL___
-	cl_float3		min;
-	cl_float3		max;
-#else
-	float3			min;
-	float3			max;
-#endif
-}					t_aabb;
+# ifndef FT_OPENCL___
 
-typedef struct		s_aabb_objects
+	cl_float3			min;
+	cl_float3			max;
+# else
+
+	float3				min;
+	float3				max;
+# endif
+
+}						t_aabb;
+
+typedef struct			s_aabb_objects
 {
-#ifndef FT_OPENCL___
-	cl_int			num;
-	cl_int			*indices;
-#else
-	int				num;
-	int				*indices;
-#endif
-}					t_aabb_objects;
+# ifndef FT_OPENCL___
+
+	cl_int				num;
+	cl_int				*indices;
+# else
+
+	int					num;
+	int					*indices;
+# endif
+
+}						t_aabb_objects;
 
 # define KD_LEFT 1
 # define KD_RIGHT 2
 
-typedef struct		s_kd_arr_node
+typedef struct			s_kd_arr_node
 {
-#ifndef FT_OPENCL___
-	cl_int			left_index;
-	cl_int			right_index;
-	cl_float		sah;
-	cl_float		split;
-	cl_int			split_axis;
-	cl_int			obj_offset;
-	t_aabb			aabb;
-	t_aabb_objects	objects;
-#else
-	int				left_index;
-	int				right_index;
-	float			sah;
-	float			split;
-	int				split_axis;
-	int				obj_offset;
-	t_aabb			aabb;
-	t_aabb_objects	objects;
-#endif
-}					t_kd_arr_tree;
+# ifndef FT_OPENCL___
+
+	cl_int				left_index;
+	cl_int				right_index;
+	cl_float			sah;
+	cl_float			split;
+	cl_int				split_axis;
+	cl_int				obj_offset;
+	t_aabb				aabb;
+	t_aabb_objects		objects;
+# else
+
+	int					left_index;
+	int					right_index;
+	float				sah;
+	float				split;
+	int					split_axis;
+	int					obj_offset;
+	t_aabb				aabb;
+	t_aabb_objects		objects;
+# endif
+
+}						t_kd_arr_tree;
 
 typedef struct			s_kd_info
 {
-#ifndef FT_OPENCL___
+# ifndef FT_OPENCL___
+
 	cl_int				nodes_num;
 	cl_int				indices_num;
 	t_kd_arr_tree		*tree_arr;
 	cl_int				*indices;
-#else
+# else
+
 	int					nodes_num;
 	int					indices_num;
 	t_kd_arr_tree		*tree_arr;
 	int					*indices;
-#endif
+# endif
+
 }						t_kd_info;
 
 #endif

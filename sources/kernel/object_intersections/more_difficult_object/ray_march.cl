@@ -55,9 +55,9 @@ bool			ray_march(
 		// поворачиваем вектор нормали в обратную сторону
 		// obj->rot_n1, 2, 3 - строчки матрицы поворота для углов эйлера
 		// с противоположным знаком  (rotation negative)
-		(best_hit->normal).x = dot((obj->reverse_rotation_matrix_T)[0], r);
-		(best_hit->normal).y = dot((obj->reverse_rotation_matrix_T)[1], r);
-		(best_hit->normal).z = dot((obj->reverse_rotation_matrix_T)[2], r);
+		(best_hit->normal).x = dot((obj->reverse_rotation_matrix_t)[0], r);
+		(best_hit->normal).y = dot((obj->reverse_rotation_matrix_t)[1], r);
+		(best_hit->normal).z = dot((obj->reverse_rotation_matrix_t)[2], r);
 		best_hit->normal = fast_normalize(best_hit->normal);
 		return true;
 	}
@@ -107,17 +107,17 @@ bool		ray_march_hit(t_ray *ray,
 	// obj->rot_p1, 2, 3 - строчки матрицы поворота для углов эйлера
 	// alpha, beta, gamma (прецессия, нутация, вращение) (rotation positive)
 
-	float3	p = {dot((obj->rotation_matrix_T)[0], surface_point),
-					dot((obj->rotation_matrix_T)[1], surface_point),
-					dot((obj->rotation_matrix_T)[2], surface_point)};
+	float3	p = {dot((obj->rotation_matrix_t)[0], surface_point),
+					dot((obj->rotation_matrix_t)[1], surface_point),
+					dot((obj->rotation_matrix_t)[2], surface_point)};
 	surface_point = p + obj->center;
 	p = surface_point;
 	// вот отсюда теперь будет исходить луч относительно объекта
 
 	// поворачиваем сам вектор направления
-	float3	d = {dot((obj->rotation_matrix_T)[0], ray->dir),
-					dot((obj->rotation_matrix_T)[1], ray->dir),
-					dot((obj->rotation_matrix_T)[2], ray->dir)};
+	float3	d = {dot((obj->rotation_matrix_t)[0], ray->dir),
+					dot((obj->rotation_matrix_t)[1], ray->dir),
+					dot((obj->rotation_matrix_t)[2], ray->dir)};
 
 //	float3	p = ray->origin;
 //	float3	surface_point = p;

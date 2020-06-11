@@ -1,7 +1,7 @@
 #ifndef RT_INIT_H
 # define RT_INIT_H
 
-#define OPTION_REGENERATE_KD_TREE "--regenerate"
+# define OPTION_REGENERATE_KD_TREE "--regenerate"
 
 typedef enum		e_init_options
 {

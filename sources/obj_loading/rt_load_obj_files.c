@@ -82,6 +82,11 @@ bool					rt_load_obj_file(
 {
 	t_raw_obj			raw_obj;
 
+	if (path_to_obj == NULL)
+	{
+		bzero_meshes(out_meshes);
+		return (false);
+	}
 	if (!get_raw_obj(path_to_obj, &raw_obj))
 	{
 		bzero_meshes(out_meshes);

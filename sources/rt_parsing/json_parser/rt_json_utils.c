@@ -41,8 +41,8 @@ static void	init_tmp_material(t_tmp *tmp)
 
 static void	init_tmp_complicated_params(t_tmp *tmp)
 {
-	tmp->complicated = NOTHING;
-	tmp->complicated_index = NOT_SET;
+	tmp->raymarch = NOTHING;
+	tmp->raymarch_index = NOT_SET;
 	tmp->alfa_angle = 0;
 	tmp->beta_angle = 0;
 	tmp->gamma_angle = 0;
@@ -108,5 +108,5 @@ void		count_elements(t_scene *scene, t_tmp *tmp)
 		texture_iter = texture_iter->next;
 	}
 	if (check_param != 111)
-		rt_raise_error(ERR_PARSING_SCENE_NOT_SPECIFIED);
+		rt_raise_error(ERR_PARSING_SCENE_NOT_FULL);
 }

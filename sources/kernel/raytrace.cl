@@ -12,7 +12,7 @@ float3		shade(
 	if (material->transmittance <= 0) // if not transmit
 	{
 #ifdef RENDER_TEXTURES
-		if (material->texture_pbr && object->type == SPHERE) //change rayhit
+		if (material->texture_pbr) //change rayhit
 			change_coordinates(hit, &texture_info[material->texture_normal], texture_list, object);
 		if (material->texture_number != NOT_SET)
 			diffuse_color = texture(hit, &texture_info[material->texture_number], texture_list, object);

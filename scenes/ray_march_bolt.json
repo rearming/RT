@@ -113,8 +113,8 @@
       "center": [0, -4.5, 0],
       "distance": 0.01,
       "radius": 1,
-      "complicated type": "different",
-      "complicated index": -11
+      "raymarch type": "different",
+      "raymarch index": -11
     },
     {
       "type": "capsule",
@@ -125,8 +125,8 @@
       "axis": [-1.0, 0.0, 0],
       "distance": 1.4,
       "radius": 0.1,
-      "complicated type": "different",
-      "complicated index": 10
+      "raymarch type": "different",
+      "raymarch index": 10
     },
     {
       "type": "ellipsoid raymarch",
@@ -135,8 +135,8 @@
       },
       "center": [0, 0, 0],
       "size": [1.2, 1.2, 0.2],
-      "complicated type": "different",
-      "complicated index": -13
+      "raymarch type": "different",
+      "raymarch index": -13
     },
     {
       "type": "ellipsoid raymarch",
@@ -145,8 +145,8 @@
       },
       "center": [0, 0, 0],
       "size": [1.0, 1.0, 1.2],
-      "complicated type": "different",
-      "complicated index": 12
+      "raymarch type": "different",
+      "raymarch index": 12
     },
     {
       "type": "ellipsoid raymarch",
@@ -155,8 +155,8 @@
       },
       "center": [-2.5, 0, 0.2],
       "size": [1.2, 1.2, 0.2],
-      "complicated type": "different",
-      "complicated index": -15
+      "raymarch type": "different",
+      "raymarch index": -15
     },
     {
       "type": "ellipsoid raymarch",
@@ -165,8 +165,8 @@
       },
       "center": [-2.5, 0, 0.2],
       "size": [1.0, 1.0, 1.2],
-      "complicated type": "different",
-      "complicated index": 14
+      "raymarch type": "different",
+      "raymarch index": 14
     },
     {
       "type": "ellipsoid raymarch",
@@ -175,8 +175,8 @@
       },
       "center": [2.5, 0, -0.2],
       "size": [1.2, 1.2, 0.2],
-      "complicated type": "different",
-      "complicated index": -17
+      "raymarch type": "different",
+      "raymarch index": -17
     },
     {
       "type": "ellipsoid raymarch",
@@ -185,8 +185,8 @@
       },
       "center": [2.5, 0, -0.2],
       "size": [1.0, 1.0, 1.2],
-      "complicated type": "different",
-      "complicated index": 16
+      "raymarch type": "different",
+      "raymarch index": 16
     },
     {
       "type": "ellipsoid raymarch",
@@ -195,8 +195,8 @@
       },
       "center": [-1.25, 0, 0],
       "size": [1.0, 0.2, 0.5],
-      "complicated type": "different",
-      "complicated index": -19
+      "raymarch type": "different",
+      "raymarch index": -19
     },
     {
       "type": "ellipsoid raymarch",
@@ -205,8 +205,8 @@
       },
       "center": [-1.25, 0, 0],
       "size": [0.8, 1.2, 0.3],
-      "complicated type": "different",
-      "complicated index": 18
+      "raymarch type": "different",
+      "raymarch index": 18
     },
     {
       "type": "ellipsoid raymarch",
@@ -215,8 +215,8 @@
       },
       "center": [1.25, 0, 0],
       "size": [1.0, 0.2, 0.5],
-      "complicated type": "different",
-      "complicated index": -21
+      "raymarch type": "different",
+      "raymarch index": -21
     },
     {
       "type": "ellipsoid raymarch",
@@ -225,8 +225,8 @@
       },
       "center": [1.25, 0, 0],
       "size": [0.8, 1.2, 0.3],
-      "complicated type": "different",
-      "complicated index": 20
+      "raymarch type": "different",
+      "raymarch index": 20
     },
     {
       "type": "hex prism",
@@ -236,8 +236,8 @@
       "center": [0, 0, 0],
       "distance": 0.01,
       "radius": 1,
-      "complicated type": "different",
-      "complicated index": -23
+      "raymarch type": "different",
+      "raymarch index": -23
     },
     {
       "type": "hex prism",
@@ -247,8 +247,8 @@
       "center": [0, 0, 0],
       "distance": 0.02,
       "radius": 0.8,
-      "complicated type": "different",
-      "complicated index": 22
+      "raymarch type": "different",
+      "raymarch index": 22
     },
     {
       "type": "hex prism",
@@ -258,8 +258,8 @@
       "center": [-2.5, 0, -0.2],
       "distance": 0.01,
       "radius": 1,
-      "complicated type": "different",
-      "complicated index": -25
+      "raymarch type": "different",
+      "raymarch index": -25
     },
     {
       "type": "hex prism",
@@ -269,8 +269,8 @@
       "center": [-2.5, 0, -0.2],
       "distance": 0.02,
       "radius": 0.8,
-      "complicated type": "different",
-      "complicated index": 24
+      "raymarch type": "different",
+      "raymarch index": 24
     },
     {
       "type": "hex prism",
@@ -280,8 +280,8 @@
       "center": [2.5, 0, 0.2],
       "distance": 0.01,
       "radius": 1,
-      "complicated type": "different",
-      "complicated index": -27
+      "raymarch type": "different",
+      "raymarch index": -27
     },
     {
       "type": "hex prism",
@@ -291,8 +291,8 @@
       "center": [2.5, 0, 0.2],
       "distance": 0.02,
       "radius": 0.8,
-      "complicated type": "different",
-      "complicated index": 26
+      "raymarch type": "different",
+      "raymarch index": 26
     },
     {
       "type": "hex prism",
@@ -308,8 +308,8 @@
       "alfa angle": 0.7854,
       "beta angle": 0,
       "gamma angle": 1.5708,
-      "complicated type": "intersection",
-      "complicated index": 29
+      "raymarch type": "intersection",
+      "raymarch index": 29
     },
     {
       "type": "hex prism",
@@ -325,8 +325,8 @@
       "alfa angle": 0,
       "beta angle": 1.5708,
       "gamma angle": 1.0472,
-      "complicated type": "intersection",
-      "complicated index": 28
+      "raymarch type": "intersection",
+      "raymarch index": 28
     }
   ],
   "camera": {

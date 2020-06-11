@@ -122,8 +122,8 @@
       },
       "center": [0, -0.5, -1],
       "size": [0.4, 0.2, 0.1],
-      "complicated type": "different",
-      "complicated index": -12
+      "raymarch type": "different",
+      "raymarch index": -12
     },
     {
       "type": "ellipsoid raymarch",
@@ -132,8 +132,8 @@
       },
       "center": [0, -0.5, -1],
       "size": [0.5, 0.3, 0.2],
-      "complicated type": "different",
-      "complicated index": 11
+      "raymarch type": "different",
+      "raymarch index": 11
     },
     {
       "type": "box",
@@ -145,8 +145,8 @@
       "alfa angle": 0.4,
       "beta angle": -0.6,
       "gamma angle": 0.8,
-      "complicated type": "intersection",
-      "complicated index": 14
+      "raymarch type": "intersection",
+      "raymarch index": 14
     },
     {
       "type": "ellipsoid raymarch",
@@ -155,8 +155,8 @@
       },
       "center": [0, -0.5, 0],
       "size": [0.5, 0.3, 0.2],
-      "complicated type": "intersection",
-      "complicated index": 13
+      "raymarch type": "intersection",
+      "raymarch index": 13
     },
     {
       "type": "hex prism",
@@ -187,7 +187,7 @@
       "angle": 1.2,
       "radius ring": 0.8,
       "radius": 0.2,
-      "complicated type": "nothing"
+      "raymarch type": "nothing"
     },
     {
       "type": "torus",
@@ -200,7 +200,7 @@
       "alfa angle": 0.5,
       "beta angle": -0.8,
       "gamma angle": 0.3,
-      "complicated type": "nothing"
+      "raymarch type": "nothing"
     }
   ],
   "camera": {

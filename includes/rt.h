@@ -28,25 +28,26 @@
 # include "jansson.h"
 # include "rt_parser_defines.h"
 
-
 /*
 **	Global pointers
 */
 
-typedef struct s_gui t_gui;
+typedef struct s_gui	t_gui;
 
 extern t_opencl		g_opencl;
 extern t_sdl		g_sdl;
 extern t_gui		g_gui;
 extern int			*g_img_data;
-extern t_textures   g_textures;
+extern t_textures	g_textures;
 
 /*
 **	Init
 */
 
-uint32_t	rt_parse_init_options(char **options, int options_num, int first_option);
-void		rt_init(t_rt *out_rt, const char *json_scene_file, uint32_t init_options);
+uint32_t	rt_parse_init_options(char **options, int options_num,
+		int first_option);
+void		rt_init(t_rt *out_rt, const char *json_scene_file,
+		uint32_t init_options);
 
 /*
 **	Render
@@ -54,9 +55,8 @@ void		rt_init(t_rt *out_rt, const char *json_scene_file, uint32_t init_options);
 
 void		rt_render(void *rt_ptr, void (*render_func)(void *));
 void		rt_update_render_params(t_render_kernel *render_kernel,
-							 t_render_params *params,
-							 uint32_t render_options,
-							 uint32_t render_action);
+		t_render_params *params, uint32_t render_options,
+		uint32_t render_action);
 /*
 **	Event handling
 */
@@ -75,7 +75,7 @@ void		rt_switch_bit(uint32_t *bitfield, uint32_t target);
 
 void		rt_sdl_init(void);
 void		rt_textures_init();
-void 		rt_skybox_init(void);
+void		rt_skybox_init(void);
 
 /*
 **	Utils

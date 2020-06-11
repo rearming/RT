@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_json_utils3.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfoote <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/10 16:48:00 by gfoote            #+#    #+#             */
+/*   Updated: 2020/03/10 16:48:02 by gfoote           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 #include "rt_parsing.h"
 #include "rt_math_utils.h"
@@ -36,10 +48,10 @@ void		add_rotation_matrix(t_tmp *tmp, t_object *object)
 	check_rotation += (tmp->checker[GAMMA_ANGLE]) ? 1 : 0;
 	if (check_rotation == 3 || check_rotation == 0)
 	{
-		count_matrix(object->rotation_matrix_T,
+		count_matrix(object->rotation_matrix_t,
 			(cl_float3) {{tmp->alfa_angle,
 				tmp->beta_angle, tmp->gamma_angle}}, true);
-		count_matrix(object->reverse_rotation_matrix_T,
+		count_matrix(object->reverse_rotation_matrix_t,
 				(cl_float3) {{tmp->alfa_angle, tmp->beta_angle,
 				tmp->gamma_angle}}, false);
 	}

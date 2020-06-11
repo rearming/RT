@@ -107,10 +107,14 @@ void	change_coordinates(t_rayhit *hit,
 	float	index_x;
 	float	index_y;
 
-	x = convert_x(hit, texture_info, object);
-	y = convert_y(hit, texture_info, object);
-	coord = x + y * texture_info->width + texture_info->start;
-
+	if (object->type == SPHERE || object->type == CONE || object->type == CYLINDER)
+	{
+		x = convert_x(hit, texture_info, object);
+		y = convert_y(hit, texture_info, object);
+		coord = x + y * texture_info->width + texture_info->start;
+	}
+	else if (object->type == PLANE)
+		coord = texture_to_plane(hit, texture_info, object);
 	color_curr = get_float3_color(texture_list[coord]);
 	color_x = get_float3_color(texture_list[coord + 1]);
 	color_y = get_float3_color(texture_list[coord + texture_info->width]);
