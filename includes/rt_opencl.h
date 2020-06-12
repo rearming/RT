@@ -43,19 +43,19 @@ void				rt_opencl_prepare_mem_arr5(t_rt *rt,
 **	kernels execution
 */
 
-void			exec_render_kernel(t_rt *rt, t_render_kernel *render_kernel,
+void				exec_render_kernel(t_rt *rt, t_render_kernel *render_kernel,
 		const size_t *work_size);
-void			exec_depth_of_field_kernel(t_rt *rt, cl_kernel kernel,
+void				exec_depth_of_field_kernel(t_rt *rt, cl_kernel kernel,
 		const size_t *work_size);
-void			exec_sepia_kernel(t_rt *rt, cl_kernel kernel,
+void				exec_sepia_kernel(t_rt *rt, cl_kernel kernel,
 		const size_t *work_size);
-void			exec_cartoon_kernel(t_rt *rt, cl_kernel kernel,
+void				exec_cartoon_kernel(t_rt *rt, cl_kernel kernel,
 		const size_t *work_size);
 
-typedef struct	s_kernel_info
+typedef struct		s_kernel_info
 {
-	char		*kernel_name;
-	char		*kernel_path;
-}				t_kernel_info;
+	char			*kernel_name;
+	char			*kernel_path;
+}					t_kernel_info;
 
 #endif

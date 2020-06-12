@@ -3,7 +3,7 @@
 
 # define MAX_EVENT_IN_LIST 30
 
-typedef enum	s_events
+typedef enum	e_events
 {
 	EVENT_NOTHING = 0x0,
 	EVENT_W = (1 << 0),

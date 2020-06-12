@@ -36,7 +36,7 @@ typedef	struct			s_transform
 	SDL_Surface			texture;
 	char				text[100];
 	char				*field;
-	t_btn 				action;
+	t_btn				action;
 	bool				(*callback)();
 	t_state				state;
 	short				type;

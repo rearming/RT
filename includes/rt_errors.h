@@ -1,7 +1,9 @@
 #ifndef RT_ERRORS_H
 # define RT_ERRORS_H
 
-# define ERR_INV_ARGS_NUM "invalid number of arguments, expected 1 arg for .json scene file"
+# define ERR_INV_ARGS1 "invalid number of arguments, "
+# define ERR_INV_ARGS2 "expected 1 arg for .json scene file"
+# define ERR_INV_ARGS_NUM ERR_INV_ARGS1 ERR_INV_ARGS2
 # define ERR_INV_FILE "invalid file!"
 
 # define ERR_MALLOC "malloc() failed!"

@@ -2,8 +2,7 @@
 # define RT_MATH_UTILS_H
 
 # include "stdbool.h"
-
-union cl_float3;
+# include "CL/cl.h"
 
 float		rt_minf(float a, float b);
 float		rt_maxf(float a, float b);

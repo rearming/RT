@@ -122,19 +122,27 @@ typedef enum	e_render_action
 # define OPENCL_RELEASE_KERNEL_NUM WIN_WIDTH * WIN_HEIGHT
 # define OPENCL_DEBUG_KERNEL_NUM 2
 
+/*
+** OFN == "OpenCL Fuck Norme"
+*/
+
 # ifndef FT_OPENCL___
-#  define OPENCL_INCLUDE_DIRS \
-" -I ./includes " \
-" -I ./sources/kernel " \
-" -I ./sources/kernel/light_computing " \
-" -I ./sources/kernel/mesh_render " \
-" -I ./sources/kernel/object_intersections " \
-" -I ./sources/kernel/object_intersections/more_difficult_object " \
-" -I ./sources/kernel/pathtrace_algo " \
-" -I ./sources/kernel/texture_formulas" \
-" -I ./sources/kernel/kd_tree_traversal" \
-" -I ./sources/kernel/anti_aliasing" \
-" -I ./sources/kernel/post_processing"
+#  define OFN1 " -I ./includes "
+#  define OFN2 " -I ./sources/kernel "
+#  define OFN3 " -I ./sources/kernel/light_computing "
+#  define OFN4 " -I ./sources/kernel/mesh_render "
+#  define OFN5 " -I ./sources/kernel/object_intersections "
+#  define OFN6 " -I ./sources/kernel/object_intersections/more_difficult_object"
+#  define OFN7 " -I ./sources/kernel/pathtrace_algo "
+#  define OFN8 " -I ./sources/kernel/texture_formulas"
+#  define OFN9 " -I ./sources/kernel/kd_tree_traversal"
+#  define OFN10 " -I ./sources/kernel/anti_aliasing"
+#  define OFN11 " -I ./sources/kernel/post_processing"
+
+#  define OFN12 OFN1 OFN2 OFN3 OFN4 OFN5 OFN6 OFN7 OFN8
+#  define OFN13 OFN9 OFN10 OFN11
+
+#  define OPENCL_INCLUDE_DIRS OFN12 OFN13
 
 # endif
 
