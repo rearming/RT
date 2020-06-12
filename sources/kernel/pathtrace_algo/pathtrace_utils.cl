@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pathtrace_utils.cl                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sleonard <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/12 12:07:40 by sleonard          #+#    #+#             */
-/*   Updated: 2020/06/12 12:07:46 by sleonard         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 void		create_coordinate_system(float3 normal, float3 *normal_x, float3 *normal_z)
 {
 	*normal_x = fabs(normal.x) > fabs(normal.y)

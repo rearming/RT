@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ray_march_utils.cl                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gfoote <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/12 12:07:40 by gfoote            #+#    #+#             */
-/*   Updated: 2020/06/12 12:07:46 by gfoote           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 int			ray_march_simple_obj(t_ray *ray,
 		__global const t_object *objects,
 		t_rayhit *out_best_hit,
@@ -113,3 +101,4 @@ int			ray_march_diff_obj(t_ray *ray,
 	a_h.normal = -a_h.normal;
 	*out_best_hit = a_h;
 	return b;
+}

@@ -1,14 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   texture_shade_pathtrace.cl                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ahorker <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/12 12:07:40 by ahorker           #+#    #+#             */
-/*   Updated: 2020/06/12 12:07:46 by ahorker          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
+/*t_object *object*/
+/*texture info bla bla*/
 
 float3		texture_shade_pathtrace(
 		__global const t_texture_info *texture_info,
