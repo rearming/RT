@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unlimited_object.cl                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dgreat <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/12 12:07:40 by dgreat            #+#    #+#             */
+/*   Updated: 2020/06/12 12:07:46 by dgreat           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 bool				ray_paraboloid_intersect(
 		t_ray *ray,
 		__global const t_object *paraboloid,
@@ -73,4 +85,3 @@ bool				ray_ellipsoid_intersect(
 		return true;
 	}
 	return false;
-}

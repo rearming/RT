@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   kernel_cartoon.cl                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfoote <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/12 12:07:40 by gfoote            #+#    #+#             */
+/*   Updated: 2020/06/12 12:07:46 by gfoote           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "opencl_defines.cl"
 #include "rt_defines.h"
@@ -106,4 +117,3 @@ __kernel void		kernel_cartoon(
 				out_img_data[pixel.x + pixel.y * WIN_WIDTH] = pixel_color;
 		}
 	}
-}

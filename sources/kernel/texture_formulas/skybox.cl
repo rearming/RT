@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   skybox.cl                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfoote <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/12 12:07:40 by gfoote            #+#    #+#             */
+/*   Updated: 2020/06/12 12:07:46 by gfoote           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 float3		skybox_color(
 		__global const float3 *skybox_list,
 		__global const t_skybox_info *skybox_info,
@@ -49,4 +61,3 @@ float3		skybox_normal(t_ray ray)
 	point = ray.origin + ray.dir * scale(ray, 1);
 	normal = normalize(point - ray.origin);
 	return (normal);
-}
