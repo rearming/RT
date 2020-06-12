@@ -41,7 +41,7 @@ static void	init_tmp_material(t_tmp *tmp)
 
 static void	init_tmp_complicated_params(t_tmp *tmp)
 {
-	tmp->raymarch = NOTHING;
+	tmp->raymarch = SIMPLE;
 	tmp->raymarch_index = NOT_SET;
 	tmp->alfa_angle = 0;
 	tmp->beta_angle = 0;

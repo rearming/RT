@@ -32,7 +32,7 @@ static void	add_material(t_tmp *tmp, t_object *object)
 	object->material.texture_normal = tmp->texture_normal;
 	object->material.texture_pbr_index = tmp->texture_pbr_index;
 	object->material.texture_position = tmp->texture_position;
-	object->raymarch_type = (tmp->type <= ELLIPSOID) ? SIMPLE : tmp->raymarch;
+	object->raymarch_type = (tmp->type <= ELLIPSOID) ? NOTHING : tmp->raymarch;
 	object->raymarch_index = tmp->raymarch_index;
 	object->param_1 = tmp->param_1;
 	object->param_0 = tmp->param_0;

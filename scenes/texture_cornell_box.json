@@ -13,10 +13,7 @@
     },
     "render objects": true,
     "render mesh": {
-      "enabled": true,
-      "file": "cube_isosphere_materials.obj",
-      "directory": "./assets/3d_models/",
-      "backface culling": true
+      "enabled": false
     },
     "textures": {
       "enabled": true
@@ -24,86 +21,17 @@
   },
   "objects": [
     {
-      "type": "plane",
+      "type": "cylinder",
       "material": {
-        "texture": "plane_wall.jpg",
-        "texture position": [0, 0, 4]
+        "diffuse": "0xFF3333"
       },
-      "center": [0, -2.5, 0],
-      "normal": [0, 1, 0]
-    },
-    {
-      "type": "plane",
-      "material": {
-        "texture": "plane_wall2.jpg",
-        "texture position": [0, 0, 4]
-
-      },
-      "center": [2.5, 0, 0],
-      "normal": [1, 0, 0]
-    },
-    {
-      "type": "plane",
-      "material": {
-        "texture": "plane_wall3.jpg"
-      },
-      "center": [-2.5, 0, 0],
-      "normal": [1, 0, 0]
-    },
-    {
-      "type": "plane",
-      "material": {
-        "texture": "plane_sky.jpg"
-      },
-      "center": [0, 2.5, 0],
-      "normal": [0, 1, 0]
-    },
-    {
-      "type": "plane",
-      "material": {
-        "diffuse": "0xFFFFFF",
-        "phong exp": 50
-      },
-      "center": [0, 0, -15],
-      "normal": [0, 0, 1]
-    },
-    {
-      "type": "sphere",
-      "material": {
-        "texture": "sphere_sauron.jpg"
-      },
-      "center": [0, 2.5, 0],
-      "radius": 1
-    },
-    {
-      "type": "sphere",
-      "material": {
-        "texture": "sphere_sauron.jpg"
-      },
-      "center": [1, -1.5, 0],
-      "radius": 1
-    },
-    {
-      "type": "sphere",
-      "material": {
-        "texture": "sphere_sauron.jpg"
-      },
-      "center": [-1, -1.5, 0],
-      "radius": 0.8
-    },
-    {
-      "type": "sphere",
-      "material": {
-        "emission color": "0xFFFFFF",
-        "emission power": 1,
-        "texture": "sphere_sauron.jpg"
-      },
-      "center": [-1, -1.5, -3.5],
-      "radius": 0.5
+      "center": [1, 1.5, -10],
+      "axis": [0.15, 0.5, 0],
+      "radius": 2.5
     }
   ],
   "camera": {
-    "pos": [-0.2, 1.2, -14.2],
+    "pos": [-21, 5, -37],
     "rotation": [0, 0, 0]
   },
   "light":
