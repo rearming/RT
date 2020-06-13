@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_math_utils.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dgreat <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/12 13:23:43 by dgreat            #+#    #+#             */
+/*   Updated: 2020/06/12 13:23:43 by dgreat           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef RT_MATH_UTILS_H
 # define RT_MATH_UTILS_H
 
 # include "stdbool.h"
-
-union cl_float3;
+# include "CL/cl.h"
 
 float		rt_minf(float a, float b);
 float		rt_maxf(float a, float b);

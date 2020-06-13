@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_debug.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfoote <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/12 13:23:43 by gfoote            #+#    #+#             */
+/*   Updated: 2020/06/12 13:23:43 by gfoote           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef RT_DEBUG_H
 # define RT_DEBUG_H
 
-#include "rt.h"
-#include "tiny_obj_loader_c.h"
+# include "rt.h"
+# include "tiny_obj_loader_c.h"
 
 void		print_tmp(t_tmp *tmp);
 void		print_textures(void);
@@ -22,7 +34,8 @@ void		print_bits(uint64_t bits, int len, const char *definition);
 **	.obj info printing
 */
 
-void		rt_print_obj(tinyobj_attrib_t *attrib, tinyobj_shape_t *shape, size_t num_shapes);
+void		rt_print_obj(tinyobj_attrib_t *attrib,
+		tinyobj_shape_t *shape, size_t num_shapes);
 void		rt_print_material(const t_material *material);
 void		rt_print_parsed_meshes(t_meshes *meshes);
 void		rt_print_mtl_file(tinyobj_material_t *materials, int num_materials);

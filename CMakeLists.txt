@@ -179,6 +179,7 @@ message("graphic_libs_link_names: " ${graphic_libs_link_names})
 include_directories(
         libft/includes
         includes
+        includes/external
         ${graphic_libs_include_dirs}
 )
 

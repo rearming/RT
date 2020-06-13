@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_gui_structs.h                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sleonard <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/12 13:23:43 by sleonard          #+#    #+#             */
+/*   Updated: 2020/06/12 13:23:43 by sleonard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef RT_GUI_STRUCTS_H
 # define RT_GUI_STRUCTS_H
 
@@ -36,7 +48,7 @@ typedef	struct			s_transform
 	SDL_Surface			texture;
 	char				text[100];
 	char				*field;
-	t_btn 				action;
+	t_btn				action;
 	bool				(*callback)();
 	t_state				state;
 	short				type;
