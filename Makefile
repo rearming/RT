@@ -191,13 +191,12 @@ $(NAME) : $(LIBFT) $(D_OBJ) $(OBJ_RT)
 
 $(D_OBJ):
 
-
 $(D_OBJ)%.o: $(D_SRC)%.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(COMPILE) -c $(INCLUDES) $< -o $@
 
 clean :
-	@rm -rf $(OBJ_DIR)
+	@rm -rf $(D_OBJ)
 	@make clean -C $(LIBFT_DIR)
 
 fclean : clean
