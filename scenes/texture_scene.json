@@ -60,7 +60,8 @@
       },
       "center": [0, -1.5, 0],
       "axis": [5, 1, 0],
-      "radius": 0.5
+      "radius": 0.5,
+      "len": 1
     }
   ],
   "camera": {

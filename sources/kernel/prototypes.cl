@@ -341,7 +341,7 @@ bool				ray_plane_intersect(
 		float3 normal,
 		t_rayhit *best_hit);
 
-bool				ray_sphere_intersect(
+bool				ray_sphere_intsect(
 		t_ray *ray,
 		__global const t_object *sphere,
 		t_rayhit *best_hit);
@@ -351,7 +351,17 @@ bool				ray_cone_intersect(
 		__global const t_object *cone,
 		t_rayhit *best_hit);
 
-bool		ray_cylinder_intersect(
+bool				ray_cylinder_intersect(
+		t_ray *ray,
+		__global const t_object *cylinder,
+		t_rayhit *best_hit);
+
+bool				ray_cone_intersect_cut(
+		t_ray *ray,
+		__global const t_object *cone,
+		t_rayhit *best_hit);
+
+bool				ray_cylinder_intersect_cut(
 		t_ray *ray,
 		__global const t_object *cylinder,
 		t_rayhit *best_hit);
@@ -373,7 +383,7 @@ int			ray_march_diff_obj(t_ray *ray,
 			t_rayhit *out_best_hit,
 			int i);
 
-bool				ray_sphere_intersect_cut(
+bool				ray_sphere_intsect_cut(
 		t_ray *ray,
 		__global const t_object *sphere,
 		t_rayhit *best_hit);

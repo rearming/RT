@@ -1144,9 +1144,9 @@
       "material": {
         "diffuse": "0xFF33FF"
       },
-      "center": [-0.0, -2.6, 1.2],
-      "distance": 0.3,
-      "radius": 1.1,
+      "center": [-0.0, 2.6, 0],
+      "distance": 0.6,
+      "radius": 0.6,
       "raymarch type": "different",
       "raymarch index": -105
     },
@@ -1155,12 +1155,141 @@
       "material": {
         "diffuse": "0xFF33FF"
       },
-      "center": [-0.0, -2.3, 1.2],
+      "center": [0.6, 2.6, 1.2],
       "axis": [-1.0, 0.0, 0],
-      "distance": 0.4,
-      "radius": 1,
+      "distance": 1.2,
+      "radius": 0.4,
       "raymarch type": "different",
       "raymarch index": 104
+    },
+    {
+      "type": "torus",
+      "material": {
+        "diffuse": "0xEE44EE"
+      },
+      "center": [0.32, -0.6, 1.2],
+      "radius": 0.1,
+      "radius ring": 0.3,
+      "alfa angle": 0.9,
+      "beta angle": 0.3,
+      "gamma angle": 0
+    },
+    {
+      "type": "torus",
+      "material": {
+        "diffuse": "0xFF55FF"
+      },
+      "center": [-0.32, -0.6, 1.2],
+      "radius": 0.1,
+      "radius ring": 0.3,
+      "alfa angle": -0.9,
+      "beta angle": -0.3,
+      "gamma angle": 0
+    },
+    {
+      "type": "torus",
+      "material": {
+        "diffuse": "0xBB11BB"
+      },
+      "center": [0.32, -1.6, 1.2],
+      "radius": 0.1,
+      "radius ring": 0.3,
+      "alfa angle": -0.9,
+      "beta angle": 0.3,
+      "gamma angle": 0
+    },
+    {
+      "type": "torus",
+      "material": {
+        "diffuse": "0xCC22CC"
+      },
+      "center": [-0.32, -1.6, 1.2],
+      "radius": 0.1,
+      "radius ring": 0.3,
+      "alfa angle": 0.9,
+      "beta angle": -0.3,
+      "gamma angle": 0
+    },
+    {
+      "type": "torus",
+      "material": {
+        "diffuse": "0xDD33DD"
+      },
+      "center": [0.55, -1.1, 1.2],
+      "radius": 0.1,
+      "radius ring": 0.3,
+      "alfa angle": 0.0,
+      "beta angle": -0.3,
+      "gamma angle": 0
+    },
+    {
+      "type": "torus",
+      "material": {
+        "diffuse": "0xAA00AA"
+      },
+      "center": [-0.55, -1.1, 1.2],
+      "radius": 0.1,
+      "radius ring": 0.3,
+      "alfa angle": 0.0,
+      "beta angle": 0.3,
+      "gamma angle": 0
+    },
+    {
+      "type": "torus",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [0, -1.1, 1.2],
+      "radius": 0.05,
+      "radius ring": 0.5,
+      "alfa angle": 0.0,
+      "beta angle": 1.5708,
+      "gamma angle": 0
+    },
+    {
+      "type": "torus",
+      "material": {
+        "diffuse": "0x000000"
+      },
+      "center": [0, -3, 1.2],
+      "radius": 0.05,
+      "radius ring": 0.5
+    },
+    {
+      "type": "torus",
+      "material": {
+        "diffuse": "0x0000FF"
+      },
+      "center": [-0.8, -3, 1.2],
+      "radius": 0.05,
+      "radius ring": 0.5
+    },
+    {
+      "type": "torus",
+      "material": {
+        "diffuse": "0xFF0000"
+      },
+      "center": [0.8, -3, 1.2],
+      "radius": 0.05,
+      "radius ring": 0.5
+    },
+    {
+      "type": "torus",
+      "material": {
+        "diffuse": "0xFFFF00"
+      },
+      "center": [-0.4, -3, 0.4],
+      "radius": 0.05,
+      "radius ring": 0.5
+    },
+    {
+      "type": "torus",
+      "material": {
+        "diffuse": "0x00FF00"
+      },
+      "center": [0.4, -3, 0.4],
+      "radius": 0.05,
+      "radius ring": 0.5
     }
   ],
   "camera": {

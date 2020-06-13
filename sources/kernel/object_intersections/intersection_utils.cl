@@ -26,10 +26,9 @@ void				closest_intersection(
 			 *
 			 **/
 				case (SPHERE):
-					if ((objects[i].len >= 0) ?
-							ray_sphere_intersect_cut(ray, &objects[i],
-																out_best_hit)
-							: ray_sphere_intersect(ray, &objects[i],
+					if (objects[i].len == NOT_SET ?
+							ray_sphere_intsect(ray, &objects[i], out_best_hit)
+							: ray_sphere_intsect_cut(ray, &objects[i],
 																out_best_hit))
 						*out_closest_obj_index = i;
 					break;
@@ -39,11 +38,19 @@ void				closest_intersection(
 						*out_closest_obj_index = i;
 					break;
 				case (CONE):
-					if (ray_cone_intersect(ray, &objects[i], out_best_hit))
+					if (objects[i].len != NOT_SET ?
+							ray_cone_intersect_cut(ray, &objects[i],
+									out_best_hit)
+							: ray_cone_intersect(ray, &objects[i],
+									out_best_hit))
 						*out_closest_obj_index = i;
 					break;
 				case (CYLINDER):
-					if (ray_cylinder_intersect(ray, &objects[i], out_best_hit))
+					if (objects[i].len != NOT_SET ?
+							ray_cylinder_intersect_cut(ray, &objects[i],
+									out_best_hit)
+							: ray_cylinder_intersect(ray, &objects[i],
+									out_best_hit))
 						*out_closest_obj_index = i;
 					break;
 				case (TRIANGLE):
@@ -52,7 +59,7 @@ void				closest_intersection(
 						*out_closest_obj_index = i;
 					break;
 				case (PARABOLOID):
-					if ((objects[i].len > 0) ?
+					if (objects[i].len != NOT_SET ?
 							ray_paraboloid_intersect_cut(ray, &objects[i],
 																out_best_hit)
 							: ray_paraboloid_intersect(ray, &objects[i],
@@ -60,7 +67,7 @@ void				closest_intersection(
 						*out_closest_obj_index = i;
 					break;
 				case (ELLIPSOID):
-					if ((objects[i].len >= 0) ?
+					if ((objects[i].len != NOT_SET) ?
 							ray_ellipsoid_intersect_cut(ray, &objects[i],
 																out_best_hit)
 							: ray_ellipsoid_intersect(ray, &objects[i],
@@ -187,8 +194,8 @@ void				closest_intersection(
 									bool		b_hit = ray_march(ray,
 											&objects[b], &b_h);
 
-									if ((a_hit && !b_hit)
-											|| (a_h.distance < b_h.distance)
+									if (((a_hit && !b_hit)
+											|| a_h.distance < b_h.distance)
 											&& out_best_hit->distance
 											> a_h.distance)
 									{
