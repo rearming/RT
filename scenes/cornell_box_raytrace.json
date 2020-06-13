@@ -1,0 +1,183 @@
+{
+  "scene parameters": {
+    "exposure": 2,
+    "gamma": 2.2
+  } ,
+  "render parameters": {
+    "render algorithm": "raytrace",
+    "pathtrace": {
+      "max light bounces": 8
+    },
+    "raytrace": {
+      "max light bounces": 8
+    },
+    "render objects": true,
+    "render mesh": {
+      "enabled": false
+    },
+    "textures": {
+      "enabled": true
+    }
+  },
+  "objects": [
+    {
+      "type": "cylinder",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [2.5, 3, 7],
+      "axis": [0.3, 0, -0.4],
+      "radius": 1
+    },
+    {
+      "type": "cylinder",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [-6, 1.5, 5],
+      "axis": [0.15, 0.5, 0],
+      "radius": 1.1,
+      "len": 2
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [-15, 1.5, -10],
+      "radius": 1
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [-20, 1.5, -10],
+      "radius": 2,
+      "axis": [-1, 0.1, -0.5],
+      "len": 0.5
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [-25, 1.5, -8],
+      "radius": 2,
+      "axis": [0.3, 0, 0.5],
+      "len": 3
+    },
+    {
+      "type": "paraboloid",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [-10, 0, -1],
+      "axis": [0, -0.5, 0.3],
+      "distance": 0.1
+    },
+    {
+      "type": "paraboloid",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [-27, -2, 2],
+      "axis": [0.3, 1, -0.3],
+      "distance": 0.1,
+      "len": 2
+    },
+    {
+      "type": "cone",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [-20, 0, 3],
+      "axis": [0.15, 0.5, 0],
+      "angle": 20
+    },
+    {
+      "type": "cone",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [-15, 0, -1],
+      "axis": [-0.15, 0.5, 0],
+      "angle": 20,
+      "len": 2
+    },
+    {
+      "type": "ellipsoid",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [-15, -5, -2],
+      "axis": [0.3, 0.1, -1],
+      "distance": 2.1,
+      "radius": 2.3,
+      "len": 0.8
+    },
+    {
+      "type": "ellipsoid",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [-12, -2, -2],
+      "axis": [1, 0.1, -0.3],
+      "distance": 1.1,
+      "radius": 1.3,
+      "len": 2
+    },
+    {
+      "type": "ellipsoid",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [-8, 2, 3],
+      "axis": [1, 0.1, -0.3],
+      "distance": 1.1,
+      "radius": 1.6
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [2.5, 0, 0],
+      "normal": [1, 0, 0]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [0, 0, 15],
+      "normal": [0, 0, 1]
+    },
+    {
+      "type": "plane",
+      "material": {
+        "diffuse": "0xFFFFFF"
+      },
+      "center": [0, -10, 0],
+      "normal": [0, 1, 0]
+    }
+  ],
+  "camera": {
+    "pos": [-4, 12.5, -16],
+    "rotation": [-32, -27, 0]
+  },
+  "light":
+  [
+    {
+      "type": "ambient",
+      "intensity": 0.2,
+      "color": "0xFFFFFF"
+    },
+    {
+      "type": "point",
+      "color": "0xFFFFFF",
+      "intensity": 0.5,
+      "pos": [-10, 1.5, -3]
+    }
+  ]
+}

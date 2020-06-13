@@ -23,7 +23,7 @@ bool				ray_plane_intersect(
 }
 
 
-bool				ray_sphere_intersect(
+bool				ray_sphere_intsect(
 		t_ray *ray,
 		__global const t_object *sphere,
 		t_rayhit *best_hit)
@@ -65,100 +65,70 @@ bool				ray_cone_intersect(
 	const float3	origin_center = ray->origin - cone->center;
 	const float		dot_origin_center_axis_cone = dot(origin_center, cone->axis);
 	const float		dot_ray_axis_cone = dot(ray->dir, cone->axis);
-	const float			tan_halfangle_of_cone = tan(cone->angle * M_PI_360);
-					/// угол в градусах, преобразуем в радианы для tan()
-	const float			one_sqr_tan_halfangle_of_cone = tan_halfangle_of_cone
+	const float		tan_halfangle_of_cone = tan(cone->angle * M_PI_360);
+					// угол в градусах, преобразуем в радианы для tan()
+	const float		one_sqr_tan_halfangle_of_cone = tan_halfangle_of_cone
 											* tan_halfangle_of_cone + 1.f;
-	///1 + квадрат тангенса полугла вершины конуса,
+	//1 + квадрат тангенса полугла вершины конуса,
 
-	const float	a = dot(ray->dir, ray->dir) - dot_ray_axis_cone * dot_ray_axis_cone
-			* one_sqr_tan_halfangle_of_cone;
-	const float	b = 2.f * (dot(origin_center, ray->dir) - dot_ray_axis_cone
+	const float		a = dot(ray->dir, ray->dir) - dot_ray_axis_cone
+			* dot_ray_axis_cone * one_sqr_tan_halfangle_of_cone;
+	const float		b = 2.f * (dot(origin_center, ray->dir) - dot_ray_axis_cone
 			* dot_origin_center_axis_cone * one_sqr_tan_halfangle_of_cone);
-	const float	c = dot(origin_center, origin_center) - dot_origin_center_axis_cone
-			* dot_origin_center_axis_cone * one_sqr_tan_halfangle_of_cone;
-	float discriminant = b * b - 4.f * a * c;
+	const float		c = dot(origin_center, origin_center)
+			- dot_origin_center_axis_cone * dot_origin_center_axis_cone
+			* one_sqr_tan_halfangle_of_cone;
+	float			discriminant = b * b - 4.f * a * c;
+
 	if (discriminant < 0)
 		return false;
 	else
 		discriminant = sqrt(discriminant);
 
-	const float	x1 = (-b - discriminant) / (2 * a);
-	const float	x2 = (-b + discriminant) / (2 * a);
+	const float		x1 = (-b - discriminant) / (2 * a);
+	const float		x2 = (-b + discriminant) / (2 * a);
 	const float 	near = min(x1, x2) < 0 ? max(x1, x2) : min(x1, x2);
 	const float 	far = max(x1, x2);
-	if (near < best_hit->distance && near > RAY_MIN_EPSILON && near > 0)
+	if (near < best_hit->distance && near > RAY_MIN_EPSILON)
 	{
-			/// проверка на нахождение внутри
-		if (fabs(dot(origin_center, cone->axis)) <= cone->len
-				&& acos(fabs(dot(fast_normalize(origin_center), cone->axis)))
-					<= cone->angle * M_PI_360)
+			// проверка на нахождение внутри
+		if (acos(fabs(dot(fast_normalize(origin_center), cone->axis))) <=
+				cone->angle * M_PI_360)
 		{
 			best_hit->distance = RAY_MIN_EPSILON;
 			best_hit->pos = ray->origin - ray->dir * RAY_MIN_EPSILON ;
 			best_hit->normal = -ray->dir;
 			return true;
 		}
-		if (cone->len <= 0 || (cone->len > 0 && fabs(dot(cone->axis, ray->origin + near * ray->dir - cone->center)) < cone->len))
+		if (fabs(dot(fast_normalize(origin_center), cone->axis))
+				< cos(atan(tan_halfangle_of_cone)))
 		{
-			if (fabs(dot(fast_normalize(origin_center), cone->axis))
-									< cos(atan(tan_halfangle_of_cone)))
-			{
-				const float3 cone_forming = fast_normalize(origin_center + near
-											* ray->dir);
-					/// вектор прямой направляющей конуса на которой лежит pos
-				best_hit->distance = near;
-				best_hit->pos = ray->origin + near * ray->dir;
-				best_hit->normal = fast_normalize(dot(cone->axis, cone_forming) > 0 ?
-										cone_forming - cone->axis :
-										cone->axis + cone_forming);
-				return true;
-			}
-			else
-			{
-				const float3 cone_forming = fast_normalize(origin_center
-													+ near * ray->dir);
-				return (ray_plane_intersect(ray,
-							dot(cone->axis, cone_forming) > 0 ?
-							(cone->center + cone->len * cone->axis )
-							: (cone->center - cone->len * cone->axis ),
-							cone->axis,
-							best_hit));
-			}
+			const float3	cone_forming = fast_normalize(origin_center + near
+					* ray->dir);
+				// вектор прямой направляющей конуса на которой лежит pos
+			best_hit->distance = near;
+			best_hit->pos = ray->origin + near * ray->dir;
+			best_hit->normal = fast_normalize(dot(cone->axis, cone_forming) > 0
+					? cone_forming - cone->axis : cone->axis + cone_forming);
+			return true;
 		}
-		else if (fabs(dot(cone->axis, origin_center + far * ray->dir)) <= cone->len)
+		if (fabs(dot(fast_normalize(origin_center), cone->axis))
+				> cos(atan(tan_halfangle_of_cone)))
 		{
-			if (fabs(dot(fast_normalize(origin_center), cone->axis))
-						< cos(atan(tan_halfangle_of_cone)))
-			{
-				const float3 cone_forming = fast_normalize(origin_center + far
-												* ray->dir);
-				return (ray_plane_intersect(ray,
-							dot(cone->axis, cone_forming) > 0 ?
-							(cone->center + cone->len * cone->axis )
-							: (cone->center - cone->len * cone->axis ),
-							cone->axis,
-							best_hit));
-			}
-			else
-			{
-				const float3 cone_forming = fast_normalize(origin_center
-										   + far * ray->dir);
-					/// вектор прямой направляющей конуса на которой лежит pos
+			const float3	cone_forming = fast_normalize(origin_center
+					+ far * ray->dir);
+				// вектор прямой направляющей конуса на которой лежит pos
 
-				best_hit->distance = far;
-				best_hit->pos = ray->origin + far * ray->dir;
-				best_hit->normal = fast_normalize(dot(cone->axis, cone_forming) > 0 ?
-												  cone_forming - cone->axis :
-												  cone->axis + cone_forming);
-				return true;
-			}
+			best_hit->distance = far;
+			best_hit->pos = ray->origin + far * ray->dir;
+			best_hit->normal = fast_normalize(dot(cone->axis, cone_forming) > 0
+					? cone_forming - cone->axis : cone->axis + cone_forming);
+			return true;
 		}
 	}
 	else if (near < best_hit->distance && fabs(near) > RAY_MIN_EPSILON
-			&& near < 0 && fabs(dot(origin_center, cone->axis)) <= cone->len
-			&& acos(fabs(dot(fast_normalize(origin_center), cone->axis)))
-				<= cone->angle * M_PI_360)
+			&& acos(fabs(dot(fast_normalize(origin_center), cone->axis))) <
+			cone->angle * M_PI_360)
 	{
 		best_hit->distance = RAY_MIN_EPSILON;
 		best_hit->pos = ray->origin - ray->dir * RAY_MIN_EPSILON ;
@@ -176,101 +146,49 @@ bool		ray_cylinder_intersect(
 	const float3	origin_center = ray->origin - cylinder->center;
 	const float		dot_origin_center_axis = dot(origin_center, cylinder->axis);
 	const float		dot_ray_axis_cylinder = dot(ray->dir, cylinder->axis);
-
-	const float	a = dot(ray->dir, ray->dir) - dot_ray_axis_cylinder
+	const float		a = dot(ray->dir, ray->dir) - dot_ray_axis_cylinder
 			* dot_ray_axis_cylinder;
-	const float b = 2.f * (dot(ray->dir, origin_center) - dot_ray_axis_cylinder
-			* dot_origin_center_axis);
-	const float c = dot(origin_center, origin_center) - dot_origin_center_axis
-			* dot_origin_center_axis - cylinder->radius
-			* cylinder->radius;
-
-	const float		distance_up = (-dot(ray->origin - (cylinder->center
-			+ cylinder->len * cylinder->axis), cylinder->axis))
-					/ dot_ray_axis_cylinder;
-	const float		distance_down = (-dot(ray->origin - (cylinder->center
-			- cylinder->len * cylinder->axis), -cylinder->axis))
-					/ dot_ray_axis_cylinder;
-
+	const float 	b = 2.f * (dot(ray->dir, origin_center)
+			- dot_ray_axis_cylinder * dot_origin_center_axis);
+	const float 	c = dot(origin_center, origin_center)
+			- dot_origin_center_axis * dot_origin_center_axis
+			- cylinder->radius * cylinder->radius;
 	float	discriminant = b * b - 4.f * a * c;
+
 	if (discriminant < 0)
 		return false;
-
 	discriminant = sqrt(discriminant);
 
-	const float x1 = (-b - discriminant) / (2.f * a);
-	const float x2 = (-b + discriminant) / (2.f * a);
-	const float root = min(x1, x2);
-	const float root2 = max(x1, x2);
+	const float		root = (-b - discriminant) / (2.f * a);
+	const float		root2 = (-b + discriminant) / (2.f * a);
+	const float3	pos = ray->origin + root * ray->dir;
+	const float3	pos2 = ray->origin + root2 * ray->dir;
+	const float 	check_into = dot(origin_center, origin_center)
+			- dot_origin_center_axis * dot_origin_center_axis
+			- cylinder->radius * cylinder->radius + 0.001;
 
-
-	if (dot(origin_center, origin_center) - dot_origin_center_axis
-					* dot_origin_center_axis < cylinder->radius
-					* cylinder->radius)
+	if (check_into < 0)
 	{
-		if (fabs(dot_origin_center_axis) < cylinder->len && cylinder->len > 0)
-		{
-			best_hit->distance = RAY_MIN_EPSILON;
-			best_hit->pos = ray->origin - ray->dir * RAY_MIN_EPSILON ;
-			best_hit->normal = -ray->dir;
-			return true;
-		}
-		else if ((fabs(dot(origin_center + (root > 0 ? root : root2)
-						* ray->dir, cylinder->axis))
-					< cylinder->len && cylinder->len > 0)
-					|| dot(origin_center + (root > 0 ? root : root2)
-							* ray->dir, cylinder->axis)
-						* dot_origin_center_axis < 0)
-		{
-			if (min(distance_up, distance_down) < best_hit->distance)
-			{
-				best_hit->distance = min(distance_up, distance_down);
-				best_hit->pos = ray->origin + ray->dir * best_hit->distance;
-				best_hit->normal = dot_ray_axis_cylinder < 0 ?
-							   cylinder->axis : -1.f * cylinder->axis;
-				return true;
-			}
-				else
-					return false;
-		}
-	}
-	else
-		return false;
-
-	if ((root < RAY_MIN_EPSILON && root2 < RAY_MIN_EPSILON))
-		return false;
-
-	if (root > best_hit->distance)
-		return false;
-
-	if (fabs(dot(origin_center + root * ray->dir, cylinder->axis))
-				< cylinder->len && cylinder->len > 0)
-	{
-		best_hit->distance = root;
-		best_hit->pos = ray->origin + root * ray->dir;
-		best_hit->normal = fast_normalize(gram_schmidt_proc_r2(
-				best_hit->pos - cylinder->center, cylinder->axis));
-		///ортогонализация для R2 (процесс Грама-Шмидта) см. math_utils.cl
+		best_hit->distance = RAY_MIN_EPSILON;
+		best_hit->pos = ray->origin + ray->dir * RAY_MIN_EPSILON;
+		best_hit->normal = -ray->dir;
 		return true;
 	}
-	else
+	if (root > RAY_MIN_EPSILON)
 	{
-		const float near = min(distance_up, distance_down);
-		if (((fabs(dot(origin_center + root2 * ray->dir, cylinder->axis))
-						< cylinder->len && cylinder->len > 0)
-					|| dot(origin_center + root2 * ray->dir,
-							cylinder->axis) * dot(origin_center + root
-							* ray->dir, cylinder->axis) < 0)
-					&& near < best_hit->distance)
+		const float3	pos_center = pos - cylinder->center;
+		const float 	root_hig = dot(pos_center, cylinder->axis);
+		if (cylinder->len == NOT_SET)
+		{
+			if (best_hit->distance > root)
 			{
-				best_hit->distance = near;
-				best_hit->pos = ray->origin + best_hit->distance * ray->dir;
-				best_hit->normal = dot_ray_axis_cylinder < 0 ? cylinder->axis
-						: -1.f * cylinder->axis;
+				best_hit->distance = root;
+				best_hit->pos = pos;
+				best_hit->normal = fast_normalize(pos_center
+						- root_hig * cylinder->axis);
 				return true;
 			}
-		else
-			return false;
+		}
 	}
 	return false;
 }
