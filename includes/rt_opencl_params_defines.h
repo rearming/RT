@@ -16,8 +16,8 @@
 # define RENDER_KERNEL_NAME "kernel_main"
 # define RENDER_KERNEL_PATH "./sources/kernel/rt_main.cl"
 
-#define RT_OCL_BINARY_DIR "oclbins"
-#define RT_OCL_BINARY_EXT "oclbin"
+# define RT_OCL_BINARY_DIR "oclbins"
+# define RT_OCL_BINARY_EXT "oclbin"
 
 /*
 **	kernels

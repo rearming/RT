@@ -67,7 +67,9 @@ char			*rt_get_kernel_compile_defines(uint32_t options)
 	return (str_options);
 }
 
-char *rt_get_kernel_compile_options(uint32_t options, bool includes_only)
+char			*rt_get_kernel_compile_options(
+		uint32_t options,
+		bool includes_only)
 {
 	const char		*opencl_defines = rt_get_kernel_compile_defines(options);
 	char			*temp_str;

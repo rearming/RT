@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_common_read_file.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sleonard <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/12 13:23:43 by sleonard          #+#    #+#             */
+/*   Updated: 2020/06/12 13:23:43 by sleonard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 
 char	*rt_common_read_file(const char *path, size_t *out_length)
@@ -17,5 +29,5 @@ char	*rt_common_read_file(const char *path, size_t *out_length)
 	fclose(f);
 	if (out_length)
 		*out_length = length;
-	return buffer;
+	return (buffer);
 }
