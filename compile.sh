@@ -21,8 +21,6 @@ make
 cd ..
 
 if [[ ! -f "lib/jansson/Makefile" ]]; then
-  git submodule init
-  git submodule update
   cd lib/jansson/ || echo "need to init submodule of jansson!"
   mkdir "build"
   cd build || echo "can't make build directory"

@@ -35,6 +35,7 @@ SOURCES_FILES =					\
  OpenCL/rt_opencl_kernels_exec.c \
  OpenCL/rt_opencl_kernels_exec_utils.c \
  OpenCL/rt_opencl_prepare_mem_array.c \
+ OpenCL/rt_opencl_cache_program.c \
  \
  rt_parsing/rt_parse_scene.c \
  rt_parsing/json_parser/rt_add_to_scene.c \
@@ -63,6 +64,8 @@ SOURCES_FILES =					\
  utils/rt_raise_error.c \
  utils/rt_exit_clean.c \
  utils/rt_color_utils.c \
+ utils/rt_hash.c \
+ utils/rt_common_read_file.c \
  \
  SDL_utils/sdl_init.c \
  \
@@ -185,6 +188,13 @@ all : update $(NAME)
 update:
 	@git submodule init
 	@git submodule update
+	{ \
+        cd lib/jansson/ ;\
+        mkdir build ;\
+        cd build ;\
+        cmake .. ;\
+        make jansson/fast -j 4 ;\
+    }
 
 $(NAME) : $(LIBFT) $(D_OBJ) $(OBJ_RT)
 	$(CC) $(CFLAGS) $(OBJ_RT) $(RT_LIBS) -o $(NAME)
