@@ -351,17 +351,7 @@ bool				ray_cone_intersect(
 		__global const t_object *cone,
 		t_rayhit *best_hit);
 
-bool				ray_cylinder_intersect(
-		t_ray *ray,
-		__global const t_object *cylinder,
-		t_rayhit *best_hit);
-
-bool				ray_cone_intersect_cut(
-		t_ray *ray,
-		__global const t_object *cone,
-		t_rayhit *best_hit);
-
-bool				ray_cylinder_intersect_cut(
+bool		ray_cylinder_intersect(
 		t_ray *ray,
 		__global const t_object *cylinder,
 		t_rayhit *best_hit);
@@ -393,9 +383,19 @@ bool				ray_paraboloid_intersect_cut(
 		__global const t_object *paraboloid,
 		t_rayhit *best_hit);
 
-bool				ray_ellipsoid_intersect_cut(	/// TODO debag needed
+bool				ray_ellipsoid_intersect_cut(
 		t_ray *ray,
 		__global const t_object *ellipsoid,
+		t_rayhit *best_hit);
+
+bool				ray_cone_intersect_cut(
+		t_ray *ray,
+		__global const t_object *cone,
+		t_rayhit *best_hit);
+
+bool		ray_cylinder_intersect_cut(
+		t_ray *ray,
+		__global const t_object *cylinder,
 		t_rayhit *best_hit);
 
 bool			ray_march(

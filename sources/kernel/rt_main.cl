@@ -41,7 +41,7 @@
 # include "mesh_intersection.cl"
 # include "kd_tree_traversal.cl"
 
-__kernel void	rt_main(
+__kernel void	kernel_main(
     __global const t_scene *scene,
     __global const t_object *objects,
     __global const t_light *lights,

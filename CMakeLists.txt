@@ -32,7 +32,8 @@ set(OpenCL_sources
         sources/OpenCL/rt_opencl_kernels_compile.c
         sources/OpenCL/rt_opencl_kernels_exec.c
         sources/OpenCL/rt_opencl_kernels_exec_utils.c
-        sources/OpenCL/rt_opencl_prepare_mem_array.c)
+        sources/OpenCL/rt_opencl_prepare_mem_array.c
+        sources/OpenCL/rt_opencl_cache_program.c)
 
 set(parsing_sources
         sources/rt_parsing/rt_parse_scene.c
@@ -66,7 +67,8 @@ set(utils_sources
         sources/utils/rt_raise_error.c
         sources/utils/rt_exit_clean.c
         sources/utils/rt_color_utils.c
-        )
+        sources/utils/rt_hash.c
+        sources/utils/rt_common_read_file.c)
 
 set(SDL_utils_sources
         sources/SDL_utils/sdl_init.c

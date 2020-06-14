@@ -90,7 +90,7 @@ def correct_mtl_emission():
         file = open(mtl_file, 'r')
         file_text = file.read()
         file.close()
-        file_text = re.sub(r"(newmtl [\w]*emissi[\s\S]*?Kd ([\d.]+) ([\d.]+) ([\d.]+)[\s\S]*?)Ke ([\d.]+) ([\d.]+) ([\d.]+)", r"\g<1>Ke \g<2> \g<3> \g<4>", file_text)
+        file_text = re.sub(r"(newmtl [\w]*[eE]missi[\s\S]*?Kd ([\d.]+) ([\d.]+) ([\d.]+)[\s\S]*?)Ke ([\d.]+) ([\d.]+) ([\d.]+)", r"\g<1>Ke \g<2> \g<3> \g<4>", file_text)
         file = open(mtl_file, 'wt')
         file.seek(0)
         file.write(file_text)

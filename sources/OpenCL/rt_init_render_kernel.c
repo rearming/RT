@@ -67,13 +67,16 @@ char			*rt_get_kernel_compile_defines(uint32_t options)
 	return (str_options);
 }
 
-char			*rt_get_kernel_compile_options(uint32_t options)
+char *rt_get_kernel_compile_options(uint32_t options, bool includes_only)
 {
 	const char		*opencl_defines = rt_get_kernel_compile_defines(options);
 	char			*temp_str;
 	char			*compile_options;
 
-	ft_sprintf(&temp_str, "%s %s", OPENCL_INCLUDE_DIRS, opencl_defines);
+	if (includes_only)
+		ft_sprintf(&temp_str, "%s", OPENCL_INCLUDE_DIRS);
+	else
+		ft_sprintf(&temp_str, "%s %s", OPENCL_INCLUDE_DIRS, opencl_defines);
 	compile_options = ft_del_whitespaces(temp_str);
 	free((char*)opencl_defines);
 	free(temp_str);
@@ -87,7 +90,7 @@ t_render_kernel	*rt_create_render_kernel(uint32_t options)
 	new_kernel = rt_safe_malloc(sizeof(t_render_kernel));
 	new_kernel->options = options;
 	rt_opencl_compile_kernel(RENDER_KERNEL_PATH, RENDER_KERNEL_NAME,
-			rt_get_kernel_compile_options(options), &new_kernel->kernel);
+			rt_get_kernel_compile_options(options, false), &new_kernel->kernel);
 	new_kernel->img_data_float = alloc_float3_img_buffer();
 	new_kernel->samples_num = 0;
 	return (new_kernel);

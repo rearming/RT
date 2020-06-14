@@ -10,20 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <time.h>
 #include "rt.h"
 #include "rt_opencl.h"
+#include <time.h>
 
 static void		release_resources(
 		cl_program program,
-		char *opencl_kernel_code,
 		const char *compile_options)
 {
 	int		err;
 
 	err = clReleaseProgram(program);
 	rt_opencl_handle_error(ERR_OPENCL_RELEASE_PROGRAM, err);
-	free(opencl_kernel_code);
 	free((char*)compile_options);
 }
 
@@ -33,16 +31,12 @@ void			rt_opencl_compile_kernel(
 		const char *compile_options,
 		cl_kernel *out_kernel)
 {
-	static size_t	size = 0;
-	char			*opencl_kernel_code;
 	cl_program		program;
 	int				err;
 	const clock_t	start = clock();
 
-	opencl_kernel_code = get_opencl_kernel_code_text(kernel_path, &size);
-	program = clCreateProgramWithSource(g_opencl.context, 1,
-			(const char **)&opencl_kernel_code, &size, &err);
-	rt_opencl_handle_error(ERR_OPENCL_CREATE_PROGRAM, err);
+	program = rt_get_cached_cl_program(
+			kernel_path, kernel_name, compile_options);
 	if ((err = clBuildProgram(
 			program, 1, &g_opencl.device_id, compile_options, NULL, NULL)))
 	{
@@ -51,10 +45,10 @@ void			rt_opencl_compile_kernel(
 	}
 	*out_kernel = clCreateKernel(program, kernel_name, &err);
 	rt_opencl_handle_error(ERR_OPENCL_CREATE_KERNEL, err);
-	printf("kernel [%s] compiled with options [%s] in [%.3f] sec.\n",
+	printf("kernel [%s] built with options [%s] in [%.3f] sec.\n",
 			kernel_name, compile_options,
 			(double)(clock() - start) / CLOCKS_PER_SEC);
-	release_resources(program, opencl_kernel_code, compile_options);
+	release_resources(program, compile_options);
 }
 
 #pragma clang diagnostic push

@@ -56,49 +56,51 @@ extern t_textures	g_textures;
 **	Init
 */
 
-uint32_t	rt_parse_init_options(char **options, int options_num,
+uint32_t		rt_parse_init_options(char **options, int options_num,
 		int first_option);
-void		rt_init(t_rt *out_rt, const char *json_scene_file,
+void			rt_init(t_rt *out_rt, const char *json_scene_file,
 		uint32_t init_options);
 
 /*
 **	Render
 */
 
-void		rt_render(void *rt_ptr, void (*render_func)(void *));
-void		rt_update_render_params(t_render_kernel *render_kernel,
+void			rt_render(void *rt_ptr, void (*render_func)(void *));
+void			rt_update_render_params(t_render_kernel *render_kernel,
 		t_render_params *params, uint32_t render_options,
 		uint32_t render_action);
 /*
 **	Event handling
 */
 
-void		handle_event(t_rt *rt, SDL_Event *events, int events_num);
+void			handle_event(t_rt *rt, SDL_Event *events, int events_num);
 
-void		rt_unset_bit(uint32_t *bitfield, uint32_t target);
-void		rt_set_bit(unsigned int *bitfield, uint32_t new_param);
-void		rt_set_render_algo(uint32_t *old_params, uint32_t new_algo);
-bool		rt_bit_isset(uint32_t params, uint32_t target);
-void		rt_switch_bit(uint32_t *bitfield, uint32_t target);
+void			rt_unset_bit(uint32_t *bitfield, uint32_t target);
+void			rt_set_bit(unsigned int *bitfield, uint32_t new_param);
+void			rt_set_render_algo(uint32_t *old_params, uint32_t new_algo);
+bool			rt_bit_isset(uint32_t params, uint32_t target);
+void			rt_switch_bit(uint32_t *bitfield, uint32_t target);
 
 /*
 **	SDL utils
 */
 
-void		rt_sdl_init(void);
-void		rt_textures_init();
-void		rt_skybox_init(void);
+void			rt_sdl_init(void);
+void			rt_textures_init();
+void			rt_skybox_init(void);
 
 /*
 **	Utils
 */
 
-void		rt_loop(t_rt *rt);
+void			rt_loop(t_rt *rt);
 
-void		print_cl_build_program_debug(cl_program program);
-void		rt_raise_error(const char *err_str);
-void		*rt_safe_malloc(size_t size);
-bool		rt_exit_clean(void);
-bool		rt_camera_changed(t_camera *camera);
+void			print_cl_build_program_debug(cl_program program);
+void			rt_raise_error(const char *err_str);
+void			*rt_safe_malloc(size_t size);
+bool			rt_exit_clean(void);
+bool			rt_camera_changed(t_camera *camera);
+unsigned long	rt_hash(const char *str);
+char			*rt_common_read_file(const char *path, size_t *out_length);
 
 #endif

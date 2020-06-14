@@ -31,8 +31,13 @@ void				rt_opencl_compile_kernel(const char *kernel_path,
 		const char *kernel_name,
 		const char *compile_options,
 		cl_kernel *out_kernel);
+cl_program			rt_get_cached_cl_program(
+		const char *kernel_path,
+		const char *kernel_name,
+		const char *compile_options);
+
 t_render_kernel		*rt_get_render_kernel(uint32_t options);
-char				*rt_get_kernel_compile_options(uint32_t options);
+char *rt_get_kernel_compile_options(uint32_t options, bool includes_only);
 void				rt_opencl_compile_kernels(uint32_t render_options);
 void				rt_set_kernel_args(cl_kernel kernel, int args_num, ...);
 

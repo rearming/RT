@@ -38,7 +38,7 @@ void		rt_opencl_compile_kernels(uint32_t render_options)
 	{
 		rt_opencl_compile_kernel(g_kernels_info[i].kernel_path,
 				g_kernels_info[i].kernel_name,
-				rt_get_kernel_compile_options(render_options),
+				rt_get_kernel_compile_options(render_options, true),
 				&g_opencl.kernels[i]);
 		i++;
 	}
