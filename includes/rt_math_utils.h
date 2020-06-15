@@ -13,8 +13,8 @@
 #ifndef RT_MATH_UTILS_H
 # define RT_MATH_UTILS_H
 
+# include "rt.h"
 # include "stdbool.h"
-# include "CL/cl.h"
 
 float		rt_minf(float a, float b);
 float		rt_maxf(float a, float b);
