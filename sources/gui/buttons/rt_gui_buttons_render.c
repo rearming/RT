@@ -38,7 +38,7 @@ void	render_button_with_params(t_transform btn, TTF_Font *font, int px)
 	SDL_Color	color;
 
 	if (btn.state == click)
-		color = get_color_from_hex(BTN_COLOR_CLICK);
+		color = get_color_from_hex(TEXT_BOX_UNFOCUSED);
 	else if (btn.state == hover)
 		color = get_color_from_hex(BTN_COLOR_HOVER);
 	else if (btn.state == non_event)
@@ -69,11 +69,11 @@ void	render_all_buttons(void)
 	SDL_Rect	*rect;
 
 	i = 0;
-	bg = get_color_from_hex(PANEL_BG);
-	rect = &(SDL_Rect){ .x = 0, .y = PANEL_Y,
-					.h = PANEL_HEIGHT, .w = PANEL_WIDTH};
-	cut_rect(rect, PANEL_BORDER);
-	render_rect(g_gui.surface, rect, bg);
+//	bg = get_color_from_hex(PANEL_BG);
+//	rect = &(SDL_Rect){ .x = 0, .y = PANEL_Y,
+//					.h = PANEL_HEIGHT, .w = PANEL_WIDTH};
+//	cut_rect(rect, PANEL_BORDER);
+//	render_rect(g_gui.surface, rect, bg);
 	while (i < btn_count)
 	{
 		if (g_gui.obj[i].callback == NULL)

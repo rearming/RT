@@ -30,6 +30,8 @@ static inline void		keypress_change_dof(SDL_Event *event, t_camera *camera)
 		camera->blur_strength -= camera->blur_strength > 0.5f ? 0.2f : 0;
 }
 
+
+//todo:get this funcs
 void					rt_handle_keypress2(SDL_Event *event, t_rt *rt)
 {
 	if (event->key.keysym.scancode == SDL_SCANCODE_M)
@@ -48,10 +50,10 @@ void					rt_handle_keypress2(SDL_Event *event, t_rt *rt)
 		rt_switch_bit(&rt->render_options, RENDER_SKYBOX);
 	if (event->key.keysym.scancode == SDL_SCANCODE_G)
 		rt_switch_bit(&rt->render_state, STATE_POSTPROCESS_DOF);
-	if (event->key.keysym.scancode == SDL_SCANCODE_H)
-		rt_switch_bit(&rt->render_state, STATE_POSTPROCESS_SEPIA);
 	if (event->key.keysym.scancode == SDL_SCANCODE_U)
 		rt_switch_bit(&rt->render_options, RENDER_IMPRESSIVE);
+	if (event->key.keysym.scancode == SDL_SCANCODE_H)
+		rt_switch_bit(&rt->render_state, STATE_POSTPROCESS_SEPIA);
 	if (event->key.keysym.scancode == SDL_SCANCODE_K)
 		rt_switch_bit(&rt->render_state, STATE_POSTPROCESS_CARTOON);
 	keypress_change_dof(event, &rt->scene.camera);

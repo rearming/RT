@@ -34,7 +34,7 @@ void		init_object_panel(void)
 	g_gui.obj[camera_l] = (t_transform){ .rect = rect,
 			.state = click, .text = CAMERA_LABEL, .action = camera_l,
 			.callback = button_callback, .type = PANEL,
-			.color = get_color_from_hex(NONE)};
+			.color = get_color_from_hex(LAYER_COLOR)};
 }
 
 void		init_font(void)
@@ -50,21 +50,29 @@ void		init_font(void)
 
 void		fill_surfaces(void)
 {
-	SDL_Color	bg;
-	SDL_Rect	*rect;
+//	SDL_Rect	*rect;
 
-	bg = get_color_from_hex(GUI_BG);
-	render_rect(g_gui.surface, NULL, bg);
-	bg = get_color_from_hex(PANEL_BG);
-	rect = &(SDL_Rect){ .x = 0, .y = PANEL_Y,
-					.h = PANEL_HEIGHT, .w = PANEL_WIDTH};
-	cut_rect(rect, PANEL_BORDER);
-	render_rect(g_gui.surface, rect, bg);
+	render_rect(g_gui.surface, NULL, get_color_from_hex(GUI_BG));
+//	rect = &(SDL_Rect){ .x = 0, .y = PANEL_Y,
+//					.h = PANEL_HEIGHT, .w = PANEL_WIDTH};
+//	cut_rect(rect, PANEL_BORDER);
+//	render_rect(g_gui.surface, rect, get_color_from_hex(LAYER_COLOR));
 }
 
-void		init_gui(uint64_t algo, t_scene scene)
+void init_render_options_button(u_int32_t options)
 {
-	g_gui.render_algo = ((algo & 0b111) - 1);
+	options |= 1;
+}
+
+void init_render_states_button(u_int32_t states)
+{
+	states |= 1;
+}
+
+
+void init_gui(uint32_t options, uint32_t states, t_scene scene)
+{
+	g_gui.render_algo = ((options & 0b111) - 1);
 	g_gui.panel = camera_l;
 	g_gui.obj = rt_safe_malloc(sizeof(t_transform) * (btn_count));
 	init_font();
@@ -75,6 +83,8 @@ void		init_gui(uint64_t algo, t_scene scene)
 	init_algo_buttons();
 	init_object_panel();
 	init_other_buttons();
+	init_render_options_button(options);
+	init_render_states_button(states);
 	init_text_box(scene);
 	render_all_buttons(scene);
 	SDL_UpdateWindowSurface(g_gui.win_tool);

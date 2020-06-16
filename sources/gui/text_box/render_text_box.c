@@ -13,12 +13,12 @@
 #include "rt.h"
 #include "rt_gui.h"
 
-float		count_percent(char *text, char *field)
+float		count_percent(char *text)
 {
-	const size_t joined_len = ft_strlen(text) + ft_strlen(field);
-	const size_t text_len = ft_strlen(text);
+//	const size_t joined_len = ft_strlen(text) + 5;
+//	const size_t text_len = ft_strlen(text);
 
-	return ((float)text_len / (float)joined_len);
+	return (0.6);
 }
 
 void		render_text_box(t_transform btn)
@@ -30,12 +30,12 @@ void		render_text_box(t_transform btn)
 	if (btn.state == hidden)
 		return ;
 	if (btn.focus == true)
-		color = get_color_from_hex(BTN_COLOR_CLICK);
+		color = get_color_from_hex(TEXT_BOX_FOCUSED);
 	else
-		color = get_color_from_hex(BTN_COLOR_NONACTIVE);
+		color = get_color_from_hex(TEXT_BOX_UNFOCUSED);
 	render_rect(g_gui.surface, &(btn.rect), color);
 	text = (SDL_Rect){.x = btn.rect.x, .y = btn.rect.y, .h = btn.rect.h};
-	text.w = (int)((float)btn.rect.w * count_percent(btn.text, btn.field));
+	text.w = (int)((float)btn.rect.w) * 0.6;// * count_percent(btn.text));
 	field = (SDL_Rect){.x = btn.rect.x + text.w,
 					.y = btn.rect.y, .h = btn.rect.h};
 	field.w = btn.rect.w - text.w;

@@ -16,7 +16,7 @@
 void			auto_init_btns(SDL_Rect rect, short action, char *text,
 		float param)
 {
-	const SDL_Color color = get_color_from_hex(BTN_COLOR_CLICK);
+	const SDL_Color color = get_color_from_hex(LAYER_COLOR);
 
 	sprintf(g_gui.obj[action].field, "%i", (int)(param));
 	g_gui.obj[action].rect = rect;
@@ -35,7 +35,7 @@ void			auto_init_btns(SDL_Rect rect, short action, char *text,
 t_transform		auto_init_btns_ret(SDL_Rect rect, short action, char *text,
 								float param)
 {
-	const SDL_Color	color = get_color_from_hex(BTN_COLOR_CLICK);
+	const SDL_Color	color = get_color_from_hex(LAYER_COLOR);
 	t_transform		btn;
 
 	ft_sprintf(&(btn.field), "%i", (int)(param));

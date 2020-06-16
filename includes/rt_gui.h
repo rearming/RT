@@ -26,7 +26,7 @@ typedef struct s_rt		t_rt;
 typedef struct s_scene	t_scene;
 typedef struct s_sdl	t_sdl;
 
-void			init_gui(uint64_t algo, t_scene scene);
+void init_gui(uint32_t options, uint32_t states, t_scene scene);
 bool			rt_handle_event_gui(SDL_Event *event, t_rt *rt);
 
 /*
