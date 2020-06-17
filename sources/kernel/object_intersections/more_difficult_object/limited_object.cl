@@ -26,7 +26,7 @@ bool				ray_sphere_intsect_cut(
 
 	if (root > RAY_MIN_EPSILON && root2 > RAY_MIN_EPSILON)
 	{
-		if (dot(origin_center + ray->dir * root, sphere->axis) + 0.01 <= (sphere->len - sphere->radius))
+		if (dot(origin_center + ray->dir * root, sphere->axis) + RAY_MIN_EPSILON <= (sphere->len - sphere->radius))
 		{
 			if (root < best_hit->distance)
 			{
@@ -38,7 +38,7 @@ bool				ray_sphere_intsect_cut(
 		}
 		else
 		{
-			if (dot(origin_center + ray->dir * root2, sphere->axis) + 0.01 < (sphere->len - sphere->radius)
+			if (dot(origin_center + ray->dir * root2, sphere->axis) + RAY_MIN_EPSILON < (sphere->len - sphere->radius)
 					&& inter < best_hit->distance)
 			{
 				best_hit->distance = inter;
@@ -50,7 +50,7 @@ bool				ray_sphere_intsect_cut(
 	}
 	else if (root2 > RAY_MIN_EPSILON)
 	{
-		if (dot(origin_center, sphere->axis) + 0.01 < (sphere->len
+		if (dot(origin_center, sphere->axis) + RAY_MIN_EPSILON < (sphere->len
 				- sphere->radius))
 		{
 			best_hit->distance = RAY_MIN_EPSILON;
@@ -60,7 +60,7 @@ bool				ray_sphere_intsect_cut(
 		}
 		else
 		{
-			if (dot(origin_center + ray->dir * root2, sphere->axis) + 0.01
+			if (dot(origin_center + ray->dir * root2, sphere->axis) + RAY_MIN_EPSILON
 				< (sphere->len - sphere->radius) && inter < best_hit->distance)
 			{
 				best_hit->distance = inter;
@@ -304,7 +304,7 @@ bool				ray_cone_intersect_cut(
 			return true;
 		}
 		if (cone->len == NOT_SET || (fabs(dot(cone->axis, ray->origin + near
-				* ray->dir - cone->center)) + 0.1 < cone->len))
+				* ray->dir - cone->center)) + RAY_MIN_EPSILON < cone->len))
 		{
 			if (fabs(dot(fast_normalize(origin_center), cone->axis))
 									< cos(atan(tan_halfangle_of_cone)))
@@ -331,9 +331,9 @@ bool				ray_cone_intersect_cut(
 							best_hit));
 			}
 		}
-		else if (fabs(dot(cone->axis, origin_center + far * ray->dir)) + 0.1 <= cone->len)
+		else if (fabs(dot(cone->axis, origin_center + far * ray->dir)) + RAY_MIN_EPSILON <= cone->len)
 		{
-			if (fabs(dot(fast_normalize(origin_center), cone->axis) + 0.01)
+			if (fabs(dot(fast_normalize(origin_center), cone->axis) + RAY_MIN_EPSILON)
 					< cos(atan(tan_halfangle_of_cone)))
 			{
 				const float3 cone_forming = fast_normalize(origin_center + far
@@ -359,9 +359,9 @@ bool				ray_cone_intersect_cut(
 		}
 	}
 	else if (near < best_hit->distance && fabs(near) > RAY_MIN_EPSILON
-			&& near < 0 && fabs(dot(origin_center, cone->axis)) + 0.1
+			&& near < 0 && fabs(dot(origin_center, cone->axis)) + RAY_MIN_EPSILON
 			<= cone->len && acos(fabs(dot(fast_normalize(origin_center),
-			cone->axis)) + 0.1) <= cone->angle * M_PI_360)
+			cone->axis)) + RAY_MIN_EPSILON) <= cone->angle * M_PI_360)
 	{
 		best_hit->distance = RAY_MIN_EPSILON;
 		best_hit->pos = ray->origin - ray->dir * RAY_MIN_EPSILON ;
@@ -401,7 +401,7 @@ bool		ray_cylinder_intersect_cut(
 
 
 	if (dot(origin_center, origin_center) - dot_origin_center_axis
-			* dot_origin_center_axis + 0.1 < cylinder->radius * cylinder->radius)
+			* dot_origin_center_axis + RAY_MIN_EPSILON < cylinder->radius * cylinder->radius)
 	{
 		if (cylinder->len == NOT_SET
 				|| fabs(dot_origin_center_axis) < cylinder->len)
