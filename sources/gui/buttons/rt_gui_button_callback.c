@@ -63,14 +63,47 @@ bool		handle_textbox(t_transform *btn, SDL_Event *event)
 	return (false);
 }
 
-
+bool		handle_option(t_transform *btn, SDL_Event *event, t_rt *rt)
+{
+	if (check_click(event, btn->rect) && event->type == SDL_MOUSEBUTTONDOWN)
+	{
+		if (btn->type & OPTION_BTN)
+		{
+			rt_switch_bit(&rt->render_options, btn->bit);
+			btn->state = (rt->render_options & btn->bit) ? (click) : (non_event);
+		}
+		else if (btn->type & STATE_BTN)
+		{
+			rt_switch_bit(&rt->render_state, btn->bit);
+			btn->state = (rt->render_state & btn->bit) ? (click) : (non_event);
+		}
+		return (true);
+	}
+	if (check_hover(event, btn->rect) && event->type == SDL_MOUSEMOTION)
+	{
+		btn->state = hover;
+		return (true);
+	}
+	if (!check_hover(event, btn->rect) && btn->state == hover)
+	{
+		if (btn->type & OPTION_BTN)
+			btn->state = (rt->render_options & btn->bit) ? (click) : (non_event);
+		else if (btn->type & STATE_BTN)
+			btn->state = (rt->render_state & btn->bit) ? (click) : (non_event);
+		return (true);
+	}
+	return (false);
+}
 
 bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt)
 {
+	bool res;
+
+	res = false;
 	if (btn->type & TEXT_BOX)
-	{
-		return (handle_textbox(btn, event));
-	}
+		res |= handle_textbox(btn, event);
+	if (btn->type & (OPTION_BTN | STATE_BTN))
+		return (handle_option(btn, event, rt));
 	if (event->type != SDL_MOUSEBUTTONDOWN && event->type != SDL_MOUSEMOTION)
 		return (false);
 	if (event->type == SDL_MOUSEMOTION && check_hover(event, btn->rect) &&
@@ -88,5 +121,5 @@ bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt)
 	if (event->type == SDL_MOUSEBUTTONDOWN && btn->state == hover &&
 		check_click(event, btn->rect))
 		return (handle_button(btn, rt));
-	return (false);
+	return (false | res);
 }

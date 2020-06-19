@@ -91,6 +91,18 @@
 # define POSITION_LABEL "Position"
 # define PARAMETERS_LABEL "Params"
 
+# define MESHES_LABEL "Meshes"
+# define OBJECTS_LABEL "Objects"
+# define TEXTURE_LABEL "Textures"
+# define ANTI_AL_LABEL "Anti Aliasing"
+# define SKYBOX_LABEL "Skybox"
+# define BLUR_LABEL "Blur"
+# define SEPIA_LABEL "Sepia"
+# define IMPRESSIVE_LABEL "Impressive"
+# define CARTOON_LABEL "Cartoon"
+//# define MESHES_LABEL "Meshes"
+//# define MESHES_LABEL "Meshes"
+//# define MESHES_LABEL "Meshes"
 # define SCREENSHOT_LABEL "XTake ScreenshotX"
 
 # define NONE       (0 << 0)
@@ -101,23 +113,26 @@
 # define CAM_TEXT_BOX   (1 << 3) | TEXT_BOX
 # define POS_TEXT_BOX   (1 << 4) | TEXT_BOX
 # define PARAM_TEXT_BOX   (1 << 5) | TEXT_BOX
+# define STATE_BTN			(1 << 4)
+# define OPTION_BTN			(1 << 6)
+# define MESHES_BTN			(1 << 7) | OPTION_BTN
+# define OBJECTS_BTN		(1 << 8) | OPTION_BTN
+# define TEXTURES_BTN		(1 << 9) | OPTION_BTN
+# define ANTI_AL_BTN		(1 << 11) | OPTION_BTN
+# define SKYBOX_BTN			(1 << 12) | OPTION_BTN
+# define IMP_BTN			(1 << 13) | OPTION_BTN
+# define BLUR_BTN			(1 << 14) | STATE_BTN
+# define SEPIA_BTN			(1 << 15) | STATE_BTN
+# define CARTOON_BTN		(1 << 16) | STATE_BTN
+//# define ANTI_AL_BTN (1 << 17)
 
 # define PANEL_BORDER DEFAULT_BORDER * 10
 
 # define PANEL_BUTTON_WIDTH (PANEL_WIDTH - PANEL_BORDER * 2) / 3
 # define TEXT_WIDTH (PANEL_WIDTH - PANEL_BORDER * 2)
 
-# define COLA 0x191919
 # define LIGHT_LEMON 0xF1E8B8
 
-//# define BTN_COLOR_NONACTIVE	0xD05353
-//# define BTN_COLOR_HOVER 		0xE58F65
-//# define BTN_COLOR_CLICK		0xF9E784
-//# define TEXT_BOX_UNFOCUSED		WHITE
-//# define TEXT_BOX_FOCUSED		BLACK
-//# define LAYER_COLOR			LIGHT_LEMON
-//# define GUI_BG					COLA
-//# define PANEL_BG				LIGHT_LEMON
 
 
 # define BTN_COLOR_NONACTIVE	0xe76f51
@@ -127,13 +142,5 @@
 # define TEXT_BOX_FOCUSED		0xF4A261
 # define LAYER_COLOR			LIGHT_LEMON
 # define GUI_BG					0x193038
-//# define PANEL_BG				0x264653
-
-//# define BTN_COLOR_NONACTIVE LIGHT_GREEN
-//# define BTN_COLOR_HOVER GREEN
-//# define BTN_COLOR_CLICK DARK_GREEN
-//
-//# define GUI_BG DARK_GRAY
-//# define PANEL_BG BTN_COLOR_CLICK
 
 #endif

@@ -29,6 +29,15 @@ typedef enum			e_button
 	c_angle_x,
 	c_angle_y,
 	c_angle_z,
+	msh_btn,
+	obj_btn,
+	texture_btn,
+	aa_btn,
+	sb_btn,
+	imp_btn,
+	blur_btn,
+	sepia_btn,
+	tunes_btn,
 	btn_count
 }						t_btn;
 
@@ -51,9 +60,10 @@ typedef	struct			s_transform
 	t_btn				action;
 	bool				(*callback)();
 	t_state				state;
-	short				type;
+	uint16_t			type;
 	bool				focus;
 	float				param;
+	uint32_t			bit;
 }						t_transform;
 
 typedef struct			s_ttf
