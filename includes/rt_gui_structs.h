@@ -34,7 +34,6 @@ typedef enum			e_button
 	texture_btn,
 	aa_btn,
 	sb_btn,
-	bfc_btn,
 	imp_btn,
 	blur_btn,
 	sepia_btn,

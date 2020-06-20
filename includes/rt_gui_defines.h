@@ -126,7 +126,7 @@
 # define SMOOTH_BTN			(1 << 15) | OPTION_BTN
 # define BLUR_BTN			(1 << 14) | STATE_BTN
 # define SEPIA_BTN			(1 << 15) | STATE_BTN
-# define CARTOON_BTN		(1 << 16) | STATE_BTN
+# define CARTOON_BTN		(1 << 13) | STATE_BTN
 
 # define PANEL_BORDER DEFAULT_BORDER * 10
 

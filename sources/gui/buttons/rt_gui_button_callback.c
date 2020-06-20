@@ -63,8 +63,7 @@ bool		handle_textbox(t_transform *btn, SDL_Event *event)
 	return (false);
 }
 
-bool		gui_switch_bit(uint32_t *options, t_transform *btn,
-		SDL_Event *event)
+bool		gui_switch_bit(uint32_t *options, t_transform *btn)
 {
 	t_state tmp;
 
@@ -81,9 +80,9 @@ bool		handle_option(t_transform *btn, SDL_Event *event, t_rt *rt)
 	if (check_click(event, btn->rect) && event->type == SDL_MOUSEBUTTONDOWN)
 	{
 		if (btn->type & OPTION_BTN)
-			return (gui_switch_bit(&rt->render_options, btn, event));
+			return (gui_switch_bit(&rt->render_options, btn));
 		else if (btn->type & STATE_BTN)
-			return (gui_switch_bit(&rt->render_state, btn, event));
+			return (gui_switch_bit(&rt->render_state, btn));
 		return (true);
 	}
 	if (check_hover(event, btn->rect) && event->type == SDL_MOUSEMOTION)
