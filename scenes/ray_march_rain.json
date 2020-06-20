@@ -1140,13 +1140,12 @@
       "distance": 0.15
     },
     {
-      "type": "hex prism",
+      "type": "ellipsoid raymarch",
       "material": {
         "diffuse": "0xFF33FF"
       },
       "center": [-0.0, 2.6, 0],
-      "distance": 0.6,
-      "radius": 0.6,
+      "size": [1, 0.8, 3],
       "raymarch type": "different",
       "raymarch index": -105
     },
