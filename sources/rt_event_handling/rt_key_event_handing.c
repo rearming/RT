@@ -50,7 +50,7 @@ static inline void		remove_key_event(
 		rt_unset_bit(events, EVENT_LSHIFT);
 }
 
-void sync_options_buttons(uint64_t options, u_int64_t states)
+void sync_options_buttons(uint64_t options, u_int64_t states, SDL_Event* event)
 {
 	int i;
 
@@ -59,24 +59,31 @@ void sync_options_buttons(uint64_t options, u_int64_t states)
 	{
 		g_gui.obj[i].state = (options & g_gui.obj[i].bit) ?
 				(click) : (non_event);
+		if (check_hover(event, g_gui.obj->rect))
+			g_gui.obj[i].state = hover;
 		i++;
 	}
 	while (i <= tunes_btn)
 	{
 		g_gui.obj[i].state = (states & g_gui.obj[i].bit) ?
 				(click) : (non_event);
+		if (check_hover(event, g_gui.obj->rect))
+			g_gui.obj[i].state = hover;
 		i++;
 	}
 }
 
-void sync_rt_and_gui(t_scene scene, uint64_t options, uint64_t states)
+void sync_rt_and_gui(t_scene scene,
+					 uint64_t options,
+					 uint64_t states,
+					 SDL_Event *event)
 {
 	const uint64_t	render_num = (options & (0b111)) - 1;
 
 	g_gui.render_algo = render_num;
 	g_gui.obj[render_num].state = click;
 	render_button(g_gui.obj[render_num]);
-	sync_options_buttons(options, states);
+	sync_options_buttons(options, states, event);
 	render_all_buttons(scene);
 	SDL_UpdateWindowSurface(g_gui.win_tool);
 }
@@ -92,13 +99,15 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 	if (event->key.keysym.scancode == SDL_SCANCODE_R)
 	{
 		rt_set_render_algo(&rt->render_options, RENDER_RAYTRACE);
-		sync_rt_and_gui(rt->scene, rt->render_options, 0);
+		sync_rt_and_gui(rt->scene, rt->render_options, rt->render_state,
+						event);
 	}
 	if (event->key.keysym.scancode == SDL_SCANCODE_P)
 	{
 		rt_set_render_algo(&rt->render_options, RENDER_PATHTRACE);
 		rt_set_bit(&rt->render_actions, ACTION_PATHTRACE);
-		sync_rt_and_gui(rt->scene, rt->render_options, 0);
+		sync_rt_and_gui(rt->scene, rt->render_options, rt->render_state,
+						event);
 	}
 	rt_handle_keypress2(event, rt);
 }
@@ -119,5 +128,7 @@ bool					rt_handle_key_event(SDL_Event *event, t_rt *rt)
 		rt_add_key_event(&rt->events, event->key.keysym.scancode);
 		event_handled = true;
 	}
+//	sync_rt_and_gui(rt->scene, rt->render_options, rt->render_state,
+//					event);
 	return (event_handled);
 }

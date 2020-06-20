@@ -20,14 +20,16 @@
 #  define GUI_FOOTER 150
 #  define GUI_TITLE 70
 #  define BTN_DEFAULT_SIZE 50
+#  define BTN_BIG_SIZE 100
 #  define PANEL_HEIGHT 600
 #  define PANEL_WIDTH 600
-#  define PANEL_Y 200
+#  define PANEL_Y 175
 # else
 #  define WIN_GUI_WIDTH 300
 #  define GUI_FOOTER 75
 #  define GUI_TITLE 35
 #  define BTN_DEFAULT_SIZE 25
+#  define BTN_BIG_SIZE 50
 #  define PANEL_HEIGHT 470
 #  define PANEL_WIDTH 300
 #  define PANEL_Y 100
@@ -96,13 +98,12 @@
 # define TEXTURE_LABEL "Textures"
 # define ANTI_AL_LABEL "Anti Aliasing"
 # define SKYBOX_LABEL "Skybox"
-# define BLUR_LABEL "Blur"
+# define BLUR_LABEL "DOF"
 # define SEPIA_LABEL "Sepia"
 # define IMPRESSIVE_LABEL "Impressive"
 # define CARTOON_LABEL "Cartoon"
-//# define MESHES_LABEL "Meshes"
-//# define MESHES_LABEL "Meshes"
-//# define MESHES_LABEL "Meshes"
+# define BACKFACE_LABEL "Backface Culling"
+# define SMOOTH_LABEL "Smooth"
 # define SCREENSHOT_LABEL "XTake ScreenshotX"
 
 # define NONE       (0 << 0)
@@ -121,19 +122,33 @@
 # define ANTI_AL_BTN		(1 << 11) | OPTION_BTN
 # define SKYBOX_BTN			(1 << 12) | OPTION_BTN
 # define IMP_BTN			(1 << 13) | OPTION_BTN
+# define BFC_BTN			(1 << 14) | OPTION_BTN
+# define SMOOTH_BTN			(1 << 15) | OPTION_BTN
 # define BLUR_BTN			(1 << 14) | STATE_BTN
 # define SEPIA_BTN			(1 << 15) | STATE_BTN
 # define CARTOON_BTN		(1 << 16) | STATE_BTN
-//# define ANTI_AL_BTN (1 << 17)
 
 # define PANEL_BORDER DEFAULT_BORDER * 10
 
 # define PANEL_BUTTON_WIDTH (PANEL_WIDTH - PANEL_BORDER * 2) / 3
 # define TEXT_WIDTH (PANEL_WIDTH - PANEL_BORDER * 2)
+# define OPTIONS_BLOCK PANEL_Y + 60 + 6 * BTN_DEFAULT_SIZE
+# define FIRST_COL_X 0
+# define SECOND_COL_X WIN_GUI_WIDTH / 2
+# define HALF_GUI WIN_GUI_WIDTH / 2
+# define MSH_Y OPTIONS_BLOCK
+# define OBJ_Y MSH_Y  + BTN_BIG_SIZE
+# define TEXTURE_Y OBJ_Y + BTN_BIG_SIZE
+# define ANTI_AL_Y TEXTURE_Y + BTN_BIG_SIZE
+# define SKYBOX_Y ANTI_AL_Y + BTN_BIG_SIZE
+# define BACKFACE_C_Y SKYBOX_Y + BTN_BIG_SIZE
+# define IMP_Y MSH_Y
+# define DOF_Y OBJ_Y
+# define SEPIA_Y TEXTURE_Y
+# define TUNES_Y ANTI_AL_Y
+# define SMOOTH_Y SKYBOX_Y
 
 # define LIGHT_LEMON 0xF1E8B8
-
-
 
 # define BTN_COLOR_NONACTIVE	0xe76f51
 # define BTN_COLOR_HOVER 		0xe9c46a
