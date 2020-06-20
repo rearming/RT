@@ -30,8 +30,6 @@ static inline void		keypress_change_dof(SDL_Event *event, t_camera *camera)
 		camera->blur_strength -= camera->blur_strength > 0.5f ? 0.2f : 0;
 }
 
-
-//todo:get this funcs
 void					rt_handle_keypress2(SDL_Event *event, t_rt *rt)
 {
 	if (event->key.keysym.scancode == SDL_SCANCODE_M)

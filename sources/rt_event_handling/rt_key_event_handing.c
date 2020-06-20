@@ -50,30 +50,9 @@ static inline void		remove_key_event(
 		rt_unset_bit(events, EVENT_LSHIFT);
 }
 
-void sync_options_buttons(uint64_t options, u_int64_t states)
-{
-	int i;
-
-	i = msh_btn;
-	while (i <= sb_btn)
-	{
-		if (g_gui.obj[i].state != hover)
-			g_gui.obj[i].state = (options & g_gui.obj[i].bit) ?
-				(click) : (non_event);
-		i++;
-	}
-	while (i <= tunes_btn)
-	{
-		if (g_gui.obj[i].state != hover)
-			g_gui.obj[i].state = (states & g_gui.obj[i].bit) ?
-				(click) : (non_event);
-		i++;
-	}
-}
-
-void sync_rt_and_gui(t_scene scene,
-					 uint64_t options,
-					 uint64_t states)
+void					sync_rt_and_gui(t_scene scene,
+										uint64_t options,
+										uint64_t states)
 {
 	const uint64_t	render_num = (options & (0b111)) - 1;
 
@@ -107,9 +86,9 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 
 bool					rt_handle_key_event(SDL_Event *event, t_rt *rt)
 {
-	bool	event_handled;
-	const u_int32_t options = rt->render_options;
-	const u_int32_t states = rt->render_state;
+	bool				event_handled;
+	const u_int32_t		options = rt->render_options;
+	const u_int32_t		states = rt->render_state;
 
 	event_handled = false;
 	if (event->type == SDL_KEYUP)

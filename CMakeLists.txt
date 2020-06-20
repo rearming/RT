@@ -128,7 +128,7 @@ set(gui_sources
         sources/gui/text_box/init_text_box.c
         sources/gui/text_box/rt_gui_text_box_init.c
         sources/gui/buttons/utils/check_positions.c
-        sources/gui/buttons/rt_gui_buttons_render2.c sources/gui/fuck_norminette.c)
+        sources/gui/buttons/rt_gui_buttons_render2.c sources/gui/fuck_norminette.c sources/gui/rt_sync_options.c)
 
 
 set(sources

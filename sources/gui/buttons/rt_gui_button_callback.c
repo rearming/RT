@@ -126,11 +126,8 @@ bool		button_callback(t_transform *btn, SDL_Event *event, t_rt *rt)
 		btn->state = non_event;
 		return (true);
 	}
-	if (event->type == SDL_MOUSEBUTTONDOWN &&
+	if (event->type == SDL_MOUSEBUTTONDOWN && btn->state == hover &&
 		check_click(event, btn->rect))
-	{
-		printf("я нажал PATHTRACE\n");
-		return (handle_button(btn, rt)); }
+		return (handle_button(btn, rt));
 	return (false | res);
 }
-
