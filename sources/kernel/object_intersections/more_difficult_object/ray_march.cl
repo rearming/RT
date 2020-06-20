@@ -314,12 +314,10 @@ float	dist_hex_prism(float3 surface_point, __global const t_object *obj)
 	q.z = 0.0f;
 	q -= 2.0f * (dot(k, q) + RAY_MIN_EPSILON > 0.0f ? 0.0f : dot(k, q)) * k;
 
-	float3			cl = {.x = min(max(q.x, -kz * obj->radius), kz * obj->radius),
-				.y = obj->radius, .z = 0.0f};
+	float3			cl = {min(max(q.x, -kz * obj->radius), kz * obj->radius), obj->radius, 0.0f};
 	cl.x = length(q - cl) * sign(q.y - obj->radius);
 	cl.y = pz - obj->distance;
-	const float3	abs_cl = {.x = (cl.x - RAY_MIN_EPSILON > 0 ? cl.x : 0),
-						.y = (cl.y - RAY_MIN_EPSILON > 0 ? cl.y : 0), .z = 0};
+	const float3	abs_cl = {cl.x - RAY_MIN_EPSILON > 0 ? cl.x : 0, cl.y - RAY_MIN_EPSILON > 0 ? cl.y : 0, 0};
 	return min(max(cl.x, cl.y), 0.0f) + length(abs_cl);
 }
 
