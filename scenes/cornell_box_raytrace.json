@@ -160,6 +160,15 @@
       },
       "center": [0, -10, 0],
       "normal": [0, 1, 0]
+    },
+    {
+      "type": "sphere",
+      "material": {
+        "emission color": [1, 0.3, 0.84],
+        "emission power": 3
+      },
+      "center": [0, 0, 0],
+      "radius": 3
     }
   ],
   "camera": {

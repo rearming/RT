@@ -103,10 +103,10 @@
       "diffuse": "0xFFFFFF",
       "specular": [0, 0, 0],
       "emission color": "0xFFFFFF",
-      "emission power": 10
+      "emission power": 4
     },
     "center": [700, 300, 700],
-    "radius": 100
+    "radius": 400
     },
     {
       "type": "sphere",

@@ -14,26 +14,19 @@
     },
     "render objects": true,
     "render mesh": {
-      "enabled": false
+      "file": "assets/3d_models/cubes_for_cornell_box.obj",
+      "backface culling": true,
+      "enabled": true
     }
   },
   "objects": [
     {
-      "type": "box",
-      "material": {
-        "diffuse": "0xFFFFFF",
-        "phong exp": 0
-      },
-      "center": [-1, -0.5, 0],
-      "size": [1, 0.7, 0.3]
-    },
-    {
       "type": "plane",
       "material": {
-        "specular": [1.0, 1.0, 1.0],
-        "smoothness": 5000
+        "specular": [1.0, 1.0, 0.6],
+        "smoothness": 2500
       },
-      "center": [0, -2.5, 0],
+      "center": [0, -2.25, 0],
       "normal": [0, 1, 0]
     },
     {
@@ -42,7 +35,7 @@
         "diffuse": "0x00FF00",
         "phong exp": 50
       },
-      "center": [5.5, 0, 0],
+      "center": [2.5, 0, 0],
       "normal": [1, 0, 0]
     },
     {
@@ -50,7 +43,7 @@
       "material": {
         "diffuse": "0xFF0000"
       },
-      "center": [-5.5, 0, 0],
+      "center": [-2.5, 0, 0],
       "normal": [1, 0, 0]
     },
     {
@@ -68,7 +61,7 @@
         "diffuse": "0xFFFFFF",
         "phong exp": 0
       },
-      "center": [0, 2.5, 0],
+      "center": [0, 2.7, 0],
       "normal": [0, 1, 0]
     },
     {
@@ -78,28 +71,11 @@
       },
       "center": [0, 0, -15],
       "normal": [0, 0, 1]
-    },
-    {
-      "type": "sphere",
-      "material": {
-        "emission color": "0xFFFFFF",
-        "emission power": 1
-      },
-      "center": [0, 2.5, 0],
-      "radius": 1
-    },
-    {
-      "type": "box",
-      "material": {
-        "diffuse": "0xFFFFFF"
-      },
-      "center": [1, -1.5, 0],
-      "size": [0.3, 0.7, 0.2]
     }
   ],
   "camera": {
-    "pos": [-0.2, 1.2, -7],
-    "rotation": [0, 0, 0]
+    "pos": [0.8, 1, -8.7],
+    "rotation": [-8, -8, 0]
   },
   "light":
   [
