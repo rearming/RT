@@ -233,9 +233,12 @@
       "material": {
         "diffuse": "0x33FF33"
       },
-      "center": [0, 0, 0],
+      "center": [0, 0, -3],
       "distance": 0.01,
       "radius": 1,
+      "alfa angle": 0.1,
+      "beta angle": 0.1,
+      "gamma angle": 0.1,
       "raymarch type": "different",
       "raymarch index": -23
     },
@@ -244,9 +247,12 @@
       "material": {
         "diffuse": "0x33FF33"
       },
-      "center": [0, 0, 0],
+      "center": [0, 0, -3],
       "distance": 0.02,
       "radius": 0.8,
+      "alfa angle": 0.1,
+      "beta angle": 0.1,
+      "gamma angle": 0.1,
       "raymarch type": "different",
       "raymarch index": 22
     },

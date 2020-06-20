@@ -307,19 +307,20 @@ float	dist_torus_capped(float3 surface_point, __global const t_object *obj)
 
 float	dist_hex_prism(float3 surface_point, __global const t_object *obj)
 {
-	float3			q = fabs(surface_point - obj->center);
+	float3			q = fabs(surface_point);// - obj->center);
 	float			pz = q.z;
-	const float3	k = {-0.8660254, 0.5, 0.0f};
+	const float3	k = {-0.86602f, 0.5f, 0.0f};
 	const float		kz = 0.57735f;
 	q.z = 0.0f;
-	q -= 2.0f * fmin(dot(k, q), 0.0f) * k;
+	q -= 2.0f * (dot(k, q) + RAY_MIN_EPSILON > 0.0f ? 0.0f : dot(k, q)) * k;
 
-	float3	cl = {clamp(q.x, -kz * obj->radius, kz * obj->radius),
-					obj->radius, 0.0f};
+	float3			cl = {min(max(q.x, -kz * obj->radius), kz * obj->radius), obj->radius, 0.0f};
 	cl.x = length(q - cl) * sign(q.y - obj->radius);
 	cl.y = pz - obj->distance;
-	return clamp(cl.x, cl.y, 0.0f) + length(max(cl, 0.0f));
+	const float3	abs_cl = {cl.x - RAY_MIN_EPSILON > 0 ? cl.x : 0, cl.y - RAY_MIN_EPSILON > 0 ? cl.y : 0, 0};
+	return min(max(cl.x, cl.y), 0.0f) + length(abs_cl);
 }
+
 
 float	dist_round_cone(float3 surface_point, __global const t_object *obj)
 {
@@ -349,9 +350,3 @@ float	dist_round_cone(float3 surface_point, __global const t_object *obj)
 		return sqrt(x2 + y2) * il2 - r1;
 	return (sqrt(x2 * a2 * il2) + y * rr) * il2 - r1;
 }
-
-
-
-
-
-
