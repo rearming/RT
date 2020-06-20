@@ -50,13 +50,16 @@ static inline void		remove_key_event(
 		rt_unset_bit(events, EVENT_LSHIFT);
 }
 
-void					sync_rt_and_gui(t_scene scene, uint64_t renderer_params)
+void					sync_rt_and_gui(t_scene scene,
+										uint64_t options,
+										uint64_t states)
 {
-	const uint64_t	render_num = (renderer_params & (0b111)) - 1;
+	const uint64_t	render_num = (options & (0b111)) - 1;
 
 	g_gui.render_algo = render_num;
 	g_gui.obj[render_num].state = click;
 	render_button(g_gui.obj[render_num]);
+	sync_options_buttons(options, states);
 	render_all_buttons(scene);
 	SDL_UpdateWindowSurface(g_gui.win_tool);
 }
@@ -72,20 +75,20 @@ static inline void		rt_handle_keypress(SDL_Event *event, t_rt *rt)
 	if (event->key.keysym.scancode == SDL_SCANCODE_R)
 	{
 		rt_set_render_algo(&rt->render_options, RENDER_RAYTRACE);
-		sync_rt_and_gui(rt->scene, rt->render_options);
 	}
 	if (event->key.keysym.scancode == SDL_SCANCODE_P)
 	{
 		rt_set_render_algo(&rt->render_options, RENDER_PATHTRACE);
 		rt_set_bit(&rt->render_actions, ACTION_PATHTRACE);
-		sync_rt_and_gui(rt->scene, rt->render_options);
 	}
 	rt_handle_keypress2(event, rt);
 }
 
 bool					rt_handle_key_event(SDL_Event *event, t_rt *rt)
 {
-	bool	event_handled;
+	bool				event_handled;
+	const u_int32_t		options = rt->render_options;
+	const u_int32_t		states = rt->render_state;
 
 	event_handled = false;
 	if (event->type == SDL_KEYUP)
@@ -99,5 +102,7 @@ bool					rt_handle_key_event(SDL_Event *event, t_rt *rt)
 		rt_add_key_event(&rt->events, event->key.keysym.scancode);
 		event_handled = true;
 	}
+	if (options != rt->render_options || states != rt->render_state)
+		sync_rt_and_gui(rt->scene, rt->render_options, rt->render_state);
 	return (event_handled);
 }

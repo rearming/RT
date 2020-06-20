@@ -26,7 +26,7 @@ typedef struct s_rt		t_rt;
 typedef struct s_scene	t_scene;
 typedef struct s_sdl	t_sdl;
 
-void			init_gui(uint64_t algo, t_scene scene);
+void			init_gui(uint32_t options, uint32_t states, t_scene scene);
 bool			rt_handle_event_gui(SDL_Event *event, t_rt *rt);
 
 /*
@@ -45,6 +45,8 @@ void			render_rect(SDL_Surface *sur, SDL_Rect *rect, SDL_Color col);
 
 void			init_algo_buttons(void);
 void			init_other_buttons(void);
+void			init_render_options_button(u_int32_t options);
+void			init_render_states_button(u_int32_t states);
 
 /*
 ** Buttons render
@@ -97,6 +99,7 @@ void			render_text_box(t_transform btn);
 ** Utils
 */
 
+void			sync_options_buttons(uint64_t options, u_int64_t states);
 bool			is_positions_changed(int tb_id, float curr_value);
 char			*name_generator(char *ext);
 SDL_Rect		get_window_data(void);

@@ -117,6 +117,8 @@ SOURCES_FILES =					\
  gui/text_box/rt_gui_text_box_init.c \
  gui/buttons/utils/check_positions.c \
  gui/buttons/rt_gui_buttons_render2.c \
+ gui/fuck_norminette.c \
+ gui/rt_sync_options.c \
  main.c \
 
 # ============================================================================ #

@@ -40,8 +40,8 @@ void		init_text_box(t_scene scene)
 	SDL_Rect rect;
 
 	rect = (SDL_Rect) {
-			.x = (WIN_GUI_WIDTH - PANEL_BUTTON_WIDTH) / 2,
-			.y = 300,
+			.x = PANEL_BORDER,
+			.y = PANEL_Y + 50,
 			.w = TEXT_WIDTH,
 			.h = BTN_DEFAULT_SIZE};
 	init_cam_text_box(scene, rect);
