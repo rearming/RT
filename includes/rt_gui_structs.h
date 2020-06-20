@@ -40,7 +40,6 @@ typedef enum			e_button
 	sepia_btn,
 	tunes_btn,
 	smooth_btn,
-
 	btn_count
 }						t_btn;
 

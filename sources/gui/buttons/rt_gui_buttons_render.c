@@ -65,20 +65,12 @@ void	auto_render_button(int i)
 void	render_all_buttons(void)
 {
 	int			i;
-	SDL_Color	bg;
-	SDL_Rect	*rect;
 
 	i = 0;
-//	bg = get_color_from_hex(PANEL_BG);
-//	rect = &(SDL_Rect){ .x = 0, .y = PANEL_Y,
-//					.h = PANEL_HEIGHT, .w = PANEL_WIDTH};
-//	cut_rect(rect, PANEL_BORDER);
-//	render_rect(g_gui.surface, rect, bg);
 	while (i < btn_count)
 	{
 		if (g_gui.obj[i].callback == NULL)
 		{
-			ft_printf("%i\n", i);
 			rt_raise_error(BTN_TROUBLE);
 		}
 		fix_states(i);

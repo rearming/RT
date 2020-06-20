@@ -128,7 +128,7 @@ set(gui_sources
         sources/gui/text_box/init_text_box.c
         sources/gui/text_box/rt_gui_text_box_init.c
         sources/gui/buttons/utils/check_positions.c
-        sources/gui/buttons/rt_gui_buttons_render2.c)
+        sources/gui/buttons/rt_gui_buttons_render2.c sources/gui/fuck_norminette.c)
 
 
 set(sources
@@ -145,7 +145,7 @@ set(sources
         ${kd_tree_sources}
         ${gui_sources}
         ${image_save_sources}
-        )
+        sources/gui/fuck_norminette.c)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake_search_modules)

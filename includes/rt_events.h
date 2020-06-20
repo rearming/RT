@@ -33,7 +33,6 @@ bool		rt_camera_move(t_camera *camera, uint32_t events);
 void		rt_handle_keypress2(SDL_Event *event, t_rt *rt);
 void sync_rt_and_gui(t_scene scene,
 					 uint64_t options,
-					 uint64_t states,
-					 SDL_Event *event);
+					 uint64_t states);
 
 #endif

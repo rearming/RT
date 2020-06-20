@@ -13,26 +13,6 @@
 #include "rt.h"
 #include "rt_gui.h"
 
-//bool		handle_movement(t_transform *btn, t_scene scene)
-//{
-//	bool res;
-//
-//	res = false;
-//	if (btn->action == c_pos_x)
-//		res |= is_positions_changed(c_pos_x, scene.camera.pos.x);
-//	if (btn->action == c_pos_y)
-//		res |= is_positions_changed(c_pos_y, scene.camera.pos.y);
-//	if (btn->action == c_pos_z)
-//		res |= is_positions_changed(c_pos_z, scene.camera.pos.z);
-//	if (btn->action == c_angle_x)
-//		res |= is_positions_changed(c_angle_x, scene.camera.rotation.x);
-//	if (btn->action == c_angle_y)
-//		res |= is_positions_changed(c_angle_y, scene.camera.rotation.y);
-//	if (btn->action == c_angle_z)
-//		res |= is_positions_changed(c_angle_z, scene.camera.rotation.z);
-//	return (res);
-//}
-
 bool		handle_movement(t_scene scene)
 {
 	bool res;
@@ -47,15 +27,13 @@ bool		handle_movement(t_scene scene)
 	return (res);
 }
 
-bool	rt_handle_event_gui(SDL_Event *event, t_rt *rt)
+bool		rt_handle_event_gui(SDL_Event *event, t_rt *rt)
 {
 	bool	event_handled;
 	int		i;
 	t_btn	now;
 	t_btn	panel;
 
-	if (event->window.windowID != GUI_WIN_ID)
-		return (false);
 	event_handled = false;
 	i = 0;
 	now = g_gui.render_algo;
@@ -67,11 +45,11 @@ bool	rt_handle_event_gui(SDL_Event *event, t_rt *rt)
 			auto_render_button(i);
 			event_handled = true;
 		}
-		if (now != g_gui.render_algo || panel != g_gui.panel ||
-		handle_movement(rt->scene))
-			render_all_buttons(rt->scene);
 		i++;
 	}
+	if (now != g_gui.render_algo || panel != g_gui.panel ||
+		handle_movement(rt->scene))
+		render_all_buttons(rt->scene);
 	SDL_UpdateWindowSurface(g_gui.win_tool);
 	return (event_handled);
 }

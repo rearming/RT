@@ -13,14 +13,6 @@
 #include "rt.h"
 #include "rt_gui.h"
 
-float		count_percent(char *text)
-{
-//	const size_t joined_len = ft_strlen(text) + 5;
-//	const size_t text_len = ft_strlen(text);
-
-	return (0.6);
-}
-
 void		render_text_box(t_transform btn)
 {
 	SDL_Rect	text;
@@ -35,7 +27,7 @@ void		render_text_box(t_transform btn)
 		color = get_color_from_hex(TEXT_BOX_UNFOCUSED);
 	render_rect(g_gui.surface, &(btn.rect), color);
 	text = (SDL_Rect){.x = btn.rect.x, .y = btn.rect.y, .h = btn.rect.h};
-	text.w = (int)((float)btn.rect.w) * 0.6;// * count_percent(btn.text));
+	text.w = (int)(btn.rect.w * 0.6);
 	field = (SDL_Rect){.x = btn.rect.x + text.w,
 					.y = btn.rect.y, .h = btn.rect.h};
 	field.w = btn.rect.w - text.w;
