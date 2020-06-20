@@ -13,7 +13,7 @@
 #ifndef RT_WINDOW_PARAMS_H
 # define RT_WINDOW_PARAMS_H
 
-# define WIN_TITLE "Dota 5"
+# define WIN_TITLE "RT"
 
 # ifdef __APPLE__
 #  define WIN_WIDTH 1960

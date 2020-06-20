@@ -13,7 +13,7 @@
 #ifndef RT_GUI_DEFINES_H
 # define RT_GUI_DEFINES_H
 
-# define RT_GUI_NAME "Dota 5 Tools"
+# define RT_GUI_NAME "RT Tools"
 
 # ifdef __APPLE__
 #  define WIN_GUI_WIDTH 600
