@@ -198,7 +198,7 @@ void				closest_intersection(
 									}
 									t_ray		r = *ray;
 
-									r.origin = a_h.pos;
+									r.origin = a_h.pos - r.dir * RAY_MIN_EPSILON;
 									r.dir = -r.dir;
 									b_h.pos = ray->origin;
 									if (ray_march(&r, &objects[b], &b_h) &&

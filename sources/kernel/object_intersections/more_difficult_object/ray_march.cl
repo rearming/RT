@@ -44,17 +44,15 @@ bool			ray_march(
 	if (ray_march_hit(ray, obj, best_hit))
 		// если есть пересечение считаем нормаль
 	{
-		t_rayhit hit = *best_hit;
-		hit.pos -= obj->center;
-		// нахождение нормали, [ex, ey, ez]  смещение относительно точки по осям
+		// нахождение нормали, [ex, ey, ez] смещение относительно точки по осям
 		const float3	ex = {RAY_MARCH_SURFACE_ACC, 0, 0};
 		const float3	ey = {0, RAY_MARCH_SURFACE_ACC, 0};
 		const float3	ez = {0, 0, RAY_MARCH_SURFACE_ACC};
-		const float		dist = distan(hit.pos, obj);
+		const float		dist = distan(best_hit->pos, obj);
 		// вектор р - вектор направление градиента близости к поверхности
-		const float3	r = {dist - distan(hit.pos - ex, obj),
-								dist - distan(hit.pos - ey, obj),
-								dist - distan(hit.pos - ez, obj)};
+		const float3	r = {dist - distan(best_hit->pos - ex, obj),
+								dist - distan(best_hit->pos - ey, obj),
+								dist - distan(best_hit->pos - ez, obj)};
 
 		// поворачиваем вектор нормали в обратную сторону
 		// obj->rot_n1, 2, 3 - строчки матрицы поворота для углов эйлера
@@ -102,17 +100,19 @@ bool		ray_march_hit(t_ray *ray,
 {
 	// для нахождения расстояния сначала повернем и сместим луч,
 	// переходя в СК объекта
-	float3	surface_point = ray->origin - obj->center;
 
+	float3	surface_point = {
+			dot((obj->rotation_matrix_t)[0], ray->origin - obj->center),
+			dot((obj->rotation_matrix_t)[1], ray->origin - obj->center),
+			dot((obj->rotation_matrix_t)[2], ray->origin - obj->center)};
 	// перемещаем точку рей оригн в новую,
 	// поворачивая вектор (рей оригн - обжект сентр) на углы эйлера
 	// obj->rot_p1, 2, 3 - строчки матрицы поворота для углов эйлера
 	// alpha, beta, gamma (прецессия, нутация, вращение) (rotation positive)
 
-	float3	p = {dot((obj->rotation_matrix_t)[0], surface_point),
-					dot((obj->rotation_matrix_t)[1], surface_point),
-					dot((obj->rotation_matrix_t)[2], surface_point)};
-	surface_point = p;
+//	surface_point += obj->center;
+	float3	o = surface_point;
+
 	// вот отсюда теперь будет исходить луч относительно объекта
 
 	// поворачиваем сам вектор направления
@@ -120,7 +120,7 @@ bool		ray_march_hit(t_ray *ray,
 					dot((obj->rotation_matrix_t)[1], ray->dir),
 					dot((obj->rotation_matrix_t)[2], ray->dir)};
 
-	float	distance, distance_diff;
+	float	distance = 0.f, distance_diff = 0.f;
 	// идем по лучу к поверхности
 	switch (obj->type)
 	{
@@ -128,10 +128,9 @@ bool		ray_march_hit(t_ray *ray,
 		{
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
-				distance_diff = dist_box(surface_point
-						- obj->center, obj);
+				distance_diff = dist_box(surface_point, obj);
 				distance += distance_diff;
-				surface_point = p + d * distance;
+				surface_point = o + d * distance;
 
 				if(distance > RAY_MARCH_MAX_DIST
 						|| distance_diff < RAY_MARCH_SURFACE_ACC)
@@ -143,10 +142,9 @@ bool		ray_march_hit(t_ray *ray,
 		{
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
-				distance_diff = dist_capsule(surface_point
-						- obj->center, obj);
+				distance_diff = dist_capsule(surface_point, obj);
 				distance += distance_diff;
-				surface_point = p + d * distance;
+				surface_point = o + d * distance;
 
 				if(distance > RAY_MARCH_MAX_DIST
 						|| distance_diff < RAY_MARCH_SURFACE_ACC)
@@ -158,10 +156,9 @@ bool		ray_march_hit(t_ray *ray,
 		{
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
-				distance_diff = dist_torus(surface_point
-						- obj->center, obj);
+				distance_diff = dist_torus(surface_point, obj);
 				distance += distance_diff;
-				surface_point = p + d * distance;
+				surface_point = o + d * distance;
 
 				if(distance > RAY_MARCH_MAX_DIST
 						|| distance_diff < RAY_MARCH_SURFACE_ACC)
@@ -173,10 +170,9 @@ bool		ray_march_hit(t_ray *ray,
 		{
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
-				distance_diff = dist_ellipsoid(surface_point
-						- obj->center, obj);
+				distance_diff = dist_ellipsoid(surface_point, obj);
 				distance += distance_diff;
-				surface_point = p + d * distance;
+				surface_point = o + d * distance;
 
 				if(distance > RAY_MARCH_MAX_DIST
 						|| distance_diff < RAY_MARCH_SURFACE_ACC)
@@ -188,10 +184,9 @@ bool		ray_march_hit(t_ray *ray,
 		{
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
-				distance_diff = dist_torus_capped(surface_point
-														  - obj->center, obj);
+				distance_diff = dist_torus_capped(surface_point, obj);
 				distance += distance_diff;
-				surface_point = p + d * distance;
+				surface_point = o + d * distance;
 
 				if(distance > RAY_MARCH_MAX_DIST
 						|| distance_diff < RAY_MARCH_SURFACE_ACC)
@@ -203,10 +198,9 @@ bool		ray_march_hit(t_ray *ray,
 		{
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
-				distance_diff = dist_cylinder_raymarch(surface_point
-						- obj->center, obj);
+				distance_diff = dist_cylinder_raymarch(surface_point, obj);
 				distance += distance_diff;
-				surface_point = p + d * distance;
+				surface_point = o + d * distance;
 
 				if(distance > RAY_MARCH_MAX_DIST
 						|| distance_diff < RAY_MARCH_SURFACE_ACC)
@@ -218,10 +212,9 @@ bool		ray_march_hit(t_ray *ray,
 		{
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
-				distance_diff = dist_round_cone(surface_point
-						- obj->center, obj);
+				distance_diff = dist_round_cone(surface_point, obj);
 				distance += distance_diff;
-				surface_point = p + d * distance;
+				surface_point = o + d * distance;
 
 				if(distance > RAY_MARCH_MAX_DIST
 						|| distance_diff < RAY_MARCH_SURFACE_ACC)
