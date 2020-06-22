@@ -106,7 +106,7 @@
       "radius": 0.7
     },
     {
-      "type": "hex prism",
+      "type": "cylinder raymarch",
       "material": {
         "diffuse": "0xFF33FF"
       },

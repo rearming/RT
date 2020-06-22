@@ -168,7 +168,7 @@ typedef enum			e_object_type
 	TORUS,
 	ELLIPSOID_RAYMARCH,
 	TORUS_CAPPED,
-	HEX_PRISM,
+	CYLINDER_RAYMARCH,
 	ROUND_CONE,
 	TEST_OBJECT
 }						t_object_type;

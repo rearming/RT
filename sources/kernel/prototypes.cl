@@ -420,7 +420,7 @@ float	dist_ellipsoid(float3 surface_point, __global const t_object *obj);
 
 float	dist_torus_capped(float3 surface_point, __global const t_object *obj);
 
-float	dist_hex_prism(float3 surface_point, __global const t_object *obj);
+float	dist_cylinder_raymarch(float3 surface_point, __global const t_object *obj);
 
 float	dist_round_cone(float3 surface_point, __global const t_object *obj);
 

@@ -1,4 +1,3 @@
-
 void				closest_intersection(
 		__global const t_scene *scene,
 		__global const t_object *objects,
@@ -20,11 +19,6 @@ void				closest_intersection(
 		{
 			switch (objects[i].type)
 			{
-			/**
-			 *
-			 * сфера, параболоид и эллипсоид разделен на обрезанные и не обрезанные
-			 *
-			 **/
 				case (SPHERE):
 					if (objects[i].len == NOT_SET ?
 							ray_sphere_intsect(ray, &objects[i], out_best_hit)
@@ -187,7 +181,6 @@ void				closest_intersection(
 									t_rayhit	a_h = *out_best_hit;
 									bool		a_hit = ray_march(ray,
 											&objects[a], &a_h);
-
 									if (!a_hit)
 										break;
 									t_rayhit	b_h = *out_best_hit;

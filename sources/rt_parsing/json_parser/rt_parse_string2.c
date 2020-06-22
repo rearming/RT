@@ -21,8 +21,8 @@ static void	parse_type3(int *type, const char *value)
 		*type = ELLIPSOID_RAYMARCH;
 	else if (ft_strequ(value, "torus capped"))
 		*type = TORUS_CAPPED;
-	else if (ft_strequ(value, "hex prism"))
-		*type = HEX_PRISM;
+	else if (ft_strequ(value, "cylinder raymarch"))
+		*type = CYLINDER_RAYMARCH;
 	else if (ft_strequ(value, "round cone"))
 		*type = ROUND_CONE;
 	else if (ft_strequ(value, "test object"))

@@ -38,7 +38,7 @@
 # define TORUS 11
 # define ELLIPSOID_RAYMARCH 12
 # define TORUS_CAPPED 13
-# define HEX_PRISM 14
+# define CYLINDER_RAYMARCH 14
 # define ROUND_CONE 15
 # define TEST_OBJECT 16
 
