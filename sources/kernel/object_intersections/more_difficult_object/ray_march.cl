@@ -129,7 +129,7 @@ bool		ray_march_hit(t_ray *ray,
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
 				distance_diff = dist_box(surface_point
-												 - obj->center, obj);
+						- obj->center, obj);
 				distance += distance_diff;
 				surface_point = p + d * distance;
 
@@ -144,7 +144,7 @@ bool		ray_march_hit(t_ray *ray,
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
 				distance_diff = dist_capsule(surface_point
-													 - obj->center, obj);
+						- obj->center, obj);
 				distance += distance_diff;
 				surface_point = p + d * distance;
 
@@ -159,7 +159,7 @@ bool		ray_march_hit(t_ray *ray,
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
 				distance_diff = dist_torus(surface_point
-												   - obj->center, obj);
+						- obj->center, obj);
 				distance += distance_diff;
 				surface_point = p + d * distance;
 
@@ -174,7 +174,7 @@ bool		ray_march_hit(t_ray *ray,
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
 				distance_diff = dist_ellipsoid(surface_point
-													   - obj->center, obj);
+						- obj->center, obj);
 				distance += distance_diff;
 				surface_point = p + d * distance;
 
@@ -219,7 +219,7 @@ bool		ray_march_hit(t_ray *ray,
 			for(int i = 0; i < RAY_MARCH_MAX_STEPS; i++)
 			{
 				distance_diff = dist_round_cone(surface_point
-														- obj->center, obj);
+						- obj->center, obj);
 				distance += distance_diff;
 				surface_point = p + d * distance;
 

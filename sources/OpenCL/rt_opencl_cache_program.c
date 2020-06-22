@@ -83,7 +83,7 @@ cl_program			rt_get_cached_cl_program(
 	cl_int		err;
 
 	binary_path = get_opencl_binary_path(kernel_name, compile_options);
-//	if (!(binary = rt_common_read_file(binary_path, &binary_size))) // отключение перекомпиляции кернелов
+	if (!(binary = rt_common_read_file(binary_path, &binary_size)))
 	{
 		ft_printf("compiling opencl binary [%s]\n", binary_path);
 		binary = get_program_binary(
