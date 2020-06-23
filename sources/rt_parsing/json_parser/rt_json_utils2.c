@@ -36,7 +36,8 @@ char		*object_name(int type)
 	if (type == CAPSULE || type == TORUS)
 		return (type == TORUS) ? ("torus") : ("capsule");
 	if (type == TORUS_CAPPED || type == CYLINDER_RAYMARCH)
-		return (type == CYLINDER_RAYMARCH) ? ("cylinder raymarch") : ("torus capped");
+		return ((type == CYLINDER_RAYMARCH) ? ("cylinder raymarch")
+				: ("torus capped"));
 	if (type == ROUND_CONE || type == TEST_OBJECT)
 		return (type == TEST_OBJECT) ? ("test object") : ("round cone");
 	return (NULL);
@@ -57,8 +58,9 @@ int			check_tmp(bool *checker, int type)
 		|| type == CAPSULE || type == ELLIPSOID) ? checker[RADIUS] : 0;
 	check += (type == CONE || type == CYLINDER || type == CAPSULE
 		|| type == ROUND_CONE) ? checker[AXIS] : 0;
-	check += (type == PARABOLOID || type == ELLIPSOID || type == CAPSULE ||
-		type == CYLINDER_RAYMARCH || type == ROUND_CONE) ? checker[DISTANCE] : 0;
+	check += (type == PARABOLOID || type == ELLIPSOID || type == CAPSULE
+			|| type == CYLINDER_RAYMARCH || type == ROUND_CONE) ?
+				checker[DISTANCE] : 0;
 	count = 2;
 	count += (type == ROUND_CONE) ? 3 : 0;
 	count += (type == CONE || type == CYLINDER || type == TORUS
