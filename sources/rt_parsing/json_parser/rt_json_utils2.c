@@ -53,7 +53,8 @@ int			check_tmp(bool *checker, int type)
 	check += (type == ROUND_CONE) ? checker[ROUND_CONE] : 0;
 	check += (type == TORUS_CAPPED || type == CONE) ? checker[ANGLE] : 0;
 	check += (type == BOX || type == ELLIPSOID_RAYMARCH) ? checker[SIZE] : 0;
-	check += (type == TORUS_CAPPED || type == TORUS) ? checker[RADIUS_RING] : 0;
+	check += (type == TORUS_CAPPED || type == TORUS) ?
+			checker[RADIUS_RING] : 0;
 	check += (type == SPHERE || type == CYLINDER || type == TORUS || type > 12
 		|| type == CAPSULE || type == ELLIPSOID) ? checker[RADIUS] : 0;
 	check += (type == CONE || type == CYLINDER || type == CAPSULE
