@@ -1,4 +1,4 @@
-**(Work in progress, don't be confused of 'Dota 6' title)**
+**(Don't be confused of 'Dota 6' title)**
 
 Github can't upload screenshots properly, so you can see them [here](https://github.com/rearming/RT/tree/master/screenshots)
 
